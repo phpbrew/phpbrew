@@ -1,3 +1,4 @@
+#!/bin/bash
 # http://downloads.php.net/stas/php-5.4.0beta1.tar.bz2
 
 PHP_VERSION=5.4.0beta1
@@ -70,9 +71,9 @@ echo "Building php ... "
 echo ""
 echo "   tail -f build.log to see the log"
 echo ""
-$? || make 2&>1 > build.log
-$? make test 2&>1 test.log 
-$? sudo make install
+[[ $? ]] || make 2&>1 > build.log
+[[ $? ]] || make test 2&>1 test.log 
+[[ $? ]] || sudo make install
 
 # failed:
 #    --with-gd=/opt/local \
