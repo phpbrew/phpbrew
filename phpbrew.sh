@@ -7,8 +7,13 @@ TARNAME=$DISTNAME.tar.bz2
 URL=http://downloads.php.net/stas/$TARNAME
 
 echo Fetching $URL...
-curl -O $URL
-tar xvf $TARNAME
+if [[ ! -e $TARNAME ]] ; then
+    curl -O $URL
+fi
+
+echo Extracting ...
+tar xf $TARNAME
+
 cd $DISTNAME
 
 # export CFLAGS=" -march=prescott -O3 -msse -mmmx -funroll-loops -mfpmath=sse "
@@ -23,10 +28,9 @@ export CXXFLAGS="${CFLAGS}"
 #     --infodir=/opt/local/share/info \
 #     --datadir= ..
 
-PHPBREW_DIR=$HOME/phpbrew
-PREFIX=$PHPBREW_DIR/$PHP_VERSION
+export PHPBREW_DIR=$HOME/phpbrew
+export PREFIX=$PHPBREW_DIR/$PHP_VERSION
 
-export PREFIX=$HOME/phpbrew
 ./configure --prefix=$PREFIX \
     --with-config-file-path=$PREFIX/etc \
     --with-config-file-scan-dir=$PREFIX/var/db \
@@ -67,19 +71,17 @@ export PREFIX=$HOME/phpbrew
     --with-gettext=/opt/local \
     --with-mysqli \
     --disable-cgi \
-    --with-apxs2=/opt/local/apache2/bin/apxs \
     --enable-shmop \
     --enable-sysvsem \
     --enable-sysvshm \
     --enable-sysvmsg
 
-echo "Building php ... "
-echo ""
-echo "   tail -f build.log to see the log"
-echo ""
-make 2>&1 > build.log
-make test 2>&1 test.log 
-make install
+#    --with-apxs2=/opt/local/apache2/bin/apxs \
+
+echo "Building php  $PHP_VERSION... "
+make 2>&1 > build.log && \
+    make test 2>&1 test.log && \
+        make install
 
 # failed:
 #    --with-gd=/opt/local \
