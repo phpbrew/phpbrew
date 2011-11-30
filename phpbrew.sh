@@ -1,10 +1,13 @@
 #!/bin/bash
 # http://downloads.php.net/stas/php-5.4.0beta1.tar.bz2
-
-PHP_VERSION=5.4.0beta1
+# http://downloads.php.net/stas/php-5.4.0RC2.tar.bz2
+PHP_VERSION=5.4.0RC2
 DISTNAME=php-$PHP_VERSION
 TARNAME=$DISTNAME.tar.bz2
-curl -O http://downloads.php.net/stas/$TARNAME
+URL=http://downloads.php.net/stas/$TARNAME
+
+echo Fetching $URL...
+curl -O $URL
 tar xvf $TARNAME
 cd $DISTNAME
 
@@ -20,10 +23,13 @@ export CXXFLAGS="${CFLAGS}"
 #     --infodir=/opt/local/share/info \
 #     --datadir= ..
 
-export PREFIX=$HOME/local
+PHPBREW_DIR=$HOME/phpbrew
+PREFIX=$PHPBREW_DIR/$PHP_VERSION
+
+export PREFIX=$HOME/phpbrew
 ./configure --prefix=$PREFIX \
-    --with-config-file-path=$PREFIX/etc/php5 \
-    --with-config-file-scan-dir=$PREFIX/var/db/php5 \
+    --with-config-file-path=$PREFIX/etc \
+    --with-config-file-scan-dir=$PREFIX/var/db \
     --with-pear=$PREFIX/lib/php \
     --disable-all  \
     --enable-bcmath \
@@ -71,9 +77,9 @@ echo "Building php ... "
 echo ""
 echo "   tail -f build.log to see the log"
 echo ""
-[[ $? ]] || make 2&>1 > build.log
-[[ $? ]] || make test 2&>1 test.log 
-[[ $? ]] || sudo make install
+make 2>&1 > build.log
+make test 2>&1 test.log 
+make install
 
 # failed:
 #    --with-gd=/opt/local \
