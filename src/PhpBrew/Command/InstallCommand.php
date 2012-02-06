@@ -131,6 +131,8 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info("Installing");
         system( 'make install > /dev/null' );
+
+        $logger->info("Done");
     }
 }
 
