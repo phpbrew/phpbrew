@@ -9,7 +9,7 @@ class Console extends Application
     {
         parent::init();
         $this->registerCommand('install');
-        // $this->registerCommand('known');
+        $this->registerCommand('known');
     }
 
     public function brief()
