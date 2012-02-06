@@ -1,7 +1,5 @@
 <?php
 require 'tests/helpers.php';
-require 'src/Universal/ClassLoader/SplClassLoader.php';
-$loader = new \Universal\ClassLoader\SplClassLoader( array(  
-    'Universal' => 'src'
-));
+require 'vendor/pear/Universal/ClassLoader/BasePathClassLoader.php';
+$loader = new \Universal\ClassLoader\BasePathClassLoader( array('src', 'vendor/pear' ));
 $loader->register();
