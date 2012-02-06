@@ -28,10 +28,11 @@ export CXXFLAGS="${CFLAGS}"
 #     --infodir=/opt/local/share/info \
 #     --datadir= ..
 
-export PHPBREW_DIR=$HOME/phpbrew
+export PHPBREW_DIR=$HOME/.phpbrew
 export PREFIX=$PHPBREW_DIR/$PHP_VERSION
 
-./configure --prefix=$PREFIX \
+./configure \
+    --prefix=$PREFIX \
     --with-config-file-path=$PREFIX/etc \
     --with-config-file-scan-dir=$PREFIX/var/db \
     --with-pear=$PREFIX/lib/php \
