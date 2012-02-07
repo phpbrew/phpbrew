@@ -71,14 +71,14 @@ class InstallCommand extends \CLIFramework\Command
 
 
         // XXX: detect include prefix
-        $args[] = "--with-curl=/opt/local";
-        $args[] = "--with-bz2=/opt/local";
-        $args[] = "--with-mhash=/opt/local";
-        $args[] = "--with-pcre-regex=/opt/local";
-        $args[] = "--with-readline=/opt/local";
-        $args[] = "--with-libxml-dir=/opt/local";
-        $args[] = "--with-zlib=/opt/local";
-        $args[] = "--with-gettext=/opt/local";
+        $args[] = "--with-curl";
+        $args[] = "--with-bz2";
+        $args[] = "--with-mhash";
+        $args[] = "--with-pcre-regex";
+        $args[] = "--with-readline";
+        $args[] = "--with-zlib";
+        $args[] = "--with-gettext";
+        $args[] = "--with-libxml-dir";
 
         $args[] = "--disable-all";
         $args[] = "--enable-bcmath";
