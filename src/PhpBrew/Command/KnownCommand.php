@@ -12,7 +12,6 @@ class KnownCommand extends \CLIFramework\Command
         // todo: parse from:
         //    http://snaps.php.net/
         //    http://www.php.net/svn.php # svn
-
         $versions = \PhpBrew\PhpSource::getStasVersions();
 
         // var_dump( $versions ); 
@@ -21,6 +20,12 @@ class KnownCommand extends \CLIFramework\Command
             echo "\t" . $version . "\n";
         }
 
+
+        $svnVersions = \PhpBrew\PhpSource::getSvnVersions();
+        echo "Available svn versions:\n";
+        foreach( $svnVersions as $version => $arg ) {
+            echo "\t" . $version . "\n";
+        }
 
 
 

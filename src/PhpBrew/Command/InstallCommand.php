@@ -23,7 +23,6 @@ class InstallCommand extends \CLIFramework\Command
             throw new Exception("Version $version not found.");
 
         $args = $versions[ $version ];
-
         $url = null;
         if( isset($args['url'] ))
             $url = $args['url'];
@@ -38,25 +37,14 @@ class InstallCommand extends \CLIFramework\Command
         if( ! file_exists($buildPrefix) )
             mkdir( $buildPrefix, 0755, true );
 
-
         chdir( $buildDir );
 
-        $parts = parse_url($url);
-        $basename = basename( $parts['path'] );
+        $downloader = new \PhpBrew\Downloader\UrlDownloader( $logger );
+        $targetDir = $downloader->download( $url );
 
-        $logger->info("Downloading $url");
-        // system( 'curl -# -O ' . $url );
-
-
-        $logger->info("Extracting...");
-        // system( "tar xzf $basename" );
-
-        // var_dump( pathinfo( $basename ) );
-        $dir = substr( $basename , 0 , strpos( $basename , '.tar.bz2' ) );
 
         // switching to $version build directory
-        chdir($dir);
-
+        chdir($targetDir);
 
 
 
@@ -106,7 +94,6 @@ class InstallCommand extends \CLIFramework\Command
         $args[] = "--enable-exif";
         $args[] = "--enable-short-tags";
         $args[] = "--enable-pdo";
-
 
 
         // XXX: add variants for this
