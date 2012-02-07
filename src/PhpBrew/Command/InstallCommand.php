@@ -2,6 +2,9 @@
 namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
+use PhpBrew\PkgConfig;
+use PhpBrew\Variants;
+
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -34,7 +37,6 @@ class InstallCommand extends \CLIFramework\Command
 
         chdir( $buildDir );
 
-
         // xxx: refactor this
         $targetDir = null;
         if( isset($info['url']) ) {
@@ -64,58 +66,17 @@ class InstallCommand extends \CLIFramework\Command
         $args[] = "--with-config-file-scan-dir=$buildPrefix/var/db";
         $args[] = "--with-pear=$buildPrefix/lib/php";
 
+        $variants = new Variants();
 
         // XXX: detect include prefix
-        $args[] = "--with-curl";
-        $args[] = "--with-bz2";
-        $args[] = "--with-mhash";
-        $args[] = "--with-pcre-regex";
-        $args[] = "--with-readline";
-        $args[] = "--with-zlib";
-        $args[] = "--with-gettext=/opt/local";
-        $args[] = "--with-libxml-dir=/opt/local";
-
         $args[] = "--disable-all";
-        $args[] = "--enable-bcmath";
-        $args[] = "--enable-zip";
-        $args[] = "--enable-ctype";
-        $args[] = "--enable-dom";
-        $args[] = "--enable-fileinfo";
-        $args[] = "--enable-filter";
-        $args[] = "--enable-hash";
-        $args[] = "--enable-json";
-        $args[] = "--enable-libxml";
-        $args[] = "--enable-phar";
-        $args[] = "--enable-session";
-        $args[] = "--enable-simplexml";
-        $args[] = "--enable-tokenizer";
-        $args[] = "--enable-xml";
-        $args[] = "--enable-xmlreader";
-        $args[] = "--enable-xmlwriter";
-        $args[] = "--enable-cli";
-        $args[] = "--enable-intl";
-        $args[] = "--enable-mbstring";
-        $args[] = "--enable-mbregex";
-        $args[] = "--enable-sockets";
-        $args[] = "--enable-exif";
-        $args[] = "--enable-short-tags";
-        $args[] = "--enable-pdo";
 
-
-        // XXX: add variants for this
-        $args[] = "--with-mysql";
-        $args[] = "--with-mysqli";
-        $args[] = "--disable-cgi";
-        $args[] = "--enable-shmop";
-        $args[] = "--enable-sysvsem";
-        $args[] = "--enable-sysvshm";
-        $args[] = "--enable-sysvmsg";
-
+        $args = array_merge( $args , $variants->getCommonOptions() );
 
         if( ! file_exists('configure') )
             system('./buildconf');
 
-        $logger->info("Configuring php-$version...");
+        $logger->info("Configuring $version...");
         $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
 
         $logger->debug( $command );

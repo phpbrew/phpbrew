@@ -1,49 +1,12 @@
 <?php
 namespace PhpBrew;
+use PhpBrew\PkgConfig;
 
 class Variants
 {
+
     public function __construct()
     {
-        $this->variants['common'] = array(
-            'common' => array(
-                '--with-pear',
-                '--with-gd',
-                '--with-readline',
-                '--enable-sockets',
-                '--enable-pcntl',
-                '--enable-mbstring',
-                '--enable-exif',
-                '--enable-zip',
-                '--enable-ftp',
-                '--enable-cgi',
-                '--enable-sysvsem',
-                '--enable-sysvshm',
-                '--enable-shmop',
-
-                '--with-curl=/usr',
-
-                '--with-jpeg-dir=/usr',
-                '--with-png-dir=/usr',
-                '--with-zlib',
-                '--with-zlib-dir=/usr',
-                '--with-kerberos',
-                '--with-imap-ssl',
-                '--with-openssl',
-                '--with-mcrypt=/usr',
-                '--with-pdo-sqlite',
-                '--enable-soap',
-                '--enable-xmlreader',
-                '--with-xsl',
-                '--with-tidy',
-                '--with-xmlrpc',
-
-                // database related
-                '--with-mysql=mysqlnd',
-                '--with-mysqli=mysqlnd',
-                '--with-pdo-mysql=mysqlnd',
-            ),
-        );
 
         $this->add( '/php-5.4/', array(
             'mysql' => array( 
@@ -52,7 +15,8 @@ class Variants
                 ),
             'pdo' => array( '--enable-pdo' ),
             'cli' => array( '--enable-cli' ),
-        ) );
+        ));
+
     }
 
 
@@ -64,10 +28,7 @@ class Variants
      */
     public function add($k,$config)
     {
-        $this->variants[ $k ] = array_merge(
-                $this->variants['common'],
-                $config
-            );
+        $this->variants[ $k ] = $config;
     }
 
 
@@ -88,6 +49,90 @@ class Variants
                     return $variants;
             }
         }
+    }
+
+    public function checkHeader($hfile)
+    {
+        $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
+        foreach( $prefixes as $prefix ) {
+            $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
+            if( file_exists($p) )
+                return $prefix;
+        }
+    }
+
+    public function checkPkgPrefix($option,$pkgName)
+    {
+        $prefix = PkgConfig::getPrefix($pkgName);
+        return $prefix ? $option . '=' . $prefix : $option;
+    }
+
+    public function getCommonOptions()
+    {
+        $opts = array(
+            '--disable-all',
+            '--enable-bcmath',
+            '--enable-cli',
+            '--enable-ctype',
+            '--enable-dom',
+            '--enable-exif',
+            '--enable-fileinfo',
+            '--enable-filter',
+            '--enable-hash',
+            '--enable-intl',
+            '--enable-json',
+            '--enable-libxml',
+            '--enable-mbregex',
+            '--enable-mbstring',
+            '--enable-pdo',
+            '--enable-phar',
+            '--enable-session',
+            '--enable-short-tags',
+            '--enable-simplexml',
+            '--enable-sockets',
+            '--enable-tokenizer',
+            '--enable-xml',
+            '--enable-xmlreader',
+            '--enable-xmlwriter',
+            '--enable-zip',
+            '--with-bz2',
+            '--with-mhash',
+            '--with-pcre-regex',
+            '--with-pear',
+            '--with-readline',
+
+            // '--with-mysql',  // deprecated
+            '--with-mysqli',
+            '--disable-cgi',
+            '--enable-shmop',
+            '--enable-sysvsem',
+            '--enable-sysvshm',
+            '--enable-sysvmsg',
+
+            '--with-imap-ssl',
+            '--with-pdo-sqlite',
+            // '--with-kerberos',
+            // '--enable-soap',
+            // '--with-xsl',
+            // '--with-tidy',
+            // '--with-xmlrpc',
+            // '--with-jpeg-dir=/usr',
+            // '--with-png-dir=/usr',
+            // '--with-mcrypt=/usr',
+            //'--with-mysql=mysqlnd',
+            //'--with-mysqli=mysqlnd',
+            //'--with-pdo-mysql=mysqlnd',
+        );
+
+        $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');
+        $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
+        $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
+        $opts[] = $this->checkPkgPrefix('--with-openssl','openssl');
+
+        if( $prefix = $this->checkHeader('libintl.h') ) {
+            $opts[] = '--with-gettext=' . $prefix;
+        }
+        return $opts;
     }
 
 

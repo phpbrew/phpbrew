@@ -16,7 +16,7 @@ class UrlDownloader
         $basename = basename( $parts['path'] );
 
         $this->logger->info("Downloading $url");
-        system( 'curl -# -O ' . $url ) !== 0 or die('Download failed.');
+        system( 'curl -C - -# -O ' . $url ) !== 0 or die('Download failed.');
 
         $this->logger->info("Extracting...");
         system( "tar xzf $basename" ) !== 0 or die('Extract failed.');
@@ -26,7 +26,4 @@ class UrlDownloader
     }
 
 }
-
-
-
 

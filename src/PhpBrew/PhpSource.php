@@ -24,7 +24,7 @@ class PhpSource
             if( preg_match('/php-(.*?)\.tar\.bz2$/' , $href , $regs ) ) {
                 $version = $regs[1];
                 $link = $baseUrl . $href;
-                $versions[$version] = array( 'url' => $link );
+                $versions[ 'php-' . $version] = array( 'url' => $link );
             }
         }
         return $versions;
