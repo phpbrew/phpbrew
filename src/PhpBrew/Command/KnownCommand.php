@@ -8,11 +8,19 @@ class KnownCommand extends \CLIFramework\Command
 
     public function execute()
     {
+
+        // todo: parse from:
+        //    http://snaps.php.net/
+        //    http://www.php.net/svn.php # svn
+
+
+
         $versions = \PhpBrew\PhpStas::getVersions();
+
 
         // var_dump( $versions ); 
         echo "Available versions:\n";
-        foreach( $versions as $version => $link ) {
+        foreach( $versions as $version => $arg ) {
             echo "\t" . $version . "\n";
         }
     }

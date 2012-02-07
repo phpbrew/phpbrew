@@ -11,6 +11,8 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('no-test','No tests');
     }
 
+
+
     public function execute($version)
     {
         $options = $this->getOptions();
