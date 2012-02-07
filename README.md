@@ -1,6 +1,23 @@
 PhpBrew
 ==========
 
+## Install
+
+    $ sudo pear channel-discover pear.corneltek.com/PhpBrew
+    $ sudo pear install corneltek/PhpBrew
+
+Install from github:
+
+    $ git clone git@github.com:c9s/phpbrew.git
+    $ cd phpbrew
+    $ sudo pear install -f package.xml
+
+## Usage
+
+Init:
+
+    $ phpbrew init
+
 List known versions:
 
 ```bash

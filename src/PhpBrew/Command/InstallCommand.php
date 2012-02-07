@@ -114,20 +114,20 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info("Configuring php-$version...");
         $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
-        system( $command . ' > /dev/null' );
+        system( $command . ' > /dev/null' ) !== 0 or die('Configure failed.');
 
         $logger->info("Building php-$version...");
-        system( 'make > /dev/null' );
+        system( 'make > /dev/null' ) !== 0 or die('Make failed.');
 
         if( $options->{'no-test'} ) {
             $logger->info("Skip tests");
         } else {
             $logger->info("Testing");
-            system( 'make test > /dev/null' );
+            system( 'make test > /dev/null' ) !== 0 or die('Test failed.');
         }
 
         $logger->info("Installing");
-        system( 'make install > /dev/null' );
+        system( 'make install > /dev/null' ) !== 0 or die( );
 
         $logger->info("Done");
     }
