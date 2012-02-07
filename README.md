@@ -60,6 +60,12 @@ Turn Off:
 $ phpbrew off 
 ```
 
+List installed PHP:
+
+```bash
+$ phpbrew list
+```
+
 Hacking
 -------
 
