@@ -15,8 +15,15 @@ class SvnDownloader
         $parts = parse_url($url);
         $basename = basename( $parts['path'] );
 
-        $this->logger->info("Checking out from svn: $url");
-        system( "svn checkout -r HEAD $url" );
+
+        if ( file_exists($basename) ) {
+            $this->logger->info("Updating");
+            system( "svn update" );
+        }
+        else {
+            $this->logger->info("Checking out from svn: $url");
+            system( "svn checkout --quiet -r HEAD $url" );
+        }
         return $basename;
     }
 
