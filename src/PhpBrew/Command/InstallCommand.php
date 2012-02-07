@@ -18,14 +18,10 @@ class InstallCommand extends \CLIFramework\Command
     {
         $options = $this->getOptions();
         $logger = $this->getLogger();
-        $versions = \PhpBrew\PhpSource::getStasVersions();
-        if( ! isset($versions[$version] ) )
-            throw new Exception("Version $version not found.");
 
-        $args = $versions[ $version ];
-        $url = null;
-        if( isset($args['url'] ))
-            $url = $args['url'];
+        $info = \PhpBrew\PhpSource::getVersionInfo( $version );
+        if( ! $info)
+            throw new Exception("Version $version not found.");
 
         $home = Config::getPhpbrewRoot();
         $buildDir = Config::getBuildDir();
@@ -39,8 +35,17 @@ class InstallCommand extends \CLIFramework\Command
 
         chdir( $buildDir );
 
-        $downloader = new \PhpBrew\Downloader\UrlDownloader( $logger );
-        $targetDir = $downloader->download( $url );
+
+        // xxx: refactor this
+        $targetDir = null;
+        if( isset($info['url']) ) {
+            $downloader = new \PhpBrew\Downloader\UrlDownloader( $logger );
+            $targetDir = $downloader->download( $info['url'] );
+        }
+        elseif( isset($info['svn']) ) {
+            $downloader = new \PhpBrew\Downloader\SvnDownloader( $logger );
+            $targetDir = $downloader->download( $info['svn'] );
+        }
 
 
         // switching to $version build directory
