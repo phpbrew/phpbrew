@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use Exception;
+use PhpBrew\Config;
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -27,9 +28,9 @@ class InstallCommand extends \CLIFramework\Command
         if( isset($args['url'] ))
             $url = $args['url'];
 
-        $home = getenv('HOME') . DIRECTORY_SEPARATOR . '.phpbrew';
-        $buildDir = $home . DIRECTORY_SEPARATOR . 'build';
-        $buildPrefix = $home . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $version;
+        $home = Config::getPhpbrewRoot();
+        $buildDir = Config::getBuildDir();
+        $buildPrefix = Config::getVersionBuildPrefix( $version );
 
         if( ! file_exists($buildDir) )
             mkdir( $buildDir, 0755, true );
