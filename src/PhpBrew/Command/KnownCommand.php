@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use DOMDocument;
+use PhpBrew\PhpSource;
 
 class KnownCommand extends \CLIFramework\Command
 {
@@ -9,9 +10,13 @@ class KnownCommand extends \CLIFramework\Command
     public function execute()
     {
 
+        $stableVersions = PhpSource::getStableVersions();
+        echo "Available stable versions:\n";
+        foreach( $stableVersions as $version => $arg ) {
+            echo "\t" . $version . "\n";
+        }
+
         // todo: parse from:
-        //    http://snaps.php.net/
-        //    http://www.php.net/svn.php # svn
         $versions = \PhpBrew\PhpSource::getStasVersions();
 
         // var_dump( $versions ); 
@@ -20,6 +25,7 @@ class KnownCommand extends \CLIFramework\Command
             echo "\t" . $version . "\n";
         }
 
+        
 
         $svnVersions = \PhpBrew\PhpSource::getSvnVersions();
         echo "Available svn versions:\n";
