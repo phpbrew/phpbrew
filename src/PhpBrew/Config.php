@@ -14,9 +14,14 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
+    static function getBuildPrefix()
+    {
+        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+    }
+
     static function getVersionBuildPrefix($version)
     {
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $version;
+        return self::getBuildPrefix() . DIRECTORY_SEPARATOR . $version;
     }
 
 
@@ -33,7 +38,8 @@ class Config
             while( ($item = readdir( $fp )) !== false ) {
                 if( $item == '.' || $item == '..' )
                     continue;
-                $versions[] = $item;
+                if( file_exists($path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php' ) )
+                    $versions[] = $item;
             }
             closedir( $fp );
         }

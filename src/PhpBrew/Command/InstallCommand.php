@@ -12,8 +12,6 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('no-test','No tests');
     }
 
-
-
     public function execute($version)
     {
         $options = $this->getOptions();
@@ -73,8 +71,8 @@ class InstallCommand extends \CLIFramework\Command
         $args[] = "--with-pcre-regex";
         $args[] = "--with-readline";
         $args[] = "--with-zlib";
-        $args[] = "--with-gettext";
-        $args[] = "--with-libxml-dir";
+        $args[] = "--with-gettext=/opt/local";
+        $args[] = "--with-libxml-dir=/opt/local";
 
         $args[] = "--disable-all";
         $args[] = "--enable-bcmath";
@@ -114,6 +112,11 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info("Configuring php-$version...");
         $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
+
+
+        if( $options->debug )
+            $logger->debug( $command );
+
         system( $command . ' > /dev/null' ) !== 0 or die('Configure failed.');
 
         $logger->info("Building php-$version...");
