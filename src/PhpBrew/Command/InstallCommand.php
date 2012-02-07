@@ -17,11 +17,15 @@ class InstallCommand extends \CLIFramework\Command
     {
         $options = $this->getOptions();
         $logger = $this->getLogger();
-        $versions = \PhpBrew\PhpStas::getVersions();
+        $versions = \PhpBrew\PhpSource::getStasVersions();
         if( ! isset($versions[$version] ) )
             throw new Exception("Version $version not found.");
 
-        $url = $versions[ $version ];
+        $args = $versions[ $version ];
+
+        $url = null;
+        if( isset($args['url'] ))
+            $url = $args['url'];
 
         $home = getenv('HOME') . DIRECTORY_SEPARATOR . '.phpbrew';
         $buildDir = $home . DIRECTORY_SEPARATOR . 'build';

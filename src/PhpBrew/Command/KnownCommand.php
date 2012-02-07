@@ -13,16 +13,18 @@ class KnownCommand extends \CLIFramework\Command
         //    http://snaps.php.net/
         //    http://www.php.net/svn.php # svn
 
-
-
-        $versions = \PhpBrew\PhpStas::getVersions();
-
+        $versions = \PhpBrew\PhpSource::getStasVersions();
 
         // var_dump( $versions ); 
-        echo "Available versions:\n";
+        echo "Available versions from PhpStas:\n";
         foreach( $versions as $version => $arg ) {
             echo "\t" . $version . "\n";
         }
+
+
+
+
+
     }
 }
 
