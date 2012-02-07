@@ -47,6 +47,8 @@ class InstallCommand extends \CLIFramework\Command
             $targetDir = $downloader->download( $info['svn'] );
         }
 
+        if( ! file_exists($targetDir ) ) 
+            throw new Exception("Download failed.");
 
         // switching to $version build directory
         chdir($targetDir);
