@@ -8,12 +8,13 @@ class Console extends Application
     public function init()
     {
         parent::init();
+        $this->registerCommand('init');
         $this->registerCommand('install');
         $this->registerCommand('known');
         $this->registerCommand('list');
         $this->registerCommand('env');
         $this->registerCommand('use');
-        $this->registerCommand('init');
+        $this->registerCommand('switch');
     }
 
     public function brief()
