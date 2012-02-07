@@ -10,6 +10,7 @@ class Console extends Application
         parent::init();
         $this->registerCommand('install');
         $this->registerCommand('known');
+        $this->registerCommand('list');
         $this->registerCommand('env');
     }
 

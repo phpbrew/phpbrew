@@ -72,5 +72,3 @@ function __phpbrew_reinit () {
 	__phpbrew_set_path
 }
 
-
-
