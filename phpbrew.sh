@@ -1,4 +1,12 @@
 #!/bin/bash
+[[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
+[[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
+
+if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
+    if [[ -f "$PHPBREW_HOME/init" ]]; then
+        . "$PHPBREW_HOME/init"
+    fi
+fi
 
 function phpbrew () {
     BIN='scripts/phpbrew.php'
@@ -68,7 +76,7 @@ function __phpbrew_set_path () {
 		export PHPBREW_PATH="$PHPBREW_ROOT/bin"
 	fi
 	export PATH=$PHPBREW_PATH:$PATH_WITHOUT_PHPBREW
-    echo "PATH => $PATH"
+    # echo "PATH => $PATH"
 }
 
 function __phpbrew_reinit () {

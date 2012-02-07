@@ -19,13 +19,11 @@ class EnvCommand extends \CLIFramework\Command
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
-        // current version
-        if( getenv('PHPBREW_PHP') ) {
-            echo 'export PHPBREW_PHP='  . getenv('PHPBREW_PHP') . "\n";
-        }
-
         echo 'export PHPBREW_ROOT=' . $root . "\n";
+        echo 'export PHPBREW_HOME=' . $root . "\n";
 
+        if($version)
+            echo 'export PHPBREW_PHP='  . $version . "\n";
         if( $version )
             echo 'export PHPBREW_PATH=' . Config::getVersionBinPath($version) . "\n";
     }

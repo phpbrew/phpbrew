@@ -13,6 +13,7 @@ class Console extends Application
         $this->registerCommand('list');
         $this->registerCommand('env');
         $this->registerCommand('use');
+        $this->registerCommand('init');
     }
 
     public function brief()
