@@ -16,23 +16,17 @@ class KnownCommand extends \CLIFramework\Command
             echo "\t" . $version . "\n";
         }
 
-        // todo: parse from:
-        $versions = \PhpBrew\PhpSource::getStasVersions();
-
-        // var_dump( $versions ); 
-        echo "Available versions from PhpStas:\n";
-        foreach( $versions as $version => $arg ) {
-            echo "\t" . $version . "\n";
-        }
-
-        
-
         $svnVersions = \PhpBrew\PhpSource::getSvnVersions();
         echo "Available svn versions:\n";
         foreach( $svnVersions as $version => $arg ) {
             echo "\t" . $version . "\n";
         }
 
+        $versions = \PhpBrew\PhpSource::getStasVersions();
+        echo "Available versions from PhpStas:\n";
+        foreach( $versions as $version => $arg ) {
+            echo "\t" . $version . "\n";
+        }
 
     }
 }

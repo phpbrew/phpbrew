@@ -57,6 +57,10 @@ class PhpSource
 
     static function getVersionInfo($version)
     {
+        $versions = self::getStableVersions();
+        if( isset($versions[$version]) )
+            return $versions[ $version ];
+
         $versions = self::getSvnVersions();
         if( isset($versions[$version]) )
             return $versions[ $version ];
@@ -64,10 +68,7 @@ class PhpSource
         $versions = self::getStasVersions();
         if( isset($versions[$version]) )
             return $versions[ $version ];
-
     }
-
-
 
 }
 
