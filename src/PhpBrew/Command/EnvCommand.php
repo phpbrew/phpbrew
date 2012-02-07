@@ -6,9 +6,9 @@ class EnvCommand extends \CLIFramework\Command
 {
     public function brief() { return 'export environment variables'; }
 
-    public function execute($version)
+    public function execute()
     {
-
+        // $currentVersion;
         $root = Config::getPhpbrewRoot();
         $buildDir = Config::getBuildDir();
         $versionBuildPrefix = Config::getVersionBuildPrefix($version);
@@ -19,9 +19,4 @@ class EnvCommand extends \CLIFramework\Command
         echo 'PHPBREW_PATH=' . $versionBinPath . "\n";
     }
 }
-
-
-
-
-
 

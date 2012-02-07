@@ -1,6 +1,4 @@
 <?php
-
-
 namespace PhpBrew;
 
 class Config
@@ -25,6 +23,21 @@ class Config
     static function getVersionBinPath($version)
     {
         return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'bin';
+    }
+
+    static function getInstalledPhpVersions()
+    {
+        $versions = array();
+        $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+        if( $fp = opendir( $path ) ) {
+            while( ($item = readdir( $fp )) !== false ) {
+                if( $item == '.' || $item == '..' )
+                    continue;
+                $versions[] = $item;
+            }
+            closedir( $fp );
+        }
+        return $versions;
     }
 
 }
