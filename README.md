@@ -1,9 +1,10 @@
 PhpBrew
 ==========
 
+List known versions:
 
 ```bash
--phpbrew (master) % php scripts/phpbrew.php known
+$ php scripts/phpbrew.php known
 Available versions from PhpStas:
 	5.4.0RC1
 	5.4.0RC2
@@ -22,6 +23,13 @@ Available svn versions:
 	php-svn-5.3
 	php-svn-5.4
 ```
+
+Build and install PHP:
+
+```bash
+$ php scripts/phpbrew.php install --no-test 5.4.0RC7
+```
+
 
 Hacking
 -------

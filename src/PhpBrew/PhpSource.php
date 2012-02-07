@@ -45,7 +45,6 @@ class PhpSource
         // http://snaps.php.net/php5.3-201202070630.tar.bz2
     }
 
-
     static function getVersionInfo($version)
     {
         $versions = self::getSvnVersions();
