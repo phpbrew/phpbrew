@@ -53,10 +53,6 @@ class InstallCommand extends \CLIFramework\Command
 
 
 
-
-
-
-
         // build configure args
         // XXX: support variants
         $args = array();
@@ -88,7 +84,6 @@ class InstallCommand extends \CLIFramework\Command
         $args[] = "--enable-hash";
         $args[] = "--enable-json";
         $args[] = "--enable-libxml";
-        $args[] = "--enable-pdo";
         $args[] = "--enable-phar";
         $args[] = "--enable-session";
         $args[] = "--enable-simplexml";
@@ -103,6 +98,7 @@ class InstallCommand extends \CLIFramework\Command
         $args[] = "--enable-sockets";
         $args[] = "--enable-exif";
         $args[] = "--enable-short-tags";
+        $args[] = "--enable-pdo";
 
 
 
@@ -135,7 +131,4 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("Done");
     }
 }
-
-
-
 
