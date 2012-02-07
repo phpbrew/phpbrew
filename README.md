@@ -1,6 +1,14 @@
 PhpBrew
 ==========
 
+
+Hacking
+-------
+
+Install bundle:
+
+    $ onion -d bundle
+
 List known versions:
 
     php scripts/phpbrew.php known
