@@ -111,6 +111,10 @@ class InstallCommand extends \CLIFramework\Command
         $args[] = "--enable-sysvshm";
         $args[] = "--enable-sysvmsg";
 
+
+        if( ! file_exists('configure') )
+            system('./buildconf');
+
         $logger->info("Configuring php-$version...");
         $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
 

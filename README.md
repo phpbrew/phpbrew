@@ -48,6 +48,17 @@ Build and install PHP:
 $ phpbrew install --no-test 5.4.0RC7
 ```
 
+Use:
+
+```bash
+$ phpbrew use 5.4.0RC7
+```
+
+Turn Off:
+
+```bash
+$ phpbrew off 
+```
 
 Hacking
 -------
