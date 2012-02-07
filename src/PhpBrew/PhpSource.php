@@ -30,6 +30,16 @@ class PhpSource
         return $versions;
     }
 
+    static function getGeneralVersions()
+    {
+        return array( 
+            'php-5.3.10' => array( 'url' => 'http://www.php.net/distributions/php-5.3.10.tar.bz2' ),
+            'php-5.3.9' => array( 'url' => 'http://www.php.net/distributions/php-5.3.9.tar.bz2' ),
+            'php-5.3.8' => array( 'url' => 'http://www.php.net/distributions/php-5.3.8.tar.bz2' ),
+            'php-5.3.7' => array( 'url' => 'http://www.php.net/distributions/php-5.3.7.tar.bz2' ),
+        );
+    }
+
     static function getSvnVersions()
     {
         //    http://www.php.net/svn.php # svn
