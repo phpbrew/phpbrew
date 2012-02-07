@@ -81,7 +81,7 @@ function __phpbrew_reinit () {
 	__phpbrew_set_path
 }
 
-__perlbrew_set_path
+__phpbrew_set_path
 
 function phpbrew () {
     BIN=phpbrew
