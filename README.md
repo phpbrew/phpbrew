@@ -12,6 +12,7 @@ Install from github:
     $ cd phpbrew
     $ sudo pear install -f package.xml
 
+
 ## Usage
 
 Init:
@@ -21,7 +22,7 @@ Init:
 List known versions:
 
 ```bash
-$ php scripts/phpbrew.php known
+$ phpbrew known
 Available versions from PhpStas:
 	5.4.0RC1
 	5.4.0RC2
@@ -44,7 +45,7 @@ Available svn versions:
 Build and install PHP:
 
 ```bash
-$ php scripts/phpbrew.php install --no-test 5.4.0RC7
+$ phpbrew install --no-test 5.4.0RC7
 ```
 
 

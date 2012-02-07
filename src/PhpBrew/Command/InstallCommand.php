@@ -10,6 +10,7 @@ class InstallCommand extends \CLIFramework\Command
     public function options($opts)
     {
         $opts->add('no-test','No tests');
+        $opts->add('nice:', 'process nice level');
     }
 
     public function execute($version)
@@ -113,24 +114,32 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("Configuring php-$version...");
         $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
 
+        $logger->debug( $command );
 
-        if( $options->debug )
-            $logger->debug( $command );
+        if( $options->nice )
+            $command = 'nice -n ' . $options->nice->value . ' ' . $command;
 
         system( $command . ' > /dev/null' ) !== 0 or die('Configure failed.');
 
         $logger->info("Building php-$version...");
-        system( 'make > /dev/null' ) !== 0 or die('Make failed.');
+        $command = 'make';
+        if( $options->nice )
+            $command = 'nice -n ' . $options->nice->value . ' ' . $command;
+        system( $command . ' > /dev/null' ) !== 0 or die('Make failed.');
 
         if( $options->{'no-test'} ) {
             $logger->info("Skip tests");
         } else {
             $logger->info("Testing");
-            system( 'make test > /dev/null' ) !== 0 or die('Test failed.');
+
+            $command = 'make test';
+            if( $options->nice )
+                $command = 'nice -n ' . $options->nice->value . ' ' . $command;
+            system( $command . ' > /dev/null' ) !== 0 or die('Test failed.');
         }
 
         $logger->info("Installing");
-        system( 'make install > /dev/null' ) !== 0 or die( );
+        system( 'make install > /dev/null' ) !== 0 or die('Install failed.');
 
         $logger->info("Done");
     }
