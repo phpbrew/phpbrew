@@ -2,6 +2,10 @@
 namespace PhpBrew;
 use DOMDocument;
 
+
+/**
+ * parse available downloads
+ */
 class PhpStas
 {
 
