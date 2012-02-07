@@ -6,8 +6,43 @@ class Variants
     public function __construct()
     {
         $this->variants['common'] = array(
-       
-       
+            'common' => array(
+                '--with-pear',
+                '--with-gd',
+                '--with-readline',
+                '--enable-sockets',
+                '--enable-pcntl',
+                '--enable-mbstring',
+                '--enable-exif',
+                '--enable-zip',
+                '--enable-ftp',
+                '--enable-cgi',
+                '--enable-sysvsem',
+                '--enable-sysvshm',
+                '--enable-shmop',
+
+                '--with-curl=/usr',
+
+                '--with-jpeg-dir=/usr',
+                '--with-png-dir=/usr',
+                '--with-zlib',
+                '--with-zlib-dir=/usr',
+                '--with-kerberos',
+                '--with-imap-ssl',
+                '--with-openssl',
+                '--with-mcrypt=/usr',
+                '--with-pdo-sqlite',
+                '--enable-soap',
+                '--enable-xmlreader',
+                '--with-xsl',
+                '--with-tidy',
+                '--with-xmlrpc',
+
+                // database related
+                '--with-mysql=mysqlnd',
+                '--with-mysqli=mysqlnd',
+                '--with-pdo-mysql=mysqlnd',
+            ),
         );
 
         $this->add( '/php-5.4/', array(
@@ -54,5 +89,7 @@ class Variants
             }
         }
     }
+
+
 }
 
