@@ -22,10 +22,8 @@ class EnvCommand extends \CLIFramework\Command
         echo 'export PHPBREW_ROOT=' . $root . "\n";
         echo 'export PHPBREW_HOME=' . $root . "\n";
 
-        if($version)
-            echo 'export PHPBREW_PHP='  . $version . "\n";
-        if( $version )
-            echo 'export PHPBREW_PATH=' . Config::getVersionBinPath($version) . "\n";
+        echo 'export PHPBREW_PHP='  . $version . "\n";
+        echo 'export PHPBREW_PATH=' . ($version ? Config::getVersionBinPath($version) : '') . "\n";
     }
 
 }
