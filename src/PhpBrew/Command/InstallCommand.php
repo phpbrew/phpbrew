@@ -61,6 +61,7 @@ class InstallCommand extends \CLIFramework\Command
          * PHP_AUTOCONF=autoconf213 ./buildconf --force
          */
         if( file_exists('Makefile') ) {
+            $logger->info('===> Cleaning...');
             system('make clean');
         }
 
@@ -87,7 +88,7 @@ class InstallCommand extends \CLIFramework\Command
         $args = array_merge( $args , $variants->getOptions($version) );
 
 
-        $logger->info("Configuring $version...");
+        $logger->info("===> Configuring $version...");
         $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
 
         $logger->debug( $command );
@@ -97,7 +98,7 @@ class InstallCommand extends \CLIFramework\Command
 
         system( $command . ' > /dev/null' ) !== 0 or die('Configure failed.');
 
-        $logger->info("Building $version...");
+        $logger->info("===> Building $version...");
         $command = 'make';
         if( $options->nice )
             $command = 'nice -n ' . $options->nice->value . ' ' . $command;
@@ -114,7 +115,7 @@ class InstallCommand extends \CLIFramework\Command
             system( $command . ' > /dev/null' ) !== 0 or die('Test failed.');
         }
 
-        $logger->info("Installing...");
+        $logger->info("===> Installing...");
         system( 'make install > /dev/null' ) !== 0 or die('Install failed.');
 
 
@@ -126,7 +127,7 @@ class InstallCommand extends \CLIFramework\Command
 
 
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
-        $logger->info("Copying $phpConfigFile ...");
+        $logger->info("===> Copying $phpConfigFile ...");
         if( file_exists($phpConfigFile) ) {
             if( ! file_exists( Config::getVersionEtcPath($version) ) )
                 mkdir( Config::getVersionEtcPath($version) , 0755 , true );
