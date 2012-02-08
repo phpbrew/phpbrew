@@ -52,51 +52,14 @@ class InstallCommand extends \CLIFramework\Command
         if( ! file_exists($targetDir ) ) 
             throw new Exception("Download failed.");
 
-        // switching to $version build directory
-        chdir($targetDir);
+        $builder = new \PhpBrew\Builder( $targetDir, $version );
+        $builder->logger = $this->getLogger();
+        $builder->options = $options;
+
+        $builder->clean();
+        $builder->configure();
 
 
-        /**
-         * xxx: 
-         * PHP_AUTOCONF=autoconf213 ./buildconf --force
-         */
-        if( file_exists('Makefile') ) {
-            $logger->info('===> Cleaning...');
-            system('make clean') !== false or die('make clean error');
-        }
-
-
-        if( ! file_exists('configure') )
-            system('./buildconf') !== false or die('buildconf error');
-
-
-        // build configure args
-        // XXX: support variants
-        $args = array();
-        putenv('CFLAGS=-O3');
-        $args[] = './configure';
-
-        $args[] = "--prefix=$buildPrefix";
-        $args[] = "--with-config-file-path=$buildPrefix/etc";
-        $args[] = "--with-config-file-scan-dir=$buildPrefix/var/db";
-        $args[] = "--with-pear=$buildPrefix/lib/php";
-
-        $variants = new Variants();
-
-        // XXX: detect include prefix
-        $args[] = "--disable-all";
-        $args = array_merge( $args , $variants->getOptions($version) );
-
-
-        $logger->info("===> Configuring $version...");
-        $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
-
-        $logger->debug( $command );
-
-        if( $options->nice )
-            $command = 'nice -n ' . $options->nice->value . ' ' . $command;
-
-        system( $command . ' > /dev/null' ) !== false or die('Configure failed.');
 
         $logger->info("===> Building $version...");
         $command = 'make';
