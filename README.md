@@ -22,23 +22,28 @@ List known versions:
 
 ```bash
 $ phpbrew known
-Available versions from PhpStas:
-	5.4.0RC1
-	5.4.0RC2
-	5.4.0RC3
-	5.4.0RC4
-	5.4.0RC5
-	5.4.0RC6
-	5.4.0RC7
-	5.4.0alpha1
-	5.4.0alpha2
-	5.4.0alpha3
-	5.4.0beta1
-	5.4.0beta2
+Available stable versions:
+	php-5.3.10
+	php-5.3.9
+	php-5.3.8
+	php-5.3.7
 Available svn versions:
 	php-svn-head
 	php-svn-5.3
 	php-svn-5.4
+Available versions from PhpStas:
+	php-5.4.0RC1
+	php-5.4.0RC2
+	php-5.4.0RC3
+	php-5.4.0RC4
+	php-5.4.0RC5
+	php-5.4.0RC6
+	php-5.4.0RC7
+	php-5.4.0alpha1
+	php-5.4.0alpha2
+	php-5.4.0alpha3
+	php-5.4.0beta1
+	php-5.4.0beta2
 ```
 
 Build and install PHP:
