@@ -100,6 +100,18 @@ class Variants
             '--with-pear',
             '--with-readline',
 
+            /*
+          --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
+                                  directory.  If mysqlnd is passed as DIR,
+                                  the MySQL native driver will be used [/usr/local]
+          --with-mysqli[=FILE]    Include MySQLi support.  FILE is the path
+                                  to mysql_config.  If mysqlnd is passed as FILE,
+                                  the MySQL native driver will be used [mysql_config]
+        --with-pdo-mysql[=DIR]    PDO: MySQL support. DIR is the MySQL base directoy
+                                  If mysqlnd is passed as DIR, the MySQL native
+                                  native driver will be used [/usr/local]
+            */
+
             // '--with-mysql',  // deprecated
             '--enable-pdo',
             '--with-mysql=mysqlnd',
