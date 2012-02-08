@@ -10,8 +10,8 @@ class Variants
 
         $this->add( '/php-5.4/', array(
             'mysql' => array( 
-                    '--with-mysql',
-                    '--with-mysqli'
+                    '--with-mysql=mysqlnd',
+                    '--with-mysqli=mysqlnd'
                 ),
             'pdo' => array( '--enable-pdo' ),
             'cli' => array( '--enable-cli' ),
