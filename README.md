@@ -49,13 +49,13 @@ Available versions from PhpStas:
 Build and install PHP:
 
 ```bash
-$ phpbrew install --no-test 5.4.0RC7
+$ phpbrew install --no-test php-5.4.0RC7
 ```
 
 Use:
 
 ```bash
-$ phpbrew use 5.4.0RC7
+$ phpbrew use php-5.4.0RC7
 ```
 
 Turn Off:
@@ -72,8 +72,11 @@ $ phpbrew list
 
 Hacking
 -------
+Install Onion first:
 
-Install bundle:
+    $ curl http://install.onionphp.org/ | sh
+
+Install dependencies:
 
     $ onion -d bundle
 
