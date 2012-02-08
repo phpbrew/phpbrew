@@ -20,6 +20,11 @@ Extension configuration files should be put in:
     ~/.phpbrew/php/5.4.0RC7/var/db
 
 
+## Platform support
+
+* Mac OS 10.7
+* Ubuntu, Debian
+
 ## Requirements
 
 * PHP5.3
