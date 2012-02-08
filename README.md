@@ -142,3 +142,9 @@ List known versions:
 Install:
 
     php scripts/phpbrew.php -d install --no-test 5.4.0RC7
+
+Community
+---------
+
+Join us on #php-tw on irc.freenode.net
+
