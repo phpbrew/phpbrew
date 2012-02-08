@@ -19,9 +19,9 @@ Extension configuration files should be put in:
 
     ~/.phpbrew/php/5.4.0RC7/var/db
 
-<img src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
+<img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
 
-<img src="https://raw.github.com/c9s/phpbrew/master/screenshots/02.png"/>
+<img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/02.png"/>
 
 ## Platform support
 
