@@ -20,6 +20,12 @@ Extension configuration files should be put in:
     ~/.phpbrew/php/5.4.0RC7/var/db
 
 
+## Requirements
+
+* PHP5.3
+* curl
+* gcc, binutil, autoconf, libxml, zlib
+
 ## Install phpbrew
 
     $ sudo pear channel-discover pear.corneltek.com

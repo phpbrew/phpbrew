@@ -109,7 +109,7 @@ class InstallCommand extends \CLIFramework\Command
             system( $command . ' > /dev/null' ) !== 0 or die('Test failed.');
         }
 
-        $logger->info("Installing");
+        $logger->info("Installing...");
         system( 'make install > /dev/null' ) !== 0 or die('Install failed.');
 
 
@@ -126,7 +126,19 @@ class InstallCommand extends \CLIFramework\Command
             rename( $phpConfigFile , Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini' );
         }
 
-        $logger->info("Done");
+        $logger->info("Done!");
+
+        echo <<<EOT
+To use the newly built PHP, try the line(s) below:
+
+    $ phpbrew use $version
+
+Or you can use switch command to switch your default php version to $version:
+
+    $ phpbrew switch $version
+
+Enjoy!
+EOT;
     }
 }
 
