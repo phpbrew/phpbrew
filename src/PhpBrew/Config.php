@@ -24,6 +24,11 @@ class Config
         return self::getBuildPrefix() . DIRECTORY_SEPARATOR . $version;
     }
 
+    static function getVersionEtcPath($version)
+    {
+        return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
+    }
+
 
     static function getVersionBinPath($version)
     {

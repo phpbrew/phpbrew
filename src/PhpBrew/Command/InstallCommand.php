@@ -13,6 +13,7 @@ class InstallCommand extends \CLIFramework\Command
     public function options($opts)
     {
         $opts->add('no-test','No tests');
+        $opts->add('production','Use production configuration');
         $opts->add('nice:', 'process nice level');
     }
 
@@ -117,6 +118,14 @@ class InstallCommand extends \CLIFramework\Command
             $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
             rename( $dSYM , $php );
         }
+
+
+        $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
+        $logger->info("Copying $phpConfigFile ...");
+        if( file_exists($phpConfigFile) ) {
+            rename( $phpConfigFile , Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini' );
+        }
+
         $logger->info("Done");
     }
 }
