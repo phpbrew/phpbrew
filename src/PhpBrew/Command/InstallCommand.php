@@ -55,6 +55,10 @@ class InstallCommand extends \CLIFramework\Command
         chdir($targetDir);
 
 
+        /**
+         * xxx: 
+         * PHP_AUTOCONF=autoconf213 ./buildconf --force
+         */
         if( ! file_exists('configure') )
             system('./buildconf');
 
@@ -62,7 +66,7 @@ class InstallCommand extends \CLIFramework\Command
         // build configure args
         // XXX: support variants
         $args = array();
-        $args[] = './configure';
+        $args[] = 'CFLAGS="-O3" ./configure';
 
         $args[] = "--prefix=$buildPrefix";
         $args[] = "--with-config-file-path=$buildPrefix/etc";
@@ -73,7 +77,6 @@ class InstallCommand extends \CLIFramework\Command
 
         // XXX: detect include prefix
         $args[] = "--disable-all";
-
         $args = array_merge( $args , $variants->getCommonOptions() );
 
 

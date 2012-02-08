@@ -85,6 +85,7 @@ class Variants
     {
         $opts = array(
             '--disable-all',
+            '--disable-debug',
             '--enable-bcmath',
             '--enable-cli',
             '--enable-ctype',
