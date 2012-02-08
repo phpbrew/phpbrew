@@ -84,7 +84,6 @@ class Variants
             '--enable-libxml',
             '--enable-mbregex',
             '--enable-mbstring',
-            '--enable-pdo',
             '--enable-phar',
             '--enable-session',
             '--enable-short-tags',
@@ -102,15 +101,20 @@ class Variants
             '--with-readline',
 
             // '--with-mysql',  // deprecated
-            '--with-mysqli',
+            '--enable-pdo',
+            '--with-mysql=mysqlnd',
+            '--with-mysqli=mysqlnd',
+            '--with-pdo-mysql=mysqlnd',
+            '--with-sqlite3',
+            '--with-pdo-sqlite',
+
             '--disable-cgi',
             '--enable-shmop',
             '--enable-sysvsem',
             '--enable-sysvshm',
             '--enable-sysvmsg',
 
-            '--with-imap-ssl',
-            '--with-pdo-sqlite',
+            // '--with-imap-ssl',
             // '--with-kerberos',
             // '--enable-soap',
             // '--with-xsl',
@@ -119,9 +123,6 @@ class Variants
             // '--with-jpeg-dir=/usr',
             // '--with-png-dir=/usr',
             // '--with-mcrypt=/usr',
-            //'--with-mysql=mysqlnd',
-            //'--with-mysqli=mysqlnd',
-            //'--with-pdo-mysql=mysqlnd',
         );
 
         $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');
