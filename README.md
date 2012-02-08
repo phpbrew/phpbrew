@@ -26,6 +26,11 @@ Extension configuration files should be put in:
 * curl
 * gcc, binutil, autoconf, libxml, zlib, readline
 
+For Ubuntu/Debian users:
+
+    $ sudo apt-get build-dep php5
+
+
 ## Install phpbrew
 
     $ sudo pear channel-discover pear.corneltek.com
