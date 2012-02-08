@@ -157,6 +157,9 @@ class Variants
         if( $prefix = $this->checkHeader('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
         }
+        if( $prefix = $this->checkHeader('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+            $opts[] = '--with-libedit=' . $prefix;
+        }
         return $opts;
     }
 
