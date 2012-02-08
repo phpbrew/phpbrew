@@ -55,6 +55,9 @@ class InstallCommand extends \CLIFramework\Command
         chdir($targetDir);
 
 
+        if( ! file_exists('configure') )
+            system('./buildconf');
+
 
         // build configure args
         // XXX: support variants
@@ -73,8 +76,6 @@ class InstallCommand extends \CLIFramework\Command
 
         $args = array_merge( $args , $variants->getCommonOptions() );
 
-        if( ! file_exists('configure') )
-            system('./buildconf');
 
         $logger->info("Configuring $version...");
         $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
@@ -106,6 +107,12 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("Installing");
         system( 'make install > /dev/null' ) !== 0 or die('Install failed.');
 
+
+        $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
+        if ( file_exists($dSYM)) {
+            $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
+            rename( $dSYM , $php );
+        }
         $logger->info("Done");
     }
 }
