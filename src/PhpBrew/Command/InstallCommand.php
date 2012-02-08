@@ -117,7 +117,7 @@ class InstallCommand extends \CLIFramework\Command
             system( $command . ' > /dev/null' ) !== 0 or die('Test failed.');
         }
 
-        $buildTime = ((int)(microtime(true) - $startTime) / 60);
+        $buildTime = (int)((microtime(true) - $startTime) / 60);
         $logger->info("Build finished: $buildTime minutes.");
 
         $logger->info("===> Installing...");
