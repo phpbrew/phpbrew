@@ -13,6 +13,10 @@ class Variants
                     '--with-mysql=mysqlnd',
                     '--with-mysqli=mysqlnd'
                 ),
+            'sqlite' => array( 
+                '--with-sqlite3',
+                '--with-pdo-sqlite',
+                ),
             'pdo' => array( '--enable-pdo' ),
             'cli' => array( '--enable-cli' ),
         ));
@@ -49,6 +53,12 @@ class Variants
                     return $variants;
             }
         }
+    }
+
+    public function getVariantOptions($version,$variant)
+    {
+        $variants = $this->getAvailableVariants($version);
+        // todo:
     }
 
     public function checkHeader($hfile)
@@ -117,15 +127,12 @@ class Variants
             '--with-mysql=mysqlnd',
             '--with-mysqli=mysqlnd',
             '--with-pdo-mysql=mysqlnd',
-            '--with-sqlite3',
-            '--with-pdo-sqlite',
 
             '--disable-cgi',
             '--enable-shmop',
             '--enable-sysvsem',
             '--enable-sysvshm',
             '--enable-sysvmsg',
-
             // '--with-imap-ssl',
             // '--with-kerberos',
             // '--enable-soap',
