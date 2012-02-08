@@ -1,7 +1,26 @@
 PhpBrew
 ==========
 
-## Install
+phpbrew builds and installs multiple version php(s) in your $HOME directory.
+
+phpbrew also manage the environment variables, so you can `use`, `swtich` php
+version whenever you need.
+
+
+The installed php is located in `~/.phpbrew/php`, for example, php is located at:
+
+    ~/.phpbrew/php/5.4.0RC7/bin/php
+
+And you should put your configuration file in:
+
+    ~/.phpbrew/php/5.4.0RC7/etc/php.ini
+
+Extension configuration files should be put in:
+
+    ~/.phpbrew/php/5.4.0RC7/var/db
+
+
+## Install phpbrew
 
     $ sudo pear channel-discover pear.corneltek.com
     $ sudo pear install corneltek/PhpBrew
@@ -12,7 +31,7 @@ Install from github:
     $ cd phpbrew
     $ sudo pear install -f package.xml
 
-## Usage
+## Basic usage
 
 Init:
 
@@ -49,7 +68,19 @@ Available versions from PhpStas:
 Build and install PHP:
 
 ```bash
+$ phpbrew install php-5.4.0RC7
+```
+
+Without tests:
+
+```bash
 $ phpbrew install --no-test php-5.4.0RC7
+```
+
+With debug messages:
+
+```bash
+$ phpbrew -d install --no-test php-5.4.0RC7
 ```
 
 Use:
