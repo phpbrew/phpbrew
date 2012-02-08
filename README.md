@@ -24,7 +24,7 @@ Extension configuration files should be put in:
 
 * PHP5.3
 * curl
-* gcc, binutil, autoconf, libxml, zlib
+* gcc, binutil, autoconf, libxml, zlib, readline
 
 ## Install phpbrew
 

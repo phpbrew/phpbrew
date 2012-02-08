@@ -60,6 +60,11 @@ class InstallCommand extends \CLIFramework\Command
          * xxx: 
          * PHP_AUTOCONF=autoconf213 ./buildconf --force
          */
+        if( file_exists('Makefile') ) {
+            system('make clean');
+        }
+
+
         if( ! file_exists('configure') )
             system('./buildconf');
 
@@ -79,7 +84,7 @@ class InstallCommand extends \CLIFramework\Command
 
         // XXX: detect include prefix
         $args[] = "--disable-all";
-        $args = array_merge( $args , $variants->getCommonOptions() );
+        $args = array_merge( $args , $variants->getOptions($version) );
 
 
         $logger->info("Configuring $version...");
@@ -123,6 +128,8 @@ class InstallCommand extends \CLIFramework\Command
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
         $logger->info("Copying $phpConfigFile ...");
         if( file_exists($phpConfigFile) ) {
+            if( ! file_exists( Config::getVersionEtcPath($version) ) )
+                mkdir( Config::getVersionEtcPath($version) , 0755 , true );
             rename( $phpConfigFile , Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini' );
         }
 

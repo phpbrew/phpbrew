@@ -59,6 +59,7 @@ class Variants
         }
     }
 
+
     public function getVariantOptions($version,$variant)
     {
         $variants = $this->getAvailableVariants($version);
@@ -81,7 +82,48 @@ class Variants
         return $prefix ? $option . '=' . $prefix : $option;
     }
 
-    public function getCommonOptions()
+    public function getVersionOptions($version)
+    {
+        $options = array();
+        $defs = array();
+
+
+        $defs['= php-5.2'] = array();
+        $defs['= php-5.3'] = array();
+        $defs['= php-5.4.0RC7'] = array();
+
+
+        foreach($defs as $versionExp => $versionOptions ) {
+            if( preg_match('/^([=<>]+)\s+(\S+)$/',$versionExp,$regs) ) {
+                list($orig,$op,$rVersion) = $regs;
+
+                switch($op)
+                {
+                    case '=':
+                        if( version_compare($version,$rVersion) === 0 ) {
+                            $options = array_merge( $options, $versionOptions );
+                        }
+                        break;
+                    case '>':
+                        if( version_compare($version,$rVersion) > 0 ) {
+
+                        }
+                        break;
+                    case '<':
+                        if( version_compare($version,$rVersion) < 0 ) {
+
+                        }
+                        break;
+                }
+            }
+            else {
+                throw new Exception("Unsupported format $versionExp");
+            }
+        }
+        return $options;
+    }
+
+    public function getOptions($version)
     {
         $opts = array(
             '--disable-all',
@@ -113,7 +155,6 @@ class Variants
             '--with-mhash',
             '--with-pcre-regex',
             '--with-pear',
-            '--with-readline',
 
             /*
           --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
@@ -157,12 +198,16 @@ class Variants
         if( $prefix = $this->checkHeader('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
         }
+
         if( $prefix = $this->checkHeader('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
             $opts[] = '--with-libedit=' . $prefix;
         }
+
+        $opts[] = '--with-readline';
+        $opts = array_merge( $opts , $this->getVersionOptions($version) );
+
         return $opts;
     }
-
 
 }
 
