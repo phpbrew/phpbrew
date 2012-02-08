@@ -32,6 +32,7 @@ class PhpSource
 
     static function getStableVersions()
     {
+        // reference: http://www.php.net/releases/
         return array( 
             'php-5.3.10' => array( 'url' => 'http://www.php.net/distributions/php-5.3.10.tar.bz2' ),
             'php-5.3.9' =>  array( 'url' => 'http://www.php.net/distributions/php-5.3.9.tar.bz2' ),
