@@ -21,9 +21,25 @@ class Builder
      */
     public $version;
 
+
+    /**
+     * @var string source code directory, path to extracted source directory
+     */
     public $targetDir;
+
+    /**
+     * @var source build directory
+     */
     public $buildDir;
+
+    /**
+     * @var string install prefix path
+     */
     public $buildPrefix;
+
+    /**
+     * @var string phpbrew root
+     */
     public $root;
 
     public function __construct($targetDir,$version)
