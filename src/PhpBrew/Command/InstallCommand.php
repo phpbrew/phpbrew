@@ -92,7 +92,7 @@ class InstallCommand extends \CLIFramework\Command
 
         system( $command . ' > /dev/null' ) !== 0 or die('Configure failed.');
 
-        $logger->info("Building php-$version...");
+        $logger->info("Building $version...");
         $command = 'make';
         if( $options->nice )
             $command = 'nice -n ' . $options->nice->value . ' ' . $command;
