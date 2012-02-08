@@ -66,7 +66,7 @@ class InstallCommand extends \CLIFramework\Command
         // build configure args
         // XXX: support variants
         $args = array();
-        putenv('CFLAGS','-O3');
+        putenv('CFLAGS=-O3');
         $args[] = './configure';
 
         $args[] = "--prefix=$buildPrefix";
