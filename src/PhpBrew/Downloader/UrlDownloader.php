@@ -16,10 +16,10 @@ class UrlDownloader
         $basename = basename( $parts['path'] );
 
         $this->logger->info("===> Downloading $url");
-        system( 'curl -C - -# -O ' . $url ) !== 0 or die('Download failed.');
+        system( 'curl -C - -# -O ' . $url ) !== false or die('Download failed.');
 
         $this->logger->info("===> Extracting...");
-        system( "tar xf $basename" ) !== 0 or die('Extract failed.');
+        system( "tar xf $basename" ) !== false or die('Extract failed.');
 
         $dir = substr( $basename , 0 , strpos( $basename , '.tar.bz2' ) );
         return $dir; // retunr extracted path name

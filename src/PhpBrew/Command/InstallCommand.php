@@ -62,12 +62,12 @@ class InstallCommand extends \CLIFramework\Command
          */
         if( file_exists('Makefile') ) {
             $logger->info('===> Cleaning...');
-            system('make clean');
+            system('make clean') !== false or die('make clean error');
         }
 
 
         if( ! file_exists('configure') )
-            system('./buildconf');
+            system('./buildconf') !== false or die('buildconf error');
 
 
         // build configure args
@@ -96,7 +96,7 @@ class InstallCommand extends \CLIFramework\Command
         if( $options->nice )
             $command = 'nice -n ' . $options->nice->value . ' ' . $command;
 
-        system( $command . ' > /dev/null' ) !== 0 or die('Configure failed.');
+        system( $command . ' > /dev/null' ) !== false or die('Configure failed.');
 
         $logger->info("===> Building $version...");
         $command = 'make';
@@ -104,7 +104,7 @@ class InstallCommand extends \CLIFramework\Command
             $command = 'nice -n ' . $options->nice->value . ' ' . $command;
 
         $startTime = microtime(true);
-        system( $command . ' > /dev/null' ) !== 0 or die('Make failed.');
+        system( $command . ' > /dev/null' ) !== false or die('Make failed.');
 
         if( $options->{'no-test'} ) {
             $logger->info("Skip tests");
@@ -114,14 +114,14 @@ class InstallCommand extends \CLIFramework\Command
             $command = 'make test';
             if( $options->nice )
                 $command = 'nice -n ' . $options->nice->value . ' ' . $command;
-            system( $command . ' > /dev/null' ) !== 0 or die('Test failed.');
+            system( $command . ' > /dev/null' ) !== false or die('Test failed.');
         }
 
         $buildTime = (int)((microtime(true) - $startTime) / 60);
         $logger->info("Build finished: $buildTime minutes.");
 
         $logger->info("===> Installing...");
-        system( 'make install > /dev/null' ) !== 0 or die('Install failed.');
+        system( 'make install > /dev/null' ) !== false or die('Install failed.');
 
 
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
