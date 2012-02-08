@@ -8,6 +8,7 @@ class Variants
     public function __construct()
     {
 
+        /*
         $this->add( '/php-5.4/', array(
             'mysql' => array( 
                     '--with-mysql=mysqlnd',
@@ -20,7 +21,7 @@ class Variants
             'pdo' => array( '--enable-pdo' ),
             'cli' => array( '--enable-cli' ),
         ));
-
+        */
     }
 
 
@@ -43,6 +44,9 @@ class Variants
      */
     public function getAvailableVariants($version)
     {
+        // xxx: use version_compare to merge config options
+
+
         if( isset($this->variants[$version]) ) 
             return $this->variants;
 
@@ -89,7 +93,7 @@ class Variants
             '--enable-fileinfo',
             '--enable-filter',
             '--enable-hash',
-            '--enable-intl',
+            // '--enable-intl',
             '--enable-json',
             '--enable-libxml',
             '--enable-mbregex',
