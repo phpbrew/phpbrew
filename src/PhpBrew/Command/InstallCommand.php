@@ -102,6 +102,8 @@ class InstallCommand extends \CLIFramework\Command
         $command = 'make';
         if( $options->nice )
             $command = 'nice -n ' . $options->nice->value . ' ' . $command;
+
+        $startTime = microtime(true);
         system( $command . ' > /dev/null' ) !== 0 or die('Make failed.');
 
         if( $options->{'no-test'} ) {
@@ -114,6 +116,9 @@ class InstallCommand extends \CLIFramework\Command
                 $command = 'nice -n ' . $options->nice->value . ' ' . $command;
             system( $command . ' > /dev/null' ) !== 0 or die('Test failed.');
         }
+
+        $buildTime = ((int)(microtime(true) - $startTime) / 60);
+        $logger->info("Build finished: $buildTime minutes.");
 
         $logger->info("===> Installing...");
         system( 'make install > /dev/null' ) !== 0 or die('Install failed.');
