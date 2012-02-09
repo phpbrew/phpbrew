@@ -10,8 +10,8 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-02-08</date>
-  <time>22:20:26</time>
+  <date>2012-02-09</date>
+  <time>21:09:37</time>
   <version>
     <release>0.0.3</release>
     <api>0.0.3</api>
@@ -24,14 +24,14 @@
   <notes>-</notes>
   <contents>
     <dir name="/">
-      <file name="tests/bootstrap.php" role="test" md5sum="cef32b4722da5ea14dd0b5a1e5dd2b00"/>
-      <file name="tests/helpers.php" role="test" md5sum="b5e0733acd23bf976409fbe22191062f"/>
       <file name="tests/PhpBrew/ConfigTest.php" role="test" md5sum="95e68132cd5e8c7b8cec7918ddbafb2e"/>
       <file name="tests/PhpBrew/Downloader/UrlDownloaderTest.php" role="test" md5sum="d92fac92b21355e7af4fa850099a0a7a"/>
       <file name="tests/PhpBrew/PkgConfigTest.php" role="test" md5sum="db3338ad155e6dbf3cd2d7f5eb26aa2b"/>
+      <file name="tests/bootstrap.php" role="test" md5sum="cef32b4722da5ea14dd0b5a1e5dd2b00"/>
+      <file name="tests/helpers.php" role="test" md5sum="b5e0733acd23bf976409fbe22191062f"/>
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="5d3bd38776949552854ac6f3efd2ed35"/>
       <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="7c3a83dd433fab25eafdeb227037456c"/>
-      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="9939274edfa9262e4855fd6260b4f4a9"/>
+      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="4c1ab2ed44285e7cab083370c6e78437"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="564369a81ae8b50bd0122832d3317d5b"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="83312f537c00f58281c86229a2e13907"/>
       <file name="src/PhpBrew/Command/SwitchCommand.php" role="php" md5sum="ee2f12f779521cf6aaab68c484a34f4a"/>
@@ -69,11 +69,11 @@
   </dependencies>
   <phprelease>
     <filelist>
-      <install name="tests/bootstrap.php" as="bootstrap.php"/>
-      <install name="tests/helpers.php" as="helpers.php"/>
       <install name="tests/PhpBrew/ConfigTest.php" as="PhpBrew/ConfigTest.php"/>
       <install name="tests/PhpBrew/Downloader/UrlDownloaderTest.php" as="PhpBrew/Downloader/UrlDownloaderTest.php"/>
       <install name="tests/PhpBrew/PkgConfigTest.php" as="PhpBrew/PkgConfigTest.php"/>
+      <install name="tests/bootstrap.php" as="bootstrap.php"/>
+      <install name="tests/helpers.php" as="helpers.php"/>
       <install name="src/PhpBrew/Command/EnvCommand.php" as="PhpBrew/Command/EnvCommand.php"/>
       <install name="src/PhpBrew/Command/InitCommand.php" as="PhpBrew/Command/InitCommand.php"/>
       <install name="src/PhpBrew/Command/InstallCommand.php" as="PhpBrew/Command/InstallCommand.php"/>

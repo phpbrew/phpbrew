@@ -79,7 +79,8 @@ class InstallCommand extends \CLIFramework\Command
         $args[] = "--prefix=$buildPrefix";
         $args[] = "--with-config-file-path=$buildPrefix/etc";
         $args[] = "--with-config-file-scan-dir=$buildPrefix/var/db";
-        $args[] = "--with-pear=$buildPrefix/lib/php";
+
+        // $args[] = "--with-pear=$buildPrefix/lib/php";
 
         $variants = new Variants();
 
