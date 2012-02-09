@@ -154,7 +154,6 @@ class Variants
             '--with-bz2',
             '--with-mhash',
             '--with-pcre-regex',
-            '--with-pear',
 
             /*
           --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
