@@ -102,7 +102,7 @@ function phpbrew () {
 			then
 				if [[ -z "$PHPBREW_PHP" ]]
 				then
-					echo "Currently using system perl"
+					echo "Currently using system php"
 				else
 					echo "Currently using $PHPBREW_PHP"
 				fi
