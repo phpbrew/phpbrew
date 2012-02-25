@@ -15,6 +15,9 @@ class CommandBuilder
     /* arguments */
     public $args = array();
 
+
+    public $redirectStderrToStdout;
+
     public $stdout;
 
     public $stderr;
@@ -32,6 +35,21 @@ class CommandBuilder
 
         foreach( $this->args as $arg ) {
             $cmd[] = $arg;
+        }
+
+        /* can redirect stderr to stdout */
+        if( $this->redirectStderrToStdout ) {
+            $cmd[] = '2>&1';
+        }
+
+        if( $this->stdout ) {
+            $cmd[] = '>';
+            $cmd[] = $this->stdout;
+        }
+
+        if( $this->stderr ) {
+            $cmd[] = '2>&';
+            $cmd[] = $this->stderr;
         }
 
         return system(join(' ',$cmd));
