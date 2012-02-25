@@ -5,7 +5,7 @@ use PhpBrew\Config;
 use PhpBrew\PkgConfig;
 use PhpBrew\Variants;
 use PhpBrew\PhpSource;
-
+use PhpBrew\CommandBuilder;
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -73,12 +73,15 @@ class InstallCommand extends \CLIFramework\Command
         $builder->configure();
 
         $logger->info("===> Building $version...");
-        $command = 'make';
+
+        $cmd = new CommandBuilder('make');
+        // $cmd->redirectStderrToStdout = true;
+        $cmd->stdout = '/dev/null';
         if( $options->nice )
-            $command = 'nice -n ' . $options->nice->value . ' ' . $command;
+            $cmd->nice( $options->nice->value );
 
         $startTime = microtime(true);
-        system( $command . ' > /dev/null' ) !== false or die('Make failed.');
+        $cmd->execute() !== false or die('Make failed.');
 
         if( $options->{'no-test'} ) {
             $logger->info("Skip tests");
@@ -97,7 +100,7 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("===> Installing...");
         system( 'make install > /dev/null' ) !== false or die('Install failed.');
 
-
+        /* Check if php.dSYM exists */
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
         if ( file_exists($dSYM)) {
             $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';

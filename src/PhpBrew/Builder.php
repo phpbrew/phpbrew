@@ -4,6 +4,7 @@ use Exception;
 use PhpBrew\Config;
 use PhpBrew\PkgConfig;
 use PhpBrew\Variants;
+use PhpBrew\CommandBuilder;
 
 class Builder
 {

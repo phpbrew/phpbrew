@@ -22,6 +22,26 @@ class CommandBuilder
 
     public $stderr;
 
+    public function __construct($script)
+    {
+        $this->script = $script;
+    }
+
+    public function args($args)
+    {
+        $this->args = $args;
+    }
+
+    public function addArg($arg)
+    {
+        $this->args[] = $arg;
+    }
+
+    public function nice($nice)
+    {
+        $this->nice = $nice;
+    }
+
     public function execute() {
         $cmd = array();
 
@@ -56,9 +76,5 @@ class CommandBuilder
         // system( $command . ' > /dev/null' ) !== false or die('Test failed.');
     }
 
-
 }
-
-
-
 
