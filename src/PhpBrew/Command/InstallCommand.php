@@ -33,6 +33,8 @@ class InstallCommand extends \CLIFramework\Command
 
 
 
+
+
         $info = PhpSource::getVersionInfo( $version );
         if( ! $info)
             throw new Exception("Version $version not found.");
@@ -69,8 +71,6 @@ class InstallCommand extends \CLIFramework\Command
 
         $builder->clean();
         $builder->configure();
-
-
 
         $logger->info("===> Building $version...");
         $command = 'make';
