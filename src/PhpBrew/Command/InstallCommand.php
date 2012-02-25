@@ -26,6 +26,11 @@ class InstallCommand extends \CLIFramework\Command
         $options = $this->getOptions();
         $logger = $this->getLogger();
 
+        // get extra arguments 
+        $extraArgs = func_get_args();
+        array_shift($extraArgs);
+
+
         $info = \PhpBrew\PhpSource::getVersionInfo( $version );
         if( ! $info)
             throw new Exception("Version $version not found.");
