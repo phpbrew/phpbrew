@@ -10,6 +10,10 @@ class InstallCommand extends \CLIFramework\Command
 {
     public function brief() { return 'install php'; }
 
+    public function usage() { 
+        return 'phpbrew install [php-version] ([variants...])';
+    }
+
     public function options($opts)
     {
         $opts->add('no-test','No tests');
