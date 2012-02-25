@@ -4,6 +4,7 @@ use Exception;
 use PhpBrew\Config;
 use PhpBrew\PkgConfig;
 use PhpBrew\Variants;
+use PhpBrew\PhpSource;
 
 
 class InstallCommand extends \CLIFramework\Command
@@ -31,7 +32,8 @@ class InstallCommand extends \CLIFramework\Command
         array_shift($extraArgs);
 
 
-        $info = \PhpBrew\PhpSource::getVersionInfo( $version );
+
+        $info = PhpSource::getVersionInfo( $version );
         if( ! $info)
             throw new Exception("Version $version not found.");
 
