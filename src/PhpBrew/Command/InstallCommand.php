@@ -32,9 +32,6 @@ class InstallCommand extends \CLIFramework\Command
         array_shift($extraArgs);
 
 
-
-
-
         $info = PhpSource::getVersionInfo( $version );
         if( ! $info)
             throw new Exception("Version $version not found.");
@@ -68,6 +65,10 @@ class InstallCommand extends \CLIFramework\Command
         $builder = new \PhpBrew\Builder( $targetDir, $version );
         $builder->logger = $this->getLogger();
         $builder->options = $options;
+
+        foreach( $extraArgs as $variant ) {
+            $builder->addVariant( $variant );
+        }
 
         $builder->clean();
         $builder->configure();

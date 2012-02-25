@@ -43,6 +43,11 @@ class Builder
      */
     public $root;
 
+    /**
+     * @var variants
+     */
+    public $variants = array();
+
     public function __construct($targetDir,$version)
     {
         $this->targetDir = $targetDir;
@@ -75,6 +80,21 @@ class Builder
         }
     }
 
+    public function addVariant($variant)
+    {
+        if( ($p = strpos( $variant , '=' )) !== false )  {
+            $n = substr( $variant , 0 , $p - 1 );
+            $v = substr( $variant , $p + 1 );
+            $this->variants[] = array(
+                'variant' => $n,
+                'value'   => $v,
+            );
+        }
+        else {
+            $this->variants[] = array( 'variant' => $variant );
+        }
+    }
+
     public function configure()
     {
         if( ! file_exists('configure') )
@@ -83,9 +103,11 @@ class Builder
         // build configure args
         // XXX: support variants
         $args = array();
-        putenv('CFLAGS=-O3');
-        $args[] = './configure';
 
+
+        $cmd = new CommandBuilder('./configure');
+
+        putenv('CFLAGS=-O3');
         $args[] = "--prefix=" . $this->buildPrefix;
         $args[] = "--with-config-file-path={$this->buildPrefix}/etc";
         $args[] = "--with-config-file-scan-dir={$this->buildPrefix}/var/db";
@@ -97,16 +119,17 @@ class Builder
         $args[] = "--disable-all";
         $args = array_merge( $args , $variants->getOptions($this->version) );
 
+        $cmd->args($args);
+
 
         $this->logger->info("===> Configuring {$this->version}...");
-        $command = join(' ', array_map( function($val) { return escapeshellarg($val); }, $args) );
 
-        $this->logger->debug( $command );
+        $this->logger->debug( $cmd->getCommand() );
 
         if( $this->options->nice )
-            $command = 'nice -n ' . $this->options->nice->value . ' ' . $command;
-
-        system( $command . ' > /dev/null' ) !== false or die('Configure failed.');
+            $cmd->nice( $this->options->nice->value );
+        $cmd->stdout = '/dev/null';
+        $cmd->execute()  !== false or die('Configure failed.');
     }
 
     public function build()

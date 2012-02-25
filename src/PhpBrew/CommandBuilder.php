@@ -43,6 +43,12 @@ class CommandBuilder
     }
 
     public function execute() {
+        $command = $this->getCommand();
+        return system( $command );
+    }
+
+    public function getCommand()
+    {
         $cmd = array();
 
         if( $this->nice ) {
@@ -54,7 +60,7 @@ class CommandBuilder
         $cmd[] = $this->script;
 
         foreach( $this->args as $arg ) {
-            $cmd[] = $arg;
+            $cmd[] = escapeshellarg($arg);
         }
 
         /* can redirect stderr to stdout */
@@ -71,9 +77,7 @@ class CommandBuilder
             $cmd[] = '2>&';
             $cmd[] = $this->stderr;
         }
-
-        return system(join(' ',$cmd));
-        // system( $command . ' > /dev/null' ) !== false or die('Test failed.');
+        return join(' ',$cmd);
     }
 
 }
