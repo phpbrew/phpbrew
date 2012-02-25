@@ -18,7 +18,7 @@ class SvnDownloader
 
         if ( file_exists($basename) ) {
             $this->logger->info("Updating");
-            system( "svn update" );
+            system( "cd $basename ; svn update" );
         }
         else {
             $this->logger->info("Checking out from svn: $url");

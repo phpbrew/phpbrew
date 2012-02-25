@@ -19,6 +19,10 @@ Extension configuration files should be put in:
 
     ~/.phpbrew/php/5.4.0RC7/var/db
 
+<img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
+
+<img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/03.png"/>
+
 
 ## Platform support
 
@@ -138,3 +142,9 @@ List known versions:
 Install:
 
     php scripts/phpbrew.php -d install --no-test 5.4.0RC7
+
+Community
+---------
+
+Join us on #php-tw on irc.freenode.net
+
