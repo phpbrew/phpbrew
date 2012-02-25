@@ -4,13 +4,20 @@ namespace PhpBrew;
 /*
 A simple wrapper for `patch` command.
 
-$patchphp = new PatchPHP;
-$patchphp->diff =<<<EOS
+    $patchphp = new PatchPHP('patch-name');
+    $patchphp->fetchDiff( 'http://remote.url/patch-1.diff' );
+    $patchphp->patch( 'path/to/file' );
 
-... diff content
+OR:
 
-EOS;
-$patchphp->patch( 'path/to/file' );
+    $patchphp = new PatchPHP('patch-name');
+    $patchphp->diff =<<<EOS
+
+    ... diff content
+
+    EOS;
+    $patchphp->patch( 'path/to/file' );
+
 */
 class PatchPHP
 {
@@ -28,12 +35,30 @@ class PatchPHP
         return ($this->patchName ?: uniqid()) . '.patch';
     }
 
+    /**
+     * fetch remote diff
+     *
+     * @param string $url
+     */
+    public function fetchDiff($url)
+    {
+        $this->diff = file_get_contents( $url );
+    }
+
+    /**
+     * patch file
+     *
+     * @param string $file file to patch.
+     */
     public function patch($file)
     {
         if( $this->diff ) {
             $patchFile = $this->getPatchFilename();
             file_put_contents( $patchFile , $this->diff );
             system( "patch $file < $patchFile" );
+
+            // clean up patch File
+            unlink( $patchFile );
         }
     }
 
