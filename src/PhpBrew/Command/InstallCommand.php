@@ -18,6 +18,7 @@ class InstallCommand extends \CLIFramework\Command
     public function options($opts)
     {
         $opts->add('no-test','No tests');
+        $opts->add('no-clean','Do not clean object files before/after building.');
         $opts->add('production','Use production configuration');
         $opts->add('nice:', 'process nice level');
     }
@@ -72,7 +73,9 @@ class InstallCommand extends \CLIFramework\Command
             $builder->addVariant( $a );
         }
 
-        $builder->clean();
+        if( ! $options->{'no-clean'} ) 
+            $builder->clean();
+
         $builder->configure();
 
         $logger->info("===> Building $version...");
@@ -103,12 +106,19 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("===> Installing...");
         system( 'make install > /dev/null' ) !== false or die('Install failed.');
 
+        if( ! $options->{'no-clean'} ) 
+            $builder->clean();
+
+        /** POST INSTALLATION **/
+
+
         /* Check if php.dSYM exists */
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
         if ( file_exists($dSYM)) {
             $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
             rename( $dSYM , $php );
         }
+
 
 
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
