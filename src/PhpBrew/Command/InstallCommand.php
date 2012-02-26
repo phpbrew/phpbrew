@@ -130,6 +130,7 @@ class InstallCommand extends \CLIFramework\Command
         /* Check if php.dSYM exists */
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
         if ( file_exists($dSYM)) {
+            $logger->info("---> Moving php.dSYM to php ");
             $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
             rename( $dSYM , $php );
         }
@@ -137,12 +138,14 @@ class InstallCommand extends \CLIFramework\Command
 
 
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
-        $logger->info("===> Copying $phpConfigFile ...");
+        $logger->info("---> Copying $phpConfigFile ");
         if( file_exists($phpConfigFile) ) {
             if( ! file_exists( Config::getVersionEtcPath($version) ) )
                 mkdir( Config::getVersionEtcPath($version) , 0755 , true );
             rename( $phpConfigFile , Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini' );
         }
+
+        $logger->info("Source directory: $targetDir");
 
         $logger->info("Done!");
 
@@ -157,6 +160,7 @@ Or you can use switch command to switch your default php version to $version:
 
 Enjoy!
 EOT;
+
     }
 }
 
