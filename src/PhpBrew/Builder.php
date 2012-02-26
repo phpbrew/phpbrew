@@ -112,7 +112,7 @@ class Builder
 
         // let's apply patch for libphp{php version}.so
         if( $this->variants->isUsing('apxs2') ) {
-            $this->logger->info('   -> Applying patch - apxs2 module version name ...');
+            $this->logger->info('---> Applying patch - apxs2 module version name ...');
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libphp\$\(PHP_MAJOR_VERSION\)\.#libphp\$\(PHP_VERSION\)\.#gx' configure Makefile.global

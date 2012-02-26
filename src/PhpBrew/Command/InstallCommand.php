@@ -35,10 +35,11 @@ class InstallCommand extends \CLIFramework\Command
         // split variant strings
         $tmp = array();
         foreach( $extraArgs as $a ) {
-            $a = explode('+',$a);
+            $a = array_filter(explode('+',$a), function($a) { return $a ? true : false; });
             $tmp = array_merge( $tmp , $a );
         }
         $extraArgs = $tmp;
+
 
 
 
