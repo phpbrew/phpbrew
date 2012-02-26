@@ -40,6 +40,17 @@ class Utils
         }
     }
 
+
+    static function pipe_execute($command)
+    {
+        $proc = proc_open( $command , array(
+                array("pipe","r"), // stdin
+                array("pipe","w"), // stdout
+                array("pipe","w"), // stderr
+            ), $pipes);
+        $output = stream_get_contents($pipes[1]);
+        return $output;
+    }
 }
 
 

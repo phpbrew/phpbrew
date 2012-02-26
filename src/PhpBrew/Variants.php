@@ -93,9 +93,10 @@ class Variants
             }
 
             // use apxs to check module dir permission
-            $libdir = system( "$apxs -q LIBEXECDIR" , true );
-            if( ! is_writable($libdir) )
-                throw new Exception("apache module dir $libdir is not writable.");
+            if( $apxs && $libdir = trim( Utils::pipe_execute( "$apxs -q LIBEXECDIR" ) ) ) {
+                if( ! is_writable($libdir) )
+                    throw new Exception("apache module dir $libdir is not writable.");
+            }
             return $a;
         };
 
