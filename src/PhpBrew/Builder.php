@@ -2,9 +2,9 @@
 namespace PhpBrew;
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\PkgConfig;
 use PhpBrew\Variants;
 use PhpBrew\CommandBuilder;
+use PhpBrew\Utils;
 
 class Builder
 {
@@ -99,8 +99,6 @@ class Builder
 
         // build configure args
         // XXX: support variants
-        $args = array();
-
 
         $cmd = new CommandBuilder('./configure');
 
@@ -112,8 +110,25 @@ class Builder
 
         $args = $this->variants->build();
 
-        $cmd->args($args);
+        // let's apply patch for libphp{php version}.so
+        if( $this->variants->isUsing('apxs2') ) {
+            $this->logger->info('Applying patch - apxs2 module version name ...');
+            $patch=<<<'EOS'
+perl -i.bak -pe 's#
+libphp\$\(PHP_MAJOR_VERSION\)\.#libphp\$\(PHP_VERSION\)\.#gx' configure Makefile.global
+EOS;
+            Utils::system( $patch );
 
+            $patch=<<<'EOS'
+perl -i.bak -pe 's#
+libs/libphp\$PHP_MAJOR_VERSION\.
+#libs/libphp\$PHP_VERSION\.#gx' configure Makefile.global
+EOS;
+            Utils::system( $patch );
+        }
+
+
+        $cmd->args($args);
         $this->logger->info("===> Configuring {$this->version}...");
 
         $this->logger->debug( $cmd->getCommand() );

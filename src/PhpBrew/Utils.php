@@ -22,6 +22,11 @@ class Utils
         return trim($process->getOutput());
     }
 
+    static function system($command)
+    {
+        system( $command ) !== false 
+            or die('execute fail.');
+    }
 
 }
 

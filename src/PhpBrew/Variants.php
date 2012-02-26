@@ -125,7 +125,10 @@ class Variants
         $this->use[ $feature ] = $value;
     }
 
-
+    public function isUsing($feature)
+    {
+        return isset( $this->use[ $feature ] );
+    }
 
     public function checkPkgPrefix($option,$pkgName)
     {
