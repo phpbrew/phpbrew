@@ -32,6 +32,17 @@ class InstallCommand extends \CLIFramework\Command
         $extraArgs = func_get_args();
         array_shift($extraArgs);
 
+        // split variant strings
+        $tmp = array();
+        foreach( $extraArgs as $a ) {
+            $a = explode('+',$a);
+            $tmp = array_merge( $tmp , $a );
+        }
+        $extraArgs = $tmp;
+
+
+
+
 
         $info = PhpSource::getVersionInfo( $version );
         if( ! $info)
@@ -86,6 +97,9 @@ class InstallCommand extends \CLIFramework\Command
         if( $options->nice )
             $cmd->nice( $options->nice->value );
 
+
+
+
         $startTime = microtime(true);
         $cmd->execute() !== false or die('Make failed.');
 
@@ -94,10 +108,10 @@ class InstallCommand extends \CLIFramework\Command
         } else {
             $logger->info("Testing");
 
-            $command = 'make test';
+            $cmd = new CommandBuilder('make test');
             if( $options->nice )
-                $command = 'nice -n ' . $options->nice->value . ' ' . $command;
-            system( $command . ' > /dev/null' ) !== false or die('Test failed.');
+                $cmd->nice( $options->nice->value );
+            $cmd->execute() !== false or die('Test failed.');
         }
 
         $buildTime = (int)((microtime(true) - $startTime) / 60);
