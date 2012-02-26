@@ -147,7 +147,7 @@ class InstallCommand extends \CLIFramework\Command
             rename( $phpConfigFile , Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini' );
         }
 
-        $logger->info("Source directory: $targetDir");
+        $logger->info("Source directory: " . realpath( $targetDir ) );
 
         $logger->info("Done!");
 
