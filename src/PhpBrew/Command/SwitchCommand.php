@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
+use Exception;
 
 class SwitchCommand extends \CLIFramework\Command
 {
@@ -8,6 +9,6 @@ class SwitchCommand extends \CLIFramework\Command
 
     public function execute($version = null)
     {
-
+        throw new Exception("You should not see this, please check if bashrc is sourced in your shell.");
     }
 }
