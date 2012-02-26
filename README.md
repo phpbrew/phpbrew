@@ -103,9 +103,11 @@ Variants:
 
 You can build PHP with extra variants:
 
-    phpbrew install php-5.3.10 +mysql +pdo +pear +sqlite +cgi
-    phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2
-    phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2=/usr/bin/apxs2
+    $ phpbrew install php-5.3.10 +mysql +pdo +pear +sqlite +cgi
+
+    $ phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2
+
+    $ phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2=/usr/bin/apxs2
 
 NOTE:
 
@@ -116,6 +118,11 @@ NOTE:
 > your php module version. :-)
 > 
 > 2. phpbrew currently only supports for apxs2 (apache2)
+
+To pass extra configure arguments, you can do this:
+
+    $ phpbrew install php-5.3.10 +mysql +pdo +pear -- \
+      --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
 
 Or simply build and install PHP:
 
