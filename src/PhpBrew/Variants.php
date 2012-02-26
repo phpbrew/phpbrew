@@ -95,19 +95,24 @@ class Variants
             return '--disable-cgi';
         };
 
+        $this->variants['soap'] = function() {
+            return '--enable-soap';
+        };
+
+        $this->variants['pcntl'] = function() {
+            return '--enable-pcntl';
+        };
+
             /*
             '--enable-shmop',
             '--enable-sysvsem',
             '--enable-sysvshm',
             '--enable-sysvmsg',
+            '--enable-intl',
             */
 
             // '--with-imap-ssl',
             // '--with-kerberos',
-            // '--enable-soap',
-            // '--with-xsl',
-            // '--with-tidy',
-            // '--with-xmlrpc',
             // '--with-jpeg-dir=/usr',
             // '--with-png-dir=/usr',
             // '--with-mcrypt=/usr',
@@ -167,7 +172,10 @@ class Variants
             '--enable-fileinfo',
             '--enable-filter',
             '--enable-hash',
-            // '--enable-intl',
+            '--with-xsl',
+            '--with-tidy',
+            '--with-xmlrpc',
+
             '--enable-json',
             '--enable-libxml',
             '--enable-mbregex',
