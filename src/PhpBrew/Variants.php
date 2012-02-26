@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew;
 use PhpBrew\Utils;
+use Exception;
 
 
 /**
@@ -80,11 +81,11 @@ class Variants
         };
 
         $this->variants['apxs2'] = function($prefix = null) {
-            $a = '--apxs2';
+            $a = '--with-apxs2';
             if( $prefix ) {
                 $a .= '=' . $prefix;
             }
-            return array( $a );
+            return $a;
         };
 
         $this->variants['debug'] = function() {
@@ -149,6 +150,9 @@ class Variants
             if( $userValue )
                 $args[] = $userValue;
             return (array) call_user_func_array($func,$args);
+        }
+        else {
+            throw new Exception("Variant $feature is not defined.");
         }
     }
 
@@ -215,8 +219,9 @@ class Variants
         $opts[] = '--with-readline';
 
         foreach( $this->use as $feature => $userValue ) {
-            $options = $this->buildVariant( $feature , $userValue );
-            $opts = array_merge( $opts, $options );
+            if( $options = $this->buildVariant( $feature , $userValue ) ) {
+                $opts = array_merge( $opts, $options );
+            }
         }
 
         /*

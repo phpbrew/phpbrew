@@ -59,8 +59,10 @@ class CommandBuilder
 
         $cmd[] = $this->script;
 
-        foreach( $this->args as $arg ) {
-            $cmd[] = escapeshellarg($arg);
+        if( $this->args ) {
+            foreach( $this->args as $arg ) {
+                $cmd[] = escapeshellarg($arg);
+            }
         }
 
         /* can redirect stderr to stdout */
