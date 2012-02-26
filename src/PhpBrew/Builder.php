@@ -125,6 +125,13 @@ libs/libphp\$PHP_MAJOR_VERSION\.
 #libs/libphp\$PHP_VERSION\.#gx' configure Makefile.global
 EOS;
             Utils::system( $patch );
+
+            $patch=<<<'EOS'
+perl -i.bak -pe 's#
+libs/libphp5.so
+#libs/libphp\$PHP_VERSION\.so#gx' configure Makefile.global
+EOS;
+            Utils::system( $patch );
         }
 
 
