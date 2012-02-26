@@ -50,10 +50,9 @@ Init a bash script for your shell environment:
 
     $ phpbrew init
 
-Then add these lines to your bashrc file:
+Then add these lines to your `.bashrc` or `.zshrc` file:
 
     source ~/.phpbrew/bashrc
-
 
 
 To list known versions:
@@ -107,6 +106,16 @@ You can build PHP with extra variants:
     phpbrew install php-5.3.10 +mysql +pdo +pear +sqlite +cgi
     phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2
     phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2=/usr/bin/apxs2
+
+NOTE:
+
+> 1. If you want to build php with apache php module, please change the permission
+> of apache module directory, eg: `/opt/local/apache2/modules/`.  
+> it should be writable and phpbrew should be able to change permission.
+> after install, you should check your httpd.conf configuration file, to switch 
+> your php module version. :-)
+> 
+> 2. phpbrew currently only supports for apxs2 (apache2)
 
 Or simply build and install PHP:
 
