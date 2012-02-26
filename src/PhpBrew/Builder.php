@@ -43,10 +43,7 @@ class Builder
      */
     public $root;
 
-    /**
-     * @var variants
-     */
-    public $variants = array();
+    public $variants;
 
     public function __construct($targetDir,$version)
     {
@@ -55,6 +52,8 @@ class Builder
         $this->buildDir = Config::getBuildDir();
         $this->buildPrefix = Config::getVersionBuildPrefix( $version );
         $this->version = $version;
+        $this->variants = new Variants;
+        $this->variants->version = $version;
         chdir($targetDir);
     }
 
@@ -85,13 +84,10 @@ class Builder
         if( ($p = strpos( $variant , '=' )) !== false )  {
             $n = substr( $variant , 0 , $p - 1 );
             $v = substr( $variant , $p + 1 );
-            $this->variants[] = array(
-                'variant' => $n,
-                'value'   => $v,
-            );
+            $this->variants->useFeature( $n , $v );
         }
         else {
-            $this->variants[] = array( 'variant' => $variant );
+            $this->variants->useFeature( $variant );
         }
     }
 
@@ -117,11 +113,9 @@ class Builder
         $variants = new \PhpBrew\Variants();
 
         // XXX: detect include prefix
-        $args[] = "--disable-all";
-        $args = array_merge( $args , $variants->getOptions($this->version) );
+        $args = $variants->build();
 
         $cmd->args($args);
-
 
         $this->logger->info("===> Configuring {$this->version}...");
 
