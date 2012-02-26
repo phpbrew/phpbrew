@@ -28,19 +28,29 @@ class InstallCommand extends \CLIFramework\Command
         $options = $this->getOptions();
         $logger = $this->getLogger();
 
-        // get extra arguments 
-        $extraArgs = func_get_args();
-        array_shift($extraArgs);
+        // get extra options for building php  
+        $extra = array();
+        $args = func_get_args();
+        array_shift($args);
 
         // split variant strings
+        $isVariant = true;
         $tmp = array();
-        foreach( $extraArgs as $a ) {
-            $a = array_filter(explode('+',$a), function($a) { return $a ? true : false; });
-            $tmp = array_merge( $tmp , $a );
+        foreach( $args as $a ) {
+            if( $a == '--' ) {
+                $isVariant = false;
+                continue;
+            }
+
+            if( $isVariant ) {
+                $a = array_filter(explode('+',$a), function($a) { return $a ? true : false; });
+                $tmp = array_merge( $tmp , $a );
+            }
+            else {
+                $extra[] = $a;
+            }
         }
-        $extraArgs = $tmp;
-
-
+        $args = $tmp;
 
 
 
@@ -80,7 +90,7 @@ class InstallCommand extends \CLIFramework\Command
         $builder->options = $options;
 
         // strip plus sign.
-        foreach( $extraArgs as $a ) {
+        foreach( $args as $a ) {
             $a = preg_replace( '/^\+/', '', $a );
             $builder->addVariant( $a );
         }
@@ -88,7 +98,7 @@ class InstallCommand extends \CLIFramework\Command
         if( ! $options->{'no-clean'} ) 
             $builder->clean();
 
-        $builder->configure();
+        $builder->configure( $extra );
 
         $logger->info("===> Building $version...");
 

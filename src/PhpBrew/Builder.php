@@ -92,7 +92,7 @@ class Builder
     }
 
 
-    public function configure()
+    public function configure( $extra = array() )
     {
         if( ! file_exists('configure') )
             system('./buildconf') !== false or die('buildconf error');
@@ -136,8 +136,12 @@ EOS;
             Utils::system( $patch );
         }
 
-
+        foreach( $extra as $a ) {
+            $args[] = $a;
+        }
+        
         $cmd->args($args);
+
         $this->logger->info("===> Configuring {$this->version}...");
 
         $this->logger->debug( $cmd->getCommand() );
