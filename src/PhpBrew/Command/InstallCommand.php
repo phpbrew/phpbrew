@@ -121,8 +121,10 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("===> Installing...");
         system( 'make install > /dev/null' ) !== false or die('Install failed.');
 
+        /*
         if( ! $options->{'no-clean'} ) 
             $builder->clean();
+        */
 
         /** POST INSTALLATION **/
 
