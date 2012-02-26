@@ -28,6 +28,18 @@ class Utils
             or die($msg);
     }
 
+    static function findbin($bin)
+    {
+        $path = getenv('PATH');
+        $paths = explode( PATH_SEPARATOR , $path );
+        foreach( $paths as $path ) {
+            $f = $path . DIRECTORY_SEPARATOR . $bin;
+            if( file_exists($f) ) {
+                return $f;
+            }
+        }
+    }
+
 }
 
 

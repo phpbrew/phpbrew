@@ -82,9 +82,20 @@ class Variants
 
         $this->variants['apxs2'] = function($prefix = null) {
             $a = '--with-apxs2';
+            $apxs = null;
             if( $prefix ) {
                 $a .= '=' . $prefix;
+                $apxs = $prefix;
             }
+
+            if( ! $apxs ) {
+                $apxs = Utils::findbin('apxs');
+            }
+
+            // use apxs to check module dir permission
+            $libdir = system( "$apxs -q LIBEXECDIR" , true );
+            if( ! is_writable($libdir) )
+                throw new Exception("apache module dir $libdir is not writable.");
             return $a;
         };
 
