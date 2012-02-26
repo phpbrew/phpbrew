@@ -41,7 +41,7 @@ For Ubuntu/Debian users:
 ## Install phpbrew
 
     $ sudo pear channel-discover pear.corneltek.com
-    $ sudo pear install corneltek/PhpBrew
+    $ sudo pear install -a -f corneltek/PhpBrew
 
 Install from github:
 
