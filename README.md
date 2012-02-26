@@ -135,7 +135,7 @@ With debug messages:
 $ phpbrew -d install --no-test php-5.4.0RC7
 ```
 
-Use:
+Use (switch version temporarily):
 
 ```bash
 $ phpbrew use php-5.4.0RC7
