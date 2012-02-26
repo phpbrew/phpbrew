@@ -3,20 +3,14 @@ PhpBrew
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
 
-phpbrew also manage the environment variables, so you can `use`, `swtich` php
+phpbrew also manage the environment variables, so you can `use`, `switch` php
 version whenever you need.
 
-The installed php is located in `~/.phpbrew/php`, for example, php is located at:
+phpbrew can:
 
-    ~/.phpbrew/php/5.4.0RC7/bin/php
-
-And you should put your configuration file in:
-
-    ~/.phpbrew/php/5.4.0RC7/etc/php.ini
-
-Extension configuration files should be put in:
-
-    ~/.phpbrew/php/5.4.0RC7/var/db
+- install php with different variants like PDO, mysql, sqlite, debug ...etc.
+- compile apache php module and seperate them by different versions.
+- build and install php(s) in your home directory, so you don't need root permission.
 
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
 
@@ -148,6 +142,21 @@ List installed PHP:
 ```bash
 $ phpbrew list
 ```
+
+## Installed PHPs
+
+The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.0RC7 is located at:
+
+    ~/.phpbrew/php/5.4.0RC7/bin/php
+
+And you should put your configuration file in:
+
+    ~/.phpbrew/php/5.4.0RC7/etc/php.ini
+
+Extension configuration files should be put in:
+
+    ~/.phpbrew/php/5.4.0RC7/var/db
+
 
 Hacking
 -------
