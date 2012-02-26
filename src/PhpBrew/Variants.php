@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew;
-use PhpBrew\PkgConfig;
+use PhpBrew\Utils;
+
 
 class Variants
 {
@@ -66,19 +67,9 @@ class Variants
         // todo:
     }
 
-    public function checkHeader($hfile)
-    {
-        $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
-        foreach( $prefixes as $prefix ) {
-            $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($p) )
-                return $prefix;
-        }
-    }
-
     public function checkPkgPrefix($option,$pkgName)
     {
-        $prefix = PkgConfig::getPrefix($pkgName);
+        $prefix = Utils::get_pkgconfig_prefix($pkgName);
         return $prefix ? $option . '=' . $prefix : $option;
     }
 
@@ -195,11 +186,11 @@ class Variants
         $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
         $opts[] = $this->checkPkgPrefix('--with-openssl','openssl');
 
-        if( $prefix = $this->checkHeader('libintl.h') ) {
+        if( $prefix = Utils::find_include_path('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
         }
 
-        if( $prefix = $this->checkHeader('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+        if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
             $opts[] = '--with-libedit=' . $prefix;
         }
 
