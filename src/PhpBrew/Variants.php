@@ -69,6 +69,7 @@ class Variants
             return $opts;
         };
 
+
         $this->variants['sqlite'] = function() use ($self) {
             $opts = array( '--with-sqlite3' );
             if( isset($self->use['pdo']) )
@@ -78,6 +79,14 @@ class Variants
 
         $this->variants['cli'] = function() {
             return '--enable-cli';
+        };
+
+        $this->variants['ftp'] = function() {
+            return '--enable-ftp';
+        };
+
+        $this->variants['sockets'] = function() {
+            return '--enable-sockets';
         };
 
         $this->variants['apxs2'] = function($prefix = null) {
@@ -191,6 +200,7 @@ class Variants
             '--enable-fileinfo',
             '--enable-filter',
             '--enable-hash',
+            '--enable-fpm',
             '--with-xsl',
             '--with-tidy',
             '--with-xmlrpc',
