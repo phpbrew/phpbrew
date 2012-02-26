@@ -108,7 +108,9 @@ class Builder
         $args[] = "--with-config-file-scan-dir={$this->buildPrefix}/var/db";
         $args[] = "--with-pear={$this->buildPrefix}/lib/php";
 
-        $args = $this->variants->build();
+        $variantsArgs = $this->variants->build();
+        if( $variantsArgs )
+            $args = array_merge( $args , $variantsArgs );
 
         // let's apply patch for libphp{php version}.so
         if( $this->variants->isUsing('apxs2') ) {
