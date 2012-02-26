@@ -63,7 +63,7 @@ class InstallCommand extends \CLIFramework\Command
             throw new Exception("Download failed.");
 
         $builder = new \PhpBrew\Builder( $targetDir, $version );
-        $builder->logger = $this->getLogger();
+        $builder->logger = $logger;
         $builder->options = $options;
 
         foreach( $extraArgs as $variant ) {

@@ -110,10 +110,7 @@ class Builder
         $args[] = "--with-config-file-scan-dir={$this->buildPrefix}/var/db";
         $args[] = "--with-pear={$this->buildPrefix}/lib/php";
 
-        $variants = new \PhpBrew\Variants();
-
-        // XXX: detect include prefix
-        $args = $variants->build();
+        $args = $this->variants->build();
 
         $cmd->args($args);
 
