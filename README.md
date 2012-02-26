@@ -6,7 +6,6 @@ phpbrew builds and installs multiple version php(s) in your $HOME directory.
 phpbrew also manage the environment variables, so you can `use`, `swtich` php
 version whenever you need.
 
-
 The installed php is located in `~/.phpbrew/php`, for example, php is located at:
 
     ~/.phpbrew/php/5.4.0RC7/bin/php
@@ -39,7 +38,6 @@ For Ubuntu/Debian users:
 
     $ sudo apt-get build-dep php5
 
-
 ## Install phpbrew
 
     $ sudo pear channel-discover pear.corneltek.com
@@ -53,11 +51,17 @@ Install from github:
 
 ## Basic usage
 
-Init:
+Init a bash script for your shell environment:
 
     $ phpbrew init
 
-List known versions:
+Then add these lines to your bashrc file:
+
+    source ~/.phpbrew/bashrc
+
+
+
+To list known versions:
 
 ```bash
 $ phpbrew known
@@ -85,7 +89,31 @@ Available versions from PhpStas:
 	php-5.4.0beta2
 ```
 
-Build and install PHP:
+To list variants:
+
+```bash
+$ phpbrew variants
+
+Variants:
+    pdo
+    pear
+    mysql
+    sqlite
+    cli
+    apxs2
+    debug
+    cgi
+    soap
+    pcntl
+```
+
+You can build PHP with extra variants:
+
+    phpbrew install php-5.3.10 +mysql +pdo +pear +sqlite +cgi
+    phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2
+    phpbrew install php-5.3.10 +mysql +pdo +pear +apxs2=/usr/bin/apxs2
+
+Or simply build and install PHP:
 
 ```bash
 $ phpbrew install php-5.4.0RC7

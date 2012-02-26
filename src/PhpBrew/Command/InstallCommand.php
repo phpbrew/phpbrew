@@ -12,7 +12,7 @@ class InstallCommand extends \CLIFramework\Command
     public function brief() { return 'install php'; }
 
     public function usage() { 
-        return 'phpbrew install [php-version] ([variants...])';
+        return 'phpbrew install [php-version] ([+variant...])';
     }
 
     public function options($opts)
@@ -66,8 +66,10 @@ class InstallCommand extends \CLIFramework\Command
         $builder->logger = $logger;
         $builder->options = $options;
 
-        foreach( $extraArgs as $variant ) {
-            $builder->addVariant( $variant );
+        // strip plus sign.
+        foreach( $extraArgs as $a ) {
+            $a = preg_replace( '/^\+/', '', $a );
+            $builder->addVariant( $a );
         }
 
         $builder->clean();
