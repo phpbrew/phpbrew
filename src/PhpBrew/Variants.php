@@ -1,40 +1,238 @@
 <?php
 namespace PhpBrew;
-use PhpBrew\PkgConfig;
+use PhpBrew\Utils;
+use Exception;
 
+
+/**
+
+$variants = new Variants;
+$variants->add('mysql');
+$variants->add('pdo', '/custom/prefix');
+$variants->build( );
+
+*/
 class Variants
 {
 
+    /**
+     * target php version
+     */
+    public $version;
+
+    /**
+     * available variants 
+     */
+    public $variants = array();
+
+    /**
+     * used features
+     */
+    public $use = array();
+
+
+
+
     public function __construct()
     {
+        $self = $this;
+
+        // init variant builders
+        $this->variants['pdo'] = function() {
+            return '--enable-pdo';
+        };
+
+        $this->variants['pear'] = function() {
+            return '--with-pear';
+        };
 
         /*
-        $this->add( '/php-5.4/', array(
-            'mysql' => array( 
-                    '--with-mysql=mysqlnd',
-                    '--with-mysqli=mysqlnd'
-                ),
-            'sqlite' => array( 
-                '--with-sqlite3',
-                '--with-pdo-sqlite',
-                ),
-            'pdo' => array( '--enable-pdo' ),
-            'cli' => array( '--enable-cli' ),
-        ));
+        --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
+                                directory.  If mysqlnd is passed as DIR,
+                                the MySQL native driver will be used [/usr/local]
+        --with-mysqli[=FILE]    Include MySQLi support.  FILE is the path
+                                to mysql_config.  If mysqlnd is passed as FILE,
+                                the MySQL native driver will be used [mysql_config]
+        --with-pdo-mysql[=DIR]    PDO: MySQL support. DIR is the MySQL base directoy
+                                If mysqlnd is passed as DIR, the MySQL native
+                                native driver will be used [/usr/local]
+
+        --with-mysql         // deprecated
         */
+        $this->variants['mysql'] = function( $prefix = 'mysqlnd' ) use ($self) {
+            $opts = array(
+                "--with-mysql=$prefix",
+                "--with-mysqli=$prefix"
+            );
+            if( isset($self->use['pdo']) )
+                $opts[] = "--with-pdo-mysql=$prefix";
+            return $opts;
+        };
+
+        $this->variants['sqlite'] = function() use ($self) {
+            $opts = array( '--with-sqlite3' );
+            if( isset($self->use['pdo']) )
+                $opts[] = '--with-pdo-sqlite';
+            return $opts;
+        };
+
+        $this->variants['cli'] = function() {
+            return '--enable-cli';
+        };
+
+        $this->variants['apxs2'] = function($prefix = null) {
+            $a = '--with-apxs2';
+            if( $prefix ) {
+                $a .= '=' . $prefix;
+            }
+            return $a;
+        };
+
+        $this->variants['debug'] = function() {
+            return array('--enable-debug');
+        };
+
+        $this->variants['cgi'] = function() {
+            return '--disable-cgi';
+        };
+
+        $this->variants['soap'] = function() {
+            return '--enable-soap';
+        };
+
+        $this->variants['pcntl'] = function() {
+            return '--enable-pcntl';
+        };
+
+            /*
+            '--enable-shmop',
+            '--enable-sysvsem',
+            '--enable-sysvshm',
+            '--enable-sysvmsg',
+            '--enable-intl',
+            */
+
+            // '--with-imap-ssl',
+            // '--with-kerberos',
+            // '--with-jpeg-dir=/usr',
+            // '--with-png-dir=/usr',
+            // '--with-mcrypt=/usr',
+
+
+    }
+
+    public function useFeature($feature,$value = null)
+    {
+        $this->use[ $feature ] = $value;
+    }
+
+    public function isUsing($feature)
+    {
+        return isset( $this->use[ $feature ] );
+    }
+
+    public function checkPkgPrefix($option,$pkgName)
+    {
+        $prefix = Utils::get_pkgconfig_prefix($pkgName);
+        return $prefix ? $option . '=' . $prefix : $option;
+    }
+
+    public function getVariantNames()
+    {
+        return array_keys( $this->variants );
+    }
+
+    public function buildVariant($feature,$userValue = null)
+    {
+        if( isset( $this->variants[ $feature ] ) ) {
+            $func = $this->variants[ $feature ];
+            $args = array();
+            if( $userValue )
+                $args[] = $userValue;
+            return (array) call_user_func_array($func,$args);
+        }
+        else {
+            throw new Exception("Variant $feature is not defined.");
+        }
     }
 
 
     /**
-     * add and merge new config with common variants config
-     *
-     * @param string $k version string or pattern
-     * @param array  $config config options array
+     * build configure options
      */
-    public function add($k,$config)
+    public function build()
     {
-        $this->variants[ $k ] = $config;
+        return $this->buildOptions();
     }
+
+    public function buildOptions()
+    {
+
+        // build common options
+        $opts = array(
+            '--disable-all',
+            '--enable-bcmath',
+            '--enable-cli',
+            '--enable-ctype',
+            '--enable-dom',
+            '--enable-exif',
+            '--enable-fileinfo',
+            '--enable-filter',
+            '--enable-hash',
+            '--with-xsl',
+            '--with-tidy',
+            '--with-xmlrpc',
+
+            '--enable-json',
+            '--enable-libxml',
+            '--enable-mbregex',
+            '--enable-mbstring',
+            '--enable-phar',
+            '--enable-session',
+            '--enable-short-tags',
+            '--enable-simplexml',
+            '--enable-sockets',
+            '--enable-tokenizer',
+            '--enable-xml',
+            '--enable-xmlreader',
+            '--enable-xmlwriter',
+            '--enable-zip',
+            '--with-bz2',
+            '--with-mhash',
+            '--with-pcre-regex',
+        );
+
+        $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');
+        $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
+        $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
+        $opts[] = $this->checkPkgPrefix('--with-openssl','openssl');
+
+        if( $prefix = Utils::find_include_path('libintl.h') ) {
+            $opts[] = '--with-gettext=' . $prefix;
+        }
+
+        if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+            $opts[] = '--with-libedit=' . $prefix;
+        }
+
+
+        $opts[] = '--with-readline';
+
+        foreach( $this->use as $feature => $userValue ) {
+            if( $options = $this->buildVariant( $feature , $userValue ) ) {
+                $opts = array_merge( $opts, $options );
+            }
+        }
+
+        /*
+        $opts = array_merge( $opts , 
+            $this->getVersionOptions($version) );
+        */
+        return $opts;
+    }
+
+
+
 
 
     /**
@@ -66,21 +264,6 @@ class Variants
         // todo:
     }
 
-    public function checkHeader($hfile)
-    {
-        $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
-        foreach( $prefixes as $prefix ) {
-            $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($p) )
-                return $prefix;
-        }
-    }
-
-    public function checkPkgPrefix($option,$pkgName)
-    {
-        $prefix = PkgConfig::getPrefix($pkgName);
-        return $prefix ? $option . '=' . $prefix : $option;
-    }
 
     public function getVersionOptions($version)
     {
@@ -122,92 +305,5 @@ class Variants
         }
         return $options;
     }
-
-    public function getOptions($version)
-    {
-        $opts = array(
-            '--disable-all',
-            '--disable-debug',
-            '--enable-bcmath',
-            '--enable-cli',
-            '--enable-ctype',
-            '--enable-dom',
-            '--enable-exif',
-            '--enable-fileinfo',
-            '--enable-filter',
-            '--enable-hash',
-            // '--enable-intl',
-            '--enable-json',
-            '--enable-libxml',
-            '--enable-mbregex',
-            '--enable-mbstring',
-            '--enable-phar',
-            '--enable-session',
-            '--enable-short-tags',
-            '--enable-simplexml',
-            '--enable-sockets',
-            '--enable-tokenizer',
-            '--enable-xml',
-            '--enable-xmlreader',
-            '--enable-xmlwriter',
-            '--enable-zip',
-            '--with-bz2',
-            '--with-mhash',
-            '--with-pcre-regex',
-            '--with-pear',
-
-            /*
-          --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
-                                  directory.  If mysqlnd is passed as DIR,
-                                  the MySQL native driver will be used [/usr/local]
-          --with-mysqli[=FILE]    Include MySQLi support.  FILE is the path
-                                  to mysql_config.  If mysqlnd is passed as FILE,
-                                  the MySQL native driver will be used [mysql_config]
-        --with-pdo-mysql[=DIR]    PDO: MySQL support. DIR is the MySQL base directoy
-                                  If mysqlnd is passed as DIR, the MySQL native
-                                  native driver will be used [/usr/local]
-            */
-
-            // '--with-mysql',  // deprecated
-            '--enable-pdo',
-            '--with-mysql=mysqlnd',
-            '--with-mysqli=mysqlnd',
-            '--with-pdo-mysql=mysqlnd',
-
-            '--disable-cgi',
-            '--enable-shmop',
-            '--enable-sysvsem',
-            '--enable-sysvshm',
-            '--enable-sysvmsg',
-            // '--with-imap-ssl',
-            // '--with-kerberos',
-            // '--enable-soap',
-            // '--with-xsl',
-            // '--with-tidy',
-            // '--with-xmlrpc',
-            // '--with-jpeg-dir=/usr',
-            // '--with-png-dir=/usr',
-            // '--with-mcrypt=/usr',
-        );
-
-        $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');
-        $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
-        $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
-        $opts[] = $this->checkPkgPrefix('--with-openssl','openssl');
-
-        if( $prefix = $this->checkHeader('libintl.h') ) {
-            $opts[] = '--with-gettext=' . $prefix;
-        }
-
-        if( $prefix = $this->checkHeader('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
-            $opts[] = '--with-libedit=' . $prefix;
-        }
-
-        $opts[] = '--with-readline';
-        $opts = array_merge( $opts , $this->getVersionOptions($version) );
-
-        return $opts;
-    }
-
 }
 

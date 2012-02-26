@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.10" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0        http://pear.php.net/dtd/tasks-1.0.xsd        http://pear.php.net/dtd/package-2.0        http://pear.php.net/dtd/package-2.0.xsd">
+  <name>PhpBrew</name>
+  <channel>pear.corneltek.com</channel>
+  <summary>PhpBrew command utility</summary>
+  <description>PhpBrew command utility</description>
+  <lead>
+    <name>Yo-An Lin</name>
+    <user/>
+    <email>cornelius.howl@gmail.com</email>
+    <active>yes</active>
+  </lead>
+  <date>2012-02-26</date>
+  <time>14:03:43</time>
+  <version>
+    <release>0.0.4</release>
+    <api>0.0.4</api>
+  </version>
+  <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+  </stability>
+  <license>PHP</license>
+  <notes>-</notes>
+  <contents>
+    <dir name="/">
+      <file name="tests/bootstrap.php" role="test" md5sum="cef32b4722da5ea14dd0b5a1e5dd2b00"/>
+      <file name="tests/helpers.php" role="test" md5sum="b5e0733acd23bf976409fbe22191062f"/>
+      <file name="tests/PhpBrew/ConfigTest.php" role="test" md5sum="95e68132cd5e8c7b8cec7918ddbafb2e"/>
+      <file name="tests/PhpBrew/Downloader/UrlDownloaderTest.php" role="test" md5sum="d92fac92b21355e7af4fa850099a0a7a"/>
+      <file name="tests/PhpBrew/VariantsTest.php" role="test" md5sum="3774991f8fbcb8fc8f24387a18fab3bc"/>
+      <file name="src/PhpBrew/Builder.php" role="php" md5sum="68c3bf1f516f94cd5d00634c3aaf7f52"/>
+      <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="5d3bd38776949552854ac6f3efd2ed35"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="f1fda8c45027461150aafb7df444a209"/>
+      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="b2dee04de98cfc707dcaf7b8b34a2eca"/>
+      <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="564369a81ae8b50bd0122832d3317d5b"/>
+      <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="83312f537c00f58281c86229a2e13907"/>
+      <file name="src/PhpBrew/Command/SwitchCommand.php" role="php" md5sum="ee2f12f779521cf6aaab68c484a34f4a"/>
+      <file name="src/PhpBrew/Command/UseCommand.php" role="php" md5sum="fd88ee38cf5f44758a069a17a7680f24"/>
+      <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="018dc4af348e593e2372adc15d97bb30"/>
+      <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="81d97ffcc5c6ae04baaea1f92849ae9d"/>
+      <file name="src/PhpBrew/Config.php" role="php" md5sum="b80829781136bc294ba450f9953fb795"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="53832b599353c4792acb04f5fffceedf"/>
+      <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="62c0dfcd03dafeb8a42e71670407cdf1"/>
+      <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="de08f9392f130f5f8382c8d2f50be48b"/>
+      <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
+      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="858bfacf00ef4fa09211b7d288d9e62b"/>
+      <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
+      <file name="src/PhpBrew/Utils.php" role="php" md5sum="6836986d034f18d69b274dc830038852"/>
+      <file name="src/PhpBrew/Variants.php" role="php" md5sum="2a8a18110a3a375ce6f5e1974700d447"/>
+      <file name="phpbrew" role="script" md5sum="701d21fa6954a06344d8368778729e86"/>
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.3</min>
+      </php>
+      <pearinstaller>
+        <min>1.4</min>
+      </pearinstaller>
+      <package>
+        <name>Universal</name>
+        <channel>pear.corneltek.com</channel>
+        <min>0.0.0</min>
+      </package>
+      <package>
+        <name>CLIFramework</name>
+        <channel>pear.corneltek.com</channel>
+        <min>0.0.0</min>
+      </package>
+    </required>
+  </dependencies>
+  <phprelease>
+    <filelist>
+      <install name="tests/bootstrap.php" as="bootstrap.php"/>
+      <install name="tests/helpers.php" as="helpers.php"/>
+      <install name="tests/PhpBrew/ConfigTest.php" as="PhpBrew/ConfigTest.php"/>
+      <install name="tests/PhpBrew/Downloader/UrlDownloaderTest.php" as="PhpBrew/Downloader/UrlDownloaderTest.php"/>
+      <install name="tests/PhpBrew/VariantsTest.php" as="PhpBrew/VariantsTest.php"/>
+      <install name="src/PhpBrew/Builder.php" as="PhpBrew/Builder.php"/>
+      <install name="src/PhpBrew/Command/EnvCommand.php" as="PhpBrew/Command/EnvCommand.php"/>
+      <install name="src/PhpBrew/Command/InitCommand.php" as="PhpBrew/Command/InitCommand.php"/>
+      <install name="src/PhpBrew/Command/InstallCommand.php" as="PhpBrew/Command/InstallCommand.php"/>
+      <install name="src/PhpBrew/Command/KnownCommand.php" as="PhpBrew/Command/KnownCommand.php"/>
+      <install name="src/PhpBrew/Command/ListCommand.php" as="PhpBrew/Command/ListCommand.php"/>
+      <install name="src/PhpBrew/Command/SwitchCommand.php" as="PhpBrew/Command/SwitchCommand.php"/>
+      <install name="src/PhpBrew/Command/UseCommand.php" as="PhpBrew/Command/UseCommand.php"/>
+      <install name="src/PhpBrew/Command/VariantsCommand.php" as="PhpBrew/Command/VariantsCommand.php"/>
+      <install name="src/PhpBrew/CommandBuilder.php" as="PhpBrew/CommandBuilder.php"/>
+      <install name="src/PhpBrew/Config.php" as="PhpBrew/Config.php"/>
+      <install name="src/PhpBrew/Console.php" as="PhpBrew/Console.php"/>
+      <install name="src/PhpBrew/Downloader/SvnDownloader.php" as="PhpBrew/Downloader/SvnDownloader.php"/>
+      <install name="src/PhpBrew/Downloader/UrlDownloader.php" as="PhpBrew/Downloader/UrlDownloader.php"/>
+      <install name="src/PhpBrew/PatchPHP.php" as="PhpBrew/PatchPHP.php"/>
+      <install name="src/PhpBrew/PhpSource.php" as="PhpBrew/PhpSource.php"/>
+      <install name="src/PhpBrew/Process.php" as="PhpBrew/Process.php"/>
+      <install name="src/PhpBrew/Utils.php" as="PhpBrew/Utils.php"/>
+      <install name="src/PhpBrew/Variants.php" as="PhpBrew/Variants.php"/>
+      <install name="phpbrew" as="phpbrew"/>
+    </filelist>
+  </phprelease>
+</package>

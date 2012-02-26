@@ -12,12 +12,13 @@ class InstallCommand extends \CLIFramework\Command
     public function brief() { return 'install php'; }
 
     public function usage() { 
-        return 'phpbrew install [php-version] ([variants...])';
+        return 'phpbrew install [php-version] ([+variant...])';
     }
 
     public function options($opts)
     {
         $opts->add('no-test','No tests');
+        $opts->add('no-clean','Do not clean object files before/after building.');
         $opts->add('production','Use production configuration');
         $opts->add('nice:', 'process nice level');
     }
@@ -30,6 +31,15 @@ class InstallCommand extends \CLIFramework\Command
         // get extra arguments 
         $extraArgs = func_get_args();
         array_shift($extraArgs);
+
+        // split variant strings
+        $tmp = array();
+        foreach( $extraArgs as $a ) {
+            $a = array_filter(explode('+',$a), function($a) { return $a ? true : false; });
+            $tmp = array_merge( $tmp , $a );
+        }
+        $extraArgs = $tmp;
+
 
 
 
@@ -66,10 +76,18 @@ class InstallCommand extends \CLIFramework\Command
             throw new Exception("Download failed.");
 
         $builder = new \PhpBrew\Builder( $targetDir, $version );
-        $builder->logger = $this->getLogger();
+        $builder->logger = $logger;
         $builder->options = $options;
 
-        $builder->clean();
+        // strip plus sign.
+        foreach( $extraArgs as $a ) {
+            $a = preg_replace( '/^\+/', '', $a );
+            $builder->addVariant( $a );
+        }
+
+        if( ! $options->{'no-clean'} ) 
+            $builder->clean();
+
         $builder->configure();
 
         $logger->info("===> Building $version...");
@@ -80,6 +98,9 @@ class InstallCommand extends \CLIFramework\Command
         if( $options->nice )
             $cmd->nice( $options->nice->value );
 
+
+
+
         $startTime = microtime(true);
         $cmd->execute() !== false or die('Make failed.');
 
@@ -88,10 +109,10 @@ class InstallCommand extends \CLIFramework\Command
         } else {
             $logger->info("Testing");
 
-            $command = 'make test';
+            $cmd = new CommandBuilder('make test');
             if( $options->nice )
-                $command = 'nice -n ' . $options->nice->value . ' ' . $command;
-            system( $command . ' > /dev/null' ) !== false or die('Test failed.');
+                $cmd->nice( $options->nice->value );
+            $cmd->execute() !== false or die('Test failed.');
         }
 
         $buildTime = (int)((microtime(true) - $startTime) / 60);
@@ -100,21 +121,33 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("===> Installing...");
         system( 'make install > /dev/null' ) !== false or die('Install failed.');
 
+        /*
+        if( ! $options->{'no-clean'} ) 
+            $builder->clean();
+        */
+
+        /** POST INSTALLATION **/
+
+
         /* Check if php.dSYM exists */
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
         if ( file_exists($dSYM)) {
+            $logger->info("---> Moving php.dSYM to php ");
             $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
             rename( $dSYM , $php );
         }
 
 
+
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
-        $logger->info("===> Copying $phpConfigFile ...");
+        $logger->info("---> Copying $phpConfigFile ");
         if( file_exists($phpConfigFile) ) {
             if( ! file_exists( Config::getVersionEtcPath($version) ) )
                 mkdir( Config::getVersionEtcPath($version) , 0755 , true );
             rename( $phpConfigFile , Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini' );
         }
+
+        $logger->info("Source directory: " . realpath( $targetDir ) );
 
         $logger->info("Done!");
 
@@ -129,6 +162,7 @@ Or you can use switch command to switch your default php version to $version:
 
 Enjoy!
 EOT;
+
     }
 }
 

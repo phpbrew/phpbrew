@@ -6,7 +6,7 @@ A simple wrapper for `patch` command.
 
     $patchphp = new PatchPHP('patch-name');
     $patchphp->fetchDiff( 'http://remote.url/patch-1.diff' );
-    $patchphp->patch( 'path/to/file' );
+    $patchphp->patch();
 
 OR:
 
@@ -16,7 +16,7 @@ OR:
     ... diff content
 
     EOS;
-    $patchphp->patch( 'path/to/file' );
+    $patchphp->patch();
 
 */
 class PatchPHP
@@ -50,12 +50,12 @@ class PatchPHP
      *
      * @param string $file file to patch.
      */
-    public function patch($file)
+    public function patch()
     {
         if( $this->diff ) {
             $patchFile = $this->getPatchFilename();
             file_put_contents( $patchFile , $this->diff );
-            system( "patch $file < $patchFile" );
+            system( "patch < $patchFile" );
 
             // clean up patch File
             unlink( $patchFile );
