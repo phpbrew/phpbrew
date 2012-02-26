@@ -25,9 +25,9 @@ class VariantsCommand extends \CLIFramework\Command
         echo "\n";
         echo "Example:\n";
         echo "\n";
-        echo "    phpbrew install php-5.3.10 mysql pdo";
-        echo "    phpbrew install php-5.3.10 mysql pdo apxs2";
-        echo "    phpbrew install php-5.3.10 mysql pdo apxs2=/usr/bin/apxs2";
+        echo "    phpbrew install php-5.3.10 mysql pdo\n";
+        echo "    phpbrew install php-5.3.10 mysql pdo apxs2\n";
+        echo "    phpbrew install php-5.3.10 mysql pdo apxs2=/usr/bin/apxs2\n";
         echo "\n";
         echo "\n";
     }
