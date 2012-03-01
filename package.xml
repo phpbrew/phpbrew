@@ -10,8 +10,8 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-02-27</date>
-  <time>01:48:37</time>
+  <date>2012-03-02</date>
+  <time>05:47:07</time>
   <version>
     <release>1.0.1</release>
     <api>1.0.1</api>
@@ -44,11 +44,11 @@
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="62c0dfcd03dafeb8a42e71670407cdf1"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="de08f9392f130f5f8382c8d2f50be48b"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
-      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="858bfacf00ef4fa09211b7d288d9e62b"/>
+      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="33cd2ac15502ec83b64fa10ad4dfe142"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="d474d13b3ec02c1cd35c07828173de02"/>
       <file name="src/PhpBrew/Variants.php" role="php" md5sum="e5bc9829304897c92e606d31a6b0347f"/>
-      <file name="phpbrew" role="script" md5sum="a85bd6a013f25a17fb8d0806c850e70f"/>
+      <file name="phpbrew" role="script" md5sum="a077b072c0a2142ad8a72ec76ab65cb3"/>
     </dir>
   </contents>
   <dependencies>
