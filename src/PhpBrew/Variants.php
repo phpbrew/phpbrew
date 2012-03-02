@@ -217,7 +217,6 @@ class Variants
         $opts = array(
             '--disable-all',
             '--enable-bcmath',
-            '--enable-cli',
             '--enable-ctype',
             '--enable-dom',
             '--enable-exif',
@@ -248,9 +247,13 @@ class Variants
             '--with-pcre-regex',
         );
 
+        $this->useFeature('cli');
+
+        // xxx: refactor this into variant builder 
         $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');
         $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
         $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
+
 
         if( $prefix = Utils::find_include_path('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
@@ -259,6 +262,7 @@ class Variants
         if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
             $opts[] = '--with-libedit=' . $prefix;
         }
+
 
 
         $opts[] = '--with-readline';
