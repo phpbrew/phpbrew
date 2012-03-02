@@ -93,7 +93,6 @@ class Variants
             return $opts;
         };
 
-
         $this->variants['sqlite'] = function() use ($self) {
             $opts = array( '--with-sqlite3' );
             if( isset($self->use['pdo']) )
@@ -135,8 +134,12 @@ class Variants
 
             // use apxs to check module dir permission
             if( $apxs && $libdir = trim( Utils::pipe_execute( "$apxs -q LIBEXECDIR" ) ) ) {
-                if( ! is_writable($libdir) )
-                    throw new Exception("apache module dir $libdir is not writable.");
+                if( false === is_writable($libdir) )
+                    throw new Exception("apache module dir $libdir is not writable.\nPlease consider using chmod or sudo.");
+            }
+            if( $apxs && $confdir = trim( Utils::pipe_execute( "$apxs -q SYSCONFDIR" ) ) ) {
+                if( false === is_writable($confdir) )
+                    throw new Exception("apache conf dir is not writable for phpbrew. Please consider using chmod or sudo.");
             }
             return $a;
         };
