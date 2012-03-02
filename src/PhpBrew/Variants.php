@@ -46,11 +46,17 @@ class Variants
             return '--with-pear';
         };
 
+        $this->variants['gd'] = function() use($self) {
+            $prefix = Utils::find_include_path('gd.h');
+            return $prefix ? '--with-gd=' . $prefix : '--with-gd';
+        };
+
         $this->variants['openssl'] = function() use($self) {
             $prefix = Utils::get_pkgconfig_prefix('openssl');
             if( ! $prefix )
                 $prefix = Utils::get_pkgconfig_prefix('libssl');
-            return '--with-openssl=' . $prefix;
+            return $prefix
+                ? '--with-openssl=' . $prefix : '--with-openssl';
         };
 
         /*
