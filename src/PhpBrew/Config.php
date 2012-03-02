@@ -51,5 +51,16 @@ class Config
         return $versions;
     }
 
+    static function getCurrentPhp()
+    {
+        return getenv('PHPBREW_PHP');
+    }
+
+    static function getCurrentPhpBin()
+    {
+        return getenv('PHPBREW_PATH');
+    }
+    
+
 }
 

@@ -16,6 +16,7 @@ class Console extends Application
         $this->registerCommand('use');
         $this->registerCommand('switch');
         $this->registerCommand('variants');
+        $this->registerCommand('config');
     }
 
     public function brief()

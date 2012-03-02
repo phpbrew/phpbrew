@@ -157,19 +157,21 @@ class Variants
             return '--enable-pcntl';
         };
 
-            /*
-            '--enable-shmop',
-            '--enable-sysvsem',
-            '--enable-sysvshm',
-            '--enable-sysvmsg',
-            '--enable-intl',
-            */
+        /*
+        '--enable-shmop',
+        '--enable-sysvsem',
+        '--enable-sysvshm',
+        '--enable-sysvmsg',
+        '--enable-intl',
+        */
 
-            // '--with-imap-ssl',
-            // '--with-kerberos',
-            // '--with-mcrypt=/usr',
+        // '--with-imap-ssl',
+        // '--with-kerberos',
+        // '--with-mcrypt=/usr',
 
-        /* default features */
+        /**
+         * default features 
+         * */
         $this->useFeature('pdo');
         $this->useFeature('cli');
     }
