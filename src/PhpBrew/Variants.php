@@ -47,8 +47,19 @@ class Variants
         };
 
         $this->variants['gd'] = function() use($self) {
+            $opts = array();
             $prefix = Utils::find_include_path('gd.h');
-            return $prefix ? '--with-gd=' . $prefix : '--with-gd';
+            $opts[] = ($prefix ? '--with-gd=' . $prefix : '--with-gd');
+            $opts[] = '--enable-gd-native-ttf';
+
+            if( $p = Utils::find_include_path('jpeglib.h') ) {
+                $opts[] = '--with-jpeg-dir=' . $p;
+            }
+
+            if( $p = Utils::find_include_path('png.h') ) {
+                $opts[] = '--with-png-dir=' . $p;
+            }
+            return $opts;
         };
 
         $this->variants['openssl'] = function() use($self) {
