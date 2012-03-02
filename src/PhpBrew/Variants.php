@@ -46,6 +46,13 @@ class Variants
             return '--with-pear';
         };
 
+        $this->variants['openssl'] = function() use($self) {
+            $prefix = Utils::get_pkgconfig_prefix('openssl');
+            if( ! $prefix )
+                $prefix = Utils::get_pkgconfig_prefix('libssl');
+            return '--with-openssl=' . $prefix;
+        };
+
         /*
         --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
                                 directory.  If mysqlnd is passed as DIR,
@@ -227,6 +234,7 @@ class Variants
         $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');
         $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
         $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
+
         $opts[] = $this->checkPkgPrefix('--with-openssl','openssl');
 
         if( $prefix = Utils::find_include_path('libintl.h') ) {

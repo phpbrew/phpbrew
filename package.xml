@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2012-03-02</date>
-  <time>05:47:20</time>
+  <time>14:00:46</time>
   <version>
     <release>1.0.2</release>
     <api>1.0.2</api>
@@ -48,7 +48,7 @@
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="d474d13b3ec02c1cd35c07828173de02"/>
       <file name="src/PhpBrew/Variants.php" role="php" md5sum="e5bc9829304897c92e606d31a6b0347f"/>
-      <file name="phpbrew" role="script" md5sum="a077b072c0a2142ad8a72ec76ab65cb3"/>
+      <file name="phpbrew" role="script" md5sum="8fc8bfbb1bd498485c85940184dd23f8"/>
     </dir>
   </contents>
   <dependencies>
