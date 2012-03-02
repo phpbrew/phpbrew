@@ -186,7 +186,6 @@ class Variants
          * */
         $this->useFeature('pdo');
         $this->useFeature('cli');
-        $this->useFeature('pear');
     }
 
     public function useFeature($feature,$value = null)
