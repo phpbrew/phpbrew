@@ -101,6 +101,14 @@ class Variants
             return $opts;
         };
 
+        $this->variants['pgsql'] = function() use($self) {
+            $opts = array();
+            $opts[] = '--with-pgsql';
+            if( isset($self->use['pdo']) )
+                $opts[] = '--with-pdo-sqlite';
+            return $opts;
+        };
+
         $this->variants['cli'] = function() {
             return '--enable-cli';
         };
@@ -138,7 +146,7 @@ class Variants
         };
 
         $this->variants['cgi'] = function() {
-            return '--disable-cgi';
+            return '--enable-cgi';
         };
 
         $this->variants['soap'] = function() {
@@ -159,11 +167,11 @@ class Variants
 
             // '--with-imap-ssl',
             // '--with-kerberos',
-            // '--with-jpeg-dir=/usr',
-            // '--with-png-dir=/usr',
             // '--with-mcrypt=/usr',
 
-
+        /* default features */
+        $this->useFeature('pdo');
+        $this->useFeature('cli');
     }
 
     public function useFeature($feature,$value = null)
@@ -247,7 +255,6 @@ class Variants
             '--with-pcre-regex',
         );
 
-        $this->useFeature('cli');
 
         // xxx: refactor this into variant builder 
         $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');

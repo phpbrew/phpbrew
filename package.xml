@@ -11,10 +11,10 @@
     <active>yes</active>
   </lead>
   <date>2012-03-02</date>
-  <time>14:34:00</time>
+  <time>13:02:51</time>
   <version>
-    <release>1.0.3</release>
-    <api>1.0.3</api>
+    <release>1.0.4</release>
+    <api>1.0.4</api>
   </version>
   <stability>
     <release>stable</release>
@@ -24,11 +24,11 @@
   <notes>-</notes>
   <contents>
     <dir name="/">
-      <file name="tests/bootstrap.php" role="test" md5sum="cef32b4722da5ea14dd0b5a1e5dd2b00"/>
-      <file name="tests/helpers.php" role="test" md5sum="b5e0733acd23bf976409fbe22191062f"/>
       <file name="tests/PhpBrew/ConfigTest.php" role="test" md5sum="95e68132cd5e8c7b8cec7918ddbafb2e"/>
       <file name="tests/PhpBrew/Downloader/UrlDownloaderTest.php" role="test" md5sum="d92fac92b21355e7af4fa850099a0a7a"/>
       <file name="tests/PhpBrew/VariantsTest.php" role="test" md5sum="3774991f8fbcb8fc8f24387a18fab3bc"/>
+      <file name="tests/bootstrap.php" role="test" md5sum="cef32b4722da5ea14dd0b5a1e5dd2b00"/>
+      <file name="tests/helpers.php" role="test" md5sum="b5e0733acd23bf976409fbe22191062f"/>
       <file name="src/PhpBrew/Builder.php" role="php" md5sum="09ced14838a8b64dc7eebbbf2bf050c4"/>
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="5d3bd38776949552854ac6f3efd2ed35"/>
       <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="f1fda8c45027461150aafb7df444a209"/>
@@ -47,8 +47,8 @@
       <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="33cd2ac15502ec83b64fa10ad4dfe142"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="d474d13b3ec02c1cd35c07828173de02"/>
-      <file name="src/PhpBrew/Variants.php" role="php" md5sum="7602867fb1240b0a5470c25cf98d73fd"/>
-      <file name="phpbrew" role="script" md5sum="528c95c46d399c73f3dd07bc95a8f0b0"/>
+      <file name="src/PhpBrew/Variants.php" role="php" md5sum="5dcb9d8d64233857afd2ff57b440269c"/>
+      <file name="phpbrew" role="script" md5sum="9f5ab7f3712bf2940fe768534cffb223"/>
     </dir>
   </contents>
   <dependencies>
@@ -73,11 +73,11 @@
   </dependencies>
   <phprelease>
     <filelist>
-      <install name="tests/bootstrap.php" as="bootstrap.php"/>
-      <install name="tests/helpers.php" as="helpers.php"/>
       <install name="tests/PhpBrew/ConfigTest.php" as="PhpBrew/ConfigTest.php"/>
       <install name="tests/PhpBrew/Downloader/UrlDownloaderTest.php" as="PhpBrew/Downloader/UrlDownloaderTest.php"/>
       <install name="tests/PhpBrew/VariantsTest.php" as="PhpBrew/VariantsTest.php"/>
+      <install name="tests/bootstrap.php" as="bootstrap.php"/>
+      <install name="tests/helpers.php" as="helpers.php"/>
       <install name="src/PhpBrew/Builder.php" as="PhpBrew/Builder.php"/>
       <install name="src/PhpBrew/Command/EnvCommand.php" as="PhpBrew/Command/EnvCommand.php"/>
       <install name="src/PhpBrew/Command/InitCommand.php" as="PhpBrew/Command/InitCommand.php"/>
