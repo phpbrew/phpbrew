@@ -235,8 +235,6 @@ class Variants
         $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
         $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
 
-        $opts[] = $this->checkPkgPrefix('--with-openssl','openssl');
-
         if( $prefix = Utils::find_include_path('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
         }
