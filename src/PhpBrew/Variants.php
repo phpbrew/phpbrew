@@ -160,16 +160,25 @@ class Variants
             return '--enable-pcntl';
         };
 
+        $this->variants['intl'] = function() {
+            return '--enable-intl';
+        };
+
+        $this->variants['imap'] = function() {
+            return '--with-imap-ssl';
+        };
+
+        $this->variants['kerberos'] = function() {
+            return '--with-kerberos';
+        };
+
         /*
         '--enable-shmop',
         '--enable-sysvsem',
         '--enable-sysvshm',
         '--enable-sysvmsg',
-        '--enable-intl',
         */
 
-        // '--with-imap-ssl',
-        // '--with-kerberos',
         // '--with-mcrypt=/usr',
 
         /**
@@ -177,6 +186,7 @@ class Variants
          * */
         $this->useFeature('pdo');
         $this->useFeature('cli');
+        $this->useFeature('pear');
     }
 
     public function useFeature($feature,$value = null)
