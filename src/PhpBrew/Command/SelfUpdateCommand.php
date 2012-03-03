@@ -18,6 +18,7 @@ class SelfUpdateCommand extends Command
         }
 
         // fetch new version phpbrew
+        $this->getLogger()->info("Fetching phpbrew to $script...");
         $phar = file_get_contents('https://raw.github.com/c9s/phpbrew/master/phpbrew');
         if( false === file_put_contents( $script, $phar ) ) {
             throw new Exception("Can't not write content. $script");
