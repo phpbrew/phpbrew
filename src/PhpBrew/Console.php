@@ -17,6 +17,7 @@ class Console extends Application
         $this->registerCommand('switch');
         $this->registerCommand('variants');
         $this->registerCommand('config');
+        $this->registerCommand('self-update', 'PhpBrew\Command\SelfUpdateCommand');
     }
 
     public function brief()
