@@ -11,11 +11,15 @@ class InitCommand extends \CLIFramework\Command
         // $currentVersion;
         $root = Config::getPhpbrewRoot();
         $buildDir = Config::getBuildDir();
+        $buildPrefix = Config::getBuildPrefix();
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
         if( ! file_exists($root) )
             mkdir( $root, 0755, true );
+
+        if( ! file_exists($buildPrefix) )
+            mkdir( $buildPrefix, 0755, true );
 
         if( ! file_exists($buildDir) )
             mkdir( $buildDir, 0755, true );

@@ -88,8 +88,9 @@ class Variants
                 "--with-mysql=$prefix",
                 "--with-mysqli=$prefix"
             );
-            if( isset($self->use['pdo']) )
+            if( isset($self->use['pdo']) ) {
                 $opts[] = "--with-pdo-mysql=$prefix";
+            }
             return $opts;
         };
 
@@ -188,7 +189,7 @@ class Variants
         $this->useFeature('cli');
     }
 
-    public function useFeature($feature,$value = null)
+    public function useFeature($feature,$value = true )
     {
         $this->use[ $feature ] = $value;
     }
@@ -214,7 +215,7 @@ class Variants
         if( isset( $this->variants[ $feature ] ) ) {
             $func = $this->variants[ $feature ];
             $args = array();
-            if( $userValue )
+            if( is_string($userValue) )
                 $args[] = $userValue;
             return (array) call_user_func_array($func,$args);
         }
