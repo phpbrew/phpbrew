@@ -65,9 +65,8 @@ class Variants
         $this->variants['openssl'] = function() use($self) {
             $prefix = Utils::get_pkgconfig_prefix('openssl');
             if( ! $prefix )
-                $prefix = Utils::get_pkgconfig_prefix('libssl');
-            return $prefix
-                ? '--with-openssl=' . $prefix : '--with-openssl';
+                echo "openssl not found, openssl package is required.\n";
+            return $prefix ? '--with-openssl=' . $prefix : '--with-openssl';
         };
 
         /*
