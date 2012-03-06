@@ -36,6 +36,12 @@ For Ubuntu/Debian users:
 
 ## Install phpbrew
 
+Just download it:
+
+    curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+
+Install through PEAR channel:
+
     $ sudo pear channel-discover pear.corneltek.com
     $ sudo pear install -a -f corneltek/PhpBrew
 
