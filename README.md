@@ -12,6 +12,7 @@ phpbrew can:
 - compile apache php module and seperate them by different versions.
 - build and install php(s) in your home directory, so you don't need root permission.
 - switch versions very easily and is integrated with bash/zsh shell.
+- automatic feature detection.
 
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
 
