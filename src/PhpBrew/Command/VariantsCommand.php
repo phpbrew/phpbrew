@@ -19,7 +19,11 @@ class VariantsCommand extends \CLIFramework\Command
 
         echo "Variants\n";
         foreach( $list as $feature ) {
-            echo "    $feature\n";
+            if( $variants->isDefault($feature) ) {
+                echo "    $feature (+)\n";
+            } else {
+                echo "    $feature\n";
+            }
         }
 
         echo "\n";

@@ -31,6 +31,15 @@ class Variants
     public $use = array();
 
 
+    /**
+     * default use variants
+     */
+    public $defaultUse = array(
+        'pdo' => 1,
+        'cli' => 1,
+        'bz2' => 1,
+        'cgi' => 1,
+    );
 
 
     public function __construct()
@@ -42,15 +51,15 @@ class Variants
             return '--enable-pdo';
         };
 
-        $this->variants['pear'] = function() {
-            return '--with-pear';
-        };
-
         $this->variants['gd'] = function() use($self) {
             $opts = array();
-            $prefix = Utils::find_include_path('gd.h');
-            $opts[] = ($prefix ? '--with-gd=' . $prefix : '--with-gd');
-            $opts[] = '--enable-gd-native-ttf';
+            if( $prefix = Utils::find_include_path('gd.h') ) {
+                $opts[] = '--with-gd=' . $prefix;
+                $opts[] = '--enable-gd-native-ttf';
+            }
+            else {
+                echo "** libgd not found.\n";
+            }
 
             if( $p = Utils::find_include_path('jpeglib.h') ) {
                 $opts[] = '--with-jpeg-dir=' . $p;
@@ -64,9 +73,9 @@ class Variants
 
         $this->variants['openssl'] = function() use($self) {
             $prefix = Utils::get_pkgconfig_prefix('openssl');
-            if( ! $prefix )
-                echo "openssl not found, openssl package is required.\n";
-            return $prefix ? '--with-openssl=' . $prefix : '--with-openssl';
+            if( $prefix )
+                return '--with-openssl=' . $prefix;
+            echo "** openssl not found.\n";
         };
 
         /*
@@ -172,20 +181,36 @@ class Variants
             return '--with-kerberos';
         };
 
-        /*
-        '--enable-shmop',
-        '--enable-sysvsem',
-        '--enable-sysvshm',
-        '--enable-sysvmsg',
-        */
+        $this->variants['bz2'] = function($prefix = null) {
+            if( ! $prefix 
+                && $prefix = Utils::find_include_path('bzlib.h') ) {
+                    return '--with-bz2=' . $prefix;
+            }
+        };
+
+        $this->variants['sys'] = function() {
+            return array( 
+                '--enable-shmop',
+                '--enable-sysvsem',
+                '--enable-sysvshm',
+                '--enable-sysvmsg'
+            );
+        };
 
         // '--with-mcrypt=/usr',
 
         /**
          * default features 
-         * */
-        $this->useFeature('pdo');
-        $this->useFeature('cli');
+         **/
+        foreach( $this->defaultUse as $u => $v ) {
+            $this->useFeature($u);
+        }
+    }
+
+
+    public function isDefault($feature)
+    {
+        return isset($this->defaultUse[$feature]);
     }
 
     public function useFeature($feature,$value = true )
@@ -264,14 +289,14 @@ class Variants
             '--enable-xmlreader',
             '--enable-xmlwriter',
             '--enable-zip',
-            '--with-bz2',
             '--with-mhash',
             '--with-pcre-regex',
         );
 
+        if( $prefix = Utils::find_include_path('zlib.h') ) {
+            $opts[] = '--with-zlib=' . $prefix;
+        }
 
-        // xxx: refactor this into variant builder 
-        $opts[] = $this->checkPkgPrefix('--with-zlib','zlib');
         $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
         $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
 
