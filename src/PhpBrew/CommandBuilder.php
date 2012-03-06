@@ -22,6 +22,8 @@ class CommandBuilder
 
     public $stderr;
 
+    public $append = true;
+
     public function __construct($script)
     {
         $this->script = $script;
@@ -75,7 +77,7 @@ class CommandBuilder
         }
 
         if( $this->stdout ) {
-            $cmd[] = '>';
+            $cmd[] = $this->append ? '>>' : '>';
             $cmd[] = $this->stdout;
         }
 

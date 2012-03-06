@@ -39,6 +39,7 @@ class Variants
         'bz2' => 1,
         'cli' => 1,
         'fpm' => 1,
+        'bz2' => 1,
     );
 
     public $disables = array();
@@ -252,7 +253,7 @@ class Variants
         {
             if( $conflicts = $this->_getConflict('apxs2') ) {
                 $msgs = array();
-                $msgs[] = "PHP Version lower than 5.4.0 can only built one SAPI at the same time.";
+                $msgs[] = "PHP Version lower than 5.4.0 can only build one SAPI at the same time.";
                 $msgs[] = "+apxs2 is in conflict with " . join(',',$conflicts);
                 foreach( $conflicts as $c ) {
                     $msgs[] = "Disabling $c";

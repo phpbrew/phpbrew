@@ -105,8 +105,9 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("===> Building $version...");
 
         $cmd = new CommandBuilder('make');
-        // $cmd->redirectStderrToStdout = true;
-        $cmd->stdout = '/dev/null';
+        $cmd->append = true;
+        $cmd->redirectStderrToStdout = true;
+        $cmd->stdout = Config::getVersionBuildLogPath( $version );
         if( $options->nice )
             $cmd->nice( $options->nice->value );
 
@@ -124,6 +125,9 @@ class InstallCommand extends \CLIFramework\Command
             $cmd = new CommandBuilder('make test');
             if( $options->nice )
                 $cmd->nice( $options->nice->value );
+            $cmd->redirectStderrToStdout = true;
+            $cmd->append = true;
+            $cmd->stdout = Config::getVersionBuildLogPath( $version );
             $cmd->execute() !== false or die('Test failed.');
         }
 

@@ -144,12 +144,19 @@ EOS;
 
         $this->logger->info("===> Configuring {$this->version}...");
 
+        $cmd->append = false;
+        $cmd->stdout = Config::getVersionBuildLogPath( $this->version );
+
+        echo "Use tail command to see what's going on:\n";
+        echo "   $ tail -f {$cmd->stdout}\n\n\n";
+
         $this->logger->debug( $cmd->getCommand() );
 
         if( $this->options->nice )
             $cmd->nice( $this->options->nice->value );
 
-        $cmd->stdout = '/dev/null';
+        $cmd->redirectStderrToStdout = true;
+
 
         $cmd->execute() !== false or die('Configure failed.');
     }
