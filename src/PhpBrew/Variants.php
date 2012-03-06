@@ -36,21 +36,17 @@ class Variants
      */
     public $defaultUse = array(
         'pdo' => 1,
-        'cli' => 1,
         'bz2' => 1,
+        'cli' => 1,
+        'fpm' => 1,
     );
 
     public $disables = array();
 
-
-
-    /*
-    PHP Version lower than 5.4.0 can only built one SAPI at the same time.
-
     public $conflicts = array(
-        'apxs2' => array('cli','fpm','cgi'),
+        // PHP Version lower than 5.4.0 can only built one SAPI at the same time.
+        'apxs2' => array( 'fpm','cgi' ),
     );
-     */
 
     public function __construct()
     {
@@ -235,28 +231,38 @@ class Variants
     }
 
 
+    private function _getConflict($feature)
+    {
+        if( isset( $this->conflicts[ $feature ] ) ) {
+            $conflicts = array();
+            foreach( $this->conflicts[ $feature ] as $f ) {
+                if( $this->isUsing($f) ) 
+                    $conflicts[] = $f;
+            }
+            return $conflicts;
+        }
+        return false;
+    }
+
 
     public function checkConflicts()
     {
         if( isset($this->use['apxs2']) 
-            && (
-                isset($this->use['cli']) ||
-                isset($this->use['fpm']) ||
-                isset($this->use['cgi'])
-            )
             && version_compare( $this->version , 'php-5.4.0' ) < 0 ) 
         {
-            $msgs = array();
-            $msgs[] = "PHP Version lower than 5.4.0 can only built one SAPI at the same time.";
-            $msgs[] = "+apxs2 is in conflict with +cli";
-            $msgs[] = "Disabling +cli +cgi +fpm";
-            unset($this->use['cli']);
-            unset($this->use['cgi']);
-            unset($this->use['fpm']);
-            $this->disables[] = '--disable-fpm';
-            $this->disables[] = '--disable-cgi';
-            $this->disables[] = '--disable-cli';
-            echo join("\n",$msgs) . "\n";
+            if( $conflicts = $this->_getConflict('apxs2') ) {
+                $msgs = array();
+                $msgs[] = "PHP Version lower than 5.4.0 can only built one SAPI at the same time.";
+                $msgs[] = "+apxs2 is in conflict with " . join(',',$conflicts);
+                foreach( $conflicts as $c ) {
+                    $msgs[] = "Disabling $c";
+                    unset($this->use[$c]);
+                }
+                $this->disables[] = '--disable-fpm';
+                $this->disables[] = '--disable-cgi';
+                // $this->disables[] = '--disable-cli';
+                echo join("\n",$msgs) . "\n";
+            }
         }
         return true;
     }
@@ -360,7 +366,6 @@ class Variants
         if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
             $opts[] = '--with-libedit=' . $prefix;
         }
-
 
         $opts[] = '--with-readline';
 

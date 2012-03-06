@@ -19,9 +19,15 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
+
     static function getVersionBuildPrefix($version)
     {
         return self::getBuildPrefix() . DIRECTORY_SEPARATOR . $version;
+    }
+
+    static function getVersionBuildLogPath($version)
+    {
+        return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'build.log';
     }
 
     static function getVersionEtcPath($version)
