@@ -222,7 +222,7 @@ class Variants
          * default features 
          **/
         foreach( $this->defaultUse as $u => $v ) {
-            $this->useFeature($u);
+            $this->enable($u);
         }
     }
 
@@ -268,7 +268,7 @@ class Variants
         return true;
     }
 
-    public function useFeature($feature,$value = true )
+    public function enable($feature,$value = true )
     {
         $this->use[ $feature ] = $value;
     }

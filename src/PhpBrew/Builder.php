@@ -84,10 +84,10 @@ class Builder
         if( ($p = strpos( $variant , '=' )) !== false )  {
             $n = substr( $variant , 0 , $p );
             $v = substr( $variant , $p + 1 );
-            $this->variants->useFeature( $n , $v );
+            $this->variants->enable( $n , $v );
         }
         else {
-            $this->variants->useFeature( $variant );
+            $this->variants->enable( $variant );
         }
     }
 
