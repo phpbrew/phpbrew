@@ -89,6 +89,8 @@ class InstallCommand extends \CLIFramework\Command
         $builder->logger = $logger;
         $builder->options = $options;
 
+        $logger->info( 'Build Dir: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
+
         // strip plus sign.
         foreach( $args as $a ) {
             $a = preg_replace( '/^\+/', '', $a );

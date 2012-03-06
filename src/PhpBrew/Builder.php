@@ -119,21 +119,21 @@ class Builder
 perl -i.bak -pe 's#
 libphp\$\(PHP_MAJOR_VERSION\)\.#libphp\$\(PHP_VERSION\)\.#gx' configure Makefile.global
 EOS;
-            Utils::system( $patch );
+            Utils::system( $patch ) !== false or die('apxs2 patch failed.');
 
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libs/libphp\$PHP_MAJOR_VERSION\.
 #libs/libphp\$PHP_VERSION\.#gx' configure Makefile.global
 EOS;
-            Utils::system( $patch );
+            Utils::system( $patch ) !== false or die('apxs2 patch failed.');
 
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libs/libphp5.so
 #libs/libphp\$PHP_VERSION\.so#gx' configure Makefile.global
 EOS;
-            Utils::system( $patch );
+            Utils::system( $patch ) !== false or die('apxs2 patch failed.');
         }
 
         foreach( $extra as $a ) {
@@ -149,7 +149,7 @@ EOS;
         if( $this->options->nice )
             $cmd->nice( $this->options->nice->value );
         $cmd->stdout = '/dev/null';
-        $cmd->execute() == 0 or die('Configure failed.');
+        $cmd->execute() !== false or die('Configure failed.');
     }
 
     public function build()

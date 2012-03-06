@@ -38,9 +38,19 @@ class Variants
         'pdo' => 1,
         'cli' => 1,
         'bz2' => 1,
-        'cgi' => 1,
     );
 
+    public $disables = array();
+
+
+
+    /*
+    PHP Version lower than 5.4.0 can only built one SAPI at the same time.
+
+    public $conflicts = array(
+        'apxs2' => array('cli','fpm','cgi'),
+    );
+     */
 
     public function __construct()
     {
@@ -102,6 +112,10 @@ class Variants
             return $opts;
         };
 
+        $this->variants['fpm'] = function() use ($self) {
+            return '--enable-fpm';
+        };
+
         $this->variants['sqlite'] = function() use ($self) {
             $opts = array( '--with-sqlite3' );
             if( isset($self->use['pdo']) )
@@ -129,7 +143,8 @@ class Variants
             return '--enable-sockets';
         };
 
-        $this->variants['apxs2'] = function($prefix = null) {
+        $this->variants['apxs2'] = function($prefix = null) use ($self) {
+
             $a = '--with-apxs2';
             $apxs = null;
             if( $prefix ) {
@@ -143,12 +158,19 @@ class Variants
 
             // use apxs to check module dir permission
             if( $apxs && $libdir = trim( Utils::pipe_execute( "$apxs -q LIBEXECDIR" ) ) ) {
-                if( false === is_writable($libdir) )
-                    throw new Exception("apache module dir $libdir is not writable.\nPlease consider using chmod or sudo.");
+                if( false === is_writable($libdir) ) {
+                    $msg = array();
+                    throw new Exception("Apache module dir $libdir is not writable.\nPlease consider using chmod or sudo.");
+                }
             }
             if( $apxs && $confdir = trim( Utils::pipe_execute( "$apxs -q SYSCONFDIR" ) ) ) {
-                if( false === is_writable($confdir) )
-                    throw new Exception("apache conf dir is not writable for phpbrew. Please consider using chmod or sudo.");
+                if( false === is_writable($confdir) ) {
+                    $msg = array();
+                    $msg[] = "Apache conf dir $confdir is not writable for phpbrew.";
+                    $msg[] = "Please consider using chmod or sudo: ";
+                    $msg[] = "    \$ sudo chmod -R og+rw $confdir";
+                    throw new Exception( join("\n", $msg ) );
+                }
             }
             return $a;
         };
@@ -188,12 +210,12 @@ class Variants
             }
         };
 
-        $this->variants['sys'] = function() {
+        $this->variants['ipc'] = function() {
             return array( 
                 '--enable-shmop',
                 '--enable-sysvsem',
                 '--enable-sysvshm',
-                '--enable-sysvmsg'
+                '--enable-sysvmsg',
             );
         };
 
@@ -207,10 +229,36 @@ class Variants
         }
     }
 
-
     public function isDefault($feature)
     {
         return isset($this->defaultUse[$feature]);
+    }
+
+
+
+    public function checkConflicts()
+    {
+        if( isset($this->use['apxs2']) 
+            && (
+                isset($this->use['cli']) ||
+                isset($this->use['fpm']) ||
+                isset($this->use['cgi'])
+            )
+            && version_compare( $this->version , 'php-5.4.0' ) < 0 ) 
+        {
+            $msgs = array();
+            $msgs[] = "PHP Version lower than 5.4.0 can only built one SAPI at the same time.";
+            $msgs[] = "+apxs2 is in conflict with +cli";
+            $msgs[] = "Disabling +cli +cgi +fpm";
+            unset($this->use['cli']);
+            unset($this->use['cgi']);
+            unset($this->use['fpm']);
+            $this->disables[] = '--disable-fpm';
+            $this->disables[] = '--disable-cgi';
+            $this->disables[] = '--disable-cli';
+            echo join("\n",$msgs) . "\n";
+        }
+        return true;
     }
 
     public function useFeature($feature,$value = true )
@@ -270,11 +318,6 @@ class Variants
             '--enable-fileinfo',
             '--enable-filter',
             '--enable-hash',
-            '--enable-fpm',
-            '--with-xsl',
-            '--with-tidy',
-            '--with-xmlrpc',
-
             '--enable-json',
             '--enable-libxml',
             '--enable-mbregex',
@@ -289,6 +332,10 @@ class Variants
             '--enable-xmlreader',
             '--enable-xmlwriter',
             '--enable-zip',
+
+            '--with-xsl',
+            '--with-tidy',
+            '--with-xmlrpc',
             '--with-mhash',
             '--with-pcre-regex',
         );
@@ -297,9 +344,14 @@ class Variants
             $opts[] = '--with-zlib=' . $prefix;
         }
 
-        $opts[] = $this->checkPkgPrefix('--with-libxml-dir','libxml');
-        $opts[] = $this->checkPkgPrefix('--with-curl','libcurl');
 
+        if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
+            $opts[] = '--with-libxml-dir=' . $prefix;
+        }
+
+        if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
+            $opts[] = '--with-curl=' . $prefix;
+        }
 
         if( $prefix = Utils::find_include_path('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
@@ -310,13 +362,18 @@ class Variants
         }
 
 
-
         $opts[] = '--with-readline';
+
+        $this->checkConflicts();
 
         foreach( $this->use as $feature => $userValue ) {
             if( $options = $this->buildVariant( $feature , $userValue ) ) {
                 $opts = array_merge( $opts, $options );
             }
+        }
+
+        foreach( $this->disables as $d ) {
+            $opts[] = $d;
         }
 
         /*

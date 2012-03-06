@@ -43,8 +43,12 @@ class CommandBuilder
     }
 
     public function execute() {
+        $ret = null;
         $command = $this->getCommand();
-        return system( $command );
+        $line = system( $command , $ret );
+        if( $ret !== 0 )
+            die('Error');
+        return $line;
     }
 
     public function getCommand()
