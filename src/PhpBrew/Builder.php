@@ -119,11 +119,15 @@ class Builder
         // let's apply patch for libphp{php version}.so
         if( $this->variants->isUsing('apxs2') ) {
             $this->logger->info('---> Applying patch - apxs2 module version name ...');
+
+
+            // patch for libphp$(PHP_MAJOR_VERSION).so
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libphp\$\(PHP_MAJOR_VERSION\)\.#libphp\$\(PHP_VERSION\)\.#gx' configure Makefile.global
 EOS;
             Utils::system( $patch ) !== false or die('apxs2 patch failed.');
+
 
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
@@ -142,11 +146,20 @@ EOS;
             Utils::system( $patch ) !== false or die('apxs2 patch failed.');
 
 
+            // patch for OVERALL_TARGET=libphp$PHP_MAJOR_VERSION.la
+            // libphp$(PHP_VERSION).la: 
             // replace .la files
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libs/libphp5.la
 #libs/libphp\$PHP_VERSION\.la#gx' configure Makefile.global
+EOS;
+            Utils::system( $patch ) !== false or die('apxs2 patch failed.');
+
+
+            $patch=<<<'EOS'
+perl -i.bak -pe 's#
+libphp\$PHP_MAJOR_VERSION\.#libphp\$PHP_VERSION\.#gx' configure Makefile.global
 EOS;
             Utils::system( $patch ) !== false or die('apxs2 patch failed.');
 
@@ -174,7 +187,6 @@ EOS;
         if( $this->options->nice )
             $cmd->nice( $this->options->nice->value );
 
-        $cmd->redirectStderrToStdout = true;
 
 
         $cmd->execute() !== false or die('Configure failed.');
