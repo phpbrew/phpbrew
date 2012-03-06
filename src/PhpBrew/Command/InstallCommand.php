@@ -112,9 +112,9 @@ class InstallCommand extends \CLIFramework\Command
             $cmd->nice( $options->nice->value );
 
 
-
-
         $startTime = microtime(true);
+
+        $logger->debug( '' .  $cmd  );
         $cmd->execute() !== false or die('Make failed.');
 
         if( $options->{'no-test'} ) {
@@ -128,6 +128,7 @@ class InstallCommand extends \CLIFramework\Command
             $cmd->redirectStderrToStdout = true;
             $cmd->append = true;
             $cmd->stdout = Config::getVersionBuildLogPath( $version );
+            $logger->debug( '' .  $cmd  );
             $cmd->execute() !== false or die('Test failed.');
         }
 

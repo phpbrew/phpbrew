@@ -53,6 +53,11 @@ class CommandBuilder
         return $line;
     }
 
+    public function __toString()
+    {
+        return $this->getCommand();
+    }
+
     public function getCommand()
     {
         $cmd = array();
