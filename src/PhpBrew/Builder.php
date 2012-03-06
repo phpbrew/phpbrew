@@ -94,8 +94,10 @@ class Builder
 
     public function configure( $extra = array() )
     {
-        if( ! file_exists('configure') )
+        if( ! file_exists('configure') ) {
+            $this->logger->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
+        }
 
         // build configure args
         // XXX: support variants
