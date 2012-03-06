@@ -132,12 +132,26 @@ libs/libphp\$PHP_MAJOR_VERSION\.
 EOS;
             Utils::system( $patch ) !== false or die('apxs2 patch failed.');
 
+
+            // replace .so files
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libs/libphp5.so
 #libs/libphp\$PHP_VERSION\.so#gx' configure Makefile.global
 EOS;
             Utils::system( $patch ) !== false or die('apxs2 patch failed.');
+
+
+            // replace .la files
+            $patch=<<<'EOS'
+perl -i.bak -pe 's#
+libs/libphp5.la
+#libs/libphp\$PHP_VERSION\.la#gx' configure Makefile.global
+EOS;
+            Utils::system( $patch ) !== false or die('apxs2 patch failed.');
+
+
+
         }
 
         foreach( $extra as $a ) {
