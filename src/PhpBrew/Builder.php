@@ -112,6 +112,8 @@ class Builder
         if( $variantsArgs )
             $args = array_merge( $args , $variantsArgs );
 
+        $this->logger->debug('Variants: ' . join(', ',array_keys($this->variants->use)) );
+
         // let's apply patch for libphp{php version}.so
         if( $this->variants->isUsing('apxs2') ) {
             $this->logger->info('---> Applying patch - apxs2 module version name ...');
@@ -147,6 +149,7 @@ EOS;
         $cmd->append = false;
         $cmd->stdout = Config::getVersionBuildLogPath( $this->version );
 
+        echo "\n\n";
         echo "Use tail command to see what's going on:\n";
         echo "   $ tail -f {$cmd->stdout}\n\n\n";
 
