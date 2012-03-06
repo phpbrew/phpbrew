@@ -101,15 +101,18 @@ Variants:
     cgi
     soap
     pcntl
+    ...
 ```
 
 You can build PHP with extra variants:
 
-    $ phpbrew install php-5.3.10 +mysql +pdo +pear +sqlite +cgi
+    $ phpbrew install php-5.3.10 +mysql +sqlite +cgi
 
-    $ phpbrew install php-5.3.10 +mysql +debug+pdo+mysql+pgsql+pear +apxs2
+    $ phpbrew install php-5.3.10 +mysql +debug+mysql+pgsql+pear +apxs2
 
-    $ phpbrew install php-5.3.10 +mysql +pdo+mysql+pear +apxs2=/usr/bin/apxs2
+    $ phpbrew install php-5.3.10 +mysql +mysql+pear +apxs2=/usr/bin/apxs2
+
+PDO is enabled by default.
 
 NOTE:
 
