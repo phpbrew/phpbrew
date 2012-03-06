@@ -1,7 +1,7 @@
 CHANGES
 =======
 
-Version 1.1.1 - 二  3/ 6 10:50:51 2012
+Version 1.2.0 - 二  3/ 6 10:50:51 2012
 
 - SAPI confliction checking.
 - show tail command usage.
