@@ -136,7 +136,12 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info("Build finished: $buildTime minutes.");
 
         $logger->info("===> Installing...");
-        system( 'make install > /dev/null' ) !== false or die('Install failed.');
+
+        $install = new CommandBuilder('make install');
+        $install->redirectStderrToStdout = true;
+        $install->append = true;
+        $install->stdout = Config::getVersionBuildLogPath( $version );
+        $install->execute() !== false or die('Install failed.');
 
         /*
         if( ! $options->{'no-clean'} ) 
