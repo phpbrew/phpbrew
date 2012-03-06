@@ -149,7 +149,7 @@ EOS;
         if( $this->options->nice )
             $cmd->nice( $this->options->nice->value );
         $cmd->stdout = '/dev/null';
-        $cmd->execute()  !== false or die('Configure failed.');
+        $cmd->execute() == 0 or die('Configure failed.');
     }
 
     public function build()
