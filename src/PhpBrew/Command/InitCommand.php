@@ -50,28 +50,31 @@ EOS;
     {
         return <<<'EOS'
 #!/bin/bash
+PHPBREW_SET_PROMTP=1
+
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
 if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
-    if [[ -f "$PHPBREW_HOME/init" ]]; then
-        . "$PHPBREW_HOME/init"
-    fi
+	if [[ -f "$PHPBREW_HOME/init" ]]; then
+		. "$PHPBREW_HOME/init"
+	fi
 fi
 
 function __phpbrew_set_path () {
 	[[ -n $(alias perl 2>/dev/null) ]] && unalias perl 2> /dev/null
 
-    if [[ -n $PHPBREW_ROOT ]] ; then
-        export PATH_WITHOUT_PHPBREW=$(perl -e 'print join ":", grep { index($_,$ENV{PHPBREW_ROOT}) } split/:/,$ENV{PATH};')
-    fi
+	if [[ -n $PHPBREW_ROOT ]] ; then
+		export PATH_WITHOUT_PHPBREW=$(perl -e 'print join ":", grep { index($_,$ENV{PHPBREW_ROOT}) } split/:/,$ENV{PATH};')
+	fi
 
 	if [[ -z "$PHPBREW_PATH" ]]
 	then
 		export PHPBREW_PATH="$PHPBREW_ROOT/bin"
 	fi
 	export PATH=$PHPBREW_PATH:$PATH_WITHOUT_PHPBREW
-    # echo "PATH => $PATH"
+	# echo "PATH => $PATH"
+	__phpbrew_set_prompt
 }
 
 function __phpbrew_reinit () {
@@ -85,21 +88,38 @@ function __phpbrew_reinit () {
 	__phpbrew_set_path
 }
 
+function __phpbrew_set_prompt () {
+	if [ "$PHPBREW_PHP" -a "$PHPBREW_SET_PROMTP" -eq 1 -a -z "$_OLD_PHPBREW_PS1" ] ; then
+		_OLD_PHPBREW_PS1="$PS1"
+		_PHP_VERSION=$(php --version | awk 'NR == 1 {print $1,$2}')
+		PS1="($_PHP_VERSION)$PS1"
+		export PS1
+	fi
+}
+
+function __phpbrew_unset_prompt () {
+	if [ -n "$_OLD_PHPBREW_PS1" ] ; then
+		PS1="$_OLD_PHPBREW_PS1"
+		export PS1
+		unset _OLD_PHPBREW_PS1
+	fi
+}
+
 __phpbrew_set_path
 
 function phpbrew () {
-    BIN=phpbrew
-    # BIN='scripts/phpbrew.php'
+	BIN=phpbrew
+	# BIN='scripts/phpbrew.php'
 
 	local exit_status
 	local short_option
 	export SHELL
 	if [[ `echo $1 | awk 'BEGIN{FS=""}{print $1}'` = '-' ]]
 	then
-		short_option=$1 
+		short_option=$1
 		shift
 	else
-		short_option="" 
+		short_option=""
 	fi
 	case $1 in
 		(use) if [[ -z "$2" ]]
@@ -111,32 +131,40 @@ function phpbrew () {
 					echo "Currently using $PHPBREW_PHP"
 				fi
 			else
-				code=$(command $BIN env $2) 
+				code=$(command $BIN env $2)
 				if [ -z "$code" ]
 				then
-					exit_status=1 
+					exit_status=1
 				else
 					eval $code
 					__phpbrew_set_path
 				fi
-			fi ;;
-		(switch) 
-            if [[ -z "$2" ]]
+			fi
+			__phpbrew_set_prompt
+			;;
+		(switch)
+			if [[ -z "$2" ]]
 			then
 				command $BIN switch
 			else
 				$BIN use $2
 				__phpbrew_reinit $2
-			fi ;;
-		(off) 
-            unset PHPBREW_PHP
+			fi
+			__phpbrew_set_prompt
+			;;
+		(off)
+			unset PHPBREW_PHP
 			eval `$BIN env`
 			__phpbrew_set_path
-			echo "phpbrew is turned off." ;;
-		(switch-off) 
-            unset PHPBREW_PHP
+			echo "phpbrew is turned off."
+			__phpbrew_unset_prompt
+			;;
+		(switch-off)
+			unset PHPBREW_PHP
 			__phpbrew_reinit
-			echo "phpbrew is switched off." ;;
+			echo "phpbrew is switched off."
+			__phpbrew_unset_prompt
+			;;
 		(*) command $BIN $short_option "$@"
 			exit_status=$?  ;;
 	esac
