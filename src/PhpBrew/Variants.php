@@ -200,6 +200,11 @@ class Variants
             return '--with-kerberos';
         };
 
+        $this->variants['iconv'] = function() {
+            // detect include path for iconv.h
+            return '--with-iconv';
+        };
+
         $this->variants['bz2'] = function($prefix = null) {
             if( ! $prefix 
                 && $prefix = Utils::find_include_path('bzlib.h') ) {
