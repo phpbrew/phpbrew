@@ -191,14 +191,17 @@ Extension configuration files should be put in:
 
 Enable and disable feature
 
-There is a variable named "PHPBREW_SET_PROMTP" in $HOME/.phpbrew/bashrc.
+There is a variable named "PHPBREW_SET_PROMPT" in $HOME/.phpbrew/bashrc.
 
-If "PHPBREW_SET_PROMTP=1", that means "ENABLE", otherwise means
+If "PHPBREW_SET_PROMPT=1", that means "ENABLE", otherwise means
 "DISABLE". 
 
-Default is "PHPBREW_SET_PROMTP=1" (ENABLE).
+Default is "PHPBREW_SET_PROMPT=1" (ENABLE).
 
-    export PHPBREW_SET_PROMTP=1
+    export PHPBREW_SET_PROMPT=1
+
+To embed version info in your prompt, you can 
+use `current_php_version` shell function in your `PS1` var.
 
 Hacking
 -------

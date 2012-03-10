@@ -39,9 +39,14 @@ new shell, phpbrew should be up and fully functional from there:
 
     source ~/.phpbrew/bashrc
 
+To enable PHP version info prompt, please set PHPBREW_SET_PROMPT=1 
+in your `~/.phpbrew/bashrc`. or use `current_php_version` shell function 
+in your prompt.
+
 For further instructions, simply run `phpbrew` to see the help message.
 
 Enjoy phpbrew at \$HOME!!
+
 EOS;
 
     }
@@ -50,7 +55,7 @@ EOS;
     {
         return <<<'EOS'
 #!/bin/bash
-PHPBREW_SET_PROMPT=1
+PHPBREW_SET_PROMPT=0
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
@@ -88,10 +93,16 @@ function __phpbrew_reinit () {
 	__phpbrew_set_path
 }
 
-function __phpbrew_set_prompt () {
+function current_php_version() 
+{
+    php --version | awk 'NR == 1 {print $1,$2}'
+}
+
+function __phpbrew_set_prompt () 
+{
 	if [ "$PHPBREW_PHP" -a "$PHPBREW_SET_PROMPT" -eq 1 -a -z "$_OLD_PHPBREW_PS1" ] ; then
 		_OLD_PHPBREW_PS1="$PS1"
-		_PHP_VERSION=$(php --version | awk 'NR == 1 {print $1,$2}')
+		_PHP_VERSION=$(current_php_version)
 		PS1="($_PHP_VERSION) $PS1"
 		export PS1
 	fi
