@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2012-03-10</date>
-  <time>12:29:39</time>
+  <time>12:40:22</time>
   <version>
     <release>1.2.4</release>
     <api>1.2.4</api>
@@ -32,7 +32,7 @@
       <file name="src/PhpBrew/Builder.php" role="php" md5sum="3199469e355c08f211586228871c367b"/>
       <file name="src/PhpBrew/Command/ConfigCommand.php" role="php" md5sum="2393637758e3767e54bfe97695d085cf"/>
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="5d3bd38776949552854ac6f3efd2ed35"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="1345442ea45b18fd4427661acf8816bf"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="e287df08b0a5a8b3bc688638d401d232"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="0986b149aeaffd5b6d27e1d3a010a4cc"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="564369a81ae8b50bd0122832d3317d5b"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="83312f537c00f58281c86229a2e13907"/>
