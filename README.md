@@ -189,19 +189,20 @@ Extension configuration files should be put in:
 
 ## Enable Version Info Prompt
 
-Enable and disable feature
-
 There is a variable named "PHPBREW_SET_PROMPT" in $HOME/.phpbrew/bashrc.
 
 If "PHPBREW_SET_PROMPT=1", that means "ENABLE", otherwise means
 "DISABLE". 
 
-Default is "PHPBREW_SET_PROMPT=1" (ENABLE).
+Default is "PHPBREW_SET_PROMPT=0" (ENABLE).
 
     export PHPBREW_SET_PROMPT=1
 
 To embed version info in your prompt, you can 
-use `current_php_version` shell function in your `PS1` var.
+use `current_php_version` shell function in your `PS1` var. 
+e.g.
+
+    export PS1=$(current_php_version) " \$ "
 
 Hacking
 -------
