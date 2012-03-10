@@ -187,6 +187,19 @@ Extension configuration files should be put in:
     ~/.phpbrew/php/5.4.0RC7/var/db
 
 
+## Enable Version Info Prompt
+
+Enable and disable feature
+
+There is a variable named "PHPBREW_SET_PROMTP" in $HOME/.phpbrew/bashrc.
+
+If "PHPBREW_SET_PROMTP=1", that means "ENABLE", otherwise means
+"DISABLE". 
+
+Default is "PHPBREW_SET_PROMTP=1" (ENABLE).
+
+    export PHPBREW_SET_PROMTP=1
+
 Hacking
 -------
 Install Onion first:
