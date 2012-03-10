@@ -50,7 +50,7 @@ EOS;
     {
         return <<<'EOS'
 #!/bin/bash
-PHPBREW_SET_PROMTP=1
+PHPBREW_SET_PROMPT=1
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
@@ -89,10 +89,10 @@ function __phpbrew_reinit () {
 }
 
 function __phpbrew_set_prompt () {
-	if [ "$PHPBREW_PHP" -a "$PHPBREW_SET_PROMTP" -eq 1 -a -z "$_OLD_PHPBREW_PS1" ] ; then
+	if [ "$PHPBREW_PHP" -a "$PHPBREW_SET_PROMPT" -eq 1 -a -z "$_OLD_PHPBREW_PS1" ] ; then
 		_OLD_PHPBREW_PS1="$PS1"
 		_PHP_VERSION=$(php --version | awk 'NR == 1 {print $1,$2}')
-		PS1="($_PHP_VERSION)$PS1"
+		PS1="($_PHP_VERSION) $PS1"
 		export PS1
 	fi
 }
