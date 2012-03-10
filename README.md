@@ -218,15 +218,24 @@ Install dependencies:
 
 Initialize
 
-    php scripts/phpbrew.php init
+    $ php scripts/phpbrew.php init
 
 List known versions:
 
-    php scripts/phpbrew.php known
+    $ php scripts/phpbrew.php known
 
 Install:
 
-    php scripts/phpbrew.php -d install --no-test 5.4.0RC7
+    $ php scripts/phpbrew.php -d install --no-test 5.4.0RC7
+
+To show which phpbrew is running:
+
+    $ unset -f phpbrew
+    $ which phpbrew
+
+Re-compile phar file:
+
+    $ bash scripts/compile.sh
 
 Community
 ---------
