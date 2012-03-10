@@ -214,3 +214,12 @@ Community
 
 Join us on #php-tw on irc.freenode.net
 
+Contributors
+------------
+
+* yftzeng 
+* Gasol
+
+Author
+------
+Yo-An Lin (c9s)  <cornelius.howl@gmail.com>
