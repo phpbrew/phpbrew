@@ -98,16 +98,19 @@ function current_php_version()
     php --version | awk 'NR == 1 {print $1,$2}'
 }
 
-function __phpbrew_set_prompt () 
+function __phpbrew_set_prompt() 
 {
     if [ -z $_OLD_PHPBREW_PS1 ] ; then
 		_OLD_PHPBREW_PS1="$PS1"
     fi
 
-	if [ -n "$PHPBREW_PHP" -a "$PHPBREW_SET_PROMPT" == "1" ] ; then
-        _PHP_VERSION=$(current_php_version)
-        PS1="($_PHP_VERSION) $_OLD_PHPBREW_PS1"
-        export PS1
+# just work with bash and zsh
+    if [[ -n "$PHPBREW_PHP" ]] ; then
+        if [[ "$PHPBREW_SET_PROMPT" == "1" ]] ; then
+            _PHP_VERSION=$(current_php_version)
+            PS1="($_PHP_VERSION) $_OLD_PHPBREW_PS1"
+            export PS1
+        fi
 	fi
 }
 
