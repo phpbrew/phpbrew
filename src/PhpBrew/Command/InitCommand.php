@@ -104,7 +104,7 @@ function __phpbrew_set_prompt ()
 		_OLD_PHPBREW_PS1="$PS1"
     fi
 
-	if [[ -n "$PHPBREW_PHP" -a "$PHPBREW_SET_PROMPT" == "1" ]] ; then
+	if [ -n "$PHPBREW_PHP" -a "$PHPBREW_SET_PROMPT" == "1" ] ; then
         _PHP_VERSION=$(current_php_version)
         PS1="($_PHP_VERSION) $_OLD_PHPBREW_PS1"
         export PS1
