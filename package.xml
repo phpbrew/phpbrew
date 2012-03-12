@@ -10,11 +10,11 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-03-10</date>
-  <time>12:50:44</time>
+  <date>2012-03-13</date>
+  <time>02:08:35</time>
   <version>
-    <release>1.2.4</release>
-    <api>1.2.4</api>
+    <release>1.2.5</release>
+    <api>1.2.5</api>
   </version>
   <stability>
     <release>stable</release>
@@ -32,7 +32,7 @@
       <file name="src/PhpBrew/Builder.php" role="php" md5sum="3199469e355c08f211586228871c367b"/>
       <file name="src/PhpBrew/Command/ConfigCommand.php" role="php" md5sum="2393637758e3767e54bfe97695d085cf"/>
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="5d3bd38776949552854ac6f3efd2ed35"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="e287df08b0a5a8b3bc688638d401d232"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="b1f27c2d32615ae8e1564f7c1705ba32"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="0986b149aeaffd5b6d27e1d3a010a4cc"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="564369a81ae8b50bd0122832d3317d5b"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="83312f537c00f58281c86229a2e13907"/>
@@ -50,7 +50,7 @@
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="d474d13b3ec02c1cd35c07828173de02"/>
       <file name="src/PhpBrew/Variants.php" role="php" md5sum="7e91075c7a095f1ae4041604efe7e17c"/>
-      <file name="phpbrew" role="script" md5sum="ed674cef0ac410f79405e366967fa304"/>
+      <file name="phpbrew" role="script" md5sum="a59ef7a85362429b980fececfb4748bb"/>
     </dir>
   </contents>
   <dependencies>
