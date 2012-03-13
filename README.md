@@ -172,6 +172,10 @@ List installed PHP:
 $ phpbrew list
 ```
 
+Build & Install extensions from PHP source:
+
+    phpbrew install-ext pdo
+
 ## Installed PHPs
 
 The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.0RC7 is located at:

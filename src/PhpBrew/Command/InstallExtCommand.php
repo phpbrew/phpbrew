@@ -14,9 +14,13 @@ class InstallExtCommand extends Command
         $logger = $this->getLogger();
         $php = Config::getCurrentPhp();
         $buildDir = Config::getBuildDir();
-        $path = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext' . DIRECTORY_SEPARATOR . $extname;
+        $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
+
+        $path = $extDir . DIRECTORY_SEPARATOR . $extname;
         if( file_exists( $path ) ) {
             chdir( $path );
+
+            $logger->info("Installing $extname extension...");
 
             $logger->info("===> phpize...");
             system('phpize > build.log');
@@ -35,6 +39,17 @@ class InstallExtCommand extends Command
         }
         else {
             $logger->error( "$path not found." );
+
+            $logger->info("Available extensions:");
+            $fp = opendir( $extDir );
+            $exts = array();
+            while( $file = readdir($fp) ) {
+                if( $file == '.' || $file == '..' )
+                    continue;
+                $exts[] = $file;
+            }
+            closedir($fp);
+            $logger->info("\t" . join(', ', $exts));
         }
 
     }
