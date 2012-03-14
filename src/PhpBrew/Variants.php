@@ -58,9 +58,10 @@ class Variants
 
         $this->variants['readline'] = function() {
             $opts = array();
-            if( $prefix = Utils::find_include_path( 'readline' . DIRECTORY_SEPARATOR . 'readline.h' ) ) {
+            if( $prefix = Utils::find_include_path( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                 $opts = '--with-readline=' . $prefix;
             }
+
             if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                 $opts[] = '--with-libedit=' . $prefix;
             }
@@ -218,6 +219,7 @@ class Variants
             // detect include path for iconv.h
             if( $prefix = Utils::find_include_path('iconv.h') ) {
                 return "--with-iconv=$prefix";
+            }
         };
 
         $this->variants['bz2'] = function($prefix = null) {
