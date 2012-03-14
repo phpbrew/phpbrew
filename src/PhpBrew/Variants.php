@@ -42,6 +42,7 @@ class Variants
         'bz2' => 1,
         'iconv' => 1,
         'sockets' => 1,
+        'readline' => 1,
     );
 
     public $disables = array();
@@ -54,6 +55,12 @@ class Variants
     public function __construct()
     {
         $self = $this;
+
+        $this->variants['readline'] = function() {
+            if( $prefix = Utils::find_include_path( 'readline/readline.h' ) ) {
+                return '--with-readline=' . $prefix;
+            }
+        };
 
         // init variant builders
         $this->variants['pdo'] = function() {
@@ -375,8 +382,6 @@ class Variants
         if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
             $opts[] = '--with-libedit=' . $prefix;
         }
-
-        $opts[] = '--with-readline';
 
         $this->checkConflicts();
 
