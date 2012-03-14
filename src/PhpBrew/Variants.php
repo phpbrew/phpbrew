@@ -59,7 +59,7 @@ class Variants
         $this->variants['readline'] = function() {
             $opts = array();
             if( $prefix = Utils::find_include_path( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
-                $opts = '--with-readline=' . $prefix;
+                $opts[] = '--with-readline=' . $prefix;
             }
 
             if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
