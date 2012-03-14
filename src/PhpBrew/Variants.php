@@ -40,6 +40,7 @@ class Variants
         'cli' => 1,
         'fpm' => 1,
         'bz2' => 1,
+        'iconv' => 1,
     );
 
     public $disables = array();
@@ -202,7 +203,8 @@ class Variants
 
         $this->variants['iconv'] = function() {
             // detect include path for iconv.h
-            return '--with-iconv';
+            if( $prefix = Utils::find_include_path('iconv.h') ) {
+                return "--with-iconv=$prefix";
         };
 
         $this->variants['bz2'] = function($prefix = null) {
