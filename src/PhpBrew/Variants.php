@@ -57,9 +57,14 @@ class Variants
         $self = $this;
 
         $this->variants['readline'] = function() {
-            if( $prefix = Utils::find_include_path( 'readline/readline.h' ) ) {
-                return '--with-readline=' . $prefix;
+            $opts = array();
+            if( $prefix = Utils::find_include_path( 'readline' . DIRECTORY_SEPARATOR . 'readline.h' ) ) {
+                $opts = '--with-readline=' . $prefix;
             }
+            if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                $opts[] = '--with-libedit=' . $prefix;
+            }
+            return $opts;
         };
 
         // init variant builders
@@ -377,10 +382,6 @@ class Variants
 
         if( $prefix = Utils::find_include_path('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
-        }
-
-        if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
-            $opts[] = '--with-libedit=' . $prefix;
         }
 
         $this->checkConflicts();
