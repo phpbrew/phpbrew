@@ -28,14 +28,14 @@ class InstallExtCommand extends Command
             if( count($args) )
                 array_shift( $args );
 
-            $logger->info("===> configuring...");
-            system('./configure ' . join(' ',$args) . ' >> build.log' );
+            $logger->info('===> configuring...');
+            system('./configure ' . join(' ',$args) . ' >> build.log' ) !== false or die('Configure failed.');
 
-            $logger->info("===> building...");
-            system('make >> build.log');
+            $logger->info('===> building...');
+            system('make >> build.log') !== false or die('Build failed.');
 
-            $logger->info("===> installing...");
-            system('make install');
+            $logger->info('===> installing...');
+            system('make install') !== false or die('Install failed.');
         }
         else {
             $logger->error( "$path not found." );
