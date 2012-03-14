@@ -41,6 +41,7 @@ class Variants
         'fpm' => 1,
         'bz2' => 1,
         'iconv' => 1,
+        'sockets' => 1,
     );
 
     public $disables = array();
