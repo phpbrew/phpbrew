@@ -40,6 +40,9 @@ class Variants
         'cli' => 1,
         'fpm' => 1,
         'bz2' => 1,
+        'iconv' => 1,
+        'sockets' => 1,
+        'readline' => 1,
     );
 
     public $disables = array();
@@ -52,6 +55,18 @@ class Variants
     public function __construct()
     {
         $self = $this;
+
+        $this->variants['readline'] = function() {
+            $opts = array();
+            if( $prefix = Utils::find_include_path( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                $opts[] = '--with-readline=' . $prefix;
+            }
+
+            if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                $opts[] = '--with-libedit=' . $prefix;
+            }
+            return $opts;
+        };
 
         // init variant builders
         $this->variants['pdo'] = function() {
@@ -202,7 +217,9 @@ class Variants
 
         $this->variants['iconv'] = function() {
             // detect include path for iconv.h
-            return '--with-iconv';
+            if( $prefix = Utils::find_include_path('iconv.h') ) {
+                return "--with-iconv=$prefix";
+            }
         };
 
         $this->variants['bz2'] = function($prefix = null) {
@@ -368,12 +385,6 @@ class Variants
         if( $prefix = Utils::find_include_path('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
         }
-
-        if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
-            $opts[] = '--with-libedit=' . $prefix;
-        }
-
-        $opts[] = '--with-readline';
 
         $this->checkConflicts();
 
