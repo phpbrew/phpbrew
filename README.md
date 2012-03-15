@@ -90,6 +90,33 @@ Available versions from PhpStas:
 	php-5.4.0beta2
 ```
 
+
+## Build And Install
+
+simply build and install PHP:
+
+```bash
+$ phpbrew install php-5.4.0RC7
+```
+
+Without tests:
+
+```bash
+$ phpbrew install --no-test php-5.4.0RC7
+```
+
+With debug messages:
+
+```bash
+$ phpbrew -d install --no-test php-5.4.0RC7
+```
+
+
+
+
+
+## Variants
+
 To list variants:
 
 ```bash
@@ -131,33 +158,25 @@ NOTE:
 > 
 > 2. phpbrew currently only supports for apxs2 (apache2)
 
+## Custom options
+
 To pass extra configure arguments, you can do this:
 
     $ phpbrew install php-5.3.10 +mysql +pdo +pear -- \
       --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
 
-Or simply build and install PHP:
-
-```bash
-$ phpbrew install php-5.4.0RC7
-```
-
-Without tests:
-
-```bash
-$ phpbrew install --no-test php-5.4.0RC7
-```
-
-With debug messages:
-
-```bash
-$ phpbrew -d install --no-test php-5.4.0RC7
-```
+## Use And Switch
 
 Use (switch version temporarily):
 
 ```bash
 $ phpbrew use php-5.4.0RC7
+```
+
+Switch (switch version as default)
+
+```bash
+$ phpbrew switch php-5.4.0
 ```
 
 Turn Off:
