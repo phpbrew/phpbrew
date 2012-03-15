@@ -158,7 +158,7 @@ NOTE:
 > 
 > 2. phpbrew currently only supports for apxs2 (apache2)
 
-## Custom options
+## Extra options
 
 To pass extra configure arguments, you can do this:
 
