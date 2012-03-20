@@ -30,7 +30,14 @@ phpbrew can:
 * curl
 * gcc, binutil, autoconf, libxml, zlib, readline
 
-For Ubuntu/Debian users:
+
+### Mac OS X
+
+MacPorts users:
+
+    $ port install $(port echo depof:php5)
+
+### Ubuntu/Debian
 
     $ sudo apt-get build-dep php5
 
@@ -96,19 +103,19 @@ Available versions from PhpStas:
 simply build and install PHP:
 
 ```bash
-$ phpbrew install php-5.4.0RC7
+$ phpbrew install php-5.4.0
 ```
 
 Without tests:
 
 ```bash
-$ phpbrew install --no-test php-5.4.0RC7
+$ phpbrew install --no-test php-5.4.0
 ```
 
 With debug messages:
 
 ```bash
-$ phpbrew -d install --no-test php-5.4.0RC7
+$ phpbrew -d install --no-test php-5.4.0
 ```
 
 
