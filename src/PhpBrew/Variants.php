@@ -58,11 +58,11 @@ class Variants
 
         $this->variants['readline'] = function() {
             $opts = array();
-            if( $prefix = Utils::find_include_path( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+            if( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                 $opts[] = '--with-readline=' . $prefix;
             }
 
-            if( $prefix = Utils::find_include_path('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+            if( $prefix = Utils::find_include_prefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                 $opts[] = '--with-libedit=' . $prefix;
             }
             return $opts;
@@ -75,7 +75,7 @@ class Variants
 
         $this->variants['gd'] = function() use($self) {
             $opts = array();
-            if( $prefix = Utils::find_include_path('gd.h') ) {
+            if( $prefix = Utils::find_include_prefix('gd.h') ) {
                 $opts[] = '--with-gd=' . $prefix;
                 $opts[] = '--enable-gd-native-ttf';
             }
@@ -83,11 +83,11 @@ class Variants
                 echo "** libgd not found.\n";
             }
 
-            if( $p = Utils::find_include_path('jpeglib.h') ) {
+            if( $p = Utils::find_include_prefix('jpeglib.h') ) {
                 $opts[] = '--with-jpeg-dir=' . $p;
             }
 
-            if( $p = Utils::find_include_path('png.h') ) {
+            if( $p = Utils::find_include_prefix('png.h') ) {
                 $opts[] = '--with-png-dir=' . $p;
             }
             return $opts;
@@ -217,14 +217,15 @@ class Variants
 
         $this->variants['iconv'] = function() {
             // detect include path for iconv.h
-            if( $prefix = Utils::find_include_path('iconv.h') ) {
-                return "--with-iconv=$prefix";
+            if( $prefix = Utils::find_include_prefix('iconv.h') ) {
+                return "--with-iconv";
+                // return "--with-iconv=$prefix";
             }
         };
 
         $this->variants['bz2'] = function($prefix = null) {
             if( ! $prefix 
-                && $prefix = Utils::find_include_path('bzlib.h') ) {
+                && $prefix = Utils::find_include_prefix('bzlib.h') ) {
                     return '--with-bz2=' . $prefix;
             }
         };
@@ -369,7 +370,7 @@ class Variants
             '--with-pcre-regex',
         );
 
-        if( $prefix = Utils::find_include_path('zlib.h') ) {
+        if( $prefix = Utils::find_include_prefix('zlib.h') ) {
             $opts[] = '--with-zlib=' . $prefix;
         }
 
@@ -382,7 +383,7 @@ class Variants
             $opts[] = '--with-curl=' . $prefix;
         }
 
-        if( $prefix = Utils::find_include_path('libintl.h') ) {
+        if( $prefix = Utils::find_include_prefix('libintl.h') ) {
             $opts[] = '--with-gettext=' . $prefix;
         }
 
