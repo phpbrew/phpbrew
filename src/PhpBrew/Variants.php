@@ -40,7 +40,6 @@ class Variants
         'cli' => 1,
         'fpm' => 1,
         'bz2' => 1,
-        'iconv' => 1,
         'sockets' => 1,
         'readline' => 1,
     );
