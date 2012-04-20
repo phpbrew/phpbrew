@@ -6,7 +6,7 @@ class Config
 
     static function getPhpbrewRoot()
     {
-        return getenv('HOME') . DIRECTORY_SEPARATOR . '.phpbrew';
+        return getenv('PHPBREW_HOME');
     }
 
     static function getBuildDir()
