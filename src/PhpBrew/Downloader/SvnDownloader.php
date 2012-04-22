@@ -15,7 +15,6 @@ class SvnDownloader
         $parts = parse_url($url);
         $basename = basename( $parts['path'] );
 
-
         if ( file_exists($basename) ) {
             $this->logger->info("Updating");
             system( "cd $basename ; svn update" );
