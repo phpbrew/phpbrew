@@ -8,6 +8,13 @@ use DOMDocument;
  */
 class PhpSource
 {
+    static function versionCompare($verion1, $verion2)
+    {
+        if( $verion1 == $verion2 ) {
+            return 0;
+        }
+        return version_compare($verion1, $verion2, '>') ? -1 : 1;
+    }
 
     static function getStasVersions()
     {
@@ -18,7 +25,7 @@ class PhpSource
 
         $items = $dom->getElementsByTagName('a');
         $versions = array();
-        foreach( $items as $item ) 
+        foreach( $items as $item )
         {
             $href = $item->getAttribute('href');
             if( preg_match('/php-(.*?)\.tar\.bz2$/' , $href , $regs ) ) {
@@ -32,23 +39,47 @@ class PhpSource
 
     static function getStableVersions()
     {
-        // svn tags: https://svn.php.net/repository/php/php-src/tags/
-        // reference: http://www.php.net/releases/
-        return array( 
-            'php-5.4.0'  => array( 'url' => 'http://www.php.net/distributions/php-5.4.0.tar.bz2' ),
-            'php-5.3.10' => array( 'url' => 'http://www.php.net/distributions/php-5.3.10.tar.bz2'),
-            'php-5.3.9' =>  array( 'url' => 'http://www.php.net/distributions/php-5.3.9.tar.bz2' ),
-            'php-5.3.8' =>  array( 'url' => 'http://www.php.net/distributions/php-5.3.8.tar.bz2' ),
-            'php-5.3.7' =>  array( 'url' => 'http://www.php.net/distributions/php-5.3.7.tar.bz2' ),
-            'php-5.3.2' =>  array( 'url' => 'http://museum.php.net/php5/php-5.3.2.tar.bz2'       ),
-            'php-5.3.1' =>  array( 'url' => 'http://museum.php.net/php5/php-5.3.1.tar.bz2'       ),
+        // reference: http://www.php.net/downloads.php
+        //            http://www.php.net/releases/
+        $downloadUrls = array(
+            'http://www.php.net/downloads.php',
+            'http://www.php.net/releases/'
         );
+        $phpFilePattern = '/php-(.*?)\.tar\.bz2/';
+        $versions = array();
+
+        foreach( $downloadUrls as $downloadUrl ) {
+            $html = @file_get_contents($downloadUrl);
+            if( $html ){
+                $baseUrl = 'http://www.php.net/distributions/';
+                $dom = new DOMDocument;
+                @$dom->loadHtml( $html );
+
+                $items = $dom->getElementsByTagName('a');
+                foreach( $items as $item ) {
+                    $link = $item->getAttribute('href');
+                    if( preg_match($phpFilePattern, $link, $regs ) ) {
+                        $version = 'php-' . $regs[1];
+                        if( strpos($link, '/') === 0 ) {
+                            $link = $baseUrl . $version . '.tar.bz2';
+                        }
+                        $versions[$version] = array( 'url' => $link );
+                    }
+                }
+            }
+            else {
+                echo "connection eror: $downloadUrl\n";
+            }
+        }
+        uksort( $versions, array('self', 'versionCompare') );
+
+        return $versions;
     }
 
     static function getSvnVersions()
     {
         //    http://www.php.net/svn.php # svn
-        return array( 
+        return array(
             'php-svn-head' => array( 'svn' => 'https://svn.php.net/repository/php/php-src/trunk' ),
             'php-svn-5.3' => array( 'svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_3' ),
             'php-svn-5.4' => array( 'svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_4' ),
