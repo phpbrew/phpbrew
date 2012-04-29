@@ -10,11 +10,11 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-04-22</date>
-  <time>20:27:26</time>
+  <date>2012-04-30</date>
+  <time>00:35:03</time>
   <version>
-    <release>1.3.2</release>
-    <api>1.3.2</api>
+    <release>1.3.4</release>
+    <api>1.3.4</api>
   </version>
   <stability>
     <release>stable</release>
@@ -43,15 +43,15 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="8c222f6e6a3b60a4e5a5d78871a0b240"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="ef314de8e2093af9791734f896e256c3"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="39851da90763253e1ca9c963cc6c868a"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="d18884a66c9e2d257b3f951f589570cc"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="b20551d72e4c3a76d4e6dbd356887681"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="9911151fd1db971175e727f943de7953"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="8292c5a990df3311a0c51617e3b5e331"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
-      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="33cd2ac15502ec83b64fa10ad4dfe142"/>
+      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="386f3666b4b68823c1f3d8ddf0cb61e3"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="a6a201f53dce86d9dcd9d06c4568aecc"/>
-      <file name="src/PhpBrew/Variants.php" role="php" md5sum="9901a5c045a13b1ecb31f2e23f092fd5"/>
-      <file name="phpbrew" role="script" md5sum="03dcca8e86cd8dff501653e790357886"/>
+      <file name="src/PhpBrew/Variants.php" role="php" md5sum="19c4698b19b32217bbd625e3ae567701"/>
+      <file name="phpbrew" role="script" md5sum="147cdd11bc87e70bcc8864c0a6f76c74"/>
     </dir>
   </contents>
   <dependencies>
