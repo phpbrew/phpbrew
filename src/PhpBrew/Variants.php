@@ -40,6 +40,7 @@ class Variants
         'cli' => 1,
         'fpm' => 1,
         'bz2' => 1,
+        'calendar' => 1,
         'sockets' => 1,
         'readline' => 1,
     );
@@ -54,6 +55,10 @@ class Variants
     public function __construct()
     {
         $self = $this;
+
+        $this->variants['calendar'] = function() {
+            return '--enable-calendar';
+        };
 
         $this->variants['readline'] = function() {
             $opts = array();
