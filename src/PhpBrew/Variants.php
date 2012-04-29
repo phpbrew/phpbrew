@@ -138,7 +138,7 @@ class Variants
             $opts = array();
             $opts[] = '--with-pgsql';
             if( isset($self->use['pdo']) )
-                $opts[] = '--with-pdo-sqlite';
+                $opts[] = '--with-pdo-pgsql';
             return $opts;
         };
 
