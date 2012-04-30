@@ -202,6 +202,7 @@ $ phpbrew list
 Build & Install extensions from PHP source:
 
     phpbrew install-ext pdo
+    phpbrew install-ext mcrypt --with-mcrypt=/opt/local
 
 ## Installed PHPs
 

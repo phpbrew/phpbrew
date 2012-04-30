@@ -11,8 +11,6 @@ class InstallExtCommand extends Command
 
     public function execute($extname = null)
     {
-
-
         $logger = $this->getLogger();
         $php = Config::getCurrentPhp();
         $buildDir = Config::getBuildDir();
@@ -40,18 +38,20 @@ class InstallExtCommand extends Command
 
         $path = $extDir . DIRECTORY_SEPARATOR . $extname;
         if( file_exists( $path ) ) {
-            chdir( $path );
+            $logger->info("Extension path $path");
 
+            chdir( $path );
             $logger->info("Installing $extname extension...");
 
             $logger->info("===> phpize...");
-            system('phpize > build.log');
+            system('phpize > build.log') !== false or die('Failed.');
             $args = func_get_args();
             if( count($args) )
                 array_shift( $args );
 
             $logger->info('===> configuring...');
-            system('./configure ' . join(' ',$args) . ' >> build.log' ) !== false or die('Configure failed.');
+            system('./configure ' . join(' ',$args) . ' >> build.log' )
+                !== false or die('Configure failed.');
 
             $logger->info('===> building...');
             system('make >> build.log') !== false or die('Build failed.');
