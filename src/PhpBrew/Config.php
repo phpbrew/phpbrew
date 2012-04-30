@@ -61,6 +61,16 @@ class Config
         return $versions;
     }
 
+    static function getCurrentPhpConfigScanPath()
+    {
+        return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+    }
+
+    static function getCurrentPhpDir()
+    {
+        return getenv('PHPBREW_ROOT') . DIRECTORY_SEPARATOR . getenv('PHPBREW_PHP');
+    }
+
     static function getCurrentPhp()
     {
         return getenv('PHPBREW_PHP');

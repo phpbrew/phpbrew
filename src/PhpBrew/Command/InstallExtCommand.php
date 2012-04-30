@@ -9,12 +9,34 @@ class InstallExtCommand extends Command
 
     public function brief() { return 'install extension for current PHP.'; }
 
-    public function execute($extname)
+    public function execute($extname = null)
     {
+
+
         $logger = $this->getLogger();
         $php = Config::getCurrentPhp();
         $buildDir = Config::getBuildDir();
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
+
+        if( ! $extname ) {
+            $loaded = array_map( 'strtolower' , get_loaded_extensions());
+
+            $logger->info("Available extensions:");
+            $fp = opendir( $extDir );
+            $exts = array();
+            while( $file = readdir($fp) ) {
+                if( $file == '.' || $file == '..' )
+                    continue;
+
+                if( in_array($file,$loaded) )
+                    continue;
+
+                $exts[] = $file;
+            }
+            closedir($fp);
+            $logger->info("\t" . join(', ', $exts));
+            return;
+        }
 
         $path = $extDir . DIRECTORY_SEPARATOR . $extname;
         if( file_exists( $path ) ) {
@@ -36,22 +58,26 @@ class InstallExtCommand extends Command
 
             $logger->info('===> installing...');
             system('make install') !== false or die('Install failed.');
-        }
-        else {
-            $logger->error( "$path not found." );
 
-            $logger->info("Available extensions:");
-            $fp = opendir( $extDir );
-            $exts = array();
-            while( $file = readdir($fp) ) {
-                if( $file == '.' || $file == '..' )
-                    continue;
-                $exts[] = $file;
+            $logger->info('===> enabling extension');
+
+            $configPath = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR 
+                    . $extname . '.ini';
+
+            if( ! file_exists( Config::getCurrentPhpConfigScanPath() ) )
+                mkdir( Config::getCurrentPhpConfigScanPath() , 0755, true );
+
+            if( ! file_exists( $configPath ) ) {
+                file_put_contents($configPath,"extension=$extname.so");
+            } else {
+                $logger->error("extension config $configPath already exists.");
             }
-            closedir($fp);
-            $logger->info("\t" . join(', ', $exts));
-        }
 
+            $logger->info("Done");
+        } else {
+            $logger->info("Extension not found.");
+
+        }
     }
 }
 
