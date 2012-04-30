@@ -40,6 +40,7 @@ class Variants
         'cli' => 1,
         'fpm' => 1,
         'bz2' => 1,
+        'posix' => 1,
         'calendar' => 1,
         'sockets' => 1,
         'readline' => 1,
@@ -58,6 +59,10 @@ class Variants
 
         $this->variants['calendar'] = function() {
             return '--enable-calendar';
+        };
+
+        $this->variants['posix'] = function() {
+            return '--enable-posix';
         };
 
         $this->variants['readline'] = function() {
