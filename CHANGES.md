@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+Version 1.3.3 - 一  4/30 11:27:09 2012
+- Added posix variant.
+- Added calendar variant.
+- Improve install-ext command.
+
 Version 1.3.1 - 三  3/14 02:20:08 2012
 
 - Fixed bash shell redirection bug.
