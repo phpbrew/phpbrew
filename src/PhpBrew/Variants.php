@@ -65,6 +65,10 @@ class Variants
             return '--enable-posix';
         };
 
+        $this->variants['embed'] = function() {
+            return '--enable-embed';
+        };
+
         $this->variants['readline'] = function() {
             $opts = array();
             if( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
