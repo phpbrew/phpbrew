@@ -163,7 +163,14 @@ class InstallCommand extends \CLIFramework\Command
         if( file_exists($phpConfigFile) ) {
             if( ! file_exists( Config::getVersionEtcPath($version) ) )
                 mkdir( Config::getVersionEtcPath($version) , 0755 , true );
-            rename( $phpConfigFile , Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini' );
+
+            $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
+            if( file_exists($targetConfigPath) ) {
+                $logger->notice("$targetConfigPath exists, do not overwrite.");
+            }
+            else {
+                rename( $phpConfigFile , $targetConfigPath );
+            }
         }
 
         $logger->info("Source directory: " . realpath( $targetDir ) );

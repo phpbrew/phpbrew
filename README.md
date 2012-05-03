@@ -156,6 +156,15 @@ You can build PHP with extra variants:
 
 PDO is enabled by default.
 
+To build PHP with pgsql (Postgresql) extension:
+
+    $ phpbrew install php-5.4.1 +pgsql
+
+Or build pgsql extension with postgresql base dir:
+
+    $ phpbrew install php-5.4.1 +pgsql=/opt/local/lib/postgresql91 
+
+
 NOTE:
 
 > 1. If you want to build php with apache php module, please change the permission

@@ -141,16 +141,18 @@ class Variants
             return '--enable-fpm';
         };
 
-        $this->variants['sqlite'] = function() use ($self) {
-            $opts = array( '--with-sqlite3' );
+        $this->variants['sqlite'] = function( $prefix = null ) use ($self) {
+            $opts = array( 
+                '--with-sqlite3' . ($prefix ? "=$prefix" : '')
+            );
             if( isset($self->use['pdo']) )
                 $opts[] = '--with-pdo-sqlite';
             return $opts;
         };
 
-        $this->variants['pgsql'] = function() use($self) {
+        $this->variants['pgsql'] = function($prefix = null) use($self) {
             $opts = array();
-            $opts[] = '--with-pgsql';
+            $opts[] = '--with-pgsql' . ($prefix ? "=$prefix" : '');
             if( isset($self->use['pdo']) )
                 $opts[] = '--with-pdo-pgsql';
             return $opts;
