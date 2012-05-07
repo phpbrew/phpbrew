@@ -35,11 +35,12 @@ phpbrew can:
 
 MacPorts users:
 
-    $ port install $(port echo depof:php5)
+    $ port install curl automake autoconf $(port echo depof:php5)
 
 ### Ubuntu/Debian
 
-    $ sudo apt-get build-dep php5
+    $ sudo apt-get install autoconf automake curl build-essential
+    $ sudo apt-get build-dep php5 
 
 ## Install phpbrew
 
