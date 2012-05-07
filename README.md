@@ -35,12 +35,12 @@ phpbrew can:
 
 MacPorts users:
 
-    $ port install curl automake autoconf $(port echo depof:php5)
+    port install curl automake autoconf $(port echo depof:php5)
 
 ### Ubuntu/Debian
 
-    $ sudo apt-get install autoconf automake curl build-essential
-    $ sudo apt-get build-dep php5 
+    sudo apt-get install autoconf automake curl build-essential
+    sudo apt-get build-dep php5 
 
 ## Install phpbrew
 
@@ -50,15 +50,15 @@ Just download it:
 
 Install through PEAR channel:
 
-    $ sudo pear channel-discover pear.corneltek.com
-    $ sudo pear install -a -f corneltek/PhpBrew
+    sudo pear channel-discover pear.corneltek.com
+    sudo pear install -a -f corneltek/PhpBrew
 
 Install from github:
 
-    $ git clone git@github.com:c9s/phpbrew.git
-    $ cd phpbrew
-    $ sudo pear channel-discover pear.corneltek.com
-    $ sudo pear install -f package.xml
+    git clone git@github.com:c9s/phpbrew.git
+    cd phpbrew
+    sudo pear channel-discover pear.corneltek.com
+    sudo pear install -f package.xml
 
 ## Basic usage
 
