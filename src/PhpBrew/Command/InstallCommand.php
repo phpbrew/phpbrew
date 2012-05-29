@@ -17,7 +17,7 @@ class InstallCommand extends \CLIFramework\Command
 
     public function options($opts)
     {
-        $opts->add('no-test','No tests');
+        $opts->add('test','tests');
         $opts->add('no-clean','Do not clean object files before/after building.');
         $opts->add('production','Use production configuration');
         $opts->add('nice:', 'process nice level');
@@ -116,11 +116,8 @@ class InstallCommand extends \CLIFramework\Command
         $logger->debug( '' .  $cmd  );
         $cmd->execute() !== false or die('Make failed.');
 
-        if( $options->{'no-test'} ) {
-            $logger->info("Skip tests");
-        } else {
+        if( $options->{'test'} ) {
             $logger->info("Testing");
-
             $cmd = new CommandBuilder('make test');
             if( $options->nice )
                 $cmd->nice( $options->nice->value );
