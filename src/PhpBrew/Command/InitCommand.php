@@ -100,7 +100,7 @@ function current_php_version()
 
 function __phpbrew_set_prompt() 
 {
-    if [ -z $_OLD_PHPBREW_PS1 ] ; then
+    if [[ -z $_OLD_PHPBREW_PS1 ]] ; then
 		_OLD_PHPBREW_PS1="$PS1"
     fi
 
