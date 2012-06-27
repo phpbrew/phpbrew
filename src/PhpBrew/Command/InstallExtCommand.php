@@ -2,6 +2,7 @@
 namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
+use PhpBrew\Utils;
 use CLIFramework\Command;
 
 class InstallExtCommand extends Command
@@ -61,22 +62,11 @@ class InstallExtCommand extends Command
 
             $logger->info('===> enabling extension');
 
-            $configPath = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR 
-                    . $extname . '.ini';
-
-            if( ! file_exists( Config::getCurrentPhpConfigScanPath() ) )
-                mkdir( Config::getCurrentPhpConfigScanPath() , 0755, true );
-
-            if( ! file_exists( $configPath ) ) {
-                file_put_contents($configPath,"extension=$extname.so");
-            } else {
-                $logger->error("extension config $configPath already exists.");
-            }
+            Utils::create_extension_config($extname);
 
             $logger->info("Done");
         } else {
             $logger->info("Extension not found.");
-
         }
     }
 }

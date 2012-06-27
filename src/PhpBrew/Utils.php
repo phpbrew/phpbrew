@@ -4,6 +4,27 @@ namespace PhpBrew;
 class Utils
 {
 
+    static function create_extension_config($extname) 
+    {
+        // create extension config file
+        $configPath = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR 
+                . $extname . '.ini';
+
+        if( ! file_exists( Config::getCurrentPhpConfigScanPath() ) ) {
+            mkdir( Config::getCurrentPhpConfigScanPath() , 0755, true );
+        }
+
+        $content =<<<CONFIG
+extension=$extname.so
+CONFIG;
+
+        if( ! file_exists( $configPath ) ) {
+            file_put_contents($configPath,$content);
+            return true;
+        }
+        return false;
+    }
+
     static function find_include_path($hfile)
     {
         $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
