@@ -203,7 +203,7 @@ Turn Off:
 $ phpbrew off 
 ```
 
-List installed PHP:
+## List installed PHP
 
 ```bash
 $ phpbrew list
@@ -213,6 +213,14 @@ Build & Install extensions from PHP source:
 
     phpbrew install-ext pdo
     phpbrew install-ext mcrypt --with-mcrypt=/opt/local
+
+## Enable Extension
+
+    pecl install mongo
+    phpbrew enable mongo
+
+the `enable` command allows you to create a config {current php base}/var/db/{extension name}.ini 
+to enable the extension.
 
 ## Installed PHPs
 
