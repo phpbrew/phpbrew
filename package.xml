@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2012-06-27</date>
-  <time>19:07:15</time>
+  <time>19:08:48</time>
   <version>
     <release>1.5.0</release>
     <api>1.5.0</api>
@@ -34,7 +34,7 @@
       <file name="src/PhpBrew/Command/EnableExtensionCommand.php" role="php" md5sum="61fa7c5011bc180ebd15f1423d63ea7b"/>
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="5d3bd38776949552854ac6f3efd2ed35"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="04688915a65cd96d09e6c49481448d1e"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="2cb1787ab2776839381fbb2238aac162"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="b0a081e5d17fa1c52e76d3ce2d441eb6"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="b60df54e3715bab7bdf8f4cab00031a9"/>
       <file name="src/PhpBrew/Command/InstallExtCommand.php" role="php" md5sum="8f4ddd25a473b5a7d20639a90562d512"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="564369a81ae8b50bd0122832d3317d5b"/>
@@ -45,7 +45,7 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="8c222f6e6a3b60a4e5a5d78871a0b240"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="ef314de8e2093af9791734f896e256c3"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="03443617e7ca84d27e2d5cc8567c39a8"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="cfe4d51d2f0d244733496fc2a25c3c5f"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="fcc70b0cde21a7d7da413fe6baac01c6"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="9911151fd1db971175e727f943de7953"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="8292c5a990df3311a0c51617e3b5e331"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
