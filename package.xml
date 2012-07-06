@@ -10,15 +10,15 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-06-27</date>
-  <time>19:08:48</time>
+  <date>2012-07-06</date>
+  <time>18:04:38</time>
   <version>
     <release>1.5.0</release>
     <api>1.5.0</api>
   </version>
   <stability>
-    <release>beta</release>
-    <api>beta</api>
+    <release>stable</release>
+    <api>stable</api>
   </stability>
   <license>PHP</license>
   <notes>-</notes>
@@ -31,10 +31,10 @@
       <file name="tests/PhpBrew/VariantsTest.php" role="test" md5sum="9e355c07f7c5be409ff1e27d12bbe87b"/>
       <file name="src/PhpBrew/Builder.php" role="php" md5sum="3199469e355c08f211586228871c367b"/>
       <file name="src/PhpBrew/Command/ConfigCommand.php" role="php" md5sum="2393637758e3767e54bfe97695d085cf"/>
-      <file name="src/PhpBrew/Command/EnableExtensionCommand.php" role="php" md5sum="61fa7c5011bc180ebd15f1423d63ea7b"/>
+      <file name="src/PhpBrew/Command/EnableExtensionCommand.php" role="php" md5sum="6ee0aec53525df04a32d135ebf6fe60d"/>
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="5d3bd38776949552854ac6f3efd2ed35"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="04688915a65cd96d09e6c49481448d1e"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="b0a081e5d17fa1c52e76d3ce2d441eb6"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="1eaa2498f63d87d6fe54df8d0652b691"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="b60df54e3715bab7bdf8f4cab00031a9"/>
       <file name="src/PhpBrew/Command/InstallExtCommand.php" role="php" md5sum="8f4ddd25a473b5a7d20639a90562d512"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="564369a81ae8b50bd0122832d3317d5b"/>
@@ -53,7 +53,7 @@
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="f627b8a6390ef814807aba801454c83a"/>
       <file name="src/PhpBrew/Variants.php" role="php" md5sum="10bbdfa159856e11a43bb8eb80533908"/>
-      <file name="phpbrew" role="script" md5sum="5567400a3218c759f8d2f49b8625ccb8"/>
+      <file name="phpbrew" role="script" md5sum="00cc44384d3ac16da0439fa194bbcdf5"/>
     </dir>
   </contents>
   <dependencies>
