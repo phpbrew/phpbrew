@@ -11,6 +11,12 @@
 
   </php>
 
+  <filter>
+    <whitelist>
+        <directory suffix=".php">src/</directory>
+    </whitelist>
+  </filter>
+
   <testsuites>
     <testsuite name="PHPUnit">
       <directory suffix="Test.php">tests</directory>
