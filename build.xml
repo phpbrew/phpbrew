@@ -72,6 +72,23 @@
   </apply>
  </target>
 
+
+ <target name="test-phar-cli">
+  <exec executable="phpbrew"/>
+
+  <exec executable="phpbrew">
+    <arg value="init"/>
+  </exec>
+
+  <exec executable="phpbrew">
+    <arg value="list"/>
+  </exec>
+
+  <exec executable="phpbrew">
+    <arg value="known"/>
+  </exec>
+ </target>
+
  <target name="test-cli" description="Test phpbrew CLI">
 
   <exec executable="php">
@@ -93,6 +110,7 @@
     <arg value="bin/phpbrew" />
     <arg value="variants"/>
   </exec>
+
 
  </target>
 
