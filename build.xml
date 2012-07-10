@@ -6,7 +6,7 @@
  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
  <target name="build"
-   depends="prepare,bundle,doxygen,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,package,test"/>
+   depends="prepare,bundle,doxygen,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,test,install"/>
 
  <target name="build-parallel"
    depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
@@ -256,4 +256,17 @@
    <arg path="${basedir}/build/code-browser" />
   </exec>
  </target>
+
+ <target name="compile">
+     <exec executable="scripts/compile.sh"/>
+ </target>
+
+ <target name="install" depends="compile,package">
+     <copy file="phpbrew" todir="/usr/bin"/>
+     <exec executable="pear">
+        <arg value="install"/>
+        <arg value="package.xml"/>
+     </exec>
+ </target>
+
 </project>
