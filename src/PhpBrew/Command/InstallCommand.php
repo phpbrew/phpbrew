@@ -166,7 +166,28 @@ class InstallCommand extends \CLIFramework\Command
                 $logger->notice("$targetConfigPath exists, do not overwrite.");
             }
             else {
+                // move config file to target location
                 rename( $phpConfigFile , $targetConfigPath );
+
+                // replace current timezone
+                $timezone = ini_get('date.timezone');
+                $pharReadonly = ini_get('phar.readonly');
+                if( $timezone || $pharReadonly ) {
+                    // patch default config
+                    $content = file_get_contents($targetConfigPath);
+
+                    if( $timezone ) {
+                        $logger->info("Found date.timezone, patch config timezone with $timezone");
+                        $content = preg_replace( '/^date.timezone\s+=\s+.*/im', "date.timezone = $timezone" , $content );
+                    }
+                    if( ! $pharReadonly ) {
+                        $logger->info("Disable phar.readonly option.");
+                        $content = preg_replace( '/^phar.readonly\s+=\s+.*/im', "phar.readonly = 0" , $content );
+                    }
+                    file_put_contents($targetConfigPath, $content);
+
+                }
+
             }
         }
 
