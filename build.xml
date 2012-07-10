@@ -6,7 +6,7 @@
  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
  <target name="build"
-   depends="prepare,bundle,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,package"/>
+   depends="prepare,bundle,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,package,test-cli"/>
 
  <target name="build-parallel"
    depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
@@ -55,6 +55,13 @@
     <modified />
    </fileset>
   </apply>
+ </target>
+
+ <target name="test-cli" description="Test phpbrew CLI">
+  <exec executable="php">
+    <arg value="scripts/phpbrew.php" />
+    <arg value="init"/>
+  </exec>
  </target>
 
  <target name="phploc" description="Measure project size using PHPLOC">
@@ -128,7 +135,7 @@
         <then>
             <exec executable="onion" failonerror="true">
                 <arg value="-q"/>
-                <arg value="bundle"/>
+                <arg value="install"/>
             </exec>
         </then>
      </if>

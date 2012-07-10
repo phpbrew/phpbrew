@@ -49,7 +49,7 @@ class Config
     {
         $versions = array();
         $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
-        if( $fp = opendir( $path ) ) {
+        if( file_exists($path) && $fp = opendir( $path ) ) {
             while( ($item = readdir( $fp )) !== false ) {
                 if( $item == '.' || $item == '..' )
                     continue;
