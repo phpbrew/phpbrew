@@ -6,7 +6,7 @@
  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
  <target name="build"
-   depends="prepare,bundle,doxygen,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,package,test-cli"/>
+   depends="prepare,bundle,doxygen,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,package,test"/>
 
  <target name="build-parallel"
    depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
@@ -72,6 +72,9 @@
   </apply>
  </target>
 
+ <target name="test" depends="test-cli,test-phar-cli,test-sh">
+
+ </target>
 
  <target name="test-phar-cli">
   <exec executable="phpbrew"/>
@@ -87,6 +90,12 @@
   <exec executable="phpbrew">
     <arg value="known"/>
   </exec>
+ </target>
+
+ <target name="test-sh" description="Test phpbrew.sh">
+     <exec executable="bash">
+         <arg value="phpbrew.sh"/>
+     </exec>
  </target>
 
  <target name="test-cli" description="Test phpbrew CLI">
