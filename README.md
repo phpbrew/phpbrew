@@ -268,15 +268,15 @@ Install dependencies:
 
 Initialize
 
-    $ php scripts/phpbrew.php init
+    $ php bin/phpbrew init
 
 List known versions:
 
-    $ php scripts/phpbrew.php known
+    $ php bin/phpbrew known
 
 Install:
 
-    $ php scripts/phpbrew.php -d install --no-test 5.4.0RC7
+    $ php bin/phpbrew -d install --no-test 5.4.0RC7
 
 To show which phpbrew is running:
 
