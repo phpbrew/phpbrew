@@ -6,7 +6,7 @@
  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
  <target name="build"
-   depends="prepare,bundle,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,package,test-cli"/>
+   depends="prepare,bundle,doxygen,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,package,test-cli"/>
 
  <target name="build-parallel"
    depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
@@ -30,15 +30,30 @@
   <delete dir="${basedir}/build/coverage"/>
   <delete dir="${basedir}/build/logs"/>
   <delete dir="${basedir}/build/pdepend"/>
+  <delete dir="${basedir}/build/wiki"/>
+  <delete dir="${basedir}/build/doxygen"/>
  </target>
 
  <target name="prepare" depends="clean" description="Prepare for build">
   <mkdir dir="${basedir}/build/api"/>
+  <mkdir dir="${basedir}/build/wiki"/>
   <mkdir dir="${basedir}/build/code-browser"/>
   <mkdir dir="${basedir}/build/coverage"/>
   <mkdir dir="${basedir}/build/logs"/>
   <mkdir dir="${basedir}/build/pdepend"/>
   <mkdir dir="${basedir}/build/phpdox"/>
+  <mkdir dir="${basedir}/build/doxygen"/>
+ </target>
+
+ <target name="doxygen">
+     <if>
+        <available file="Doxyfile"/>
+        <then>
+            <exec executable="doxygen" failonerror="true">
+                <arg value="Doxyfile"/>
+            </exec>
+        </then>
+     </if>
  </target>
 
  <target name="lint" description="Perform syntax check of sourcecode files">
