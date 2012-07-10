@@ -73,10 +73,27 @@
  </target>
 
  <target name="test-cli" description="Test phpbrew CLI">
+
   <exec executable="php">
-    <arg value="scripts/phpbrew.php" />
+    <arg value="bin/phpbrew" />
     <arg value="init"/>
   </exec>
+
+  <exec executable="php">
+    <arg value="bin/phpbrew" />
+    <arg value="list"/>
+  </exec>
+
+  <exec executable="php">
+    <arg value="bin/phpbrew" />
+    <arg value="known"/>
+  </exec>
+
+  <exec executable="php">
+    <arg value="bin/phpbrew" />
+    <arg value="variants"/>
+  </exec>
+
  </target>
 
  <target name="phploc" description="Measure project size using PHPLOC">
