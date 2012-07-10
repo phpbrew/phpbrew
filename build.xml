@@ -72,8 +72,16 @@
   </apply>
  </target>
 
- <target name="test" depends="test-cli,test-phar-cli,test-sh">
+ <target name="test" depends="test-cli,test-phar-cli,test-sh,test-build">
 
+ </target>
+
+ <target name="test-build">
+  <exec executable="phpbrew">
+    <arg value="-d"/>
+    <arg value="install"/>
+    <arg value="php-5.4.4"/>
+  </exec>
  </target>
 
  <target name="test-phar-cli">
