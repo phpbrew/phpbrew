@@ -3,6 +3,7 @@
 
 <phpunit bootstrap="tests/bootstrap.php"
          backupGlobals="false"
+         colors="true"
          verbose="true">
   <testsuites>
     <testsuite name="PHPUnit">
