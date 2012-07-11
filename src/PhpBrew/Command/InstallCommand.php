@@ -25,8 +25,8 @@ class InstallCommand extends \CLIFramework\Command
 
     public function execute($version)
     {
-        $options = $this->getOptions();
-        $logger = $this->getLogger();
+        $options = $this->options;
+        $logger = $this->logger;
 
         // get extra options for building php  
         $extra = array();

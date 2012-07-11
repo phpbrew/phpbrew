@@ -80,6 +80,8 @@
   <exec executable="phpbrew">
     <arg value="-d"/>
     <arg value="install"/>
+    <arg value="-n"/>
+    <arg value="20"/> <!-- nice value 20, low priority -->
     <arg value="php-5.4.4"/>
     <arg value="+mysql"/>
     <arg value="+pgsql"/>
@@ -89,6 +91,8 @@
   <exec executable="phpbrew">
     <arg value="-d"/>
     <arg value="install"/>
+    <arg value="-n"/>
+    <arg value="20"/> <!-- nice value 20, low priority -->
     <arg value="php-5.3.14"/>
     <arg value="+mysql"/>
     <arg value="+pgsql"/>
