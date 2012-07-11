@@ -21,7 +21,7 @@ phpbrew can:
 
 ## Platform support
 
-* Mac OS 10.7
+* Mac OS 10.5+
 * Ubuntu, Debian
 
 ## Requirements
