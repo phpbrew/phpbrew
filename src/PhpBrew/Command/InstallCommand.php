@@ -21,6 +21,7 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('no-clean','Do not clean object files before/after building.');
         $opts->add('production','Use production configuration');
         $opts->add('n|nice:', 'process nice level');
+        $opts->add('patch:',  'apply patch before build');
     }
 
     public function execute($version)
@@ -69,6 +70,12 @@ class InstallCommand extends \CLIFramework\Command
         if( ! file_exists($buildPrefix) )
             mkdir( $buildPrefix, 0755, true );
 
+        // convert patch to realpath
+        if( $this->options->patch ) {
+            $patch = realpath($this->options->patch);
+            $this->options->keys['patch']->value = $patch;
+        }
+
         chdir( $buildDir );
 
         // xxx: refactor this
@@ -82,8 +89,9 @@ class InstallCommand extends \CLIFramework\Command
             $targetDir = $downloader->download( $info['svn'] );
         }
 
-        if( ! file_exists($targetDir ) ) 
+        if( ! file_exists($targetDir ) ) {
             throw new Exception("Download failed.");
+        }
 
         $builder = new \PhpBrew\Builder( $targetDir, $version );
         $builder->logger = $logger;
@@ -108,8 +116,7 @@ class InstallCommand extends \CLIFramework\Command
         $cmd->append = true;
         $cmd->stdout = Config::getVersionBuildLogPath( $version );
         if( $options->nice )
-            $cmd->nice( $options->nice->value );
-
+            $cmd->nice( $options->nice );
 
         $startTime = microtime(true);
 
@@ -120,7 +127,7 @@ class InstallCommand extends \CLIFramework\Command
             $logger->info("Testing");
             $cmd = new CommandBuilder('make test');
             if( $options->nice )
-                $cmd->nice( $options->nice->value );
+                $cmd->nice( $options->nice );
             $cmd->append = true;
             $cmd->stdout = Config::getVersionBuildLogPath( $version );
             $logger->debug( '' .  $cmd  );

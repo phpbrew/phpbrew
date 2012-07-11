@@ -47,9 +47,9 @@ class Builder
 
     public function __construct($targetDir,$version)
     {
-        $this->targetDir = $targetDir;
-        $this->root = Config::getPhpbrewRoot();
-        $this->buildDir = Config::getBuildDir();
+        $this->targetDir   = $targetDir;
+        $this->root        = Config::getPhpbrewRoot();
+        $this->buildDir    = Config::getBuildDir();
         $this->buildPrefix = Config::getVersionBuildPrefix( $version );
         $this->version = $version;
         $this->variants = new Variants;
@@ -116,10 +116,17 @@ class Builder
 
         $this->logger->debug('Variants: ' . join(', ',array_keys($this->variants->use)) );
 
-        // let's apply patch for libphp{php version}.so
-        if( $this->variants->isUsing('apxs2') ) {
-            $this->logger->info('---> Applying patch - apxs2 module version name ...');
 
+        if( $patchFile = $this->options->patch ) {
+            // copy patch file to here
+            $this->logger->info("===> Applying patch file from $patchFile ...");
+            system("patch < $patchFile");
+        }
+
+
+        // let's apply patch for libphp{php version}.so (apxs)
+        if( $this->variants->isUsing('apxs2') ) {
+            $this->logger->info('===> Applying patch - apxs2 module version name ...');
 
             // patch for libphp$(PHP_MAJOR_VERSION).so
             $patch=<<<'EOS'
