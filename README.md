@@ -140,7 +140,6 @@ To list variants:
 $ phpbrew variants
 
 Variants:
-    pdo
     pear
     mysql
     debug
@@ -148,11 +147,10 @@ Variants:
     pgsql
     cli
     apxs2
-    debug
     cgi
     soap
     pcntl
-    ...
+    ... (etc)
 ```
 
 You can build PHP with extra variants:
@@ -217,7 +215,9 @@ $ phpbrew off
 $ phpbrew list
 ```
 
-Build & Install extensions from PHP source:
+## Build & Install extensions from PHP source 
+
+(after the installation):
 
     phpbrew install-ext pdo
     phpbrew install-ext mcrypt --with-mcrypt=/opt/local
@@ -230,7 +230,15 @@ Build & Install extensions from PHP source:
 the `enable` command allows you to create a config {current php base}/var/db/{extension name}.ini 
 to enable the extension.
 
-## Installed PHPs
+## Upgrade phpbrew
+
+To upgrade phpbrew, you can simply run the `self-update` command,
+this command enables you to install the latest version of
+`master` branch from github:
+
+    $ phpbrew self-update
+
+## The Installed PHPs
 
 The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.0RC7 is located at:
 
@@ -248,21 +256,25 @@ Extension configuration files should be put in:
 ## Enable Version Info Prompt
 
 To add PHP version info in your shell prompt, you can use 
-"PHPBREW_SET_PROMPT=1" variable.
+`"PHPBREW_SET_PROMPT=1"` variable.
 
-The default is "PHPBREW_SET_PROMPT=0" (disable). To enable it, you can add this
+The default is `"PHPBREW_SET_PROMPT=0"` (disable). To enable it, you can add this
 line to your `~/.bashrc` file and put this line before you source
 `~/.phpbrew/bashrc`.
 
+```sh
     export PHPBREW_SET_PROMPT=1
+```
 
 To embed version info in your prompt, you can use 
 `current_php_version` shell function, which is defined in `.phpbrew/bashrc`.
 and you can set the version info in your `PS1` var. 
 e.g.
 
+```sh
     PHP_VERSION=$(current_php_version)
     PS1=" $PHP_VERSION \$ "
+```
 
 Hacking
 -------
@@ -272,7 +284,7 @@ Install Onion first:
 
 Install dependencies:
 
-    $ onion -d bundle
+    $ onion -d install
 
 Initialize
 
