@@ -1,15 +1,19 @@
 <?php
 namespace PhpBrew;
+use Exception;
 
 class Config
 {
 
     static function getPhpbrewRoot()
     {
-        return ($custom = getenv('PHPBREW_HOME')) 
-            ? $custom 
-            : getenv('HOME') . DIRECTORY_SEPARATOR . '.phpbrew'
-        ;
+        if ($custom = getenv('PHPBREW_HOME')) 
+            return $custom;
+
+        if( $home = getenv('HOME') ) {
+            return $home . DIRECTORY_SEPARATOR . '.phpbrew';
+        }
+        throw new Exception('Environment variable HOME is required');
     }
 
     static function getBuildDir()
