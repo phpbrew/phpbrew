@@ -55,7 +55,6 @@ Cent OS requirement setup
 
 Reference: http://matome.naver.jp/odai/2133887830324055901
 
-
 ## Install phpbrew
 
 Just download it:
@@ -101,15 +100,10 @@ Available svn versions:
 Available versions from PhpStas:
     php-5.4.0RC1
     php-5.4.0RC2
-    php-5.4.0RC3
-    php-5.4.0RC4
-    php-5.4.0RC5
-    php-5.4.0RC6
+    ....
     php-5.4.0RC7
-    php-5.4.0alpha1
-    php-5.4.0alpha2
+    ....
     php-5.4.0alpha3
-    php-5.4.0beta1
     php-5.4.0beta2
 ```
 
