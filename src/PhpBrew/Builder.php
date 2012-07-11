@@ -120,7 +120,7 @@ class Builder
         if( $patchFile = $this->options->patch ) {
             // copy patch file to here
             $this->logger->info("===> Applying patch file from $patchFile ...");
-            system("patch < $patchFile");
+            system("patch -p0 < $patchFile");
         }
 
 
