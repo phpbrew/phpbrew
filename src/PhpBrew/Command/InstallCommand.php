@@ -20,7 +20,7 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('test','tests');
         $opts->add('no-clean','Do not clean object files before/after building.');
         $opts->add('production','Use production configuration');
-        $opts->add('nice:', 'process nice level');
+        $opts->add('n|nice:', 'process nice level');
     }
 
     public function execute($version)
