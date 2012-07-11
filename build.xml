@@ -72,12 +72,12 @@
   </apply>
  </target>
 
- <target name="test" depends="test-cli,test-phar-cli,test-sh,test-build">
+ <target name="test" depends="test-cli,test-phar-cli,test-build">
 
  </target>
 
  <target name="test-build">
-  <exec executable="phpbrew">
+     <exec executable="bin/phpbrew">
     <arg value="-d"/>
     <arg value="install"/>
     <arg value="-n"/>
@@ -89,7 +89,7 @@
     <arg value="+pcntl"/>
   </exec>
 
-  <exec executable="phpbrew">
+  <exec executable="bin/phpbrew">
     <arg value="-d"/>
     <arg value="install"/>
     <arg value="-n"/>
@@ -103,24 +103,26 @@
  </target>
 
  <target name="test-phar-cli">
-  <exec executable="phpbrew"/>
 
-  <exec executable="phpbrew">
-    <arg value="init"/>
-  </exec>
+    <exec executable="bin/phpbrew">
+    </exec>
 
-  <exec executable="phpbrew">
-    <arg value="list"/>
-  </exec>
+    <exec executable="bin/phpbrew">
+        <arg value="init"/>
+    </exec>
 
-  <exec executable="phpbrew">
-    <arg value="known"/>
-  </exec>
+    <exec executable="bin/phpbrew">
+        <arg value="list"/>
+    </exec>
+
+    <exec executable="bin/phpbrew">
+        <arg value="known"/>
+    </exec>
  </target>
 
  <target name="test-sh" description="Test phpbrew.sh">
      <exec executable="bash">
-         <arg value="phpbrew.sh"/>
+         <arg value="bash phpbrew.sh"/>
      </exec>
  </target>
 
@@ -291,7 +293,7 @@
      <exec executable="php">
          <arg value="--version"/>
      </exec>
-     <exec executable="phpbrew">
+     <exec executable="bin/phpbrew">
          <arg value="--version"/>
      </exec>
  </target>
