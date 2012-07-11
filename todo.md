@@ -16,4 +16,6 @@
     - xdebug flavor
     - apc flavor
 - Fallback handler when DOMDocument is not found.
+- `--patch={file}` option support.
+- pure bash support.
 
