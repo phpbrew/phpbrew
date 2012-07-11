@@ -1,3 +1,8 @@
 <?php
 $console = new PhpBrew\Console;
-$console->run( $argv );
+try {
+    $console->run( $argv );
+} catch ( Exception $e ) {
+    echo $e->getMessage(), "\n";
+    exit(-1);
+}
