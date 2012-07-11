@@ -41,7 +41,7 @@ port install curl automake autoconf $(port echo depof:php5)
 ### Ubuntu/Debian Requirement
 
 ```bash
-sudo apt-get install autoconf automake curl build-essential
+sudo apt-get install autoconf automake curl build-essential libxslt1-dev libtidy-dev re2c
 sudo apt-get build-dep php5 
 ```
 
