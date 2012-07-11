@@ -8,9 +8,4 @@ $loader = new \Universal\ClassLoader\BasePathClassLoader( array(
 $loader->register();
 
 $console = new PhpBrew\Console;
-try {
-    $console->run( $argv );
-} catch (Exception $e) {
-    echo $e->getMessage(), "\n";
-    exit(-1);
-}
+$console->run( $argv );
