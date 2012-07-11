@@ -45,6 +45,7 @@ MacPorts users:
 
 Cent OS requirement setup
 
+```bash
     sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
 
     # If you don't have php
@@ -52,6 +53,7 @@ Cent OS requirement setup
     wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
     sudo rpm -Uvh rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
     sudo yum install --enablerepo=rpmforge re2c libmhash
+```
 
 Reference: http://matome.naver.jp/odai/2133887830324055901
 
@@ -59,30 +61,23 @@ Reference: http://matome.naver.jp/odai/2133887830324055901
 
 Just download it:
 
+```bash
     curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
-
-Install through PEAR channel:
-
-    sudo pear channel-discover pear.corneltek.com
-    sudo pear install -a -f corneltek/PhpBrew
-
-Install from github:
-
-    git clone git@github.com:c9s/phpbrew.git
-    cd phpbrew
-    sudo pear channel-discover pear.corneltek.com
-    sudo pear install -f package.xml
+```
 
 ## Basic usage
 
 Init a bash script for your shell environment:
 
-    $ phpbrew init
+```bash
+$ phpbrew init
+```
 
 Then add these lines to your `.bashrc` or `.zshrc` file:
 
-    source ~/.phpbrew/bashrc
-
+```bash
+$ source ~/.phpbrew/bashrc
+```
 
 To list known versions:
 
