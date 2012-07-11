@@ -43,6 +43,8 @@ MacPorts users:
 
 ### Cent OS Requirement
 
+Cent OS requirement setup
+
     sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
 
     # If you don't have php
@@ -50,6 +52,9 @@ MacPorts users:
     wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
     sudo rpm -Uvh rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
     sudo yum install --enablerepo=rpmforge re2c libmhash
+
+Reference: http://matome.naver.jp/odai/2133887830324055901
+
 
 ## Install phpbrew
 
