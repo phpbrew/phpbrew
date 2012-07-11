@@ -34,25 +34,29 @@ phpbrew can:
 
 MacPorts users:
 
-    port install curl automake autoconf $(port echo depof:php5)
+```bash
+port install curl automake autoconf $(port echo depof:php5)
+```
 
 ### Ubuntu/Debian Requirement
 
-    sudo apt-get install autoconf automake curl build-essential
-    sudo apt-get build-dep php5 
+```bash
+sudo apt-get install autoconf automake curl build-essential
+sudo apt-get build-dep php5 
+```
 
 ### Cent OS Requirement
 
 Cent OS requirement setup
 
 ```bash
-    sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
+sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
 
-    # If you don't have php
-    sudo yum install --enablerepo=webtatic php php-xml libtidy
-    wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
-    sudo rpm -Uvh rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
-    sudo yum install --enablerepo=rpmforge re2c libmhash
+# If you don't have php
+sudo yum install --enablerepo=webtatic php php-xml libtidy
+wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
+sudo rpm -Uvh rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
+sudo yum install --enablerepo=rpmforge re2c libmhash
 ```
 
 Reference: http://matome.naver.jp/odai/2133887830324055901
@@ -62,7 +66,7 @@ Reference: http://matome.naver.jp/odai/2133887830324055901
 Just download it:
 
 ```bash
-    curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
 ```
 
 ## Basic usage
