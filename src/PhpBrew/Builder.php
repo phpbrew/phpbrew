@@ -192,9 +192,7 @@ EOS;
         $this->logger->debug( $cmd->getCommand() );
 
         if( $this->options->nice )
-            $cmd->nice( $this->options->nice->value );
-
-
+            $cmd->nice( $this->options->nice );
 
         $cmd->execute() !== false or die('Configure failed.');
     }
