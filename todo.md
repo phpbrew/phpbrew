@@ -19,3 +19,9 @@
 - `--patch={file}` option support.
 - pure bash support.
 
+- PHP 5.2 compatibility (or pure bash script?)
+    Phar requires PHP 5.2.0 or newer. Additional features
+    require the SPL extension in order to take advantage of
+    iteration and array access to a Phar's file contents. The
+    phar stream does not require any additional extensions to
+    function.
