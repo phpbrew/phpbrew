@@ -15,4 +15,5 @@
     - pyrus flavor
     - xdebug flavor
     - apc flavor
+- Fallback handler when DOMDocument is not found.
 

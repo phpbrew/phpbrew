@@ -24,23 +24,32 @@ phpbrew can:
 * Mac OS 10.5+
 * Ubuntu, Debian
 
-## Requirements
+## Requirement
 
 * PHP5.3
 * curl
 * gcc, binutil, autoconf, libxml, zlib, readline
 
-
-### Mac OS X
+### Mac OS X Requirement
 
 MacPorts users:
 
     port install curl automake autoconf $(port echo depof:php5)
 
-### Ubuntu/Debian
+### Ubuntu/Debian Requirement
 
     sudo apt-get install autoconf automake curl build-essential
     sudo apt-get build-dep php5 
+
+### Cent OS Requirement
+
+    sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
+
+    # If you don't have php
+    sudo yum install --enablerepo=webtatic php php-xml libtidy
+    wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
+    sudo rpm -Uvh rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
+    sudo yum install --enablerepo=rpmforge re2c libmhash
 
 ## Install phpbrew
 
