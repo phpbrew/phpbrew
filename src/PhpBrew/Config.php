@@ -6,10 +6,9 @@ class Config
 
     static function getPhpbrewRoot()
     {
-        return ($custom = getenv('PHPBREW_HOME')) ?
-                        $custom
-                :
-                        getenv('HOME') . DIRECTORY_SEPARATOR . '.phpbrew'
+        return ($custom = getenv('PHPBREW_HOME')) 
+            ? $custom 
+            : getenv('HOME') . DIRECTORY_SEPARATOR . '.phpbrew'
         ;
     }
 
