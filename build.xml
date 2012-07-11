@@ -81,6 +81,16 @@
     <arg value="-d"/>
     <arg value="install"/>
     <arg value="php-5.4.4"/>
+    <arg value="+mysql"/>
+    <arg value="+pgsql"/>
+  </exec>
+
+  <exec executable="phpbrew">
+    <arg value="-d"/>
+    <arg value="install"/>
+    <arg value="php-5.3.14"/>
+    <arg value="+mysql"/>
+    <arg value="+pgsql"/>
   </exec>
  </target>
 
