@@ -86,6 +86,7 @@
     <arg value="+mysql"/>
     <arg value="+pgsql"/>
     <arg value="+posix"/>
+    <arg value="+pcntl"/>
   </exec>
 
   <exec executable="phpbrew">
@@ -97,6 +98,7 @@
     <arg value="+mysql"/>
     <arg value="+pgsql"/>
     <arg value="+posix"/>
+    <arg value="+pcntl"/>
   </exec>
  </target>
 
