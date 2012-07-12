@@ -11,18 +11,20 @@ class Console extends Application
     {
         parent::init();
         $this->registerCommand('init');
-        $this->registerCommand('install');
-        $this->registerCommand('info');
         $this->registerCommand('known');
+        $this->registerCommand('install');
         $this->registerCommand('list');
-        $this->registerCommand('env');
         $this->registerCommand('use');
         $this->registerCommand('switch');
+
+        $this->registerCommand('info');
+        $this->registerCommand('env');
         $this->registerCommand('variants');
         $this->registerCommand('config');
-        $this->registerCommand('install-ext');
 
         $this->registerCommand('enable', 'PhpBrew\Command\EnableExtensionCommand');
+        $this->registerCommand('install-ext');
+
         $this->registerCommand('self-update', 'PhpBrew\Command\SelfUpdateCommand');
     }
 
