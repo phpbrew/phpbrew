@@ -183,6 +183,23 @@ NOTE:
 > 
 > 2. phpbrew currently only supports for apxs2 (apache2)
 
+If you enabled the `apxs2` variant, your apache conf file
+might look like this if you have multiple php(s) installed
+on your system:
+
+    # LoadModule php5_module        modules/libphp5.3.10.so
+    # LoadModule php5_module        modules/libphp5.4.0.so
+    # LoadModule php5_module        modules/libphp5.4.0RC8.so
+    # LoadModule php5_module        modules/libphp5.4.0RC7.so
+    # LoadModule php5_module        modules/libphp5.4.1RC2.so
+    # LoadModule php5_module        modules/libphp5.4.1.so
+    # LoadModule php5_module        modules/libphp5.4.2.so
+    LoadModule php5_module          modules/libphp5.4.4.so
+
+You can simply uncomment/comment it to enable the php5
+apache module you needed, after modifying it, remember 
+to restart your apache http server. :)
+
 ## Extra options
 
 To pass extra configure arguments, you can do this:
