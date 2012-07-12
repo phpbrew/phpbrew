@@ -38,6 +38,14 @@ MacPorts users:
 port install curl automake autoconf $(port echo depof:php5)
 ```
 
+HomeBrew users:
+
+```bash
+brew install automake autoconf curl pcre mhash glibtool
+
+# incomplete
+```
+
 ### Ubuntu/Debian Requirement
 
 ```bash
