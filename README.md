@@ -164,11 +164,11 @@ Variants:
 
 You can build PHP with extra variants:
 
-    $ phpbrew install php-5.3.10 +mysql +sqlite +cgi
+    $ phpbrew install php-5.3.10 +mysql+sqlite+cgi
 
-    $ phpbrew install php-5.3.10 +mysql +debug+mysql+pgsql +apxs2
+    $ phpbrew install php-5.3.10 +mysql+debug+pgsql +apxs2
 
-    $ phpbrew install php-5.3.10 +mysql +mysql +apxs2=/usr/bin/apxs2
+    $ phpbrew install php-5.3.10 +mysql +pgsql +apxs2=/usr/bin/apxs2
 
 PDO is enabled by default.
 
