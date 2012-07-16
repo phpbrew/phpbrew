@@ -125,16 +125,16 @@ simply build and install PHP:
 $ phpbrew install php-5.4.0
 ```
 
-Without tests:
+With tests:
 
 ```bash
-$ phpbrew install --no-test php-5.4.0
+$ phpbrew install --test php-5.4.0
 ```
 
 With debug messages:
 
 ```bash
-$ phpbrew -d install --no-test php-5.4.0
+$ phpbrew -d install --test php-5.4.0
 ```
 
 
