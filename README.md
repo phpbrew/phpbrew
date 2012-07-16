@@ -277,7 +277,10 @@ And you should put your configuration file in:
 Extension configuration files should be put in:
 
     ~/.phpbrew/php/5.4.0RC7/var/db
-
+    ~/.phpbrew/php/5.4.0RC7/var/db/xdebug.ini
+    ~/.phpbrew/php/5.4.0RC7/var/db/apc.ini
+    ~/.phpbrew/php/5.4.0RC7/var/db/memcache.ini
+    ... etc
 
 ## Enable Version Info Prompt
 
