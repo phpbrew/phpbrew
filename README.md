@@ -49,7 +49,7 @@ brew install automake autoconf curl pcre mhash glibtool
 ### Ubuntu/Debian Requirement
 
 ```bash
-sudo apt-get install autoconf automake curl build-essential libxslt1-dev libtidy-dev re2c
+sudo apt-get install autoconf automake curl build-essential libxslt1-dev libtidy-dev re2c libxml2-dev
 sudo apt-get build-dep php5 
 ```
 

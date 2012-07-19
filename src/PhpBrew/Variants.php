@@ -107,6 +107,8 @@ class Variants
         };
 
         $this->variants['openssl'] = function() use($self) {
+            // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
+            return '--with-openssl';
             $prefix = Utils::get_pkgconfig_prefix('openssl');
             if( $prefix )
                 return '--with-openssl=' . $prefix;
