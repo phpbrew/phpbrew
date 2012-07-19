@@ -19,16 +19,16 @@ class VariantsCommand extends \CLIFramework\Command
 
         echo "Variants\n";
         foreach( $list as $feature ) {
-            if( $variants->isDefault($feature) ) {
-                echo "    $feature (+)\n";
-            } else {
-                echo "    $feature\n";
-            }
+            echo "    $feature\n";
         }
 
         echo "\n";
+        echo "Variant sets\n";
+        echo "    default:  pdo, posix, calendar, mysql, bz2, cli, readline, sockets, fpm\n";
+        echo "\n";
         echo "Example:\n";
         echo "\n";
+        echo "    phpbrew install php-5.3.10 +default\n";
         echo "    phpbrew install php-5.3.10 +mysql +pdo\n";
         echo "    phpbrew install php-5.3.10 +mysql +pdo +apxs2\n";
         echo "    phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2\n";

@@ -31,21 +31,6 @@ class Variants
     public $use = array();
 
 
-    /**
-     * default use variants
-     */
-    public $defaultUse = array(
-        'pdo' => 1,
-        'bz2' => 1,
-        'cli' => 1,
-        'fpm' => 1,
-        'bz2' => 1,
-        'posix' => 1,
-        'calendar' => 1,
-        'sockets' => 1,
-        'readline' => 1,
-    );
-
     public $disables = array();
 
     public $conflicts = array(
@@ -56,6 +41,17 @@ class Variants
     public function __construct()
     {
         $self = $this;
+
+        $this->variants['default'] = function() use($self) {
+            $self->enable('pdo');
+            $self->enable('posix');
+            $self->enable('bz2');
+            $self->enable('cli');
+            $self->enable('fpm');
+            $self->enable('calendar');
+            $self->enable('sockets');
+            $self->enable('readline');
+        };
 
         $this->variants['calendar'] = function() {
             return '--enable-calendar';
@@ -266,20 +262,7 @@ class Variants
         };
 
         // '--with-mcrypt=/usr',
-
-        /**
-         * default features 
-         **/
-        foreach( $this->defaultUse as $u => $v ) {
-            $this->enable($u);
-        }
     }
-
-    public function isDefault($feature)
-    {
-        return isset($this->defaultUse[$feature]);
-    }
-
 
     private function _getConflict($feature)
     {
