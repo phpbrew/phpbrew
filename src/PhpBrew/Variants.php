@@ -52,6 +52,8 @@ class Variants
             $self->enable('sockets');
             $self->enable('readline');
             $self->enable('filter');
+            $self->enable('bcmath');
+            $self->enable('ctype');
         };
 
         $this->variants['dbs'] = function() {
@@ -239,6 +241,14 @@ class Variants
 
         $this->variants['debug'] = function() {
             return array('--enable-debug');
+        };
+
+        $this->variants['bcmath'] = function() {
+            return '--enable-bcmath';
+        };
+
+        $this->variants['ctype'] = function() {
+            return '--enable-ctype';
         };
 
         $this->variants['cgi'] = function() {
