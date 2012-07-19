@@ -1,12 +1,17 @@
 
 # Todo
 
+- Smarter build tasks
+    - xdebug (enable zend extension with absolute path)
+    - build with extensions
 - Mirror option
 - Fetch command.
 - Build command.
 - Install command.
 - Test command.
-- Copy variants from previous install.
+- Inherit option
+    - Copy variants from previous install.
+    - Copy config file from previous install.
 - Extension Builder
 - Extension disable/enable command
 - Flavors
