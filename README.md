@@ -143,7 +143,11 @@ $ phpbrew -d install --test php-5.4.0
 
 ## Variants
 
-To list variants:
+PHPBrew arranges configure options for you, you can simply specify variant name,
+and phpbrew will detect include paths and options for you.
+
+PHPBrew provides a default variant set, which include the most commonly used variants, 
+to see what is included in these variant sets, simply run `variants` subcommand to list variants:
 
 ```bash
 $ phpbrew variants
@@ -162,7 +166,16 @@ Variants:
     ... (etc)
 ```
 
-You can build PHP with extra variants:
+Currently phpbrew provides 2 variant set:
+
+1. default (most commonly used variants)
+2. dbs (sqlite, mysql, pgsql, pdo)
+
+For example,
+
+    $ phpbrew install php-5.4.5 +default +dbs
+
+You can also build PHP with extra variants:
 
     $ phpbrew install php-5.3.10 +mysql+sqlite+cgi
 
