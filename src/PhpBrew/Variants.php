@@ -42,22 +42,30 @@ class Variants
         $self = $this;
 
         $this->variants['default'] = function() use($self) {
-            $self->enable('filter');
-            $self->enable('bcmath');
-            $self->enable('ctype');
-            $self->enable('fileinfo');
-            $self->enable('pdo');
-            $self->enable('posix');
-            $self->enable('ipc');
-            $self->enable('pcntl');
-            $self->enable('bz2');
-            $self->enable('zip');
-            $self->enable('cli');
-            $self->enable('intl');
-            $self->enable('fpm');
-            $self->enable('calendar');
-            $self->enable('sockets');
-            $self->enable('readline');
+            $vs = array(
+                'filter',
+                'bcmath',
+                'ctype',
+                'fileinfo',
+                'pdo',
+                'posix',
+                'ipc',
+                'pcntl',
+                'bz2',
+                'zip',
+                'cli',
+                'intl',
+                'calendar',
+                'sockets',
+                'readline',
+            );
+            $options = array();
+            foreach( $vs as $v ) {
+                $options = array_merge( 
+                    $options,
+                    $self->buildVariant($v) );
+            }
+            return $options;
         };
 
         $this->variants['dbs'] = function() use($self) {
