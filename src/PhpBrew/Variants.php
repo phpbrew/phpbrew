@@ -243,6 +243,10 @@ class Variants
             return array('--enable-debug');
         };
 
+        $this->variants['zip'] = function() {
+            return '--enable-zip';
+        };
+
         $this->variants['bcmath'] = function() {
             return '--enable-bcmath';
         };
@@ -388,8 +392,6 @@ class Variants
         // build common options
         $opts = array(
             '--disable-all',
-            '--enable-bcmath',
-            '--enable-ctype',
             '--enable-dom',
             '--enable-exif',
             '--enable-fileinfo',
@@ -407,7 +409,6 @@ class Variants
             '--enable-xml',
             '--enable-xmlreader',
             '--enable-xmlwriter',
-            '--enable-zip',
 
             '--with-xsl',
             '--with-tidy',
