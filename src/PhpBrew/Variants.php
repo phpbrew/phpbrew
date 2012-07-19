@@ -51,6 +51,7 @@ class Variants
             $self->enable('calendar');
             $self->enable('sockets');
             $self->enable('readline');
+            $self->enable('filter');
         };
 
         $this->variants['dbs'] = function() {
@@ -382,7 +383,6 @@ class Variants
             '--enable-dom',
             '--enable-exif',
             '--enable-fileinfo',
-            '--enable-filter',
             '--enable-hash',
             '--enable-json',
             '--enable-mbregex',
