@@ -106,13 +106,22 @@ class Variants
             return $opts;
         };
 
-        $this->variants['openssl'] = function() use($self) {
+
+        /**
+         * For --with-openssl option
+         *
+         */
+        $this->variants['openssl'] = function($val = null) use($self) {
             // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
-            return '--with-openssl';
+            if( $val ) {
+                return '--with-openssl=' . $val;
+            }
             $prefix = Utils::get_pkgconfig_prefix('openssl');
-            if( $prefix )
-                return '--with-openssl=' . $prefix;
-            echo "** openssl not found.\n";
+            if( ! $prefix ) {
+                echo "phpbrew precheck: openssl not found.\n";
+                return '--with-openssl';
+            }
+            return '--with-openssl=shared';
         };
 
         /*

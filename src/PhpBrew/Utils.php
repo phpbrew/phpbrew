@@ -40,7 +40,13 @@ CONFIG;
 
     static function find_include_prefix($hfile)
     {
-        $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
+        // TODO: phpbrew can be smarter (add brew path for detection here)
+        $prefixes = array(
+            '/usr',
+            '/opt', 
+            '/usr/local', 
+            '/opt/local',
+        );
         foreach( $prefixes as $prefix ) {
             $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
             if( file_exists($p) )
@@ -82,8 +88,7 @@ CONFIG;
                 array("pipe","w"), // stdout
                 array("pipe","w"), // stderr
             ), $pipes);
-        $output = stream_get_contents($pipes[1]);
-        return $output;
+        return stream_get_contents($pipes[1]);
     }
 }
 
