@@ -119,11 +119,15 @@ Available versions from PhpStas:
 
 ## Build And Install
 
-simply build and install PHP:
+Simply build and install PHP with default variant:
 
 ```bash
-$ phpbrew install php-5.4.0
+$ phpbrew install php-5.4.0 +default
 ```
+
+Here we suggest `default` variant set, which includes most commonly used
+variants, if you need a minimum install, just remove the `default` variant set.
+
 
 With tests:
 
