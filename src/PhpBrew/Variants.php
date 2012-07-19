@@ -51,6 +51,7 @@ class Variants
             $self->enable('ipc');
             $self->enable('pcntl');
             $self->enable('bz2');
+            $self->enable('zip');
             $self->enable('cli');
             $self->enable('intl');
             $self->enable('fpm');

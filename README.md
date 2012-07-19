@@ -172,7 +172,7 @@ Variants:
 
 Currently phpbrew provides 2 variant set:
 
-1. default (most commonly used variants, eg: filter bcmath ctype fileinfo pdo posix ipc pcntl bz2 cli intl fpm calendar sockets readline)
+1. default (most commonly used variants, eg: filter bcmath ctype fileinfo pdo posix ipc pcntl bz2 cli intl fpm calendar sockets readline, zip)
 2. dbs (sqlite, mysql, pgsql, pdo)
 
 For example,
