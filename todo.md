@@ -25,3 +25,7 @@
     iteration and array access to a Phar's file contents. The
     phar stream does not require any additional extensions to
     function.
+
+# Done
+
+- variant sets
