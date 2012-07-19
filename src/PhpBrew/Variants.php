@@ -42,6 +42,10 @@ class Variants
         $self = $this;
 
         $this->variants['default'] = function() use($self) {
+            $self->enable('filter');
+            $self->enable('bcmath');
+            $self->enable('ctype');
+            $self->enable('fileinfo');
             $self->enable('pdo');
             $self->enable('posix');
             $self->enable('ipc');
@@ -53,9 +57,6 @@ class Variants
             $self->enable('calendar');
             $self->enable('sockets');
             $self->enable('readline');
-            $self->enable('filter');
-            $self->enable('bcmath');
-            $self->enable('ctype');
         };
 
         $this->variants['dbs'] = function() use($self) {
@@ -253,6 +254,10 @@ class Variants
             return '--enable-bcmath';
         };
 
+        $this->variants['fileinfo'] = function() {
+            return '--enable-fileinfo';
+        };
+
         $this->variants['ctype'] = function() {
             return '--enable-ctype';
         };
@@ -396,7 +401,6 @@ class Variants
             '--disable-all',
             '--enable-dom',
             '--enable-exif',
-            '--enable-fileinfo',
             '--enable-hash',
             '--enable-json',
             '--enable-mbregex',
@@ -406,7 +410,6 @@ class Variants
             '--enable-short-tags',
             '--enable-libxml',
             '--enable-simplexml',
-            '--enable-sockets',
             '--enable-tokenizer',
             '--enable-xml',
             '--enable-xmlreader',
