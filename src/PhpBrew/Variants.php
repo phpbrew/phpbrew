@@ -69,10 +69,13 @@ class Variants
         };
 
         $this->variants['dbs'] = function() use($self) {
-            $self->enable('sqlite');
-            $self->enable('mysql');
-            $self->enable('pgsql');
-            $self->enable('pdo');
+            $options = array();
+            foreach( array('sqlite','mysql','pgsql','pdo') as $v ) {
+                $options = array_merge( 
+                    $options,
+                    $self->buildVariant($v) );
+            }
+            return $options;
         };
 
         $this->variants['dba'] = function() {
