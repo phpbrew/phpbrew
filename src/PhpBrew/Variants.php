@@ -46,10 +46,26 @@ class Variants
             $self->enable('posix');
             $self->enable('bz2');
             $self->enable('cli');
+            $self->enable('intl');
             $self->enable('fpm');
             $self->enable('calendar');
             $self->enable('sockets');
             $self->enable('readline');
+        };
+
+        $this->variants['dbs'] = function() {
+            $self->enable('sqlite');
+            $self->enable('mysql');
+            $self->enable('pgsql');
+            $self->enable('pdo');
+        };
+
+        $this->variants['dba'] = function() {
+            return '--enable-dba';
+        };
+
+        $this->variants['ipv6'] = function() {
+            return '--enable-ipv6';
         };
 
         $this->variants['all'] = function() {
@@ -174,6 +190,14 @@ class Variants
 
         $this->variants['ftp'] = function() {
             return '--enable-ftp';
+        };
+
+        $this->variants['filter'] = function() {
+            return '--enable-filter';
+        };
+
+        $this->variants['gcov'] = function() {
+            return '--enable-gcov';
         };
 
         $this->variants['sockets'] = function() {
@@ -361,12 +385,12 @@ class Variants
             '--enable-filter',
             '--enable-hash',
             '--enable-json',
-            '--enable-libxml',
             '--enable-mbregex',
             '--enable-mbstring',
             '--enable-phar',
             '--enable-session',
             '--enable-short-tags',
+            '--enable-libxml',
             '--enable-simplexml',
             '--enable-sockets',
             '--enable-tokenizer',

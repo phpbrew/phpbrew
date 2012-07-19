@@ -24,7 +24,8 @@ class VariantsCommand extends \CLIFramework\Command
 
         echo "\n";
         echo "Variant sets\n";
-        echo "    default:  pdo, posix, calendar, mysql, bz2, cli, readline, sockets, fpm\n";
+        echo "    default:  pdo, posix, calendar, bz2, cli, readline, sockets, fpm\n";
+        echo "    dbs:      pdo, mysql, pgsql, sqlite\n";
         echo "\n";
         echo "Example:\n";
         echo "\n";
