@@ -172,12 +172,12 @@ Variants:
 
 Currently phpbrew provides 2 variant set:
 
-1. default (most commonly used variants)
+1. default (most commonly used variants, eg: filter bcmath ctype fileinfo pdo posix ipc pcntl bz2 cli intl fpm calendar sockets readline)
 2. dbs (sqlite, mysql, pgsql, pdo)
 
 For example,
 
-    $ phpbrew install php-5.4.5 +default +dbs
+    $ phpbrew install php-5.4.5 +default+dbs
 
 You can also build PHP with extra variants:
 
