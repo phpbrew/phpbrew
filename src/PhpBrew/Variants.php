@@ -30,7 +30,6 @@ class Variants
      */
     public $use = array();
 
-
     public $disables = array();
 
     public $conflicts = array(
@@ -51,6 +50,10 @@ class Variants
             $self->enable('calendar');
             $self->enable('sockets');
             $self->enable('readline');
+        };
+
+        $this->variants['all'] = function() {
+            return '--enable-all';
         };
 
         $this->variants['calendar'] = function() {
