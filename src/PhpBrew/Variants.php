@@ -44,6 +44,8 @@ class Variants
         $this->variants['default'] = function() use($self) {
             $self->enable('pdo');
             $self->enable('posix');
+            $self->enable('ipc');
+            $self->enable('pcntl');
             $self->enable('bz2');
             $self->enable('cli');
             $self->enable('intl');
@@ -56,7 +58,7 @@ class Variants
             $self->enable('ctype');
         };
 
-        $this->variants['dbs'] = function() {
+        $this->variants['dbs'] = function() use($self) {
             $self->enable('sqlite');
             $self->enable('mysql');
             $self->enable('pgsql');
