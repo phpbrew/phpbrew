@@ -49,7 +49,7 @@ brew install automake autoconf curl pcre mhash glibtool
 ### Ubuntu/Debian Requirement
 
 ```bash
-sudo apt-get install autoconf automake curl build-essential libxslt1-dev libtidy-dev re2c libxml2-dev
+sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev
 sudo apt-get build-dep php5 
 ```
 
@@ -61,7 +61,7 @@ Cent OS requirement setup
 sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
 
 # If you don't have php
-sudo yum install --enablerepo=webtatic php php-xml libtidy
+sudo yum install --enablerepo=webtatic php php-xml
 wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
 sudo rpm -Uvh rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
 sudo yum install --enablerepo=rpmforge re2c libmhash
