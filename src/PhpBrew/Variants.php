@@ -294,6 +294,10 @@ class Variants
             return '--with-imap-ssl';
         };
 
+        $this->variants['tidy'] = function() {
+            return '--with-tidy';
+        };
+
         $this->variants['kerberos'] = function() {
             return '--with-kerberos';
         };
@@ -428,7 +432,6 @@ class Variants
             '--enable-xmlwriter',
 
             '--with-xsl',
-            '--with-tidy',
             '--with-xmlrpc',
             '--with-mhash',
             '--with-pcre-regex',
