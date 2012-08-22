@@ -13,6 +13,7 @@ phpbrew can:
 - build and install php(s) in your home directory, so you don't need root permission.
 - switch versions very easily and is integrated with bash/zsh shell.
 - automatic feature detection.
+- install multiple php into system-wide environment.
 
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
 
@@ -22,7 +23,8 @@ phpbrew can:
 ## Platform support
 
 * Mac OS 10.5+
-* Ubuntu, Debian
+* Ubuntu
+* Debian
 
 ## Requirement
 
@@ -78,6 +80,7 @@ curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
 chmod +x phpbrew
 sudo cp phpbrew /usr/bin/phpbrew
 ```
+
 
 ## Basic usage
 
@@ -281,7 +284,7 @@ this command enables you to install the latest version of
 
     $ phpbrew self-update
 
-## The Installed PHPs
+## The Installed PHP(s)
 
 The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.0RC7 is located at:
 
@@ -298,6 +301,47 @@ Extension configuration files should be put in:
     ~/.phpbrew/php/5.4.0RC7/var/db/apc.ini
     ~/.phpbrew/php/5.4.0RC7/var/db/memcache.ini
     ... etc
+
+## Install phpbrew into system-wide environment
+
+First, sudo as a root user or login as a root user:
+
+    sudo -i
+
+Now initialize your phpbrew bashrc for root:
+
+    phpbrew init
+
+Now export phpbrew paths to your desired paths, 
+edit your ~/.phpbrew/init
+
+    export PHPBREW_ROOT=/opt/phpbrew
+
+Source your phpbrew bashrc
+
+    source ~/.phpbrew/bashrc
+
+Install system-wide php(s):
+
+    phpbrew install php-5.4.5 +default +dbs
+
+Now your php(s) will be installed under the /opt/phpbrew path,
+To let your users can use php(s) built by phpbrew, you need to export 
+`PHPBREW_ROOT` environment in /etc/bashrc or in /etc/profile.d/phpbrew for bash
+users, before they load the phpbrew/bashrc file.
+
+    export PHPBREW_ROOT=/opt/phpbrew
+    source /opt/phpbrew/bashrc
+
+To keep system's safety, please use `root` to install php(s).
+
+a non-root user should not be able to install new php or switch 
+
+and remember to fix permissions if these files 
+were installed by non-root user.
+
+    chown -R root: /opt/phpbrew
+
 
 ## Enable Version Info Prompt
 
@@ -321,6 +365,10 @@ e.g.
     PHP_VERSION=$(current_php_version)
     PS1=" $PHP_VERSION \$ "
 ```
+
+
+
+
 
 Hacking
 -------
