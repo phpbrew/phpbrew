@@ -58,15 +58,14 @@ EOS;
         return <<<'EOS'
 #!/bin/bash
 
+[[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
+[[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
+
 if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
 	if [[ -f "$PHPBREW_HOME/init" ]]; then
 		. "$PHPBREW_HOME/init"
 	fi
 fi
-
-[[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
-[[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
-
 
 function __phpbrew_set_path () {
 	[[ -n $(alias perl 2>/dev/null) ]] && unalias perl 2> /dev/null
