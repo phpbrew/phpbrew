@@ -5,7 +5,7 @@ use Exception;
 class Config
 {
 
-    static function getPhpbrewRoot()
+    static function getPhpbrewHome()
     {
         if ($custom = getenv('PHPBREW_HOME')) 
             return $custom;
@@ -13,7 +13,15 @@ class Config
         if( $home = getenv('HOME') ) {
             return $home . DIRECTORY_SEPARATOR . '.phpbrew';
         }
-        throw new Exception('Environment variable HOME is required');
+        throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
+    }
+
+    static function getPhpbrewRoot()
+    {
+        if( $root = getenv('PHPBREW_ROOT')) {
+            return $root;
+        }
+        throw new Exception('Environment variable PHPBREW_ROOT is required');
     }
 
     static function getBuildDir()
