@@ -10,6 +10,7 @@ class InitCommand extends \CLIFramework\Command
     {
         // $currentVersion;
         $root = Config::getPhpbrewRoot();
+        $home = Config::getPhpbrewHome();
         $buildDir = Config::getBuildDir();
         $buildPrefix = Config::getBuildPrefix();
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
@@ -32,12 +33,12 @@ class InitCommand extends \CLIFramework\Command
         echo <<<EOS
 Phpbrew environment is initialized, required directories are created under
 
-    ~/.phpbrew
+    $home
 
 Paste the following line(s) to the end of your ~/.bashrc and start a
 new shell, phpbrew should be up and fully functional from there:
 
-    source ~/.phpbrew/bashrc
+    source $home/bashrc
 
 To enable PHP version info in your shell prompt, please set PHPBREW_SET_PROMPT=1
 in your `~/.bashrc` before you source `~/.phpbrew/bashrc`

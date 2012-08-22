@@ -21,6 +21,9 @@ class Config
         if( $root = getenv('PHPBREW_ROOT')) {
             return $root;
         }
+        if( $home = getenv('HOME') ) {
+            return $home . DIRECTORY_SEPARATOR . '.phpbrew';
+        }
         throw new Exception('Environment variable PHPBREW_ROOT is required');
     }
 

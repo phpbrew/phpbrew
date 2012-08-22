@@ -43,7 +43,8 @@ port install curl automake autoconf $(port echo depof:php5)
 HomeBrew users:
 
 ```bash
-brew install automake autoconf curl pcre mhash glibtool
+brew install automake autoconf curl pcre mhash glibtool icu4c
+brew link icu4c
 
 # incomplete
 ```
@@ -52,7 +53,7 @@ brew install automake autoconf curl pcre mhash glibtool
 
 ```bash
 sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev
-sudo apt-get build-dep php5 
+sudo apt-get build-dep php5
 ```
 
 ### Cent OS Requirement
@@ -153,7 +154,7 @@ $ phpbrew -d install --test php-5.4.0
 PHPBrew arranges configure options for you, you can simply specify variant name,
 and phpbrew will detect include paths and options for you.
 
-PHPBrew provides a default variant set, which include the most commonly used variants, 
+PHPBrew provides a default variant set, which include the most commonly used variants,
 to see what is included in these variant sets, simply run `variants` subcommand to list variants:
 
 ```bash
@@ -198,17 +199,17 @@ To build PHP with pgsql (Postgresql) extension:
 
 Or build pgsql extension with postgresql base dir:
 
-    $ phpbrew install php-5.4.1 +pgsql=/opt/local/lib/postgresql91 
+    $ phpbrew install php-5.4.1 +pgsql=/opt/local/lib/postgresql91
 
 
 NOTE:
 
 > 1. If you want to build php with apache php module, please change the permission
-> of apache module directory, eg: `/opt/local/apache2/modules/`.  
+> of apache module directory, eg: `/opt/local/apache2/modules/`.
 > it should be writable and phpbrew should be able to change permission.
-> after install, you should check your httpd.conf configuration file, to switch 
+> after install, you should check your httpd.conf configuration file, to switch
 > your php module version. :-)
-> 
+>
 > 2. phpbrew currently only supports for apxs2 (apache2)
 
 If you enabled the `apxs2` variant, your apache conf file
@@ -225,7 +226,7 @@ on your system:
     LoadModule php5_module          modules/libphp5.4.4.so
 
 You can simply uncomment/comment it to enable the php5
-apache module you needed, after modifying it, remember 
+apache module you needed, after modifying it, remember
 to restart your apache http server. :)
 
 ## Extra options
@@ -252,7 +253,7 @@ $ phpbrew switch php-5.4.0
 Turn Off:
 
 ```bash
-$ phpbrew off 
+$ phpbrew off
 ```
 
 ## List installed PHP
@@ -261,7 +262,7 @@ $ phpbrew off
 $ phpbrew list
 ```
 
-## Build & Install extensions from PHP source 
+## Build & Install extensions from PHP source
 
 (after the installation):
 
@@ -273,7 +274,7 @@ $ phpbrew list
     pecl install mongo
     phpbrew enable mongo
 
-the `enable` command allows you to create a config {current php base}/var/db/{extension name}.ini 
+the `enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
 to enable the extension.
 
 ## Upgrade phpbrew
@@ -345,7 +346,7 @@ were installed by non-root user.
 
 ## Enable Version Info Prompt
 
-To add PHP version info in your shell prompt, you can use 
+To add PHP version info in your shell prompt, you can use
 `"PHPBREW_SET_PROMPT=1"` variable.
 
 The default is `"PHPBREW_SET_PROMPT=0"` (disable). To enable it, you can add this
@@ -356,9 +357,9 @@ line to your `~/.bashrc` file and put this line before you source
     export PHPBREW_SET_PROMPT=1
 ```
 
-To embed version info in your prompt, you can use 
+To embed version info in your prompt, you can use
 `current_php_version` shell function, which is defined in `.phpbrew/bashrc`.
-and you can set the version info in your `PS1` var. 
+and you can set the version info in your `PS1` var.
 e.g.
 
 ```sh
@@ -409,7 +410,7 @@ Join us on #php-tw on irc.freenode.net
 Contributors
 ------------
 
-* yftzeng 
+* yftzeng
 * Gasol
 
 Author
