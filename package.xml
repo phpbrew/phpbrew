@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2012-08-22</date>
-  <time>15:47:23</time>
+  <time>15:51:38</time>
   <version>
     <release>1.5.2</release>
     <api>1.5.2</api>
@@ -37,7 +37,7 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="de3e2a9b06db7cd0f19bf3509f5e0df0"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="564369a81ae8b50bd0122832d3317d5b"/>
       <file name="src/PhpBrew/Command/SelfUpdateCommand.php" role="php" md5sum="974546d0902ca37805333d9a4e0283fb"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="2713a389d1ab651c52cafbbb03fe8153"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="0a0b9e759cc118fe7d29bf75c4c8e136"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="2badccdf67e8f202a02a3088d2edf6c0"/>
       <file name="src/PhpBrew/Command/SwitchCommand.php" role="php" md5sum="40ae023dfb14e8d809390ab19fb6a694"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="04688915a65cd96d09e6c49481448d1e"/>
@@ -53,7 +53,7 @@
       <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="386f3666b4b68823c1f3d8ddf0cb61e3"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="773dd96fefebceb691ec53d7454913ae"/>
       <file name="src/PhpBrew/Builder.php" role="php" md5sum="da201e42455cc9807eaf3826bdd665c8"/>
-      <file name="phpbrew" role="script" md5sum="36bd36db009d02d7e3195acf6dda5caf"/>
+      <file name="bin/phpbrew" role="script" md5sum="94e0e5245d7cac93d0d65bbc4dabd42b"/>
     </dir>
   </contents>
   <dependencies>
@@ -107,7 +107,7 @@
       <install name="src/PhpBrew/PhpSource.php" as="PhpBrew/PhpSource.php"/>
       <install name="src/PhpBrew/Config.php" as="PhpBrew/Config.php"/>
       <install name="src/PhpBrew/Builder.php" as="PhpBrew/Builder.php"/>
-      <install name="phpbrew" as="phpbrew"/>
+      <install name="bin/phpbrew" as="bin/phpbrew"/>
     </filelist>
   </phprelease>
 </package>

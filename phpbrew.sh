@@ -1,12 +1,13 @@
 #!/bin/bash
-[[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
-[[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
 if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
     if [[ -f "$PHPBREW_HOME/init" ]]; then
         . "$PHPBREW_HOME/init"
     fi
 fi
+
+[[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
+[[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
 function phpbrew () {
     BIN='scripts/phpbrew.php'
