@@ -456,9 +456,15 @@ class Variants
 
         $this->checkConflicts();
 
+        if( $options = $this->buildVariant('default') ) {
+            $opts = array_merge($opts, $options );
+        }
+
         foreach( $this->use as $feature => $userValue ) {
+            if( $feature == 'default' )
+                continue;
             if( $options = $this->buildVariant( $feature , $userValue ) ) {
-                $opts = array_merge( $opts, $options );
+                $opts = array_merge($opts, $options );
             }
         }
 
