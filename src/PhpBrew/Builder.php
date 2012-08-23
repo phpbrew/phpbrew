@@ -94,6 +94,10 @@ class Builder
 
     public function configure( $extra = array() )
     {
+        if( file_exists('configure.done') ) {
+            return;
+        }
+
         if( ! file_exists('configure') ) {
             $this->logger->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
@@ -195,6 +199,7 @@ EOS;
             $cmd->nice( $this->options->nice );
 
         $cmd->execute() !== false or die('Configure failed.');
+        touch('configure.done');
     }
 
     public function build()
