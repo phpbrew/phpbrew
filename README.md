@@ -43,10 +43,8 @@ port install curl automake autoconf $(port echo depof:php5)
 HomeBrew users:
 
 ```bash
-brew install automake autoconf curl pcre mhash glibtool icu4c
+brew install automake autoconf curl pcre re2c mhash glibtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
 brew link icu4c
-
-# incomplete
 ```
 
 ### Ubuntu/Debian Requirement
