@@ -37,7 +37,7 @@ phpbrew can:
 MacPorts users:
 
 ```bash
-port install curl automake autoconf $(port echo depof:php5)
+port install curl automake autoconf icu $(port echo depof:php5)
 ```
 
 HomeBrew users:
