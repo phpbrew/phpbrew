@@ -278,6 +278,14 @@ class Variants
             return '--enable-cgi';
         };
 
+        $this->variants['gettext'] = function($prefix = null) {
+            if( $prefix )
+                return '--with-gettext=' . $prefix;
+            if( $prefix = Utils::find_include_prefix('libintl.h') )
+                return '--with-gettext=' . $prefix;
+            return '--with-gettext';
+        };
+
         $this->variants['soap'] = function() {
             return '--enable-soap';
         };
@@ -448,10 +456,6 @@ class Variants
 
         if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
             $opts[] = '--with-curl=' . $prefix;
-        }
-
-        if( $prefix = Utils::find_include_prefix('libintl.h') ) {
-            $opts[] = '--with-gettext=' . $prefix;
         }
 
         $this->checkConflicts();
