@@ -104,20 +104,19 @@ Available stable versions:
     php-5.3.9
     php-5.3.8
     php-5.3.7
-Available svn versions:
-    php-svn-head
-    php-svn-5.3
-    php-svn-5.4
-Available versions from PhpStas:
-    php-5.4.0RC1
-    php-5.4.0RC2
-    ....
-    php-5.4.0RC7
-    ....
-    php-5.4.0alpha3
-    php-5.4.0beta2
 ```
 
+To list known subversion versions:
+
+```bash
+$ phpbrew known --svn
+```
+
+To list known older versions (less than 5.3):
+
+```bash
+$ phpbrew known --old
+```
 
 ## Build And Install
 
