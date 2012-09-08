@@ -37,7 +37,7 @@ class PhpSource
         return $versions;
     }
 
-    static function getStableVersions()
+    static function getStableVersions($includeOld = false)
     {
         // reference: http://www.php.net/downloads.php
         //            http://www.php.net/releases/
@@ -50,25 +50,27 @@ class PhpSource
 
         foreach( $downloadUrls as $downloadUrl ) {
             $html = @file_get_contents($downloadUrl);
-            if( $html ){
-                $baseUrl = 'http://www.php.net/distributions/';
-                $dom = new DOMDocument;
-                @$dom->loadHtml( $html );
-
-                $items = $dom->getElementsByTagName('a');
-                foreach( $items as $item ) {
-                    $link = $item->getAttribute('href');
-                    if( preg_match($phpFilePattern, $link, $regs ) ) {
-                        $version = 'php-' . $regs[1];
-                        if( strpos($link, '/') === 0 ) {
-                            $link = $baseUrl . $version . '.tar.bz2';
-                        }
-                        $versions[$version] = array( 'url' => $link );
-                    }
-                }
-            }
-            else {
+            if( ! $html ) {
                 echo "connection eror: $downloadUrl\n";
+                continue;
+            }
+
+            $baseUrl = 'http://www.php.net/distributions/';
+            $dom = new DOMDocument;
+            @$dom->loadHtml( $html );
+            $items = $dom->getElementsByTagName('a');
+            foreach( $items as $item ) {
+                $link = $item->getAttribute('href');
+                if( preg_match($phpFilePattern, $link, $regs ) ) {
+                    if( ! $includeOld && version_compare($regs[1],'5.3.0') < 0 ) {
+                        continue;
+                    }
+                    $version = 'php-' . $regs[1];
+                    if( strpos($link, '/') === 0 ) {
+                        $link = $baseUrl . $version . '.tar.bz2';
+                    }
+                    $versions[$version] = array( 'url' => $link );
+                }
             }
         }
         uksort( $versions, array('self', 'versionCompare') );
