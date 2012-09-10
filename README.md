@@ -365,7 +365,10 @@ e.g.
 ```
 
 
+Known Problems
+--------------
 
+- For PHP-5.3+ versions, "Building intl 64-bit fails on OS X" <https://bugs.php.net/bug.php?id=48795>
 
 
 Hacking
@@ -398,6 +401,8 @@ To show which phpbrew is running:
 Re-compile phar file:
 
     $ bash scripts/compile.sh
+
+
 
 Community
 ---------
