@@ -11,7 +11,7 @@ class InstallCommand extends \CLIFramework\Command
 {
     public function brief() { return 'install php'; }
 
-    public function usage() { 
+    public function usage() {
         return 'phpbrew install [php-version] ([+variant...])';
     }
 
@@ -22,6 +22,7 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('production','Use production configuration');
         $opts->add('n|nice:', 'process nice level');
         $opts->add('patch:',  'apply patch before build');
+        $opts->add('old','install old phps (less than 5.3)');
     }
 
     public function execute($version)
@@ -29,7 +30,7 @@ class InstallCommand extends \CLIFramework\Command
         $options = $this->options;
         $logger = $this->logger;
 
-        // get extra options for building php  
+        // get extra options for building php
         $extra = array();
         $args = func_get_args();
         array_shift($args);
@@ -56,7 +57,7 @@ class InstallCommand extends \CLIFramework\Command
 
 
 
-        $info = PhpSource::getVersionInfo( $version );
+        $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
             throw new Exception("Version $version not found.");
 
@@ -105,7 +106,7 @@ class InstallCommand extends \CLIFramework\Command
             $builder->addVariant( $a );
         }
 
-        if( ! $options->{'no-clean'} ) 
+        if( ! $options->{'no-clean'} )
             $builder->clean();
 
         $builder->configure( $extra );
@@ -145,7 +146,7 @@ class InstallCommand extends \CLIFramework\Command
         $install->execute() !== false or die('Install failed.');
 
         /*
-        if( ! $options->{'no-clean'} ) 
+        if( ! $options->{'no-clean'} )
             $builder->clean();
         */
 
