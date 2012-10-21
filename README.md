@@ -400,8 +400,7 @@ To show which phpbrew is running:
 
 Re-compile phar file:
 
-    $ bash scripts/compile.sh
-
+    $ bash scripts/compile
 
 
 Community
