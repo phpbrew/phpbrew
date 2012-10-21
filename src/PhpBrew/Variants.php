@@ -54,7 +54,6 @@ class Variants
                 'bz2',
                 'zip',
                 'cli',
-                'intl',
                 'calendar',
                 'sockets',
                 'readline',
