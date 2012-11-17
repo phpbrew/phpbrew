@@ -16,9 +16,17 @@ class PhpSource
         return version_compare($verion1, $verion2, '>') ? -1 : 1;
     }
 
-    static function getStasVersions()
+    static function getReleaseManagers()
     {
-        $baseUrl = 'http://downloads.php.net/stas/';
+        return array(
+            'stas' => 'Stanislav Malyshev',
+            'dsp' => 'David Soria Parra',
+        );
+    }
+
+    static function getReleaseManagerVersions($id)
+    {
+        $baseUrl = "http://downloads.php.net/$id/";
         $html = file_get_contents($baseUrl);
         $dom = new DOMDocument;
         $dom->loadHtml( $html );
@@ -103,9 +111,12 @@ class PhpSource
         if( isset($versions[$version]) )
             return $versions[ $version ];
 
-        $versions = self::getStasVersions();
-        if( isset($versions[$version]) )
-            return $versions[ $version ];
+        $managers = self::getReleaseManagers();
+        foreach($managers as $id => $fullName) {
+            $versions = self::getReleaseManagerVersions($id);
+            if( isset($versions[$version]) )
+                return $versions[ $version ];
+        }
     }
 
 }
