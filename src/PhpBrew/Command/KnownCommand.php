@@ -11,7 +11,7 @@ class KnownCommand extends \CLIFramework\Command
     {
         $opts->add('svn','list subversion phps');
         $opts->add('old','list old phps (less than 5.3)');
-        $opts->add('stats','list stats phps');
+        $opts->add('stas','list stas phps');
     }
 
     public function execute()
@@ -30,7 +30,7 @@ class KnownCommand extends \CLIFramework\Command
             }
         }
 
-        if( $this->options->stats ) {
+        if( $this->options->stas ) {
             $versions = \PhpBrew\PhpSource::getStasVersions();
             echo $this->formatter->format("Available versions from PhpStas:\n",'yellow');
             foreach( $versions as $version => $arg ) {
