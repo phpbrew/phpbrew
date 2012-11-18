@@ -402,6 +402,12 @@ Re-compile phar file:
 
     $ bash scripts/compile
 
+PHP Release channels
+--------------------
+
+- http://snaps.php.net/
+- http://tw2.php.net/releases/
+- http://downloads.php.net/stas/
 
 Community
 ---------
