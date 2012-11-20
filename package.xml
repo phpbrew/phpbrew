@@ -10,8 +10,8 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-09-08</date>
-  <time>09:28:23</time>
+  <date>2012-11-20</date>
+  <time>13:26:48</time>
   <version>
     <release>1.6.2</release>
     <api>1.6.2</api>
@@ -24,6 +24,7 @@
   <notes>-</notes>
   <contents>
     <dir name="/">
+      <file name="doc/test_plan.md" role="doc" md5sum="9fd0cf840548e7a784d3002c5376e0c3"/>
       <file name="tests/bootstrap.php" role="test" md5sum="cef32b4722da5ea14dd0b5a1e5dd2b00"/>
       <file name="tests/helpers.php" role="test" md5sum="b5e0733acd23bf976409fbe22191062f"/>
       <file name="tests/PhpBrew/ConfigTest.php" role="test" md5sum="95e68132cd5e8c7b8cec7918ddbafb2e"/>
@@ -35,7 +36,7 @@
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="8d97a5c51247092c6e03cdc92e7acd8a"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="04688915a65cd96d09e6c49481448d1e"/>
       <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="0a0b9e759cc118fe7d29bf75c4c8e136"/>
-      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="2badccdf67e8f202a02a3088d2edf6c0"/>
+      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="ed453c620c8e495de646c021d183807c"/>
       <file name="src/PhpBrew/Command/InstallExtCommand.php" role="php" md5sum="8f4ddd25a473b5a7d20639a90562d512"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="9244248cbdc3f12834cb0cb96137a746"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="83312f537c00f58281c86229a2e13907"/>
@@ -49,10 +50,10 @@
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="9911151fd1db971175e727f943de7953"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="f4cd48d933687f88e7863a370f2cad69"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
-      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="fa5449893327a4ae7e8eed9939082728"/>
+      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="d741835b97232bbb529ce6773de211cb"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="c65ccb13ac4dc62ba15cb5cd83736db0"/>
-      <file name="src/PhpBrew/Variants.php" role="php" md5sum="a7c89e28481184ae7b393cf8d612a9b5"/>
+      <file name="src/PhpBrew/Variants.php" role="php" md5sum="6f1656262641613290743b93d904778c"/>
       <file name="bin/phpbrew" role="script" md5sum="94e0e5245d7cac93d0d65bbc4dabd42b"/>
     </dir>
   </contents>
@@ -78,6 +79,7 @@
   </dependencies>
   <phprelease>
     <filelist>
+      <install name="doc/test_plan.md" as="test_plan.md"/>
       <install name="tests/bootstrap.php" as="bootstrap.php"/>
       <install name="tests/helpers.php" as="helpers.php"/>
       <install name="tests/PhpBrew/ConfigTest.php" as="PhpBrew/ConfigTest.php"/>
