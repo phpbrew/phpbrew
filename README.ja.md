@@ -69,7 +69,7 @@ sudo yum install --enablerepo=rpmforge re2c libmhash
 
 参照: http://matome.naver.jp/odai/2133887830324055901
 
-## インストールPHPBrew
+## PHPBrewのインストール
 
 PHPBrewをダウンロードしてください：
 
@@ -94,7 +94,7 @@ $ phpbrew init
 $ source ~/.phpbrew/bashrc
 ```
 
-既知バージョンを一覧表示にします：
+既知のバージョンを一覧表示します：
 
 ```bash
 $ phpbrew known
@@ -105,13 +105,13 @@ Available stable versions:
     php-5.3.7
 ```
 
-既知のサブバージョンを一覧表示にします：
+既知のサブバージョンを一覧表示します：
 
 ```bash
 $ phpbrew known --svn
 ```
 
-古いバージョン（5.3以前）を一覧表示にします：
+古いバージョン（5.3以前）を一覧表示します：
 
 ```bash
 $ phpbrew known --old
@@ -125,7 +125,7 @@ $ phpbrew known --old
 $ phpbrew install php-5.4.0 +default
 ```
 
-こちらでは`default` VARIANTセットをお薦めします。デフォルトセットは常用のVARIANTクラスを収録している。最小限インストールの場合、`default` VARIANTセットを削除してください。
+こちらでは`default` VARIANTセットをお薦めします。デフォルトセットは常用のVARIANTクラスを収録しています。最小限インストールの場合、`default` VARIANTセットを削除してください。
 
 
 テスト：
@@ -247,7 +247,7 @@ $ phpbrew switch php-5.4.0
 $ phpbrew off
 ```
 
-## インストールされたPHPを一覧表示にします
+## インストールされたPHPを一覧表示します
 
 ```bash
 $ phpbrew list
@@ -269,18 +269,18 @@ $ phpbrew list
 
 ## PHPBrewのアップグレード
 
-PHPBrewをアップグレードする場合、To upgrade phpbrew, `self-update` コマンドを実行するだけで済みます。
+PHPBrewをアップグレードする場合、 `self-update` コマンドを実行するだけで済みます。
 このコマンドは最新バージョンのgithubの`master` branchをインストールすることができます：
 
     $ phpbrew self-update
 
 ## インストールされたPHPファイル
 
-インストールされたPHPファイルは`~/.phpbrew/php`に置きます。例え、php 5.4.0RC7の場合は:
+インストールされたPHPファイルは`~/.phpbrew/php`に置かれます。例えば、php 5.4.0RC7の場合は:
 
     ~/.phpbrew/php/5.4.0RC7/bin/php
 
-設定ファイルは以下記の位置に置く必要があります:
+設定ファイルは以下の位置に置く必要があります:
 
     ~/.phpbrew/php/5.4.0RC7/etc/php.ini
 
@@ -292,9 +292,9 @@ PHPBrewをアップグレードする場合、To upgrade phpbrew, `self-update` 
     ~/.phpbrew/php/5.4.0RC7/var/db/memcache.ini
     ... etc
 
-## system-wide環境のPHPBrewインストールします：
+## system-wide環境のPHPBrewインストール：
 
-まずは、sudoをルートユーザにするまたはルートユーザでログインします：
+まずは、sudoをルートユーザにする、またはルートユーザでログインします：
 
     sudo -i
 
@@ -303,7 +303,7 @@ PHPBrewをアップグレードする場合、To upgrade phpbrew, `self-update` 
     phpbrew init
 
 PHPBrewのパスを指定のパスにエクスポート（export）してから、 
-~/.phpbrew/init　を編集してください。
+`~/.phpbrew/init`　を編集してください。
 
     export PHPBREW_ROOT=/opt/phpbrew
 
@@ -316,14 +316,14 @@ PHPBrew bashrcをソース（source）する。
     phpbrew install php-5.4.5 +default +dbs
 
 これでPHPファイルは /opt/phpbrew の下にインストールされました。
-HPBrewがビルドしたPHPをユーザーに使用させるには、bashユーザーがphpbrew/bashrcを読み込む前に`PHPBREW_ROOT` 環境を/etc/bashrc または/etc/profile.d/phpbrewにエクスポートする必要があります。。
+PHPBrewがビルドしたPHPをユーザーに使用させるには、bashユーザーがphpbrew/bashrcを読み込む前に`PHPBREW_ROOT` 環境を/etc/bashrc または/etc/profile.d/phpbrewにエクスポートする必要があります。。
 
     export PHPBREW_ROOT=/opt/phpbrew
     source /opt/phpbrew/bashrc
 
 システムの安定を保つため、`root`を使ってPHPをインストールしてください。
 
-非ルートのユーザーは新しいPHPをインストールまたは切り替わることができません。 
+非ルートのユーザーは新しいPHPをインストールまたは切り替えることができません。 
 
 ファイルは非ルートユーザーでインストールする場合、パーミッションを修正してください。
 
