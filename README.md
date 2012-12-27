@@ -365,10 +365,19 @@ e.g.
 ```
 
 
-Known Problems
---------------
+Known Issues
+------------
 
 - For PHP-5.3+ versions, "Building intl 64-bit fails on OS X" <https://bugs.php.net/bug.php?id=48795>
+
+- To build PHP with GD extension, you need to specify your libpng dir and libjpeg dir, for example,
+
+    $ phpbrew install php-5.4.10 +default +mysql +intl +gettext +apxs2=/usr/bin/apxs2 \
+        -- --with-libdir=lib/x86_64-linux-gnu \
+           --with-gd=shared \
+           --enable-gd-natf \
+           --with-jpeg-dir=/usr \
+           --with-png-dir=/usr
 
 
 Hacking
