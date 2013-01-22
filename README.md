@@ -43,7 +43,7 @@ port install curl automake autoconf icu $(port echo depof:php5)
 HomeBrew users:
 
 ```bash
-brew install automake autoconf curl pcre re2c mhash glibtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
+brew install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
 brew link icu4c
 ```
 
