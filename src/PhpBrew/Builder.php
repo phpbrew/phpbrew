@@ -94,7 +94,7 @@ class Builder
 
     public function configure( $extra = array() )
     {
-        if( file_exists('configure.done') ) {
+        if( false && file_exists('configure.done') ) {
             return;
         }
 
