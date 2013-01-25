@@ -21,7 +21,7 @@ class Variants
     public $version;
 
     /**
-     * available variants 
+     * available variants
      */
     public $variants = array();
 
@@ -36,6 +36,10 @@ class Variants
         // PHP Version lower than 5.4.0 can only built one SAPI at the same time.
         'apxs2' => array( 'fpm','cgi' ),
     );
+
+    public $options = array();
+
+    public $virtualVariants = array('dbs');
 
     public function __construct()
     {
@@ -60,7 +64,7 @@ class Variants
             );
             $options = array();
             foreach( $vs as $v ) {
-                $options = array_merge( 
+                $options = array_merge(
                     $options,
                     $self->buildVariant($v) );
             }
@@ -70,7 +74,7 @@ class Variants
         $this->variants['dbs'] = function() use($self) {
             $options = array();
             foreach( array('sqlite','mysql','pgsql','pdo') as $v ) {
-                $options = array_merge( 
+                $options = array_merge(
                     $options,
                     $self->buildVariant($v) );
             }
@@ -114,7 +118,8 @@ class Variants
         };
 
         // init variant builders
-        $this->variants['pdo'] = function() {
+        $this->variants['pdo'] = function() use ($self) {
+            if (in_array('--enable-pdo', $self->options)) return null;
             return '--enable-pdo';
         };
 
@@ -174,9 +179,8 @@ class Variants
                 "--with-mysql=$prefix",
                 "--with-mysqli=$prefix"
             );
-            if( isset($self->use['pdo']) ) {
+            if( isset($self->use['pdo']) || in_array('--enable-pdo', $self->options))
                 $opts[] = "--with-pdo-mysql=$prefix";
-            }
             return $opts;
         };
 
@@ -185,10 +189,10 @@ class Variants
         };
 
         $this->variants['sqlite'] = function( $prefix = null ) use ($self) {
-            $opts = array( 
+            $opts = array(
                 '--with-sqlite3' . ($prefix ? "=$prefix" : '')
             );
-            if( isset($self->use['pdo']) )
+            if( isset($self->use['pdo']) || in_array('--enable-pdo', $self->options))
                 $opts[] = '--with-pdo-sqlite';
             return $opts;
         };
@@ -196,7 +200,7 @@ class Variants
         $this->variants['pgsql'] = function($prefix = null) use($self) {
             $opts = array();
             $opts[] = '--with-pgsql' . ($prefix ? "=$prefix" : '');
-            if( isset($self->use['pdo']) )
+            if( isset($self->use['pdo']) || in_array('--enable-pdo', $self->options))
                 $opts[] = '--with-pdo-pgsql';
             return $opts;
         };
@@ -318,14 +322,14 @@ class Variants
         };
 
         $this->variants['bz2'] = function($prefix = null) {
-            if( ! $prefix 
+            if( ! $prefix
                 && $prefix = Utils::find_include_prefix('bzlib.h') ) {
                     return '--with-bz2=' . $prefix;
             }
         };
 
         $this->variants['ipc'] = function() {
-            return array( 
+            return array(
                 '--enable-shmop',
                 '--enable-sysvsem',
                 '--enable-sysvshm',
@@ -341,7 +345,7 @@ class Variants
         if( isset( $this->conflicts[ $feature ] ) ) {
             $conflicts = array();
             foreach( $this->conflicts[ $feature ] as $f ) {
-                if( $this->isUsing($f) ) 
+                if( $this->isUsing($f) )
                     $conflicts[] = $f;
             }
             return $conflicts;
@@ -352,8 +356,8 @@ class Variants
 
     public function checkConflicts()
     {
-        if( isset($this->use['apxs2']) 
-            && version_compare( $this->version , 'php-5.4.0' ) < 0 ) 
+        if( isset($this->use['apxs2'])
+            && version_compare( $this->version , 'php-5.4.0' ) < 0 )
         {
             if( $conflicts = $this->_getConflict('apxs2') ) {
                 $msgs = array();
@@ -420,7 +424,7 @@ class Variants
     {
 
         // build common options
-        $opts = array(
+        $this->options = array(
             '--disable-all',
             '--enable-dom',
             '--enable-exif',
@@ -445,41 +449,51 @@ class Variants
         );
 
         if( $prefix = Utils::find_include_prefix('zlib.h') ) {
-            $opts[] = '--with-zlib=' . $prefix;
+            $this->options[] = '--with-zlib=' . $prefix;
         }
 
 
         if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
-            $opts[] = '--with-libxml-dir=' . $prefix;
+            $this->options[] = '--with-libxml-dir=' . $prefix;
         }
 
         if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
-            $opts[] = '--with-curl=' . $prefix;
+            $this->options[] = '--with-curl=' . $prefix;
         }
 
         $this->checkConflicts();
 
+
         if( $options = $this->buildVariant('default') ) {
-            $opts = array_merge($opts, $options );
+            $this->options = array_merge($this->options, $options );
+        }
+
+        // virtual variants first
+        foreach( $this->virtualVariants as $virtualVariant) {
+            if (array_key_exists($virtualVariant, $this->use)){
+                if( $options = $this->buildVariant($virtualVariant) ) {
+                    $this->options = array_merge($this->options, $options );
+                }
+            }
         }
 
         foreach( $this->use as $feature => $userValue ) {
-            if( $feature == 'default' )
+            if( $feature == 'default' || in_array($feature, $this->virtualVariants) )
                 continue;
             if( $options = $this->buildVariant( $feature , $userValue ) ) {
-                $opts = array_merge($opts, $options );
+                $this->options = array_merge($this->options, $options );
             }
         }
 
         foreach( $this->disables as $d ) {
-            $opts[] = $d;
+            $this->options[] = $d;
         }
 
         /*
-        $opts = array_merge( $opts , 
+        $opts = array_merge( $opts ,
             $this->getVersionOptions($version) );
         */
-        return $opts;
+        return $this->options;
     }
 
 
@@ -496,13 +510,13 @@ class Variants
         // xxx: use version_compare to merge config options
 
 
-        if( isset($this->variants[$version]) ) 
+        if( isset($this->variants[$version]) )
             return $this->variants;
 
         /** try to match regular expressions */
         foreach( $this->variants as $k => $variants ) {
             if( strpos($k,'/') === 0 ) {
-                if( preg_match( $k , $version ) ) 
+                if( preg_match( $k , $version ) )
                     return $variants;
             }
         }
