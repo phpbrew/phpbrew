@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
+use Exception;
 
 class EnvCommand extends \CLIFramework\Command
 {
@@ -16,6 +17,12 @@ class EnvCommand extends \CLIFramework\Command
         $root = Config::getPhpbrewRoot();
         $home = Config::getPhpbrewHome();
         $buildDir = Config::getBuildDir();
+
+        // checking php version exists
+        $targetPhpBinPath = Config::getVersionBinPath($version);
+        if (!is_dir($targetPhpBinPath)) {
+            throw new Exception("php version: " . $version . " not exists.");
+        }
 
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);

@@ -17,10 +17,10 @@ function phpbrew () {
 	export SHELL
 	if [[ `echo $1 | awk 'BEGIN{FS=""}{print $1}'` = '-' ]]
 	then
-		short_option=$1 
+		short_option=$1
 		shift
 	else
-		short_option="" 
+		short_option=""
 	fi
 	case $1 in
 		(use) if [[ -z "$2" ]]
@@ -32,16 +32,22 @@ function phpbrew () {
 					echo "Currently using $PHPBREW_PHP"
 				fi
 			else
-				code=$(command $BIN env $2) 
-				if [ -z "$code" ]
-				then
-					exit_status=1 
+				# checking php version exists?
+				NEW_PHPBREW_PHP_PATH="$PHPBREW_ROOT/php/$2"
+				if [ -d $NEW_PHPBREW_PHP_PATH ]; then
+					code=$(command $BIN env $2)
+					if [ -z "$code" ]
+					then
+						exit_status=1
+					else
+						eval $code
+						__phpbrew_set_path
+					fi
 				else
-					eval $code
-					__phpbrew_set_path
+					echo "php version: $2 not exists."
 				fi
 			fi ;;
-		(switch) 
+		(switch)
             if [[ -z "$2" ]]
 			then
 				command $BIN switch
@@ -49,12 +55,12 @@ function phpbrew () {
 				$BIN use $2
 				__phpbrew_reinit $2
 			fi ;;
-		(off) 
+		(off)
             unset PHPBREW_PHP
 			eval `$BIN env`
 			__phpbrew_set_path
 			echo "phpbrew is turned off." ;;
-		(switch-off) 
+		(switch-off)
             unset PHPBREW_PHP
 			__phpbrew_reinit
 			echo "phpbrew is switched off." ;;
