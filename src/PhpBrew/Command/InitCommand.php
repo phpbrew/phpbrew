@@ -149,13 +149,19 @@ function phpbrew () {
 					echo "Currently using $PHPBREW_PHP"
 				fi
 			else
-				code=$(command $BIN env $2)
-				if [ -z "$code" ]
-				then
-					exit_status=1
+				# checking php version exists?
+				NEW_PHPBREW_PHP_PATH="$PHPBREW_ROOT/php/$2"
+				if [ -d $NEW_PHPBREW_PHP_PATH ]; then
+					code=$(command $BIN env $2)
+					if [ -z "$code" ]
+					then
+						exit_status=1
+					else
+						eval $code
+						__phpbrew_set_path
+					fi
 				else
-					eval $code
-					__phpbrew_set_path
+					echo "php version: $2 not exists."
 				fi
 			fi
 			__phpbrew_set_prompt
