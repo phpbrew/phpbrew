@@ -2,7 +2,7 @@
 namespace PhpBrew;
 use CLIFramework\Application;
 
-class Console extends Application 
+class Console extends Application
 {
     const name = 'phpbrew';
     const version = '1.6.4';
@@ -26,6 +26,9 @@ class Console extends Application
         $this->registerCommand('install-ext');
 
         $this->registerCommand('self-update', 'PhpBrew\Command\SelfUpdateCommand');
+
+        $this->registerCommand('remove');
+        $this->registerCommand('purge');
     }
 
     public function brief()
