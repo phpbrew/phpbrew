@@ -33,8 +33,6 @@ class Variants
     /**
      * disabled features
      */
-    public $disable = array();
-
     public $disables = array();
 
     public $conflicts = array(
@@ -373,11 +371,8 @@ class Variants
                 $msgs[] = "+apxs2 is in conflict with " . join(',',$conflicts);
                 foreach( $conflicts as $c ) {
                     $msgs[] = "Disabling $c";
-                    unset($this->use[$c]);
+                    $this->disable($c);
                 }
-                $this->disables[] = '--disable-fpm';
-                $this->disables[] = '--disable-cgi';
-                // $this->disables[] = '--disable-cli';
                 echo join("\n",$msgs) . "\n";
             }
         }
@@ -386,12 +381,12 @@ class Variants
 
     public function enable($feature,$value = true )
     {
-        if (!isset($this->disable[ $feature ])) $this->use[ $feature ] = $value;
+        if (!isset($this->disables[ $feature ])) $this->use[ $feature ] = $value;
     }
 
     public function disable($feature)
     {
-        $this->disable[ $feature ] = true;
+        $this->disables[ $feature ] = true;
         if (isset($this->use[$feature])) unset($this->use[$feature]);
     }
     public function isUsing($feature)
@@ -414,7 +409,7 @@ class Variants
     {
         if( isset( $this->variants[ $feature ] )) {
             if ( in_array($feature, $this->builtList) ) return array();
-            if ( isset($this->disable[ $feature ] )) return array();
+            if ( isset($this->disables[ $feature ] )) return array();
             $this->builtList[] = $feature;
             $func = $this->variants[ $feature ];
             $args = array();
@@ -530,7 +525,7 @@ class Variants
             }
         }
 
-        foreach( $this->disable as $feature => $userValue ) {
+        foreach( $this->disables as $feature => $userValue ) {
             if( $feature == 'default' || in_array($feature, $this->virtualVariants) )
                 continue;
             if( $options = $this->buildDisableVariant( $feature ) ) {
@@ -538,9 +533,6 @@ class Variants
             }
         }
 
-        foreach( $this->disables as $d ) {
-            $this->options[] = $d;
-        }
 
         /*
         $opts = array_merge( $opts ,
