@@ -64,6 +64,22 @@ function phpbrew () {
             unset PHPBREW_PHP
 			__phpbrew_reinit
 			echo "phpbrew is switched off." ;;
+		(remove)
+			if [[ -z "$2" ]]
+			then
+				command $BIN help
+			else
+			  __phpbrew_remove_purge $2
+			fi
+			;;
+		(purge)
+			if [[ -z "$2" ]]
+			then
+				command $BIN help
+			else
+			  __phpbrew_remove_purge $2 purge
+			fi
+			;;
 		(*) command $BIN $short_option "$@"
 			exit_status=$?  ;;
 	esac
@@ -95,5 +111,49 @@ function __phpbrew_reinit () {
 	command $BIN env $1 >> "$PHPBREW_HOME/init"
 	. "$PHPBREW_HOME/init"
 	__phpbrew_set_path
+}
+
+function __phpbrew_remove_purge() {
+
+	if [[ "$1" = "$PHPBREW_PHP" ]]
+	then
+	    echo "php version: $1 is already in used."
+        return 1
+	fi
+
+    _PHP_BIN_PATH=$PHPBREW_HOME/php/$1
+    _PHP_SOURCE_FILE=$PHPBREW_HOME/build/$1.tar.bz2
+    _PHP_BUILD_PATH=$PHPBREW_HOME/build/$1
+
+	if [ -d $_PHP_BIN_PATH ]; then
+
+        if [[ "$2" = "purge" ]]
+        then
+            rm -f $_PHP_SOURCE_FILE
+            rm -fr $_PHP_BUILD_PATH
+            rm -fr $_PHP_BIN_PATH
+
+            echo "php version: $1 is removed and purged."
+        else
+            rm -f $_PHP_SOURCE_FILE
+            rm -fr $_PHP_BUILD_PATH
+
+            for FILE1 in $_PHP_BIN_PATH/*
+            do
+                if [[ "$FILE1" != "$_PHP_BIN_PATH/etc" ]] && [[ "$FILE1" != "$_PHP_BIN_PATH/var" ]]
+                then
+                    rm -fr $FILE1;
+                fi
+            done
+
+            echo "php version: $1 is removed."
+        fi
+
+	else
+		echo "php version: $1 not installed."
+	fi
+
+	return 0
+
 }
 
