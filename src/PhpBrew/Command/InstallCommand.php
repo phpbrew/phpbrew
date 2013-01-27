@@ -38,23 +38,18 @@ class InstallCommand extends \CLIFramework\Command
         // split variant strings
         $isVariant = true;
         $tmp = array();
-        foreach( $args as $a ) {
-            if( $a == '--' ) {
-                $isVariant = false;
-                continue;
-            }
 
-            if( $isVariant ) {
-                $a = array_filter(explode('+',$a), function($a) { return $a ? true : false; });
-                $tmp = array_merge( $tmp , $a );
-            }
-            else {
-                $extra[] = $a;
-            }
+        // using preg_split to parse args
+        $args2 = preg_split("/([+-]+)/", implode(" ", $args), -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+        for ($i=0; $i < count($args2); $i+=2) {
+          $sign = $args2[$i];
+          $argValue = trim($args2[$i+1]);
+          if (empty($argValue)) continue;
+
+          if ($sign == '--') $extra[] = $sign.$argValue;
+          else $tmp[] = $sign.$argValue;
         }
         $args = $tmp;
-
-
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
@@ -100,10 +95,11 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info( 'Build Dir: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
 
-        // strip plus sign.
         foreach( $args as $a ) {
-            $a = preg_replace( '/^\+/', '', $a );
-            $builder->addVariant( $a );
+            $sign = substr($a, 0, 1);
+            $arg = substr($a, 1);
+            if ($sign == '+') $builder->addVariant( $arg );
+            elseif ($sign == '-') $builder->disableVariant( $arg ) ;
         }
 
         if( ! $options->{'no-clean'} )

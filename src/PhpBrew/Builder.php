@@ -69,12 +69,12 @@ class Builder
     public function clean()
     {
         /**
-         * xxx: 
+         * xxx:
          * PHP_AUTOCONF=autoconf213 ./buildconf --force
          */
         if( file_exists('Makefile') ) {
             $this->logger->info('===> Cleaning...');
-            system('make clean > /dev/null') !== false 
+            system('make clean > /dev/null') !== false
                 or die('make clean error');
         }
     }
@@ -91,6 +91,10 @@ class Builder
         }
     }
 
+    public function disableVariant($variant)
+    {
+        $this->variants->disable( $variant );
+    }
 
     public function configure( $extra = array() )
     {
@@ -158,7 +162,7 @@ EOS;
 
 
             // patch for OVERALL_TARGET=libphp$PHP_MAJOR_VERSION.la
-            // libphp$(PHP_VERSION).la: 
+            // libphp$(PHP_VERSION).la:
             // replace .la files
             $patch=<<<'EOS'
 perl -i.bak -pe 's#
@@ -181,7 +185,7 @@ EOS;
         foreach( $extra as $a ) {
             $args[] = $a;
         }
-        
+
         $cmd->args($args);
 
         $this->logger->info("===> Configuring {$this->version}...");
