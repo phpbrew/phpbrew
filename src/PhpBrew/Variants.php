@@ -30,6 +30,11 @@ class Variants
      */
     public $use = array();
 
+    /**
+     * disabled features
+     */
+    public $disable = array();
+
     public $disables = array();
 
     public $conflicts = array(
@@ -381,9 +386,14 @@ class Variants
 
     public function enable($feature,$value = true )
     {
-        $this->use[ $feature ] = $value;
+        if (!isset($this->disable[ $feature ])) $this->use[ $feature ] = $value;
     }
 
+    public function disable($feature)
+    {
+        $this->disable[ $feature ] = true;
+        if (isset($this->use[$feature])) unset($this->use[$feature]);
+    }
     public function isUsing($feature)
     {
         return isset( $this->use[ $feature ] );
@@ -404,6 +414,7 @@ class Variants
     {
         if( isset( $this->variants[ $feature ] )) {
             if ( in_array($feature, $this->builtList) ) return array();
+            if ( isset($this->disable[ $feature ] )) return array();
             $this->builtList[] = $feature;
             $func = $this->variants[ $feature ];
             $args = array();
@@ -416,6 +427,32 @@ class Variants
         }
     }
 
+    public function buildDisableVariant($feature,$userValue = null)
+    {
+        if( isset( $this->variants[ $feature ] )) {
+            if ( in_array('-'.$feature, $this->builtList) ) return array();
+            $this->builtList[] = '-'.$feature;
+            $func = $this->variants[ $feature ];
+            $args = array();
+            if( is_string($userValue) )
+                $args[] = $userValue;
+            $disableOptions = (array) call_user_func_array($func,$args);
+            $resultOptions = array();
+
+            foreach($disableOptions as $option) {
+               $option = preg_replace("/=.*$/", "", $option);
+               $option = preg_replace("/^--enable-/", "--disable-", $option);
+               $option = preg_replace("/^--with-/", "--without-", $option);
+
+               $resultOptions[] = $option;
+            }
+
+            return $resultOptions;
+        }
+        else {
+            throw new Exception("Variant $feature is not defined.");
+        }
+    }
 
     /**
      * build configure options
@@ -489,6 +526,14 @@ class Variants
             if( $feature == 'default' || in_array($feature, $this->virtualVariants) )
                 continue;
             if( $options = $this->buildVariant( $feature , $userValue ) ) {
+                $this->options = array_merge($this->options, $options );
+            }
+        }
+
+        foreach( $this->disable as $feature => $userValue ) {
+            if( $feature == 'default' || in_array($feature, $this->virtualVariants) )
+                continue;
+            if( $options = $this->buildDisableVariant( $feature ) ) {
                 $this->options = array_merge($this->options, $options );
             }
         }
