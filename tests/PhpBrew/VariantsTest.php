@@ -23,6 +23,18 @@ class VariantsTest extends PHPUnit_Framework_TestCase
         ok( in_array( '--with-pdo-sqlite' , $options ) );
         ok( $v->getVariantNames() );
 
+
+        $v = new PhpBrew\Variants;
+        ok( $v );
+        $v->enable('default');
+        $v->enable('sqlite');
+        $v->disable('pdo');
+
+        $options = $v->build();
+        ok( in_array( '--disable-pdo' , $options ) );
+        ok( in_array( '--with-sqlite3' , $options ) );
+        ok( $v->getVariantNames() );
+
     }
 }
 
