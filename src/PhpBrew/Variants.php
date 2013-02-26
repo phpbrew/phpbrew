@@ -151,8 +151,24 @@ class Variants
 
 
         /**
-         * For --with-openssl option
-         *
+         * with icu
+         */
+        $this->variants['icu'] = function($val = null) use($self) {
+            // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
+            if( $val ) {
+                return '--with-icu=' . $val;
+            }
+            $prefix = Utils::get_pkgconfig_prefix('icu-i18n');
+            if( ! $prefix ) {
+                echo "phpbrew precheck: icu not found.\n";
+                return '--with-icu';
+            }
+            return '--with-icu';
+        };
+
+
+        /**
+         * --with-openssl option
          */
         $this->variants['openssl'] = function($val = null) use($self) {
             // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
