@@ -12,6 +12,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build->enableVariant('debug');
         $build->enableVariant('icu');
         $build->enableVariant('sqlite');
+        $build->enableVariant('xml_all');
 
         $build->disableVariant('sqlite');
         $build->disableVariant('mysql');
@@ -19,6 +20,9 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
 
         $options = $variants->build($build);
         ok( in_array('--enable-debug',$options) );
+        ok( in_array('--enable-libxml',$options) );
+        ok( in_array('--enable-simplexml',$options) );
+
         ok( in_array('--without-sqlite3',$options) );
         ok( in_array('--without-mysql',$options) );
         ok( in_array('--without-mysqli',$options) );
