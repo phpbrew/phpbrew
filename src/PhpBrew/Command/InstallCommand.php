@@ -64,9 +64,6 @@ class InstallCommand extends \CLIFramework\Command
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
 
-        $home = Config::getPhpbrewRoot();
-        $buildDir = Config::getBuildDir();
-        $buildPrefix = Config::getVersionBuildPrefix( $version );
 
 
 
@@ -78,6 +75,7 @@ class InstallCommand extends \CLIFramework\Command
         }
 
         // Move to to build directory, because we are going to download distribution.
+        $buildDir = Config::getBuildDir();
         chdir($buildDir);
 
         $download = new DownloadTask($this->logger);
@@ -89,6 +87,9 @@ class InstallCommand extends \CLIFramework\Command
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
+
+
+        $buildPrefix = Config::getVersionBuildPrefix( $version );
 
         // The build object, contains the information to build php.
         $build = new Build;

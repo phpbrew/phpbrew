@@ -54,12 +54,15 @@ class Build
      */
     public function disableVariant($name)
     {
-        $this->disabledVariant[$name] = true;
+        $this->disabledVariants[$name] = true;
+        if( $this->hasVariant($name) ) {
+            $this->removeVariant( $name );
+        }
     }
 
     public function removeDisabledVariant($name)
     {
-        unset($this->disabledVariant[$name]);
+        unset($this->disabledVariants[$name]);
     }
 
     /** 
@@ -99,6 +102,12 @@ class Build
     public function getVariants()
     {
         return $this->variants;
+    }
+
+
+    public function getDisabledVariants()
+    {
+        return $this->disabledVariants;
     }
 
     public function getVariant($n)

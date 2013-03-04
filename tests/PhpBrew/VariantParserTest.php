@@ -26,7 +26,12 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
     public function test($args)
     {
         $info = VariantParser::parseCommandArguments($args);
-        var_dump( $info ); 
+        ok($info['enabled_variants']);
+        ok($info['enabled_variants']['pdo']);
+        ok($info['enabled_variants']['sqlite']);
+        ok($info['disabled_variants']);
+        ok($info['disabled_variants']['mysql']);
+        ok($info['extra_options']);
     }
 }
 

@@ -7,8 +7,14 @@ class BuildTest extends PHPUnit_Framework_TestCase
         $build = new PhpBrew\Build;
 
         $build->setVersion('5.3.0');
-        $build->addVariant('debug');
-        $build->addVariant('icu');
+        $build->enableVariant('debug');
+        $build->enableVariant('icu');
+        $build->enableVariant('sqlite');
+
+        $build->disableVariant('sqlite');
+        $build->disableVariant('mysql');
+
+
 
         $id = $build->getIdentifier();
         ok($id);
