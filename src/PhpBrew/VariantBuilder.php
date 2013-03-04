@@ -115,6 +115,9 @@ class VariantBuilder
         $this->variants['soap']     = '--enable-soap';
         $this->variants['pcntl']    = '--enable-pcntl';
         $this->variants['intl']     = '--enable-intl';
+        $this->variants['phar']     = '--enable-phar';
+        $this->variants['session']     = '--enable-session';
+        $this->variants['tokenizer']     = '--enable-tokenizer';
 
         $this->variants['mhash'] = '--with-mhash';
         $this->variants['mcrypt'] = '--with-mcrypt';
@@ -313,8 +316,6 @@ class VariantBuilder
                 '--enable-sysvmsg',
             );
         };
-
-        // '--with-mcrypt=/usr',
     }
 
     private function _getConflict($build, $feature)
