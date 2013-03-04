@@ -86,9 +86,9 @@ class Builder
         $this->variants->disable( $variant );
     }
 
-    public function configure( $extra = array() )
+    public function configure(\PhpBrew\Build $build)
     {
-        // $builder->configure( $variantInfo['extra_options'] );
+        $extra = $build->getExtraOptions();
 
         if( ! file_exists('configure') ) {
             $this->logger->debug("configure file not found, running buildconf script...");

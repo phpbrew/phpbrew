@@ -117,6 +117,7 @@ class InstallCommand extends \CLIFramework\Command
                 $build->removeVariant($name);
             }
         }
+        $build->setExtraOptions( $variantInfo['extra_options'] );
 
         if( $options->clean ) {
             $clean = new CleanTask($this->logger);
@@ -126,7 +127,7 @@ class InstallCommand extends \CLIFramework\Command
         $buildLogFile = Config::getVersionBuildLogPath( $version );
 
         // we should only run configure after cleaning files  (?)
-        $builder->configure( $variantInfo['extra_options'] );
+        $builder->configure($build);
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
