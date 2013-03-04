@@ -25,7 +25,8 @@ class InstallCommand extends \CLIFramework\Command
     public function options($opts)
     {
         $opts->add('test','tests');
-        $opts->add('no-clean','Do not clean object files before/after building.');
+        $opts->add('no-clean','Do not clean object files before building.');
+        $opts->add('post-clean','Run make clean after building PHP.');
         $opts->add('production','Use production configuration');
         $opts->add('n|nice:', 'process nice level');
         $opts->add('patch:',  'apply patch before build');
@@ -135,15 +136,13 @@ class InstallCommand extends \CLIFramework\Command
         $buildTime = (int)((microtime(true) - $startTime) / 60);
         $logger->info("Build finished: $buildTime minutes.");
 
-        $logger->info("Installing...");
-
         $install = new InstallTask($this->logger);
         $install->install();
 
-        /*
-        if( ! $options->{'no-clean'} )
-            $builder->clean();
-        */
+        if( $options->{'post-clean'} ) {
+            $clean = new CleanTask($this->logger);
+            $clean->cleanByVersion($version);
+        }
 
         /** POST INSTALLATION **/
 

@@ -10,10 +10,12 @@ class InstallTask
 {
     public function install()
     {
+        $this->info("Installing...");
         $install = new CommandBuilder('make install');
         $install->append = true;
         $install->stdout = Config::getVersionBuildLogPath( $version );
         $install->execute() !== false or die('Install failed.');
     }
 }
+
 
