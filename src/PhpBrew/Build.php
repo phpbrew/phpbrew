@@ -9,8 +9,8 @@ namespace PhpBrew;
  */
 class Build
 {
-    const ENV_PRODUCTION;
-    const ENV_DEVELOPMENT;
+    const ENV_PRODUCTION = 0;
+    const ENV_DEVELOPMENT = 1;
 
     public $version;
 
@@ -34,7 +34,6 @@ class Build
         return $this->version;
     }
 
-
     public function compareVersion($version)
     {
         return version_compare($this->version,$version);
@@ -56,6 +55,11 @@ class Build
     }
 
 
+    public function getVariants()
+    {
+        return $this->variants;
+    }
+
 
     /**
      * Returns a build identifier.
@@ -63,7 +67,16 @@ class Build
     public function getIdentifier()
     {
         $names = array('php');
+
         $names[] = $this->version;
+
+        if($this->variants) {
+            foreach($this->variants as $n => $v ) {
+                $str = $n . '_' . $v;
+                $str = preg_replace( '#\W+#', '_', $str );
+                $names[] = $str;
+            }
+        }
 
         if($this->phpEnvironment === self::ENV_PRODUCTION ) {
             $names[] = 'prod';
