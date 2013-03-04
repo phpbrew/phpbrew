@@ -56,6 +56,7 @@ class VariantBuilder
             'dom',
             'bcmath',
             'ctype',
+            'mhash',
             'fileinfo',
             'pdo',
             'posix',
@@ -116,6 +117,7 @@ class VariantBuilder
         $this->variants['intl']     = '--enable-intl';
 
         $this->variants['mhash'] = '--with-mhash';
+        $this->variants['mcrypt'] = '--with-mcrypt';
         $this->variants['imap'] = '--with-imap-ssl';
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
@@ -464,7 +466,6 @@ class VariantBuilder
             '--enable-tokenizer',
 
             '--with-xmlrpc',
-            '--with-mhash',
             '--with-pcre-regex',
         );
 
