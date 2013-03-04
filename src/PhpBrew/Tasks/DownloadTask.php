@@ -28,7 +28,7 @@ class DownloadTask extends BaseTask
     {
         $downloader = new \PhpBrew\Downloader\SvnDownloader( $this->getLogger() );
         $targetDir = $downloader->download($svnUrl);
-        return $targetDir;
+        return realpath($targetDir);
     }
 
     public function downloadByUrl($url, $forceExtract = false ) 
@@ -46,7 +46,7 @@ class DownloadTask extends BaseTask
         } else {
             $this->info("Found existing $targetDir, Skip extracting.");
         }
-        return $targetDir;
+        return realpath($targetDir);
     }
 
 }
