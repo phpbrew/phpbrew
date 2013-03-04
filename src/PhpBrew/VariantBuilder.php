@@ -66,42 +66,6 @@ class VariantBuilder
     {
         $self = $this;
 
-        $this->variants['default'] = function() use($self) {
-            $vs = array(
-                'filter',
-                'bcmath',
-                'ctype',
-                'fileinfo',
-                'pdo',
-                'posix',
-                'ipc',
-                'pcntl',
-                'bz2',
-                'zip',
-                'cli',
-                'calendar',
-                'sockets',
-                'readline',
-            );
-            $options = array();
-            foreach( $vs as $v ) {
-                $options = array_merge(
-                    $options, $self->buildVariant($v) 
-                );
-            }
-            return $options;
-        };
-
-        $this->variants['dbs'] = function() use($self) {
-            $options = array();
-            foreach( array('sqlite','mysql','pgsql','pdo') as $v ) {
-                $options = array_merge(
-                    $options,
-                    $self->buildVariant($v) );
-            }
-            return $options;
-        };
-
         $this->variants['dba'] = function() {
             return '--enable-dba';
         };
@@ -515,9 +479,9 @@ class VariantBuilder
      */
     public function build($build)
     {
-
+        // reset built options
         // build common options
-        $options = array(
+        $this->options = array(
             '--disable-all',
             '--enable-dom',
             '--enable-exif',
@@ -543,8 +507,6 @@ class VariantBuilder
         // reset builtList
         $this->builtList = array();
 
-        // reset built options
-        $this->options = array();
 
         if( $prefix = Utils::find_include_prefix('zlib.h') ) {
             $this->addOptions('--with-zlib=' . $prefix);
@@ -593,7 +555,11 @@ class VariantBuilder
         $opts = array_merge( $opts ,
             $this->getVersionSpecificOptions($version) );
         */
-        return $this->options;
+        $options =  $this->options;
+
+        // reset options
+        $this->options = array();
+        return $options;
     }
 
 
