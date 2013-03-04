@@ -57,7 +57,8 @@ class VariantBuilder
             'cli',
             'calendar',
             'sockets',
-            'readline' 
+            'readline',
+            'xml_all',
         )
     );
 
@@ -226,6 +227,17 @@ class VariantBuilder
 
         $this->variants['gcov'] = function() {
             return '--enable-gcov';
+        };
+
+        $this->variants['xml_all'] = function() {
+            return array(
+                '--enable-libxml',
+                '--enable-simplexml',
+                '--enable-xml',
+                '--enable-xmlreader',
+                '--enable-xmlwriter',
+                '--with-xsl'
+            );
         };
 
         $this->variants['sockets'] = function() {
@@ -492,13 +504,8 @@ class VariantBuilder
             '--enable-phar',
             '--enable-session',
             '--enable-short-tags',
-            '--enable-libxml',
-            '--enable-simplexml',
             '--enable-tokenizer',
-            '--enable-xml',
-            '--enable-xmlreader',
-            '--enable-xmlwriter',
-            '--with-xsl',
+
             '--with-xmlrpc',
             '--with-mhash',
             '--with-pcre-regex',
