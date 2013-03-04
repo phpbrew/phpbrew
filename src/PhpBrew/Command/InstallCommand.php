@@ -11,6 +11,7 @@ use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
+use PhpBrew\Tasks\BuildTask;
 
 
 
@@ -25,7 +26,7 @@ class InstallCommand extends \CLIFramework\Command
     public function options($opts)
     {
         $opts->add('test','tests');
-        $opts->add('no-clean','Do not clean object files before building.');
+        $opts->add('clean','Run make clean before building.');
         $opts->add('post-clean','Run make clean after building PHP.');
         $opts->add('production','Use production configuration');
         $opts->add('n|nice:', 'process nice level');
@@ -102,25 +103,28 @@ class InstallCommand extends \CLIFramework\Command
             $builder->addVariant( $a );
         }
 
-        if( ! $options->{'no-clean'} ) {
+        if( $options->clean ) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
 
+        $buildLogFile = Config::getVersionBuildLogPath( $version );
+
+        // we should only run configure after cleaning files  (?)
         $builder->configure( $extra );
 
         $build = new BuildTask($this->logger);
-        $build->setLogPath(Config::getVersionBuildLogPath( $version ));
+        $build->setLogPath($buildLogFile);
         $build->build();
 
         if( $options->{'test'} ) {
             $test = new TestTask($this->logger);
-            $test->setLogPath(Config::getVersionBuildLogPath( $version ));
+            $test->setLogPath($buildLogFile);
             $test->test();
         }
 
         $install = new InstallTask($this->logger);
-        $install->setLogPath(Config::getVersionBuildLogPath( $version ));
+        $install->setLogPath($buildLogFile);
         $install->install();
 
         if( $options->{'post-clean'} ) {
@@ -131,6 +135,7 @@ class InstallCommand extends \CLIFramework\Command
         /** POST INSTALLATION **/
 
         /* Check if php.dSYM exists */
+        // Fix php.dSYM
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
         if ( file_exists($dSYM)) {
             $logger->info("---> Moving php.dSYM to php ");

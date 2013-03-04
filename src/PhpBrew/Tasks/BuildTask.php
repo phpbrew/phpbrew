@@ -19,13 +19,14 @@ class BuildTask extends BaseTask
         $cmd = new CommandBuilder('make');
         $cmd->append = true;
         if($this->logPath) {
-            $install->stdout = $this->logPath;
+            $this->stdout = $this->logPath;
         }
         if( $nice ) {
             $cmd->nice($nice);
         }
         $this->debug( '' .  $cmd  );
 
+            die($this->logPath);
         $startTime = microtime(true);
         $cmd->execute() !== false or die('Make failed.');
         $buildTime = (int)((microtime(true) - $startTime) / 60);
