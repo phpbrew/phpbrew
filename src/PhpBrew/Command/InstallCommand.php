@@ -6,6 +6,7 @@ use PhpBrew\PkgConfig;
 use PhpBrew\Variants;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
+use PhpBrew\VariantParser;
 
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
@@ -40,31 +41,14 @@ class InstallCommand extends \CLIFramework\Command
         $options = $this->options;
         $logger = $this->logger;
 
-        // get extra options for building php
+
         $extra = array();
+        // get options and variants for building php
         $args = func_get_args();
-        array_shift($args);
 
-        // split variant strings
-        $isVariant = true;
-        $tmp = array();
-        foreach( $args as $a ) {
-            if( $a == '--' ) {
-                $isVariant = false;
-                continue;
-            }
+        array_shift($args); // the first argument is the target version.
 
-            if( $isVariant ) {
-                $a = array_filter(explode('+',$a), function($a) { return $a ? true : false; });
-                $tmp = array_merge( $tmp , $a );
-            }
-            else {
-                $extra[] = $a;
-            }
-        }
-        $args = $tmp;
-
-
+        $variantInfo = VariantParser::parseCommandArguments($args);
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
@@ -112,10 +96,8 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
 
-        // strip plus sign.
-        foreach( $args as $a ) {
-            $a = preg_replace( '/^\+/', '', $a );
-            $builder->addVariant( $a );
+        foreach( $variantInfo['enabled_variants'] as $name => $value ) {
+            $builder->addVariant($a, $value);
         }
 
         if( $options->clean ) {

@@ -79,16 +79,9 @@ class Builder
         }
     }
 
-    public function addVariant($variant)
+    public function addVariant($name,$val)
     {
-        if( ($p = strpos( $variant , '=' )) !== false )  {
-            $n = substr( $variant , 0 , $p );
-            $v = substr( $variant , $p + 1 );
-            $this->variants->enable( $n , $v );
-        }
-        else {
-            $this->variants->enable( $variant );
-        }
+        $this->variants->enable( $n , $v );
     }
 
 
