@@ -3,6 +3,7 @@ namespace PhpBrew;
 use PhpBrew\Utils;
 use Exception;
 use PhpBrew\Build;
+use PhpBrew\Exceptions\OopsException;
 
 
 /**
@@ -43,8 +44,16 @@ class VariantBuilder
             'pgsql',
             'pdo'
         ),
+
+        'mb' => array(
+            'mbstring',
+            'mbregex',
+        ),
+
+        // provide all basic features
         'default' => array(
             'filter',
+            'dom',
             'bcmath',
             'ctype',
             'fileinfo',
@@ -55,6 +64,9 @@ class VariantBuilder
             'bz2',
             'zip',
             'cli',
+            'json',
+            'mbstring',
+            'mbregex',
             'calendar',
             'sockets',
             'readline',
@@ -67,34 +79,48 @@ class VariantBuilder
     {
         $self = $this;
 
-        $this->variants['dba'] = function() {
-            return '--enable-dba';
-        };
+        // init variant builders
 
-        $this->variants['ipv6'] = function() {
-            return '--enable-ipv6';
-        };
+        $this->variants['all'] = '--enable-all';
+        $this->variants['dba'] = '--enable-dba';
+        $this->variants['ipv6'] = '--enable-ipv6';
+        $this->variants['dom'] = '--enable-dom';
+        $this->variants['all'] = '--enable-all';
+        $this->variants['calendar'] = '--enable-calendar';
 
-        $this->variants['all'] = function() {
-            return '--enable-all';
-        };
+        $this->variants['cli'] = '--enable-cli';
+        $this->variants['fpm'] = '--enable-fpm';
+        $this->variants['ftp'] = '--enable-ftp';
+        $this->variants['filter'] = '--enable-filter';
+        $this->variants['gcov'] = '--enable-gcov';
 
-        $this->variants['calendar'] = function() {
-            return '--enable-calendar';
-        };
+        $this->variants['json'] = '--enable-json';
+        $this->variants['hash'] = '--enable-hash';
+        $this->variants['exif'] = '--enable-exif';
+        $this->variants['mbstring'] = '--enable-mbstring';
+        $this->variants['mbregex'] = '--enable-mbregex';
+
+        $this->variants['pdo'] = '--enable-pdo';
+        $this->variants['posix'] = '--enable-posix';
+        $this->variants['embed'] = '--enable-embed';
+        $this->variants['sockets'] = '--enable-sockets';
+        $this->variants['debug'] = '--enable-debug';
+        $this->variants['zip'] = '--enable-zip';
+        $this->variants['bcmath'] = '--enable-bcmath';
+        $this->variants['fileinfo'] = '--enable-fileinfo';
+        $this->variants['ctype'] = '--enable-ctype';
+        $this->variants['cgi'] = '--enable-cgi';
+        $this->variants['soap'] = '--enable-soap';
+        $this->variants['pcntl'] = '--enable-pcntl';
+        $this->variants['intl'] = '--enable-intl';
+        $this->variants['imap'] = '--with-imap-ssl';
+        $this->variants['tidy'] = '--with-tidy';
+        $this->variants['kerberos'] = '--with-kerberos';
 
         $this->variants['zlib'] = function() {
             if( $prefix = Utils::find_include_prefix('zlib.h') ) {
                 return '--with-zlib=' . $prefix;
             }
-        };
-
-        $this->variants['posix'] = function() {
-            return '--enable-posix';
-        };
-
-        $this->variants['embed'] = function() {
-            return '--enable-embed';
         };
 
         $this->variants['readline'] = function() {
@@ -107,11 +133,6 @@ class VariantBuilder
                 $opts[] = '--with-libedit=' . $prefix;
             }
             return $opts;
-        };
-
-        // init variant builders
-        $this->variants['pdo'] = function() use ($self) {
-            return '--enable-pdo';
         };
 
         $this->variants['gd'] = function() use($self) {
@@ -192,9 +213,6 @@ class VariantBuilder
             return $opts;
         };
 
-        $this->variants['fpm'] = function() use ($self) {
-            return '--enable-fpm';
-        };
 
         $this->variants['sqlite'] = function( $prefix = null ) use ($self) {
             $opts = array(
@@ -213,21 +231,6 @@ class VariantBuilder
             return $opts;
         };
 
-        $this->variants['cli'] = function() {
-            return '--enable-cli';
-        };
-
-        $this->variants['ftp'] = function() {
-            return '--enable-ftp';
-        };
-
-        $this->variants['filter'] = function() {
-            return '--enable-filter';
-        };
-
-        $this->variants['gcov'] = function() {
-            return '--enable-gcov';
-        };
 
         $this->variants['xml_all'] = function() {
             return array(
@@ -240,9 +243,6 @@ class VariantBuilder
             );
         };
 
-        $this->variants['sockets'] = function() {
-            return '--enable-sockets';
-        };
 
         $this->variants['apxs2'] = function($prefix = null) use ($self) {
 
@@ -276,29 +276,6 @@ class VariantBuilder
             return $a;
         };
 
-        $this->variants['debug'] = function() {
-            return array('--enable-debug');
-        };
-
-        $this->variants['zip'] = function() {
-            return '--enable-zip';
-        };
-
-        $this->variants['bcmath'] = function() {
-            return '--enable-bcmath';
-        };
-
-        $this->variants['fileinfo'] = function() {
-            return '--enable-fileinfo';
-        };
-
-        $this->variants['ctype'] = function() {
-            return '--enable-ctype';
-        };
-
-        $this->variants['cgi'] = function() {
-            return '--enable-cgi';
-        };
 
         $this->variants['gettext'] = function($prefix = null) {
             if( $prefix )
@@ -308,29 +285,6 @@ class VariantBuilder
             return '--with-gettext';
         };
 
-        $this->variants['soap'] = function() {
-            return '--enable-soap';
-        };
-
-        $this->variants['pcntl'] = function() {
-            return '--enable-pcntl';
-        };
-
-        $this->variants['intl'] = function() {
-            return '--enable-intl';
-        };
-
-        $this->variants['imap'] = function() {
-            return '--with-imap-ssl';
-        };
-
-        $this->variants['tidy'] = function() {
-            return '--with-tidy';
-        };
-
-        $this->variants['kerberos'] = function() {
-            return '--with-kerberos';
-        };
 
         $this->variants['iconv'] = function() {
             // detect include path for iconv.h
@@ -409,26 +363,32 @@ class VariantBuilder
      * @param string $feature variant name
      * @param string $userValue option value.
      */
-    public function buildVariant($feature,$userValue = null)
+    public function buildVariant($feature, $userValue = null)
     {
-        if( isset( $this->variants[ $feature ] )) {
-            // Skip if we've built it
-            if ( in_array($feature, $this->builtList) ) 
-                return array();
-
-            // Skip if we've disabled it
-            if ( isset($this->disables[ $feature ] )) 
-                return array();
-
-            $this->builtList[] = $feature;
-            $func = $this->variants[ $feature ];
-
-            $args = is_string($userValue) ? array($userValue) : array();
-
-            return (array) call_user_func_array($func,$args);
+        if( ! isset( $this->variants[ $feature ] )) {
+            throw new Exception("Variant '$feature' is not defined.");
         }
-        else {
-            throw new Exception("Variant $feature is not defined.");
+
+        // Skip if we've built it
+        if ( in_array($feature, $this->builtList) ) 
+            return array();
+
+        // Skip if we've disabled it
+        if ( isset($this->disables[ $feature ] )) 
+            return array();
+
+        $this->builtList[] = $feature;
+        $cb = $this->variants[ $feature ];
+
+        if ( is_array($cb) ) {
+            return $cb;
+        } elseif ( is_string($cb) ) {
+            return array($cb);
+        } elseif( is_callable($cb) ) {
+            $args = is_string($userValue) ? array($userValue) : array();
+            return (array) call_user_func_array($cb, $args);
+        } else {
+            throw OopsException;
         }
     }
 
@@ -495,12 +455,6 @@ class VariantBuilder
         // build common options
         $this->options = array(
             '--disable-all',
-            '--enable-dom',
-            '--enable-exif',
-            '--enable-hash',
-            '--enable-json',
-            '--enable-mbregex',
-            '--enable-mbstring',
             '--enable-phar',
             '--enable-session',
             '--enable-short-tags',

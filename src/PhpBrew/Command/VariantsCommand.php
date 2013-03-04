@@ -31,6 +31,7 @@ class VariantsCommand extends \CLIFramework\Command
     {
         $variants = new VariantBuilder;
         $list = $variants->getVariantNames();
+        sort($list);
 
         echo "Variants: \n";
         echo $this->wrapLine(join(', ',$list)) , "\n";
