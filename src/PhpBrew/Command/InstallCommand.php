@@ -6,6 +6,7 @@ use PhpBrew\PkgConfig;
 use PhpBrew\Variants;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
+use PhpBrew\Builder;
 use PhpBrew\VariantParser;
 
 use PhpBrew\Tasks\DownloadTask;
@@ -14,7 +15,7 @@ use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Build;
-
+use PhpBrew\DirectorySwitch;
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -42,15 +43,19 @@ class InstallCommand extends \CLIFramework\Command
         $logger = $this->logger;
 
 
-        // the extra options to be passed to ./configure command
-        $extra = array();
 
         // get options and variants for building php
         $args = func_get_args();
 
         // the first argument is the target version.
         array_shift($args);
+
+
+        // ['extra_options'] => the extra options to be passed to ./configure command
+        // ['enabled_variants'] => enabeld variants
+        // ['disabled_variants'] => disabled variants
         $variantInfo = VariantParser::parseCommandArguments($args);
+
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
@@ -72,30 +77,31 @@ class InstallCommand extends \CLIFramework\Command
             $this->options->keys['patch']->value = $patch;
         }
 
-        chdir( $buildDir );
+        // Move to to build directory, because we are going to download distribution.
+        chdir($buildDir);
 
         $download = new DownloadTask($this->logger);
         $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
 
-        if( ! file_exists($targetDir ) ) {
+        if( ! file_exists($targetDir) ) {
             throw new Exception("Download failed.");
         }
 
-        /*
-         * build object, contains the information to build php.
-         */
+        // Change directory to the downloaded source directory.
+        chdir($targetDir);
+
+        // The build object, contains the information to build php.
         $build = new Build;
         $build->setVersion($version);
         $build->setInstallDirectory($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
 
+        $builder = new Builder($targetDir, $version);
+        $builder->logger = $this->logger;
+        $builder->options = $this->options;
 
-        $builder = new \PhpBrew\Builder( $targetDir, $version );
-        $builder->logger = $logger;
-        $builder->options = $options;
-
-        $logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
+        $this->logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
 
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
             $builder->addVariant($name, $value);
@@ -146,7 +152,7 @@ class InstallCommand extends \CLIFramework\Command
         // Fix php.dSYM
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
         if ( file_exists($dSYM)) {
-            $logger->info("---> Moving php.dSYM to php ");
+            $this->logger->info("---> Moving php.dSYM to php ");
             $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
             rename( $dSYM , $php );
         }
@@ -154,14 +160,14 @@ class InstallCommand extends \CLIFramework\Command
 
 
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
-        $logger->info("---> Copying $phpConfigFile ");
+        $this->logger->info("---> Copying $phpConfigFile ");
         if( file_exists($phpConfigFile) ) {
             if( ! file_exists( Config::getVersionEtcPath($version) ) )
                 mkdir( Config::getVersionEtcPath($version) , 0755 , true );
 
             $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
             if( file_exists($targetConfigPath) ) {
-                $logger->notice("$targetConfigPath exists, do not overwrite.");
+                $this->logger->notice("$targetConfigPath exists, do not overwrite.");
             }
             else {
                 // move config file to target location
@@ -175,11 +181,11 @@ class InstallCommand extends \CLIFramework\Command
                     $content = file_get_contents($targetConfigPath);
 
                     if( $timezone ) {
-                        $logger->info("Found date.timezone, patch config timezone with $timezone");
+                        $this->logger->info("Found date.timezone, patch config timezone with $timezone");
                         $content = preg_replace( '/^date.timezone\s+=\s+.*/im', "date.timezone = $timezone" , $content );
                     }
                     if( ! $pharReadonly ) {
-                        $logger->info("Disable phar.readonly option.");
+                        $this->logger->info("Disable phar.readonly option.");
                         $content = preg_replace( '/^phar.readonly\s+=\s+.*/im', "phar.readonly = 0" , $content );
                     }
                     file_put_contents($targetConfigPath, $content);
@@ -189,9 +195,9 @@ class InstallCommand extends \CLIFramework\Command
             }
         }
 
-        $logger->info("Source directory: " . $targetDir );
+        $this->logger->info("Source directory: " . $targetDir );
 
-        $logger->info("Congratulations! Now you have PHP with $version.");
+        $this->logger->info("Congratulations! Now you have PHP with $version.");
 
         echo <<<EOT
 To use the newly built PHP, try the line(s) below:

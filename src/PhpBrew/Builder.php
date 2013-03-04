@@ -66,19 +66,6 @@ class Builder
             mkdir( $this->buildPrefix, 0755, true );
     }
 
-    public function clean()
-    {
-        /**
-         * xxx:
-         * PHP_AUTOCONF=autoconf213 ./buildconf --force
-         */
-        if( file_exists('Makefile') ) {
-            $this->logger->info('===> Cleaning...');
-            system('make clean > /dev/null') !== false
-                or die('make clean error');
-        }
-    }
-
     public function addVariant($name,$val = null)
     {
         $this->variants->enable( $name , $val === true ? null : $val );

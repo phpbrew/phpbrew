@@ -26,9 +26,6 @@ class VariantParser
         // split variant strings
         $startExtra = false;
         foreach( $args as $arg ) {
-
-            var_dump($arg); 
-
             if( $arg === '--' ) {
                 $startExtra = true;
                 continue;
