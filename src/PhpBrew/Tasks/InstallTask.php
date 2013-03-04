@@ -18,12 +18,12 @@ class InstallTask extends BaseTask
     public function install()
     {
         $this->info("Installing...");
-        $install = new CommandBuilder('make install');
-        $install->append = true;
+        $cmd = new CommandBuilder('make install');
+        $cmd->append = true;
         if($this->logPath) {
-            $install->stdout = $this->logPath;
+            $cmd->stdout = $this->logPath;
         }
-        $install->execute() !== false or die('Install failed.');
+        $cmd->execute() !== false or die('Install failed.');
     }
 }
 
