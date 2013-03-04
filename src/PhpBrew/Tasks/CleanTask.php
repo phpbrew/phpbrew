@@ -2,7 +2,7 @@
 namespace PhpBrew\Tasks;
 use PhpBrew\Config;
 use PhpBrew\DirectorySwitch;
-
+use PhpBrew\CommandBuilder;
 
 /**
  * Task to run `make clean`

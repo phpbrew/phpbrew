@@ -113,18 +113,11 @@ class InstallCommand extends \CLIFramework\Command
         $build->setLogPath(Config::getVersionBuildLogPath( $version ));
         $build->build();
 
-
         if( $options->{'test'} ) {
-            $logger->info("Testing");
-            $cmd = new CommandBuilder('make test');
-            if( $options->nice )
-                $cmd->nice( $options->nice );
-            $cmd->append = true;
-            $cmd->stdout = Config::getVersionBuildLogPath( $version );
-            $logger->debug( '' .  $cmd  );
-            $cmd->execute() !== false or die('Test failed.');
+            $test = new TestTask($this->logger);
+            $test->setLogPath(Config::getVersionBuildLogPath( $version ));
+            $test->test();
         }
-
 
         $install = new InstallTask($this->logger);
         $install->setLogPath(Config::getVersionBuildLogPath( $version ));
