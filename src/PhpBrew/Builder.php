@@ -81,7 +81,7 @@ class Builder
 
     public function addVariant($name,$val = null)
     {
-        $this->variants->enable( $n , $v === true ? null : $v );
+        $this->variants->enable( $name , $val === true ? null : $val );
     }
 
 

@@ -97,13 +97,18 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
 
-        foreach( $variantInfo['disabled_variants'] as $name => $value ) {
-            $builder->disableVariant($name);
-            $build->disableVariant($name);
-        }
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
             $builder->addVariant($name, $value);
             $build->enableVariant($name);
+        }
+
+        foreach( $variantInfo['disabled_variants'] as $name => $value ) {
+            $builder->disableVariant($name);
+            $build->disableVariant($name);
+            if($build->hasVariant($name) ) {
+                $this->logger->warn("Removing variant $name since we've disabled it from command.");
+                $build->removeVariant($name);
+            }
         }
 
         if( $options->clean ) {
@@ -115,7 +120,6 @@ class InstallCommand extends \CLIFramework\Command
 
         // we should only run configure after cleaning files  (?)
         $builder->configure( $extra );
-
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);

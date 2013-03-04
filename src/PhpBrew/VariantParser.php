@@ -35,8 +35,8 @@ class VariantParser
             }
 
             if( ! $startExtra ) {
-                if( $arg[0] == '+' || $arg['-'] ) {
-                    if( substr($arg,0,2) == '--' ) {
+                if( $arg[0] === '+' || $arg[0] === '-' ) {
+                    if( substr($arg,0,2) === '--' ) {
                         throw new Exception("Invalid variant option $arg");
                     }
 

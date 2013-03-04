@@ -64,12 +64,25 @@ class Build
 
     /** 
      * Set enabled variants.
+     *
+     * @param array $variants
      */
     public function setVariants($variants)
     {
         $this->variants = $variants;
     }
 
+
+    /**
+     * Check if we've enabled the variant
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function hasVariant($name)
+    {
+        return isset($this->variants[$name]);
+    }
 
     /**
      * Remove enabled variant.
