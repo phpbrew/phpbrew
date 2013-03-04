@@ -61,8 +61,8 @@ class VariantBuilder
             foreach( $vs as $v ) {
                 $options = array_merge(
                     $options,
-                    $self->buildVariant($v) );
-                $self->enable($v); // enable it
+                    $self->buildVariant($v) 
+                );
             }
             return $options;
         };
@@ -340,8 +340,7 @@ class VariantBuilder
         };
 
         $this->variants['bz2'] = function($prefix = null) {
-            if( ! $prefix
-                && $prefix = Utils::find_include_prefix('bzlib.h') ) {
+            if( ! $prefix && $prefix = Utils::find_include_prefix('bzlib.h') ) {
                     return '--with-bz2=' . $prefix;
             }
         };
@@ -358,6 +357,7 @@ class VariantBuilder
         // '--with-mcrypt=/usr',
     }
 
+    /*
     private function _getConflict($feature)
     {
         if( isset( $this->conflicts[ $feature ] ) ) {
@@ -370,6 +370,7 @@ class VariantBuilder
         }
         return false;
     }
+     */
 
 
 /*
@@ -392,20 +393,6 @@ class VariantBuilder
         return true;
     }
 */
-    public function enable($feature,$value = true )
-    {
-        if (!isset($this->disables[ $feature ])) $this->use[ $feature ] = $value;
-    }
-
-    public function disable($feature)
-    {
-        $this->disables[ $feature ] = true;
-        if (isset($this->use[$feature])) unset($this->use[$feature]);
-    }
-    public function isUsing($feature)
-    {
-        return isset( $this->use[ $feature ] );
-    }
 
     public function checkPkgPrefix($option,$pkgName)
     {
@@ -565,6 +552,7 @@ class VariantBuilder
      *
      * @param string $version version string
      */
+    /*
     public function getAvailableVariants($version)
     {
         // xxx: use version_compare to merge config options
@@ -572,8 +560,7 @@ class VariantBuilder
 
         if( isset($this->variants[$version]) )
             return $this->variants;
-
-        /** try to match regular expressions */
+        // try to match regular expressions
         foreach( $this->variants as $k => $variants ) {
             if( strpos($k,'/') === 0 ) {
                 if( preg_match( $k , $version ) )
@@ -581,15 +568,11 @@ class VariantBuilder
             }
         }
     }
+    */
 
 
-    public function getVariantOptions($version,$variant)
-    {
-        $variants = $this->getAvailableVariants($version);
-        // todo:
-    }
 
-
+    /*
     public function getVersionOptions($version)
     {
         $options = array();
@@ -630,5 +613,6 @@ class VariantBuilder
         }
         return $options;
     }
+    */
 }
 
