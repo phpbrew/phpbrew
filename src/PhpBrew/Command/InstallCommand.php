@@ -98,10 +98,12 @@ class InstallCommand extends \CLIFramework\Command
         $logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
 
         foreach( $variantInfo['disabled_variants'] as $name => $value ) {
-            $builder->disableVariant($name, $value);
+            $builder->disableVariant($name);
+            $build->disableVariant($name);
         }
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
             $builder->addVariant($name, $value);
+            $build->enableVariant($name);
         }
 
         if( $options->clean ) {

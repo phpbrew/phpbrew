@@ -79,10 +79,20 @@ class Builder
         }
     }
 
-    public function addVariant($name,$val)
+    public function addVariant($name,$val = null)
     {
-        $this->variants->enable( $n , $v );
+        $this->variants->enable( $n , $v === true ? null : $v );
     }
+
+
+    /**
+     * Shortcut method of addVariant
+     */
+    public function enableVariant($name,$val = null)
+    {
+        $this->addVariant($name,$val);
+    }
+
 
     public function disableVariant($variant)
     {
