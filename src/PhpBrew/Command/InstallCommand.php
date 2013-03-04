@@ -7,7 +7,6 @@ use PhpBrew\Variants;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 
-
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
