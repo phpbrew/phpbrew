@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
+use Exception;
 
 class EnvCommand extends \CLIFramework\Command
 {
@@ -23,8 +24,16 @@ class EnvCommand extends \CLIFramework\Command
         echo 'export PHPBREW_ROOT=' . $root . "\n";
         echo 'export PHPBREW_HOME=' . $home . "\n";
 
-        echo 'export PHPBREW_PHP='  . $version . "\n";
-        echo 'export PHPBREW_PATH=' . ($version ? Config::getVersionBinPath($version) : '') . "\n";
+        if ($version !== false) {
+            // checking php version exists
+            $targetPhpBinPath = Config::getVersionBinPath($version);
+            if (!is_dir($targetPhpBinPath)) {
+                throw new Exception("# php version: " . $version . " not exists.");
+            }
+            echo 'export PHPBREW_PHP='  . $version . "\n";
+            echo 'export PHPBREW_PATH=' . ($version ? Config::getVersionBinPath($version) : '') . "\n";
+        }
+
     }
 
 }

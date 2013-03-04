@@ -45,12 +45,35 @@ class InstallCommand extends \CLIFramework\Command
         $extra = array();
         // get options and variants for building php
         $args = func_get_args();
+<<<<<<< HEAD
+=======
+        array_shift($args);
+
+        // split variant strings
+        $isVariant = true;
+        $tmp = array();
+
+        // using preg_split to parse args
+        $args2 = preg_split("/([+-]+)/", implode(" ", $args), -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+        for ($i=0; $i < count($args2); $i+=2) {
+          $sign = $args2[$i];
+          $argValue = trim($args2[$i+1]);
+          if (empty($argValue)) continue;
+
+          if ($sign == '--') $extra[] = $sign.$argValue;
+          else $tmp[] = $sign.$argValue;
+        }
+        $args = $tmp;
+>>>>>>> origin/master
 
         array_shift($args); // the first argument is the target version.
 
+<<<<<<< HEAD
         $variantInfo = VariantParser::parseCommandArguments($args);
 
 
+=======
+>>>>>>> origin/master
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
             throw new Exception("Version $version not found.");
@@ -96,8 +119,11 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
 
+        foreach( $variantInfo['disabled_variants'] as $name => $value ) {
+            $builder->disableVariant($name, $value);
+        }
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
-            $builder->addVariant($a, $value);
+            $builder->addVariant($name, $value);
         }
 
         if( $options->clean ) {
