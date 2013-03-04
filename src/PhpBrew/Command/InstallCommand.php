@@ -181,7 +181,7 @@ class InstallCommand extends \CLIFramework\Command
             }
         }
 
-        $logger->info("Source directory: " . realpath( $targetDir ) );
+        $logger->info("Source directory: " . $targetDir );
 
         $logger->info("Done!");
 
