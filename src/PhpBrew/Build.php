@@ -72,9 +72,13 @@ class Build
 
         if($this->variants) {
             foreach($this->variants as $n => $v ) {
-                $str = $n . '_' . $v;
-                $str = preg_replace( '#\W+#', '_', $str );
-                $names[] = $str;
+                if( is_bool($v) ) {
+                    $names[] = $n;
+                } else {
+                    $v = preg_replace( '#\W+#', '_', $v );
+                    $str = $n . '=' . $v;
+                    $names[] = $str;
+                }
             }
         }
 
