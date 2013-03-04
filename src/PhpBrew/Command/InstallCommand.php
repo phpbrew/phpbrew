@@ -183,7 +183,7 @@ class InstallCommand extends \CLIFramework\Command
 
         $logger->info("Source directory: " . $targetDir );
 
-        $logger->info("Done!");
+        $logger->info("Congratulations! Now you have PHP with $version.");
 
         echo <<<EOT
 To use the newly built PHP, try the line(s) below:
