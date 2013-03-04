@@ -28,6 +28,18 @@ class Build
         $this->version = $version;
     }
 
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+
+    public function compareVersion($version)
+    {
+        return version_compare($this->version,$version);
+    }
+
     public function addVariant($name, $value = null)
     {
         $this->variants[$name] = $value ?: true;
@@ -58,8 +70,7 @@ class Build
         } elseif($this->phpEnvironment === self::ENV_DEVELOPMENT ) {
             $names[] = 'dev';
         }
-
-
+        return join('-', $names);
     }
 
 }
