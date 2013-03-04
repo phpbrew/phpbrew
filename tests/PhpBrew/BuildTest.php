@@ -12,7 +12,7 @@ class BuildTest extends PHPUnit_Framework_TestCase
 
         $id = $build->getIdentifier();
         ok($id);
-        echo $id;
+        is('php-5.3.0-debug-icu-dev',$id);
     }
 }
 
