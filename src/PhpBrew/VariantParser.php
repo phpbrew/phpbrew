@@ -20,14 +20,14 @@ class VariantParser
     {
         $extra = array();
 
-
         $enabledVariants = array();
         $disabledVariants = array();
 
         // split variant strings
         $startExtra = false;
-        $tmp = array();
         foreach( $args as $arg ) {
+
+            var_dump($arg); 
 
             if( $arg === '--' ) {
                 $startExtra = true;
@@ -60,11 +60,9 @@ class VariantParser
                     throw new Exception("Invalid variant option $arg");
                 }
             } else {
-                $extra[] = $a;
+                $extra[] = $arg;
             }
         }
-        $args = $tmp;
-
         return array(
             'enabled_variants' => $enabledVariants,
             'disabled_variants' => $disabledVariants,

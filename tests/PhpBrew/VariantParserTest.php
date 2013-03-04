@@ -9,7 +9,7 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                preg_split('#\s#',
+                preg_split('#\s+#',
                           '+pdo+sqlite+debug'
                         . '+apxs=/opt/local/apache2/bin/apxs+calendar'
                         . '-mysql'

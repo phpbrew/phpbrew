@@ -119,7 +119,7 @@ class InstallCommand extends \CLIFramework\Command
         $buildLogFile = Config::getVersionBuildLogPath( $version );
 
         // we should only run configure after cleaning files  (?)
-        $builder->configure( $extra );
+        $builder->configure( $variantInfo['extra_options'] );
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
