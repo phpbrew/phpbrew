@@ -27,7 +27,9 @@ class DownloadTask
 
     public function downloadByUrl($url) 
     {
-        $downloader = new \PhpBrew\Downloader\UrlDownloader( $this->getLogger() );
+        $this->info->info("===> Downloading $url");
+
+        $downloader = new \PhpBrew\Downloader\UrlDownloader();
         $basename = $downloader->download($url);
 
         // unpack the tarball file
