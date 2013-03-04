@@ -11,7 +11,7 @@ class SvnDownloader
         $this->logger = $logger;
     }
 
-    public function download($url, $target = null)
+    public function download($url, $target = null, $force = false)
     {
         $parts = parse_url($url);
         $basename = $target ?: basename( $parts['path'] );

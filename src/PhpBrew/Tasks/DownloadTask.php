@@ -6,13 +6,12 @@ use PhpBrew\Config;
 class DownloadTask extends BaseTask
 {
 
-
-    public function downloadByVersionString($version, $old = false)
+    public function downloadByVersionString($version, $old = false, $force = false)
     {
         $info = PhpSource::getVersionInfo($version, $old);
         $targetDir = null;
         if( isset($info['url']) ) {
-            $targetDir = $this->downloadByUrl($info['url']);
+            $targetDir = $this->downloadByUrl($info['url'], $force);
         }
         elseif( isset($info['svn']) ) {
             $targetDir = $this->downloadFromSvn($info['svn']);
