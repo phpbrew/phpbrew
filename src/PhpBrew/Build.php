@@ -62,6 +62,17 @@ class Build
         }
     }
 
+    public function isDisabledVariant($name) 
+    {
+        return isset($this->disabledVariants[$name]);
+    }
+
+    public function isEnabledVariant($name)
+    {
+        return isset($this->variants[$name]);
+    }
+
+
     public function removeDisabledVariant($name)
     {
         unset($this->disabledVariants[$name]);

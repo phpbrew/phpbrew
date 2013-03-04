@@ -32,9 +32,18 @@ class VariantBuilder
 
     public $options = array();
 
+
+    /**
+     * @var array $builtList is for checking built variants
+     *
+     * contains ['-pdo','mysql','-sqlite','-debug']
+     */
     public $builtList = array();
 
-    public $virtualVariants = array('dbs');
+    public $virtualVariants = array(
+        'dbs'
+    );
+
 
     public function __construct()
     {
@@ -60,8 +69,7 @@ class VariantBuilder
             $options = array();
             foreach( $vs as $v ) {
                 $options = array_merge(
-                    $options,
-                    $self->buildVariant($v) 
+                    $options, $self->buildVariant($v) 
                 );
             }
             return $options;
@@ -150,7 +158,8 @@ class VariantBuilder
          * with icu
          */
         $this->variants['icu'] = function($val = null) use($self) {
-            // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
+            // XXX: it seems that /usr prefix does not work on Ubuntu 
+            //       Linux system.
             if( $val ) {
                 return '--with-icu=' . $val;
             }
@@ -405,11 +414,25 @@ class VariantBuilder
         return array_keys( $this->variants );
     }
 
+
+
+    /**
+     * Build options from variant
+     *
+     * @param string $feature variant name
+     * @param string $userValue option value.
+     */
     public function buildVariant($feature,$userValue = null)
     {
         if( isset( $this->variants[ $feature ] )) {
-            if ( in_array($feature, $this->builtList) ) return array();
-            if ( isset($this->disables[ $feature ] )) return array();
+            // Skip if we've built it
+            if ( in_array($feature, $this->builtList) ) 
+                return array();
+
+            // Skip if we've disabled it
+            if ( isset($this->disables[ $feature ] )) 
+                return array();
+
             $this->builtList[] = $feature;
             $func = $this->variants[ $feature ];
             $args = array();
