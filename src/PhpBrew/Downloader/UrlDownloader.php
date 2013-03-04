@@ -17,9 +17,13 @@ class UrlDownloader
     public function download($url)
     {
         $this->logger->info("===> Downloading from $url");
+
         $info = parse_url($url);
         $basename = basename( $info['path'] );
+
+        // curl is faster than php
         system( 'curl -C - -# -O ' . $url ) !== false or die('Download failed.');
+
         $this->logger->info("===> Downloaded file $basename");
         return $basename; // return the filename
     }

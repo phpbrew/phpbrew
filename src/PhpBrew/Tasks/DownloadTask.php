@@ -1,7 +1,9 @@
 <?php
 namespace PhpBrew\Tasks;
+use PhpBrew\PhpSource;
+use PhpBrew\Config;
 
-class DownloadTask
+class DownloadTask extends BaseTask
 {
 
 
@@ -25,7 +27,7 @@ class DownloadTask
         return $targetDir;
     }
 
-    public function downloadByUrl($url) 
+    public function downloadByUrl($url, $forceExtract = false ) 
     {
         $downloader = new \PhpBrew\Downloader\UrlDownloader( $this->getLogger() );
         $basename = $downloader->download($url);
@@ -34,9 +36,11 @@ class DownloadTask
         $targetDir = basename($basename, '.tar.bz2');
 
         // if we need to extract again (?)
-        if( ! file_exists($dir . DIRECTORY_SEPARATOR . 'configure') ) {
-            $this->logger->info("===> Extracting...");
+        if( $forceExtract || ! file_exists($targetDir . DIRECTORY_SEPARATOR . 'configure') ) {
+            $this->info("===> Extracting...");
             system( "tar xjf $basename" ) !== false or die('Extract failed.');
+        } else {
+            $this->info("===> Found existing $targetDir, Skip extracting.");
         }
         return $targetDir;
     }

@@ -21,6 +21,7 @@ class Console extends Application
         $this->registerCommand('env');
         $this->registerCommand('variants');
         $this->registerCommand('config');
+        $this->registerCommand('download');
 
         $this->registerCommand('enable', 'PhpBrew\Command\EnableExtensionCommand');
         $this->registerCommand('install-ext');
