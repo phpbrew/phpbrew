@@ -6,14 +6,23 @@ use PhpBrew\Config;
 /**
  * Task to run `make install`
  */
-class InstallTask
+class InstallTask extends BaseTask
 {
+    public $logPath;
+
+    public function setLogPath($path)
+    {
+        $this->logPath = $path;
+    }
+
     public function install()
     {
         $this->info("Installing...");
         $install = new CommandBuilder('make install');
         $install->append = true;
-        $install->stdout = Config::getVersionBuildLogPath( $version );
+        if($this->logPath) {
+            $install->stdout = $this->logPath;
+        }
         $install->execute() !== false or die('Install failed.');
     }
 }

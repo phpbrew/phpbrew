@@ -109,18 +109,10 @@ class InstallCommand extends \CLIFramework\Command
 
         $builder->configure( $extra );
 
-        $logger->info("Building $version...");
+        $build = new BuildTask($this->logger);
+        $build->setLogPath(Config::getVersionBuildLogPath( $version ));
+        $build->build();
 
-        $cmd = new CommandBuilder('make');
-        $cmd->append = true;
-        $cmd->stdout = Config::getVersionBuildLogPath( $version );
-        if( $options->nice )
-            $cmd->nice( $options->nice );
-
-        $startTime = microtime(true);
-
-        $logger->debug( '' .  $cmd  );
-        $cmd->execute() !== false or die('Make failed.');
 
         if( $options->{'test'} ) {
             $logger->info("Testing");
@@ -133,10 +125,9 @@ class InstallCommand extends \CLIFramework\Command
             $cmd->execute() !== false or die('Test failed.');
         }
 
-        $buildTime = (int)((microtime(true) - $startTime) / 60);
-        $logger->info("Build finished: $buildTime minutes.");
 
         $install = new InstallTask($this->logger);
+        $install->setLogPath(Config::getVersionBuildLogPath( $version ));
         $install->install();
 
         if( $options->{'post-clean'} ) {
