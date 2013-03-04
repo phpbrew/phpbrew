@@ -59,11 +59,9 @@ class InstallCommand extends \CLIFramework\Command
         }
         $args = $tmp;
 
-
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
             throw new Exception("Version $version not found.");
-
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
@@ -75,6 +73,7 @@ class InstallCommand extends \CLIFramework\Command
         // convert patch to realpath
         if( $this->options->patch ) {
             $patch = realpath($this->options->patch);
+            // rewrite patch path
             $this->options->keys['patch']->value = $patch;
         }
 

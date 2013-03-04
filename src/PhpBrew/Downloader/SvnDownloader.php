@@ -28,6 +28,9 @@ class SvnDownloader
             $this->logger->info("Checking out from svn: $url");
             system( "svn checkout --quiet -r HEAD $url" );
         }
+        if( ! file_exists($basename) ) {
+            throw Exception("Download failed.");
+        }
         return $basename;
     }
 

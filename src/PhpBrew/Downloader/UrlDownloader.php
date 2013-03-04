@@ -25,6 +25,10 @@ class UrlDownloader
         system( 'curl -C - -# -O ' . $url ) !== false or die('Download failed.');
 
         $this->logger->info("===> Downloaded file $basename");
+
+        if( ! file_exists($basename) ) {
+            throw Exception("Download failed.");
+        }
         return $basename; // return the filename
     }
 
