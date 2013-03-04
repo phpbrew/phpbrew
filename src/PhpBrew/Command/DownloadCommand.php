@@ -8,6 +8,7 @@ use PhpBrew\CommandBuilder;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
+use PhpBrew\DirectorySwitch;
 
 use CLIFramework\Command;
 
@@ -37,14 +38,18 @@ class DownloadCommand extends Command
 
         $buildDir = Config::getBuildDir();
 
+        $dw = new DirectorySwitch;
+        $dw->cd($buildDir);
+
         $download = new DownloadTask($this->logger);
         $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
 
         if( ! file_exists( $targetDir ) ) {
             throw new Exception("Download failed.");
         }
-
         $this->logger->info("Done, please look at: $buildDir/$targetDir");
+
+        $dw->back();
     }
 }
 
