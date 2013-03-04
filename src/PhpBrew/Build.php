@@ -20,6 +20,8 @@ class Build
 
     public $installDirectory;
 
+    public $extraOptions = array();
+
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
     public function __construct()
@@ -135,6 +137,16 @@ class Build
     public function getInstallDirectory()
     {
         return $this->installDirectory;
+    }
+
+    public function setExtraOptions($options)
+    {
+        $this->extraOptions = $options;
+    }
+
+    public function getExtraOptions()
+    {
+        return $this->extraOptions;
     }
 
 

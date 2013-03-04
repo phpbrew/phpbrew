@@ -88,6 +88,8 @@ class Builder
 
     public function configure( $extra = array() )
     {
+        // $builder->configure( $variantInfo['extra_options'] );
+
         if( ! file_exists('configure') ) {
             $this->logger->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
