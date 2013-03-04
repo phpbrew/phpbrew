@@ -3,6 +3,10 @@ namespace PhpBrew\Tasks;
 use PhpBrew\Config;
 use PhpBrew\DirectorySwitch;
 
+
+/**
+ * Task to run `make clean`
+ */
 class CleanTask extends BaseTask
 {
 

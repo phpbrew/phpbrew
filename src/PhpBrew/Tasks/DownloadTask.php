@@ -3,6 +3,11 @@ namespace PhpBrew\Tasks;
 use PhpBrew\PhpSource;
 use PhpBrew\Config;
 
+
+
+/**
+ * Task to download php distributions.
+ */
 class DownloadTask extends BaseTask
 {
 

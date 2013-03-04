@@ -10,6 +10,9 @@ use PhpBrew\CommandBuilder;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
+use PhpBrew\Tasks\InstallTask;
+
+
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -98,12 +101,14 @@ class InstallCommand extends \CLIFramework\Command
             $builder->addVariant( $a );
         }
 
-        if( ! $options->{'no-clean'} )
-            $builder->clean();
+        if( ! $options->{'no-clean'} ) {
+            $clean = new CleanTask($this->logger);
+            $clean->cleanByVersion($version);
+        }
 
         $builder->configure( $extra );
 
-        $logger->info("===> Building $version...");
+        $logger->info("Building $version...");
 
         $cmd = new CommandBuilder('make');
         $cmd->append = true;
@@ -130,12 +135,10 @@ class InstallCommand extends \CLIFramework\Command
         $buildTime = (int)((microtime(true) - $startTime) / 60);
         $logger->info("Build finished: $buildTime minutes.");
 
-        $logger->info("===> Installing...");
+        $logger->info("Installing...");
 
-        $install = new CommandBuilder('make install');
-        $install->append = true;
-        $install->stdout = Config::getVersionBuildLogPath( $version );
-        $install->execute() !== false or die('Install failed.');
+        $install = new InstallTask($this->logger);
+        $install->install();
 
         /*
         if( ! $options->{'no-clean'} )
@@ -143,7 +146,6 @@ class InstallCommand extends \CLIFramework\Command
         */
 
         /** POST INSTALLATION **/
-
 
         /* Check if php.dSYM exists */
         $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
