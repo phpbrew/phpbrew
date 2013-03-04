@@ -6,23 +6,23 @@ use PhpBrew\DirectorySwitch;
 class CleanTask extends BaseTask
 {
 
-    public function clean($path, $verbose = false)
+    public function clean($path)
     {
-        // Should do this very carefully.
-        if( file_exists($path) && $path != "/" ) {
-            if ($verbose) {
-                system("rm -rvf $path");
-            } else {
-                system("rm -rf $path");
-            }
+        if( ! file_exists( $path . DIRECTORY_SEPARATOR . 'Makefile') ) {
+            return false;
         }
+        $pwd = getcwd();
+        chdir($path);
+        system('make clean');
+        chdir($pwd);
+        return true;
     }
 
     public function cleanByVersion($version, $verbose = false)
     {
         $home = Config::getPhpbrewRoot();
         $buildPrefix = Config::getVersionBuildPrefix( $version );
-        $this->clean($buildPrefix);
+        return $this->clean($buildPrefix);
     }
 
     /**

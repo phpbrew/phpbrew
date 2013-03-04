@@ -30,8 +30,9 @@ class CleanCommand extends Command
             throw new Exception("Version $version not found.");
 
         $clean = new CleanTask($this->logger);
-        $clean->cleanByVersion($version);
-        $this->logger->info("Distribution is cleaned up. Woof! ");
+        if( $clean->cleanByVersion($version) ) {
+            $this->logger->info("Distribution is cleaned up. Woof! ");
+        }
     }
 }
 
