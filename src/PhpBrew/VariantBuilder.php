@@ -534,6 +534,9 @@ class VariantBuilder
                 foreach( $variantNames as $subVariantName ) {
                     $build->enableVariant( $subVariantName );
                 }
+                // it's a virtual variant, can not be built by buildVariant 
+                // method.
+                $build->removeVariant( $name );
             }
         }
 

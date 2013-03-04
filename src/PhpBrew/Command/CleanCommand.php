@@ -2,7 +2,6 @@
 namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\Variants;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Tasks\CleanTask;

@@ -2,9 +2,9 @@
 namespace PhpBrew;
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\Variants;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Utils;
+use PhpBrew\VariantBuilder;
 
 class Builder
 {
@@ -34,60 +34,23 @@ class Builder
     public $buildDir;
 
     /**
-     * @var string install prefix path
-     */
-    public $buildPrefix;
-
-    /**
      * @var string phpbrew root
      */
     public $root;
-
-    public $variants;
 
     public function __construct($targetDir,$version)
     {
         $this->targetDir   = $targetDir;
         $this->root        = Config::getPhpbrewRoot();
         $this->buildDir    = Config::getBuildDir();
-        $this->buildPrefix = Config::getVersionBuildPrefix( $version );
         $this->version = $version;
-        $this->variants = new Variants;
-        $this->variants->version = $version;
         chdir($targetDir);
-    }
-
-    public function prepare()
-    {
-        if( ! file_exists($this->buildDir) )
-            mkdir( $this->buildDir, 0755, true );
-
-        if( ! file_exists($this->buildPrefix) )
-            mkdir( $this->buildPrefix, 0755, true );
-    }
-
-    public function addVariant($name,$val = null)
-    {
-        $this->variants->enable( $name , $val === true ? null : $val );
-    }
-
-
-    /**
-     * Shortcut method of addVariant
-     */
-    public function enableVariant($name,$val = null)
-    {
-        $this->addVariant($name,$val);
-    }
-
-
-    public function disableVariant($variant)
-    {
-        $this->variants->disable( $variant );
     }
 
     public function configure(\PhpBrew\Build $build)
     {
+        $variantBuilder = new VariantBuilder;
+
         $extra = $build->getExtraOptions();
 
         if( ! file_exists('configure') ) {
@@ -101,16 +64,19 @@ class Builder
         $cmd = new CommandBuilder('./configure');
 
         putenv('CFLAGS=-O3');
-        $args[] = "--prefix=" . $this->buildPrefix;
-        $args[] = "--with-config-file-path={$this->buildPrefix}/etc";
-        $args[] = "--with-config-file-scan-dir={$this->buildPrefix}/var/db";
-        $args[] = "--with-pear={$this->buildPrefix}/lib/php";
+        $prefix = $build->getInstallDirectory();
+        $args[] = "--prefix=" . $prefix;
+        $args[] = "--with-config-file-path={$prefix}/etc";
+        $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
+        $args[] = "--with-pear={$prefix}/lib/php";
 
-        $variantsArgs = $this->variants->build();
-        if( $variantsArgs )
-            $args = array_merge( $args , $variantsArgs );
+
+        $variantOptions = $variantBuilder->build($build);
+        if( $variantOptions )
+            $args = array_merge( $args , $variantOptions );
         
-        $this->logger->debug('Variants: ' . join(', ',array_keys($this->variants->use)) );
+        $this->logger->debug('Enabled variants: ' . join(', ',array_keys($build->getVariants())  ));
+        $this->logger->debug('Disabled variants: ' . join(', ',array_keys($build->getDisabledVariants())  ));
 
 
         if( $patchFile = $this->options->patch ) {
@@ -121,7 +87,7 @@ class Builder
 
 
         // let's apply patch for libphp{php version}.so (apxs)
-        if( $this->variants->isUsing('apxs2') ) {
+        if( $build->isEnabledVariant('apxs2') ) {
             $this->logger->info('===> Applying patch - apxs2 module version name ...');
 
             // patch for libphp$(PHP_MAJOR_VERSION).so
@@ -176,10 +142,10 @@ EOS;
 
         $cmd->args($args);
 
-        $this->logger->info("===> Configuring {$this->version}...");
+        $this->logger->info("===> Configuring {$build->version}...");
 
         $cmd->append = false;
-        $cmd->stdout = Config::getVersionBuildLogPath( $this->version );
+        $cmd->stdout = Config::getVersionBuildLogPath( $build->version );
 
         echo "\n\n";
         echo "Use tail command to see what's going on:\n";

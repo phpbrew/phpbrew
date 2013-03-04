@@ -3,7 +3,6 @@ namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\PkgConfig;
-use PhpBrew\Variants;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Builder;
@@ -105,12 +104,10 @@ class InstallCommand extends \CLIFramework\Command
         $this->logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
 
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
-            $builder->addVariant($name, $value);
             $build->enableVariant($name);
         }
 
         foreach( $variantInfo['disabled_variants'] as $name => $value ) {
-            $builder->disableVariant($name);
             $build->disableVariant($name);
             if($build->hasVariant($name) ) {
                 $this->logger->warn("Removing variant $name since we've disabled it from command.");

@@ -4,7 +4,6 @@ namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\PkgConfig;
-use PhpBrew\Variants;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 
