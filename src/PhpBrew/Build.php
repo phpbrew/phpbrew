@@ -14,6 +14,8 @@ class Build
 
     public $variants = array();
 
+    public $disabledVariants = array();
+
     public $sourceDirectory;
 
     public $installDirectory;
@@ -41,21 +43,46 @@ class Build
         return version_compare($this->version,$version);
     }
 
-    public function addVariant($name, $value = null)
+    public function enableVariant($name, $value = null)
     {
         $this->variants[$name] = $value ?: true;
     }
 
+
+    /**
+     * Disable variant.
+     */
+    public function disableVariant($name)
+    {
+        $this->disabledVariant[$name] = true;
+    }
+
+    public function removeDisabledVariant($name)
+    {
+        unset($this->disabledVariant[$name]);
+    }
+
+    /** 
+     * Set enabled variants.
+     */
     public function setVariants($variants)
     {
         $this->variants = $variants;
     }
 
+
+    /**
+     * Remove enabled variant.
+     */
     public function removeVariant($variantName)
     {
         unset($this->variants[$variantName]);
     }
 
+
+    /**
+     * Get enabled variants
+     */
     public function getVariants()
     {
         return $this->variants;
