@@ -10,6 +10,11 @@ class UrlDownloader
         $this->logger = $logger;
     }
 
+
+    /**
+     * @param string $url
+     * @return string downloaded file (basename)
+     */
     public function download($url)
     {
         $info = parse_url($url);
