@@ -16,14 +16,10 @@ class VariantBuilder
 {
 
     /**
-     * target php version
-     */
-    public $version;
-
-    /**
      * available variants
      */
     public $variants = array();
+
 
     public $conflicts = array(
         // PHP Version lower than 5.4.0 can only built one SAPI at the same time.
@@ -41,7 +37,28 @@ class VariantBuilder
     public $builtList = array();
 
     public $virtualVariants = array(
-        'dbs'
+        'dbs' => array(
+            'sqlite',
+            'mysql',
+            'pgsql',
+            'pdo'
+        ),
+        'default' => array(
+            'filter',
+            'bcmath',
+            'ctype',
+            'fileinfo',
+            'pdo',
+            'posix',
+            'ipc',
+            'pcntl',
+            'bz2',
+            'zip',
+            'cli',
+            'calendar',
+            'sockets',
+            'readline' 
+        )
     );
 
 
@@ -81,7 +98,6 @@ class VariantBuilder
                 $options = array_merge(
                     $options,
                     $self->buildVariant($v) );
-                $self->enable($v); // enable it
             }
             return $options;
         };
@@ -366,42 +382,37 @@ class VariantBuilder
         // '--with-mcrypt=/usr',
     }
 
-    /*
-    private function _getConflict($feature)
+    private function _getConflict($build, $feature)
     {
         if( isset( $this->conflicts[ $feature ] ) ) {
             $conflicts = array();
             foreach( $this->conflicts[ $feature ] as $f ) {
-                if( $this->isUsing($f) )
+                if( $this->isEnabledVariant($f) )
                     $conflicts[] = $f;
             }
             return $conflicts;
         }
         return false;
     }
-     */
 
 
-/*
-    public function checkConflicts()
+    public function checkConflicts($build)
     {
-        if( isset($this->use['apxs2'])
-            && version_compare( $this->version , 'php-5.4.0' ) < 0 )
+        if ( $build->isEnabledVariant('apxs2') && version_compare( $build->getVersion() , 'php-5.4.0' ) < 0 )
         {
-            if( $conflicts = $this->_getConflict('apxs2') ) {
+            if( $conflicts = $this->_getConflict($build,'apxs2') ) {
                 $msgs = array();
                 $msgs[] = "PHP Version lower than 5.4.0 can only build one SAPI at the same time.";
                 $msgs[] = "+apxs2 is in conflict with " . join(',',$conflicts);
                 foreach( $conflicts as $c ) {
                     $msgs[] = "Disabling $c";
-                    $this->disable($c);
+                    $build->disableVariant($c);
                 }
                 echo join("\n",$msgs) . "\n";
             }
         }
         return true;
     }
-*/
 
     public function checkPkgPrefix($option,$pkgName)
     {
@@ -435,9 +446,9 @@ class VariantBuilder
 
             $this->builtList[] = $feature;
             $func = $this->variants[ $feature ];
-            $args = array();
-            if( is_string($userValue) )
-                $args[] = $userValue;
+
+            $args = is_string($userValue) ? array($userValue) : array();
+
             return (array) call_user_func_array($func,$args);
         }
         else {
@@ -448,13 +459,19 @@ class VariantBuilder
     public function buildDisableVariant($feature,$userValue = null)
     {
         if( isset( $this->variants[ $feature ] )) {
-            if ( in_array('-'.$feature, $this->builtList) ) return array();
+            if ( in_array('-'.$feature, $this->builtList) ) 
+                return array();
+
             $this->builtList[] = '-'.$feature;
             $func = $this->variants[ $feature ];
-            $args = array();
-            if( is_string($userValue) )
-                $args[] = $userValue;
+
+
+            // build the option from enabled variant, 
+            // then convert the '--enable' and '--with' options 
+            // to '--disable' and '--without'
+            $args = is_string($userValue) ? array($userValue) : array();
             $disableOptions = (array) call_user_func_array($func,$args);
+
             $resultOptions = array();
 
             foreach($disableOptions as $option) {
@@ -475,6 +492,23 @@ class VariantBuilder
             throw new Exception("Variant $feature is not defined.");
         }
     }
+
+
+
+    public function addOptions($options)
+    {
+        // skip false value
+        if( ! $options ) {
+            return;
+        }
+        if (is_string($options) ) {
+            $this->options[] = $options;
+        } else {
+            $this->options = array_merge($this->options,$options);
+        }
+    }
+
+
 
     /**
      * build configure options from variants
@@ -506,62 +540,58 @@ class VariantBuilder
             '--with-pcre-regex',
         );
 
-
         // reset builtList
         $this->builtList = array();
 
+        // reset built options
+        $this->options = array();
+
         if( $prefix = Utils::find_include_prefix('zlib.h') ) {
-            $options[] = '--with-zlib=' . $prefix;
+            $this->addOptions('--with-zlib=' . $prefix);
         }
 
 
         if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
-            $options[] = '--with-libxml-dir=' . $prefix;
+            $this->addOptions('--with-libxml-dir=' . $prefix);
         }
 
         if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
-            $options[] = '--with-curl=' . $prefix;
+            $this->addOptions('--with-curl=' . $prefix);
         }
 
-        // $this->checkConflicts();
-
-
-        if( $defOptions = $this->buildVariant('default') ) {
-            $options = array_merge($options, $defOptions );
-        }
-
-        // virtual variants first
-        foreach( $this->virtualVariants as $virtualVariant) {
-            if (array_key_exists($virtualVariant, $this->use)){
-                if( $vOptions = $this->buildVariant($virtualVariant) ) {
-                    $options = array_merge($options, $vOptions );
+        // build virtual variants first
+        foreach( $this->virtualVariants as $name => $variantNames ) {
+            if( $build->isEnabledVariant($name) ) {
+                foreach( $variantNames as $subVariantName ) {
+                    $build->enableVariant( $subVariantName );
                 }
             }
         }
 
+        // Remove these enabled variant for disabled variants.
+        $build->resolveVariants();
 
-        // build variant options from enabled variants 
-        foreach( $this->use as $feature => $userValue ) {
-            if( $feature == 'default' || in_array($feature, $this->virtualVariants) )
-                continue;
-            if( $vOptions = $this->buildVariant( $feature , $userValue ) ) {
-                $options = array_merge($options, $vOptions );
+
+        // before we build these options from variants,
+        // we need to check the enabled and disabled variants
+        $this->checkConflicts($build);
+
+
+        foreach( $build->getVariants() as $feature => $userValue ) {
+            if( $options = $this->buildVariant( $feature , $userValue ) ) {
+                $this->addOptions($options);
             }
         }
 
-        // build disabled options from disabled variants
-        foreach( $this->disables as $feature => $userValue ) {
-            if( $feature == 'default' || in_array($feature, $this->virtualVariants) )
-                continue;
+        foreach( $build->getDisabledVariants() as $feature => $true ) {
             if( $options = $this->buildDisableVariant( $feature ) ) {
-                $this->options = array_merge($this->options, $options );
+                $this->addOptions($options);
             }
         }
-
 
         /*
         $opts = array_merge( $opts ,
-            $this->getVersionOptions($version) );
+            $this->getVersionSpecificOptions($version) );
         */
         return $this->options;
     }
@@ -596,7 +626,7 @@ class VariantBuilder
 
 
     /*
-    public function getVersionOptions($version)
+    public function getVersionSpecificOptions($version)
     {
         $options = array();
         $defs = array();

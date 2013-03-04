@@ -13,6 +13,7 @@ class BuildTest extends PHPUnit_Framework_TestCase
 
         $build->disableVariant('sqlite');
         $build->disableVariant('mysql');
+        $build->resolveVariants();
 
 
 

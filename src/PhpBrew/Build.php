@@ -57,8 +57,14 @@ class Build
     public function disableVariant($name)
     {
         $this->disabledVariants[$name] = true;
-        if( $this->hasVariant($name) ) {
-            $this->removeVariant( $name );
+    }
+
+    public function resolveVariants()
+    {
+        foreach( $this->disabledVariants as $n => $true ) {
+            if( $this->hasVariant($n) ) {
+                $this->removeVariant($n);
+            }
         }
     }
 
