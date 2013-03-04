@@ -1,8 +1,6 @@
 <?php
 namespace PhpBrew;
 
-
-
 /**
  * A build object contains version information, 
  * variant configuration, paths and an build identifier (BuildId)
@@ -15,6 +13,10 @@ class Build
     public $version;
 
     public $variants = array();
+
+    public $sourceDirectory;
+
+    public $installDirectory;
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
@@ -54,7 +56,6 @@ class Build
         unset($this->variants[$variantName]);
     }
 
-
     public function getVariants()
     {
         return $this->variants;
@@ -65,6 +66,28 @@ class Build
         if( isset($this->variants[$n]) )
             return $this->variants[$n];
     }
+
+
+    public function setSourceDirectory($dir)
+    {
+        $this->sourceDirectory = $dir;
+    }
+
+    public function getSourceDirectory()
+    {
+        return $this->sourceDirectory;
+    }
+
+    public function setInstallDirectory($dir)
+    {
+        $this->installDirectory = $dir;
+    }
+
+    public function getInstallDirectory()
+    {
+        return $this->installDirectory;
+    }
+
 
     /**
      * Returns a build identifier.
@@ -99,6 +122,8 @@ class Build
         }
         return join('-', $names);
     }
+
+
 
 }
 

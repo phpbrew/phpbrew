@@ -12,7 +12,7 @@ use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
-
+use PhpBrew\Build;
 
 
 class InstallCommand extends \CLIFramework\Command
@@ -64,6 +64,9 @@ class InstallCommand extends \CLIFramework\Command
         }
         $args = $tmp;
 
+
+
+
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
             throw new Exception("Version $version not found.");
@@ -74,6 +77,8 @@ class InstallCommand extends \CLIFramework\Command
         $home = Config::getPhpbrewRoot();
         $buildDir = Config::getBuildDir();
         $buildPrefix = Config::getVersionBuildPrefix( $version );
+
+
 
         // convert patch to realpath
         if( $this->options->patch ) {
@@ -90,6 +95,16 @@ class InstallCommand extends \CLIFramework\Command
         if( ! file_exists($targetDir ) ) {
             throw new Exception("Download failed.");
         }
+
+        /*
+         * build object, contains the information to build php.
+         */
+        $build = new Build;
+        $build->setVersion($version);
+        $build->setInstallDirectory($buildPrefix);
+        $build->setSourceDirectory($targetDir);
+
+
 
         $builder = new \PhpBrew\Builder( $targetDir, $version );
         $builder->logger = $logger;
@@ -113,9 +128,10 @@ class InstallCommand extends \CLIFramework\Command
         // we should only run configure after cleaning files  (?)
         $builder->configure( $extra );
 
-        $build = new BuildTask($this->logger);
-        $build->setLogPath($buildLogFile);
-        $build->build();
+
+        $buildTask = new BuildTask($this->logger);
+        $buildTask->setLogPath($buildLogFile);
+        $buildTask->build();
 
         if( $options->{'test'} ) {
             $test = new TestTask($this->logger);

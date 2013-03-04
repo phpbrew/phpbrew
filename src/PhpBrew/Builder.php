@@ -113,7 +113,6 @@ class Builder
         $variantsArgs = $this->variants->build();
         if( $variantsArgs )
             $args = array_merge( $args , $variantsArgs );
-
         
         $this->logger->debug('Variants: ' . join(', ',array_keys($this->variants->use)) );
 

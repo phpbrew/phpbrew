@@ -1,18 +1,18 @@
 <?php
 namespace PhpBrew;
 use Exception;
+use PhpBrew\Exceptions\OopsException;
 
 class VariantParser
 {
 
-
     static function splitVariantString($str)
     {
-        if( strpos('=',$str) !== false ) {
+        if( strpos($str,'=') !== false ) {
             list($name,$val) = explode('=',$str);
             return array( $name => $val );
         }
-        return array( $name => true );
+        return array( $str => true );
     }
 
 
@@ -45,13 +45,13 @@ class VariantParser
 
                     foreach( $variantStrs as $str ) {
                         if($str[0] == '+') {
-                            $a = $this->splitVariantString( substr($str,1) );
+                            $a = self::splitVariantString( substr($str,1) );
                             $enabledVariants = array_merge( $enabledVariants, $a );
                         } elseif($str[0] == '-' ) {
-                            $a = $this->splitVariantString( substr($str,1) );
+                            $a = self::splitVariantString( substr($str,1) );
                             $disabledVariants = array_merge( $disabledVariants, $a );
                         } else {
-                            throw new Exception('Oopos, return issues on github? http://github.com/c9s/phpbrew');
+                            throw new OopsException;
                         }
                     }
 
@@ -66,8 +66,8 @@ class VariantParser
         $args = $tmp;
 
         return array(
-            'enabled_variants' => array(),
-            'disabled_variants' => array(),
+            'enabled_variants' => $enabledVariants,
+            'disabled_variants' => $disabledVariants,
             'extra_options' => $extra,
         );
 
