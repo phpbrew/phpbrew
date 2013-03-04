@@ -60,6 +60,11 @@ class Build
         return $this->variants;
     }
 
+    public function getVariant($n)
+    {
+        if( isset($this->variants[$n]) )
+            return $this->variants[$n];
+    }
 
     /**
      * Returns a build identifier.
@@ -71,7 +76,11 @@ class Build
         $names[] = $this->version;
 
         if($this->variants) {
-            foreach($this->variants as $n => $v ) {
+            $keys = array_keys($this->variants);
+            sort($keys);
+
+            foreach( $keys as $n ) {
+                $v = $this->getVariant($n);
                 if( is_bool($v) ) {
                     $names[] = $n;
                 } else {
@@ -80,6 +89,7 @@ class Build
                     $names[] = $str;
                 }
             }
+
         }
 
         if($this->phpEnvironment === self::ENV_PRODUCTION ) {
