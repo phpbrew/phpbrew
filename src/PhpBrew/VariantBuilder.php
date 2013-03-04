@@ -124,6 +124,8 @@ class VariantBuilder
         $this->variants['imap'] = '--with-imap-ssl';
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
+        $this->variants['xmlrpc'] = '--with-xmlrpc';
+        $this->variants['pcre'] = '--with-pcre-regex';
 
         $this->variants['zlib'] = function() {
             if( $prefix = Utils::find_include_prefix('zlib.h') ) {
@@ -465,8 +467,6 @@ class VariantBuilder
             '--enable-session',
             '--enable-short-tags',
             '--enable-tokenizer',
-
-            '--with-xmlrpc',
             '--with-pcre-regex',
         );
 
