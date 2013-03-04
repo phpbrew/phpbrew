@@ -94,10 +94,6 @@ class Builder
 
     public function configure( $extra = array() )
     {
-        if( file_exists('configure.done') ) {
-            return;
-        }
-
         if( ! file_exists('configure') ) {
             $this->logger->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
@@ -118,6 +114,7 @@ class Builder
         if( $variantsArgs )
             $args = array_merge( $args , $variantsArgs );
 
+        
         $this->logger->debug('Variants: ' . join(', ',array_keys($this->variants->use)) );
 
 

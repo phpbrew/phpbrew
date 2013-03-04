@@ -8,8 +8,9 @@ use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 
 
-use PhpBrew\Task\DownloadTask;
-use PhpBrew\Task\CleanTask;
+use PhpBrew\Tasks\DownloadTask;
+use PhpBrew\Tasks\PrepareDirectoryTask;
+use PhpBrew\Tasks\CleanTask;
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -27,6 +28,7 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('n|nice:', 'process nice level');
         $opts->add('patch:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
+        $opts->add('f|force','force');
     }
 
     public function execute($version)
@@ -64,15 +66,12 @@ class InstallCommand extends \CLIFramework\Command
             throw new Exception("Version $version not found.");
 
 
+        $prepare = new PrepareDirectoryTask($this->logger);
+        $prepare->prepareForVersion($version);
+
         $home = Config::getPhpbrewRoot();
         $buildDir = Config::getBuildDir();
         $buildPrefix = Config::getVersionBuildPrefix( $version );
-
-        if( ! file_exists($buildDir) )
-            mkdir( $buildDir, 0755, true );
-
-        if( ! file_exists($buildPrefix) )
-            mkdir( $buildPrefix, 0755, true );
 
         // convert patch to realpath
         if( $this->options->patch ) {
@@ -82,8 +81,8 @@ class InstallCommand extends \CLIFramework\Command
 
         chdir( $buildDir );
 
-        $download = new DownloadTask;
-        $targetDir = $download->downloadByVersionString($version, $this->options->old );
+        $download = new DownloadTask($this->logger);
+        $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
 
         if( ! file_exists($targetDir ) ) {
             throw new Exception("Download failed.");

@@ -48,7 +48,6 @@ class DownloadCommand extends Command
             throw new Exception("Download failed.");
         }
         $this->logger->info("Done, please look at: $buildDir/$targetDir");
-
         $dw->back();
     }
 }

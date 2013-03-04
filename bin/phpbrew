@@ -1,11 +1,12 @@
 #!/usr/bin/env php
 <?php
+define('ROOT', dirname(__DIR__) );
 require 'Universal/ClassLoader/BasePathClassLoader.php';
 $loader = new \Universal\ClassLoader\BasePathClassLoader( array(
-    dirname(dirname(__FILE__)) . '/src', 
-    dirname(dirname(__FILE__)) . '/vendor/pear' 
+    ROOT . '/src', 
+    ROOT . '/vendor/pear' 
 ));
-$loader->useIncludePath(true);
+$loader->useIncludePath(false);
 $loader->register();
 
 $console = new PhpBrew\Console;
