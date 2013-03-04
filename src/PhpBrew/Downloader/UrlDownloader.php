@@ -16,7 +16,7 @@ class UrlDownloader
      */
     public function download($url)
     {
-        $this->logger->info("===> Downloading from $url");
+        $this->logger->info("Downloading from $url");
 
         $info = parse_url($url);
         $basename = basename( $info['path'] );
@@ -24,7 +24,7 @@ class UrlDownloader
         // curl is faster than php
         system( 'curl -C - -# -O ' . $url ) !== false or die('Download failed.');
 
-        $this->logger->info("===> Downloaded file $basename");
+        $this->logger->info("$basename downloaded.");
 
         if( ! file_exists($basename) ) {
             throw Exception("Download failed.");
