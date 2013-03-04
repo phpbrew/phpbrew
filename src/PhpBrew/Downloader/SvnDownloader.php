@@ -5,12 +5,12 @@ class SvnDownloader
 {
     public $logger;
 
-    function __construct($logger)
+    public function __construct($logger)
     {
         $this->logger = $logger;
     }
 
-    function download($url)
+    public function download($url)
     {
         $parts = parse_url($url);
         $basename = basename( $parts['path'] );
