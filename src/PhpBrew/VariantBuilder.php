@@ -81,38 +81,41 @@ class VariantBuilder
 
         // init variant builders
 
-        $this->variants['all'] = '--enable-all';
-        $this->variants['dba'] = '--enable-dba';
-        $this->variants['ipv6'] = '--enable-ipv6';
-        $this->variants['dom'] = '--enable-dom';
-        $this->variants['all'] = '--enable-all';
+        $this->variants['all']      = '--enable-all';
+        $this->variants['dba']      = '--enable-dba';
+        $this->variants['ipv6']     = '--enable-ipv6';
+        $this->variants['dom']      = '--enable-dom';
+        $this->variants['all']      = '--enable-all';
         $this->variants['calendar'] = '--enable-calendar';
 
-        $this->variants['cli'] = '--enable-cli';
-        $this->variants['fpm'] = '--enable-fpm';
-        $this->variants['ftp'] = '--enable-ftp';
-        $this->variants['filter'] = '--enable-filter';
-        $this->variants['gcov'] = '--enable-gcov';
+        $this->variants['cli']      = '--enable-cli';
+        $this->variants['fpm']      = '--enable-fpm';
+        $this->variants['ftp']      = '--enable-ftp';
+        $this->variants['filter']   = '--enable-filter';
+        $this->variants['gcov']     = '--enable-gcov';
 
-        $this->variants['json'] = '--enable-json';
-        $this->variants['hash'] = '--enable-hash';
-        $this->variants['exif'] = '--enable-exif';
+
+        $this->variants['json']     = '--enable-json';
+        $this->variants['hash']     = '--enable-hash';
+        $this->variants['exif']     = '--enable-exif';
         $this->variants['mbstring'] = '--enable-mbstring';
-        $this->variants['mbregex'] = '--enable-mbregex';
+        $this->variants['mbregex']  = '--enable-mbregex';
 
-        $this->variants['pdo'] = '--enable-pdo';
-        $this->variants['posix'] = '--enable-posix';
-        $this->variants['embed'] = '--enable-embed';
-        $this->variants['sockets'] = '--enable-sockets';
-        $this->variants['debug'] = '--enable-debug';
-        $this->variants['zip'] = '--enable-zip';
-        $this->variants['bcmath'] = '--enable-bcmath';
+        $this->variants['pdo']      = '--enable-pdo';
+        $this->variants['posix']    = '--enable-posix';
+        $this->variants['embed']    = '--enable-embed';
+        $this->variants['sockets']  = '--enable-sockets';
+        $this->variants['debug']    = '--enable-debug';
+        $this->variants['zip']      = '--enable-zip';
+        $this->variants['bcmath']   = '--enable-bcmath';
         $this->variants['fileinfo'] = '--enable-fileinfo';
-        $this->variants['ctype'] = '--enable-ctype';
-        $this->variants['cgi'] = '--enable-cgi';
-        $this->variants['soap'] = '--enable-soap';
-        $this->variants['pcntl'] = '--enable-pcntl';
-        $this->variants['intl'] = '--enable-intl';
+        $this->variants['ctype']    = '--enable-ctype';
+        $this->variants['cgi']      = '--enable-cgi';
+        $this->variants['soap']     = '--enable-soap';
+        $this->variants['pcntl']    = '--enable-pcntl';
+        $this->variants['intl']     = '--enable-intl';
+
+        $this->variants['mhash'] = '--with-mhash';
         $this->variants['imap'] = '--with-imap-ssl';
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
