@@ -7,6 +7,10 @@ use PhpBrew\Variants;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 
+
+use PhpBrew\Task\DownloadTask;
+use PhpBrew\Task\CleanTask;
+
 class InstallCommand extends \CLIFramework\Command
 {
     public function brief() { return 'install php'; }
@@ -55,11 +59,10 @@ class InstallCommand extends \CLIFramework\Command
         $args = $tmp;
 
 
-
-
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
             throw new Exception("Version $version not found.");
+
 
         $home = Config::getPhpbrewRoot();
         $buildDir = Config::getBuildDir();
@@ -79,16 +82,8 @@ class InstallCommand extends \CLIFramework\Command
 
         chdir( $buildDir );
 
-        // xxx: refactor this
-        $targetDir = null;
-        if( isset($info['url']) ) {
-            $downloader = new \PhpBrew\Downloader\UrlDownloader( $logger );
-            $targetDir = $downloader->download( $info['url'] );
-        }
-        elseif( isset($info['svn']) ) {
-            $downloader = new \PhpBrew\Downloader\SvnDownloader( $logger );
-            $targetDir = $downloader->download( $info['svn'] );
-        }
+        $download = new DownloadTask;
+        $targetDir = $download->downloadByVersionString($version, $this->options->old );
 
         if( ! file_exists($targetDir ) ) {
             throw new Exception("Download failed.");

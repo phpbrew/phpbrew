@@ -16,6 +16,7 @@ class BaseTask
         return $this->logger;
     }
 
+
     public function info($msg)
     { 
         if($this->logger)
