@@ -67,6 +67,22 @@ class VariantParser
         );
 
     }
+
+
+    static function revealCommandArguments($info)
+    {
+        $out = '';
+        foreach( $info['enabled_variants'] as $k => $v ) {
+            $out .= '+' . $k;
+            if (! is_bool($v)) {
+                $out .= '=' . $v . ' ';
+            }
+        }
+        $out .= " " . '-' . join('-', array_keys($info['disabled_variants']));
+        $out .= " " . '-- ' . join(' ', $info['extra_options']);
+        return $out;
+    }
+
 }
 
 

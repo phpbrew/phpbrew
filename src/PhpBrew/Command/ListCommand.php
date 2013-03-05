@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
+use PhpBrew\VariantParser;
 
 class ListCommand extends \CLIFramework\Command
 {
@@ -13,24 +14,16 @@ class ListCommand extends \CLIFramework\Command
         // var_dump( $versions ); 
         echo "Installed versions:\n";
         foreach( $versions as $version ) {
-            echo '  ' . $version . '  ';
-
             $versionPrefix = Config::getVersionBuildPrefix($version);
-            echo $versionPrefix . '  ';
+
+            printf('  %-15s  (%-10s)', $version, $versionPrefix);
 
             if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
                 $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
 
-                echo "\n    Variants: ";
-
-                foreach( $info['enabled_variants'] as $k => $v ) {
-                    echo '+' . $k;
-                    if (! is_bool($v)) {
-                        echo '=' . $v . ' ';
-                    }
-                }
-                echo " " . '-' . join('-', array_keys($info['disabled_variants']));
-                echo " " . '-- ' . join(' ', $info['extra_options']);
+                echo "\n";
+                echo str_repeat(' ',19);
+                echo VariantParser::revealCommandArguments($info);
             }
 
             echo "\n";
