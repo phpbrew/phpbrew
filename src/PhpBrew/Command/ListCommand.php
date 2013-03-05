@@ -20,7 +20,8 @@ class ListCommand extends \CLIFramework\Command
             if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
                 $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
 
-                echo "\n    Variants: ";
+                echo "\n";
+                echo str_repeat(' ',20);
 
                 foreach( $info['enabled_variants'] as $k => $v ) {
                     echo '+' . $k;
