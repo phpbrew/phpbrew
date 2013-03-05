@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
+use PhpBrew\VariantParser;
 
 class ListCommand extends \CLIFramework\Command
 {
@@ -22,15 +23,7 @@ class ListCommand extends \CLIFramework\Command
 
                 echo "\n";
                 echo str_repeat(' ',19);
-
-                foreach( $info['enabled_variants'] as $k => $v ) {
-                    echo '+' . $k;
-                    if (! is_bool($v)) {
-                        echo '=' . $v . ' ';
-                    }
-                }
-                echo " " . '-' . join('-', array_keys($info['disabled_variants']));
-                echo " " . '-- ' . join(' ', $info['extra_options']);
+                echo VariantParser::revealCommandArguments($info);
             }
 
             echo "\n";
