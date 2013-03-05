@@ -13,10 +13,9 @@ class ListCommand extends \CLIFramework\Command
         // var_dump( $versions ); 
         echo "Installed versions:\n";
         foreach( $versions as $version ) {
-            echo '  ' . $version . '  ';
-
             $versionPrefix = Config::getVersionBuildPrefix($version);
-            echo $versionPrefix . '  ';
+
+            printf('  %-16s  (%-10s)', $version, $versionPrefix);
 
             if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
                 $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
