@@ -15,13 +15,13 @@ class ListCommand extends \CLIFramework\Command
         foreach( $versions as $version ) {
             $versionPrefix = Config::getVersionBuildPrefix($version);
 
-            printf('  %-16s  (%-10s)', $version, $versionPrefix);
+            printf('  %-15s  (%-10s)', $version, $versionPrefix);
 
             if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
                 $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
 
                 echo "\n";
-                echo str_repeat(' ',20);
+                echo str_repeat(' ',19);
 
                 foreach( $info['enabled_variants'] as $k => $v ) {
                     echo '+' . $k;
