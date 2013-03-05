@@ -16,6 +16,11 @@ class Config
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
 
+    static function getVariantsDir()
+    {
+        return $this->getPhpbrewHome() . DIRECTORY_SEPARATOR . 'variants';
+    }
+
     static function getPhpbrewRoot()
     {
         if( $root = getenv('PHPBREW_ROOT')) {

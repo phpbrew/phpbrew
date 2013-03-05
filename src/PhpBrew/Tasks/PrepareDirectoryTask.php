@@ -10,8 +10,11 @@ class PrepareDirectoryTask extends BaseTask
     {
         $home = Config::getPhpbrewRoot();
         $buildDir = Config::getBuildDir();
+        $variantsDir = Config::getVariantsDir();
         $buildPrefix = Config::getVersionBuildPrefix( $version );
 
+        if( ! file_exists($variantsDir) )
+            mkdir( $variantsDir, 0755, true );
         if( ! file_exists($buildDir) )
             mkdir( $buildDir, 0755, true );
         if( ! file_exists($buildPrefix) )
