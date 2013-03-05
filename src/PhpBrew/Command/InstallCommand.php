@@ -20,7 +20,8 @@ class InstallCommand extends \CLIFramework\Command
 {
     public function brief() { return 'install php'; }
 
-    public function usage() {
+    public function usage() 
+    {
         return 'phpbrew install [php-version] ([+variant...])';
     }
 
@@ -89,6 +90,16 @@ class InstallCommand extends \CLIFramework\Command
 
 
         $buildPrefix = Config::getVersionBuildPrefix( $version );
+
+        if( ! file_exists($buildPrefix) ) {
+            mkdir($buildPrefix,0755,true);
+        }
+
+        // write variants info.
+        $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        $this->logger->info("Writing variant info to $variantInfoFile");
+        file_put_contents($variantInfoFile, serialize($variantInfo));
+
 
         // The build object, contains the information to build php.
         $build = new Build;

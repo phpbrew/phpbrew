@@ -16,10 +16,6 @@ class Config
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
 
-    static function getVariantsDir()
-    {
-        return $this->getPhpbrewHome() . DIRECTORY_SEPARATOR . 'variants';
-    }
 
     static function getPhpbrewRoot()
     {
@@ -32,6 +28,20 @@ class Config
         throw new Exception('Environment variable PHPBREW_ROOT is required');
     }
 
+
+
+    /**
+     * Variants is private, so we use HOME path.
+     */
+    static function getVariantsDir()
+    {
+        return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'variants';
+    }
+
+
+    /**
+     * php(s) could be global, so we use ROOT path.
+     */
     static function getBuildDir()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
