@@ -9,10 +9,17 @@ class ListCommand extends \CLIFramework\Command
 
     public function execute()
     {
-        $versions = \PhpBrew\Config::getInstalledPhpVersions();
+        $versions = Config::getInstalledPhpVersions();
+        $currentVersion = Config::getCurrentPhp();
+
 
         // var_dump( $versions ); 
         echo "Installed versions:\n";
+
+        if ( $currentVersion === false or in_array($currentVersion, $versions) === false ) {
+            echo "* (system)\n";
+        }
+
         foreach( $versions as $version ) {
             $versionPrefix = Config::getVersionBuildPrefix($version);
 
