@@ -26,6 +26,7 @@ class SelfUpdateCommand extends Command
         system("curl -# -L $url > $script") == 0 or die('Update failed.');
 
         $this->logger->info("Version updated.");
+        system( $script . ' init' );
         system( $script . ' --version' );
     }
 }
