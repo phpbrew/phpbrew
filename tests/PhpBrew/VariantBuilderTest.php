@@ -13,6 +13,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build->enableVariant('icu');
         $build->enableVariant('sqlite');
         $build->enableVariant('xml_all');
+        $build->enableVariant('apxs2','/opt/local/apache2/apxs2');
 
         $build->disableVariant('sqlite');
         $build->disableVariant('mysql');
@@ -22,6 +23,8 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         ok( in_array('--enable-debug',$options) );
         ok( in_array('--enable-libxml',$options) );
         ok( in_array('--enable-simplexml',$options) );
+
+        ok( in_array('--with-apxs2=/opt/local/apache2/apxs2',$options) );
 
         ok( in_array('--without-sqlite3',$options) );
         ok( in_array('--without-mysql',$options) );

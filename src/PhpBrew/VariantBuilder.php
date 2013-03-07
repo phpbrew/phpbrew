@@ -325,7 +325,7 @@ class VariantBuilder
         if( isset( $this->conflicts[ $feature ] ) ) {
             $conflicts = array();
             foreach( $this->conflicts[ $feature ] as $f ) {
-                if( $this->isEnabledVariant($f) )
+                if( $build->isEnabledVariant($f) )
                     $conflicts[] = $f;
             }
             return $conflicts;
