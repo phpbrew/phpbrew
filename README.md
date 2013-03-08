@@ -168,11 +168,11 @@ Variants:
 
 
 Virtual variants:
-  dbs: sqlite, mysql, pgsql, pdo
-  mb: mbstring, mbregex
-  default: filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
-  pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
-  xml_all
+  dbs:      sqlite, mysql, pgsql, pdo
+  mb:       mbstring, mbregex
+  default:  filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
+            pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
+            xml_all
 
 Using variants to build PHP:
 
