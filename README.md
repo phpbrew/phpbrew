@@ -147,7 +147,7 @@ $ phpbrew -d install --test php-5.4.0
 ## Variants
 
 PHPBrew arranges configure options for you, you can simply specify variant
-name, and phpbrew will detect include paths and options for you.
+name, and phpbrew will detect include paths and build options for configuring.
 
 PHPBrew provides default variants and some virtual variants,
 to the default variants, which includes the most commonly used variants,
@@ -276,17 +276,18 @@ $ phpbrew list
 
 ## The Extension Installer
 
-PHPBrew can also install extension for you, either the extensions shipped with
-PHP source code or even from PECL.
+You can also install PHP extension with ease, either the extensions shipped
+with PHP source code or even from PECL.
 
 If the extension directory is found in PHP source, PHPBrew automatically switch into
-the source directory to install extension.
+the PHP source directory and install the extension.
 
 If the extension directory is not found in PHP source, PHPBrew fetch the extension
 package from PECL <http://pecl.php.net>.
 
 PHPBrew also creates extension config to enable the installed extension, so you
-don't need to write the config file to enable it. The extension config directory is in:
+don't need to write the config file to enable it by hands. The extension config
+directory is in:
 
     ~/.phpbrew/php/php-{version}/var/db
 
@@ -324,7 +325,7 @@ to enable the extension.
 
 ## Upgrade phpbrew
 
-To upgrade phpbrew, you can simply run the `self-update` command,
+To upgrade phpbrew, you may simply run the `self-update` command,
 this command enables you to install the latest version of
 `master` branch from github:
 
