@@ -40,7 +40,7 @@ class InstallCommand extends \CLIFramework\Command
             $installer->runInstall($extname,$path,$options);
 
             $this->logger->info('===> Enabling extension');
-            Utils::create_extension_config($extname);
+            Utils::enable_extension($extname);
 
             $this->logger->info("Done");
         } else {
