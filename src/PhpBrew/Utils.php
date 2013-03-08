@@ -14,14 +14,20 @@ class Utils
         return $path;
     }
 
-    static function create_extension_config($extname, $zendpath = '')
+    static function enable_extension($extname, $zendpath = '')
     {
         // create extension config file
         $configPath = self::get_extension_config_path($extname);
 
         if ( file_exists($configPath) ) {
-            echo "Extension config file found: $configPath\n";
-            return false;
+            $lines = file($configPath);
+            foreach( $lines as &$line ) {
+                if ( preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs ) ) {
+                    $line = $regs[1];
+                }
+            }
+            file_put_contents($configPath, join("\n", $lines) );
+            return $configPath;
         } else {
             if( $zendpath ) {
                 $content = "zend_extension=$zendpath";

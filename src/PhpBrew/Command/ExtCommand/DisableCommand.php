@@ -16,7 +16,7 @@ class DisableCommand extends Command
         if( extension_loaded($name) ) {
             $path = Utils::get_extension_config_path( $name );
             if ( file_exists($path) ) {
-                $this->logger->debug("Found extension config file: $path.");
+                $this->logger->debug("Found extension config file: $path");
                 $lines = file($path);
                 foreach( $lines as &$line ) {
                     if ( preg_match('#^(?:zend_)?extension\s*=#', $line ) ) {
