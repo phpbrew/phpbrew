@@ -280,36 +280,34 @@ don't need to write the config file to enable it. The extension config directory
 
 ### Installing Extension - The Most Simple Way
 
-    phpbrew install-ext APC
-    phpbrew install-ext memcache
+    phpbrew ext install APC
+    phpbrew ext install memcache
 
 ### Installing Extension With Version
 
 To install extensions with stability tag:
 
-    phpbrew install-ext xdebug stable
-    phpbrew install-ext xdebug latest
-    phpbrew install-ext xdebug beta
+    phpbrew ext install xdebug stable
+    phpbrew ext install xdebug latest
+    phpbrew ext install xdebug beta
 
 To install extensions with version name:
 
-    phpbrew install-ext xdebug 2.0.1
+    phpbrew ext install xdebug 2.0.1
 
 To install extensions with customized options:
 
-    phpbrew install-ext yaml -- --with-yaml=/opt/local
+    phpbrew ext install yaml -- --with-yaml=/opt/local
 
 ### Enabling Extension
 
 You can also install extension via PECL and enable it manually:
 
     pecl install mongo
-    phpbrew enable mongo
+    phpbrew ext enable mongo
 
-The `enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
+The `ext enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
 to enable the extension.
-
-
 
 ## Upgrade phpbrew
 
