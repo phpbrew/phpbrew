@@ -69,12 +69,17 @@ if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
     fi
 fi
 
+# default phpbrew root and phpbrew home path
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
 function phpbrew()
 {
-    BIN='bin/phpbrew'
+    if [[ -e bin/phpbrew ]] ; then
+        BIN='bin/phpbrew'
+    else
+        BIN='phpbrew'
+    fi
 
     local exit_status
     local short_option
@@ -231,6 +236,7 @@ function __phpbrew_remove_purge() {
 
 EOS;
 // SHBLOCK }}}
+
 
 
     }
