@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtCommand;
-
+use PhpBrew\Utils;
 use PhpBrew\Config;
 use Exception;
 
