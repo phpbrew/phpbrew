@@ -10,7 +10,7 @@ class InstallExtCommand extends Command
 
     public function brief() { return 'install extension for current PHP.'; }
 
-    public function execute($extname, $version = 'stable')
+    public function execute($extname = null, $version = 'stable')
     {
         $args = func_get_args();
         $options = array();
@@ -30,17 +30,26 @@ class InstallExtCommand extends Command
 
             $logger->info("Available extensions:");
             $fp = opendir( $extDir );
+            $loadedExts = array();
             $exts = array();
             while( $file = readdir($fp) ) {
                 if( $file == '.' || $file == '..' )
                     continue;
                 if( in_array($file,$loaded) ) {
-                    echo "  [*] $file";
+                    $loadedExts[] = $file;
                 } else {
-                    echo "  [ ] $file";
+                    $exts[] = $file;
                 }
-                $exts[] = $file;
             }
+
+            foreach( $loadedExts as $ext ) {
+                $this->logger->info("  [*] $ext");
+            }
+
+            foreach( $exts as $ext ) {
+                $this->logger->info("  [ ] $ext");
+            }
+
             closedir($fp);
             return;
         }
@@ -60,6 +69,8 @@ class InstallExtCommand extends Command
 
             $this->logger->info("Done");
         } else {
+            chdir($extDir);
+
             $installer = new \PhpBrew\ExtensionInstaller($this->logger);
             $installedSo = $installer->installFromPecl($extname,'stable',$options);
 

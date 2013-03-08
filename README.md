@@ -259,20 +259,57 @@ $ phpbrew off
 $ phpbrew list
 ```
 
-## Build & Install extensions from PHP source
 
-(after the installation):
 
-    phpbrew install-ext pdo
-    phpbrew install-ext mcrypt --with-mcrypt=/opt/local
+## The Extension Installer
 
-## Enable Extension
+PHPBrew can also install extension for you, either the extensions shipped with
+PHP source code or even from PECL.
+
+If the extension directory is found in PHP source, PHPBrew automatically switch into
+the source directory to install extension.
+
+If the extension directory is not found in PHP source, PHPBrew fetch the extension
+package from PECL <http://pecl.php.net>.
+
+PHPBrew also creates extension config to enable the installed extension, so you
+don't need to write the config file to enable it. The extension config directory is in:
+
+    ~/.phpbrew/php/php-{version}/var/db
+
+
+### Installing Extension - The Most Simple Way
+
+    phpbrew install-ext APC
+    phpbrew install-ext memcache
+
+### Installing Extension With Version
+
+To install extensions with stability tag:
+
+    phpbrew install-ext xdebug stable
+    phpbrew install-ext xdebug latest
+    phpbrew install-ext xdebug beta
+
+To install extensions with version name:
+
+    phpbrew install-ext xdebug 2.0.1
+
+To install extensions with customized options:
+
+    phpbrew install-ext yaml -- --with-yaml=/opt/local
+
+### Enabling Extension
+
+You can also install extension via PECL and enable it manually:
 
     pecl install mongo
     phpbrew enable mongo
 
-the `enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
+The `enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
 to enable the extension.
+
+
 
 ## Upgrade phpbrew
 
