@@ -146,6 +146,10 @@ function phpbrew()
               __phpbrew_remove_purge $2
             fi
             ;;
+        rehash)
+            echo "Rehashing..."
+            source ~/.phpbrew/bashrc
+            ;;
         purge)
             if [[ -z "$2" ]]
             then
@@ -236,6 +240,7 @@ function __phpbrew_remove_purge() {
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
