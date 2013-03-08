@@ -2,13 +2,14 @@
 bash scripts/compile
 onion build
 
-
 # get version
-VERSION=$(grep '^version' package.ini | sed -e 's/version *= *//')
+if [[ $1 == "--tag" ]] ; then
+    VERSION=$(grep '^version' package.ini | sed -e 's/version *= *//')
 
-git commit -am "Recompile phar and building package.xml for $VERSION"
-git tag -f $VERSION -m "Releasing $VERSION"
+    git commit -am "Recompile phar and building package.xml for $VERSION"
+    git tag -f $VERSION -m "Releasing $VERSION"
 
-git remote | while read remote ; do
-    git push $remote master --tags
-done
+    git remote | while read remote ; do
+        git push $remote master --tags
+    done
+fi
