@@ -4,15 +4,20 @@ namespace PhpBrew;
 class Utils
 {
 
+    static function get_extension_config_path($extname)
+    {
+        // create extension config file
+        $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $extname . '.ini';
+        if ( ! file_exists( dirname($path) ) ) {
+            mkdir($path,0755,true);
+        }
+        return $path;
+    }
+
     static function create_extension_config($extname, $zendpath = '')
     {
         // create extension config file
-        $configPath = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR 
-                . $extname . '.ini';
-
-        if( ! file_exists( Config::getCurrentPhpConfigScanPath() ) ) {
-            mkdir( Config::getCurrentPhpConfigScanPath() , 0755, true );
-        }
+        $configPath = self::get_extension_config_path($extname);
 
         if ( file_exists($configPath) ) {
             echo "Extension config file found: $configPath\n";

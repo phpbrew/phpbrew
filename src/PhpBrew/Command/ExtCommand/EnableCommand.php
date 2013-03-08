@@ -14,7 +14,7 @@ class EnableCommand extends \CLIFramework\Command
     {
         if( ! extension_loaded($extensionName) ) {
             $path = Utils::create_extension_config($extensionName);
-            $this->logger->debug("Writing extension config file: $path.");
+            $this->logger->debug("Writing extension config file: $path");
             $this->logger->info("$extensionName is enabled now.");
         } else {
             $this->logger->info("$extensionName is already enabled.");
