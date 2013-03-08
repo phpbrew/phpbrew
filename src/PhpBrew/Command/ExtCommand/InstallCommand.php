@@ -1,16 +1,22 @@
 <?php
-namespace PhpBrew\Command;
-use Exception;
-use PhpBrew\Config;
+namespace PhpBrew\Command\ExtCommand;
 use PhpBrew\Utils;
-use CLIFramework\Command;
+use PhpBrew\Config;
+use Exception;
 
-class InstallExtCommand extends Command
+class InstallCommand extends \CLIFramework\Command
 {
+    public function usage() 
+    {
+        return 'phpbrew [-dv] ext install [extension name] [-- [options....]]'; 
+    }
 
-    public function brief() { return 'install extension for current PHP.'; }
+    public function brief()
+    {
+        return 'Install PHP extension';
+    }
 
-    public function execute($extname = null, $version = 'stable')
+    public function execute($extname, $version = 'stable')
     {
         $args = func_get_args();
         $options = array();
@@ -18,41 +24,10 @@ class InstallExtCommand extends Command
             $options = array_slice($args,$pos + 1);
         }
 
-
         $logger = $this->getLogger();
         $php = Config::getCurrentPhpName();
         $buildDir = Config::getBuildDir();
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
-
-        // listing all local extensions
-        if( ! $extname ) {
-            $loaded = array_map( 'strtolower' , get_loaded_extensions());
-
-            $logger->info("Available extensions:");
-            $fp = opendir( $extDir );
-            $loadedExts = array();
-            $exts = array();
-            while( $file = readdir($fp) ) {
-                if( $file == '.' || $file == '..' )
-                    continue;
-                if( in_array($file,$loaded) ) {
-                    $loadedExts[] = $file;
-                } else {
-                    $exts[] = $file;
-                }
-            }
-
-            foreach( $loadedExts as $ext ) {
-                $this->logger->info("  [*] $ext");
-            }
-
-            foreach( $exts as $ext ) {
-                $this->logger->info("  [ ] $ext");
-            }
-
-            closedir($fp);
-            return;
-        }
 
         // Install local extension
         $path = $extDir . DIRECTORY_SEPARATOR . $extname;
@@ -85,7 +60,3 @@ class InstallExtCommand extends Command
         }
     }
 }
-
-
-
-
