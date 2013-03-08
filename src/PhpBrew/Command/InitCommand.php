@@ -4,7 +4,7 @@ use PhpBrew\Config;
 
 class InitCommand extends \CLIFramework\Command
 {
-    public function brief() { return 'initialize phpbrew config file.'; }
+    public function brief() { return 'Initialize phpbrew config file.'; }
 
     public function execute()
     {

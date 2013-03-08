@@ -54,7 +54,7 @@ function phpbrew()
         switch)
             if [[ -z "$2" ]]
             then
-                command $BIN switch
+                echo "Please specify the php version."
             else
                 $BIN use $2
                 __phpbrew_reinit $2
