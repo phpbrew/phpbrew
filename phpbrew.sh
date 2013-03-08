@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# NOTICE: This script is for local testing, to release updated script, 
+# please also modify the src/PhpBrew/Command/InitCommand.php
+
 if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
     if [[ -f "$PHPBREW_HOME/init" ]]; then
         . "$PHPBREW_HOME/init"
@@ -11,7 +14,7 @@ fi
 
 function phpbrew()
 {
-    BIN='scripts/phpbrew.php'
+    BIN='bin/phpbrew'
 
     local exit_status
     local short_option
@@ -24,7 +27,7 @@ function phpbrew()
         short_option=""
     fi
     case $1 in
-        (use) if [[ -z "$2" ]]
+        use) if [[ -z "$2" ]]
             then
                 if [[ -z "$PHPBREW_PHP" ]]
                 then
@@ -48,7 +51,7 @@ function phpbrew()
                     echo "php version: $2 not exists."
                 fi
             fi ;;
-        (switch)
+        switch)
             if [[ -z "$2" ]]
             then
                 command $BIN switch
@@ -56,16 +59,16 @@ function phpbrew()
                 $BIN use $2
                 __phpbrew_reinit $2
             fi ;;
-        (off)
+        off)
             unset PHPBREW_PHP
             eval `$BIN env`
             __phpbrew_set_path
             echo "phpbrew is turned off." ;;
-        (switch-off)
+        switch-off)
             unset PHPBREW_PHP
             __phpbrew_reinit
             echo "phpbrew is switched off." ;;
-        (remove)
+        remove)
             if [[ -z "$2" ]]
             then
                 command $BIN help
@@ -73,7 +76,7 @@ function phpbrew()
               __phpbrew_remove_purge $2
             fi
             ;;
-        (purge)
+        purge)
             if [[ -z "$2" ]]
             then
                 command $BIN help
@@ -81,7 +84,7 @@ function phpbrew()
               __phpbrew_remove_purge $2 purge
             fi
             ;;
-        (*) command $BIN $short_option "$@"
+        *) command $BIN $short_option "$@"
             exit_status=$?  ;;
     esac
     hash -r
