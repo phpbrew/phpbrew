@@ -1,4 +1,5 @@
 #!/bin/bash
+scripts/update-init-script
 bash scripts/compile
 onion build
 
