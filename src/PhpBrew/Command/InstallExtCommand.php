@@ -13,7 +13,7 @@ class InstallExtCommand extends Command
     public function execute($extname = null)
     {
         $logger = $this->getLogger();
-        $php = Config::getCurrentPhp();
+        $php = Config::getCurrentPhpName();
         $buildDir = Config::getBuildDir();
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
 

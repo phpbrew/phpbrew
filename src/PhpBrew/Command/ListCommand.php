@@ -10,7 +10,7 @@ class ListCommand extends \CLIFramework\Command
     public function execute()
     {
         $versions = Config::getInstalledPhpVersions();
-        $currentVersion = Config::getCurrentPhp();
+        $currentVersion = Config::getCurrentPhpName();
 
 
         // var_dump( $versions ); 

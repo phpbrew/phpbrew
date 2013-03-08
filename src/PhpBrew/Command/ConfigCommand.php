@@ -19,11 +19,11 @@ class ConfigCommand extends Command
             echo Config::getCurrentPhpBin();
             break;
         case 'include':
-            echo Config::getVersionBuildPrefix( Config::getCurrentPhp() ) . 
+            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) . 
                     DIRECTORY_SEPARATOR . 'include';
             break;
         case 'etc':
-            echo Config::getVersionBuildPrefix( Config::getCurrentPhp() ) . 
+            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) . 
                     DIRECTORY_SEPARATOR . 'etc';
             break;
         }

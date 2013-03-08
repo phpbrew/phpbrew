@@ -100,7 +100,7 @@ class Config
         return getenv('PHPBREW_ROOT') . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . getenv('PHPBREW_PHP');
     }
 
-    static function getCurrentPhp()
+    static function getCurrentPhpName()
     {
         return getenv('PHPBREW_PHP');
     }
