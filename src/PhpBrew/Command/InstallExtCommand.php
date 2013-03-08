@@ -26,14 +26,14 @@ class InstallExtCommand extends Command
             while( $file = readdir($fp) ) {
                 if( $file == '.' || $file == '..' )
                     continue;
-
-                if( in_array($file,$loaded) )
-                    continue;
-
+                if( in_array($file,$loaded) ) {
+                    echo "  [*] $file";
+                } else {
+                    echo "  [ ] $file";
+                }
                 $exts[] = $file;
             }
             closedir($fp);
-            $logger->info("\t" . join(', ', $exts));
             return;
         }
 

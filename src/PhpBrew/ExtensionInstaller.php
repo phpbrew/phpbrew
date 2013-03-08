@@ -26,7 +26,7 @@ class ExtensionInstaller
     }
 
 
-    public function install($packageName, $version = 'stable', $configureOptions = array() )
+    public function installFromPecl($packageName, $version = 'stable', $configureOptions = array() )
     {
         $url = $this->findPeclPackageUrl($packageName, $version);
         $downloader = new Downloader\UrlDownloader($this->logger);
@@ -39,11 +39,16 @@ class ExtensionInstaller
         $info = pathinfo($basename);
         $dir = $info['filename'];
 
+        return $this->runInstall($packageName, $dir, $configureOptions);
+    }
+
+    public function runInstall($packageName, $dir, $configureOptions)
+    {
         $sw = new DirectorySwitch;
         $sw->cd( $dir );
 
-        $this->logger->info("Phpizing...");
-        system('phpize');
+        $this->logger->info("===> Phpizing...");
+        system('phpize > build.log');
 
         // here we don't want to use closure, because
         // 5.2 does not support closure. We haven't decided whether to
@@ -53,11 +58,11 @@ class ExtensionInstaller
             $escapeOptions[] = escapeshellarg($opt);
         }
         $this->logger->info("===> Configuring...");
-        system('./configure ' . join(' ', $escapeOptions) . ' > /dev/null' )
+        system('./configure ' . join(' ', $escapeOptions) . ' >> build.log' )
             !== false or die('Configure failed.');
 
         $this->logger->info("===> Building...");
-        system('make > /dev/null') !== false or die('Build failed.');
+        system('make >> build.log') !== false or die('Build failed.');
 
         $this->logger->info("===> Installing...");
 
@@ -75,6 +80,8 @@ class ExtensionInstaller
             }
         }
 
+        $this->logger->info("===> Installed.");
+
         $installedPath .= strtolower($packageName) . '.so';
         $this->logger->debug("Installed extension: " . $installedPath);
 
@@ -86,9 +93,3 @@ class ExtensionInstaller
 
 }
 
-
-
-#    - curl -o APC-3.1.13.tgz http://pecl.php.net/get/APC-3.1.13.tgz
-#    - tar -xzf APC-3.1.13.tgz
-#    - sh -c "cd APC-3.1.13 && phpize
-#    - ./configure && make && sudo make install && cd .."
