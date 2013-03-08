@@ -89,7 +89,7 @@ class ExtensionInstaller
         // Installing shared extensions:     /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
         $sw->back();
 
-        $this->logger->info("===> Installed.");
+        $this->logger->info("===> Extension is installed.");
         return $installedPath;
     }
 

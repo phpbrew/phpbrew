@@ -55,13 +55,22 @@ class InstallExtCommand extends Command
             $installer = new \PhpBrew\ExtensionInstaller($this->logger);
             $installer->runInstall($extname,$path,$options);
 
-            $this->logger->info('===> enabling extension');
+            $this->logger->info('===> Enabling extension');
             Utils::create_extension_config($extname);
 
             $this->logger->info("Done");
         } else {
             $installer = new \PhpBrew\ExtensionInstaller($this->logger);
-            $installer->installFromPecl($extname,'stable',$options);
+            $installedSo = $installer->installFromPecl($extname,'stable',$options);
+
+            $this->logger->info('===> Enabling extension');
+
+            $configFile = Utils::create_extension_config($extname, $extname === 'xdebug' ? $installedSo : '');
+            if ( $configFile ) {
+                $this->logger->debug($configFile . ' is created.');
+            }
+
+            $this->logger->info("Done");
         }
     }
 }

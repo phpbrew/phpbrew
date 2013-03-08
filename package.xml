@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2013-03-08</date>
-  <time>18:09:28</time>
+  <time>18:18:23</time>
   <version>
     <release>1.7.0</release>
     <api>1.7.0</api>
@@ -35,7 +35,7 @@
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
       <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="8bddbc5f2a76b2f37bacaaa4a9197faf"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="943a7fd412200f345b6e05d9ca321fc6"/>
-      <file name="src/PhpBrew/Command/InstallExtCommand.php" role="php" md5sum="813473a7a90ac21a80c0a37d0e348352"/>
+      <file name="src/PhpBrew/Command/InstallExtCommand.php" role="php" md5sum="50ed1c34c3fe2db57766cdac39d3ff3c"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
       <file name="src/PhpBrew/Command/PurgeCommand.php" role="php" md5sum="c2ea74241b9f8adefb2a8f2a27f07616"/>
@@ -49,9 +49,9 @@
       <file name="src/PhpBrew/Console.php" role="php" md5sum="ab66c6198fa84ad1ac476581ae5c1a46"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="c524ece35d0c88729e6c1e26f246ef27"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="d44b47d94dc2e2f4077a4197c15497c3"/>
-      <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="5e064c24e7e56078217d850daeea32cf"/>
+      <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="e9aa74836b25eea8cbc1f44cb563ebb4"/>
       <file name="src/PhpBrew/Exceptions/OopsException.php" role="php" md5sum="063e47042173cb069d7a599ed16d5914"/>
-      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="a7d37a6f235056351c65740d6380d943"/>
+      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="daab9cb0105a6bf726e6bfb6439b291b"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
       <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="87cf6078e179a0e3e6d4f173dad36a2a"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
@@ -64,7 +64,7 @@
       <file name="src/PhpBrew/Tasks/PrepareDirectoryTask.php" role="php" md5sum="acd96a74ba06e53f90b6a8683d97f208"/>
       <file name="src/PhpBrew/Tasks/RemoveTask.php" role="php" md5sum="a08da7a66c6b6ca570b66962bc7cccb3"/>
       <file name="src/PhpBrew/Tasks/TestTask.php" role="php" md5sum="1c467afac631b0aef76aaae3762dc09b"/>
-      <file name="src/PhpBrew/Utils.php" role="php" md5sum="c65ccb13ac4dc62ba15cb5cd83736db0"/>
+      <file name="src/PhpBrew/Utils.php" role="php" md5sum="b91951e3289a1493cfbc30708c558dc3"/>
       <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="a4f4478fd6043ac0b154dd6d846c66a4"/>
       <file name="src/PhpBrew/VariantFinder.php" role="php" md5sum="2a8cb1290d239db323a495784b6e8a9c"/>
       <file name="src/PhpBrew/VariantParser.php" role="php" md5sum="7415f4d235c7aef037d35c55a398d511"/>

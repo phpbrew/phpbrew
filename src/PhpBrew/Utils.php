@@ -4,7 +4,7 @@ namespace PhpBrew;
 class Utils
 {
 
-    static function create_extension_config($extname) 
+    static function create_extension_config($extname, $zendpath = '')
     {
         // create extension config file
         $configPath = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR 
@@ -14,13 +14,17 @@ class Utils
             mkdir( Config::getCurrentPhpConfigScanPath() , 0755, true );
         }
 
-        $content =<<<CONFIG
-extension=$extname.so
-CONFIG;
-
-        if( ! file_exists( $configPath ) ) {
+        if ( file_exists($configPath) ) {
+            echo "Extension config file found: $configPath\n";
+            return false;
+        } else {
+            if( $zendpath ) {
+                $content = "zend_extension=$zendpath";
+            } else {
+                $content = "extension=$extname.so";
+            }
             file_put_contents($configPath,$content);
-            return true;
+            return $configPath;
         }
         return false;
     }
