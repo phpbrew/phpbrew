@@ -7,9 +7,21 @@ use CLIFramework\Command;
 
 class ExtCommand extends Command
 {
+
+    public function usage()
+    {
+        return "    phpbrew ext [enable]";
+    }
+
     public function brief()
     {
-        return 'Extension commands';
+        return 'List extensions or execute extension subcommands';
+    }
+
+    public function init()
+    {
+        // $this->registerCommand('enable','PhpBrew\\Command\\ExtCommand\\EnableCommand');
+        $this->registerCommand('enable');
     }
 
     public function execute()

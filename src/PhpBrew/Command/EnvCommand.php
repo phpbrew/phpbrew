@@ -7,6 +7,8 @@ class EnvCommand extends \CLIFramework\Command
 {
     public function brief() { return 'export environment variables'; }
 
+
+
     public function execute($version = null)
     {
         // get current version
