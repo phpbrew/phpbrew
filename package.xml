@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2013-03-08</date>
-  <time>19:15:17</time>
+  <time>19:27:58</time>
   <version>
     <release>1.8.0</release>
     <api>1.8.0</api>
@@ -49,7 +49,7 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="0053b17f2752645c43c26ef55c72e792"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="ef314de8e2093af9791734f896e256c3"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="f83ad62e88c51fad66c2b7abdbe23108"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="3aab338aede881b0f0c9b333ef138db7"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="dbb11ed6c1517da88b1d95a25ae210be"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="c524ece35d0c88729e6c1e26f246ef27"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="d44b47d94dc2e2f4077a4197c15497c3"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="e9aa74836b25eea8cbc1f44cb563ebb4"/>
