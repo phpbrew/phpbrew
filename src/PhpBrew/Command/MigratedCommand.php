@@ -6,6 +6,11 @@ use CLIFramework\Command;
 class MigratedCommand extends Command
 {
 
+    public function brief()
+    {
+        return 'This command is migrated';
+    }
+
     public function execute()
     {
         echo <<<HELP
