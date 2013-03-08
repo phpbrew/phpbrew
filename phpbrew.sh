@@ -56,7 +56,6 @@ function phpbrew()
             then
                 echo "Please specify the php version."
             else
-                $BIN use $2
                 __phpbrew_reinit $2
             fi ;;
         off)
@@ -92,7 +91,7 @@ function phpbrew()
 }
 
 function __phpbrew_set_path () {
-    [[ -n $(alias perl 2>/dev/null) ]] && unalias perl 2> /dev/null
+    [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
     if [[ -n $PHPBREW_ROOT ]] ; then
         export PATH_WITHOUT_PHPBREW=$(perl -e 'print join ":", grep { index($_,$ENV{PHPBREW_ROOT}) } split/:/,$ENV{PATH};')
