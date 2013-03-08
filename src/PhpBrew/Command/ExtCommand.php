@@ -35,23 +35,27 @@ class ExtCommand extends Command
         // listing all local extensions
         $loaded = array_map( 'strtolower' , get_loaded_extensions());
 
-        $this->logger->info("Available extensions:");
+        $this->logger->info( 'Available extensions:');
         $fp = opendir( $extDir );
 
 
         // list for exts not neabled
         $exts = array();
         while( $file = readdir($fp) ) {
-            if ( $file == '.' || $file == '..' )
+            if ( $file === '.' || $file === '..' )
                 continue;
+
             if ( is_file($extDir . DIRECTORY_SEPARATOR . $file) )
                 continue;
-            $file = preg_replace('#-[\d\.]+$#','',$file);
 
-            if( in_array($file,$loaded) )
+            $n = strtolower(preg_replace('#-[\d\.]+$#', '', $file));
+            if ( in_array($n,$loaded) )
                 continue;
-            $exts[] = strtolower($file);
+            $exts[] = $n;
         }
+        sort($loaded);
+        sort($exts);
+
         foreach( $loaded as $ext ) {
             $this->logger->info("  [*] $ext");
         }
