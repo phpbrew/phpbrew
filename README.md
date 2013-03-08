@@ -144,37 +144,43 @@ $ phpbrew -d install --test php-5.4.0
 
 
 
-
-
 ## Variants
 
-PHPBrew arranges configure options for you, you can simply specify variant name,
-and phpbrew will detect include paths and options for you.
+PHPBrew arranges configure options for you, you can simply specify variant
+name, and phpbrew will detect include paths and options for you.
 
-PHPBrew provides a default variant set, which include the most commonly used variants,
-to see what is included in these variant sets, simply run `variants` subcommand to list variants:
+PHPBrew provides default variants and some virtual variants,
+to the default variants, which includes the most commonly used variants,
+to the virtual variants, which defines a variant set, you may use one virtual variant
+to enable multiple variants at one time.
+
+To check out what is included in these variants, simply run `variants`
+subcommand to list these variants:
 
 ```bash
 $ phpbrew variants
-
 Variants:
-    pear
-    mysql
-    debug
-    sqlite
-    pgsql
-    cli
-    apxs2
-    cgi
-    soap
-    pcntl
-    ... (etc)
+  all, apxs2, bcmath, bz2, calendar, cgi, cli, ctype, dba, debug, dom, embed,
+  exif, fileinfo, filter, fpm, ftp, gcov, gd, gettext, hash, iconv, icu,
+  imap, intl, ipc, ipv6, json, kerberos, mbregex, mbstring, mcrypt, mhash,
+  mysql, openssl, pcntl, pcre, pdo, pgsql, phar, posix, readline, session,
+  soap, sockets, sqlite, tidy, tokenizer, xml_all, xmlrpc, zip, zlib
+
+
+Virtual variants:
+  dbs: sqlite, mysql, pgsql, pdo
+  mb: mbstring, mbregex
+  default: filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
+  pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
+  xml_all
+
+Using variants to build PHP:
+
+  phpbrew install php-5.3.10 +default
+  phpbrew install php-5.3.10 +mysql +pdo
+  phpbrew install php-5.3.10 +mysql +pdo +apxs2
+  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
 ```
-
-Currently phpbrew provides 2 variant set:
-
-1. default (most commonly used variants, eg: filter bcmath ctype fileinfo pdo posix ipc pcntl bz2 cli intl fpm calendar sockets readline, zip)
-2. dbs (sqlite, mysql, pgsql, pdo)
 
 For example,
 
@@ -231,7 +237,7 @@ to restart your apache http server. :)
 To pass extra configure arguments, you can do this:
 
     $ phpbrew install php-5.3.10 +mysql +sqlite -- \
-      --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
+        --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
 
 ## Use And Switch
 
@@ -241,7 +247,7 @@ Use (switch version temporarily):
 $ phpbrew use php-5.4.0RC7
 ```
 
-Switch (switch version as default)
+Switch PHP version (switch default version)
 
 ```bash
 $ phpbrew switch php-5.4.0
