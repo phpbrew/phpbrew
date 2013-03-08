@@ -182,27 +182,34 @@ Using variants to build PHP:
   phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
 ```
 
-For example,
+To enable one variant, simply add a prefix `+` before the variant name, eg
+
+    +mysql
+
+To disable one variant, simply add a prefix `-` before the variant name.
+
+    -debug
+
+For example, if we want to build PHP with the default options and 
+database supports (mysql, sqlite, postgresql), you may simply run:
 
     $ phpbrew install php-5.4.5 +default+dbs
 
-You can also build PHP with extra variants:
+You may also build PHP with extra variants:
 
     $ phpbrew install php-5.3.10 +mysql+sqlite+cgi
 
     $ phpbrew install php-5.3.10 +mysql+debug+pgsql +apxs2
 
-    $ phpbrew install php-5.3.10 +mysql +pgsql +apxs2=/usr/bin/apxs2
-
-PDO is enabled by default.
+    $ phpbrew install php-5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
 
 To build PHP with pgsql (Postgresql) extension:
 
-    $ phpbrew install php-5.4.1 +pgsql
+    $ phpbrew install php-5.4.1 +pgsql+pdo
 
 Or build pgsql extension with postgresql base dir:
 
-    $ phpbrew install php-5.4.1 +pgsql=/opt/local/lib/postgresql91
+    $ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91
 
 
 NOTE:
@@ -232,7 +239,7 @@ You can simply uncomment/comment it to enable the php5
 apache module you needed, after modifying it, remember
 to restart your apache http server. :)
 
-## Extra options
+## Extra Configure Options
 
 To pass extra configure arguments, you can do this:
 
