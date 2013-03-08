@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2013-03-08</date>
-  <time>19:33:14</time>
+  <time>19:57:09</time>
   <version>
     <release>1.8.0</release>
     <api>1.8.0</api>
@@ -33,14 +33,14 @@
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="1e5988c6bea2e1cc6a8d5b860e5d7ba6"/>
       <file name="src/PhpBrew/Command/ExtCommand/DisableCommand.php" role="php" md5sum="273fde08123c0eee973d2f6319450866"/>
       <file name="src/PhpBrew/Command/ExtCommand/EnableCommand.php" role="php" md5sum="5dea82a9ce981f792c9fa0356a2da358"/>
-      <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="ab7645ad31af520c520648ebd0bab94e"/>
+      <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="69df3ad758630494fba3626c8b9ba1f0"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="3883fe0525c0a91c2b5eb6e8daacd220"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
       <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="8bddbc5f2a76b2f37bacaaa4a9197faf"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="4ec1323c8ab072356713b631dee034eb"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
-      <file name="src/PhpBrew/Command/MigratedCommand.php" role="php" md5sum="5d99df8e1539e8f679fb9cb7ec79e467"/>
+      <file name="src/PhpBrew/Command/MigratedCommand.php" role="php" md5sum="8cf4fedc12eb8966af17163378b7c1be"/>
       <file name="src/PhpBrew/Command/PurgeCommand.php" role="php" md5sum="c2ea74241b9f8adefb2a8f2a27f07616"/>
       <file name="src/PhpBrew/Command/RemoveCommand.php" role="php" md5sum="8d0a722735a030597e8f76456268260d"/>
       <file name="src/PhpBrew/Command/SelfUpdateCommand.php" role="php" md5sum="aa760391514e5ec0646ba1e5c0915c4d"/>
