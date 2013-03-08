@@ -9,7 +9,8 @@ fi
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
-function phpbrew () {
+function phpbrew()
+{
     BIN='scripts/phpbrew.php'
 
     local exit_status
