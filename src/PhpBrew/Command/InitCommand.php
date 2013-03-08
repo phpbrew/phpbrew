@@ -55,9 +55,11 @@ EOS;
 
     public function getBashScript()
     {
-        return <<<'EOS'
+        // SHBLOCK {{{
+    return <<<'EOS'
 #!/bin/bash
-
+# Brought from gugod's perlbrew.
+# Author: Yo-An Lin
 # NOTICE: This script is for local testing, to release updated script, 
 # please also modify the src/PhpBrew/Command/InitCommand.php
 
@@ -225,7 +227,11 @@ function __phpbrew_remove_purge() {
     return 0
 
 }
+
+
 EOS;
+// SHBLOCK }}}
+
 
     }
 

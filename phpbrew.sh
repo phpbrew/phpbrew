@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# Brought from gugod's perlbrew.
+# Author: Yo-An Lin
 # NOTICE: This script is for local testing, to release updated script, 
 # please also modify the src/PhpBrew/Command/InitCommand.php
 

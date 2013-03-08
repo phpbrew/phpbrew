@@ -1,0 +1,31 @@
+#!/usr/bin/env perl
+
+open FH , "<" , "phpbrew.sh";
+local $/ = undef;
+my $sh = <FH>;
+close FH;
+
+$sh =<<"END";
+// SHBLOCK {{{
+    return <<<'EOS'
+$sh
+EOS;
+// SHBLOCK }}}
+END
+
+
+open FH , "src/PhpBrew/Command/InitCommand.php";
+local $/ = undef;
+my $php = <FH>;
+close FH;
+
+$php =~ s!
+(//\s*SHBLOCK\s*{{{) 
+        (.*) 
+(//\s*SHBLOCK\s*}}})
+!$sh!xmsg;
+
+
+open OUT, ">", "src/PhpBrew/Command/InitCommand.php";
+print OUT $php;
+close OUT;
