@@ -202,6 +202,12 @@ class Build
     }
 
 
+    public function getSourceExtensionDirectory()
+    {
+        return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
+    }
+
+
 
 }
 
