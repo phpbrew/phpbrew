@@ -23,18 +23,22 @@ class ExtCommand extends Command
 
         $this->logger->info("Available extensions:");
         $fp = opendir( $extDir );
-        $loadedExts = array();
+
+
+        // list for exts not neabled
         $exts = array();
         while( $file = readdir($fp) ) {
-            if( $file == '.' || $file == '..' )
+            if ( $file == '.' || $file == '..' )
                 continue;
-            if( in_array($file,$loaded) ) {
-                $loadedExts[] = $file;
-            } else {
-                $exts[] = $file;
-            }
+            if ( is_file($extDir . DIRECTORY_SEPARATOR . $file) )
+                continue;
+            $file = preg_replace('#-[\d\.]+$#','',$file);
+
+            if( in_array($file,$loaded) )
+                continue;
+            $exts[] = strtolower($file);
         }
-        foreach( $loadedExts as $ext ) {
+        foreach( $loaded as $ext ) {
             $this->logger->info("  [*] $ext");
         }
         foreach( $exts as $ext ) {
