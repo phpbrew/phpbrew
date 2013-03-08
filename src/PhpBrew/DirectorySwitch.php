@@ -16,10 +16,8 @@ class DirectorySwitch
 
     public function cd($dir)
     {
-        if(empty($this->stack)) {
-            $this->stack[] = getcwd();
-        }
-        $this->stack[] = $this->_chdir($dir);
+        $this->stack[] = getcwd();
+        $this->_chdir($dir);
     }
 
     public function back()
