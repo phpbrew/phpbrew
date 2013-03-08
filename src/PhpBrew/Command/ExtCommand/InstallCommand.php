@@ -51,7 +51,7 @@ class InstallCommand extends \CLIFramework\Command
 
             $this->logger->info('===> Enabling extension');
 
-            $configFile = Utils::create_extension_config($extname, $extname === 'xdebug' ? $installedSo : '');
+            $configFile = Utils::enable_extension($extname, $extname === 'xdebug' ? $installedSo : '');
             if ( $configFile ) {
                 $this->logger->debug($configFile . ' is created.');
             }
