@@ -26,6 +26,8 @@ function phpbrew()
     else
         short_option=""
     fi
+
+
     case $1 in
         use) if [[ -z "$2" ]]
             then
@@ -50,23 +52,27 @@ function phpbrew()
                 else
                     echo "php version: $2 not exists."
                 fi
-            fi ;;
+            fi
+            ;;
         switch)
             if [[ -z "$2" ]]
             then
                 echo "Please specify the php version."
             else
                 __phpbrew_reinit $2
-            fi ;;
+            fi
+            ;;
         off)
             unset PHPBREW_PHP
             eval `$BIN env`
             __phpbrew_set_path
-            echo "phpbrew is turned off." ;;
+            echo "phpbrew is turned off."
+            ;;
         switch-off)
             unset PHPBREW_PHP
             __phpbrew_reinit
-            echo "phpbrew is switched off." ;;
+            echo "phpbrew is switched off."
+            ;;
         remove)
             if [[ -z "$2" ]]
             then
@@ -83,8 +89,10 @@ function phpbrew()
               __phpbrew_remove_purge $2 purge
             fi
             ;;
-        *) command $BIN $short_option "$@"
-            exit_status=$?  ;;
+        *)
+            command $BIN $short_option "$@"
+            exit_status=$?
+            ;;
     esac
     hash -r
     return ${exit_status:-0}
