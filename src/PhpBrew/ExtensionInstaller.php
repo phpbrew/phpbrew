@@ -33,7 +33,7 @@ class ExtensionInstaller
         $basename = $downloader->download($url);
 
         // extract
-        $this->logger->info("Extracting $basename...");
+        $this->logger->info("===> Extracting $basename...");
         system("tar xf $basename");
 
         $info = pathinfo($basename);
@@ -80,14 +80,16 @@ class ExtensionInstaller
             }
         }
 
-        $this->logger->info("===> Installed.");
 
         $installedPath .= strtolower($packageName) . '.so';
         $this->logger->debug("Installed extension: " . $installedPath);
 
+
         // Try to find the installed path by pattern
         // Installing shared extensions:     /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
         $sw->back();
+
+        $this->logger->info("===> Installed.");
         return $installedPath;
     }
 

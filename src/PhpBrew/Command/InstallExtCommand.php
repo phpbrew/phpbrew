@@ -10,13 +10,21 @@ class InstallExtCommand extends Command
 
     public function brief() { return 'install extension for current PHP.'; }
 
-    public function execute($extname = null)
+    public function execute($extname, $version = 'stable')
     {
+        $args = func_get_args();
+        $options = array();
+        if( ($pos = array_search('--',$args)) !== false ) {
+            $options = array_slice($args,$pos + 1);
+        }
+
+
         $logger = $this->getLogger();
         $php = Config::getCurrentPhpName();
         $buildDir = Config::getBuildDir();
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
 
+        // listing all local extensions
         if( ! $extname ) {
             $loaded = array_map( 'strtolower' , get_loaded_extensions());
 
@@ -37,36 +45,23 @@ class InstallExtCommand extends Command
             return;
         }
 
+        // Install local extension
         $path = $extDir . DIRECTORY_SEPARATOR . $extname;
         if( file_exists( $path ) ) {
-            $logger->info("Extension path $path");
 
-            chdir( $path );
-            $logger->info("Installing $extname extension...");
+            $this->logger->info("===> Installing $extname extension...");
+            $this->logger->debug("Extension path $path");
 
-            $logger->info("===> phpize...");
-            system('phpize > build.log') !== false or die('Failed.');
-            $args = func_get_args();
-            if( count($args) )
-                array_shift( $args );
+            $installer = new \PhpBrew\ExtensionInstaller($this->logger);
+            $installer->runInstall($extname,$path,$options);
 
-            $logger->info('===> configuring...');
-            system('./configure ' . join(' ',$args) . ' >> build.log' )
-                !== false or die('Configure failed.');
-
-            $logger->info('===> building...');
-            system('make >> build.log') !== false or die('Build failed.');
-
-            $logger->info('===> installing...');
-            system('make install') !== false or die('Install failed.');
-
-            $logger->info('===> enabling extension');
-
+            $this->logger->info('===> enabling extension');
             Utils::create_extension_config($extname);
 
-            $logger->info("Done");
+            $this->logger->info("Done");
         } else {
-            $logger->info("Extension not found.");
+            $installer = new \PhpBrew\ExtensionInstaller($this->logger);
+            $installer->installFromPecl($extname,'stable',$options);
         }
     }
 }
