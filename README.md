@@ -89,6 +89,31 @@ sudo cp phpbrew /usr/bin/phpbrew
 ```
 
 
+
+## Command Overview
+
+PHPBrew commands:
+
+           help   show help message of a command
+           init   Initialize phpbrew config file.
+          known   list known PHP versions
+        install   install php
+           list   list installed PHP versions
+            use   use php, switch version temporarily
+         switch   switch default php version.
+           info   show current php information
+            env   export environment variables
+            ext   List extensions or execute extension subcommands
+       variants   list php variants
+         config   your awesome brief.
+       download   download php
+          clean   clean up php distribution
+    self-update   self-update, default to master version
+         remove   remove installed php version.
+          purge   remove installed php version and config files.
+
+
+
 ## Basic usage
 
 Init a bash script for your shell environment:
