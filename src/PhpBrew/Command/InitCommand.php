@@ -66,6 +66,7 @@ EOS;
 if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
     if [[ -f "$PHPBREW_HOME/init" ]]; then
         . "$PHPBREW_HOME/init"
+        __phpbrew_set_path
     fi
 fi
 
@@ -167,7 +168,8 @@ function phpbrew()
     return ${exit_status:-0}
 }
 
-function __phpbrew_set_path () {
+function __phpbrew_set_path()
+{
     [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
     if [[ -n $PHPBREW_ROOT ]] ; then
@@ -182,7 +184,8 @@ function __phpbrew_set_path () {
     # echo "PATH => $PATH"
 }
 
-function __phpbrew_reinit () {
+function __phpbrew_reinit() 
+{
     if [[ ! -d "$PHPBREW_HOME" ]]
     then
         mkdir -p -p "$PHPBREW_HOME"
@@ -193,8 +196,8 @@ function __phpbrew_reinit () {
     __phpbrew_set_path
 }
 
-function __phpbrew_remove_purge() {
-
+function __phpbrew_remove_purge()
+{
     if [[ "$1" = "$PHPBREW_PHP" ]]
     then
         echo "php version: $1 is already in used."
@@ -240,6 +243,7 @@ function __phpbrew_remove_purge() {
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
