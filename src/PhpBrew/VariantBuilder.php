@@ -67,7 +67,7 @@ class VariantBuilder
             'mhash',
             'mhash',
             'pcntl',
-            'pcre'
+            'pcre',
             'pdo',
             'phar',
             'posix',
