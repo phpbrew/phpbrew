@@ -9,7 +9,7 @@ class Utils
         // create extension config file
         $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $extname . '.ini';
         if ( ! file_exists( dirname($path) ) ) {
-            mkdir($path,0755,true);
+            mkdir(dirname($path),0755,true);
         }
         return $path;
     }
