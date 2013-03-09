@@ -16,6 +16,11 @@ use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Build;
 use PhpBrew\DirectorySwitch;
 
+
+/*
+ * TODO: refactor tasks to Task class.
+ */
+
 class InstallCommand extends \CLIFramework\Command
 {
     public function brief() { return 'install php'; }
@@ -27,7 +32,8 @@ class InstallCommand extends \CLIFramework\Command
 
     public function options($opts)
     {
-        $opts->add('test','tests');
+        $opts->add('test','run tests');
+        $opts->add('name:','prefix name');
         $opts->add('clean','Run make clean before building.');
         $opts->add('post-clean','Run make clean after building PHP.');
         $opts->add('production','Use production configuration');
@@ -43,13 +49,13 @@ class InstallCommand extends \CLIFramework\Command
         $logger = $this->logger;
 
 
-
         // get options and variants for building php
         $args = func_get_args();
-
         // the first argument is the target version.
         array_shift($args);
 
+
+        $name = $this->options->name ?: $version;
 
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
@@ -103,7 +109,7 @@ class InstallCommand extends \CLIFramework\Command
 
         // The build object, contains the information to build php.
         $build = new Build;
-        $build->setName($version);
+        $build->setName($name);
         $build->setVersion($version);
         $build->setInstallDirectory($buildPrefix);
         $build->setSourceDirectory($targetDir);
