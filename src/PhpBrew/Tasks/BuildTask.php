@@ -15,7 +15,7 @@ class BuildTask extends BaseTask
 
     public function build($nice = null)
     {
-        $this->info("Building...");
+        $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
         $cmd->append = true;
         if($this->logPath) {

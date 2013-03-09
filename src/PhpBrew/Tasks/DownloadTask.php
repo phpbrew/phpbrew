@@ -41,7 +41,7 @@ class DownloadTask extends BaseTask
 
         // if we need to extract again (?)
         if( $forceExtract || ! file_exists($targetDir . DIRECTORY_SEPARATOR . 'configure') ) {
-            $this->info("Extracting $basename...");
+            $this->info("===> Extracting $basename...");
             system( "tar xjf $basename" ) !== false or die('Extract failed.');
         } else {
             $this->info("Found existing $targetDir, Skip extracting.");

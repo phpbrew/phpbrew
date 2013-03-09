@@ -16,7 +16,7 @@ class CleanTask extends BaseTask
             return false;
         }
 
-        $this->logger->info('Cleaning...');
+        $this->logger->info('===> Cleaning...');
         $pwd = getcwd();
         chdir($path);
         system('make clean');

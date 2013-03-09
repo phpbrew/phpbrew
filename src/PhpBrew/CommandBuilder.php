@@ -77,6 +77,7 @@ class CommandBuilder
 
         /* can redirect stderr to stdout */
         if( $this->stdout ) {
+            $cmd[] = '2>&1';
             $cmd[] = $this->append ? '>>' : '>';
             $cmd[] = $this->stdout;
         }
