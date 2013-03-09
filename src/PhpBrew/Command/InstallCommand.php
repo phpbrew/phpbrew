@@ -195,11 +195,11 @@ class InstallCommand extends \CLIFramework\Command
                     $content = file_get_contents($targetConfigPath);
                     if( $timezone ) {
                         $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
-                        $content = preg_replace( '/^date.timezone\s+=\s+.*/im', "date.timezone = $timezone" , $content );
+                        $content = preg_replace( '/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone" , $content );
                     }
                     if( ! $pharReadonly ) {
                         $this->logger->info("---> Disable phar.readonly option.");
-                        $content = preg_replace( '/^phar.readonly\s+=\s+.*/im', "phar.readonly = 0" , $content );
+                        $content = preg_replace( '/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0" , $content );
                     }
                     file_put_contents($targetConfigPath, $content);
 
