@@ -497,12 +497,25 @@ Contributors
 
 Sort alphabatically:
 
+* daniele-orlando
+* erning
 * gasol
+* jaceju
+* markwu
 * racklin
-* yftzeng
+* shelling
 * ujihisa
+* yftzeng
+
 
 
 Author
 ------
-Yo-An Lin (c9s)  <cornelius.howl@gmail.com>
+
+    Yo-An Lin (c9s)  <cornelius.howl@gmail.com>
+
+License
+--------
+
+See LICENSE file.
+
