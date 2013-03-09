@@ -97,12 +97,13 @@ class InstallCommand extends \CLIFramework\Command
 
         // write variants info.
         $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-        $this->logger->info("Writing variant info to $variantInfoFile");
+        $this->logger->debug("Writing variant info to $variantInfoFile");
         file_put_contents($variantInfoFile, serialize($variantInfo));
 
 
         // The build object, contains the information to build php.
         $build = new Build;
+        $build->setName($version);
         $build->setVersion($version);
         $build->setInstallDirectory($buildPrefix);
         $build->setSourceDirectory($targetDir);
@@ -112,7 +113,7 @@ class InstallCommand extends \CLIFramework\Command
         $builder->logger = $this->logger;
         $builder->options = $this->options;
 
-        $this->logger->info( 'Build Directory: ' . realpath($buildDir . DIRECTORY_SEPARATOR . $targetDir) );
+        $this->logger->debug( 'Build Directory: ' . $buildDir . DIRECTORY_SEPARATOR . $targetDir );
 
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
             $build->enableVariant($name, $value);
@@ -180,6 +181,9 @@ class InstallCommand extends \CLIFramework\Command
                 $this->logger->notice("$targetConfigPath exists, do not overwrite.");
             }
             else {
+
+                // TODO: Move this to PhpConfigPatchTask
+
                 // move config file to target location
                 rename( $phpConfigFile , $targetConfigPath );
 
@@ -189,13 +193,12 @@ class InstallCommand extends \CLIFramework\Command
                 if( $timezone || $pharReadonly ) {
                     // patch default config
                     $content = file_get_contents($targetConfigPath);
-
                     if( $timezone ) {
-                        $this->logger->info("Found date.timezone, patch config timezone with $timezone");
+                        $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
                         $content = preg_replace( '/^date.timezone\s+=\s+.*/im', "date.timezone = $timezone" , $content );
                     }
                     if( ! $pharReadonly ) {
-                        $this->logger->info("Disable phar.readonly option.");
+                        $this->logger->info("---> Disable phar.readonly option.");
                         $content = preg_replace( '/^phar.readonly\s+=\s+.*/im', "phar.readonly = 0" , $content );
                     }
                     file_put_contents($targetConfigPath, $content);

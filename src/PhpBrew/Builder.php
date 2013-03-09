@@ -85,10 +85,6 @@ class Builder
             system("patch -p0 < $patchFile");
         }
 
-        if( ! Utils::support_64bit() && $build->compareVersion('5.4') === -1 ) {
-            // patch Makefile for PHP 5.3 on 64bit system.
-            system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
-        }
 
         // let's apply patch for libphp{php version}.so (apxs)
         if( $build->isEnabledVariant('apxs2') ) {
@@ -149,7 +145,7 @@ EOS;
         $this->logger->info("===> Configuring {$build->version}...");
 
         $cmd->append = false;
-        $cmd->stdout = Config::getVersionBuildLogPath( $build->version );
+        $cmd->stdout = Config::getVersionBuildLogPath( $build->name );
 
         echo "\n\n";
         echo "Use tail command to see what's going on:\n";
@@ -161,7 +157,13 @@ EOS;
             $cmd->nice( $this->options->nice );
 
         $cmd->execute() !== false or die('Configure failed.');
-        touch('configure.done');
+
+        // then patch Makefile for PHP 5.3 on 64bit system.
+        if( Utils::support_64bit() && $build->compareVersion('5.4') == -1 ) {
+            $this->logger->info("===> Applying patch file for php5.3.x on 64bit machine.");
+            system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
+        }
+
     }
 
     public function build()

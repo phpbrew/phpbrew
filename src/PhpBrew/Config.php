@@ -60,7 +60,7 @@ class Config
 
     static function getVersionBuildLogPath($version)
     {
-        return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'build.log';
+        return self::getBuildDir() . DIRECTORY_SEPARATOR .  $version . DIRECTORY_SEPARATOR . 'build.log';
     }
 
     static function getVersionEtcPath($version)

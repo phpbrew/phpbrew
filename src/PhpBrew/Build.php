@@ -10,6 +10,8 @@ class Build
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
 
+    public $name;
+
     public $version;
 
     public $variants = array();
@@ -29,11 +31,15 @@ class Build
 
     }
 
-    public function setVersion($version)
+    public function setName($name)
     {
-        $this->version = $version;
+        $this->name = $name;
     }
 
+    public function setVersion($version)
+    {
+        $this->version = preg_replace('#^php-#','',$version);
+    }
 
     public function getVersion()
     {
