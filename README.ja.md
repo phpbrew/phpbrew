@@ -257,8 +257,9 @@ $ phpbrew list
 
 (インストール手順の後):
 
-    phpbrew install-ext pdo
-    phpbrew install-ext mcrypt --with-mcrypt=/opt/local
+    phpbrew ext install pdo
+    phpbrew ext install xdebug
+    phpbrew ext install mcrypt --with-mcrypt=/opt/local
 
 ## 拡張モジュールを有効にします
 
