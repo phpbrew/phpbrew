@@ -1,6 +1,15 @@
 CHANGES
 =======
 
+Version 1.8.3 - Sat Mar  9 19:38:22 2013
+
+- Add new extension installer.
+- Fix extension enable feature.
+- Refactor installation tasks to task classes.
+- Can save variant information.
+- Show variants and options when listing phps
+- Provide a patch for php5.3 msgformat libstdc++ bug on 64bit machines.
+
 Version 1.3.3 - 一  4/30 11:27:09 2012
 - Added posix variant.
 - Added calendar variant.
