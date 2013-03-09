@@ -4,13 +4,13 @@ scripts/update-init-script
 bash scripts/compile
 onion build
 
+VERSION=$(grep '^version' package.ini | sed -e 's/version *= *//')
+git commit -am "Releasing $VERSION"
+
 # get version
 if [[ $1 == "--tag" ]] ; then
-    VERSION=$(grep '^version' package.ini | sed -e 's/version *= *//')
-
-    git commit -am "Recompile phar and building package.xml for $VERSION"
+    echo "Tagging..."
     git tag -f $VERSION -m "Releasing $VERSION"
-
     git remote | while read remote ; do
         git push $remote master --tags
     done
