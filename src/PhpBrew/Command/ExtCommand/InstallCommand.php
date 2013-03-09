@@ -47,7 +47,7 @@ class InstallCommand extends \CLIFramework\Command
             chdir($extDir);
 
             $installer = new \PhpBrew\ExtensionInstaller($this->logger);
-            $installedSo = $installer->installFromPecl($extname,'stable',$options);
+            $installedSo = $installer->installFromPecl($extname, $version ,$options);
 
             $this->logger->info('===> Enabling extension');
 
