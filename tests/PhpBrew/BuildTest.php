@@ -18,7 +18,7 @@ class BuildTest extends PHPUnit_Framework_TestCase
         is( 1 , $build->compareVersion('5.3.0') );
         is( 1 , $build->compareVersion('5.3') );
         is( -1 , $build->compareVersion('5.4.0') );
-        is( -1 , $build->compareVersion('5.4.0') );
+        is( -1 , $build->compareVersion('5.4') );
 
 
         $id = $build->getIdentifier();

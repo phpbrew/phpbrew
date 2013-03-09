@@ -85,7 +85,7 @@ class Builder
             system("patch -p0 < $patchFile");
         }
 
-        if( ! Utils::support_64bit() && $build->getVersion() ) {
+        if( ! Utils::support_64bit() && $build->compareVersion('5.4') === -1 ) {
             // patch Makefile for PHP 5.3 on 64bit system.
             system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
         }
