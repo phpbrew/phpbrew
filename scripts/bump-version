@@ -3,5 +3,4 @@ VERSION=$(grep '^version' package.ini | sed -e 's/version *= *//')
 NEWVERSION=$(echo $VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g' )
 perl -i -pe "s/$VERSION/$NEWVERSION/g" package.ini
 perl -i -pe "s/$VERSION/$NEWVERSION/g" src/PhpBrew/Console.php
-onion build
 git commit -a -m "Bump version to $NEWVERSION"
