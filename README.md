@@ -49,12 +49,16 @@ brew link icu4c
 
 ### Ubuntu/Debian Requirement
 
+**Please note that you need to disable suhosin patch to run phpbrew.**
+
 ```bash
 sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev
 sudo apt-get build-dep php5
 ```
 
 ### Cent OS Requirement
+
+**Please note that you need to disable suhosin patch to run phpbrew.**
 
 Cent OS requirement setup
 
@@ -69,6 +73,10 @@ sudo yum install --enablerepo=rpmforge re2c libmhash
 ```
 
 Reference: http://matome.naver.jp/odai/2133887830324055901
+
+
+
+
 
 ## Install phpbrew
 
