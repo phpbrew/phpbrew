@@ -24,6 +24,11 @@ class InstallCommand extends \CLIFramework\Command
             $options = array_slice($args,$pos + 1);
         }
 
+        // preventing `phpbrew ext install yaml -- --with-yaml=/opt/local`
+        if( $version == '--' ) {
+            $version = 'stable';
+        }
+
         $logger = $this->getLogger();
         $php = Config::getCurrentPhpName();
         $buildDir = Config::getBuildDir();
