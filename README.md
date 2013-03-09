@@ -451,11 +451,19 @@ Initialize
 
     $ php bin/phpbrew init
 
+To hack with phpbrew shell script:
+
+    $ vim phpbrew.sh
+
+And then update the init script to the command class:
+
+    $ ./scripts/update-init-script
+
 List known versions:
 
     $ php bin/phpbrew known
 
-Install:
+Test your command through the `bin/phpbrew`:
 
     $ php bin/phpbrew -d install --no-test 5.4.0RC7
 
@@ -464,9 +472,13 @@ To show which phpbrew is running:
     $ unset -f phpbrew
     $ which phpbrew
 
-Re-compile phar file:
+Re-compile phar file for testing:
 
-    $ bash scripts/compile
+    $ scripts/compile
+
+Add yourself to the contributor list in README.md
+
+Then send pull request.
 
 PHP Release channels
 --------------------
@@ -483,8 +495,13 @@ Join us on #php-tw on irc.freenode.net
 Contributors
 ------------
 
+Sort alphabatically:
+
+* gasol
+* racklin
 * yftzeng
-* Gasol
+* ujihisa
+
 
 Author
 ------
