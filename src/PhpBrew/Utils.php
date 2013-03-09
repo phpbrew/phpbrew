@@ -4,6 +4,23 @@ namespace PhpBrew;
 class Utils
 {
 
+    static function support_64bit()
+    {
+        $int = "9223372036854775807";
+        $int = intval($int);
+        if ($int == 9223372036854775807) {
+            /* 64bit */
+            return true;
+        }
+        elseif ($int == 2147483647) {
+            /* 32bit */
+            return false;
+        }
+        else {
+            return false;
+        }
+    }
+
     static function get_extension_config_path($extname)
     {
         // create extension config file
