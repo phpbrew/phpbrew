@@ -131,7 +131,7 @@ class VariantBuilder
         $this->variants['xmlrpc'] = '--with-xmlrpc';
         $this->variants['pcre'] = '--with-pcre-regex';
 
-        $this->variants['zlib'] = function() {
+        $this->variants['zlib'] = function($build) {
             if( $prefix = Utils::find_include_prefix('zlib.h') ) {
                 return '--with-zlib=' . $prefix;
             }
@@ -149,7 +149,7 @@ class VariantBuilder
             return $opts;
         };
 
-        $this->variants['gd'] = function() use($self) {
+        $this->variants['gd'] = function($build) use($self) {
             $opts = array();
             if( $prefix = Utils::find_include_prefix('gd.h') ) {
                 $opts[] = '--with-gd=' . $prefix;
@@ -173,7 +173,7 @@ class VariantBuilder
         /**
          * with icu
          */
-        $this->variants['icu'] = function($val = null) use($self) {
+        $this->variants['icu'] = function($build, $val = null) use($self) {
             // XXX: it seems that /usr prefix does not work on Ubuntu 
             //       Linux system.
             if( $val ) {
@@ -191,7 +191,7 @@ class VariantBuilder
         /**
          * --with-openssl option
          */
-        $this->variants['openssl'] = function($val = null) use($self) {
+        $this->variants['openssl'] = function($build, $val = null) use($self) {
             // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
             if( $val ) {
                 return '--with-openssl=' . $val;
@@ -217,36 +217,37 @@ class VariantBuilder
 
         --with-mysql         // deprecated
         */
-        $this->variants['mysql'] = function( $prefix = 'mysqlnd' ) use ($self) {
+        $this->variants['mysql'] = function($build, $prefix = 'mysqlnd' ) use ($self) {
             $opts = array(
                 "--with-mysql=$prefix",
                 "--with-mysqli=$prefix"
             );
-            if( isset($self->use['pdo']) )
+            if ( $build->hasVariant('pdo') ) {
                 $opts[] = "--with-pdo-mysql=$prefix";
+            }
             return $opts;
         };
 
 
-        $this->variants['sqlite'] = function( $prefix = null ) use ($self) {
+        $this->variants['sqlite'] = function($build, $prefix = null ) use ($self) {
             $opts = array(
                 '--with-sqlite3' . ($prefix ? "=$prefix" : '')
             );
-            if( isset($self->use['pdo']) )
+            if ( $build->hasVariant('pdo') )
                 $opts[] = '--with-pdo-sqlite';
             return $opts;
         };
 
-        $this->variants['pgsql'] = function($prefix = null) use($self) {
+        $this->variants['pgsql'] = function($build, $prefix = null) use($self) {
             $opts = array();
             $opts[] = '--with-pgsql' . ($prefix ? "=$prefix" : '');
-            if( isset($self->use['pdo']) )
+            if ( $build->hasVariant('pdo') )
                 $opts[] = '--with-pdo-pgsql';
             return $opts;
         };
 
 
-        $this->variants['xml_all'] = function() {
+        $this->variants['xml_all'] = function($build) {
             return array(
                 '--enable-libxml',
                 '--enable-simplexml',
@@ -258,7 +259,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['apxs2'] = function($prefix = null) use ($self) {
+        $this->variants['apxs2'] = function($build, $prefix = null) use ($self) {
 
             $a = '--with-apxs2';
             $apxs = null;
@@ -291,7 +292,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['gettext'] = function($prefix = null) {
+        $this->variants['gettext'] = function($build, $prefix = null) {
             if( $prefix )
                 return '--with-gettext=' . $prefix;
             if( $prefix = Utils::find_include_prefix('libintl.h') )
@@ -300,7 +301,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['iconv'] = function() {
+        $this->variants['iconv'] = function($build) {
             // detect include path for iconv.h
             if( $prefix = Utils::find_include_prefix('iconv.h') ) {
                 return "--with-iconv";
@@ -314,7 +315,7 @@ class VariantBuilder
             }
         };
 
-        $this->variants['ipc'] = function() {
+        $this->variants['ipc'] = function($build) {
             return array(
                 '--enable-shmop',
                 '--enable-sysvsem',
@@ -375,7 +376,7 @@ class VariantBuilder
      * @param string $feature variant name
      * @param string $userValue option value.
      */
-    public function buildVariant($feature, $userValue = null)
+    public function buildVariant($build, $feature, $userValue = null)
     {
         if( ! isset( $this->variants[ $feature ] )) {
             throw new Exception("Variant '$feature' is not defined.");
@@ -397,14 +398,14 @@ class VariantBuilder
         } elseif ( is_string($cb) ) {
             return array($cb);
         } elseif( is_callable($cb) ) {
-            $args = is_string($userValue) ? array($userValue) : array();
+            $args = is_string($userValue) ? array($build,$userValue) : array($build);
             return (array) call_user_func_array($cb, $args);
         } else {
             throw OopsException;
         }
     }
 
-    public function buildDisableVariant($feature,$userValue = null)
+    public function buildDisableVariant($build , $feature,$userValue = null)
     {
         if( isset( $this->variants[ $feature ] )) {
             if ( in_array('-'.$feature, $this->builtList) ) 
@@ -417,7 +418,7 @@ class VariantBuilder
             // build the option from enabled variant, 
             // then convert the '--enable' and '--with' options 
             // to '--disable' and '--without'
-            $args = is_string($userValue) ? array($userValue) : array();
+            $args = is_string($userValue) ? array($build,$userValue) : array($build);
             $disableOptions = (array) call_user_func_array($func,$args);
 
             $resultOptions = array();
@@ -491,7 +492,7 @@ class VariantBuilder
             $this->addOptions('--with-curl=' . $prefix);
         }
 
-        // build virtual variants first
+        // enable/expand virtual variants
         foreach( $this->virtualVariants as $name => $variantNames ) {
             if( $build->isEnabledVariant($name) ) {
                 foreach( $variantNames as $subVariantName ) {
@@ -513,13 +514,13 @@ class VariantBuilder
 
 
         foreach( $build->getVariants() as $feature => $userValue ) {
-            if( $options = $this->buildVariant( $feature , $userValue ) ) {
+            if( $options = $this->buildVariant( $build, $feature , $userValue ) ) {
                 $this->addOptions($options);
             }
         }
 
         foreach( $build->getDisabledVariants() as $feature => $true ) {
-            if( $options = $this->buildDisableVariant( $feature ) ) {
+            if( $options = $this->buildDisableVariant($build, $feature ) ) {
                 $this->addOptions($options);
             }
         }
