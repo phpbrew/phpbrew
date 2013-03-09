@@ -113,7 +113,7 @@ class InstallCommand extends \CLIFramework\Command
         $builder->logger = $this->logger;
         $builder->options = $this->options;
 
-        $this->logger->debug( 'Build Directory: ' . $buildDir . DIRECTORY_SEPARATOR . $targetDir );
+        $this->logger->debug( 'Build Directory: ' . realpath($targetDir) );
 
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
             $build->enableVariant($name, $value);

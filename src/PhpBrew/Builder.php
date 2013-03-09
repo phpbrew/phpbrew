@@ -158,14 +158,12 @@ EOS;
 
         $cmd->execute() !== false or die('Configure failed.');
 
-        // Then patch Makefile for PHP 5.3 on 64bit system.
-        // NOTE: it seems don't work.
-        /*
+        // Then patch Makefile for PHP 5.3.x on 64bit system.
         if( Utils::support_64bit() && $build->compareVersion('5.4') == -1 ) {
             $this->logger->info("===> Applying patch file for php5.3.x on 64bit machine.");
             system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
+            system('sed -i \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
         }
-        */
     }
 
     public function build()
