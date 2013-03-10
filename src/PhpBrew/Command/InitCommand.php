@@ -63,19 +63,22 @@ EOS;
 # NOTICE: This script is for local testing, to release updated script, 
 # please also modify the src/PhpBrew/Command/InitCommand.php
 
+# default phpbrew root and phpbrew home path
+
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
-if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
-    if [[ -f "$PHPBREW_HOME/init" ]]; then
-        . "$PHPBREW_HOME/init"
-        __phpbrew_set_path
+if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
+    # load user-defined config
+    if [[ -f $PHPBREW_HOME/init ]]; then
+        . $PHPBREW_HOME/init
+        export PATH=$PHPBREW_PATH:$PATH
     fi
 fi
 
-# default phpbrew root and phpbrew home path
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 
-function phpbrew()
+
+function phpbrew ()
 {
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
@@ -150,7 +153,7 @@ function phpbrew()
             ;;
         rehash)
             echo "Rehashing..."
-            source ~/.phpbrew/bashrc
+            . ~/.phpbrew/bashrc
             ;;
         purge)
             if [[ -z "$2" ]]
@@ -169,7 +172,7 @@ function phpbrew()
     return ${exit_status:-0}
 }
 
-function __phpbrew_set_path()
+function __phpbrew_set_path ()
 {
     [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
@@ -185,7 +188,7 @@ function __phpbrew_set_path()
     # echo "PATH => $PATH"
 }
 
-function __phpbrew_reinit() 
+function __phpbrew_reinit () 
 {
     if [[ ! -d "$PHPBREW_HOME" ]]
     then
@@ -197,7 +200,7 @@ function __phpbrew_reinit()
     __phpbrew_set_path
 }
 
-function __phpbrew_remove_purge()
+function __phpbrew_remove_purge ()
 {
     if [[ "$1" = "$PHPBREW_PHP" ]]
     then
@@ -238,12 +241,12 @@ function __phpbrew_remove_purge()
     fi
 
     return 0
-
 }
 
 
 EOS;
 // SHBLOCK }}}
+
 
 
 

@@ -11,10 +11,10 @@
     <active>yes</active>
   </lead>
   <date>2013-03-10</date>
-  <time>17:23:41</time>
+  <time>17:42:33</time>
   <version>
-    <release>1.8.12</release>
-    <api>1.8.12</api>
+    <release>1.8.13</release>
+    <api>1.8.13</api>
   </version>
   <stability>
     <release>stable</release>
@@ -36,7 +36,7 @@
       <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="77f86986a665596b6cd24624aabe9062"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="baf82fa02bacf2815dbab94fc9d366a7"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="17790c2c13a0b2a33265176abfd9abde"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="843bdd663df9418114aa5ccd1164c9ec"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="9b538ded16516019cd216c1203431895"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
@@ -49,7 +49,7 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="0053b17f2752645c43c26ef55c72e792"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="f1d81cc805032ef0bb62ecc464399a7f"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="753a4e3f6206b883738682710903d690"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="30420cf2acc6750a76bcb2c906ac027c"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="c1a7d8428ed117069796eca25ce8106f"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="c524ece35d0c88729e6c1e26f246ef27"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="d44b47d94dc2e2f4077a4197c15497c3"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="e9aa74836b25eea8cbc1f44cb563ebb4"/>
@@ -73,7 +73,7 @@
       <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="afb4ff4286741965cfce4241e9a631cf"/>
       <file name="src/PhpBrew/VariantFinder.php" role="php" md5sum="2a8cb1290d239db323a495784b6e8a9c"/>
       <file name="src/PhpBrew/VariantParser.php" role="php" md5sum="965b8cbffc0177c7ce31d08b4bf3883b"/>
-      <file name="bin/phpbrew" role="script" md5sum="e79ef0bf374251fddc55b3c5071f518a"/>
+      <file name="bin/phpbrew" role="script" md5sum="9cf4334d406fd5eea8ae3a2f4779d172"/>
     </dir>
   </contents>
   <dependencies>
