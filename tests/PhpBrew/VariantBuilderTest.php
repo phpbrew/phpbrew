@@ -50,5 +50,25 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         ok( in_array('--with-pdo-mysql=mysqlnd',$options) );
         ok( in_array('--with-pdo-sqlite',$options) );
     }
+
+
+    public function testAllVariant()
+    {
+        $variants = new PhpBrew\VariantBuilder;
+        ok($variants);
+
+        $build = new PhpBrew\Build;
+        $build->setVersion('5.3.0');
+        $build->enableVariant('all');
+        $build->disableVariant('mysql');
+        $build->disableVariant('apxs2');
+        $build->resolveVariants();
+
+        $options = $variants->build($build);
+        ok( in_array('--enable-all',$options) );
+        ok( in_array('--without-apxs2',$options) );
+        ok( in_array('--without-mysql',$options) );
+    }
+
 }
 

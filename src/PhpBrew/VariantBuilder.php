@@ -464,33 +464,35 @@ class VariantBuilder
      */
     public function build($build)
     {
-        // reset built options
-        // build common options
-        $this->options = array(
-            '--disable-all',
-            '--enable-phar',
-            '--enable-session',
-            '--enable-short-tags',
-            '--enable-tokenizer',
-            '--with-pcre-regex',
-        );
-
         // reset builtList
         $this->builtList = array();
 
+        // reset built options
+        if ( $build->hasVariant('all') ) {
+            $this->options = array();
+        } else {
+            // build common options
+            $this->options = array(
+                '--disable-all',
+                '--enable-phar',
+                '--enable-session',
+                '--enable-short-tags',
+                '--enable-tokenizer',
+                '--with-pcre-regex',
+            );
+            if( $prefix = Utils::find_include_prefix('zlib.h') ) {
+                $this->addOptions('--with-zlib=' . $prefix);
+            }
 
-        if( $prefix = Utils::find_include_prefix('zlib.h') ) {
-            $this->addOptions('--with-zlib=' . $prefix);
+            if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
+                $this->addOptions('--with-libxml-dir=' . $prefix);
+            }
+
+            if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
+                $this->addOptions('--with-curl=' . $prefix);
+            }
         }
 
-
-        if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
-            $this->addOptions('--with-libxml-dir=' . $prefix);
-        }
-
-        if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
-            $this->addOptions('--with-curl=' . $prefix);
-        }
 
         // enable/expand virtual variants
         foreach( $this->virtualVariants as $name => $variantNames ) {

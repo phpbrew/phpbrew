@@ -3,28 +3,13 @@ use PhpBrew\VariantParser;
 
 class VariantParserTest extends PHPUnit_Framework_TestCase
 {
-
-
-    public function argumentsProvider()
+    public function test()
     {
-        return array(
-            array(
-                preg_split('#\s+#',
-                          '+pdo+sqlite+debug'
-                        . '+apxs=/opt/local/apache2/bin/apxs+calendar'
-                        . '-mysql'
-                        . ' -- --with-icu-dir /opt/local'
-                )
-            )
-        );
-    }
-
-
-    /**
-     * @dataProvider argumentsProvider
-     */
-    public function test($args)
-    {
+        $arg = '+pdo+sqlite+debug'
+                . '+apxs=/opt/local/apache2/bin/apxs+calendar'
+                . '-mysql'
+                . ' -- --with-icu-dir /opt/local';
+        $args = preg_split('#\s+#',$arg);
         $info = VariantParser::parseCommandArguments($args);
         ok($info['enabled_variants']);
         ok($info['enabled_variants']['pdo']);
@@ -32,6 +17,18 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
         ok($info['disabled_variants']);
         ok($info['disabled_variants']['mysql']);
         ok($info['extra_options']);
+    }
+
+    public function testVariantAll()
+    {
+        $arg = '+all -apxs2 -mysql';
+        $args = preg_split('#\s+#',$arg);
+        $info = VariantParser::parseCommandArguments($args);
+        ok($info['enabled_variants']);
+        ok($info['enabled_variants']['all']);
+        ok($info['disabled_variants']);
+        ok($info['disabled_variants']['mysql']);
+        ok($info['disabled_variants']['apxs2']);
     }
 }
 
