@@ -260,12 +260,9 @@ class VariantBuilder
 
 
         $this->variants['apxs2'] = function($build, $prefix = null) use ($self) {
-
             $a = '--with-apxs2';
-            $apxs = null;
             if( $prefix ) {
                 $a .= '=' . $prefix;
-                $apxs = $prefix;
             }
             return $a;
         };
