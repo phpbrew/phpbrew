@@ -130,11 +130,23 @@ class Build
     }
 
 
+
+    /**
+     * Get all disabled variants
+     */
     public function getDisabledVariants()
     {
         return $this->disabledVariants;
     }
 
+
+
+    /**
+     * Returns variant user value
+     *
+     * @param string $n variant name
+     * @return string variant value
+     */
     public function getVariant($n)
     {
         if( isset($this->variants[$n]) )
