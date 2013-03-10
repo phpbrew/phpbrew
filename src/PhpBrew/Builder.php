@@ -88,9 +88,9 @@ class Builder
 
         // let's apply patch for libphp{php version}.so (apxs)
         if( $build->isEnabledVariant('apxs2') ) {
-            $apxs2Checker = new \PhpBrew\Task\Apxs2CheckTask($this->logger);
+            $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
             $apxs2Checker->check($build);
-            $apxs2Patch = new \PhpBrew\Task\Apxs2PatchTask($this->logger);
+            $apxs2Patch = new \PhpBrew\Tasks\Apxs2PatchTask($this->logger);
             $apxs2Patch->patch($build);
         }
 

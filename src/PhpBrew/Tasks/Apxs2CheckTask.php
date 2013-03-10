@@ -14,7 +14,7 @@ class Apxs2CheckTask extends BaseTask
             $apxs = Utils::findbin('apxs');
         }
 
-        $this->logger->debug("Found apxs2 sbin: $apxs2");
+        $this->logger->debug("Found apxs2 sbin: $apxs");
 
         // use apxs to check module dir permission
         if( $apxs && $libdir = trim( Utils::pipe_execute( "$apxs -q LIBEXECDIR" ) ) ) {
