@@ -63,6 +63,8 @@ EOS;
 # NOTICE: This script is for local testing, to release updated script, 
 # please also modify the src/PhpBrew/Command/InitCommand.php
 
+[[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
+
 if [[ ! -n "$PHPBREW_SKIP_INIT" ]]; then
     if [[ -f "$PHPBREW_HOME/init" ]]; then
         . "$PHPBREW_HOME/init"
@@ -72,7 +74,6 @@ fi
 
 # default phpbrew root and phpbrew home path
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
-[[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
 function phpbrew()
 {
@@ -243,6 +244,7 @@ function __phpbrew_remove_purge()
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
