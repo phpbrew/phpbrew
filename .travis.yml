@@ -13,4 +13,4 @@ before_script:
 #    - pear install -f -a corneltek/Universal
 #    - pear install -f -a corneltek/PEARX
 
-script: phpunit
+script: phpunit --debug
