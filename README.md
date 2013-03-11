@@ -8,14 +8,15 @@ version whenever you need.
 
 [![Build Status](https://secure.travis-ci.org/c9s/phpbrew.png)](http://travis-ci.org/c9s/phpbrew)
 
-phpbrew can:
+What phpbrew can do for you:
 
-- build php with different variants like PDO, mysql, sqlite, debug ...etc.
-- compile apache php module and seperate them by different versions.
-- build and install php(s) in your home directory, so you don't need root permission.
-- switch versions very easily and is integrated with bash/zsh shell.
-- automatic feature detection.
-- install multiple php into system-wide environment.
+- Build php with different variants like PDO, mysql, sqlite, debug ...etc.
+- Compile apache php module and seperate them by different versions.
+- Build and install php(s) in your home directory, so you don't need root permission.
+- Switch versions very easily and is integrated with bash/zsh shell.
+- Automatic feature detection.
+- Install & enable php extensions into current environment with ease.
+- Install multiple php into system-wide environment.
 
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
 
