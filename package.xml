@@ -10,11 +10,11 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2013-03-12</date>
-  <time>19:45:01</time>
+  <date>2013-03-13</date>
+  <time>18:09:25</time>
   <version>
-    <release>1.8.14</release>
-    <api>1.8.14</api>
+    <release>1.8.15</release>
+    <api>1.8.15</api>
   </version>
   <stability>
     <release>stable</release>
@@ -36,7 +36,7 @@
       <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="77f86986a665596b6cd24624aabe9062"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="baf82fa02bacf2815dbab94fc9d366a7"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="a9f6aee517aa8397cecd73cc851a4fdd"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="cd15d581c051c45259033db9480388d0"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="9b538ded16516019cd216c1203431895"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
@@ -49,7 +49,7 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="0053b17f2752645c43c26ef55c72e792"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="f1d81cc805032ef0bb62ecc464399a7f"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="753a4e3f6206b883738682710903d690"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="339c380b81b9f1a979cd9588ef08b6ee"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="fb13661e4ebeb240f725b8889fa20299"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="c524ece35d0c88729e6c1e26f246ef27"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="d44b47d94dc2e2f4077a4197c15497c3"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="e9aa74836b25eea8cbc1f44cb563ebb4"/>

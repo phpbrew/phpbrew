@@ -134,12 +134,16 @@ function phpbrew ()
             ;;
         off)
             unset PHPBREW_PHP
+            unset PHPBREW_PATH
             eval `$BIN env`
             __phpbrew_set_path
             echo "phpbrew is turned off."
             ;;
         switch-off)
             unset PHPBREW_PHP
+            unset PHPBREW_PATH
+            eval `$BIN env`
+            __phpbrew_set_path
             __phpbrew_reinit
             echo "phpbrew is switched off."
             ;;
@@ -246,6 +250,7 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
