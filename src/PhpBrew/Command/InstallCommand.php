@@ -62,8 +62,9 @@ class InstallCommand extends \CLIFramework\Command
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if( ! $info)
+        if ( ! $info) {
             throw new Exception("Version $version not found.");
+        }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
@@ -72,7 +73,7 @@ class InstallCommand extends \CLIFramework\Command
 
 
         // convert patch to realpath
-        if( $this->options->patch ) {
+        if ( $this->options->patch ) {
             $patch = realpath($this->options->patch);
             // rewrite patch path
             $this->options->keys['patch']->value = $patch;
@@ -85,7 +86,7 @@ class InstallCommand extends \CLIFramework\Command
         $download = new DownloadTask($this->logger);
         $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
 
-        if( ! file_exists($targetDir) ) {
+        if ( ! file_exists($targetDir) ) {
             throw new Exception("Download failed.");
         }
 
@@ -95,7 +96,7 @@ class InstallCommand extends \CLIFramework\Command
 
         $buildPrefix = Config::getVersionBuildPrefix( $version );
 
-        if( ! file_exists($buildPrefix) ) {
+        if ( ! file_exists($buildPrefix) ) {
             mkdir($buildPrefix,0755,true);
         }
 
@@ -119,11 +120,11 @@ class InstallCommand extends \CLIFramework\Command
 
         $this->logger->debug( 'Build Directory: ' . realpath($targetDir) );
 
-        foreach( $variantInfo['enabled_variants'] as $name => $value ) {
+        foreach ( $variantInfo['enabled_variants'] as $name => $value ) {
             $build->enableVariant($name, $value);
         }
 
-        foreach( $variantInfo['disabled_variants'] as $name => $value ) {
+        foreach ( $variantInfo['disabled_variants'] as $name => $value ) {
             $build->disableVariant($name);
             if($build->hasVariant($name) ) {
                 $this->logger->warn("Removing variant $name since we've disabled it from command.");
@@ -132,7 +133,7 @@ class InstallCommand extends \CLIFramework\Command
         }
         $build->setExtraOptions( $variantInfo['extra_options'] );
 
-        if( $this->options->clean ) {
+        if ( $this->options->clean ) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
@@ -146,7 +147,7 @@ class InstallCommand extends \CLIFramework\Command
         $buildTask->setLogPath($buildLogFile);
         $buildTask->build();
 
-        if( $this->options->{'test'} ) {
+        if ( $this->options->{'test'} ) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
             $test->test();
@@ -156,7 +157,7 @@ class InstallCommand extends \CLIFramework\Command
         $install->setLogPath($buildLogFile);
         $install->install();
 
-        if( $this->options->{'post-clean'} ) {
+        if ( $this->options->{'post-clean'} ) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
@@ -176,15 +177,15 @@ class InstallCommand extends \CLIFramework\Command
 
         $phpConfigFile = $this->options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigFile ");
-        if( file_exists($phpConfigFile) ) {
-            if( ! file_exists( Config::getVersionEtcPath($version) ) )
+        if ( file_exists($phpConfigFile) ) {
+            if ( ! file_exists( Config::getVersionEtcPath($version) ) ) {
                 mkdir( Config::getVersionEtcPath($version) , 0755 , true );
+            }
 
             $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
-            if( file_exists($targetConfigPath) ) {
+            if ( file_exists($targetConfigPath) ) {
                 $this->logger->notice("$targetConfigPath exists, do not overwrite.");
-            }
-            else {
+            } else {
 
                 // TODO: Move this to PhpConfigPatchTask
 
@@ -194,21 +195,19 @@ class InstallCommand extends \CLIFramework\Command
                 // replace current timezone
                 $timezone = ini_get('date.timezone');
                 $pharReadonly = ini_get('phar.readonly');
-                if( $timezone || $pharReadonly ) {
+                if ( $timezone || $pharReadonly ) {
                     // patch default config
                     $content = file_get_contents($targetConfigPath);
-                    if( $timezone ) {
+                    if ( $timezone ) {
                         $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
                         $content = preg_replace( '/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone" , $content );
                     }
-                    if( ! $pharReadonly ) {
+                    if ( ! $pharReadonly ) {
                         $this->logger->info("---> Disable phar.readonly option.");
                         $content = preg_replace( '/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0" , $content );
                     }
                     file_put_contents($targetConfigPath, $content);
-
                 }
-
             }
         }
 
