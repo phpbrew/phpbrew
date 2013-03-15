@@ -24,6 +24,7 @@ class Console extends Application
         $this->registerCommand('config');
         $this->registerCommand('download');
         $this->registerCommand('clean');
+        $this->registerCommand('ctags', 'PhpBrew\Command\CtagsCommand');
 
         $this->registerCommand('enable',     'PhpBrew\Command\MigratedCommand');
         $this->registerCommand('install-ext','PhpBrew\Command\MigratedCommand');
