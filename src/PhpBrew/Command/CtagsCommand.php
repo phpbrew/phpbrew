@@ -2,6 +2,7 @@
 namespace PhpBrew\Command;
 use PhpBrew\Config;
 use PhpBrew\Build;
+use PhpBrew\CommandBuilder;
 use Exception;
 
 class CtagsCommand extends \CLIFramework\Command
@@ -19,11 +20,23 @@ class CtagsCommand extends \CLIFramework\Command
             $version = getenv('PHPBREW_PHP');
         }
 
-        $versionBuildSource = $buildDir . DIRECTORY_SEPARATOR . $version;
-        echo $versionBuildSource;
+        // XXX: get source dir from current build information
+        $sourceDir = $buildDir . DIRECTORY_SEPARATOR . $version;
+        $this->logger->info( $sourceDir );
 
-        $cmd = new CommandBuilder;
+        $cmd = new CommandBuilder('ctags');
+        $cmd->arg('--recurse');
+        $cmd->arg('-a');
+        $cmd->arg('-h');
+        $cmd->arg('.c.h.cpp');
 
-        system('ctags');
+        $cmd->arg( $sourceDir . DIRECTORY_SEPARATOR . 'main');
+        $cmd->arg( $sourceDir . DIRECTORY_SEPARATOR . 'ext');
+        $cmd->arg( $sourceDir . DIRECTORY_SEPARATOR . 'Zend');
+
+        $this->logger->info($cmd->__toString());
+        $cmd->execute();
+
+        $this->logger->info("Done");
     }
 }
