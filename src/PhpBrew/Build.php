@@ -164,6 +164,23 @@ class Build
         return $this->sourceDirectory;
     }
 
+
+    /**
+     * An alias method of getInstallDirectory
+     */
+    public function getPrefixPath()
+    {
+        return $this->getInstallDirectory();
+    }
+
+
+    public function getBinPath()
+    {
+        return $this->getInstallDirectory() . DIRECTORY_SEPARATOR . 'bin';
+    }
+
+
+
     public function setInstallDirectory($dir)
     {
         $this->installDirectory = $dir;

@@ -15,7 +15,7 @@ class InstallTask extends BaseTask
         $this->logPath = $path;
     }
 
-    public function install()
+    public function install($build, $options)
     {
         $this->info("Installing...");
         $cmd = new CommandBuilder('make install');
@@ -23,7 +23,9 @@ class InstallTask extends BaseTask
         if($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
-        $cmd->execute() !== false or die('Install failed.');
+        if ( ! $options->dryrun ) {
+            $cmd->execute() !== false or die('Install failed.');
+        }
     }
 }
 

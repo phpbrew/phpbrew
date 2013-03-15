@@ -5,14 +5,13 @@ use PhpBrew\Config;
 use PhpBrew\PkgConfig;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
-use PhpBrew\Builder;
-use PhpBrew\VariantParser;
 
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
+use PhpBrew\VariantParser;
 use PhpBrew\Build;
 use PhpBrew\DirectorySwitch;
 
@@ -114,9 +113,7 @@ class InstallCommand extends \CLIFramework\Command
         $build->setSourceDirectory($targetDir);
 
 
-        $builder = new Builder($targetDir, $version);
-        $builder->logger = $this->logger;
-        $builder->options = $this->options;
+        chdir($targetDir);
 
         $this->logger->debug( 'Build Directory: ' . realpath($targetDir) );
 
@@ -140,22 +137,22 @@ class InstallCommand extends \CLIFramework\Command
 
         $buildLogFile = Config::getVersionBuildLogPath( $version );
 
-        // we should only run configure after cleaning files  (?)
-        $builder->configure($build);
+        $configure = new \PhpBrew\Tasks\ConfigureTask($this->logger);
+        $configure->configure($build, $this->options);
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
-        $buildTask->build();
+        $buildTask->build($build, $this->options);
 
         if ( $this->options->{'test'} ) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
-            $test->test();
+            $test->test($build, $this->options );
         }
 
         $install = new InstallTask($this->logger);
         $install->setLogPath($buildLogFile);
-        $install->install();
+        $install->install($build, $this->options);
 
         if ( $this->options->{'post-clean'} ) {
             $clean = new CleanTask($this->logger);
@@ -163,16 +160,8 @@ class InstallCommand extends \CLIFramework\Command
         }
 
         /** POST INSTALLATION **/
-
-        /* Check if php.dSYM exists */
-        // Fix php.dSYM
-        $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
-        if ( file_exists($dSYM)) {
-            $this->logger->info("---> Moving php.dSYM to php ");
-            $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
-            rename( $dSYM , $php );
-        }
-
+        $dsym = new \PhpBrew\Tasks\DSymTask($this->logger);
+        $dsym->patch( $build, $this->options );
 
 
         $phpConfigFile = $this->options->production ? 'php.ini-production' : 'php.ini-development';

@@ -13,22 +13,27 @@ class BuildTask extends BaseTask
         $this->logPath = $path;
     }
 
-    public function build($nice = null)
+    public function build($build,$options)
     {
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
         $cmd->append = true;
-        if($this->logPath) {
+        if ($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
-        if( $nice ) {
-            $cmd->nice($nice);
+
+        if ( $options->nice ) {
+            $cmd->nice($options->nice);
         }
-        $this->debug( '' .  $cmd  );
-        $startTime = microtime(true);
-        $cmd->execute() !== false or die('Make failed.');
-        $buildTime = (int)((microtime(true) - $startTime) / 60);
-        $this->info("Build finished: $buildTime minutes.");
+
+        $this->debug( $cmd->__toString()  );
+
+        if ( ! $options->dryrun ) {
+            $startTime = microtime(true);
+            $cmd->execute() !== false or die('Make failed.');
+            $buildTime = (int)((microtime(true) - $startTime) / 60);
+            $this->info("Build finished: $buildTime minutes.");
+        }
     }
 }
 
