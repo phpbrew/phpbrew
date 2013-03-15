@@ -41,13 +41,11 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('patch:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
+        $opts->add('d|dryrun','dryrun');
     }
 
     public function execute($version)
     {
-        $options = $this->options;
-        $logger = $this->logger;
-
 
         // get options and variants for building php
         $args = func_get_args();
@@ -134,7 +132,7 @@ class InstallCommand extends \CLIFramework\Command
         }
         $build->setExtraOptions( $variantInfo['extra_options'] );
 
-        if( $options->clean ) {
+        if( $this->options->clean ) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
@@ -148,7 +146,7 @@ class InstallCommand extends \CLIFramework\Command
         $buildTask->setLogPath($buildLogFile);
         $buildTask->build();
 
-        if( $options->{'test'} ) {
+        if( $this->options->{'test'} ) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
             $test->test();
@@ -158,7 +156,7 @@ class InstallCommand extends \CLIFramework\Command
         $install->setLogPath($buildLogFile);
         $install->install();
 
-        if( $options->{'post-clean'} ) {
+        if( $this->options->{'post-clean'} ) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
@@ -176,7 +174,7 @@ class InstallCommand extends \CLIFramework\Command
 
 
 
-        $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
+        $phpConfigFile = $this->options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigFile ");
         if( file_exists($phpConfigFile) ) {
             if( ! file_exists( Config::getVersionEtcPath($version) ) )
