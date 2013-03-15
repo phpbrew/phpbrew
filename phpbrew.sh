@@ -65,6 +65,12 @@ function phpbrew ()
                 fi
             fi
             ;;
+        cd-src)
+            local SOURCE_DIR=$PHPBREW_HOME/build/$PHPBREW_PHP
+            if [[ -d $SOURCE_DIR ]] ; then
+                cd $SOURCE_DIR
+            fi
+            ;;
         switch)
             if [[ -z "$2" ]]
             then
@@ -149,9 +155,9 @@ function __phpbrew_remove_purge ()
         return 1
     fi
 
-    _PHP_BIN_PATH=$PHPBREW_HOME/php/$1
-    _PHP_SOURCE_FILE=$PHPBREW_HOME/build/$1.tar.bz2
-    _PHP_BUILD_PATH=$PHPBREW_HOME/build/$1
+    local _PHP_BIN_PATH=$PHPBREW_HOME/php/$1
+    local _PHP_SOURCE_FILE=$PHPBREW_HOME/build/$1.tar.bz2
+    local _PHP_BUILD_PATH=$PHPBREW_HOME/build/$1
 
     if [ -d $_PHP_BIN_PATH ]; then
 
