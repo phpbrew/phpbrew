@@ -45,12 +45,11 @@ class InstallCommand extends \CLIFramework\Command
 
     public function execute($version)
     {
-        if( preg_match('/^\d+\.\d+\.\d+$/', $version) )
+        if( ! preg_match('/^php-/', $version) )
             $version = 'php-' . $version;
 
         $options = $this->options;
         $logger = $this->logger;
-
 
         // get options and variants for building php
         $args = func_get_args();

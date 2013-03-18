@@ -108,7 +108,7 @@ function phpbrew ()
                     echo "Currently using $PHPBREW_PHP"
                 fi
             else
-                if [[ "$(echo $2 | grep '^[0-9]\+\.[0-9]\+\.[0-9]\+$')" != "" ]]
+                if [[ "$(echo $2 | grep '^php\-')" == "" ]]
                 then
                     _PHP_VERSION="php-$2"
                 else
@@ -201,7 +201,7 @@ function __phpbrew_set_path ()
 
 function __phpbrew_reinit () 
 {
-    if [[ "$(echo $1 | grep '^[0-9]\+\.[0-9]\+\.[0-9]\+$')" != "" ]]
+    if [[ "$(echo $1 | grep '^php\-')" == "" ]]
     then
         _PHP_VERSION="php-$1"
     else
@@ -220,7 +220,7 @@ function __phpbrew_reinit ()
 
 function __phpbrew_remove_purge ()
 {
-    if [[ "$(echo $1 | grep '^[0-9]\+\.[0-9]\+\.[0-9]\+$')" != "" ]]
+    if [[ "$(echo $1 | grep '^php\-')" == "" ]]
     then
         _PHP_VERSION="php-$1"
     else
@@ -269,6 +269,11 @@ function __phpbrew_remove_purge ()
 }
 EOS;
 // SHBLOCK }}}
+
+
+
+
+
 
 
 
