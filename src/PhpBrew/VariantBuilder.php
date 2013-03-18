@@ -284,12 +284,14 @@ class VariantBuilder
                 return "--with-iconv";
                 // return "--with-iconv=$prefix";
             }
+            return "--with-iconv";
         };
 
-        $this->variants['bz2'] = function($prefix = null) {
+        $this->variants['bz2'] = function($build, $prefix = null) {
             if( ! $prefix && $prefix = Utils::find_include_prefix('bzlib.h') ) {
                     return '--with-bz2=' . $prefix;
             }
+            return '--with-bz2';
         };
 
         $this->variants['ipc'] = function($build) {
