@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2013-03-18</date>
-  <time>12:30:22</time>
+  <time>12:31:42</time>
   <version>
     <release>1.8.16</release>
     <api>1.8.16</api>
@@ -36,7 +36,7 @@
       <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="75f0cca991cf9cddbcf443f93de10f4e"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="baf82fa02bacf2815dbab94fc9d366a7"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="ad4c9c980766b198aa41e0fface0c849"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="a6a92e3aceaebf08066e11e18ece6e44"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="9b538ded16516019cd216c1203431895"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
@@ -70,7 +70,7 @@
       <file name="src/PhpBrew/Tasks/RemoveTask.php" role="php" md5sum="a08da7a66c6b6ca570b66962bc7cccb3"/>
       <file name="src/PhpBrew/Tasks/TestTask.php" role="php" md5sum="1c467afac631b0aef76aaae3762dc09b"/>
       <file name="src/PhpBrew/Utils.php" role="php" md5sum="7ac3e8951ac8af1a26f97b2391350cbd"/>
-      <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="35f1927c2a3444b9246768d7e77ad386"/>
+      <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="f14eb79813cc640718be76dbf2929eff"/>
       <file name="src/PhpBrew/VariantFinder.php" role="php" md5sum="2a8cb1290d239db323a495784b6e8a9c"/>
       <file name="src/PhpBrew/VariantParser.php" role="php" md5sum="965b8cbffc0177c7ce31d08b4bf3883b"/>
       <file name="bin/phpbrew" role="script" md5sum="65b14bb59d9bffb463471f9b9538dc6b"/>
