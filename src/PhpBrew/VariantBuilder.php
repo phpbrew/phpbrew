@@ -138,7 +138,7 @@ class VariantBuilder
             }
         };
 
-        $this->variants['readline'] = function() {
+        $this->variants['readline'] = function($build,$prefix = null) {
             $opts = array();
             if( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                 $opts[] = '--with-readline=' . $prefix;
@@ -288,8 +288,10 @@ class VariantBuilder
         };
 
         $this->variants['bz2'] = function($build, $prefix = null) {
-            if( ! $prefix && $prefix = Utils::find_include_prefix('bzlib.h') ) {
+            if( ! $prefix ) {
+                if ( $prefix = Utils::find_include_prefix('bzlib.h') ) {
                     return '--with-bz2=' . $prefix;
+                }
             }
             return '--with-bz2';
         };
