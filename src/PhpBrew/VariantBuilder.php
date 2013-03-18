@@ -76,6 +76,7 @@ class VariantBuilder
             'tokenizer',
             'xml_all',
             'zip',
+            'bz2',
         )
     );
 
