@@ -508,7 +508,7 @@ class VariantBuilder
         $opts = array_merge( $opts ,
             $this->getVersionSpecificOptions($version) );
         */
-        $options =  $this->options;
+        $options =  array_merge(array(),$this->options);
 
         // reset options
         $this->options = array();
