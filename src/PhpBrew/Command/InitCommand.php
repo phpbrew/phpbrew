@@ -108,11 +108,11 @@ function phpbrew ()
                     echo "Currently using $PHPBREW_PHP"
                 fi
             else
-                if [[ "$(echo $2 | grep '^php\-')" == "" ]]
+                if [[ $2 =~ ^php- ]]
                 then
-                    _PHP_VERSION="php-$2"
-                else
                     _PHP_VERSION=$2
+                else
+                    _PHP_VERSION="php-$2"
                 fi
 
                 # checking php version exists?
@@ -201,11 +201,11 @@ function __phpbrew_set_path ()
 
 function __phpbrew_reinit () 
 {
-    if [[ "$(echo $1 | grep '^php\-')" == "" ]]
+    if [[ $1 =~ ^php- ]]
     then
-        _PHP_VERSION="php-$1"
-    else
         _PHP_VERSION=$1
+    else
+        _PHP_VERSION="php-$1"
     fi
 
     if [[ ! -d "$PHPBREW_HOME" ]]
@@ -220,11 +220,11 @@ function __phpbrew_reinit ()
 
 function __phpbrew_remove_purge ()
 {
-    if [[ "$(echo $1 | grep '^php\-')" == "" ]]
+    if [[ $1 =~ ^php- ]]
     then
-        _PHP_VERSION="php-$1"
-    else
         _PHP_VERSION=$1
+    else
+        _PHP_VERSION="php-$1"
     fi
 
     if [[ "$_PHP_VERSION" = "$PHPBREW_PHP" ]]
@@ -270,40 +270,5 @@ function __phpbrew_remove_purge ()
 EOS;
 // SHBLOCK }}}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 }
