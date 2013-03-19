@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew;
 use PEARX;
+use PhpBrew\Utils;
 
 class ExtensionInstaller
 {
@@ -34,7 +35,7 @@ class ExtensionInstaller
 
         // extract
         $this->logger->info("===> Extracting $basename...");
-        system("tar xf $basename");
+        Utils::system("tar xf $basename");
 
         $info = pathinfo($basename);
         $dir = $info['filename'];
@@ -48,7 +49,7 @@ class ExtensionInstaller
         $sw->cd( $dir );
 
         $this->logger->info("===> Phpizing...");
-        system('phpize > build.log');
+        Utils::system('phpize > build.log');
 
         // here we don't want to use closure, because
         // 5.2 does not support closure. We haven't decided whether to
@@ -58,18 +59,23 @@ class ExtensionInstaller
             $escapeOptions[] = escapeshellarg($opt);
         }
         $this->logger->info("===> Configuring...");
-        system('./configure ' . join(' ', $escapeOptions) . ' >> build.log' )
+        Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log' )
             !== false or die('Configure failed.');
 
         $this->logger->info("===> Building...");
-        system('make >> build.log') !== false or die('Build failed.');
+        Utils::system('make >> build.log');
 
         $this->logger->info("===> Installing...");
 
         // This function is disabled when PHP is running in safe mode.
         $output = shell_exec('make install');
-        $this->logger->debug($output);
 
+        if ( ! $output ) {
+            throw new Exception("Extension Install Failed.");
+        }
+
+
+        $this->logger->debug($output);
         $lines = explode("\n", $output );
 
         $installedPath = null;
