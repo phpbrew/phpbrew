@@ -11,10 +11,10 @@
     <active>yes</active>
   </lead>
   <date>2013-03-19</date>
-  <time>18:04:50</time>
+  <time>18:04:59</time>
   <version>
-    <release>1.8.16</release>
-    <api>1.8.16</api>
+    <release>1.8.17</release>
+    <api>1.8.17</api>
   </version>
   <stability>
     <release>stable</release>
@@ -36,7 +36,7 @@
       <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="75f0cca991cf9cddbcf443f93de10f4e"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="baf82fa02bacf2815dbab94fc9d366a7"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="60c086b8139e64d806cbef9a02fc0887"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="1d4c0826f9f32a5217cbc2b65e37a59b"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="ad33f25193950581e827e13e6e14b17c"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
@@ -49,7 +49,7 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="0053b17f2752645c43c26ef55c72e792"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="f1d81cc805032ef0bb62ecc464399a7f"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="753a4e3f6206b883738682710903d690"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="570fea7125fc07a6b7b361c541256ec0"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="cc0ca461ddeee4075d4f3d3652771715"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="c524ece35d0c88729e6c1e26f246ef27"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="d44b47d94dc2e2f4077a4197c15497c3"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="e9aa74836b25eea8cbc1f44cb563ebb4"/>
