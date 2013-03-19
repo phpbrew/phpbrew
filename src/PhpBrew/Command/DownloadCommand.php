@@ -29,6 +29,9 @@ class DownloadCommand extends Command
 
     public function execute($version)
     {
+        if( ! preg_match('/^php-/', $version) )
+            $version = 'php-' . $version;
+
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
             throw new Exception("Version $version not found.");

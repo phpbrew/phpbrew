@@ -12,5 +12,6 @@ Sort alphabatically:
 - Rack Lin <racklin _at_ gmail.com>
 - Yi-Feng Tzeng <yftzeng _at_ gmail.com>
 - Zhang Erning <zhang _at_ erning.com>
+- Scar Wu <xneriscool _at_ gmail.com>
 - shelling <navyblueshellingford _at_ gmail.com>
 - ujihisa <ujihisa _at_ gmail.com>
