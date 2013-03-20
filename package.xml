@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2013-03-20</date>
-  <time>16:36:00</time>
+  <time>16:37:58</time>
   <version>
     <release>1.8.18</release>
     <api>1.8.18</api>
@@ -36,7 +36,7 @@
       <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="75f0cca991cf9cddbcf443f93de10f4e"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="baf82fa02bacf2815dbab94fc9d366a7"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="c5b658c33bf433969a015dcde8748e11"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="92fdf7b15c7de5c232081db728b74a63"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="ad33f25193950581e827e13e6e14b17c"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
