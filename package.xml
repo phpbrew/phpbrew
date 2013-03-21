@@ -10,8 +10,8 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2013-03-20</date>
-  <time>16:37:58</time>
+  <date>2013-03-21</date>
+  <time>08:55:36</time>
   <version>
     <release>1.8.18</release>
     <api>1.8.18</api>
@@ -36,7 +36,7 @@
       <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="75f0cca991cf9cddbcf443f93de10f4e"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="baf82fa02bacf2815dbab94fc9d366a7"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="92fdf7b15c7de5c232081db728b74a63"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="abac3de52156c3ae5c10cf521568212f"/>
       <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="ad33f25193950581e827e13e6e14b17c"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
@@ -54,7 +54,7 @@
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="d44b47d94dc2e2f4077a4197c15497c3"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="e9aa74836b25eea8cbc1f44cb563ebb4"/>
       <file name="src/PhpBrew/Exceptions/OopsException.php" role="php" md5sum="063e47042173cb069d7a599ed16d5914"/>
-      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="a4e7829b29ed14c4b2b1fa0e3a288abe"/>
+      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="9a0a0ca04fd48be8f3dffb45f9ea81cd"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
       <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="87cf6078e179a0e3e6d4f173dad36a2a"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
