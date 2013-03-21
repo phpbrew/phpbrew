@@ -1,0 +1,14 @@
+{
+    "name": "corneltek/phpbrew",
+    "description": "PHPBrew API library",
+    "authors": [
+        {
+            "name": "c9s",
+            "email": "cornelius.howl@gmail.com"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload":  { "PHPBrew": "src" }
+}
