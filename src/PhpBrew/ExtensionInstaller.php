@@ -49,6 +49,17 @@ class ExtensionInstaller
         $sw->cd( $dir );
 
         $this->logger->info("===> Phpizing...");
+
+        if ( ! file_exists('config.m4') ) {
+            $this->logger->warn("File config.m4 not found, checking config0.m4");
+            if ( file_exists('config0.m4') ) {
+                $this->logger->info("Found config.0.m4, copying to config.m4");
+                if ( false === copy('config0.m4','config.m4') ) {
+                    throw new Exception("Copy failed.");
+                }
+            }
+        }
+
         Utils::system('phpize > build.log');
 
         // here we don't want to use closure, because
