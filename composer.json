@@ -1,5 +1,5 @@
 {
-    "name": "corneltek/phpbrew",
+    "name": "corneltek\/phpbrew",
     "description": "PHPBrew API library",
     "authors": [
         {
@@ -7,8 +7,11 @@
             "email": "cornelius.howl@gmail.com"
         }
     ],
-    "require": {
+    "require": [
 
+    ],
+    "autoload": {
+        "PHPBrew": "src"
     },
-    "autoload":  { "PHPBrew": "src" }
+    "version": "1.8.19"
 }
