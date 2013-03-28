@@ -7,9 +7,9 @@
             "email": "cornelius.howl@gmail.com"
         }
     ],
-    "require": [
-
-    ],
+    "require": {
+        "corneltek/cliframework": "~1.5"
+    },
     "autoload": {
         "PHPBrew": "src"
     },
