@@ -8,7 +8,11 @@
         }
     ],
     "require": {
-        "corneltek/cliframework": "~1.5"
+        "corneltek/cliframework": "~1.5",
+        "corneltek/pearx": "*"
+    },
+    "require-dev": {
+        "corneltek/phpunit-testmore": "dev-master"
     },
     "autoload": {
         "PHPBrew": "src"
