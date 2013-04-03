@@ -6,14 +6,17 @@ phpbrew builds and installs multiple version php(s) in your $HOME directory.
 phpbrew also manage the environment variables, so you can `use`, `switch` php
 version whenever you need.
 
-phpbrew can:
+[![Build Status](https://secure.travis-ci.org/c9s/phpbrew.png)](http://travis-ci.org/c9s/phpbrew)
 
-- build php with different variants like PDO, mysql, sqlite, debug ...etc.
-- compile apache php module and seperate them by different versions.
-- build and install php(s) in your home directory, so you don't need root permission.
-- switch versions very easily and is integrated with bash/zsh shell.
-- automatic feature detection.
-- install multiple php into system-wide environment.
+What phpbrew can do for you:
+
+- Build php with different variants like PDO, mysql, sqlite, debug ...etc.
+- Compile apache php module and seperate them by different versions.
+- Build and install php(s) in your home directory, so you don't need root permission.
+- Switch versions very easily and is integrated with bash/zsh shell.
+- Automatic feature detection.
+- Install & enable php extensions into current environment with ease.
+- Install multiple php into system-wide environment.
 
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
 
@@ -446,7 +449,6 @@ e.g.
     PS1=" $PHP_VERSION \$ "
 ```
 
-
 Known Issues
 ------------
 
@@ -462,48 +464,6 @@ Known Issues
            --with-png-dir=/usr
 
 
-Hacking
--------
-Install Onion first:
-
-    $ curl http://install.onionphp.org/ | sh
-
-Install dependencies:
-
-    $ onion -d install
-
-Initialize
-
-    $ php bin/phpbrew init
-
-To hack with phpbrew shell script:
-
-    $ vim phpbrew.sh
-
-And then update the init script to the command class:
-
-    $ ./scripts/update-init-script
-
-List known versions:
-
-    $ php bin/phpbrew known
-
-Test your command through the `bin/phpbrew`:
-
-    $ php bin/phpbrew -d install --no-test 5.4.0RC7
-
-To show which phpbrew is running:
-
-    $ unset -f phpbrew
-    $ which phpbrew
-
-Re-compile phar file for testing:
-
-    $ scripts/compile
-
-Add yourself to the contributor list in README.md
-
-Then send pull request.
 
 PHP Release channels
 --------------------
@@ -517,27 +477,10 @@ Community
 
 Join us on #php-tw on irc.freenode.net
 
-Contributors
-------------
-
-Sort alphabatically:
-
-* daniele-orlando
-* erning
-* gasol
-* jaceju
-* markwu
-* racklin
-* shelling
-* ujihisa
-* yftzeng
-
-
-
 Author
 ------
 
-    Yo-An Lin (c9s)  <cornelius.howl@gmail.com>
+Yo-An Lin (c9s)  <cornelius.howl _at_ gmail.com>
 
 License
 --------

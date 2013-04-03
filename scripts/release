@@ -1,5 +1,5 @@
 #!/bin/bash
-scripts/bump-version
+# scripts/bump-version
 scripts/update-init-script
 scripts/compile
 onion build

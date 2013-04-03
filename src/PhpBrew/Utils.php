@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+use Exception;
 
 class Utils
 {
@@ -96,8 +97,10 @@ class Utils
 
     static function system($command, $msg = 'execute fail')
     {
-        system( $command ) !== false 
-            or die($msg);
+        $lastline = system( $command, $retval );
+        if ( $retval != 0 ) {
+            throw new Exception($lastline);
+        }
     }
 
     static function findbin($bin)
