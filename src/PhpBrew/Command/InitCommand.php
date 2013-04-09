@@ -56,7 +56,7 @@ EOS;
     public function getBashScript()
     {
         // SHBLOCK {{{
-    return <<<'EOS'
+        return <<<'EOS'
 #!/bin/bash
 # Brought from gugod's perlbrew.
 # Author: Yo-An Lin
@@ -269,12 +269,6 @@ function __phpbrew_remove_purge ()
 }
 EOS;
 // SHBLOCK }}}
-
-
-
-
-
-
 
     }
 }
