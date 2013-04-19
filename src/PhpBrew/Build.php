@@ -291,5 +291,17 @@ class Build implements Serializable
     {
         return get_object_vars($this);
     }
+
+    public function writeFile($file)
+    {
+        file_put_contents($file, $this->serialize());
+    }
+
+    public function loadFile($file)
+    {
+        $serialized = file_get_contents($file);
+        $this->unserialize($serialized);
+    }
+
 }
 

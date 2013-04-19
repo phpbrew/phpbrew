@@ -107,7 +107,7 @@ class InstallCommand extends \CLIFramework\Command
         file_put_contents($variantInfoFile, serialize($variantInfo));
 
 
-        // The build object, contains the information to build php.
+        // Create new build object, add the informations of building php.
         $build = new Build;
         $build->setName($name);
         $build->setVersion($version);
