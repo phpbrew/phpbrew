@@ -7,7 +7,7 @@ use Serializable;
  * variant configuration, 
  * paths and an build identifier (BuildId)
  */
-class Build // implements Serializable
+class Build implements Serializable
 {
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
@@ -263,25 +263,33 @@ class Build // implements Serializable
     public function __set_state($data)
     {
         $build = new self;
-        $build->name = $data['name'];
-        $build->version = $data['version'];
-        $build->variants = $data['variants'];
-        $build->disabledVariants = $data['disabledVariants'];
-        $build->sourceDirectory = $data['sourceDirectory'];
-        $build->installDirectory = $data['installDirectory'];
-        $build->extraOptions = $data['extraOptions'];
-        $build->phpEnvironment = $data['phpEnvironment'];
+        $build->import($data);
         return $build;
     }
 
 
-/*
-    public function serialize() {
-        return array( 
-        
-        );
-    }*/
+    public serialize( void )
+    {
+        return serialize($this->export());
+    }
+
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->import($data);
+    }
+
+
+    public function import($data)
+    {
+        foreach( $data as $key => $value ) {
+            $this->{$key} = $value;
+        }
+    }
+
+    public function export($data)
+    {
+        return get_object_vars($this);
+    }
 }
-
-
 
