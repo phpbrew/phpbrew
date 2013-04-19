@@ -203,8 +203,6 @@ class Build // implements Serializable
         return $this->installDirectory . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-
-
     public function getInstallDirectory()
     {
         return $this->installDirectory;
@@ -260,6 +258,22 @@ class Build // implements Serializable
     {
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
+
+
+    public function __set_state($data)
+    {
+        $build = new self;
+        $build->name = $data['name'];
+        $build->version = $data['version'];
+        $build->variants = $data['variants'];
+        $build->disabledVariants = $data['disabledVariants'];
+        $build->sourceDirectory = $data['sourceDirectory'];
+        $build->installDirectory = $data['installDirectory'];
+        $build->extraOptions = $data['extraOptions'];
+        $build->phpEnvironment = $data['phpEnvironment'];
+        return $build;
+    }
+
 
 /*
     public function serialize() {
