@@ -188,6 +188,23 @@ class Build // implements Serializable
         $this->installDirectory = $dir;
     }
 
+    public function getEtcDirectory() 
+    {
+        return $this->installDirectory . DIRECTORY_SEPARATOR . 'etc';
+    }
+
+    public function getVarDirectory() 
+    {
+        return $this->installDirectory . DIRECTORY_SEPARATOR . 'var';
+    }
+
+    public function getVarConfigDirectory()
+    {
+        return $this->installDirectory . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+    }
+
+
+
     public function getInstallDirectory()
     {
         return $this->installDirectory;
