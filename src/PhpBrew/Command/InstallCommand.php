@@ -11,6 +11,8 @@ use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
+use PhpBrew\Tasks\DSymTask;
+
 use PhpBrew\VariantParser;
 use PhpBrew\Build;
 use PhpBrew\DirectorySwitch;
@@ -160,7 +162,7 @@ class InstallCommand extends \CLIFramework\Command
         }
 
         /** POST INSTALLATION **/
-        $dsym = new \PhpBrew\Tasks\DSymTask($this->logger);
+        $dsym = new DSymTask($this->logger);
         $dsym->patch( $build, $this->options );
 
 

@@ -1,11 +1,13 @@
 <?php
 namespace PhpBrew;
+use Serializable;
 
 /**
  * A build object contains version information, 
- * variant configuration, paths and an build identifier (BuildId)
+ * variant configuration, 
+ * paths and an build identifier (BuildId)
  */
-class Build
+class Build // implements Serializable
 {
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
@@ -242,8 +244,12 @@ class Build
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
 
-
-
+/*
+    public function serialize() {
+        return array( 
+        
+        );
+    }*/
 }
 
 
