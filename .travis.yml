@@ -11,3 +11,5 @@ before_script:
   - composer install --dev
 
 script: phpunit --debug
+notifications:
+  webbooks: http://wireroom.extremedev.org/=/travis-ci/Hall
