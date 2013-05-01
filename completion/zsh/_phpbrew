@@ -1,0 +1,67 @@
+#compdef phpbrew
+
+_phpbrew_comp() { 
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local -A variants_args
+
+    phps_args='php-5.3.24 php-5.4.14 php-5.4.13 php-5.4.12 php-5.4.10 php-5.4.9'
+
+    variants_args='+all +apxs2 +bcmath +bz2 +calendar +cgi +cli +ctype
+        +dba +debug +dom +embed +exif +fileinfo +filter +fpm
+        +ftp +gcov +gd +gettext +hash +iconv +icu +imap +intl
+        +ipc +ipv6 +json +kerberos +mbregex +mbstring +mcrypt
+        +mhash +mysql +openssl +pcntl +pcre +pdo +pgsql +phar
+        +posix +readline +session +soap +sockets +sqlite +tidy
+        +tokenizer +xml_all +xmlrpc +zip +zlib +dbs +default'
+
+    _arguments -C \
+        '(-)--help[print help information]' \
+        '(- *)--version[print version information]' \
+        '1: :->cmds' \
+        '*:: :->args' && ret=0
+ 
+    case $state in
+    cmds)
+        # _arguments '1:Countries:(France Germany Italy)'
+        _arguments '1:Commands:((
+            init\:initialize\ phpbrew\ config 
+            install\:install\ php 
+            list\:list\ installed\ phps
+            known\:list\ known\ phps
+            ext\:extension\ commands
+            variants\:list\ variants
+            use\:use\ php\ version
+            switch\:switch\ php\ version
+            clean\:clean\ php\ build
+            download
+            self-update
+            remove
+            purge
+            info
+            env
+        ))'
+    ;;
+    *)
+        case $words[1] in
+        install)
+            _arguments "1:phps:(($phps_args))" \
+                "*:variants:(($variants_args))"
+            # compadd "$@" php-5.3.24 php-5.4.14 php-5.4.13 php-5.4.12 php-5.4.10 php-5.4.9
+        ;;
+        use|switch|remove|clean)
+            for dir in $PHPBREW_HOME/php/* ; do 
+                if [[ -d $dir ]] ; then
+                    php_name=$(basename $dir)
+                    compadd "$@" "$php_name"
+                fi
+            done
+        ;;
+        *)
+            _files 
+        esac 
+    esac 
+}
+ 
+_phpbrew_comp "$@"
