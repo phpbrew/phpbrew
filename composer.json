@@ -15,6 +15,7 @@
         "symfony/console": "~2.2",
         "symfony/css-selector": "~2.2",
         "symfony/dom-crawler": "~2.2",
+        "symfony/process": "~2.2",
         "guzzle/guzzle": ">=3.0, <3.4"
     },
     "require-dev": {

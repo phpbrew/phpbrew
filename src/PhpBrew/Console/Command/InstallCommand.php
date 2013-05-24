@@ -94,7 +94,7 @@ class InstallCommand extends Command
         $buildDir = Config::getBuildDir();
         chdir($buildDir);
 
-        $download = new DownloadTask($this->logger);
+        $download = new DownloadTask($this->logger, $buildDir);
         $targetDir = $download->downloadByVersionString($version, $input->getOption('old'), $input->getOption('force'));
 
         if (!file_exists($targetDir)) {
@@ -103,7 +103,6 @@ class InstallCommand extends Command
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
-
 
         $buildPrefix = Config::getVersionBuildPrefix($version);
 
@@ -115,7 +114,6 @@ class InstallCommand extends Command
         $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
         file_put_contents($variantInfoFile, serialize($variantInfo));
-
 
         // The build object, contains the information to build php.
         $build = new Build;

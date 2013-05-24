@@ -4,6 +4,7 @@ namespace PhpBrew;
 
 use DOMDocument;
 use Guzzle\Http\Client;
+use Guzzle\Http\Exception\RequestException;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -63,8 +64,13 @@ class PhpSource
 
         foreach ($downloadUrls as $downloadUrl) {
             // @todo better error handling.
-            $html = $client->get($downloadUrl)->send()->getBody(true);
-            $crawler->add($html);
+            try {
+                $html = $client->get($downloadUrl)->send()->getBody(true);
+                $crawler->add($html);
+            } catch (RequestException $e) {
+                echo $e->getMessage();
+                continue;
+            }
 
             /* $html = @file_get_contents($downloadUrl);
             if( ! $html ) {
