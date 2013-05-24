@@ -50,13 +50,13 @@ class DownloadTask extends BaseTask
         $file = $downloader->download($url);
 
         // unpack the tarball file
-        $targetDir = basename($file, '.tar.bz2');
+        $targetDir = dirname($file).DIRECTORY_SEPARATOR.basename($file, '.tar.bz2');
 
         // if we need to extract again (?)
         if ($forceExtract || ! file_exists($targetDir . DIRECTORY_SEPARATOR . 'configure')) {
             $this->info("===> Extracting $file...");
 
-            $process = new Process("tar -xjf $file");
+            $process = new Process("tar -xjf $file -C " . dirname($targetDir));
             $process->run();
 
             if (!$process->isSuccessful()) {

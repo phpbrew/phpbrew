@@ -90,9 +90,8 @@ class InstallCommand extends Command
             // $this->options->keys['patch']->value = $patch;
         }
 
-        // Move to to build directory, because we are going to download distribution.
+        // Get the build directory as target for the distribution download.
         $buildDir = Config::getBuildDir();
-        chdir($buildDir);
 
         $download = new DownloadTask($this->logger, $buildDir);
         $targetDir = $download->downloadByVersionString($version, $input->getOption('old'), $input->getOption('force'));
@@ -112,7 +111,10 @@ class InstallCommand extends Command
 
         // write variants info.
         $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-        $this->logger->debug("Writing variant info to $variantInfoFile");
+        if (OutputInterface::VERBOSITY_VERBOSE === $output->getVerbosity()) {
+            $output->writeln("Writing variant info to $variantInfoFile");
+        }
+
         file_put_contents($variantInfoFile, serialize($variantInfo));
 
         // The build object, contains the information to build php.
@@ -122,12 +124,13 @@ class InstallCommand extends Command
         $build->setInstallDirectory($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
-
         $builder = new Builder($targetDir, $version);
         $builder->logger = $this->logger;
         $builder->options = $this->options;
 
-        $this->logger->debug( 'Build Directory: ' . realpath($targetDir) );
+        if (OutputInterface::VERBOSITY_VERBOSE === $output->getVerbosity()) {
+            $output->writeln('Build Directory: '.realpath($targetDir));
+        }
 
         foreach( $variantInfo['enabled_variants'] as $name => $value ) {
             $build->enableVariant($name, $value);
@@ -136,10 +139,11 @@ class InstallCommand extends Command
         foreach( $variantInfo['disabled_variants'] as $name => $value ) {
             $build->disableVariant($name);
             if($build->hasVariant($name) ) {
-                $this->logger->warn("Removing variant $name since we've disabled it from command.");
+                $output->writeln('<comment>Removing variant $name since we\'ve disabled it from command.</comment>');
                 $build->removeVariant($name);
             }
         }
+
         $build->setExtraOptions( $variantInfo['extra_options'] );
 
         if( $options->clean ) {
@@ -181,8 +185,6 @@ class InstallCommand extends Command
             $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
             rename( $dSYM , $php );
         }
-
-
 
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigFile ");
