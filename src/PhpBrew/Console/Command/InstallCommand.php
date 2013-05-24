@@ -31,19 +31,6 @@ class InstallCommand extends Command
     /* public function usage()
     {
         return 'phpbrew install [php-version] ([+variant...])';
-    }
-
-    public function options($opts)
-    {
-        $opts->add('test','run tests');
-        $opts->add('name:','prefix name');
-        $opts->add('clean','Run make clean before building.');
-        $opts->add('post-clean','Run make clean after building PHP.');
-        $opts->add('production','Use production configuration');
-        $opts->add('n|nice:', 'process nice level');
-        $opts->add('patch:',  'apply patch before build');
-        $opts->add('old','install old phps (less than 5.3)');
-        $opts->add('f|force','force');
     } */
 
     protected function configure()
@@ -53,6 +40,15 @@ class InstallCommand extends Command
             ->setDescription('Install php.')
             ->setDefinition(array(
                 new InputArgument('version', InputArgument::OPTIONAL, 'The php version to download'),
+                new InputOption('test', null, InputOption::VALUE_NONE, 'Run tests'),
+                new InputOption('name', null, InputOption::VALUE_REQUIRED, 'Prefix name'),
+                new InputOption('clean', null, InputOption::VALUE_NONE, 'Run make clean before building'),
+                new InputOption('post-clean', null, InputOption::VALUE_NONE, 'Run make clean after building PHP'),
+                new InputOption('production', null, InputOption::VALUE_NONE, 'Use production configuration'),
+                new InputOption('nice', 'n', InputOption::VALUE_NONE, 'Process nice level'),
+                new InputOption('patch', null, InputOption::VALUE_REQUIRED, 'Apply patch before build'),
+                new InputOption('old', null, InputOption::VALUE_NONE, 'Install old phps (less than 5.3)'),
+                new InputOption('force', 'f', InputOption::VALUE_NONE, 'Force'),
             ));
     }
 

@@ -12,21 +12,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class KnownCommand extends Command
 {
-    /* public function options($opts)
-    {
-        $opts->add('svn','list subversion phps');
-        $opts->add('old','list old phps (less than 5.3)');
-        $managers = PhpSource::getReleaseManagers();
-        foreach($managers as $id => $fullName) {
-            $opts->add($id,"list $id phps");
-        }
-    } */
-
     protected function configure()
     {
+        $definitions = array(
+            new InputOption('svn', null, InputOption::VALUE_NONE, 'List subversion phps'),
+            new InputOption('old', null, InputOption::VALUE_NONE, 'List old phps (less than 5.3)'),
+        );
+
+        $managers = PhpSource::getReleaseManagers();
+        foreach($managers as $id => $fullName) {
+            $definitions[] = new InputOption($id, null, InputOption::VALUE_NONE, "List $id phps");
+        }
+
         $this
             ->setName('known')
             ->setDescription('List known PHP versions.');
+            ->setDefinition($definitions);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
