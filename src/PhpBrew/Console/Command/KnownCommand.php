@@ -1,13 +1,18 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
+
 use DOMDocument;
 use PhpBrew\PhpSource;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class KnownCommand extends \CLIFramework\Command
+class KnownCommand extends Command
 {
-    public function brief() { return 'list known PHP versions'; }
-
-    public function options($opts) 
+    /* public function options($opts)
     {
         $opts->add('svn','list subversion phps');
         $opts->add('old','list old phps (less than 5.3)');
@@ -15,9 +20,16 @@ class KnownCommand extends \CLIFramework\Command
         foreach($managers as $id => $fullName) {
             $opts->add($id,"list $id phps");
         }
+    } */
+
+    protected function configure()
+    {
+        $this
+            ->setName('known')
+            ->setDescription('List known PHP versions.');
     }
 
-    public function execute()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $stableVersions = PhpSource::getStableVersions( $this->options->old );
         echo "Available stable versions:\n";

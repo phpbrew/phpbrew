@@ -1,5 +1,7 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
+
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\PkgConfig;
@@ -7,7 +9,6 @@ use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Builder;
 use PhpBrew\VariantParser;
-
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
@@ -15,17 +16,19 @@ use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Build;
 use PhpBrew\DirectorySwitch;
-
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /*
  * TODO: refactor tasks to Task class.
  */
 
-class InstallCommand extends \CLIFramework\Command
+class InstallCommand extends Command
 {
-    public function brief() { return 'install php'; }
-
-    public function usage() 
+    /* public function usage()
     {
         return 'phpbrew install [php-version] ([+variant...])';
     }
@@ -41,10 +44,22 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('patch:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
+    } */
+
+    protected function configure()
+    {
+        $this
+            ->setName('install')
+            ->setDescription('Install php.')
+            ->setDefinition(array(
+                new InputArgument('version', InputArgument::OPTIONAL, 'The php version to download'),
+            ));
     }
 
-    public function execute($version)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $version = $input->getArgument('version');
+
         if( ! preg_match('/^php-/', $version) )
             $version = 'php-' . $version;
 

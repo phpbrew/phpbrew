@@ -1,16 +1,30 @@
 <?php
-namespace PhpBrew\Command;
-use PhpBrew\Config;
+
+namespace PhpBrew\Console\Command;
+
 use Exception;
+use PhpBrew\Config;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class EnvCommand extends \CLIFramework\Command
+class EnvCommand extends Command
 {
-    public function brief() { return 'export environment variables'; }
-
-
-
-    public function execute($version = null)
+    protected function configure()
     {
+        $this
+            ->setName('env')
+            ->setDescription('Export environment variables.')
+            ->setDefinition(array(
+                new InputArgument('version', InputArgument::OPTIONAL, 'The php version to download'),
+            ));
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $version = $input->getArgument('version');
+
         // get current version
         if( ! $version )
             $version = getenv('PHPBREW_PHP');

@@ -1,29 +1,32 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
 
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\PkgConfig;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class InfoCommand extends \CLIFramework\Command
+class InfoCommand extends Command
 {
-    public function brief() { return 'show current php information'; }
-
-    public function usage() { 
-        return 'phpbrew info';
+    protected function configure()
+    {
+        $this
+            ->setName('info')
+            ->setDescription('Show current php information.');
     }
 
-
-    public function header($text)
+    /* public function header($text)
     {
         $f = $this->logger->formatter;
         echo $f->format( $text . "\n" , 'strong_white' );
-    }
+    } */
 
-
-    public function execute()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->header( 'Version' );
         echo "PHP-" , phpversion(), "\n\n";
@@ -49,19 +52,19 @@ class InfoCommand extends \CLIFramework\Command
 
 
         $this->header( 'Extensions' );
-        
+
         $extensions = get_loaded_extensions();
         $this->logger->info( join( ', ', $extensions ) );
 
         echo "\n";
 
         $this->header( 'Database Extensions' );
-        foreach( array_filter($extensions, function($n) { return 
+        foreach( array_filter($extensions, function($n) { return
             in_array($n,array(
                 'PDO',
-                'pdo_mysql', 
-                'pdo_pgsql', 
-                'pdo_sqlite', 
+                'pdo_mysql',
+                'pdo_pgsql',
+                'pdo_sqlite',
                 'pgsql',
                 'mysqli',
                 'mysql',
@@ -71,8 +74,6 @@ class InfoCommand extends \CLIFramework\Command
             )); }) as $extname ) {
                 $this->logger->info( $extname, 1 );
         }
-
-
     }
 }
 

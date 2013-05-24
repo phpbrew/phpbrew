@@ -1,9 +1,15 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
+
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\Utils;
-use CLIFramework\Command;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ExtCommand extends Command
 {

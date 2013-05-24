@@ -1,19 +1,30 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
+
 use PhpBrew\Config;
 use PhpBrew\VariantParser;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class ListCommand extends \CLIFramework\Command
+class InstalledCommand extends Command
 {
-    public function brief() { return 'list installed PHP versions'; }
+    protected function configure()
+    {
+        $this
+            ->setName('installed')
+            ->setDescription('List installed PHP versions.');
+    }
 
-    public function execute()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $versions = Config::getInstalledPhpVersions();
         $currentVersion = Config::getCurrentPhpName();
 
-
-        // var_dump( $versions ); 
+        // var_dump( $versions );
         echo "Installed versions:\n";
 
         if ( $currentVersion === false or in_array($currentVersion, $versions) === false ) {

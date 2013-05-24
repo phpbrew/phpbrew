@@ -1,17 +1,16 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
+
 use PhpBrew\VariantBuilder;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class VariantsCommand extends \CLIFramework\Command
+class VariantsCommand extends Command
 {
-
-
-    public function brief() { return 'list php variants'; }
-
-    public function usage() { 
-        return 'phpbrew variants [php-version]';
-    }
-
     public function wrapLine($line, $prefix = "  ", $indent = "  ")
     {
         $lineX = 0;
@@ -27,7 +26,17 @@ class VariantsCommand extends \CLIFramework\Command
         return $newLine;
     }
 
-    public function execute($version = null)
+    protected function configure()
+    {
+        $this
+            ->setName('variants')
+            ->setDescription('List php variants.')
+            ->setDefinition(array(
+                new InputArgument('version', InputArgument::OPTIONAL, 'The php version to download'),
+            ));
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $variants = new VariantBuilder;
         $list = $variants->getVariantNames();
