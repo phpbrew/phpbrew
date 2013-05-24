@@ -26,7 +26,7 @@ class KnownCommand extends Command
 
         $this
             ->setName('known')
-            ->setDescription('List known PHP versions.');
+            ->setDescription('List known PHP versions.')
             ->setDefinition($definitions);
     }
 
