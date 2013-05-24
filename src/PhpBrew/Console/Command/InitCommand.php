@@ -1,12 +1,22 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
+
 use PhpBrew\Config;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class InitCommand extends \CLIFramework\Command
+class InitCommand extends Command
 {
-    public function brief() { return 'Initialize phpbrew config file.'; }
+    protected function configure()
+    {
+        $this
+            ->setName('init')
+            ->setDescription('Initialize phpbrew config file.');
+    }
 
-    public function execute()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         // $currentVersion;
         $root = Config::getPhpbrewRoot();
@@ -30,7 +40,7 @@ class InitCommand extends \CLIFramework\Command
         // $initScript = $root . DIRECTORY_SEPARATOR . 'init';
         file_put_contents( $bashScript , $this->getBashScript() );
 
-        echo <<<EOS
+        $output->writeln(<<<EOS
 Phpbrew environment is initialized, required directories are created under
 
     $home
@@ -49,18 +59,18 @@ For further instructions, simply run `phpbrew` to see the help message.
 
 Enjoy phpbrew at \$HOME!!
 
-EOS;
-
+EOS
+        );
     }
 
-    public function getBashScript()
+    protected function getBashScript()
     {
         // SHBLOCK {{{
     return <<<'EOS'
 #!/bin/bash
 # Brought from gugod's perlbrew.
 # Author: Yo-An Lin
-# NOTICE: This script is for local testing, to release updated script, 
+# NOTICE: This script is for local testing, to release updated script,
 # please also modify the src/PhpBrew/Command/InitCommand.php
 
 # default phpbrew root and phpbrew home path
@@ -199,7 +209,7 @@ function __phpbrew_set_path ()
     # echo "PATH => $PATH"
 }
 
-function __phpbrew_reinit () 
+function __phpbrew_reinit ()
 {
     if [[ $1 =~ ^php- ]]
     then

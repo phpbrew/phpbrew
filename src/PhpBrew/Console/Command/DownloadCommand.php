@@ -1,5 +1,7 @@
 <?php
-namespace PhpBrew\Command;
+
+namespace PhpBrew\Console\Command;
+
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\Variants;
@@ -9,26 +11,30 @@ use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\DirectorySwitch;
-
-use CLIFramework\Command;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class DownloadCommand extends Command
 {
-    public function brief() { return 'download php'; }
-
-    public function usage() 
+    protected function configure()
     {
-        return 'phpbrew download [php-version]';
+        $this
+            ->setName('download')
+            ->setDescription('Download php.')
+            ->setDefinition(array(
+                new InputArgument('version', InputArgument::REQUIRED, 'The php version to download'),
+                new InputOption('force', 'f', InputOption::VALUE_NONE, 'Force extraction'),
+                new InputOption('old', null, InputOption::VALUE_NONE, 'Enable old phps (less than 5.3)'),
+            ));
     }
 
-    public function options($opts)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $opts->add('f|force','Force extraction');
-        $opts->add('old','enable old phps (less than 5.3)');
-    }
+        $version = $input->getArgument('version');
 
-    public function execute($version)
-    {
         if( ! preg_match('/^php-/', $version) )
             $version = 'php-' . $version;
 

@@ -8,14 +8,21 @@
         }
     ],
     "require": {
+        "php": ">=5.3.3",
+        "ext-curl": "*",
         "corneltek/cliframework": "~1.5",
-        "corneltek/pearx": "*"
+        "corneltek/pearx": "*",
+        "symfony/console": "~2.2",
+        "symfony/css-selector": "~2.2",
+        "symfony/dom-crawler": "~2.2",
+        "symfony/process": "~2.2",
+        "guzzle/guzzle": ">=3.0, <3.4"
     },
     "require-dev": {
         "corneltek/phpunit-testmore": "dev-master"
     },
     "autoload": {
-        "PHPBrew": "src"
+        "psr-0": { "PhpBrew": "src" }
     },
     "version": "1.8.19"
 }

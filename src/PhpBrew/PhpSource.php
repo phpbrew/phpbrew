@@ -1,7 +1,11 @@
 <?php
-namespace PhpBrew;
-use DOMDocument;
 
+namespace PhpBrew;
+
+use DOMDocument;
+use Guzzle\Http\Client;
+use Guzzle\Http\Exception\RequestException;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * parse available downloads
@@ -27,14 +31,14 @@ class PhpSource
     static function getReleaseManagerVersions($id)
     {
         $baseUrl = "http://downloads.php.net/$id/";
-        $html = file_get_contents($baseUrl);
-        $dom = new DOMDocument;
-        $dom->loadHtml( $html );
 
-        $items = $dom->getElementsByTagName('a');
+        $client = new Client('http://downloads.php.net');
+        $html = $client->get('/'.$id)->send()->getBody(true);
+
+        $crawler = new Crawler();
+
         $versions = array();
-        foreach( $items as $item )
-        {
+        foreach ($crawler->filter('a') as $item) {
             $href = $item->getAttribute('href');
             if( preg_match('/php-(.*?)\.tar\.bz2$/' , $href , $regs ) ) {
                 $version = $regs[1];
@@ -47,41 +51,56 @@ class PhpSource
 
     static function getStableVersions($includeOld = false)
     {
-        // reference: http://www.php.net/downloads.php
-        //            http://www.php.net/releases/
-        $downloadUrls = array(
-            'http://www.php.net/downloads.php',
-            'http://www.php.net/releases/'
-        );
-        $phpFilePattern = '/php-(.*?)\.tar\.bz2/';
-        $versions = array();
+        $client = new Client('http://php.net');
+        $crawler = new Crawler();
 
-        foreach( $downloadUrls as $downloadUrl ) {
-            $html = @file_get_contents($downloadUrl);
-            if( ! $html ) {
-                echo "connection eror: $downloadUrl\n";
+        // reference:
+        // http://www.php.net/downloads.php
+        // http://www.php.net/releases/
+        $downloadUrls = array(
+            'downloads.php',
+            'releases'
+        );
+
+        foreach ($downloadUrls as $downloadUrl) {
+            // @todo better error handling.
+            try {
+                $html = $client->get($downloadUrl)->send()->getBody(true);
+                $crawler->add($html);
+            } catch (RequestException $e) {
+                echo $e->getMessage();
                 continue;
             }
 
-            $baseUrl = 'http://www.php.net/distributions/';
-            $dom = new DOMDocument;
-            @$dom->loadHtml( $html );
-            $items = $dom->getElementsByTagName('a');
-            foreach( $items as $item ) {
-                $link = $item->getAttribute('href');
-                if( preg_match($phpFilePattern, $link, $regs ) ) {
-                    if( ! $includeOld && version_compare($regs[1],'5.3.0') < 0 ) {
-                        continue;
-                    }
-                    $version = 'php-' . $regs[1];
-                    if( strpos($link, '/') === 0 ) {
-                        $link = $baseUrl . $version . '.tar.bz2';
-                    }
-                    $versions[$version] = array( 'url' => $link );
+            /* $html = @file_get_contents($downloadUrl);
+            if( ! $html ) {
+                echo "connection eror: $downloadUrl\n";
+                continue;
+            } */
+        }
+
+        $baseUrl = 'http://www.php.net/distributions/';
+        $phpFilePattern = '/php-(.*?)\.tar\.bz2/';
+        $versions = array();
+
+        foreach ($crawler->filter('a') as $node) {
+            $link = $node->getAttribute('href');
+
+            if (preg_match($phpFilePattern, $link, $regs)) {
+                if (!$includeOld && version_compare($regs[1],'5.3.0') < 0 ) {
+                    continue;
                 }
+
+                $version = 'php-' . $regs[1];
+                if (strpos($link, '/') === 0 ) {
+                    $link = $baseUrl . $version . '.tar.bz2';
+                }
+
+                $versions[$version] = array( 'url' => $link );
             }
         }
-        uksort( $versions, array('self', 'versionCompare') );
+
+        uksort($versions, array('self', 'versionCompare'));
 
         return $versions;
     }
