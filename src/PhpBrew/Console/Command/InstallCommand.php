@@ -40,12 +40,13 @@ class InstallCommand extends Command
             ->setDescription('Install php.')
             ->setDefinition(array(
                 new InputArgument('version', InputArgument::OPTIONAL, 'The php version to download'),
+                new InputArgument('variants', InputArgument::IS_ARRAY, 'The variants to use'),
                 new InputOption('test', null, InputOption::VALUE_NONE, 'Run tests'),
                 new InputOption('name', null, InputOption::VALUE_REQUIRED, 'Prefix name'),
                 new InputOption('clean', null, InputOption::VALUE_NONE, 'Run make clean before building'),
                 new InputOption('post-clean', null, InputOption::VALUE_NONE, 'Run make clean after building PHP'),
                 new InputOption('production', null, InputOption::VALUE_NONE, 'Use production configuration'),
-                new InputOption('nice', 'n', InputOption::VALUE_NONE, 'Process nice level'),
+                // new InputOption('nice', 'n', InputOption::VALUE_NONE, 'Process nice level'),
                 new InputOption('patch', null, InputOption::VALUE_REQUIRED, 'Apply patch before build'),
                 new InputOption('old', null, InputOption::VALUE_NONE, 'Install old phps (less than 5.3)'),
                 new InputOption('force', 'f', InputOption::VALUE_NONE, 'Force'),
@@ -55,25 +56,19 @@ class InstallCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $version = $input->getArgument('version');
-
-        if( ! preg_match('/^php-/', $version) )
-            $version = 'php-' . $version;
+        if (!preg_match('/^php-/', $version)) {
+            $version = 'php-'.$version;
+        }
 
         $options = $this->options;
         $logger = $this->logger;
-
-        // get options and variants for building php
-        $args = func_get_args();
-        // the first argument is the target version.
-        array_shift($args);
-
         $name = $this->options->name ?: $version;
 
+        $variants = $input->getArgument('variants');
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
         // ['disabled_variants'] => disabled variants
-        $variantInfo = VariantParser::parseCommandArguments($args);
-
+        $variantInfo = VariantParser::parseCommandArguments($variants);
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
         if( ! $info)
@@ -81,9 +76,6 @@ class InstallCommand extends Command
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
-
-
-
 
         // convert patch to realpath
         if( $this->options->patch ) {
