@@ -2,6 +2,7 @@
 
 namespace PhpBrew\Console\Command;
 
+use CLIFramework\Logger;
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\PkgConfig;
@@ -28,10 +29,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class InstallCommand extends Command
 {
-    /* public function usage()
+    /**
+     * Constructor.
+     */
+    public function __construct($name = null)
     {
-        return 'phpbrew install [php-version] ([+variant...])';
-    } */
+        parent::__construct($name);
+
+        $this->logger = new Logger();
+    }
 
     protected function configure()
     {
@@ -60,9 +66,9 @@ class InstallCommand extends Command
             $version = 'php-'.$version;
         }
 
-        $options = $this->options;
+        // $options = $this->options;
         $logger = $this->logger;
-        $name = $this->options->name ?: $version;
+        $name = $input->getOption('name') ?: $version;
 
         $variants = $input->getArgument('variants');
         // ['extra_options'] => the extra options to be passed to ./configure command
@@ -70,18 +76,18 @@ class InstallCommand extends Command
         // ['disabled_variants'] => disabled variants
         $variantInfo = VariantParser::parseCommandArguments($variants);
 
-        $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if( ! $info)
+        if (!$info = PhpSource::getVersionInfo($version, $input->getOption('old'))) {
             throw new Exception("Version $version not found.");
+        }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
 
         // convert patch to realpath
-        if( $this->options->patch ) {
-            $patch = realpath($this->options->patch);
+        if ($patch = $input->getOption('patch')) {
+            $patch = realpath($patch);
             // rewrite patch path
-            $this->options->keys['patch']->value = $patch;
+            // $this->options->keys['patch']->value = $patch;
         }
 
         // Move to to build directory, because we are going to download distribution.
@@ -89,9 +95,9 @@ class InstallCommand extends Command
         chdir($buildDir);
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
+        $targetDir = $download->downloadByVersionString($version, $input->getOption('old'), $input->getOption('force'));
 
-        if( ! file_exists($targetDir) ) {
+        if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");
         }
 
@@ -99,7 +105,7 @@ class InstallCommand extends Command
         chdir($targetDir);
 
 
-        $buildPrefix = Config::getVersionBuildPrefix( $version );
+        $buildPrefix = Config::getVersionBuildPrefix($version);
 
         if( ! file_exists($buildPrefix) ) {
             mkdir($buildPrefix,0755,true);
@@ -152,7 +158,7 @@ class InstallCommand extends Command
         $buildTask->setLogPath($buildLogFile);
         $buildTask->build();
 
-        if( $options->{'test'} ) {
+        if ($input->getOption('test')) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
             $test->test();
@@ -162,7 +168,7 @@ class InstallCommand extends Command
         $install->setLogPath($buildLogFile);
         $install->install();
 
-        if( $options->{'post-clean'} ) {
+        if ($input->getOption('post-clean')) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }

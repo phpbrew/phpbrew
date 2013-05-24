@@ -1,19 +1,21 @@
 <?php
+
 namespace PhpBrew\Tasks;
+
 use PhpBrew\PhpSource;
 use PhpBrew\Config;
-
-
+use PhpBrew\Downloader\SvnDownloader;
+use PhpBrew\Downloader\UrlDownloader;
 
 /**
  * Task to download php distributions.
  */
 class DownloadTask extends BaseTask
 {
-
     public function downloadByVersionString($version, $old = false, $force = false)
     {
         $info = PhpSource::getVersionInfo($version, $old);
+
         $targetDir = null;
         if( isset($info['url']) ) {
             $targetDir = $this->downloadByUrl($info['url'], $force);
@@ -31,9 +33,9 @@ class DownloadTask extends BaseTask
         return realpath($targetDir);
     }
 
-    public function downloadByUrl($url, $forceExtract = false ) 
+    public function downloadByUrl($url, $forceExtract = false )
     {
-        $downloader = new \PhpBrew\Downloader\UrlDownloader( $this->getLogger() );
+        $downloader = new UrlDownloader( $this->getLogger() );
         $basename = $downloader->download($url);
 
         // unpack the tarball file
@@ -46,6 +48,7 @@ class DownloadTask extends BaseTask
         } else {
             $this->info("Found existing $targetDir, Skip extracting.");
         }
+
         return realpath($targetDir);
     }
 
