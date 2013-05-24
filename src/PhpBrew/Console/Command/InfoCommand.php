@@ -8,6 +8,7 @@ use PhpBrew\PkgConfig;
 use PhpBrew\PhpSource;
 use PhpBrew\CommandBuilder;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,25 +21,23 @@ class InfoCommand extends Command
             ->setDescription('Show current php information.');
     }
 
-    /* public function header($text)
-    {
-        $f = $this->logger->formatter;
-        echo $f->format( $text . "\n" , 'strong_white' );
-    } */
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->header( 'Version' );
-        echo "PHP-" , phpversion(), "\n\n";
+        $style = new OutputFormatterStyle('white', null, array('bold'));
+        $output->getFormatter()->setStyle('strong_white', $style);
 
-        $this->header( 'Constants' );
+        $output->writeln('<strong_white>Version</strong_white>');
+
+        $output->writeln('PHP-' . phpversion());
+        $output->writeln('');
+
+        $output->writeln('<strong_white>Constants</strong_white>');
         $consts = get_defined_constants();
 
-        echo "PHP Prefix: " , $consts['PHP_PREFIX'] , "\n";
-        echo "PHP Binary: " , $consts['PHP_BINARY'] , "\n";
-        echo "PHP Default Include path: " , $consts['DEFAULT_INCLUDE_PATH'] , "\n";
-        echo "PHP Include path: ", get_include_path() , "\n";
-        echo "\n";
+        $output->writeln("PHP Prefix: " . $consts['PHP_PREFIX']);
+        $output->writeln("PHP Binary: " . $consts['PHP_BINARY']);
+        $output->writeln("PHP Default Include path: " . $consts['DEFAULT_INCLUDE_PATH']);
+        $output->writeln("PHP Include path: " . get_include_path());
 
         // DEFAULT_INCLUDE_PATH
         // PEAR_INSTALL_DIR
@@ -48,15 +47,11 @@ class InfoCommand extends Command
 
         $this->header( 'General Info' );
         phpinfo(INFO_GENERAL);
-        echo "\n";
-
 
         $this->header( 'Extensions' );
 
         $extensions = get_loaded_extensions();
         $this->logger->info( join( ', ', $extensions ) );
-
-        echo "\n";
 
         $this->header( 'Database Extensions' );
         foreach( array_filter($extensions, function($n) { return

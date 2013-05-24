@@ -26,21 +26,21 @@ class ConfigCommand extends Command
         switch($name)
         {
         case 'home':
-            echo Config::getPhpbrewRoot();
+            $output->writeln(Config::getPhpbrewRoot());
             break;
         case 'build':
-            echo Config::getBuildDir();
+            $output->writeln(Config::getBuildDir());
             break;
         case 'bin':
-            echo Config::getCurrentPhpBin();
+            $output->writeln(Config::getCurrentPhpBin());
             break;
         case 'include':
-            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) .
-                    DIRECTORY_SEPARATOR . 'include';
+            $output->writeln(Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) .
+                    DIRECTORY_SEPARATOR . 'include');
             break;
         case 'etc':
-            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) .
-                    DIRECTORY_SEPARATOR . 'etc';
+            $output->writeln(Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) .
+                    DIRECTORY_SEPARATOR . 'etc');
             break;
         }
     }

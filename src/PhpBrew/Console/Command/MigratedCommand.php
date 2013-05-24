@@ -19,10 +19,8 @@ class MigratedCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        echo <<<HELP
-- `phpbrew install-ext` command is now moved to `phpbrew ext install`
-- `phpbrew enable` command is now moved to `phpbrew ext enable`
-HELP;
+        $output->writeln('- `phpbrew install-ext` command is now moved to `phpbrew ext install`');
+        $output->writeln('- `phpbrew enable` command is now moved to `phpbrew ext enable`');
     }
 
 }

@@ -40,7 +40,7 @@ class InitCommand extends Command
         // $initScript = $root . DIRECTORY_SEPARATOR . 'init';
         file_put_contents( $bashScript , $this->getBashScript() );
 
-        echo <<<EOS
+        $output->writeln(<<<EOS
 Phpbrew environment is initialized, required directories are created under
 
     $home
@@ -59,7 +59,8 @@ For further instructions, simply run `phpbrew` to see the help message.
 
 Enjoy phpbrew at \$HOME!!
 
-EOS;
+EOS
+        );
     }
 
     protected function getBashScript()

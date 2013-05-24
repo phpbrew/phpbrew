@@ -32,16 +32,16 @@ class KnownCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $stableVersions = PhpSource::getStableVersions( $this->options->old );
-        echo "Available stable versions:\n";
+        $output->writeln('Available stable versions:');
         foreach( $stableVersions as $version => $arg ) {
-            echo "\t" . $version . "\n";
+            $output->writeln("\t" . $version);
         }
 
         if( $this->options->svn ) {
             $svnVersions = \PhpBrew\PhpSource::getSvnVersions();
-            echo $this->formatter->format("Available svn versions:\n",'yellow');
+            $output->writeln('<comment>Available svn versions:</comment>');
             foreach( $svnVersions as $version => $arg ) {
-                echo "\t" . $version . "\n";
+                $output->writeln("\t" . $version);
             }
         }
 
@@ -49,11 +49,9 @@ class KnownCommand extends Command
         foreach($managers as $id => $fullName) {
             if( $this->options->$id ) {
                 $versions = \PhpBrew\PhpSource::getReleaseManagerVersions($id);
-                echo $this->formatter->format(
-                    "Available versions from PHP Release Manager: $fullName\n",
-                    'yellow');
+                $output->writeln("<comment>Available versions from PHP Release Manager: $fullName</comment>");
                 foreach( $versions as $version => $arg ) {
-                    echo "\t" . $version . "\n";
+                    $output->writeln("\t" . $version);
                 }
             }
         }

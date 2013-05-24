@@ -37,8 +37,8 @@ class EnvCommand extends Command
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
-        echo 'export PHPBREW_ROOT=' . $root . "\n";
-        echo 'export PHPBREW_HOME=' . $home . "\n";
+        $output->writeln('export PHPBREW_ROOT=' . $root);
+        $output->writeln('export PHPBREW_HOME=' . $home);
 
         if ($version !== false) {
             // checking php version exists
@@ -46,8 +46,9 @@ class EnvCommand extends Command
             if (!is_dir($targetPhpBinPath)) {
                 throw new Exception("# php version: " . $version . " not exists.");
             }
-            echo 'export PHPBREW_PHP='  . $version . "\n";
-            echo 'export PHPBREW_PATH=' . ($version ? Config::getVersionBinPath($version) : '') . "\n";
+
+            $output->writeln('export PHPBREW_PHP='  . $version);
+            $output->writeln('export PHPBREW_PATH=' . ($version ? Config::getVersionBinPath($version) : ''));
         }
 
     }

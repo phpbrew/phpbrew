@@ -25,26 +25,23 @@ class InstalledCommand extends Command
         $currentVersion = Config::getCurrentPhpName();
 
         // var_dump( $versions );
-        echo "Installed versions:\n";
+        $output->writeln("Installed versions:");
 
         if ( $currentVersion === false or in_array($currentVersion, $versions) === false ) {
-            echo "* (system)\n";
+            $output->writeln("* (system)");
         }
 
         foreach( $versions as $version ) {
             $versionPrefix = Config::getVersionBuildPrefix($version);
 
-            printf('  %-15s  (%-10s)', $version, $versionPrefix);
+            $output->writeln(sprintf('  %-15s  (%-10s)', $version, $versionPrefix));
 
             if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
                 $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
 
-                echo "\n";
-                echo str_repeat(' ',19);
-                echo VariantParser::revealCommandArguments($info);
+                $output->writeln(str_repeat(' ', 19));
+                $output->writeln(VariantParser::revealCommandArguments($info));
             }
-
-            echo "\n";
         }
     }
 }

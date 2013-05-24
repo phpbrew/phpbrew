@@ -234,7 +234,7 @@ class InstallCommand extends Command
 
         $this->logger->info("Congratulations! Now you have PHP with $version.");
 
-        echo <<<EOT
+        $output->writeln(<<<EOT
 To use the newly built PHP, try the line(s) below:
 
     $ phpbrew use $version
@@ -244,8 +244,8 @@ Or you can use switch command to switch your default php version to $version:
     $ phpbrew switch $version
 
 Enjoy!
-EOT;
-
+EOT
+        );
     }
 }
 

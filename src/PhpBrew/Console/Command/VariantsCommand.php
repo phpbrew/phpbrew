@@ -42,23 +42,23 @@ class VariantsCommand extends Command
         $list = $variants->getVariantNames();
         sort($list);
 
-        echo "Variants: \n";
-        echo $this->wrapLine(join(', ',$list)) , "\n";
-        echo "\n\n";
+        $output->writeln('Variants:');
+        $output->writeln($this->wrapLine(join(', ',$list)));
+        $output->writeln('');
 
-        echo "Virtual variants: \n";
+        $output->writeln('Virtual variants:');
         foreach( $variants->virtualVariants as $name => $subvars ) {
-            echo $this->wrapLine("$name: " . join(', ', $subvars)) , "\n";
+            $output->writeln($this->wrapLine("$name: " . join(', ', $subvars)));
         }
-        echo "\n\n";
+        $output->writeln('');
 
-        echo "Using variants to build PHP:\n";
-        echo "\n";
-        echo "  phpbrew install php-5.3.10 +default\n";
-        echo "  phpbrew install php-5.3.10 +mysql +pdo\n";
-        echo "  phpbrew install php-5.3.10 +mysql +pdo +apxs2\n";
-        echo "  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2\n";
-        echo "\n\n";
+        $output->writeln('Using variants to build PHP:');
+        $output->writeln('  phpbrew install php-5.3.10 +default');
+        $output->writeln('  phpbrew install php-5.3.10 +mysql +pdo');
+        $output->writeln('  phpbrew install php-5.3.10 +mysql +pdo +apxs2');
+        $output->writeln('  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2');
+
+        $output->writeln('');
     }
 
 }
