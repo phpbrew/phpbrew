@@ -91,6 +91,7 @@ class VariantBuilder
         $this->variants['dba']      = '--enable-dba';
         $this->variants['ipv6']     = '--enable-ipv6';
         $this->variants['dom']      = '--enable-dom';
+        $this->variants['xml']      = '--enable-xml';
         $this->variants['all']      = '--enable-all';
         $this->variants['calendar'] = '--enable-calendar';
 
