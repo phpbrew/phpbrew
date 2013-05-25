@@ -250,6 +250,7 @@ class VariantBuilder
 
         $this->variants['xml_all'] = function($build) {
             return array(
+                '--enable-dom',
                 '--enable-libxml',
                 '--enable-simplexml',
                 '--enable-xml',
