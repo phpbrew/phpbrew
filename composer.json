@@ -15,7 +15,7 @@
         "corneltek\/phpunit-testmore": "dev-master"
     },
     "autoload": {
-        "PHPBrew": "src"
+        "psr-0": { "PhpBrew": "src" }
     },
     "version": "1.8.21"
 }
