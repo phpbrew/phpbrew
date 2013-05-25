@@ -17,5 +17,5 @@
     "autoload": {
         "PHPBrew": "src"
     },
-    "version": "1.8.20"
+    "version": "1.8.21"
 }
