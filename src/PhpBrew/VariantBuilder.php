@@ -141,12 +141,15 @@ class VariantBuilder
 
         $this->variants['readline'] = function($build,$prefix = null) {
             $opts = array();
-            if( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+            $foundReadLine = false;
+            if ( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                $foundReadLine = true;
                 $opts[] = '--with-readline=' . $prefix;
             }
-
-            if( $prefix = Utils::find_include_prefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
-                $opts[] = '--with-libedit=' . $prefix;
+            if ( $foundReadLine ) {
+                if ( $prefix = Utils::find_include_prefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                    $opts[] = '--with-libedit=' . $prefix;
+                }
             }
             return $opts;
         };
