@@ -178,6 +178,11 @@ With debug messages:
 $ phpbrew -d install --test php-5.4.0
 ```
 
+To install older versions (less than 5.3):
+
+```bash
+$ phpbrew install --old php-5.2.13
+```
 
 
 ## Variants
