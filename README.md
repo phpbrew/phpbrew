@@ -55,7 +55,7 @@ brew link icu4c
 **Please note that you need to disable suhosin patch to run phpbrew.**
 
 ```bash
-sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev php5-cli
+sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev php5-cli bison libbz2-dev
 sudo apt-get build-dep php5
 ```
 
