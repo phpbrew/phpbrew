@@ -242,8 +242,9 @@ class VariantBuilder
         $this->variants['pgsql'] = function($build, $prefix = null) use($self) {
             $opts = array();
             $opts[] = '--with-pgsql' . ($prefix ? "=$prefix" : '');
-            if ( $build->hasVariant('pdo') )
-                $opts[] = '--with-pdo-pgsql';
+            if ( $build->hasVariant('pdo') ) {
+                $opts[] = '--with-pdo-pgsql' . ($prefix ? "=$prefix" : '');
+            }
             return $opts;
         };
 
