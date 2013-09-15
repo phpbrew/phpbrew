@@ -9,7 +9,7 @@ use PhpBrew\Exceptions\OopsException;
 /**
  * $variantBuilder = new VariantBuilder;
  * $variantBuilder->register('debug', function() {
- * 
+ *
  * });
  * $variantBuilder->build($build);
  */
@@ -65,7 +65,7 @@ class VariantBuilder
             'mbregex',
             'mbstring',
             'mhash',
-            'mhash',
+            'mcrypt',
             'pcntl',
             'pcre',
             'pdo',
@@ -91,6 +91,7 @@ class VariantBuilder
         $this->variants['dba']      = '--enable-dba';
         $this->variants['ipv6']     = '--enable-ipv6';
         $this->variants['dom']      = '--enable-dom';
+        $this->variants['xml']      = '--enable-xml';
         $this->variants['all']      = '--enable-all';
         $this->variants['calendar'] = '--enable-calendar';
 
@@ -140,12 +141,15 @@ class VariantBuilder
 
         $this->variants['readline'] = function($build,$prefix = null) {
             $opts = array();
-            if( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+            $foundReadLine = false;
+            if ( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                $foundReadLine = true;
                 $opts[] = '--with-readline=' . $prefix;
             }
-
-            if( $prefix = Utils::find_include_prefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
-                $opts[] = '--with-libedit=' . $prefix;
+            if ( $foundReadLine ) {
+                if ( $prefix = Utils::find_include_prefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                    $opts[] = '--with-libedit=' . $prefix;
+                }
             }
             return $opts;
         };
@@ -175,7 +179,7 @@ class VariantBuilder
          * with icu
          */
         $this->variants['icu'] = function($build, $val = null) use($self) {
-            // XXX: it seems that /usr prefix does not work on Ubuntu 
+            // XXX: it seems that /usr prefix does not work on Ubuntu
             //       Linux system.
             if( $val ) {
                 return '--with-icu=' . $val;
@@ -251,6 +255,7 @@ class VariantBuilder
 
         $this->variants['xml_all'] = function($build) {
             return array(
+                '--enable-dom',
                 '--enable-libxml',
                 '--enable-simplexml',
                 '--enable-xml',
@@ -365,11 +370,11 @@ class VariantBuilder
         }
 
         // Skip if we've built it
-        if ( in_array($feature, $this->builtList) ) 
+        if ( in_array($feature, $this->builtList) )
             return array();
 
         // Skip if we've disabled it
-        if ( isset($this->disables[ $feature ] )) 
+        if ( isset($this->disables[ $feature ] ))
             return array();
 
         $this->builtList[] = $feature;
@@ -390,15 +395,15 @@ class VariantBuilder
     public function buildDisableVariant($build , $feature,$userValue = null)
     {
         if( isset( $this->variants[ $feature ] )) {
-            if ( in_array('-'.$feature, $this->builtList) ) 
+            if ( in_array('-'.$feature, $this->builtList) )
                 return array();
 
             $this->builtList[] = '-'.$feature;
             $func = $this->variants[ $feature ];
 
 
-            // build the option from enabled variant, 
-            // then convert the '--enable' and '--with' options 
+            // build the option from enabled variant,
+            // then convert the '--enable' and '--with' options
             // to '--disable' and '--without'
             $args = is_string($userValue) ? array($build,$userValue) : array($build);
             $disableOptions = (array) call_user_func_array($func,$args);
@@ -482,7 +487,7 @@ class VariantBuilder
                 foreach( $variantNames as $subVariantName ) {
                     $build->enableVariant( $subVariantName );
                 }
-                // it's a virtual variant, can not be built by buildVariant 
+                // it's a virtual variant, can not be built by buildVariant
                 // method.
                 $build->removeVariant( $name );
             }

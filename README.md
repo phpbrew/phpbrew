@@ -55,7 +55,7 @@ brew link icu4c
 **Please note that you need to disable suhosin patch to run phpbrew.**
 
 ```bash
-sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev
+sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev php5-cli bison libbz2-dev
 sudo apt-get build-dep php5
 ```
 
@@ -178,6 +178,11 @@ With debug messages:
 $ phpbrew -d install --test php-5.4.0
 ```
 
+To install older versions (less than 5.3):
+
+```bash
+$ phpbrew install --old php-5.2.13
+```
 
 
 ## Variants

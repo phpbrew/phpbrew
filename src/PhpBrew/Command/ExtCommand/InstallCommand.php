@@ -42,10 +42,12 @@ class InstallCommand extends \CLIFramework\Command
             $this->logger->debug("Extension path $path");
 
             $installer = new \PhpBrew\ExtensionInstaller($this->logger);
-            $installer->runInstall($extname,$path,$options);
+            $installedSo = $installer->runInstall($extname,$path,$options);
 
             $this->logger->info('===> Enabling extension');
-            Utils::enable_extension($extname);
+
+            $zendExtensions = array('opcache');
+            Utils::enable_extension($extname, in_array($extname,$zendExtensions) ? $installedSo : '');
 
             $this->logger->info("Done");
         } else {
