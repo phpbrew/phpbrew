@@ -248,9 +248,11 @@ To build PHP with pgsql (Postgresql) extension:
 
     $ phpbrew install php-5.4.1 +pgsql+pdo
 
-Or build pgsql extension with postgresql base dir:
+Or build pgsql extension with postgresql base dir on Mac OS X:
 
-    $ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91
+    $ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
+
+The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
 
 
 NOTE:
