@@ -59,6 +59,14 @@ sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c li
 sudo apt-get build-dep php5
 ```
 
+### Fedora Requirement
+
+```bash
+yum install bzip2-devel
+yum install php php-devel php-pear bzip2-devel yum-utils
+yum-builddep php
+```
+
 ### Cent OS Requirement
 
 **Please note that you need to disable suhosin patch to run phpbrew.**
