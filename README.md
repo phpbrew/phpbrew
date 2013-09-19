@@ -55,7 +55,7 @@ brew link icu4c
 **Please note that you need to disable suhosin patch to run phpbrew.**
 
 ```bash
-sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev php5-cli
+sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev php5-cli bison libbz2-dev
 sudo apt-get build-dep php5
 ```
 
@@ -186,6 +186,11 @@ With debug messages:
 $ phpbrew -d install --test php-5.4.0
 ```
 
+To install older versions (less than 5.3):
+
+```bash
+$ phpbrew install --old php-5.2.13
+```
 
 
 ## Variants
@@ -251,9 +256,11 @@ To build PHP with pgsql (Postgresql) extension:
 
     $ phpbrew install php-5.4.1 +pgsql+pdo
 
-Or build pgsql extension with postgresql base dir:
+Or build pgsql extension with postgresql base dir on Mac OS X:
 
-    $ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91
+    $ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
+
+The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
 
 
 NOTE:

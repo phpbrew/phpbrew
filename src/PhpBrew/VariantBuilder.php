@@ -9,7 +9,7 @@ use PhpBrew\Exceptions\OopsException;
 /**
  * $variantBuilder = new VariantBuilder;
  * $variantBuilder->register('debug', function() {
- * 
+ *
  * });
  * $variantBuilder->build($build);
  */
@@ -65,7 +65,7 @@ class VariantBuilder
             'mbregex',
             'mbstring',
             'mhash',
-            'mhash',
+            'mcrypt',
             'pcntl',
             'pcre',
             'pdo',
@@ -179,7 +179,7 @@ class VariantBuilder
          * with icu
          */
         $this->variants['icu'] = function($build, $val = null) use($self) {
-            // XXX: it seems that /usr prefix does not work on Ubuntu 
+            // XXX: it seems that /usr prefix does not work on Ubuntu
             //       Linux system.
             if( $val ) {
                 return '--with-icu=' . $val;
@@ -246,8 +246,9 @@ class VariantBuilder
         $this->variants['pgsql'] = function($build, $prefix = null) use($self) {
             $opts = array();
             $opts[] = '--with-pgsql' . ($prefix ? "=$prefix" : '');
-            if ( $build->hasVariant('pdo') )
-                $opts[] = '--with-pdo-pgsql';
+            if ( $build->hasVariant('pdo') ) {
+                $opts[] = '--with-pdo-pgsql' . ($prefix ? "=$prefix" : '');
+            }
             return $opts;
         };
 
@@ -369,11 +370,11 @@ class VariantBuilder
         }
 
         // Skip if we've built it
-        if ( in_array($feature, $this->builtList) ) 
+        if ( in_array($feature, $this->builtList) )
             return array();
 
         // Skip if we've disabled it
-        if ( isset($this->disables[ $feature ] )) 
+        if ( isset($this->disables[ $feature ] ))
             return array();
 
         $this->builtList[] = $feature;
@@ -394,15 +395,15 @@ class VariantBuilder
     public function buildDisableVariant($build , $feature,$userValue = null)
     {
         if( isset( $this->variants[ $feature ] )) {
-            if ( in_array('-'.$feature, $this->builtList) ) 
+            if ( in_array('-'.$feature, $this->builtList) )
                 return array();
 
             $this->builtList[] = '-'.$feature;
             $func = $this->variants[ $feature ];
 
 
-            // build the option from enabled variant, 
-            // then convert the '--enable' and '--with' options 
+            // build the option from enabled variant,
+            // then convert the '--enable' and '--with' options
             // to '--disable' and '--without'
             $args = is_string($userValue) ? array($build,$userValue) : array($build);
             $disableOptions = (array) call_user_func_array($func,$args);
@@ -486,7 +487,7 @@ class VariantBuilder
                 foreach( $variantNames as $subVariantName ) {
                     $build->enableVariant( $subVariantName );
                 }
-                // it's a virtual variant, can not be built by buildVariant 
+                // it's a virtual variant, can not be built by buildVariant
                 // method.
                 $build->removeVariant( $name );
             }
