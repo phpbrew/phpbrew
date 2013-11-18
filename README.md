@@ -462,6 +462,9 @@ To test php-fpm config:
 
     phpbrew fpm test
 
+To edit php-fpm config:
+
+    phpbrew fpm config
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
 > 
