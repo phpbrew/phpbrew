@@ -176,6 +176,12 @@ class InstallCommand extends Command
             rename( $dSYM , $php );
         }
 
+        if ( ! file_exists( Config::getVersionEtcPath($version) ) ) {
+            $this->logger->info("---> Preparing config directory...");
+            mkdir( Config::getVersionEtcPath($version) , 0755 , true );
+        }
+
+
         // copy php-fpm config
         $this->logger->info("---> Creating php-fpm.conf");
         $phpfpmConfigPath = "sapi/fpm/php-fpm.conf";
@@ -192,9 +198,6 @@ class InstallCommand extends Command
         $phpConfigPath = $options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigPath ");
         if( file_exists($phpConfigPath) ) {
-            if( ! file_exists( Config::getVersionEtcPath($version) ) )
-                mkdir( Config::getVersionEtcPath($version) , 0755 , true );
-
             $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
             if( file_exists($targetConfigPath) ) {
                 $this->logger->notice("Found existing $targetConfigPath.");
