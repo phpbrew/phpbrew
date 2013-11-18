@@ -82,9 +82,8 @@ function phpbrew ()
             ;;
         fpm)
             PHPFPM_BIN=$PHPBREW_ROOT/php/$PHPBREW_PHP/sbin/php-fpm
-            echo "Starting php-fpm..."
             $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
-                    --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf
+                    --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf ${*:2}
             echo "Done"
             ;;
         off)
