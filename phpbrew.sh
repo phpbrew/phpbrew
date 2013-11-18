@@ -90,7 +90,6 @@ function phpbrew ()
                     $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
                             --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
                             --pid $PHPFPM_PIDFILE \
-                            --daemonize \
                             ${*:3}
                     if [[ $? != "0" ]] ; then
                         echo "php-fpm start failed."
@@ -102,6 +101,16 @@ function phpbrew ()
                         kill $(cat $PHPFPM_PIDFILE)
                         rm -f $PHPFPM_PIDFILE
                     fi
+                    ;;
+                module)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                            -m
+                    ;;
+                info)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                            -i
                     ;;
                 help)
                     $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
