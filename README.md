@@ -443,9 +443,24 @@ were installed by non-root user.
 
 ## PHP FPM
 
+phpbrew also provides useful fpm managing sub-commands. to use them, please
+remember enable `+fpm` variant when building your php.
 
+To start php-fpm, simply type:
 
+    phpbrew fpm start
 
+To stop php-fpm, type:
+
+    phpbrew fpm stop
+
+To show php-fpm modules:
+
+    phpbrew fpm module
+
+To test php-fpm config:
+
+    phpbrew fpm test
 
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.

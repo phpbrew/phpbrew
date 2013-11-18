@@ -112,6 +112,14 @@ function phpbrew ()
                             --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
                             -i
                     ;;
+                config)
+                    if [[ -n $EDITOR ]] ; then
+                        $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf
+                    else
+                        echo "Please set EDITOR environment variable for your favor."
+                        nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf
+                    fi
+                    ;;
                 help)
                     $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
                             --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf --help
