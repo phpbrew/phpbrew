@@ -80,6 +80,12 @@ function phpbrew ()
                 __phpbrew_reinit $2
             fi
             ;;
+        fpm)
+            PHPFPM_BIN=$PHPBREW_ROOT/$PHPBREW_PHP/sbin/php-fpm
+            echo "Starting php-fpm..."
+            $PHPFPM_BIN --php-ini $PHPBREW_ROOT/$PHPBREW_PHP/etc/php.ini \
+                    --php-fpm $PHPBREW_ROOT/$PHPBREW_PHP/etc/php-fpm.conf
+            echo "Done"
         off)
             unset PHPBREW_PHP
             unset PHPBREW_PATH
