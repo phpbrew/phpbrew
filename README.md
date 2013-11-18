@@ -443,15 +443,20 @@ were installed by non-root user.
 
 ## PHP FPM
 
-The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
 
-The correspond `php-fpm.conf` is lcoated in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
-you may copy the default config file to the desired location. e.g.,
 
-    cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
-        ~/.phpbrew/php/php-*/etc/php-fpm.conf
 
-    php-fpm --php-ini {php config file} --fpm-config {fpm config file}
+
+
+> The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
+> 
+> The correspond `php-fpm.conf` is lcoated in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
+> you may copy the default config file to the desired location. e.g.,
+> 
+>     cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
+>         ~/.phpbrew/php/php-*/etc/php-fpm.conf
+> 
+>     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
 
 ## Enable Version Info Prompt
