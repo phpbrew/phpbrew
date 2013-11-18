@@ -82,9 +82,39 @@ function phpbrew ()
             ;;
         fpm)
             PHPFPM_BIN=$PHPBREW_ROOT/php/$PHPBREW_PHP/sbin/php-fpm
-            $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
-                    --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf ${*:2}
-            echo "Done"
+            PHPFPM_PIDFILE=$PHPBREW_ROOT/php/$PHPBREW_PHP/var/run/php-fpm.pid
+            mkdir -p $PHPBREW_ROOT/php/$PHPBREW_PHP/var/run
+            case $2 in
+                start)
+                    echo "Starting php-fpm..."
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                            --pid $PHPFPM_PIDFILE \
+                            --daemonize \
+                            ${*:3}
+                    if [[ $? != "0" ]] ; then
+                        echo "php-fpm start failed."
+                    fi
+                    ;;
+                stop)
+                    if [[ -e $PHPFPM_PIDFILE ]] ; then
+                        echo "Stopping php-fpm..."
+                        kill $(cat $PHPFPM_PIDFILE)
+                        rm -f $PHPFPM_PIDFILE
+                    fi
+                    ;;
+                help)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf --help
+                    ;;
+                test)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf --test
+                    ;;
+                *)
+                    echo "Usage: phpbrew fpm [start|stop]"
+                    ;;
+            esac
             ;;
         off)
             unset PHPBREW_PHP
