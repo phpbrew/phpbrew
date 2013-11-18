@@ -15,13 +15,14 @@ use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Build;
 use PhpBrew\DirectorySwitch;
+use CLIFramework\Command;
 
 
 /*
  * TODO: refactor tasks to Task class.
  */
 
-class InstallCommand extends \CLIFramework\Command
+class InstallCommand extends Command 
 {
     public function brief() { return 'install php'; }
 
@@ -175,24 +176,33 @@ class InstallCommand extends \CLIFramework\Command
             rename( $dSYM , $php );
         }
 
+        // copy php-fpm config
+        $this->logger->info("---> Creating php-fpm.conf");
+        $phpfpmConfigPath = "sapi/fpm/php-fpm.conf";
+        $phpfpmTargetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php-fpm.conf';
+        if ( file_exists($phpfpmConfigPath) ) {
+            if ( ! file_exists( $phpfpmTargetConfigPath ) ) {
+                copy($phpfpmConfigPath, $phpfpmTargetConfigPath);
+            } else {
+                $this->logger->notice("Found existing $phpfpmTargetConfigPath.");
+            }
+        }
 
 
-        $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
-        $this->logger->info("---> Copying $phpConfigFile ");
-        if( file_exists($phpConfigFile) ) {
+        $phpConfigPath = $options->production ? 'php.ini-production' : 'php.ini-development';
+        $this->logger->info("---> Copying $phpConfigPath ");
+        if( file_exists($phpConfigPath) ) {
             if( ! file_exists( Config::getVersionEtcPath($version) ) )
                 mkdir( Config::getVersionEtcPath($version) , 0755 , true );
 
             $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
             if( file_exists($targetConfigPath) ) {
-                $this->logger->notice("$targetConfigPath exists, do not overwrite.");
-            }
-            else {
+                $this->logger->notice("Found existing $targetConfigPath.");
+            } else {
 
                 // TODO: Move this to PhpConfigPatchTask
-
                 // move config file to target location
-                rename( $phpConfigFile , $targetConfigPath );
+                copy( $phpConfigPath , $targetConfigPath );
 
                 // replace current timezone
                 $timezone = ini_get('date.timezone');
