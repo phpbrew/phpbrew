@@ -105,7 +105,7 @@ function phpbrew ()
                 module)
                     $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
                             --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
-                            -m
+                            -m | less
                     ;;
                 info)
                     $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
