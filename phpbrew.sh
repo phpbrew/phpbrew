@@ -80,6 +80,14 @@ function phpbrew ()
                 __phpbrew_reinit $2
             fi
             ;;
+        config)
+            if [[ -n $EDITOR ]] ; then
+                $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+            else
+                echo "Please set EDITOR environment variable for your favor."
+                nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+            fi
+            ;;
         fpm)
             PHPFPM_BIN=$PHPBREW_ROOT/php/$PHPBREW_PHP/sbin/php-fpm
             PHPFPM_PIDFILE=$PHPBREW_ROOT/php/$PHPBREW_PHP/var/run/php-fpm.pid
