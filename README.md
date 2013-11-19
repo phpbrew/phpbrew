@@ -444,7 +444,7 @@ were installed by non-root user.
 ## PHP FPM
 
 phpbrew also provides useful fpm managing sub-commands. to use them, please
-remember enable `+fpm` variant when building your php.
+remember to enable `+fpm` variant when building your own php.
 
 To start php-fpm, simply type:
 
