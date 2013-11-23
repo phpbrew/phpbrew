@@ -95,7 +95,7 @@ function phpbrew ()
             echo "Switching to $chdir"
             cd $chdir
             ;;
-        build-dir)
+        source-dir)
             local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
             echo "Switching to $chdir"
             cd $chdir

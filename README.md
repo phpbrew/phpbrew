@@ -441,6 +441,25 @@ were installed by non-root user.
     chown -R root: /opt/phpbrew
 
 
+## Quick commands to switch between directories
+
+Switching to PHP source directory
+
+    phpbrew source-dir
+
+Switching to PHP dist directory
+
+    phpbrew dist-dir
+
+Switching to PHP etc directory
+
+    phpbrew etc-dir
+
+Switching to PHP var directory
+
+    phpbrew var-dir
+
+
 ## PHP FPM
 
 phpbrew also provides useful fpm managing sub-commands. to use them, please
