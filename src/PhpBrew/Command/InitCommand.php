@@ -154,7 +154,7 @@ function phpbrew ()
             echo "Switching to $chdir"
             cd $chdir
             ;;
-        source-dir)
+        build-dir)
             local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
             echo "Switching to $chdir"
             cd $chdir
@@ -351,6 +351,7 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
 
 
 

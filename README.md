@@ -443,9 +443,9 @@ were installed by non-root user.
 
 ## Quick commands to switch between directories
 
-Switching to PHP source directory
+Switching to PHP build directory
 
-    phpbrew source-dir
+    phpbrew build-dir
 
 Switching to PHP dist directory
 
