@@ -139,6 +139,26 @@ function phpbrew ()
                 __phpbrew_reinit $2
             fi
             ;;
+        var-dir)
+            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
+        etc-dir)
+            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
+        dist-dir)
+            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
+        build-dir)
+            local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
         config)
             if [[ -n $EDITOR ]] ; then
                 $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
@@ -331,6 +351,7 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
