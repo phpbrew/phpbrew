@@ -189,6 +189,10 @@ function phpbrew ()
                         rm -f $PHPFPM_PIDFILE
                     fi
                     ;;
+                restart)
+                    phpbrew fpm stop
+                    phpbrew fmp start
+                    ;;
                 module)
                     $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
                             --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
