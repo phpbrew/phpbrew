@@ -18,16 +18,16 @@ class UrlDownloader
     {
         $this->logger->info("===> Downloading from $url");
 
-        $info = parse_url($url);
-        $basename = basename( $info['path'] );
+        preg_match('/php-.+\.tar\.bz2/', $url, $parts);
+        $basename = $parts[0];
 
         // curl is faster than php
-        system( 'curl -C - -# -O ' . $url ) !== false or die('Download failed.');
+        system( 'curl -C - -# -L -o ' . $basename . ' ' . $url ) !== false or die('Download failed.');
 
         $this->logger->info("===> $basename downloaded.");
 
         if( ! file_exists($basename) ) {
-            throw Exception("Download failed.");
+            throw new \Exception("Download failed.");
         }
         return $basename; // return the filename
     }
