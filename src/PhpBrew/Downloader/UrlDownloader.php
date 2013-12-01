@@ -24,8 +24,14 @@ class UrlDownloader
         }
         $basename = $parts[0];
 
-        // curl is faster than php
-        system( 'wget -c -O ' . $basename . ' ' . $url ) !== false or die('Download failed.');
+        // check for wget or curl for downloading the php source archive
+        if( exec( 'command -v wget' ) ) {
+            system( 'wget -c -O ' . $basename . ' ' . $url ) !== false or die("Download failed.\n");
+        } elseif (exec( 'command -v curl' )) {
+            system( 'curl -C - -# -L -o ' . $basename . ' ' . $url ) !== false or die("Download failed.\n");
+        } else {
+            die("Download failed - neither wget nor curl was found\n");
+        }
 
         $this->logger->info("===> $basename downloaded.");
 
