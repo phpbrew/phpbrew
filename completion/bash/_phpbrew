@@ -1,0 +1,68 @@
+#!/bin/bash
+# Author: @marcioAlmada
+# TLDR: bash completion for phpbrew
+# NOTICE: this script must be updated with any changes to, or additions to phpbrew commands.
+
+_phpbrew_comp()
+{
+    local cur prev prev_prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    prev_prev="${COMP_WORDS[COMP_CWORD-2]}"
+    opts="help init known install list use switch info env ext variants config download clean self-update remove purge"
+
+    case "${prev}" in
+        init|known|list|env|variants|config|self-update)
+        return 0
+        ;;
+    esac
+
+    case "${prev}" in
+        use|switch|clean|remove|purge)
+        # list installed php versions (system wide not included)
+        opts="$(ls $PHPBREW_HOME/php/ | cut -d '-' -f 2)"
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+        ;;
+    esac
+
+    case "${prev}" in
+        ext)
+        # list extension commands
+        opts="install enable disable"
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+        ;;
+    esac
+
+    case "${prev}" in
+        install|disable|enable)
+
+            # case "${prev_prev}" in
+            #     phpbrew)
+            #     # list known php versions
+            #     COMPREPLY=( $(compgen -W "$(phpbrew known | grep php)" -- ${cur}) )
+            #     return 0
+            #     ;;
+            # esac
+            case "${prev_prev}" in
+                ext)
+                # list available extensions
+                opts="$(cd $PHPBREW_HOME/build/$PHPBREW_PHP/ext/ && ls -d */ | cut -d '/' -f 1)"
+                COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+                return 0
+                ;;
+            esac
+    esac
+
+    case "${cur}" in
+        *)
+            COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+        ;;
+    esac
+
+    return 0
+} &&
+complete -F _phpbrew_comp phpbrew
