@@ -169,7 +169,7 @@ function phpbrew ()
                             --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf --test
                     ;;
                 *)
-                    echo "Usage: phpbrew fpm [start|stop]"
+                    echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
                     ;;
             esac
             ;;
