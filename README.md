@@ -495,7 +495,18 @@ To edit php-fpm config:
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
 
-## Enable Version Info Prompt
+## Installing Extra Component
+
+### Installing composer 
+
+    phpbrew install-composer
+
+### Installing phpunit
+
+    phpbrew install-phpunit
+
+
+## Enabling Version Info Prompt
 
 To add PHP version info in your shell prompt, you can use
 `"PHPBREW_SET_PROMPT=1"` variable.

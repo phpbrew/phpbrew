@@ -80,6 +80,18 @@ function phpbrew ()
                 __phpbrew_reinit $2
             fi
             ;;
+        install-phpunit)
+            pear channel-discover pear.phpunit.de
+            pear install -a phpunit/PHPUnit
+            hash -r
+            ;;
+        install-composer)
+            echo "Installing composer..."
+            bindir=$PHPBREW_ROOT/php/$PHPBREW_PHP/bin
+            wget -c --no-verbose http://getcomposer.org/composer.phar -O $bindir/composer
+            chmod +x $bindir/composer
+            hash -r
+            ;;
         var-dir)
             local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
             echo "Switching to $chdir"
