@@ -139,6 +139,15 @@ class VariantBuilder
             }
         };
 
+        $this->variants['curl'] = function($build, $prefix = null) {
+            if ( $prefix ) {
+                return '--with-curl=' . $prefix;
+            }
+            if( $prefix = Utils::find_include_prefix('curl/curl.h') ) {
+                return '--with-zlib=' . $prefix;
+            }
+        };
+
         $this->variants['readline'] = function($build,$prefix = null) {
             $opts = array();
             $foundReadLine = false;
