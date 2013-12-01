@@ -19,7 +19,7 @@ _phpbrew_comp()
     esac
 
     case "${prev}" in
-        use|switch|clean|remove|purge)
+        use|switch|download|clean|remove|purge)
         # list installed php versions (system wide not included)
         opts="$(ls $PHPBREW_HOME/php/ | cut -d '-' -f 2)"
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
