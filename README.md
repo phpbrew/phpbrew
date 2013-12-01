@@ -545,6 +545,15 @@ Known Issues
 
 
 
+FAQ
+-------------------------
+
+Q: How do I have the same version with different compile option?
+
+A: Currently, you can install php5.x.x and rename the /Users/c9s/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3
+
+
+
 Contribution
 ------------------
 Please see [Contribution.md]
