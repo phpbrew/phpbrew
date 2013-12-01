@@ -22,7 +22,7 @@ class UrlDownloader
         $basename = $parts[0];
 
         // curl is faster than php
-        system( 'curl -C - -# -L -o ' . $basename . ' ' . $url ) !== false or die('Download failed.');
+        system( 'wget -c -O ' . $basename . ' ' . $url ) !== false or die('Download failed.');
 
         $this->logger->info("===> $basename downloaded.");
 
