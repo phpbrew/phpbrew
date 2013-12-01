@@ -62,8 +62,7 @@ sudo apt-get build-dep php5
 ### Fedora Requirement
 
 ```bash
-yum install bzip2-devel
-yum install php php-devel php-pear bzip2-devel yum-utils
+yum install php php-devel php-pear bzip2-devel yum-utils bison re2c libmcrypt-devel libpqxx-devel libxslt-devel
 yum-builddep php
 ```
 
