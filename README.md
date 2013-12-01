@@ -534,14 +534,6 @@ Known Issues
 
 
 
-PHP Release channels
---------------------
-
-- http://snaps.php.net/
-- http://tw2.php.net/releases/
-- http://downloads.php.net/stas/
-
-
 Contribution
 ------------------
 Please see [Contribution.md]
