@@ -461,6 +461,7 @@ class VariantBuilder
             // build common options
             $this->options = array(
                 '--disable-all',
+                '--enable-xml',
                 '--enable-phar',
                 '--enable-session',
                 '--enable-short-tags',
