@@ -112,23 +112,35 @@ function phpbrew ()
             PHPFPM_BIN=$PHPBREW_ROOT/php/$PHPBREW_PHP/sbin/php-fpm
             PHPFPM_PIDFILE=$PHPBREW_ROOT/php/$PHPBREW_PHP/var/run/php-fpm.pid
             mkdir -p $PHPBREW_ROOT/php/$PHPBREW_PHP/var/run
+            function fpm_start()
+            {
+              echo "Starting php-fpm..."
+              $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                --pid $PHPFPM_PIDFILE \
+                ${*:3}
+              if [[ $? != "0" ]] ; then
+                echo "php-fpm start failed."
+              fi
+            }
+            function fpm_stop()
+            {
+              if [[ -e $PHPFPM_PIDFILE ]] ; then
+                echo "Stopping php-fpm..."
+                kill $(cat $PHPFPM_PIDFILE)
+                rm -f $PHPFPM_PIDFILE
+              fi
+            }
             case $2 in
                 start)
-                    echo "Starting php-fpm..."
-                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
-                            --pid $PHPFPM_PIDFILE \
-                            ${*:3}
-                    if [[ $? != "0" ]] ; then
-                        echo "php-fpm start failed."
-                    fi
+                    fpm_start
                     ;;
                 stop)
-                    if [[ -e $PHPFPM_PIDFILE ]] ; then
-                        echo "Stopping php-fpm..."
-                        kill $(cat $PHPFPM_PIDFILE)
-                        rm -f $PHPFPM_PIDFILE
-                    fi
+                    fpm_stop
+                    ;;
+                restart)
+                    fpm_stop
+                    fpm_start
                     ;;
                 module)
                     $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
