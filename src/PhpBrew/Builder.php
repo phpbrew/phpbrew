@@ -69,6 +69,7 @@ class Builder
         $args[] = "--with-config-file-path={$prefix}/etc";
         $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
         $args[] = "--with-pear={$prefix}/lib/php";
+        $args[] = "--enable-xml";
 
 
         $variantOptions = $variantBuilder->build($build);
