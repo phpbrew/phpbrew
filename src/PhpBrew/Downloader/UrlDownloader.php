@@ -18,21 +18,19 @@ class UrlDownloader
     public function download($url)
     {
         $this->logger->info("===> Downloading from $url");
-
-        $info = parse_url($url);
-        if ( false == $info ) {
+        $ret = preg_match('/php-.+\.tar\.bz2/', $url, $parts);
+        if ( false === $ret ) {
             throw new RuntimeException("Can not parse url: $url");
         }
-
-        $basename = basename( $info['path'] );
+        $basename = $parts[0];
 
         // curl is faster than php
-        system( 'curl -C - -# -O ' . $url ) !== false or die('Download failed.');
+        system( 'wget -c -O ' . $basename . ' ' . $url ) !== false or die('Download failed.');
 
         $this->logger->info("===> $basename downloaded.");
 
         if( ! file_exists($basename) ) {
-            throw Exception("Download failed.");
+            throw new \Exception("Download failed.");
         }
         return $basename; // return the filename
     }
