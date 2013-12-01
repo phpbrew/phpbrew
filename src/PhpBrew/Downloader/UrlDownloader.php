@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Downloader;
+use RuntimeException;
 
 class UrlDownloader
 {
@@ -19,6 +20,10 @@ class UrlDownloader
         $this->logger->info("===> Downloading from $url");
 
         $info = parse_url($url);
+        if ( false == $info ) {
+            throw new RuntimeException("Can not parse url");
+        }
+
         $basename = basename( $info['path'] );
 
         // curl is faster than php
