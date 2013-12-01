@@ -21,7 +21,7 @@ class UrlDownloader
 
         $info = parse_url($url);
         if ( false == $info ) {
-            throw new RuntimeException("Can not parse url");
+            throw new RuntimeException("Can not parse url: $url");
         }
 
         $basename = basename( $info['path'] );
