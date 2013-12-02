@@ -19,6 +19,8 @@ fi
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
 
+[[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
+
 function phpbrew ()
 {
     if [[ -e bin/phpbrew ]] ; then
@@ -87,16 +89,19 @@ function phpbrew ()
             ;;
         install-composer)
             echo "Installing composer..."
-            bindir=$PHPBREW_ROOT/php/$PHPBREW_PHP/bin
-            wget -c --no-verbose http://getcomposer.org/composer.phar -O $bindir/composer
-            chmod +x $bindir/composer
+            cd $PHPBREW_BIN
+            wget --no-check-certificate -c --no-verbose http://getcomposer.org/composer.phar -O composer
+            chmod +x $PHPBREW_BIN/composer
+            cd -
             hash -r
             ;;
         install-onion)
             echo "Installing onion..."
-            bindir=$PHPBREW_ROOT/php/$PHPBREW_PHP/bin
-            wget -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O $bindir/onion
-            chmod +x $bindir/onion
+            cd $PHPBREW_BIN
+            wget --no-check-certificate -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O onion
+            chmod +x onion
+            cd -
+            hash -r
             ;;
         var-dir)
             local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
