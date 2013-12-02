@@ -373,6 +373,18 @@ You can also install extension via PECL and enable it manually:
 The `ext enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
 to enable the extension.
 
+
+### Configuring the php.ini for current php version
+
+Simply run:
+
+    phpbrew config
+
+You may specify the EDITOR environment variable to your favorite editor:
+
+    export EDITOR=vim
+    phpbrew config
+
 ## Upgrade phpbrew
 
 To upgrade phpbrew, you may simply run the `self-update` command,
