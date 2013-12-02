@@ -9,7 +9,7 @@
     ],
     "require": {
         "corneltek\/cliframework": "~1.5",
-        "corneltek\/pearx": "*"
+        "corneltek\/pearx": "dev-master"
     },
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master"
