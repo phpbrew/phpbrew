@@ -92,6 +92,12 @@ function phpbrew ()
             chmod +x $bindir/composer
             hash -r
             ;;
+        install-onion)
+            echo "Installing onion..."
+            bindir=$PHPBREW_ROOT/php/$PHPBREW_PHP/bin
+            wget -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O $bindir/onion
+            chmod +x $bindir/onion
+            ;;
         var-dir)
             local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
             echo "Switching to $chdir"
