@@ -17,7 +17,7 @@ if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
 fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
-
+[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
 
 function phpbrew ()
 {
@@ -256,9 +256,10 @@ function __phpbrew_set_path ()
 
     if [[ -z "$PHPBREW_PATH" ]]
     then
-        export PHPBREW_PATH="$PHPBREW_ROOT/bin"
+        export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+    else
+        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
     fi
-    export PATH=$PHPBREW_PATH:$PATH_WITHOUT_PHPBREW
     # echo "PATH => $PATH"
 }
 
