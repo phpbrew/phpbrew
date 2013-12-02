@@ -7,7 +7,6 @@ before_script:
   - phpenv rehash
   - curl http://install.onionphp.org/ | bash
   - curl -O https://raw.github.com/c9s/Onion/master/onion
-  - php onion install
   - composer install --dev
 
 script: phpunit --debug
