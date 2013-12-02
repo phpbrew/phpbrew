@@ -120,6 +120,17 @@ function phpbrew ()
                 nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
             fi
             ;;
+        ext)
+            case $2 in
+                disable)
+                    echo "Removing extension config..."
+                    rm -fv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini
+                ;;
+                *)
+                    $BIN ${*:1}
+                ;;
+            esac
+            ;;
         fpm)
             PHPFPM_BIN=$PHPBREW_ROOT/php/$PHPBREW_PHP/sbin/php-fpm
             PHPFPM_PIDFILE=$PHPBREW_ROOT/php/$PHPBREW_PHP/var/run/php-fpm.pid
