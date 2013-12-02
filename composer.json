@@ -12,12 +12,13 @@
         "corneltek\/pearx": "dev-master"
     },
     "require-dev": {
-        "corneltek\/phpunit-testmore": "dev-master"
+        "corneltek\/phpunit-testmore": "dev-master",
+        "corneltek\/universal": "*"
     },
     "autoload": {
         "psr-0": {
             "PhpBrew": "src"
         }
     },
-    "version": "1.10.2"
+    "version": "1.10.3"
 }
