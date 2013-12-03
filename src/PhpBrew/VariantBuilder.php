@@ -125,6 +125,9 @@ class VariantBuilder
         $this->variants['session']     = '--enable-session';
         $this->variants['tokenizer']     = '--enable-tokenizer';
 
+        // PHP 5.5 only variants
+        $this->variants['opcache']     = '--enable-opcache';
+
         $this->variants['mhash'] = '--with-mhash';
         $this->variants['mcrypt'] = '--with-mcrypt';
         $this->variants['imap'] = '--with-imap-ssl';
