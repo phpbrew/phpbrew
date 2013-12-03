@@ -17,7 +17,9 @@ if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
 fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
+[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
 
+[[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
 function phpbrew ()
 {
@@ -87,9 +89,18 @@ function phpbrew ()
             ;;
         install-composer)
             echo "Installing composer..."
-            bindir=$PHPBREW_ROOT/php/$PHPBREW_PHP/bin
-            wget -c --no-verbose http://getcomposer.org/composer.phar -O $bindir/composer
-            chmod +x $bindir/composer
+            cd $PHPBREW_BIN
+            wget --no-check-certificate -c --no-verbose http://getcomposer.org/composer.phar -O composer
+            chmod +x $PHPBREW_BIN/composer
+            cd -
+            hash -r
+            ;;
+        install-onion)
+            echo "Installing onion..."
+            cd $PHPBREW_BIN
+            wget --no-check-certificate -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O onion
+            chmod +x onion
+            cd -
             hash -r
             ;;
         var-dir)
@@ -250,9 +261,10 @@ function __phpbrew_set_path ()
 
     if [[ -z "$PHPBREW_PATH" ]]
     then
-        export PHPBREW_PATH="$PHPBREW_ROOT/bin"
+        export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+    else
+        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
     fi
-    export PATH=$PHPBREW_PATH:$PATH_WITHOUT_PHPBREW
     # echo "PATH => $PATH"
 }
 
