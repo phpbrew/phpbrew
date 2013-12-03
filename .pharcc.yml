@@ -13,7 +13,6 @@ exclude:
   - vendor/composer/installed.json
   - vendor/cbednarski
   - vendor/corneltek/phpunit-testmore
-  - vendor/corneltek/universal
   - vendor/symfony/console
   - vendor/symfony/finder
   - vendor/symfony/yaml
