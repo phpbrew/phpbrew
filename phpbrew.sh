@@ -26,7 +26,7 @@ function phpbrew ()
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
     else
-        BIN='phpbrew'
+        BIN=$(which -p phpbrew)
     fi
 
     local exit_status

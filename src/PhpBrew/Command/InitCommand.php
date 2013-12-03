@@ -85,7 +85,7 @@ function phpbrew ()
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
     else
-        BIN='phpbrew'
+        BIN=$(which -p phpbrew)
     fi
 
     local exit_status
@@ -398,6 +398,8 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
+
 
 
 
