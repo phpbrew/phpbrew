@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1d06a747c5e02d1985b54a1783697583",
+    "hash": "3822fe91124e3363469fd906d43f4f66",
     "packages": [
         {
             "name": "corneltek/cliframework",
