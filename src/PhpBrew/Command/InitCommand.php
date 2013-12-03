@@ -197,7 +197,7 @@ function phpbrew ()
                     rm -fv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini
                 ;;
                 *)
-                    $BIN ${*:1}
+                    command $BIN ${*:1}
                 ;;
             esac
             ;;
@@ -398,6 +398,7 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
