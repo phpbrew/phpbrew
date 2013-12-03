@@ -1,0 +1,481 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "b55c393fdb3a8ff9cb1ca5deef853818",
+    "packages": [
+        {
+            "name": "corneltek/cliframework",
+            "version": "1.5.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c9s/php-CLIFramework.git",
+                "reference": "3a0ee6142a401267be895b91f4529f006109daf9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/php-CLIFramework/zipball/3a0ee6142a401267be895b91f4529f006109daf9",
+                "reference": "3a0ee6142a401267be895b91f4529f006109daf9",
+                "shasum": ""
+            },
+            "require": {
+                "corneltek/getoptionkit": "1.*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "corneltek/phpunit-testmore": "dev-master",
+                "corneltek/universal": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "CLIFramework": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yo-An Lin",
+                    "email": "cornelius.howl@gmail.com",
+                    "homepage": "http://c9s.me"
+                }
+            ],
+            "description": "Command-line framework for PHP",
+            "homepage": "http://github.com/c9s/CLIFramework",
+            "time": "2013-12-02 12:31:29"
+        },
+        {
+            "name": "corneltek/getoptionkit",
+            "version": "1.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c9s/php-GetOptionKit.git",
+                "reference": "8f99bfb86c9d04acae76a6c0f05e24c89079a2da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/php-GetOptionKit/zipball/8f99bfb86c9d04acae76a6c0f05e24c89079a2da",
+                "reference": "8f99bfb86c9d04acae76a6c0f05e24c89079a2da",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "corneltek/phpunit-testmore": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GetOptionKit": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yo-An Lin",
+                    "email": "cornelius.howl@gmail.com",
+                    "homepage": "http://c9s.me"
+                }
+            ],
+            "description": "Powerful command-line option toolkit",
+            "homepage": "http://github.com/c9s/GetOptionKit",
+            "time": "2013-07-18 12:15:20"
+        },
+        {
+            "name": "corneltek/pearx",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c9s/php-PEARX.git",
+                "reference": "0dce445efe89a41026d82c9de06ac90002b7cf00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/php-PEARX/zipball/0dce445efe89a41026d82c9de06ac90002b7cf00",
+                "reference": "0dce445efe89a41026d82c9de06ac90002b7cf00",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PEARX": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yo-An Lin",
+                    "email": "cornelius.howl@gmail.com",
+                    "homepage": "http://c9s.me"
+                }
+            ],
+            "description": "PEAR channel client",
+            "homepage": "http://github.com/c9s/PEARX",
+            "time": "2013-03-23 16:11:13"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v2.3.7",
+            "target-dir": "Symfony/Component/Process",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Process.git",
+                "reference": "82898108f79040314a7b3ba430a72c32c7f61d14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/82898108f79040314a7b3ba430a72c32c7f61d14",
+                "reference": "82898108f79040314a7b3ba430a72c32c7f61d14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Process\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-10-30 08:30:20"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "cbednarski/fileutils",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cbednarski/FileUtils.git",
+                "reference": "12081e7886a4b41dd6fa54686da00bf1fc0c1c4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cbednarski/FileUtils/zipball/12081e7886a4b41dd6fa54686da00bf1fc0c1c4c",
+                "reference": "12081e7886a4b41dd6fa54686da00bf1fc0c1c4c",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "cbednarski": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Bednarski",
+                    "email": "banzaimonkey@gmail.com"
+                }
+            ],
+            "description": "PHP Library for doing path-based filename manipulation and other similar fun activities",
+            "time": "2013-11-01 01:28:21"
+        },
+        {
+            "name": "cbednarski/pharcc",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cbednarski/pharcc.git",
+                "reference": "0e6eaf8e0a07b9bb3effdd3f48e99fc5961baed8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cbednarski/pharcc/zipball/0e6eaf8e0a07b9bb3effdd3f48e99fc5961baed8",
+                "reference": "0e6eaf8e0a07b9bb3effdd3f48e99fc5961baed8",
+                "shasum": ""
+            },
+            "require": {
+                "cbednarski/fileutils": "dev-master",
+                "symfony/console": "2.3.*",
+                "symfony/finder": "2.3.*",
+                "symfony/yaml": "2.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "cbednarski": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Bednarski",
+                    "email": "banzaimonkey@gmail.com"
+                }
+            ],
+            "description": "Phar compiler library",
+            "time": "2013-09-11 03:25:00"
+        },
+        {
+            "name": "corneltek/phpunit-testmore",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c9s/PHPUnit_TestMore.git",
+                "reference": "e10a5ba320b9c3d3f7d42436e9196238558b8b51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/PHPUnit_TestMore/zipball/e10a5ba320b9c3d3f7d42436e9196238558b8b51",
+                "reference": "e10a5ba320b9c3d3f7d42436e9196238558b8b51",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/PHPUnit/TestMore.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2013-03-21 08:49:44"
+        },
+        {
+            "name": "corneltek/universal",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c9s/php-Universal.git",
+                "reference": "52e4a134eb59911bddda9fc5dd8291f81ec230b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/php-Universal/zipball/52e4a134eb59911bddda9fc5dd8291f81ec230b6",
+                "reference": "52e4a134eb59911bddda9fc5dd8291f81ec230b6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "corneltek/phpunit-testmore": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Universal": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yo-An Lin",
+                    "email": "cornelius.howl@gmail.com",
+                    "homepage": "http://c9s.me"
+                }
+            ],
+            "description": "Universal library for PHP",
+            "homepage": "http://github.com/c9s/Universal",
+            "time": "2013-03-23 15:16:59"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v2.3.7",
+            "target-dir": "Symfony/Component/Console",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Console.git",
+                "reference": "00848d3e13cf512e77c7498c2b3b0192f61f4b18"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/00848d3e13cf512e77c7498c2b3b0192f61f4b18",
+                "reference": "00848d3e13cf512e77c7498c2b3b0192f61f4b18",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "suggest": {
+                "symfony/event-dispatcher": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Console\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-11-13 21:27:40"
+        },
+        {
+            "name": "symfony/finder",
+            "version": "v2.3.7",
+            "target-dir": "Symfony/Component/Finder",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Finder.git",
+                "reference": "a175521f680b178e63c5d0ab87c6b046c0990c3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/a175521f680b178e63c5d0ab87c6b046c0990c3f",
+                "reference": "a175521f680b178e63c5d0ab87c6b046c0990c3f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Finder\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Finder Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-09-19 09:45:20"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.3.7",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "c1bda5b459d792cb253de12c65beba3040163b2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/c1bda5b459d792cb253de12c65beba3040163b2b",
+                "reference": "c1bda5b459d792cb253de12c65beba3040163b2b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-10-17 11:48:01"
+        }
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "corneltek/pearx": 20,
+        "corneltek/phpunit-testmore": 20,
+        "cbednarski/fileutils": 20
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}

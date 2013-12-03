@@ -14,7 +14,9 @@
     },
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master",
-        "corneltek\/universal": "*"
+        "corneltek\/universal": "*",
+		"cbednarski/pharcc": "0.2.*",
+		"cbednarski/fileutils": "dev-master"
     },
     "autoload": {
         "psr-0": {
