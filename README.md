@@ -22,13 +22,6 @@ What phpbrew can do for you:
 
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/03.png"/>
 
-
-## Platform support
-
-* Mac OS 10.5+
-* Ubuntu
-* Debian
-
 ## Requirement
 
 Please see [Requirement](https://github.com/c9s/phpbrew/wiki/Requirement) for your platform.
