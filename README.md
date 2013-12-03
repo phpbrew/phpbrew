@@ -31,7 +31,7 @@ What phpbrew can do for you:
 
 ## Requirement
 
-Please see [[wiki/Requirement]] for your platform.
+Please see [Requirement](wiki/Requirement) for your platform.
 
 ## Command Overview
 
