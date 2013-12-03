@@ -14,6 +14,11 @@ class Paths
     public static function getDebianPrefix() {
         return "/usr";
     }
+
+    public static function getRedhatPrefix() {
+        return "/usr/local";
+    }
+
 }
 
 
