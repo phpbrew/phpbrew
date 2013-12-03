@@ -5,6 +5,7 @@ onion compile \
     --lib vendor/corneltek/pearx/src \
     --lib vendor/corneltek/getoptionkit/src \
     --lib vendor/corneltek/universal/src \
+    --lib vendor/symfony/process \
     --classloader \
     --bootstrap scripts/phpbrew-emb.php \
     --executable \
