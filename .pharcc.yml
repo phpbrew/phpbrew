@@ -17,4 +17,3 @@ exclude:
   - vendor/symfony/console
   - vendor/symfony/finder
   - vendor/symfony/yaml
-  - vendor/symfony/process
