@@ -31,74 +31,7 @@ What phpbrew can do for you:
 
 ## Requirement
 
-* PHP5.3
-* curl
-* gcc, binutil, autoconf, libxml, zlib, readline
-
-### Mac OS X Requirement
-
-MacPorts users:
-
-```bash
-port install curl automake autoconf icu depof:php5 mcrypt re2c gettext openssl
-```
-
-HomeBrew users:
-
-```bash
-brew install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
-brew link icu4c
-```
-
-### Ubuntu/Debian Requirement
-
-**Please note that you need to disable suhosin patch to run phpbrew.**
-
-```bash
-sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev php5-cli bison libbz2-dev
-sudo apt-get build-dep php5
-```
-
-### Fedora Requirement
-
-```bash
-yum install php php-devel php-pear bzip2-devel yum-utils bison re2c libmcrypt-devel libpqxx-devel libxslt-devel
-yum-builddep php
-```
-
-### Cent OS Requirement
-
-**Please note that you need to disable suhosin patch to run phpbrew.**
-
-Cent OS requirement setup
-
-```bash
-sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
-
-# If you don't have php
-sudo yum install --enablerepo=webtatic php php-xml
-wget http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
-sudo rpm -Uvh rpmforge-release-0.5.2-2.el5.rf.x86_64.rpm
-sudo yum install --enablerepo=rpmforge re2c libmhash
-```
-
-Reference: http://matome.naver.jp/odai/2133887830324055901
-
-
-
-
-
-## Install phpbrew
-
-Just download it:
-
-```bash
-curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
-chmod +x phpbrew
-sudo cp phpbrew /usr/bin/phpbrew
-```
-
-
+Please see [[wiki/Requirement]] for your platform.
 
 ## Command Overview
 
