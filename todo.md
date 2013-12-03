@@ -1,5 +1,16 @@
 # Todo
 
+- Ability to specify the default prefix, for example:
+   Macports uses /opt/local
+   Homebrew uses /usr/local
+   Ubuntu use /usr
+
+   Users can specify the prefer one when running init command.
+
+        phpbrew init --prefer-prefix=macports
+
+   When configuring php
+
 - Ability to switch curl, wget or pure php downloader.
 - Smarter build tasks
     - xdebug (enable zend extension with absolute path)

@@ -2,6 +2,12 @@ Contribution
 ================
 
 
+Installing the dependencies
+-----------------------------
+
+    $ composer install --dev
+
+
 Changing Shell Script
 ---------------------
 

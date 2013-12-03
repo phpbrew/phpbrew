@@ -9,7 +9,8 @@
     ],
     "require": {
         "corneltek\/cliframework": "~1.5",
-        "corneltek\/pearx": "dev-master"
+        "corneltek\/pearx": "dev-master",
+        "symfony/process": "~2.3"
     },
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master",
