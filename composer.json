@@ -13,7 +13,6 @@
     },
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master",
-        "corneltek\/universal": "*",
 		"cbednarski/pharcc": "0.2.*",
 		"cbednarski/fileutils": "dev-master"
     },

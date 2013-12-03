@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c7d1cfe576dc602ddcf803c2e2df6c4a",
+    "hash": "1d06a747c5e02d1985b54a1783697583",
     "packages": [
         {
             "name": "corneltek/cliframework",
@@ -226,47 +226,6 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2013-03-21 08:49:44"
-        },
-        {
-            "name": "corneltek/universal",
-            "version": "1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/c9s/php-Universal.git",
-                "reference": "52e4a134eb59911bddda9fc5dd8291f81ec230b6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/c9s/php-Universal/zipball/52e4a134eb59911bddda9fc5dd8291f81ec230b6",
-                "reference": "52e4a134eb59911bddda9fc5dd8291f81ec230b6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "corneltek/phpunit-testmore": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Universal": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Yo-An Lin",
-                    "email": "cornelius.howl@gmail.com",
-                    "homepage": "http://c9s.me"
-                }
-            ],
-            "description": "Universal library for PHP",
-            "homepage": "http://github.com/c9s/Universal",
-            "time": "2013-03-23 15:16:59"
         },
         {
             "name": "symfony/console",
