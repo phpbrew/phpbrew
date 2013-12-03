@@ -40,7 +40,7 @@ What phpbrew can do for you:
 MacPorts users:
 
 ```bash
-port install curl automake autoconf icu depof:php5 mcrypt re2c
+port install curl automake autoconf icu depof:php5 mcrypt re2c gettext openssl
 ```
 
 HomeBrew users:
