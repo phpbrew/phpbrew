@@ -3,10 +3,15 @@ use PhpBrew\Utils;
 
 class UtilsTest extends PHPUnit_Framework_TestCase
 {
-    function test()
+    public function test()
     {
         Utils::support_64bit();
         ok(1);
+    }
+
+    public function testPrefix() {
+        ok( Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc','x86_64-linux-gnu/icu/pkgdata.inc') );
+        ok( Utils::find_include_prefix('openssl/opensslv.h') );
     }
 }
 

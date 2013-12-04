@@ -77,25 +77,6 @@ class Utils
             }
         }
     }
-    
-
-    /**
-     * Return the actual header file path from the lookup prefixes.
-     *
-     * @param string $hfile the header file name
-     * @return string full qualified header file path
-     */
-    static function find_include_path($hfile)
-    {
-        $prefixes = self::get_lookup_prefixes();
-        foreach( $prefixes as $prefix ) {
-            $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
-            $path = $dir . DIRECTORY_SEPARATOR . $hfile;
-            if ( file_exists($path) ) {
-                return $dir;
-            }
-        }
-    }
 
 
     static function get_lookup_prefixes() 
@@ -113,8 +94,31 @@ class Utils
         return $prefixes;
     }
 
-    static function find_lib_prefix($file) {
-        $files = (array) $file;
+    
+
+    /**
+     * Return the actual header file path from the lookup prefixes.
+     *
+     * @param string $hfile the header file name
+     * @return string full qualified header file path
+     */
+    static function find_include_path()
+    {
+        $files = func_get_args();
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            foreach( $files as $file ) {
+                $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
+                $path = $dir . DIRECTORY_SEPARATOR . $file;
+                if ( file_exists($path) ) {
+                    return $dir;
+                }
+            }
+        }
+    }
+
+    static function find_lib_prefix() {
+        $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
         foreach( $prefixes as $prefix ) {
             foreach( $files as $file ) {
@@ -126,14 +130,13 @@ class Utils
         }
     }
 
-    static function find_include_prefix($hfile)
+    static function find_include_prefix()
     {
-        $hfiles = (array) $hfile;
+        $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
         foreach( $prefixes as $prefix ) {
-            foreach( $hfiles as $file ) {
-                $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
-                if ( file_exists($p) ) {
+            foreach( $files as $file ) {
+                if ( file_exists($prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file) ) {
                     return $prefix;
                 }
             }

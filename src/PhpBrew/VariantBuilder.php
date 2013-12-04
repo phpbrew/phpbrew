@@ -173,14 +173,14 @@ class VariantBuilder
                 $prefix = Utils::find_include_prefix('gd.h');
             }
 
-            $opts[] = '--with-gd=' . $prefix;
+            $opts[] = "--with-gd=$prefix";
             $opts[] = '--enable-gd-native-ttf';
 
-            if( $p = Utils::find_include_prefix('jpeglib.h') ) {
-                $opts[] = '--with-jpeg-dir=' . $p;
+            if( $prefix = Utils::find_include_prefix('jpeglib.h') ) {
+                $opts[] = "--with-jpeg-dir=$prefix";
             }
-            if( $p = Utils::find_include_prefix('png.h') ) {
-                $opts[] = '--with-png-dir=' . $p;
+            if( $prefix = Utils::find_include_prefix('png.h', 'libpng12/pngconf.h') ) {
+                $opts[] = "--with-png-dir=$prefix";
             }
             return $opts;
         };
@@ -194,12 +194,12 @@ class VariantBuilder
                 return '--with-icu-dir=' . $val;
             }
             // the last one path is for Ubuntu
-            if ( $prefix = Utils::find_lib_prefix(array('icu/pkgdata.inc','icu/Makefile.inc','x86_64-linux-gnu/icu/pkgdata.inc')) ) {
+            if ( $prefix = Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc','x86_64-linux-gnu/icu/pkgdata.inc') ) {
                 return '--with-icu-dir=' . $prefix;
             }
 
             // For macports
-            if ( $prefix = Utils::get_pkgconfig_prefix('icu-i18n');
+            if ( $prefix = Utils::get_pkgconfig_prefix('icu-i18n') ) {
                 return '--with-icu-dir=' . $prefix;
             }
             die("libicu not found, please install libicu-dev or libicu library/development files.");
@@ -303,28 +303,33 @@ class VariantBuilder
 
 
         $this->variants['gettext'] = function($build, $prefix = null) {
-            if( $prefix )
+            if ( $prefix ) {
                 return '--with-gettext=' . $prefix;
-            if( $prefix = Utils::find_include_prefix('libintl.h') )
+            }
+            if ( $prefix = Utils::find_include_prefix('libintl.h') ) {
                 return '--with-gettext=' . $prefix;
+            }
             return '--with-gettext';
         };
 
 
-        $this->variants['iconv'] = function($build) {
+        $this->variants['iconv'] = function($build, $prefix = null) {
+            if ( $prefix ) {
+                return "--with-iconv=$prefix";
+            }
             // detect include path for iconv.h
             if( $prefix = Utils::find_include_prefix('iconv.h') ) {
-                return "--with-iconv";
-                // return "--with-iconv=$prefix";
+                return "--with-iconv=$prefix";
             }
             return "--with-iconv";
         };
 
         $this->variants['bz2'] = function($build, $prefix = null) {
-            if( ! $prefix ) {
-                if ( $prefix = Utils::find_include_prefix('bzlib.h') ) {
-                    return '--with-bz2=' . $prefix;
-                }
+            if ( $prefix ) {
+                return "--with-bz2=$prefix";
+            }
+            if ( $prefix = Utils::find_include_prefix('bzlib.h') ) {
+                return "--with-bz2=$prefix";
             }
             return '--with-bz2';
         };
