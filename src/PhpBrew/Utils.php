@@ -82,16 +82,28 @@ class Utils
     static function get_lookup_prefixes() 
     {
         $prefixes = array(
+            '/opt',
+            '/opt/local',
             '/usr',
             '/usr/local',
-            '/opt', 
-            '/opt/local',
         );
+
         if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
             $paths = explode(':', $pathstr);
-            array_splice($prefixes,0,0, $paths);
+            foreach( $paths as $path ) {
+                $prefixes[] = $path;
+            }
         }
-        return $prefixes;
+
+        // if there is lib path, insert it to the end.
+        foreach( $prefixes as $prefix ) {
+            if ( file_exists("$prefix/x86_64-linux-gnu") ) {
+                $prefixes[] = "$prefix/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/i386-linux-gnu") ) {
+                $prefixes[] = "$prefix/i386-linux-gnu";
+            } 
+        }
+        return array_reverse($prefixes);
     }
 
     

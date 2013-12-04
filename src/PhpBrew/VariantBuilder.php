@@ -196,11 +196,12 @@ class VariantBuilder
         $this->variants['gd'] = function($build, $prefix = null) use($self) {
             $opts = array();
 
-            if ( ! $prefix ) {
-                $prefix = Utils::find_include_prefix('gd.h');
+            if ( $prefix ) {
+                $opts[] = "--with-gd=$prefix";
+            } else if ( $prefix = Utils::find_include_prefix('gd.h') ) {
+                $opts[] = "--with-gd=$prefix";
             }
 
-            $opts[] = "--with-gd=$prefix";
             $opts[] = '--enable-gd-native-ttf';
 
             if( $prefix = Utils::find_include_prefix('jpeglib.h') ) {
@@ -210,7 +211,8 @@ class VariantBuilder
                 $opts[] = "--with-png-dir=$prefix";
             }
 
-            if ( $prefix = Utils::find_include_prefix('freetype2/freetype.h') ) {
+            // $dir/include/freetype2/freetype/freetype.h
+            if ( $prefix = Utils::find_include_prefix('freetype2/freetype.h','freetype2/freetype/freetype.h') ) {
                 $opts[] = "--with-freetype-dir=$prefix";
             }
             return $opts;
@@ -225,7 +227,7 @@ class VariantBuilder
                 return '--with-icu-dir=' . $val;
             }
             // the last one path is for Ubuntu
-            if ( $prefix = Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc','x86_64-linux-gnu/icu/pkgdata.inc') ) {
+            if ( $prefix = Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc') ) {
                 return '--with-icu-dir=' . $prefix;
             }
 
@@ -545,6 +547,14 @@ class VariantBuilder
                 $this->addOptions('--with-libxml-dir=' . $prefix);
             }
         }
+
+        if ( $prefix = Utils::find_lib_prefix('i386-linux-gnu') ) {
+            $this->addOptions("--with-libdir=lib/i386-linux-gnu");
+        } else if ( $prefix = Utils::find_lib_prefix('x86_64-linux-gnu') ) {
+            $this->addOptions("--with-libdir=lib/x86_64-linux-gnu");
+        }
+
+
 
 
         // enable/expand virtual variants
