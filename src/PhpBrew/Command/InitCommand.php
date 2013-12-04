@@ -91,20 +91,24 @@ fi
 function __phpbrew_set_lookup_prefix ()
 {
     case $1 in
-        macosx|debian|debian|ubuntu|redhat|fedora)
-            echo "/usr"
+        debian|ubuntu|linux)
+            # echo /usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu
+            echo /usr
+        ;;
+        macosx)
+            echo /usr
         ;;
         macports)
-            echo "/opt/local"
+            echo /opt/local
         ;;
         homebrew)
-            echo "/usr/local"
+            echo /usr/local:/usr/local/Cellar
         ;;
         *)
             if [[ -e $1 ]] ; then
                 echo $1
             else
-                echo "/usr"
+                echo /usr
             fi
         ;;
     esac
@@ -463,6 +467,8 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
+
 
 
 
