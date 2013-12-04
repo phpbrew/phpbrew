@@ -53,6 +53,14 @@ $ source ~/.phpbrew/bashrc
 You may setup your prefered default prefix for looking up libraries, available
 options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
 
+For Homebrew users:
+
+```bash
+$ phpbrew lookup-prefix homebrew
+```
+
+For Macports users:
+
 ```bash
 $ phpbrew lookup-prefix macports
 ```

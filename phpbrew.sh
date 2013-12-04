@@ -43,7 +43,7 @@ function __phpbrew_set_lookup_prefix ()
             echo /opt/local
         ;;
         homebrew)
-            echo /usr/local:/usr/local/Cellar
+            echo /usr/local/Cellar:/usr/local
         ;;
         *)
             if [[ -e $1 ]] ; then
