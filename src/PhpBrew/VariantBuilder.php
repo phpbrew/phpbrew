@@ -166,20 +166,19 @@ class VariantBuilder
             return $opts;
         };
 
-        $this->variants['gd'] = function($build) use($self) {
+        $this->variants['gd'] = function($build, $prefix = null) use($self) {
             $opts = array();
-            if( $prefix = Utils::find_include_prefix('gd.h') ) {
-                $opts[] = '--with-gd=' . $prefix;
-                $opts[] = '--enable-gd-native-ttf';
+
+            if ( ! $prefix ) {
+                $prefix = Utils::find_include_prefix('gd.h');
             }
-            else {
-                echo "** libgd not found.\n";
-            }
+
+            $opts[] = '--with-gd=' . $prefix;
+            $opts[] = '--enable-gd-native-ttf';
 
             if( $p = Utils::find_include_prefix('jpeglib.h') ) {
                 $opts[] = '--with-jpeg-dir=' . $p;
             }
-
             if( $p = Utils::find_include_prefix('png.h') ) {
                 $opts[] = '--with-png-dir=' . $p;
             }
@@ -191,33 +190,42 @@ class VariantBuilder
          * with icu
          */
         $this->variants['icu'] = function($build, $val = null) use($self) {
-            // XXX: it seems that /usr prefix does not work on Ubuntu
-            //       Linux system.
             if( $val ) {
-                return '--with-icu=' . $val;
+                return '--with-icu-dir=' . $val;
             }
-            $prefix = Utils::get_pkgconfig_prefix('icu-i18n');
-            if( ! $prefix ) {
-                echo "phpbrew precheck: icu not found.\n";
-                return '--with-icu';
+            // the last one path is for Ubuntu
+            if ( $prefix = Utils::find_lib_prefix(array('icu/pkgdata.inc','icu/Makefile.inc','x86_64-linux-gnu/icu/pkgdata.inc')) ) {
+                return '--with-icu-dir=' . $prefix;
             }
-            return '--with-icu';
+
+            // For macports
+            if ( $prefix = Utils::get_pkgconfig_prefix('icu-i18n');
+                return '--with-icu-dir=' . $prefix;
+            }
+            die("libicu not found, please install libicu-dev or libicu library/development files.");
         };
 
 
         /**
          * --with-openssl option
+         *
+         * --with-openssh=shared
+         * --with-openssl=[dir]
+         *
+         * On ubuntu you need to install libssl-dev
          */
         $this->variants['openssl'] = function($build, $val = null) use($self) {
-            // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
             if( $val ) {
                 return '--with-openssl=' . $val;
             }
-            $prefix = Utils::get_pkgconfig_prefix('openssl');
-            if( ! $prefix ) {
-                echo "phpbrew precheck: openssl not found.\n";
-                return '--with-openssl';
+            if ( $prefix = Utils::find_include_prefix('openssl/opensslv.h') ) {
+                return '--with-openssl=' . $prefix;
             }
+            if ( $prefix = Utils::get_pkgconfig_prefix('openssl') ) {
+                return '--with-openssl=' . $prefix;
+            }
+            // This will create openssl.so file for dynamic loading.
+            echo "Compiling with openssl=shared, please install libssl-dev or openssl header files if you need";
             return '--with-openssl=shared';
         };
 
@@ -250,8 +258,9 @@ class VariantBuilder
             $opts = array(
                 '--with-sqlite3' . ($prefix ? "=$prefix" : '')
             );
-            if ( $build->hasVariant('pdo') )
+            if ( $build->hasVariant('pdo') ) {
                 $opts[] = '--with-pdo-sqlite';
+            }
             return $opts;
         };
 
@@ -281,7 +290,13 @@ class VariantBuilder
         $this->variants['apxs2'] = function($build, $prefix = null) use ($self) {
             $a = '--with-apxs2';
             if( $prefix ) {
-                $a .= '=' . $prefix;
+                return '--with-apxs2=' . $prefix;
+            }
+            if ( $bin = Utils::find_bin_by_prefix('apxs2') ) {
+                return '--with-apxs2=' . $bin;
+            }
+            if ( $bin = Utils::find_bin_by_prefix('apxs') ) {
+                return '--with-apxs2=' . $bin;
             }
             return $a;
         };

@@ -60,7 +60,10 @@ class Utils
     }
 
 
-    static function find_bin($bin)
+    /**
+     * Find bin from prefix list
+     */
+    static function find_bin_by_prefix($bin)
     {
         $prefixes = self::get_lookup_prefixes();
         foreach( $prefixes as $prefix ) {
@@ -76,6 +79,12 @@ class Utils
     }
     
 
+    /**
+     * Return the actual header file path from the lookup prefixes.
+     *
+     * @param string $hfile the header file name
+     * @return string full qualified header file path
+     */
     static function find_include_path($hfile)
     {
         $prefixes = self::get_lookup_prefixes();
@@ -104,14 +113,29 @@ class Utils
         return $prefixes;
     }
 
+    static function find_lib_prefix($file) {
+        $files = (array) $file;
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            foreach( $files as $file ) {
+                $p = $prefix . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file;
+                if ( file_exists($p) ) {
+                    return $prefix;
+                }
+            }
+        }
+    }
 
     static function find_include_prefix($hfile)
     {
+        $hfiles = (array) $hfile;
         $prefixes = self::get_lookup_prefixes();
         foreach( $prefixes as $prefix ) {
-            $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
-            if ( file_exists($p) ) {
-                return $prefix;
+            foreach( $hfiles as $file ) {
+                $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
+                if ( file_exists($p) ) {
+                    return $prefix;
+                }
             }
         }
     }
