@@ -171,6 +171,12 @@ class Utils
         }
     }
 
+    /**
+     * Find executable binary by PATH environment.
+     *
+     * @param string $bin binary name
+     * @return string the path
+     */
     static function findbin($bin)
     {
         $path = getenv('PATH');
