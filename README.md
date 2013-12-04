@@ -50,6 +50,14 @@ Then add these lines to your `.bashrc` or `.zshrc` file:
 $ source ~/.phpbrew/bashrc
 ```
 
+You may setup your prefered default prefix for looking up libraries, available
+options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
+
+```bash
+$ phpbrew lookup-prefix macports
+```
+
+
 To list known versions:
 
 ```bash

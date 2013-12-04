@@ -115,12 +115,14 @@ function phpbrew ()
                 __phpbrew_reinit $2
             fi
             ;;
-        lookup)
+        lookup-prefix)
             if [[ -z "$2" ]] ; then
-                echo $PHPBREW_LOOKUP
+                if [[ -n $PHPBREW_LOOKUP_PREFIX ]] ; then
+                    echo $PHPBREW_LOOKUP_PREFIX
+                fi
             else
-                export PHPBREW_LOOKUP=$(__phpbrew_set_lookup_prefix $2)
-                echo $PHPBREW_LOOKUP
+                export PHPBREW_LOOKUP_PREFIX=$(__phpbrew_set_lookup_prefix $2)
+                echo $PHPBREW_LOOKUP_PREFIX
                 __phpbrew_update_config
             fi
             ;;
@@ -257,8 +259,8 @@ function phpbrew ()
             fi
             echo "export PHPBREW_ROOT=$PHPBREW_ROOT";
             echo "export PHPBREW_HOME=$PHPBREW_HOME";
-            if [[ -n $PHPBREW_LOOKUP ]] ; then
-                echo "export PHPBREW_LOOKUP=$PHPBREW_LOOKUP";
+            if [[ -n $PHPBREW_LOOKUP_PREFIX ]] ; then
+                echo "export PHPBREW_LOOKUP_PREFIX=$PHPBREW_LOOKUP_PREFIX";
             fi
             if [[ -n $PHPBREW_PHP ]] ; then
                 echo "export PHPBREW_PHP=$PHPBREW_PHP";
