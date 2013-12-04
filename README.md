@@ -111,6 +111,13 @@ To install older versions (less than 5.3):
 $ phpbrew install --old php-5.2.13
 ```
 
+## Clean up build
+
+
+```bash
+$ phpbrew clean
+```
+
 
 ## Variants
 
