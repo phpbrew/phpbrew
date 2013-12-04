@@ -1,0 +1,19 @@
+name: phpbrew.phar
+main: bin/phpbrew
+include:
+  - src/
+  - vendor
+exclude:
+  - /[Tt]ests?/
+  - Test\.php$
+  - example
+  - .*\.(xml|md|json|lock|ini)$
+  - LICENSE
+  - Doxyfile
+  - vendor/composer/installed.json
+  - vendor/cbednarski
+  - vendor/corneltek/phpunit-testmore
+  - vendor/corneltek/universal
+  - vendor/symfony/console
+  - vendor/symfony/finder
+  - vendor/symfony/yaml
