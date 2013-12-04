@@ -475,7 +475,11 @@ A: Currently, you can install php5.x.x and rename the /Users/c9s/.phpbrew/php/ph
 
 Contribution
 ------------------
-Please see [Contribution.md]
+Please see [Contribution](https://github.com/c9s/phpbrew/wiki/Contribution)
+
+Documentation
+-------------
+Please see [Wiki](https://github.com/c9s/phpbrew/wiki)
 
 
 Community
