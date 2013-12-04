@@ -209,6 +209,10 @@ class VariantBuilder
             if( $prefix = Utils::find_include_prefix('png.h', 'libpng12/pngconf.h') ) {
                 $opts[] = "--with-png-dir=$prefix";
             }
+
+            if ( $prefix = Utils::find_include_prefix('freetype2/freetype.h') ) {
+                $opts[] = "--with-freetype-dir=$prefix";
+            }
             return $opts;
         };
 
