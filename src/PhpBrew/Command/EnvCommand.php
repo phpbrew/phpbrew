@@ -20,14 +20,14 @@ class EnvCommand extends \CLIFramework\Command
         $root = Config::getPhpbrewRoot();
         $home = Config::getPhpbrewHome();
         $buildDir = Config::getBuildDir();
-        $lookup = getenv('PHPBREW_LOOKUP');
+        $lookup = getenv('PHPBREW_LOOKUP_PREFIX');
 
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
         echo "export PHPBREW_ROOT=$root\n";
         echo "export PHPBREW_HOME=$home\n";
-        echo "export PHPBREW_LOOKUP=$lookup\n";
+        echo "export PHPBREW_LOOKUP_PREFIX=$lookup\n";
         
 
         if ($version !== false) {

@@ -59,32 +59,60 @@ class Utils
         return false;
     }
 
+
+    static function find_bin($bin)
+    {
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            $binpath = $prefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
+            if ( file_exists($binpath) ) {
+                return $binpath;
+            }
+            $binpath = $prefix . DIRECTORY_SEPARATOR . 'sbin' . DIRECTORY_SEPARATOR . $bin;
+            if ( file_exists($binpath) ) {
+                return $binpath;
+            }
+        }
+    }
+    
+
     static function find_include_path($hfile)
     {
-        $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
+        $prefixes = self::get_lookup_prefixes();
         foreach( $prefixes as $prefix ) {
             $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
             $path = $dir . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($path) )
+            if ( file_exists($path) ) {
                 return $dir;
+            }
         }
+    }
 
+
+    static function get_lookup_prefixes() 
+    {
+        $prefixes = array(
+            '/usr',
+            '/usr/local',
+            '/opt', 
+            '/opt/local',
+        );
+        if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
+            $paths = explode(':', $pathstr);
+            array_splice($prefixes,0,0, $paths);
+        }
+        return $prefixes;
     }
 
 
     static function find_include_prefix($hfile)
     {
-        // TODO: phpbrew can be smarter (add brew path for detection here)
-        $prefixes = array(
-            '/usr',
-            '/opt', 
-            '/usr/local', 
-            '/opt/local',
-        );
+        $prefixes = self::get_lookup_prefixes();
         foreach( $prefixes as $prefix ) {
             $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($p) )
+            if ( file_exists($p) ) {
                 return $prefix;
+            }
         }
     }
 
