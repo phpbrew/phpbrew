@@ -26,7 +26,7 @@ class UrlDownloader
 
         // check for wget or curl for downloading the php source archive
         if( exec( 'command -v wget' ) ) {
-            system( 'wget -c -O ' . $basename . ' ' . $url ) !== false or die("Download failed.\n");
+            system( 'wget --no-check-certificate -c -O ' . $basename . ' ' . $url ) !== false or die("Download failed.\n");
         } elseif (exec( 'command -v curl' )) {
             system( 'curl -C - -# -L -o ' . $basename . ' ' . $url ) !== false or die("Download failed.\n");
         } else {
