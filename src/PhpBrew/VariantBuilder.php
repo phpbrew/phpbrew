@@ -193,7 +193,7 @@ class VariantBuilder
             return '--with-readline';
         };
 
-        $this->variants['gd'] = function($build, $prefix = null) use($self) {
+        $this->variants['gd'] = function($build, $prefix = null) use ($self) {
             $opts = array();
 
             if ( $prefix ) {
@@ -211,8 +211,14 @@ class VariantBuilder
                 $opts[] = "--with-png-dir=$prefix";
             }
 
-            // $dir/include/freetype2/freetype/freetype.h
-            if ( $prefix = Utils::find_include_prefix('freetype2/freetype.h','freetype2/freetype/freetype.h') ) {
+            // the freetype-dir option does not take prefix as its value,
+            // it takes the freetype.h directory as its value.
+            //
+            // from configure:
+            //   for path in $i/include/freetype2/freetype/freetype.h
+            if ( $prefix = Utils::find_include_prefix('freetype2/freetype.h') ) {
+                $opts[] = "--with-freetype-dir=$prefix";
+            } else if ( $prefix = Utils::find_include_prefix("freetype2/freetype/freetype.h") ) {
                 $opts[] = "--with-freetype-dir=$prefix";
             }
             return $opts;
