@@ -28,6 +28,26 @@ fi
 
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
+
+function __phpbrew_platform_prefix ()
+{
+    case $1 in
+        macosx|debian|debian|ubuntu|redhat|fedora)
+            echo "/usr"
+        ;;
+        macports)
+            echo "/opt/local"
+        ;;
+        homebrew)
+            echo "/usr/local"
+        ;;
+        *)
+            echo "/usr"
+        ;;
+    esac
+}
+
+
 function phpbrew ()
 {
     # Check bin/phpbrew if we are in PHPBrew source directory, 
