@@ -29,7 +29,7 @@ fi
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
 
-function __phpbrew_platform_prefix ()
+function __phpbrew_set_lookup_prefix ()
 {
     case $1 in
         macosx|debian|debian|ubuntu|redhat|fedora)
@@ -42,7 +42,11 @@ function __phpbrew_platform_prefix ()
             echo "/usr/local"
         ;;
         *)
-            echo "/usr"
+            if [[ -e $1 ]] ; then
+                echo $1
+            else
+                echo "/usr"
+            fi
         ;;
     esac
 }
@@ -115,7 +119,8 @@ function phpbrew ()
             if [[ -z "$2" ]] ; then
                 echo $PHPBREW_LOOKUP
             else
-                export PHPBREW_LOOKUP=$2
+                export PHPBREW_LOOKUP=$(__phpbrew_set_lookup_prefix $2)
+                echo $PHPBREW_LOOKUP
                 __phpbrew_update_config
             fi
             ;;
