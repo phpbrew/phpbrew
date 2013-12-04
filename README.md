@@ -168,23 +168,31 @@ To disable one variant, simply add a prefix `-` before the variant name.
 For example, if we want to build PHP with the default options and 
 database supports (mysql, sqlite, postgresql), you may simply run:
 
-    $ phpbrew install php-5.4.5 +default+dbs
+```bash
+$ phpbrew install php-5.4.5 +default+dbs
+```
 
 You may also build PHP with extra variants:
 
-    $ phpbrew install php-5.3.10 +mysql+sqlite+cgi
+```bash
+$ phpbrew install php-5.3.10 +mysql+sqlite+cgi
 
-    $ phpbrew install php-5.3.10 +mysql+debug+pgsql +apxs2
+$ phpbrew install php-5.3.10 +mysql+debug+pgsql +apxs2
 
-    $ phpbrew install php-5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
+$ phpbrew install php-5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
+```
 
 To build PHP with pgsql (Postgresql) extension:
 
-    $ phpbrew install php-5.4.1 +pgsql+pdo
+```bash
+$ phpbrew install php-5.4.1 +pgsql+pdo
+```
 
 Or build pgsql extension with postgresql base dir on Mac OS X:
 
-    $ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
+```bash
+$ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
+```
 
 The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
 
@@ -196,8 +204,10 @@ For more details, please check out [PHPBrew Cookbook](https://github.com/c9s/php
 
 To pass extra configure arguments, you can do this:
 
-    $ phpbrew install php-5.3.10 +mysql +sqlite -- \
-        --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
+```bash
+$ phpbrew install php-5.3.10 +mysql +sqlite -- \
+    --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
+```
 
 ## Use And Switch
 
@@ -244,34 +254,43 @@ directory is in:
 
     ~/.phpbrew/php/php-{version}/var/db
 
-
 ### Installing Extension - The Most Simple Way
 
-    phpbrew ext install APC
-    phpbrew ext install memcache
+```bash
+$ phpbrew ext install APC
+$ phpbrew ext install memcache
+```
 
 ### Installing Extension With Version
 
 To install extensions with stability tag:
 
-    phpbrew ext install xdebug stable
-    phpbrew ext install xdebug latest
-    phpbrew ext install xdebug beta
+```bash
+$ phpbrew ext install xdebug stable
+$ phpbrew ext install xdebug latest
+$ phpbrew ext install xdebug beta
+```
 
 To install extensions with version name:
 
-    phpbrew ext install xdebug 2.0.1
+```bash
+$ phpbrew ext install xdebug 2.0.1
+```
 
 To install extensions with customized options:
 
-    phpbrew ext install yaml -- --with-yaml=/opt/local
+```bash
+$ phpbrew ext install yaml -- --with-yaml=/opt/local
+```
 
 ### Enabling Extension
 
 You can also install extension via PECL and enable it manually:
 
-    pecl install mongo
-    phpbrew ext enable mongo
+```bash
+pecl install mongo
+phpbrew ext enable mongo
+```
 
 The `ext enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
 to enable the extension.
@@ -281,12 +300,16 @@ to enable the extension.
 
 Simply run:
 
-    phpbrew config
+```bash
+$ phpbrew config
+```
 
 You may specify the EDITOR environment variable to your favorite editor:
 
-    export EDITOR=vim
-    phpbrew config
+```bash
+export EDITOR=vim
+phpbrew config
+```
 
 ## Upgrade phpbrew
 
@@ -294,44 +317,53 @@ To upgrade phpbrew, you may simply run the `self-update` command,
 this command enables you to install the latest version of
 `master` branch from github:
 
-    $ phpbrew self-update
+```bash
+$ phpbrew self-update
+```
 
 ## The Installed PHP(s)
 
 The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.0RC7 is located at:
 
-    ~/.phpbrew/php/5.4.0RC7/bin/php
+    ~/.phpbrew/php/5.4.20/bin/php
 
 And you should put your configuration file in:
 
-    ~/.phpbrew/php/5.4.0RC7/etc/php.ini
+    ~/.phpbrew/php/5.4.20/etc/php.ini
 
 Extension configuration files should be put in:
 
-    ~/.phpbrew/php/5.4.0RC7/var/db
-    ~/.phpbrew/php/5.4.0RC7/var/db/xdebug.ini
-    ~/.phpbrew/php/5.4.0RC7/var/db/apc.ini
-    ~/.phpbrew/php/5.4.0RC7/var/db/memcache.ini
+    ~/.phpbrew/php/5.4.20/var/db
+    ~/.phpbrew/php/5.4.20/var/db/xdebug.ini
+    ~/.phpbrew/php/5.4.20/var/db/apc.ini
+    ~/.phpbrew/php/5.4.20/var/db/memcache.ini
     ... etc
 
 ## Quick commands to switch between directories
 
 Switching to PHP build directory
 
-    phpbrew build-dir
+```bash
+$ phpbrew build-dir
+```
 
 Switching to PHP dist directory
 
-    phpbrew dist-dir
+```bash
+$ phpbrew dist-dir
+```
 
 Switching to PHP etc directory
 
-    phpbrew etc-dir
+```bash
+$ phpbrew etc-dir
+```
 
 Switching to PHP var directory
 
-    phpbrew var-dir
-
+```bash
+$ phpbrew var-dir
+```
 
 ## PHP FPM
 
@@ -340,23 +372,33 @@ remember to enable `+fpm` variant when building your own php.
 
 To start php-fpm, simply type:
 
-    phpbrew fpm start
+```bash
+$ phpbrew fpm start
+```
 
 To stop php-fpm, type:
 
-    phpbrew fpm stop
+```bash
+$ phpbrew fpm stop
+```
 
 To show php-fpm modules:
 
-    phpbrew fpm module
+```bash
+phpbrew fpm module
+```
 
 To test php-fpm config:
 
-    phpbrew fpm test
+```bash
+phpbrew fpm test
+```
 
 To edit php-fpm config:
 
-    phpbrew fpm config
+```bash
+phpbrew fpm config
+```
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
 > 
@@ -373,12 +415,15 @@ To edit php-fpm config:
 
 ### Installing composer 
 
-    phpbrew install-composer
+```bash
+$ phpbrew install-composer
+```
 
 ### Installing phpunit
 
-    phpbrew install-phpunit
-
+```bash
+phpbrew install-phpunit
+```
 
 ## Enabling Version Info Prompt
 
@@ -389,8 +434,8 @@ The default is `"PHPBREW_SET_PROMPT=0"` (disable). To enable it, you can add thi
 line to your `~/.bashrc` file and put this line before you source
 `~/.phpbrew/bashrc`.
 
-```sh
-    export PHPBREW_SET_PROMPT=1
+```bash
+export PHPBREW_SET_PROMPT=1
 ```
 
 To embed version info in your prompt, you can use
@@ -398,9 +443,9 @@ To embed version info in your prompt, you can use
 and you can set the version info in your `PS1` var.
 e.g.
 
-```sh
-    PHP_VERSION=$(current_php_version)
-    PS1=" $PHP_VERSION \$ "
+```bash
+PHP_VERSION=$(current_php_version)
+PS1=" $PHP_VERSION \$ "
 ```
 
 Known Issues
