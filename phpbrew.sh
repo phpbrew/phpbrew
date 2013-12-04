@@ -179,6 +179,18 @@ function phpbrew ()
                 nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
             fi
             ;;
+        clean)
+            local _VERSION=$2
+            if [[ -z $_version ]] ; then
+                _VERSION=$PHPBREW_PHP
+            fi
+            echo "Cleaning up $_VERSION build directory..."
+            local build_dir=$PHPBREW_ROOT/build/$_VERSION
+            echo "build_dir=$build_dir"
+            if [[ -e $build_dir ]] ; then
+                cd $build_dir && make clean && cd -
+            fi
+            ;;
         ext)
             case $2 in
                 disable)
