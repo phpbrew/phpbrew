@@ -1,0 +1,21 @@
+{
+    "name": "corneltek\/phpbrew",
+    "description": "PHPBrew API library",
+    "authors": [
+        {
+            "name": "c9s",
+            "email": "cornelius.howl@gmail.com"
+        }
+    ],
+    "require": {
+        "corneltek/cliframework": "~1.5",
+        "corneltek/pearx": "*"
+    },
+    "require-dev": {
+        "corneltek/phpunit-testmore": "dev-master"
+    },
+    "autoload": {
+        "PHPBrew": "src"
+    },
+    "version": "1.8.19"
+}

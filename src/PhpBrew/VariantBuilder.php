@@ -76,6 +76,7 @@ class VariantBuilder
             'tokenizer',
             'xml_all',
             'zip',
+            'bz2',
         )
     );
 
@@ -137,7 +138,7 @@ class VariantBuilder
             }
         };
 
-        $this->variants['readline'] = function() {
+        $this->variants['readline'] = function($build,$prefix = null) {
             $opts = array();
             if( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                 $opts[] = '--with-readline=' . $prefix;
@@ -283,12 +284,16 @@ class VariantBuilder
                 return "--with-iconv";
                 // return "--with-iconv=$prefix";
             }
+            return "--with-iconv";
         };
 
-        $this->variants['bz2'] = function($prefix = null) {
-            if( ! $prefix && $prefix = Utils::find_include_prefix('bzlib.h') ) {
+        $this->variants['bz2'] = function($build, $prefix = null) {
+            if( ! $prefix ) {
+                if ( $prefix = Utils::find_include_prefix('bzlib.h') ) {
                     return '--with-bz2=' . $prefix;
+                }
             }
+            return '--with-bz2';
         };
 
         $this->variants['ipc'] = function($build) {
@@ -507,7 +512,7 @@ class VariantBuilder
         $opts = array_merge( $opts ,
             $this->getVersionSpecificOptions($version) );
         */
-        $options =  $this->options;
+        $options =  array_merge(array(),$this->options);
 
         // reset options
         $this->options = array();

@@ -10,8 +10,8 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2013-03-16</date>
-  <time>00:07:21</time>
+  <date>2013-12-04</date>
+  <time>11:07:24</time>
   <version>
     <release>1.9.2</release>
     <api>1.9.2</api>
@@ -24,20 +24,19 @@
   <notes>-</notes>
   <contents>
     <dir name="/">
-      <file name="doc/test_plan.md" role="doc" md5sum="9fd0cf840548e7a784d3002c5376e0c3"/>
-      <file name="src/PhpBrew/Build.php" role="php" md5sum="dd7c2429b16943e464bb3182e4f83e81"/>
-      <file name="src/PhpBrew/Command/CleanCommand.php" role="php" md5sum="07e597d869130658721458a434f2d72e"/>
+      <file name="src/PhpBrew/Build.php" role="php" md5sum="fd7ac12f0c0c5e8bf47562f137786fc9"/>
+      <file name="src/PhpBrew/Command/CleanCommand.php" role="php" md5sum="01f8a99ac8bd0e2d7426417f78508464"/>
       <file name="src/PhpBrew/Command/ConfigCommand.php" role="php" md5sum="ac88e322693730a067b7270e11189102"/>
       <file name="src/PhpBrew/Command/CtagsCommand.php" role="php" md5sum="9c3ffe22675ae1bd30b7bcdf3432b1ec"/>
-      <file name="src/PhpBrew/Command/DownloadCommand.php" role="php" md5sum="b97d8910bf8b298094c27fd1b931c2fd"/>
+      <file name="src/PhpBrew/Command/DownloadCommand.php" role="php" md5sum="d78b151533439d6071fcbfa311bd1263"/>
       <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="1e5988c6bea2e1cc6a8d5b860e5d7ba6"/>
       <file name="src/PhpBrew/Command/ExtCommand/DisableCommand.php" role="php" md5sum="273fde08123c0eee973d2f6319450866"/>
       <file name="src/PhpBrew/Command/ExtCommand/EnableCommand.php" role="php" md5sum="5dea82a9ce981f792c9fa0356a2da358"/>
-      <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="77f86986a665596b6cd24624aabe9062"/>
+      <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="75f0cca991cf9cddbcf443f93de10f4e"/>
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="baf82fa02bacf2815dbab94fc9d366a7"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="88a362ac56f448c61ba4687840669a58"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="add8ceada4d7a6e82dc87e480142c055"/>
-      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="b2293d33f6b4b77c001d42067fe316df"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="ec743d01d6fe118ff1b218ad2ecc2245"/>
+      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="5bc03f254048510c6ecd5f5b16f3c617"/>
       <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="c2f002dff376eb6dcb32305f4d1995c3"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="aa6b60f596f38fbc1a32e9ddd61fc509"/>
       <file name="src/PhpBrew/Command/MigratedCommand.php" role="php" md5sum="8cf4fedc12eb8966af17163378b7c1be"/>
@@ -49,21 +48,22 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="0053b17f2752645c43c26ef55c72e792"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="841a7afcef98d38ac0332f495b7de5f2"/>
       <file name="src/PhpBrew/Config.php" role="php" md5sum="753a4e3f6206b883738682710903d690"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="1c8dc2325978bc9b1f96fa828554a11a"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="7946da652fabaf96490dd15c9da36136"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="c524ece35d0c88729e6c1e26f246ef27"/>
       <file name="src/PhpBrew/Downloader/SvnDownloader.php" role="php" md5sum="d44b47d94dc2e2f4077a4197c15497c3"/>
       <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="e9aa74836b25eea8cbc1f44cb563ebb4"/>
       <file name="src/PhpBrew/Exceptions/OopsException.php" role="php" md5sum="063e47042173cb069d7a599ed16d5914"/>
-      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="daab9cb0105a6bf726e6bfb6439b291b"/>
+      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="9a0a0ca04fd48be8f3dffb45f9ea81cd"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="9f5673c33caff1dc18ab635fbdb59852"/>
       <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="87cf6078e179a0e3e6d4f173dad36a2a"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="ec021140796b5ddeb4eb4efb6d706804"/>
-      <file name="src/PhpBrew/Tasks/Apxs2CheckTask.php" role="php" md5sum="fb0678967f866663da461060f434248a"/>
-      <file name="src/PhpBrew/Tasks/Apxs2PatchTask.php" role="php" md5sum="b71e4e3685cbc91ba0dfa9e23fb8b57c"/>
+      <file name="src/PhpBrew/Tasks/Apxs2CheckTask.php" role="php" md5sum="23ae589261a31503d29e84750c18e453"/>
+      <file name="src/PhpBrew/Tasks/Apxs2PatchTask.php" role="php" md5sum="feb9bfe026be2fb8002df947aa6e79ce"/>
       <file name="src/PhpBrew/Tasks/BaseTask.php" role="php" md5sum="97433a5bea97fc09ac481529f96dfd5a"/>
       <file name="src/PhpBrew/Tasks/BuildTask.php" role="php" md5sum="c91d041263d7c350d3e5a8fc55f737dc"/>
       <file name="src/PhpBrew/Tasks/CleanTask.php" role="php" md5sum="e42673b02268fe8a4fea94fabc8ca5f3"/>
       <file name="src/PhpBrew/Tasks/ConfigureTask.php" role="php" md5sum="6cbc2be6771566f4b161928b96df8f36"/>
+      <file name="src/PhpBrew/Tasks/DefaultConfigTask.php" role="php" md5sum="1aa5f9c51a9a0577c9e7755ee4423778"/>
       <file name="src/PhpBrew/Tasks/DownloadTask.php" role="php" md5sum="dea90d62f7529f498a06e46a83fcc92e"/>
       <file name="src/PhpBrew/Tasks/DSymTask.php" role="php" md5sum="5041e5881165c1539837ed5165ee81ef"/>
       <file name="src/PhpBrew/Tasks/InstallTask.php" role="php" md5sum="22cb4f881b43787d95fa0590b8893a43"/>
@@ -71,11 +71,10 @@
       <file name="src/PhpBrew/Tasks/PrepareDirectoryTask.php" role="php" md5sum="acd96a74ba06e53f90b6a8683d97f208"/>
       <file name="src/PhpBrew/Tasks/RemoveTask.php" role="php" md5sum="a08da7a66c6b6ca570b66962bc7cccb3"/>
       <file name="src/PhpBrew/Tasks/TestTask.php" role="php" md5sum="1c467afac631b0aef76aaae3762dc09b"/>
-      <file name="src/PhpBrew/Utils.php" role="php" md5sum="7ac3e8951ac8af1a26f97b2391350cbd"/>
-      <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="afb4ff4286741965cfce4241e9a631cf"/>
+      <file name="src/PhpBrew/Utils.php" role="php" md5sum="10029e14f94500df089d8676c84dadf0"/>
+      <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="f14eb79813cc640718be76dbf2929eff"/>
       <file name="src/PhpBrew/VariantFinder.php" role="php" md5sum="2a8cb1290d239db323a495784b6e8a9c"/>
       <file name="src/PhpBrew/VariantParser.php" role="php" md5sum="965b8cbffc0177c7ce31d08b4bf3883b"/>
-      <file name="bin/phpbrew" role="script" md5sum="65b14bb59d9bffb463471f9b9538dc6b"/>
     </dir>
   </contents>
   <dependencies>
@@ -105,7 +104,6 @@
   </dependencies>
   <phprelease>
     <filelist>
-      <install name="doc/test_plan.md" as="test_plan.md"/>
       <install name="src/PhpBrew/Build.php" as="PhpBrew/Build.php"/>
       <install name="src/PhpBrew/Command/CleanCommand.php" as="PhpBrew/Command/CleanCommand.php"/>
       <install name="src/PhpBrew/Command/ConfigCommand.php" as="PhpBrew/Command/ConfigCommand.php"/>
@@ -145,6 +143,7 @@
       <install name="src/PhpBrew/Tasks/BuildTask.php" as="PhpBrew/Tasks/BuildTask.php"/>
       <install name="src/PhpBrew/Tasks/CleanTask.php" as="PhpBrew/Tasks/CleanTask.php"/>
       <install name="src/PhpBrew/Tasks/ConfigureTask.php" as="PhpBrew/Tasks/ConfigureTask.php"/>
+      <install name="src/PhpBrew/Tasks/DefaultConfigTask.php" as="PhpBrew/Tasks/DefaultConfigTask.php"/>
       <install name="src/PhpBrew/Tasks/DownloadTask.php" as="PhpBrew/Tasks/DownloadTask.php"/>
       <install name="src/PhpBrew/Tasks/DSymTask.php" as="PhpBrew/Tasks/DSymTask.php"/>
       <install name="src/PhpBrew/Tasks/InstallTask.php" as="PhpBrew/Tasks/InstallTask.php"/>
@@ -156,7 +155,6 @@
       <install name="src/PhpBrew/VariantBuilder.php" as="PhpBrew/VariantBuilder.php"/>
       <install name="src/PhpBrew/VariantFinder.php" as="PhpBrew/VariantFinder.php"/>
       <install name="src/PhpBrew/VariantParser.php" as="PhpBrew/VariantParser.php"/>
-      <install name="bin/phpbrew" as="phpbrew"/>
     </filelist>
   </phprelease>
 </package>
