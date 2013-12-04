@@ -1,27 +1,36 @@
-
 # Todo
 
+- Ability to specify the default prefix, for example:
+   Macports uses /opt/local
+   Homebrew uses /usr/local
+   Ubuntu use /usr
+
+   Users can specify the prefer one when running init command.
+
+        phpbrew init --prefer-prefix=macports
+
+   When configuring php
+
+- Ability to switch curl, wget or pure php downloader.
 - Smarter build tasks
     - xdebug (enable zend extension with absolute path)
     - build with extensions
 - Mirror option
-- Fetch command.
-- Build command.
-- Install command.
-- Test command.
+- Separate install command to sub-tasks, so we can run tasks separately
+    - Fetch command.
+    - Build command.
+    - Install command.
+    - Test command.
 - Inherit option
     - Copy variants from previous install.
     - Copy config file from previous install.
-- Extension Builder
-- Extension disable/enable command
-- Flavors
-    - phpunit flavor
-    - zendframework flavor
-    - pyrus flavor
-    - xdebug flavor
-    - apc flavor
+- Extra variants: Add extra variant type for non-configure options:
+    - phpunit variant
+    - zendframework variant
+    - pyrus variant
+    - xdebug variant
+    - apc variant
 - Fallback handler when DOMDocument is not found.
-- `--patch={file}` option support.
 - pure bash support.
 
 - PHP 5.2 compatibility (or pure bash script?)
@@ -33,4 +42,7 @@
 
 # Done
 
-- variant sets
+x variant sets
+x Extension Builder
+x Extension disable/enable command
+x `--patch={file}` option support.

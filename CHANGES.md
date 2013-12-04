@@ -1,6 +1,17 @@
 CHANGES
 =======
 
+Version 1.10 - Tue Dec  3 22:55:22 2013
+
+- Added 'opcache' variant.
+- Added fpm management support.
+- Added quick commands to switch between directories.
+- Added phpbrew/bin directory to install shared executables, e.g. composer, phpunit, onion ...etc
+
+Version 1.8.22 - Mon Nov 18 17:23:29 2013
+
+- Copy php-fpm default config to {php-version}/etc/
+
 Version 1.8.3 - Sat Mar  9 19:38:22 2013
 
 - Add new extension installer.

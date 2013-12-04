@@ -8,14 +8,18 @@
         }
     ],
     "require": {
-        "corneltek/cliframework": "~1.5",
-        "corneltek/pearx": "*"
+        "corneltek\/cliframework": "~1.5",
+        "corneltek\/pearx": "dev-master",
+        "symfony/process": "~2.3"
     },
     "require-dev": {
-        "corneltek/phpunit-testmore": "dev-master"
+        "corneltek\/phpunit-testmore": "dev-master",
+        "corneltek\/universal": "*"
     },
     "autoload": {
-        "PHPBrew": "src"
+        "psr-0": {
+            "PhpBrew": "src"
+        }
     },
-    "version": "1.8.19"
+    "version": "1.10.5"
 }

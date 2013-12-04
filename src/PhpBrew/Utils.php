@@ -34,6 +34,7 @@ class Utils
 
     static function enable_extension($extname, $zendpath = '')
     {
+        $extname = strtolower($extname);
         // create extension config file
         $configPath = self::get_extension_config_path($extname);
 

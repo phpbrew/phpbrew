@@ -17,7 +17,9 @@ if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
 fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
+[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
 
+[[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
 function phpbrew ()
 {
@@ -86,6 +88,131 @@ function phpbrew ()
                 __phpbrew_reinit $2
             fi
             ;;
+        install-phpunit)
+            pear channel-discover pear.phpunit.de
+            pear install -a phpunit/PHPUnit
+            hash -r
+            ;;
+        install-composer)
+            echo "Installing composer..."
+            cd $PHPBREW_BIN
+            wget --no-check-certificate -c --no-verbose http://getcomposer.org/composer.phar -O composer
+            chmod +x $PHPBREW_BIN/composer
+            cd -
+            hash -r
+            ;;
+        install-onion)
+            echo "Installing onion..."
+            cd $PHPBREW_BIN
+            wget --no-check-certificate -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O onion
+            chmod +x onion
+            cd -
+            hash -r
+            ;;
+        var-dir)
+            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
+        etc-dir)
+            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
+        dist-dir)
+            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
+        build-dir)
+            local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
+            echo "Switching to $chdir"
+            cd $chdir
+            ;;
+        config)
+            if [[ -n $EDITOR ]] ; then
+                $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+            else
+                echo "Please set EDITOR environment variable for your favor."
+                nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+            fi
+            ;;
+        ext)
+            case $2 in
+                disable)
+                    echo "Removing extension config..."
+                    rm -fv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini
+                ;;
+                *)
+                    command $BIN ${*:1}
+                ;;
+            esac
+            ;;
+        fpm)
+            PHPFPM_BIN=$PHPBREW_ROOT/php/$PHPBREW_PHP/sbin/php-fpm
+            PHPFPM_PIDFILE=$PHPBREW_ROOT/php/$PHPBREW_PHP/var/run/php-fpm.pid
+            mkdir -p $PHPBREW_ROOT/php/$PHPBREW_PHP/var/run
+            function fpm_start()
+            {
+              echo "Starting php-fpm..."
+              $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                --pid $PHPFPM_PIDFILE \
+                ${*:3}
+              if [[ $? != "0" ]] ; then
+                echo "php-fpm start failed."
+              fi
+            }
+            function fpm_stop()
+            {
+              if [[ -e $PHPFPM_PIDFILE ]] ; then
+                echo "Stopping php-fpm..."
+                kill $(cat $PHPFPM_PIDFILE)
+                rm -f $PHPFPM_PIDFILE
+              fi
+            }
+            case $2 in
+                start)
+                    fpm_start
+                    ;;
+                stop)
+                    fpm_stop
+                    ;;
+                restart)
+                    fpm_stop
+                    fpm_start
+                    ;;
+                module)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                            -m | less
+                    ;;
+                info)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                            -i
+                    ;;
+                config)
+                    if [[ -n $EDITOR ]] ; then
+                        $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf
+                    else
+                        echo "Please set EDITOR environment variable for your favor."
+                        nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf
+                    fi
+                    ;;
+                help)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf --help
+                    ;;
+                test)
+                    $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                            --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf --test
+                    ;;
+                *)
+                    echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
+                    ;;
+            esac
+            ;;
         off)
             unset PHPBREW_PHP
             unset PHPBREW_PATH
@@ -140,9 +267,10 @@ function __phpbrew_set_path ()
 
     if [[ -z "$PHPBREW_PATH" ]]
     then
-        export PHPBREW_PATH="$PHPBREW_ROOT/bin"
+        export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+    else
+        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
     fi
-    export PATH=$PHPBREW_PATH:$PATH_WITHOUT_PHPBREW
     # echo "PATH => $PATH"
 }
 
