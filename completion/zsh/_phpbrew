@@ -35,10 +35,10 @@ _phpbrew_comp() {
             use\:use\ php\ version
             switch\:switch\ php\ version
             clean\:clean\ php\ build
-            download
+            remove\:remove\ installed\ php
+            pure\:remove\ installed\ php\ and\ source\ files
+            download\:download\ php
             self-update
-            remove
-            purge
             info
             env
         ))'
@@ -50,7 +50,7 @@ _phpbrew_comp() {
                 "*:variants:(($variants_args))"
             # compadd "$@" php-5.3.24 php-5.4.14 php-5.4.13 php-5.4.12 php-5.4.10 php-5.4.9
         ;;
-        use|switch|remove|clean)
+        use|switch|remove|purge|clean)
             for dir in $PHPBREW_HOME/php/* ; do 
                 if [[ -d $dir ]] ; then
                     php_name=$(basename $dir)
