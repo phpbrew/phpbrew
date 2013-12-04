@@ -26,6 +26,16 @@ What phpbrew can do for you:
 
 Please see [Requirement](https://github.com/c9s/phpbrew/wiki/Requirement) for your platform.
 
+## Install phpbrew
+
+Just download it:
+
+```bash
+curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+chmod +x phpbrew
+sudo cp phpbrew /usr/bin/phpbrew
+```
+
 ## Basic usage
 
 Init a bash script for your shell environment:
