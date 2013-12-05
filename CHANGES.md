@@ -1,6 +1,17 @@
 CHANGES
 =======
 
+Version 1.12
+
+
+- Install command now run commands below after installations:
+
+    pear config-set temp_dir $HOME/.phpbrew/tmp/pear/temp
+    pear config-set cache_dir $HOME/.phpbrew/tmp/pear/cache_dir
+    pear config-set download_dir $HOME/.phpbrew/tmp/pear/download_dir
+    pear config-set auto_discover 1
+
+
 Version 1.11 - Wed Dec  4 13:28:00 2013
 
 - Added platform prefix setup command:
