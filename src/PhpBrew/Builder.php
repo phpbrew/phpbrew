@@ -87,6 +87,42 @@ class Builder
         }
 
 
+        /**
+         * https://bugs.php.net/bug.php?id=66198
+         */
+        $this->logger->info("===> Applying patch file for freetype include path bug...");
+        $freetypeIncludePathPatch =<<<'PATCH'
+--- configure	2013-12-04 17:55:13.000000000 +0800
++++ configure.new	2013-12-04 17:54:54.000000000 +0800
+@@ -39213,6 +39213,11 @@
+         FREETYPE2_INC_DIR=$i/include/freetype2
+         break
+       fi
++      if test -f "$i/include/freetype2/freetype.h"; then
++        FREETYPE2_DIR=$i
++        FREETYPE2_INC_DIR=$i/include/freetype2
++        break
++      fi
+     done
+
+     if test -z "$FREETYPE2_DIR"; then
+@@ -41390,6 +41395,11 @@
+         FREETYPE2_INC_DIR=$i/include/freetype2
+         break
+       fi
++      if test -f "$i/include/freetype2/freetype.h"; then
++        FREETYPE2_DIR=$i
++        FREETYPE2_INC_DIR=$i/include/freetype2
++        break
++      fi
+     done
+
+     if test -z "$FREETYPE2_DIR"; then
+PATCH;
+        file_put_contents("freetype-include-path.patch", $freetypeIncludePathPatch);
+        system("patch -p0 < freetype-include-path.patch");
+
+
         // let's apply patch for libphp{php version}.so (apxs)
         if( $build->isEnabledVariant('apxs2') ) {
             $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);

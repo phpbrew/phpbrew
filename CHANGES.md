@@ -1,6 +1,28 @@
 CHANGES
 =======
 
+Version 1.11 - Wed Dec  4 13:28:00 2013
+
+- Added platform prefix setup command:
+
+        phpbrew lookup-prefix macports
+        phpbrew lookup-prefix homebrew
+        phpbrew lookup-prefix debian
+
+- Variant builder is improved with the lookup-prefix
+- Better path detection.
+- Freetype include path fix for +gd variant
+
+
+        +gd=shared should work for Mac OS platform
+
+
+- platform libdir is supported, now supports for include/lib paths under 
+
+        $prefix/i386-linux-gnu/
+        $prefix/x86_64-linux-gnu/
+
+
 Version 1.10 - Tue Dec  3 22:55:22 2013
 
 - Added 'opcache' variant.

@@ -6,6 +6,13 @@
 
 # default phpbrew root and phpbrew home path
 
+
+# PHPBREW_HOME: contains the phpbrew config (for users)
+# PHPBREW_ROOT: contains installed php(s) and php source files.
+# PHPBREW_SKIP_INIT: if you need to skip loading config from the init file. 
+# PHPBREW_PHP:  the current php version.
+# PHPBREW_PATH: the bin path of the current php.
+
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
 if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
@@ -21,8 +28,47 @@ fi
 
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
+
+
+function __wget_as ()
+{
+    local url=$1
+    local target=$2
+    wget --no-check-certificate -c $url -O $target
+}
+
+
+function __phpbrew_set_lookup_prefix ()
+{
+    case $1 in
+        debian|ubuntu|linux)
+            # echo /usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu
+            echo /usr
+        ;;
+        macosx)
+            echo /usr
+        ;;
+        macports)
+            echo /opt/local
+        ;;
+        homebrew)
+            echo /usr/local/Cellar:/usr/local
+        ;;
+        *)
+            if [[ -e $1 ]] ; then
+                echo $1
+            else
+                echo /usr
+            fi
+        ;;
+    esac
+}
+
+
 function phpbrew ()
 {
+    # Check bin/phpbrew if we are in PHPBrew source directory, 
+    # This is only for development
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
     else
@@ -88,6 +134,25 @@ function phpbrew ()
                 __phpbrew_reinit $2
             fi
             ;;
+        lookup-prefix)
+            if [[ -z "$2" ]] ; then
+                if [[ -n $PHPBREW_LOOKUP_PREFIX ]] ; then
+                    echo $PHPBREW_LOOKUP_PREFIX
+                fi
+            else
+                export PHPBREW_LOOKUP_PREFIX=$(__phpbrew_set_lookup_prefix $2)
+                echo $PHPBREW_LOOKUP_PREFIX
+                __phpbrew_update_config
+            fi
+            ;;
+        install-pyrus)
+            echo "Installing pyrus..."
+            cd $PHPBREW_BIN && \
+                wget --no-check-certificate -c http://pear2.php.net/pyrus.phar -O pyrus && \
+                chmod +x pyrus && \
+                cd -
+            hash -r
+            ;;
         install-phpunit)
             pear channel-discover pear.phpunit.de
             pear install -a phpunit/PHPUnit
@@ -95,16 +160,16 @@ function phpbrew ()
             ;;
         install-composer)
             echo "Installing composer..."
-            cd $PHPBREW_BIN
-            wget --no-check-certificate -c --no-verbose http://getcomposer.org/composer.phar -O composer
-            chmod +x $PHPBREW_BIN/composer
-            cd -
+            cd $PHPBREW_BIN && \
+                wget --no-check-certificate -c http://getcomposer.org/composer.phar -O composer && \
+                chmod +x composer && \
+                cd -
             hash -r
             ;;
         install-onion)
             echo "Installing onion..."
             cd $PHPBREW_BIN
-            wget --no-check-certificate -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O onion
+            wget --no-check-certificate -c https://raw.github.com/c9s/Onion/master/onion -O onion
             chmod +x onion
             cd -
             hash -r
@@ -135,6 +200,18 @@ function phpbrew ()
             else
                 echo "Please set EDITOR environment variable for your favor."
                 nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+            fi
+            ;;
+        clean)
+            local _VERSION=$2
+            if [[ -z $_version ]] ; then
+                _VERSION=$PHPBREW_PHP
+            fi
+            echo "Cleaning up $_VERSION build directory..."
+            local build_dir=$PHPBREW_ROOT/build/$_VERSION
+            echo "build_dir=$build_dir"
+            if [[ -e $build_dir ]] ; then
+                cd $build_dir && make clean && cd -
             fi
             ;;
         ext)
@@ -213,6 +290,22 @@ function phpbrew ()
                     ;;
             esac
             ;;
+        env)
+            # we don't check php path here, you should check path before you
+            # use env command to output the environment config.
+            if [[ -n "$2" ]]; then
+                export PHPBREW_PHP=$2
+            fi
+            echo "export PHPBREW_ROOT=$PHPBREW_ROOT";
+            echo "export PHPBREW_HOME=$PHPBREW_HOME";
+            if [[ -n $PHPBREW_LOOKUP_PREFIX ]] ; then
+                echo "export PHPBREW_LOOKUP_PREFIX=$PHPBREW_LOOKUP_PREFIX";
+            fi
+            if [[ -n $PHPBREW_PHP ]] ; then
+                echo "export PHPBREW_PHP=$PHPBREW_PHP";
+                echo "export PHPBREW_PATH=$PHPBREW_ROOT/php/$PHPBREW_PHP/bin";
+            fi
+            ;;
         off)
             unset PHPBREW_PHP
             unset PHPBREW_PATH
@@ -274,22 +367,27 @@ function __phpbrew_set_path ()
     # echo "PATH => $PATH"
 }
 
+function __phpbrew_update_config ()
+{
+    local VERSION=$1
+    echo '# DO NOT EDIT THIS FILE' >| "$PHPBREW_HOME/init"
+    command $BIN env $VERSION >> "$PHPBREW_HOME/init"
+    . "$PHPBREW_HOME/init"
+}
+
 function __phpbrew_reinit () 
 {
     if [[ $1 =~ ^php- ]]
     then
-        _PHP_VERSION=$1
+        local _PHP_VERSION=$1
     else
-        _PHP_VERSION="php-$1"
+        local _PHP_VERSION="php-$1"
     fi
-
     if [[ ! -d "$PHPBREW_HOME" ]]
     then
         mkdir -p -p "$PHPBREW_HOME"
     fi
-    echo '# DO NOT EDIT THIS FILE' >| "$PHPBREW_HOME/init"
-    command $BIN env $_PHP_VERSION >> "$PHPBREW_HOME/init"
-    . "$PHPBREW_HOME/init"
+    __phpbrew_update_config $_PHP_VERSION
     __phpbrew_set_path
 }
 

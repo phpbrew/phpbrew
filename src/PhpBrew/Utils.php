@@ -59,32 +59,99 @@ class Utils
         return false;
     }
 
-    static function find_include_path($hfile)
-    {
-        $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
-        foreach( $prefixes as $prefix ) {
-            $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
-            $path = $dir . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($path) )
-                return $dir;
-        }
 
+    /**
+     * Find bin from prefix list
+     */
+    static function find_bin_by_prefix($bin)
+    {
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            $binpath = $prefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
+            if ( file_exists($binpath) ) {
+                return $binpath;
+            }
+            $binpath = $prefix . DIRECTORY_SEPARATOR . 'sbin' . DIRECTORY_SEPARATOR . $bin;
+            if ( file_exists($binpath) ) {
+                return $binpath;
+            }
+        }
     }
 
 
-    static function find_include_prefix($hfile)
+    static function get_lookup_prefixes() 
     {
-        // TODO: phpbrew can be smarter (add brew path for detection here)
         $prefixes = array(
-            '/usr',
-            '/opt', 
-            '/usr/local', 
+            '/opt',
             '/opt/local',
+            '/usr',
+            '/usr/local',
         );
+
+        if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
+            $paths = explode(':', $pathstr);
+            foreach( $paths as $path ) {
+                $prefixes[] = $path;
+            }
+        }
+
+        // if there is lib path, insert it to the end.
         foreach( $prefixes as $prefix ) {
-            $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($p) )
-                return $prefix;
+            if ( file_exists("$prefix/x86_64-linux-gnu") ) {
+                $prefixes[] = "$prefix/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/i386-linux-gnu") ) {
+                $prefixes[] = "$prefix/i386-linux-gnu";
+            } 
+        }
+        return array_reverse($prefixes);
+    }
+
+    
+
+    /**
+     * Return the actual header file path from the lookup prefixes.
+     *
+     * @param string $hfile the header file name
+     * @return string full qualified header file path
+     */
+    static function find_include_path()
+    {
+        $files = func_get_args();
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            foreach( $files as $file ) {
+                $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
+                $path = $dir . DIRECTORY_SEPARATOR . $file;
+                if ( file_exists($path) ) {
+                    return $dir;
+                }
+            }
+        }
+    }
+
+    static function find_lib_prefix() {
+        $files = func_get_args();
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            foreach( $files as $file ) {
+                $p = $prefix . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file;
+                if ( file_exists($p) ) {
+                    return $prefix;
+                }
+            }
+        }
+    }
+
+    static function find_include_prefix()
+    {
+        $files = func_get_args();
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            foreach( $files as $file ) {
+                if ( file_exists($prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file) ) {
+                    return $prefix;
+                }
+            }
         }
     }
 
@@ -104,6 +171,12 @@ class Utils
         }
     }
 
+    /**
+     * Find executable binary by PATH environment.
+     *
+     * @param string $bin binary name
+     * @return string the path
+     */
     static function findbin($bin)
     {
         $path = getenv('PATH');
@@ -111,6 +184,9 @@ class Utils
         foreach( $paths as $path ) {
             $f = $path . DIRECTORY_SEPARATOR . $bin;
             if( file_exists($f) ) {
+                while ( is_link($f) ) {
+                    $f = readlink($f);
+                }
                 return $f;
             }
         }

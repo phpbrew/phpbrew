@@ -75,6 +75,7 @@ class VariantBuilder
             'sockets',
             'tokenizer',
             'xml_all',
+            'curl',
             'zip',
             'bz2',
         )
@@ -128,13 +129,39 @@ class VariantBuilder
         // PHP 5.5 only variants
         $this->variants['opcache']     = '--enable-opcache';
 
-        $this->variants['mhash'] = '--with-mhash';
-        $this->variants['mcrypt'] = '--with-mcrypt';
         $this->variants['imap'] = '--with-imap-ssl';
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
         $this->variants['xmlrpc'] = '--with-xmlrpc';
-        $this->variants['pcre'] = '--with-pcre-regex';
+        $this->variants['pcre'] = function($build, $prefix = null) {
+            if ( $prefix ) {
+                return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
+            }
+            if ( $prefix = Utils::find_include_prefix('pcre.h') ) {
+                return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
+            }
+            return array("--with-pcre-regex");
+        };
+
+        $this->variants['mhash'] = function($build, $prefix = null) {
+            if ( $prefix ) {
+                return "--with-mhash=$prefix";
+            }
+            if ( $prefix = Utils::find_include_prefix('mhash.h') ) {
+                return "--with-mhash=$prefix";
+            }
+            return "--with-mhash"; // let autotool to find it.
+        };
+
+        $this->variants['mcrypt'] = function($build, $prefix = null) {
+            if ( $prefix ) {
+                return "--with-mcrypt=$prefix";
+            }
+            if ( $prefix = Utils::find_include_prefix('mcrypt.h') ) {
+                return "--with-mcrypt=$prefix";
+            }
+            return "--with-mcrypt"; // let autotool to find it.
+        };
 
         $this->variants['zlib'] = function($build) {
             if( $prefix = Utils::find_include_prefix('zlib.h') ) {
@@ -144,44 +171,55 @@ class VariantBuilder
 
         $this->variants['curl'] = function($build, $prefix = null) {
             if ( $prefix ) {
-                return '--with-curl=' . $prefix;
+                return "--with-curl=$prefix";
             }
             if( $prefix = Utils::find_include_prefix('curl/curl.h') ) {
-                return '--with-zlib=' . $prefix;
+                return "--with-zlib=$prefix";
+            }
+            if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
+                return "--with-curl=$prefix";
             }
         };
 
         $this->variants['readline'] = function($build,$prefix = null) {
-            $opts = array();
-            $foundReadLine = false;
             if ( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
-                $foundReadLine = true;
+                $opts = array();
                 $opts[] = '--with-readline=' . $prefix;
-            }
-            if ( $foundReadLine ) {
                 if ( $prefix = Utils::find_include_prefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                     $opts[] = '--with-libedit=' . $prefix;
                 }
+                return $opts;
             }
-            return $opts;
+            return '--with-readline';
         };
 
-        $this->variants['gd'] = function($build) use($self) {
+        $this->variants['gd'] = function($build, $prefix = null) use ($self) {
             $opts = array();
-            if( $prefix = Utils::find_include_prefix('gd.h') ) {
-                $opts[] = '--with-gd=' . $prefix;
-                $opts[] = '--enable-gd-native-ttf';
-            }
-            else {
-                echo "** libgd not found.\n";
+
+            if ( $prefix ) {
+                $opts[] = "--with-gd=$prefix";
+            } else if ( $prefix = Utils::find_include_prefix('gd.h') ) {
+                $opts[] = "--with-gd=$prefix";
             }
 
-            if( $p = Utils::find_include_prefix('jpeglib.h') ) {
-                $opts[] = '--with-jpeg-dir=' . $p;
+            $opts[] = '--enable-gd-native-ttf';
+
+            if( $prefix = Utils::find_include_prefix('jpeglib.h') ) {
+                $opts[] = "--with-jpeg-dir=$prefix";
+            }
+            if( $prefix = Utils::find_include_prefix('png.h', 'libpng12/pngconf.h') ) {
+                $opts[] = "--with-png-dir=$prefix";
             }
 
-            if( $p = Utils::find_include_prefix('png.h') ) {
-                $opts[] = '--with-png-dir=' . $p;
+            // the freetype-dir option does not take prefix as its value,
+            // it takes the freetype.h directory as its value.
+            //
+            // from configure:
+            //   for path in $i/include/freetype2/freetype/freetype.h
+            if ( $prefix = Utils::find_include_prefix('freetype2/freetype.h') ) {
+                $opts[] = "--with-freetype-dir=$prefix";
+            } else if ( $prefix = Utils::find_include_prefix("freetype2/freetype/freetype.h") ) {
+                $opts[] = "--with-freetype-dir=$prefix";
             }
             return $opts;
         };
@@ -191,34 +229,43 @@ class VariantBuilder
          * with icu
          */
         $this->variants['icu'] = function($build, $val = null) use($self) {
-            // XXX: it seems that /usr prefix does not work on Ubuntu
-            //       Linux system.
             if( $val ) {
-                return '--with-icu=' . $val;
+                return '--with-icu-dir=' . $val;
             }
-            $prefix = Utils::get_pkgconfig_prefix('icu-i18n');
-            if( ! $prefix ) {
-                echo "phpbrew precheck: icu not found.\n";
-                return '--with-icu';
+            // the last one path is for Ubuntu
+            if ( $prefix = Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc') ) {
+                return '--with-icu-dir=' . $prefix;
             }
-            return '--with-icu';
+
+            // For macports
+            if ( $prefix = Utils::get_pkgconfig_prefix('icu-i18n') ) {
+                return '--with-icu-dir=' . $prefix;
+            }
+            die("libicu not found, please install libicu-dev or libicu library/development files.");
         };
 
 
         /**
          * --with-openssl option
+         *
+         * --with-openssh=shared
+         * --with-openssl=[dir]
+         *
+         * On ubuntu you need to install libssl-dev
          */
         $this->variants['openssl'] = function($build, $val = null) use($self) {
-            // XXX: it seems that /usr prefix does not work on Ubuntu Linux system.
             if( $val ) {
-                return '--with-openssl=' . $val;
+                return "--with-openssl=$val";
             }
-            $prefix = Utils::get_pkgconfig_prefix('openssl');
-            if( ! $prefix ) {
-                echo "phpbrew precheck: openssl not found.\n";
-                return '--with-openssl';
+            if ( $prefix = Utils::find_include_prefix('openssl/opensslv.h') ) {
+                return "--with-openssl=$prefix";
             }
-            return '--with-openssl=shared';
+            if ( $prefix = Utils::get_pkgconfig_prefix('openssl') ) {
+                return "--with-openssl=$prefix";
+            }
+            // This will create openssl.so file for dynamic loading.
+            echo "Compiling with openssl=shared, please install libssl-dev or openssl header files if you need";
+            return "--with-openssl=shared";
         };
 
         /*
@@ -250,23 +297,28 @@ class VariantBuilder
             $opts = array(
                 '--with-sqlite3' . ($prefix ? "=$prefix" : '')
             );
-            if ( $build->hasVariant('pdo') )
+            if ( $build->hasVariant('pdo') ) {
                 $opts[] = '--with-pdo-sqlite';
+            }
             return $opts;
         };
 
         $this->variants['pgsql'] = function($build, $prefix = null) use($self) {
             $opts = array();
-            $opts[] = '--with-pgsql' . ($prefix ? "=$prefix" : '');
+            $possibleNames = array('psql90','psql91','psql92','psql93','psql');
+            while ( ! $prefix && ! empty($possibleNames) ) {
+                $prefix = Utils::findbin( array_pop($possibleNames) );
+            }
+            $opts[] = $prefix ? "--with-pgsql=$prefix" : "--with-pgsql";
             if ( $build->hasVariant('pdo') ) {
-                $opts[] = '--with-pdo-pgsql' . ($prefix ? "=$prefix" : '');
+                $opts[] = $prefix ? "--with-pdo-pgsql=$prefix" : '--with-pdo-pgsql';
             }
             return $opts;
         };
 
 
         $this->variants['xml_all'] = function($build) {
-            return array(
+            $options = array(
                 '--enable-dom',
                 '--enable-libxml',
                 '--enable-simplexml',
@@ -275,41 +327,60 @@ class VariantBuilder
                 '--enable-xmlwriter',
                 '--with-xsl'
             );
+            if ( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
+                $options[] = "--with-libxml-dir=$prefix";
+            } else if ( $prefix = Utils::find_include_prefix('libxml2/libxml/globals.h') ) {
+                $options[] = "--with-libxml-dir=$prefix";
+            } else if ( $prefix = Utils::find_lib_prefix('libxml2.a') ) {
+                $options[] = "--with-libxml-dir=$prefix";
+            }
+            return $options;
         };
 
 
         $this->variants['apxs2'] = function($build, $prefix = null) use ($self) {
             $a = '--with-apxs2';
             if( $prefix ) {
-                $a .= '=' . $prefix;
+                return '--with-apxs2=' . $prefix;
+            }
+            if ( $bin = Utils::find_bin_by_prefix('apxs2') ) {
+                return '--with-apxs2=' . $bin;
+            }
+            if ( $bin = Utils::find_bin_by_prefix('apxs') ) {
+                return '--with-apxs2=' . $bin;
             }
             return $a;
         };
 
 
         $this->variants['gettext'] = function($build, $prefix = null) {
-            if( $prefix )
+            if ( $prefix ) {
                 return '--with-gettext=' . $prefix;
-            if( $prefix = Utils::find_include_prefix('libintl.h') )
+            }
+            if ( $prefix = Utils::find_include_prefix('libintl.h') ) {
                 return '--with-gettext=' . $prefix;
+            }
             return '--with-gettext';
         };
 
 
-        $this->variants['iconv'] = function($build) {
+        $this->variants['iconv'] = function($build, $prefix = null) {
+            if ( $prefix ) {
+                return "--with-iconv=$prefix";
+            }
             // detect include path for iconv.h
             if( $prefix = Utils::find_include_prefix('iconv.h') ) {
-                return "--with-iconv";
-                // return "--with-iconv=$prefix";
+                return "--with-iconv=$prefix";
             }
             return "--with-iconv";
         };
 
         $this->variants['bz2'] = function($build, $prefix = null) {
-            if( ! $prefix ) {
-                if ( $prefix = Utils::find_include_prefix('bzlib.h') ) {
-                    return '--with-bz2=' . $prefix;
-                }
+            if ( $prefix ) {
+                return "--with-bz2=$prefix";
+            }
+            if ( $prefix = Utils::find_include_prefix('bzlib.h') ) {
+                return "--with-bz2=$prefix";
             }
             return '--with-bz2';
         };
@@ -482,15 +553,18 @@ class VariantBuilder
             if( $prefix = Utils::find_include_prefix('zlib.h') ) {
                 $this->addOptions('--with-zlib=' . $prefix);
             }
-
             if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
                 $this->addOptions('--with-libxml-dir=' . $prefix);
             }
-
-            if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
-                $this->addOptions('--with-curl=' . $prefix);
-            }
         }
+
+        if ( $prefix = Utils::find_lib_prefix('i386-linux-gnu') ) {
+            $this->addOptions("--with-libdir=lib/i386-linux-gnu");
+        } else if ( $prefix = Utils::find_lib_prefix('x86_64-linux-gnu') ) {
+            $this->addOptions("--with-libdir=lib/x86_64-linux-gnu");
+        }
+
+
 
 
         // enable/expand virtual variants
@@ -536,77 +610,5 @@ class VariantBuilder
         $this->options = array();
         return $options;
     }
-
-
-
-
-
-    /**
-     * get available variants for $version
-     *
-     * @param string $version version string
-     */
-    /*
-    public function getAvailableVariants($version)
-    {
-        // xxx: use version_compare to merge config options
-
-
-        if( isset($this->variants[$version]) )
-            return $this->variants;
-        // try to match regular expressions
-        foreach( $this->variants as $k => $variants ) {
-            if( strpos($k,'/') === 0 ) {
-                if( preg_match( $k , $version ) )
-                    return $variants;
-            }
-        }
-    }
-    */
-
-
-
-    /*
-    public function getVersionSpecificOptions($version)
-    {
-        $options = array();
-        $defs = array();
-
-
-        $defs['= php-5.2'] = array();
-        $defs['= php-5.3'] = array();
-        $defs['= php-5.4.0RC7'] = array();
-
-
-        foreach($defs as $versionExp => $versionOptions ) {
-            if( preg_match('/^([=<>]+)\s+(\S+)$/',$versionExp,$regs) ) {
-                list($orig,$op,$rVersion) = $regs;
-
-                switch($op)
-                {
-                    case '=':
-                        if( version_compare($version,$rVersion) === 0 ) {
-                            $options = array_merge( $options, $versionOptions );
-                        }
-                        break;
-                    case '>':
-                        if( version_compare($version,$rVersion) > 0 ) {
-
-                        }
-                        break;
-                    case '<':
-                        if( version_compare($version,$rVersion) < 0 ) {
-
-                        }
-                        break;
-                }
-            }
-            else {
-                throw new Exception("Unsupported format $versionExp");
-            }
-        }
-        return $options;
-    }
-    */
 }
 

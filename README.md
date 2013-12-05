@@ -20,11 +20,19 @@ What phpbrew can do for you:
 
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
 
-<img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/03.png"/>
-
 ## Requirement
 
 Please see [Requirement](https://github.com/c9s/phpbrew/wiki/Requirement) for your platform.
+
+## Install phpbrew
+
+Just download it:
+
+```bash
+curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+chmod +x phpbrew
+sudo cp phpbrew /usr/bin/phpbrew
+```
 
 ## Basic usage
 
@@ -39,6 +47,22 @@ Then add these lines to your `.bashrc` or `.zshrc` file:
 ```bash
 $ source ~/.phpbrew/bashrc
 ```
+
+You may setup your prefered default prefix for looking up libraries, available
+options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
+
+For Homebrew users:
+
+```bash
+$ phpbrew lookup-prefix homebrew
+```
+
+For Macports users:
+
+```bash
+$ phpbrew lookup-prefix macports
+```
+
 
 To list known versions:
 
@@ -93,6 +117,13 @@ To install older versions (less than 5.3):
 $ phpbrew install --old php-5.2.13
 ```
 
+## Clean up build
+
+
+```bash
+$ phpbrew clean
+```
+
 
 ## Variants
 
@@ -143,60 +174,46 @@ To disable one variant, simply add a prefix `-` before the variant name.
 For example, if we want to build PHP with the default options and 
 database supports (mysql, sqlite, postgresql), you may simply run:
 
-    $ phpbrew install php-5.4.5 +default+dbs
+```bash
+$ phpbrew install php-5.4.5 +default+dbs
+```
 
 You may also build PHP with extra variants:
 
-    $ phpbrew install php-5.3.10 +mysql+sqlite+cgi
+```bash
+$ phpbrew install php-5.3.10 +mysql+sqlite+cgi
 
-    $ phpbrew install php-5.3.10 +mysql+debug+pgsql +apxs2
+$ phpbrew install php-5.3.10 +mysql+debug+pgsql +apxs2
 
-    $ phpbrew install php-5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
+$ phpbrew install php-5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
+```
 
 To build PHP with pgsql (Postgresql) extension:
 
-    $ phpbrew install php-5.4.1 +pgsql+pdo
+```bash
+$ phpbrew install php-5.4.1 +pgsql+pdo
+```
 
 Or build pgsql extension with postgresql base dir on Mac OS X:
 
-    $ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
+```bash
+$ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
+```
 
 The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
 
 
-NOTE:
+For more details, please check out [PHPBrew Cookbook](https://github.com/c9s/phpbrew/wiki).
 
-> 1. If you want to build php with apache php module, please change the permission
-> of apache module directory, eg: `/opt/local/apache2/modules/`.
-> it should be writable and phpbrew should be able to change permission.
-> after install, you should check your httpd.conf configuration file, to switch
-> your php module version. :-)
->
-> 2. phpbrew currently only supports for apxs2 (apache2)
-
-If you enabled the `apxs2` variant, your apache conf file
-might look like this if you have multiple php(s) installed
-on your system:
-
-    # LoadModule php5_module        modules/libphp5.3.10.so
-    # LoadModule php5_module        modules/libphp5.4.0.so
-    # LoadModule php5_module        modules/libphp5.4.0RC8.so
-    # LoadModule php5_module        modules/libphp5.4.0RC7.so
-    # LoadModule php5_module        modules/libphp5.4.1RC2.so
-    # LoadModule php5_module        modules/libphp5.4.1.so
-    # LoadModule php5_module        modules/libphp5.4.2.so
-    LoadModule php5_module          modules/libphp5.4.4.so
-
-You can simply uncomment/comment it to enable the php5
-apache module you needed, after modifying it, remember
-to restart your apache http server. :)
 
 ## Extra Configure Options
 
 To pass extra configure arguments, you can do this:
 
-    $ phpbrew install php-5.3.10 +mysql +sqlite -- \
-        --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
+```bash
+$ phpbrew install php-5.3.10 +mysql +sqlite -- \
+    --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
+```
 
 ## Use And Switch
 
@@ -243,34 +260,43 @@ directory is in:
 
     ~/.phpbrew/php/php-{version}/var/db
 
-
 ### Installing Extension - The Most Simple Way
 
-    phpbrew ext install APC
-    phpbrew ext install memcache
+```bash
+$ phpbrew ext install APC
+$ phpbrew ext install memcache
+```
 
 ### Installing Extension With Version
 
 To install extensions with stability tag:
 
-    phpbrew ext install xdebug stable
-    phpbrew ext install xdebug latest
-    phpbrew ext install xdebug beta
+```bash
+$ phpbrew ext install xdebug stable
+$ phpbrew ext install xdebug latest
+$ phpbrew ext install xdebug beta
+```
 
 To install extensions with version name:
 
-    phpbrew ext install xdebug 2.0.1
+```bash
+$ phpbrew ext install xdebug 2.0.1
+```
 
 To install extensions with customized options:
 
-    phpbrew ext install yaml -- --with-yaml=/opt/local
+```bash
+$ phpbrew ext install yaml -- --with-yaml=/opt/local
+```
 
 ### Enabling Extension
 
 You can also install extension via PECL and enable it manually:
 
-    pecl install mongo
-    phpbrew ext enable mongo
+```bash
+pecl install mongo
+phpbrew ext enable mongo
+```
 
 The `ext enable` command allows you to create a config {current php base}/var/db/{extension name}.ini
 to enable the extension.
@@ -280,12 +306,16 @@ to enable the extension.
 
 Simply run:
 
-    phpbrew config
+```bash
+$ phpbrew config
+```
 
 You may specify the EDITOR environment variable to your favorite editor:
 
-    export EDITOR=vim
-    phpbrew config
+```bash
+export EDITOR=vim
+phpbrew config
+```
 
 ## Upgrade phpbrew
 
@@ -293,85 +323,53 @@ To upgrade phpbrew, you may simply run the `self-update` command,
 this command enables you to install the latest version of
 `master` branch from github:
 
-    $ phpbrew self-update
+```bash
+$ phpbrew self-update
+```
 
 ## The Installed PHP(s)
 
 The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.0RC7 is located at:
 
-    ~/.phpbrew/php/5.4.0RC7/bin/php
+    ~/.phpbrew/php/5.4.20/bin/php
 
 And you should put your configuration file in:
 
-    ~/.phpbrew/php/5.4.0RC7/etc/php.ini
+    ~/.phpbrew/php/5.4.20/etc/php.ini
 
 Extension configuration files should be put in:
 
-    ~/.phpbrew/php/5.4.0RC7/var/db
-    ~/.phpbrew/php/5.4.0RC7/var/db/xdebug.ini
-    ~/.phpbrew/php/5.4.0RC7/var/db/apc.ini
-    ~/.phpbrew/php/5.4.0RC7/var/db/memcache.ini
+    ~/.phpbrew/php/5.4.20/var/db
+    ~/.phpbrew/php/5.4.20/var/db/xdebug.ini
+    ~/.phpbrew/php/5.4.20/var/db/apc.ini
+    ~/.phpbrew/php/5.4.20/var/db/memcache.ini
     ... etc
-
-## Install phpbrew into system-wide environment
-
-First, sudo as a root user or login as a root user:
-
-    sudo -i
-
-Now initialize your phpbrew bashrc for root:
-
-    phpbrew init
-
-Now export phpbrew paths to your desired paths, 
-edit your ~/.phpbrew/init
-
-    export PHPBREW_ROOT=/opt/phpbrew
-
-Source your phpbrew bashrc
-
-    source ~/.phpbrew/bashrc
-
-Install system-wide php(s):
-
-    phpbrew install php-5.4.5 +default +dbs
-
-Now your php(s) will be installed under the /opt/phpbrew path,
-To let your users can use php(s) built by phpbrew, you need to export 
-`PHPBREW_ROOT` environment in /etc/bashrc or in /etc/profile.d/phpbrew for bash
-users, before they load the phpbrew/bashrc file.
-
-    export PHPBREW_ROOT=/opt/phpbrew
-    source /opt/phpbrew/bashrc
-
-To keep system's safety, please use `root` to install php(s).
-
-a non-root user should not be able to install new php or switch 
-
-and remember to fix permissions if these files 
-were installed by non-root user.
-
-    chown -R root: /opt/phpbrew
-
 
 ## Quick commands to switch between directories
 
 Switching to PHP build directory
 
-    phpbrew build-dir
+```bash
+$ phpbrew build-dir
+```
 
 Switching to PHP dist directory
 
-    phpbrew dist-dir
+```bash
+$ phpbrew dist-dir
+```
 
 Switching to PHP etc directory
 
-    phpbrew etc-dir
+```bash
+$ phpbrew etc-dir
+```
 
 Switching to PHP var directory
 
-    phpbrew var-dir
-
+```bash
+$ phpbrew var-dir
+```
 
 ## PHP FPM
 
@@ -380,23 +378,33 @@ remember to enable `+fpm` variant when building your own php.
 
 To start php-fpm, simply type:
 
-    phpbrew fpm start
+```bash
+$ phpbrew fpm start
+```
 
 To stop php-fpm, type:
 
-    phpbrew fpm stop
+```bash
+$ phpbrew fpm stop
+```
 
 To show php-fpm modules:
 
-    phpbrew fpm module
+```bash
+phpbrew fpm module
+```
 
 To test php-fpm config:
 
-    phpbrew fpm test
+```bash
+phpbrew fpm test
+```
 
 To edit php-fpm config:
 
-    phpbrew fpm config
+```bash
+phpbrew fpm config
+```
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
 > 
@@ -413,12 +421,15 @@ To edit php-fpm config:
 
 ### Installing composer 
 
-    phpbrew install-composer
+```bash
+$ phpbrew install-composer
+```
 
 ### Installing phpunit
 
-    phpbrew install-phpunit
-
+```bash
+phpbrew install-phpunit
+```
 
 ## Enabling Version Info Prompt
 
@@ -429,8 +440,8 @@ The default is `"PHPBREW_SET_PROMPT=0"` (disable). To enable it, you can add thi
 line to your `~/.bashrc` file and put this line before you source
 `~/.phpbrew/bashrc`.
 
-```sh
-    export PHPBREW_SET_PROMPT=1
+```bash
+export PHPBREW_SET_PROMPT=1
 ```
 
 To embed version info in your prompt, you can use
@@ -438,9 +449,9 @@ To embed version info in your prompt, you can use
 and you can set the version info in your `PS1` var.
 e.g.
 
-```sh
-    PHP_VERSION=$(current_php_version)
-    PS1=" $PHP_VERSION \$ "
+```bash
+PHP_VERSION=$(current_php_version)
+PS1=" $PHP_VERSION \$ "
 ```
 
 Known Issues
@@ -470,7 +481,12 @@ A: Currently, you can install php5.x.x and rename the /Users/c9s/.phpbrew/php/ph
 
 Contribution
 ------------------
-Please see [Contribution.md]
+Please see [Contribution](https://github.com/c9s/phpbrew/wiki/Contribution)
+
+
+Documentation
+-------------
+Please see [Wiki](https://github.com/c9s/phpbrew/wiki)
 
 
 Community
