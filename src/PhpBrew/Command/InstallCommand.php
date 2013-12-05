@@ -228,7 +228,21 @@ class InstallCommand extends Command
             }
         }
 
-        $this->logger->info("Source directory: " . $targetDir );
+        $this->logger->info("Initializing pear config...");
+        $home = Config::getPhpbrewHome();
+
+        @mkdir("$home/tmp/pear/temp", 0755, true);
+        @mkdir("$home/tmp/pear/cache_dir", 0755, true);
+        @mkdir("$home/tmp/pear/download_dir", 0755, true);
+
+        system("pear config-set temp_dir $home/tmp/pear/temp");
+        system("pear config-set cache_dir $home/tmp/pear/cache_dir");
+        system("pear config-set download_dir $home/tmp/pear/download_dir");
+
+        $this->logger->info("Enabling pear auto-discover...");
+        system("pear config-set auto_discover 1");
+
+        $this->logger->debug("Source directory: " . $targetDir );
 
         $this->logger->info("Congratulations! Now you have PHP with $version.");
 
