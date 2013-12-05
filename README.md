@@ -6,7 +6,9 @@ phpbrew builds and installs multiple version php(s) in your $HOME directory.
 phpbrew also manage the environment variables, so you can `use`, `switch` php
 version whenever you need.
 
-[![Build Status](https://travis-ci.org/c9s/phpbrew.png?branch=master)](https://travis-ci.org/c9s/phpbrew)
+[![Build Status](https://travis-ci.org/c9s/phpbrew.png?branch=master)](https://travis-ci.org/c9s/phpbrew) (master)
+
+[![Build Status](https://travis-ci.org/c9s/phpbrew.png?branch=develop)](https://travis-ci.org/c9s/phpbrew) (develop)
 
 What phpbrew can do for you:
 
