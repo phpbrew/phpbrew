@@ -19,7 +19,7 @@ class UtilsTest extends PHPUnit_Framework_TestCase
     }
 
     public function testFindbin() {
-        ok(Utils::findbin('apxs2'));
+        ok(Utils::findbin('ls'));
         ok(Utils::findbin('psql'));
     }
 }
