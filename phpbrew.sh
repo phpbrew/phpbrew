@@ -172,11 +172,15 @@ function phpbrew ()
             cd $chdir
             ;;
         config)
-            if [[ -n $EDITOR ]] ; then
-                $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+            if [[ -z "$2" ]]; then
+                if [[ -n $EDITOR ]] ; then
+                    $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+                else
+                    echo "Please set EDITOR environment variable for your favor."
+                    nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+                fi
             else
-                echo "Please set EDITOR environment variable for your favor."
-                nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+                cd $(command $BIN config $2)
             fi
             ;;
         clean)
