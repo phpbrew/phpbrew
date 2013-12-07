@@ -16,7 +16,7 @@ class VariantParser
     }
 
 
-    static function parseCommandArguments($args)
+    static function parseCommandArguments($args, array $inheritedVariants = array())
     {
         $extra = array();
 
@@ -62,39 +62,33 @@ class VariantParser
         }
 
         // inherit variants
-        if (!empty($enabledVariants['inherit'])) {
-            $inheritedVariants = self::getInheritedVariants($enabledVariants['inherit']);
-
-            if (isset($inheritedVariants['enabled_variants'])
-                && is_array($inheritedVariants['enabled_variants'])
-            ) {
-            	$enabledVariants = array_merge(
-            	    $inheritedVariants['enabled_variants'],
-            	    $enabledVariants
-                );
-            }
-
-            if (isset($inheritedVariants['disabled_variants'])
-                && is_array($inheritedVariants['disabled_variants'])
-            ) {
-                $disabledVariants = array_merge(
-                    $inheritedVariants['disabled_variants'],
-                    $disabledVariants
-                );
-            }
-
-            if (isset($inheritedVariants['extra_options'])
-                && is_array($inheritedVariants['extra_options'])
-            ) {
-                $extra = array_merge(
-                    $inheritedVariants['extra_options'],
-                    $extra
-                );
-            }
-
-            unset($enabledVariants['inherit']);
-
+        if (isset($inheritedVariants['enabled_variants'])
+            && is_array($inheritedVariants['enabled_variants'])
+        ) {
+        	$enabledVariants = array_merge(
+        	    $inheritedVariants['enabled_variants'],
+        	    $enabledVariants
+            );
         }
+
+        if (isset($inheritedVariants['disabled_variants'])
+            && is_array($inheritedVariants['disabled_variants'])
+        ) {
+            $disabledVariants = array_merge(
+                $inheritedVariants['disabled_variants'],
+                $disabledVariants
+            );
+        }
+
+        if (isset($inheritedVariants['extra_options'])
+            && is_array($inheritedVariants['extra_options'])
+        ) {
+            $extra = array_merge(
+                $inheritedVariants['extra_options'],
+                $extra
+            );
+        }
+
 
         return array(
             'enabled_variants' => $enabledVariants,
