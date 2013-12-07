@@ -22,11 +22,11 @@ use CLIFramework\Command;
  * TODO: refactor tasks to Task class.
  */
 
-class InstallCommand extends Command 
+class InstallCommand extends Command
 {
     public function brief() { return 'install php'; }
 
-    public function usage() 
+    public function usage()
     {
         return 'phpbrew install [php-version] ([+variant...])';
     }
@@ -42,6 +42,7 @@ class InstallCommand extends Command
         $opts->add('patch:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
+        $opts->add('like:', 'inherit variants from previous build');
     }
 
     public function execute($version)
@@ -59,10 +60,16 @@ class InstallCommand extends Command
 
         $name = $this->options->name ?: $version;
 
+        // find inherited variants
+        $inheritedVariants = array();
+        if ($this->options->like) {
+        	$inheritedVariants = VariantParser::getInheritedVariants($this->options->like);
+        }
+
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
         // ['disabled_variants'] => disabled variants
-        $variantInfo = VariantParser::parseCommandArguments($args);
+        $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
