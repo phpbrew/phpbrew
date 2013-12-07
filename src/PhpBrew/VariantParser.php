@@ -60,6 +60,42 @@ class VariantParser
                 $extra[] = $arg;
             }
         }
+
+        // inherit variants
+        if (!empty($enabledVariants['inherit'])) {
+            $inheritedVariants = self::getInheritedVariants($enabledVariants['inherit']);
+
+            if (isset($inheritedVariants['enabled_variants'])
+                && is_array($inheritedVariants['enabled_variants'])
+            ) {
+            	$enabledVariants = array_merge(
+            	    $inheritedVariants['enabled_variants'],
+            	    $enabledVariants
+                );
+            }
+
+            if (isset($inheritedVariants['disabled_variants'])
+                && is_array($inheritedVariants['disabled_variants'])
+            ) {
+                $disabledVariants = array_merge(
+                    $inheritedVariants['disabled_variants'],
+                    $disabledVariants
+                );
+            }
+
+            if (isset($inheritedVariants['extra_options'])
+                && is_array($inheritedVariants['extra_options'])
+            ) {
+                $extra = array_merge(
+                    $inheritedVariants['extra_options'],
+                    $extra
+                );
+            }
+
+            unset($enabledVariants['inherit']);
+
+        }
+
         return array(
             'enabled_variants' => $enabledVariants,
             'disabled_variants' => $disabledVariants,
@@ -87,6 +123,39 @@ class VariantParser
             $out .= " " . '-- ' . join(' ', $info['extra_options']);
         }
         return $out;
+    }
+
+    /**
+     * Returns array with the variants for the
+     * given version
+     * @param string $version
+     * @throws Exception
+     * @return mixed
+     */
+    public static function getInheritedVariants($version)
+    {
+        if (!preg_match('/^php-/', $version)) {
+            $version = 'php-' . $version;
+        }
+
+        $installedVersions = Config::getInstalledPhpVersions();
+
+        if (array_search($version, $installedVersions) === false) {
+        	throw new Exception(
+    	       "Can't inherit variants from {$version} because this version is not installed!"
+            );
+        }
+        $variantsFile = Config::getVersionBuildPrefix($version)
+                      . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+
+        if (!is_readable($variantsFile)) {
+        	throw new Exception(
+        	    "Can't inherit variant from {$version}!"
+        	    . "Variants file {$variantsFile} is not readable."
+            );
+        }
+
+        return unserialize(file_get_contents($variantsFile));
     }
 
 }
