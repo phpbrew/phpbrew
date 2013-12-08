@@ -556,6 +556,7 @@ class VariantBuilder
                 $this->addOptions('--with-zlib=' . $prefix);
             }
             if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
+                $this->addOptions('--enable-libxml');
                 $this->addOptions('--with-libxml-dir=' . $prefix);
             }
         }
