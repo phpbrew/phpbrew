@@ -4,8 +4,10 @@ CHANGES
 Version 1.11.3 - Sun Dec  8 14:38:14 2013
 
 - Fixed libdir detection
-- Enabled xml variant by default
-- Renamed xml_all variant to xml
+- Enabled `xml` variant by default
+- Renamed `xml_all` variant to xml
+- Fix +iconv variant ( --with-iconv=/usr won't be compiled on systems with gnu iconv  )
+- Fix +gd variant ( --with-gd=/usr won't be compiled, --with-gd=shared,$prefix works)
 
 Version 1.11 - Wed Dec  4 13:28:00 2013
 
