@@ -468,6 +468,29 @@ Known Issues
 
 
 
+
+Troubleshooting
+-------------------
+
+* library or header file not found:
+
+    * check if you installed the library (.a or .so)
+    * check if you installed the header files (.h files)
+    * print the configure options to see which directory is using,
+      run phpbrew install with `-d` or `--debug` flag to see what's the configure options, e.g.,
+
+            $ phpbrew -d install 5.4.22
+
+    * see the required header files are in which location, by running:
+
+            $ locate foobar.h
+
+    * see the required so files are in which location.
+
+            $ locate foobar.so
+
+    * If you still can not resolve the problem, then please fire an issue with your phpbrew version, OS, configure options.
+
 FAQ
 -------------------------
 
