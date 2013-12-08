@@ -487,11 +487,11 @@ Troubleshooting
 
             $ phpbrew -d install 5.4.22
 
-    * see the required header files are in which location, by running:
+    * search for the location of the required header files:
 
             $ locate foobar.h
 
-    * see the required so files are in which location.
+    * search for the location of the required so files:
 
             $ locate foobar.so
 
