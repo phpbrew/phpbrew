@@ -195,10 +195,13 @@ class VariantBuilder
         $this->variants['gd'] = function($build, $prefix = null) use ($self) {
             $opts = array();
 
+            // it looks like gd won't be compiled without "shared"
+            // suggested options is +gd=shared,/usr
+
             if ( $prefix ) {
                 $opts[] = "--with-gd=$prefix";
             } else if ( $prefix = Utils::find_include_prefix('gd.h') ) {
-                $opts[] = "--with-gd=$prefix";
+                $opts[] = "--with-gd=shared,$prefix";
             }
 
             $opts[] = '--enable-gd-native-ttf';
