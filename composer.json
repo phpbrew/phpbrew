@@ -15,13 +15,13 @@
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master",
         "corneltek\/universal": "*",
-        "cbednarski/pharcc": "0.2.*",
-        "cbednarski/fileutils": "dev-master"
+        "cbednarski\/pharcc": "0.2.*",
+        "cbednarski\/fileutils": "dev-master"
     },
     "autoload": {
         "psr-0": {
             "PhpBrew": "src"
         }
     },
-    "version": "1.11.2"
+    "version": "1.11.3"
 }
