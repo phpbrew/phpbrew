@@ -6,7 +6,7 @@ use PhpBrew\Exceptions\OopsException;
 class VariantParser
 {
 
-    static function splitVariantString($str)
+    static function splitVariantValue($str)
     {
         if( strpos($str,'=') !== false ) {
             list($name,$val) = explode('=',$str);
@@ -42,10 +42,10 @@ class VariantParser
 
                     foreach( $variantStrs as $str ) {
                         if($str[0] == '+') {
-                            $a = self::splitVariantString( substr($str,1) );
+                            $a = self::splitVariantValue( substr($str,1) );
                             $enabledVariants = array_merge( $enabledVariants, $a );
                         } elseif($str[0] == '-' ) {
-                            $a = self::splitVariantString( substr($str,1) );
+                            $a = self::splitVariantValue( substr($str,1) );
                             $disabledVariants = array_merge( $disabledVariants, $a );
                         } else {
                             throw new OopsException;
@@ -65,9 +65,9 @@ class VariantParser
         if (isset($inheritedVariants['enabled_variants'])
             && is_array($inheritedVariants['enabled_variants'])
         ) {
-        	$enabledVariants = array_merge(
-        	    $inheritedVariants['enabled_variants'],
-        	    $enabledVariants
+            $enabledVariants = array_merge(
+                $inheritedVariants['enabled_variants'],
+                $enabledVariants
             );
         }
 
@@ -135,17 +135,17 @@ class VariantParser
         $installedVersions = Config::getInstalledPhpVersions();
 
         if (array_search($version, $installedVersions) === false) {
-        	throw new Exception(
-    	       "Can't inherit variants from {$version} because this version is not installed!"
+            throw new Exception(
+               "Can't inherit variants from {$version} because this version is not installed!"
             );
         }
         $variantsFile = Config::getVersionBuildPrefix($version)
                       . DIRECTORY_SEPARATOR . 'phpbrew.variants';
 
         if (!is_readable($variantsFile)) {
-        	throw new Exception(
-        	    "Can't inherit variant from {$version}!"
-        	    . "Variants file {$variantsFile} is not readable."
+            throw new Exception(
+                "Can't inherit variant from {$version}!"
+                . "Variants file {$variantsFile} is not readable."
             );
         }
 
