@@ -94,6 +94,7 @@ class VariantBuilder
         $this->variants['dom']      = '--enable-dom';
         $this->variants['all']      = '--enable-all';
         $this->variants['calendar'] = '--enable-calendar';
+        $this->variants['wddx']     = '--enable-wddx';
 
         $this->variants['cli']      = '--enable-cli';
         $this->variants['fpm']      = '--enable-fpm';
