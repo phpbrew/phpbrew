@@ -6,8 +6,6 @@ phpbrew builds and installs multiple version php(s) in your $HOME directory.
 phpbrew also manage the environment variables, so you can `use`, `switch` php
 version whenever you need.
 
-[![Build Status](https://secure.travis-ci.org/c9s/phpbrew.png)](http://travis-ci.org/c9s/phpbrew)
-
 What phpbrew can do for you:
 
 - Build php with different variants like PDO, mysql, sqlite, debug ...etc.
@@ -92,7 +90,7 @@ $ phpbrew known --old
 Simply build and install PHP with default variant:
 
 ```bash
-$ phpbrew install php-5.4.0 +default
+$ phpbrew install 5.4.0 +default
 ```
 
 Here we suggest `default` variant set, which includes most commonly used
@@ -102,19 +100,19 @@ variants, if you need a minimum install, just remove the `default` variant set.
 With tests:
 
 ```bash
-$ phpbrew install --test php-5.4.0
+$ phpbrew install --test 5.4.0
 ```
 
 With debug messages:
 
 ```bash
-$ phpbrew -d install --test php-5.4.0
+$ phpbrew -d install --test 5.4.0
 ```
 
 To install older versions (less than 5.3):
 
 ```bash
-$ phpbrew install --old php-5.2.13
+$ phpbrew install --old 5.2.13
 ```
 
 ## Clean up build
@@ -157,10 +155,10 @@ Virtual variants:
 
 Using variants to build PHP:
 
-  phpbrew install php-5.3.10 +default
-  phpbrew install php-5.3.10 +mysql +pdo
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
+  phpbrew install 5.3.10 +default
+  phpbrew install 5.3.10 +mysql +pdo
+  phpbrew install 5.3.10 +mysql +pdo +apxs2
+  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
 ```
 
 To enable one variant, simply add a prefix `+` before the variant name, eg
@@ -175,29 +173,29 @@ For example, if we want to build PHP with the default options and
 database supports (mysql, sqlite, postgresql), you may simply run:
 
 ```bash
-$ phpbrew install php-5.4.5 +default+dbs
+$ phpbrew install 5.4.5 +default+dbs
 ```
 
 You may also build PHP with extra variants:
 
 ```bash
-$ phpbrew install php-5.3.10 +mysql+sqlite+cgi
+$ phpbrew install 5.3.10 +mysql+sqlite+cgi
 
-$ phpbrew install php-5.3.10 +mysql+debug+pgsql +apxs2
+$ phpbrew install 5.3.10 +mysql+debug+pgsql +apxs2
 
-$ phpbrew install php-5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
+$ phpbrew install 5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
 ```
 
 To build PHP with pgsql (Postgresql) extension:
 
 ```bash
-$ phpbrew install php-5.4.1 +pgsql+pdo
+$ phpbrew install 5.4.1 +pgsql+pdo
 ```
 
 Or build pgsql extension with postgresql base dir on Mac OS X:
 
 ```bash
-$ phpbrew install php-5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
+$ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
 ```
 
 The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
@@ -211,7 +209,7 @@ For more details, please check out [PHPBrew Cookbook](https://github.com/c9s/php
 To pass extra configure arguments, you can do this:
 
 ```bash
-$ phpbrew install php-5.3.10 +mysql +sqlite -- \
+$ phpbrew install 5.3.10 +mysql +sqlite -- \
     --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
 ```
 
@@ -220,13 +218,13 @@ $ phpbrew install php-5.3.10 +mysql +sqlite -- \
 Use (switch version temporarily):
 
 ```bash
-$ phpbrew use php-5.4.0RC7
+$ phpbrew use 5.4.22
 ```
 
 Switch PHP version (switch default version)
 
 ```bash
-$ phpbrew switch php-5.4.0
+$ phpbrew switch 5.4.18
 ```
 
 Turn Off:
