@@ -472,6 +472,12 @@ Known Issues
 Troubleshooting
 -------------------
 
+* configure: error: Please reinstall the iconv library:
+
+    please try with +iconv=shared variant
+
+        phpbrew install 5.4.22 +iconv=shared
+
 * library or header file not found:
 
     * check if you installed the library (.a or .so)
