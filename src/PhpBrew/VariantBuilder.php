@@ -78,6 +78,7 @@ class VariantBuilder
             'curl',
             'zip',
             'bz2',
+            'xml_all',
         )
     );
 
@@ -554,10 +555,6 @@ class VariantBuilder
             );
             if( $prefix = Utils::find_include_prefix('zlib.h') ) {
                 $this->addOptions('--with-zlib=' . $prefix);
-            }
-            if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
-                $this->addOptions('--enable-libxml');
-                $this->addOptions('--with-libxml-dir=' . $prefix);
             }
         }
 
