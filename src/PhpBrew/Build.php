@@ -301,7 +301,10 @@ class Build implements Serializable
     }
 
 
-    public serialize( void )
+    /**
+     * XXX: Make sure Serializable interface works for php 5.3
+     */
+    public function serialize()
     {
         return serialize($this->export());
     }
