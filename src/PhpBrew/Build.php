@@ -26,9 +26,21 @@ class Build
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
-    public function __construct()
+    public function __construct($prefix = null)
     {
-
+        if ( $prefix ) {
+            // read the build info from $prefix
+            $metaFile = $prefix . DIRECTORY_SEPARATOR . 'meta.json';
+            if ( file_exists($metaFile) ) {
+                $meta = json_decode(file_get_contents($metaFile));
+                if ( $meta->name ) {
+                    $this->setName($meta->name);
+                }
+                if ( $meta->version ) {
+                    $this->setVersion($meta->version);
+                }
+            }
+        }
     }
 
     public function setName($name)
@@ -226,6 +238,32 @@ class Build
     }
 
 
+    /**
+     * Find a installed build by name,
+     * currently a $name is a php version, but in future we may have customized 
+     * name for users.
+     *
+     * @param string $name
+     * @return Build
+     */
+    static public function findByName($name) 
+    {
+        $prefix = Config::getVersionBuildPrefix($name);
+        if ( file_exists($prefix) ) {
+            // a installation exists
+            $build = new self;
+        }
+        /*
+        if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
+            $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
+            echo "\n";
+            echo str_repeat(' ',19);
+            echo VariantParser::revealCommandArguments($info);
+        }
+        echo "\n";
+        */
+
+    }
 
 }
 

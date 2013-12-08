@@ -622,5 +622,10 @@ class VariantBuilder
         $this->options = array();
         return $options;
     }
+
+
+
+
+
 }
 

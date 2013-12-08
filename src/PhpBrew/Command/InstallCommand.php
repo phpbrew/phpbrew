@@ -63,7 +63,7 @@ class InstallCommand extends Command
         // find inherited variants
         $inheritedVariants = array();
         if ($this->options->like) {
-        	$inheritedVariants = VariantParser::getInheritedVariants($this->options->like);
+            $inheritedVariants = VariantParser::getInheritedVariants($this->options->like);
         }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
@@ -73,8 +73,9 @@ class InstallCommand extends Command
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if( ! $info)
+        if ( ! $info) {
             throw new Exception("Version $version not found.");
+        }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
