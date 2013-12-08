@@ -7,6 +7,16 @@ use PhpBrew\Exceptions\OopsException;
 
 
 /**
+ * VariantBuilder build variants to configure options.
+ *
+ * TODO: In future, we want different kind of variant:
+ *
+ *    1. configure option variant
+ *    2. pecl package variant, e.g. +xdebug +phpunit
+ *    3. config settings variant.  +timezone=Asia/Taipei
+ *
+ * API:
+ *
  * $variantBuilder = new VariantBuilder;
  * $variantBuilder->register('debug', function() {
  *
@@ -530,7 +540,9 @@ class VariantBuilder
 
 
     /**
-     * build configure options from variants
+     * Build variants to configure options from php build object.
+     *
+     * @param PhpBrew\Build $build The build object, contains version information
      */
     public function build($build)
     {
@@ -610,5 +622,10 @@ class VariantBuilder
         $this->options = array();
         return $options;
     }
+
+
+
+
+
 }
 

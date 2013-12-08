@@ -23,11 +23,11 @@ use CLIFramework\Command;
  * TODO: refactor tasks to Task class.
  */
 
-class InstallCommand extends Command 
+class InstallCommand extends Command
 {
     public function brief() { return 'install php'; }
 
-    public function usage() 
+    public function usage()
     {
         return 'phpbrew install [php-version] ([+variant...])';
     }
@@ -44,12 +44,14 @@ class InstallCommand extends Command
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
         $opts->add('d|dryrun','dryrun');
+        $opts->add('like:', 'inherit variants from previous build');
     }
 
     public function execute($version)
     {
-        if( ! preg_match('/^php-/', $version) )
+        if ( ! preg_match('/^php-/', $version) ) {
             $version = 'php-' . $version;
+        }
 
         $options = $this->options;
         $logger = $this->logger;
@@ -61,10 +63,16 @@ class InstallCommand extends Command
 
         $name = $this->options->name ?: $version;
 
+        // find inherited variants
+        $inheritedVariants = array();
+        if ($this->options->like) {
+            $inheritedVariants = VariantParser::getInheritedVariants($this->options->like);
+        }
+
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
         // ['disabled_variants'] => disabled variants
-        $variantInfo = VariantParser::parseCommandArguments($args);
+        $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
@@ -214,7 +222,21 @@ class InstallCommand extends Command
             }
         }
 
-        $this->logger->info("Source directory: " . $targetDir );
+        $this->logger->info("Initializing pear config...");
+        $home = Config::getPhpbrewHome();
+
+        @mkdir("$home/tmp/pear/temp", 0755, true);
+        @mkdir("$home/tmp/pear/cache_dir", 0755, true);
+        @mkdir("$home/tmp/pear/download_dir", 0755, true);
+
+        system("pear config-set temp_dir $home/tmp/pear/temp");
+        system("pear config-set cache_dir $home/tmp/pear/cache_dir");
+        system("pear config-set download_dir $home/tmp/pear/download_dir");
+
+        $this->logger->info("Enabling pear auto-discover...");
+        system("pear config-set auto_discover 1");
+
+        $this->logger->debug("Source directory: " . $targetDir );
 
         $this->logger->info("Congratulations! Now you have PHP with $version.");
 

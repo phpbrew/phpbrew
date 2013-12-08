@@ -28,9 +28,34 @@ class Build implements Serializable
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
-    public function __construct()
+    public function __construct($prefix = null)
     {
+        if ( $prefix ) {
+            $this->setInstallDirectory($prefix);
 
+            // read the build info from $prefix
+            /*
+            $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
+            if ( file_exists($metaFile) ) {
+                $meta = unserialize(file_get_contents($metaFile));
+                if ( $meta['name'] ) {
+                    $this->setName($meta['name']);
+                }
+                if ( $meta['version'] ) {
+                    $this->setVersion($meta->version);
+                }
+            }
+            */
+
+            // TODO: in future, we only stores build meta information, and that 
+            // also contains the variant info,
+            // but for backward compatibility, we still need a method to handle 
+            // the variant info file..
+            $variantFile =  $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+            if ( file_exists($variantFile) ) {
+                $this->importVariantFromFile($variantFile);
+            }
+        }
     }
 
     public function setName($name)
@@ -259,6 +284,14 @@ class Build implements Serializable
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
 
+    public function importVariantFromFile($variantFile) {
+        if ( file_exists($variantFile) ) {
+            $info = unserialize(file_get_contents());
+            // echo VariantParser::revealCommandArguments($info);
+            // XXX: handle info
+        }
+    }
+
 
     public function __set_state($data)
     {
@@ -271,6 +304,33 @@ class Build implements Serializable
     public serialize( void )
     {
         return serialize($this->export());
+    }
+
+    /**
+     * Find a installed build by name,
+     * currently a $name is a php version, but in future we may have customized 
+     * name for users.
+     *
+     * @param string $name
+     * @return Build
+     */
+    static public function findByName($name) 
+    {
+        $prefix = Config::getVersionBuildPrefix($name);
+        if ( file_exists($prefix) ) {
+            // a installation exists
+            $build = new self($prefix);
+            return $build;
+        }
+        /*
+        if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
+            $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
+            echo "\n";
+            echo str_repeat(' ',19);
+            echo VariantParser::revealCommandArguments($info);
+        }
+        echo "\n";
+        */
     }
 
     public function unserialize($serialized)
