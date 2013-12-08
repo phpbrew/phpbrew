@@ -365,7 +365,7 @@ class VariantBuilder
                 return "--with-iconv=$prefix";
             }
             // detect include path for iconv.h
-            if( $prefix = Utils::find_include_prefix('iconv.h') ) {
+            if( $prefix = Utils::find_include_prefix('giconv.h', 'iconv.h') ) {
                 return "--with-iconv=$prefix";
             }
             return "--with-iconv";
