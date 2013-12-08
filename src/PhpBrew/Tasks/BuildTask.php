@@ -27,7 +27,7 @@ class BuildTask extends BaseTask
         $this->debug( '' .  $cmd  );
         $startTime = microtime(true);
         $cmd->execute() !== false or die('Make failed.');
-        $buildTime = (int)((microtime(true) - $startTime) / 60);
+        $buildTime = ceil((microtime(true) - $startTime) / 60);
         $this->info("Build finished: $buildTime minutes.");
     }
 }
