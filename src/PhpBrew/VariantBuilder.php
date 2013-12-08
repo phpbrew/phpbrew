@@ -485,7 +485,13 @@ class VariantBuilder
             // then convert the '--enable' and '--with' options
             // to '--disable' and '--without'
             $args = is_string($userValue) ? array($build,$userValue) : array($build);
-            $disableOptions = (array) call_user_func_array($func,$args);
+            if ( is_string($func) ) {
+                $disableOptions = (array) $func;
+            } else if ( is_callable($func) ) {
+                $disableOptions = (array) call_user_func_array($func,$args);
+            } else {
+                throw new Exception("Unsupported variant handler type. neither string nor callable.");
+            }
 
             $resultOptions = array();
 
