@@ -364,10 +364,16 @@ class VariantBuilder
             if ( $prefix ) {
                 return "--with-iconv=$prefix";
             }
+            /*
+             * php can't be compile with --with-iconv=/usr because it uses giconv
+             *
+             * https://bugs.php.net/bug.php?id=48451
+             *
             // detect include path for iconv.h
             if( $prefix = Utils::find_include_prefix('giconv.h', 'iconv.h') ) {
                 return "--with-iconv=$prefix";
             }
+            */
             return "--with-iconv";
         };
 
