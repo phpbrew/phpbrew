@@ -44,6 +44,11 @@ class Build
                 }
             }
             */
+
+            // TODO: in future, we only stores build meta information, and that 
+            // also contains the variant info,
+            // but for backward compatibility, we still need a method to handle 
+            // the variant info file..
             $variantFile =  $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
             if ( file_exists($variantFile) ) {
                 $this->importVariantFromFile($variantFile);
