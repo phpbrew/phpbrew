@@ -540,7 +540,9 @@ class VariantBuilder
 
 
     /**
-     * build configure options from variants
+     * Build variants to configure options from php build object.
+     *
+     * @param PhpBrew\Build $build The build object, contains version information
      */
     public function build($build)
     {
