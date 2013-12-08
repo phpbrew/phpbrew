@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+Version 1.11.3 - Sun Dec  8 14:38:14 2013
+
+- Fixed libdir detection
+- Enabled xml variant by default
+- Renamed xml_all variant to xml
+
 Version 1.11 - Wed Dec  4 13:28:00 2013
 
 - Added platform prefix setup command:
@@ -21,7 +27,6 @@ Version 1.11 - Wed Dec  4 13:28:00 2013
 
         $prefix/i386-linux-gnu/
         $prefix/x86_64-linux-gnu/
-
 
 Version 1.10 - Tue Dec  3 22:55:22 2013
 
