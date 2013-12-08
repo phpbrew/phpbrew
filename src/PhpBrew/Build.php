@@ -29,16 +29,24 @@ class Build
     public function __construct($prefix = null)
     {
         if ( $prefix ) {
+            $this->setInstallDirectory($prefix);
+
             // read the build info from $prefix
-            $metaFile = $prefix . DIRECTORY_SEPARATOR . 'meta.json';
+            /*
+            $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
             if ( file_exists($metaFile) ) {
-                $meta = json_decode(file_get_contents($metaFile));
-                if ( $meta->name ) {
-                    $this->setName($meta->name);
+                $meta = unserialize(file_get_contents($metaFile));
+                if ( $meta['name'] ) {
+                    $this->setName($meta['name']);
                 }
-                if ( $meta->version ) {
+                if ( $meta['version'] ) {
                     $this->setVersion($meta->version);
                 }
+            }
+            */
+            $variantFile =  $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+            if ( file_exists($variantFile) ) {
+                $this->importVariantFromFile($variantFile);
             }
         }
     }
@@ -237,6 +245,14 @@ class Build
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
 
+    public function importVariantFromFile($variantFile) {
+        if ( file_exists($variantFile) ) {
+            $info = unserialize(file_get_contents());
+            // echo VariantParser::revealCommandArguments($info);
+            // XXX: handle info
+        }
+    }
+
 
     /**
      * Find a installed build by name,
@@ -251,7 +267,8 @@ class Build
         $prefix = Config::getVersionBuildPrefix($name);
         if ( file_exists($prefix) ) {
             // a installation exists
-            $build = new self;
+            $build = new self($prefix);
+            return $build;
         }
         /*
         if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
