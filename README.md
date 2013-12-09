@@ -471,31 +471,7 @@ Known Issues
 
 Troubleshooting
 -------------------
-
-* configure: error: Please reinstall the iconv library:
-
-    please try with +iconv=shared variant
-
-        phpbrew install 5.4.22 +iconv=shared
-
-* library or header file not found:
-
-    * check if you installed the library (.a or .so)
-    * check if you installed the header files (.h files)
-    * print the configure options to see which directory is using,
-      run phpbrew install with `-d` or `--debug` flag to see what's the configure options, e.g.,
-
-            $ phpbrew -d install 5.4.22
-
-    * search for the location of the required header files:
-
-            $ locate foobar.h
-
-    * search for the location of the required so files:
-
-            $ locate foobar.so
-
-    * If you still can not resolve the problem, then please fire an issue with your phpbrew version, OS, configure options.
+Please see [TroubleShooting](https://github.com/c9s/phpbrew/wiki/TroubleShooting)
 
 FAQ
 -------------------------
