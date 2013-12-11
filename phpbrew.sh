@@ -168,25 +168,28 @@ function phpbrew ()
             cd -
             hash -r
             ;;
-        var-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
-            echo "Switching to $chdir"
+        cd)
+            case $2 in
+                var)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
+                    ;;
+                etc)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
+                    ;;
+                dist)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
+                    ;;
+                build)
+                    local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
+                    ;;
+                *)
+                    echo "$2 not found"
+                    return 0
+                ;;
+            esac
+            echo "Switching to $chdir, run 'cd -' to go back."
             cd $chdir
-            ;;
-        etc-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        dist-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        build-dir)
-            local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
+            return 0
             ;;
         config)
             if [[ -n $EDITOR ]] ; then
