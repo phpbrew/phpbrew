@@ -3,8 +3,10 @@ namespace PhpBrew\Command;
 use CLIFramework\Command;
 use PhpBrew\Config;
 
-class ConfigCommand extends Command
+class PathCommand extends Command
 {
+    public function brief() { return 'Show paths of the current PHP.'; }
+
     public function execute($name)
     {
         switch($name) 

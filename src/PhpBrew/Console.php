@@ -21,7 +21,7 @@ class Console extends Application
         $this->registerCommand('env');
         $this->registerCommand('ext');
         $this->registerCommand('variants');
-        $this->registerCommand('config');
+        $this->registerCommand('path');
         $this->registerCommand('download');
         $this->registerCommand('clean');
 
