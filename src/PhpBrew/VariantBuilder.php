@@ -84,7 +84,7 @@ class VariantBuilder
             'readline',
             'sockets',
             'tokenizer',
-            'xml_all',
+            'xml',
             'curl',
             'zip',
             'bz2',
@@ -102,9 +102,9 @@ class VariantBuilder
         $this->variants['dba']      = '--enable-dba';
         $this->variants['ipv6']     = '--enable-ipv6';
         $this->variants['dom']      = '--enable-dom';
-        $this->variants['xml']      = '--enable-xml';
         $this->variants['all']      = '--enable-all';
         $this->variants['calendar'] = '--enable-calendar';
+        $this->variants['wddx']     = '--enable-wddx';
 
         $this->variants['cli']      = '--enable-cli';
         $this->variants['fpm']      = '--enable-fpm';
@@ -206,10 +206,13 @@ class VariantBuilder
         $this->variants['gd'] = function($build, $prefix = null) use ($self) {
             $opts = array();
 
+            // it looks like gd won't be compiled without "shared"
+            // suggested options is +gd=shared,/usr
+
             if ( $prefix ) {
                 $opts[] = "--with-gd=$prefix";
             } else if ( $prefix = Utils::find_include_prefix('gd.h') ) {
-                $opts[] = "--with-gd=$prefix";
+                $opts[] = "--with-gd=shared,$prefix";
             }
 
             $opts[] = '--enable-gd-native-ttf';
@@ -327,7 +330,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['xml_all'] = function($build) {
+        $this->variants['xml'] = function($build) {
             $options = array(
                 '--enable-dom',
                 '--enable-libxml',
@@ -346,6 +349,7 @@ class VariantBuilder
             }
             return $options;
         };
+        $this->variants['xml_all'] = $this->variants['xml'];
 
 
         $this->variants['apxs2'] = function($build, $prefix = null) use ($self) {
@@ -378,10 +382,16 @@ class VariantBuilder
             if ( $prefix ) {
                 return "--with-iconv=$prefix";
             }
+            /*
+             * php can't be compile with --with-iconv=/usr because it uses giconv
+             *
+             * https://bugs.php.net/bug.php?id=48451
+             *
             // detect include path for iconv.h
-            if( $prefix = Utils::find_include_prefix('iconv.h') ) {
+            if( $prefix = Utils::find_include_prefix('giconv.h', 'iconv.h') ) {
                 return "--with-iconv=$prefix";
             }
+            */
             return "--with-iconv";
         };
 
@@ -499,7 +509,13 @@ class VariantBuilder
             // then convert the '--enable' and '--with' options
             // to '--disable' and '--without'
             $args = is_string($userValue) ? array($build,$userValue) : array($build);
-            $disableOptions = (array) call_user_func_array($func,$args);
+            if ( is_string($func) ) {
+                $disableOptions = (array) $func;
+            } else if ( is_callable($func) ) {
+                $disableOptions = (array) call_user_func_array($func,$args);
+            } else {
+                throw new Exception("Unsupported variant handler type. neither string nor callable.");
+            }
 
             $resultOptions = array();
 
@@ -564,9 +580,6 @@ class VariantBuilder
             );
             if( $prefix = Utils::find_include_prefix('zlib.h') ) {
                 $this->addOptions('--with-zlib=' . $prefix);
-            }
-            if( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
-                $this->addOptions('--with-libxml-dir=' . $prefix);
             }
         }
 

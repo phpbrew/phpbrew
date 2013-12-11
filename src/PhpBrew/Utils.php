@@ -79,6 +79,31 @@ class Utils
     }
 
 
+    static function find_libdir()
+    {
+        $prefixes = array(
+            '/opt',
+            '/opt/local',
+            '/usr',
+            '/usr/local',
+        );
+        if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
+            $paths = explode(':', $pathstr);
+            foreach( $paths as $path ) {
+                $prefixes[] = $path;
+            }
+        }
+        $prefixes = array_reverse($prefixes);
+
+        foreach( $prefixes as $prefix ) {
+            if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
+                return "lib/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+                return "lib/i386-linux-gnu";
+            }
+        }
+    }
+
     static function get_lookup_prefixes() 
     {
         $prefixes = array(
@@ -97,10 +122,10 @@ class Utils
 
         // if there is lib path, insert it to the end.
         foreach( $prefixes as $prefix ) {
-            if ( file_exists("$prefix/x86_64-linux-gnu") ) {
-                $prefixes[] = "$prefix/x86_64-linux-gnu";
-            } else if ( file_exists("$prefix/i386-linux-gnu") ) {
-                $prefixes[] = "$prefix/i386-linux-gnu";
+            if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
+                $prefixes[] = "$prefix/lib/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+                $prefixes[] = "$prefix/lib/i386-linux-gnu";
             } 
         }
         return array_reverse($prefixes);

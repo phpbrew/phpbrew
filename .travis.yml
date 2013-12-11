@@ -9,6 +9,8 @@ before_script:
   - curl -O https://raw.github.com/c9s/Onion/master/onion
   - composer install --dev
 
-script: phpunit --debug
+script:
+  - source phpbrew.sh
+  - phpunit --debug
 # notifications:
 #  webbooks: http://wireroom.extremedev.org/=/travis-ci/Hall

@@ -468,6 +468,11 @@ Known Issues
 
 
 
+
+Troubleshooting
+-------------------
+Please see [TroubleShooting](https://github.com/c9s/phpbrew/wiki/TroubleShooting)
+
 FAQ
 -------------------------
 

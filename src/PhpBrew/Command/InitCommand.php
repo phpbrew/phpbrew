@@ -102,7 +102,7 @@ function __phpbrew_set_lookup_prefix ()
             echo /opt/local
         ;;
         homebrew)
-            echo /usr/local:/usr/local/Cellar
+            echo /usr/local/Cellar:/usr/local
         ;;
         *)
             if [[ -e $1 ]] ; then
@@ -236,6 +236,18 @@ function phpbrew ()
             else
                 echo "Please set EDITOR environment variable for your favor."
                 nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
+            fi
+            ;;
+        clean)
+            local _VERSION=$2
+            if [[ -z $_version ]] ; then
+                _VERSION=$PHPBREW_PHP
+            fi
+            echo "Cleaning up $_VERSION build directory..."
+            local build_dir=$PHPBREW_ROOT/build/$_VERSION
+            echo "build_dir=$build_dir"
+            if [[ -e $build_dir ]] ; then
+                cd $build_dir && make clean && cd -
             fi
             ;;
         ext)
@@ -467,6 +479,10 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
+
+
+
 
 
 
