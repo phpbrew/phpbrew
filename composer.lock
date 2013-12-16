@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "066fd965b584d43485558954ff37653e",
+    "hash": "cc35d56693a30c5214f722f8f4344c26",
     "packages": [
         {
             "name": "corneltek/cliframework",
@@ -126,12 +126,59 @@
             "description": "PEAR channel client",
             "homepage": "http://github.com/c9s/PEARX",
             "time": "2013-03-23 16:11:13"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v2.4.0",
+            "target-dir": "Symfony/Component/Process",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Process.git",
+                "reference": "87738ff42e2467730ed74d941866e95513844b70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/87738ff42e2467730ed74d941866e95513844b70",
+                "reference": "87738ff42e2467730ed74d941866e95513844b70",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Process\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-11-26 16:40:27"
         }
     ],
     "packages-dev": [
         {
             "name": "cbednarski/fileutils",
-            "version": "dev-master",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cbednarski/FileUtils.git",
@@ -164,20 +211,20 @@
         },
         {
             "name": "cbednarski/pharcc",
-            "version": "v0.2.1",
+            "version": "v0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cbednarski/pharcc.git",
-                "reference": "0e6eaf8e0a07b9bb3effdd3f48e99fc5961baed8"
+                "reference": "75a6d8ad9991948d4c7c37cc7c9c531db9be68c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cbednarski/pharcc/zipball/0e6eaf8e0a07b9bb3effdd3f48e99fc5961baed8",
-                "reference": "0e6eaf8e0a07b9bb3effdd3f48e99fc5961baed8",
+                "url": "https://api.github.com/repos/cbednarski/pharcc/zipball/75a6d8ad9991948d4c7c37cc7c9c531db9be68c5",
+                "reference": "75a6d8ad9991948d4c7c37cc7c9c531db9be68c5",
                 "shasum": ""
             },
             "require": {
-                "cbednarski/fileutils": "dev-master",
+                "cbednarski/fileutils": "0.1.*",
                 "symfony/console": "2.3.*",
                 "symfony/finder": "2.3.*",
                 "symfony/yaml": "2.3.*"
@@ -199,7 +246,7 @@
                 }
             ],
             "description": "Phar compiler library",
-            "time": "2013-09-11 03:25:00"
+            "time": "2013-12-15 12:08:24"
         },
         {
             "name": "corneltek/phpunit-testmore",
@@ -422,8 +469,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "corneltek/pearx": 20,
-        "corneltek/phpunit-testmore": 20,
-        "cbednarski/fileutils": 20
+        "corneltek/phpunit-testmore": 20
     },
     "platform": [
 
