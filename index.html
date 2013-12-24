@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Phpbrew by c9s</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Phpbrew</h1>
+          <h2>Brew &amp; manage PHP versions in pure PHP at HOME</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/c9s/phpbrew/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/c9s/phpbrew/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/c9s/phpbrew" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="phpbrew" class="anchor" href="#phpbrew"><span class="octicon octicon-link"></span></a>PHPBrew</h1>
+
+<p>phpbrew builds and installs multiple version php(s) in your $HOME directory.</p>
+
+<p>phpbrew also manage the environment variables, so you can <code>use</code>, <code>switch</code> php
+version whenever you need.</p>
+
+<p>What phpbrew can do for you:</p>
+
+<ul>
+<li>Build php with different variants like PDO, mysql, sqlite, debug ...etc.</li>
+<li>Compile apache php module and seperate them by different versions.</li>
+<li>Build and install php(s) in your home directory, so you don't need root permission.</li>
+<li>Switch versions very easily and is integrated with bash/zsh shell.</li>
+<li>Automatic feature detection.</li>
+<li>Install &amp; enable php extensions into current environment with ease.</li>
+<li>Install multiple php into system-wide environment.</li>
+</ul><p><img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"></p>
+
+<h2>
+<a name="requirement" class="anchor" href="#requirement"><span class="octicon octicon-link"></span></a>Requirement</h2>
+
+<p>Please see <a href="https://github.com/c9s/phpbrew/wiki/Requirement">Requirement</a>
+before you get started. you need to install some development packages for
+building PHP.</p>
+
+<h2>
+<a name="install-phpbrew" class="anchor" href="#install-phpbrew"><span class="octicon octicon-link"></span></a>Install phpbrew</h2>
+
+<p>Just download it:</p>
+
+<div class="highlight highlight-bash"><pre>curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+chmod +x phpbrew
+sudo cp phpbrew /usr/bin/phpbrew
+</pre></div>
+
+<h2>
+<a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic usage</h2>
+
+<p>Init a bash script for your shell environment:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew init
+</pre></div>
+
+<p>Then add these lines to your <code>.bashrc</code> or <code>.zshrc</code> file:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="nb">source</span> ~/.phpbrew/bashrc
+</pre></div>
+
+<p>You may setup your prefered default prefix for looking up libraries, available
+options are <code>macports</code>, <code>homebrew</code>, <code>debian</code>, <code>ubuntu</code> or a custom path:</p>
+
+<p>For Homebrew users:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew lookup-prefix homebrew
+</pre></div>
+
+<p>For Macports users:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew lookup-prefix macports
+</pre></div>
+
+<p>To list known versions:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew known
+Available stable versions:
+    php-5.3.10
+    php-5.3.9
+    php-5.3.8
+    php-5.3.7
+</pre></div>
+
+<p>To list known subversion versions:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew known --svn
+</pre></div>
+
+<p>To list known older versions (less than 5.3):</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew known --old
+</pre></div>
+
+<h2>
+<a name="build-and-install" class="anchor" href="#build-and-install"><span class="octicon octicon-link"></span></a>Build And Install</h2>
+
+<p>Simply build and install PHP with default variant:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install 5.4.0 +default
+</pre></div>
+
+<p>Here we suggest <code>default</code> variant set, which includes most commonly used
+variants, if you need a minimum install, just remove the <code>default</code> variant set.</p>
+
+<p>With tests:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install --test 5.4.0
+</pre></div>
+
+<p>With debug messages:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew -d install --test 5.4.0
+</pre></div>
+
+<p>To install older versions (less than 5.3):</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install --old 5.2.13
+</pre></div>
+
+<h2>
+<a name="clean-up-build" class="anchor" href="#clean-up-build"><span class="octicon octicon-link"></span></a>Clean up build</h2>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew clean
+</pre></div>
+
+<h2>
+<a name="variants" class="anchor" href="#variants"><span class="octicon octicon-link"></span></a>Variants</h2>
+
+<p>PHPBrew arranges configure options for you, you can simply specify variant
+name, and phpbrew will detect include paths and build options for configuring.</p>
+
+<p>PHPBrew provides default variants and some virtual variants,
+to the default variants, which includes the most commonly used variants,
+to the virtual variants, which defines a variant set, you may use one virtual variant
+to enable multiple variants at one time.</p>
+
+<p>To check out what is included in these variants, simply run <code>variants</code>
+subcommand to list these variants:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew variants
+Variants:
+  all, apxs2, bcmath, bz2, calendar, cgi, cli, ctype, dba, debug, dom, embed,
+  exif, fileinfo, filter, fpm, ftp, gcov, gd, gettext, <span class="nb">hash</span>, iconv, icu,
+  imap, intl, ipc, ipv6, json, kerberos, mbregex, mbstring, mcrypt, mhash,
+  mysql, openssl, pcntl, pcre, pdo, pgsql, phar, posix, readline, session,
+  soap, sockets, sqlite, tidy, tokenizer, xml_all, xmlrpc, zip, zlib
+
+
+Virtual variants:
+  dbs:      sqlite, mysql, pgsql, pdo
+  mb:       mbstring, mbregex
+  default:  filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
+            pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
+            xml_all
+
+Using variants to build PHP:
+
+  phpbrew install 5.3.10 +default
+  phpbrew install 5.3.10 +mysql +pdo
+  phpbrew install 5.3.10 +mysql +pdo +apxs2
+  phpbrew install 5.3.10 +mysql +pdo +apxs2<span class="o">=</span>/usr/bin/apxs2 
+</pre></div>
+
+<p>To enable one variant, simply add a prefix <code>+</code> before the variant name, eg</p>
+
+<pre><code>+mysql
+</code></pre>
+
+<p>To disable one variant, simply add a prefix <code>-</code> before the variant name.</p>
+
+<pre><code>-debug
+</code></pre>
+
+<p>For example, if we want to build PHP with the default options and 
+database supports (mysql, sqlite, postgresql), you may simply run:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install 5.4.5 +default+dbs
+</pre></div>
+
+<p>You may also build PHP with extra variants:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install 5.3.10 +mysql+sqlite+cgi
+
+<span class="nv">$ </span>phpbrew install 5.3.10 +mysql+debug+pgsql +apxs2
+
+<span class="nv">$ </span>phpbrew install 5.3.10 +pdo +mysql +pgsql +apxs2<span class="o">=</span>/usr/bin/apxs2
+</pre></div>
+
+<p>To build PHP with pgsql (Postgresql) extension:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install 5.4.1 +pgsql+pdo
+</pre></div>
+
+<p>Or build pgsql extension with postgresql base dir on Mac OS X:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install 5.4.1 +pdo+pgsql<span class="o">=</span>/opt/local/lib/postgresql91/bin
+</pre></div>
+
+<p>The pgsql path is the location of <code>pg_config</code>, you could find <code>pg_config</code> in the /opt/local/lib/postgresql91/bin</p>
+
+<p>For more details, please check out <a href="https://github.com/c9s/phpbrew/wiki">PHPBrew Cookbook</a>.</p>
+
+<h2>
+<a name="extra-configure-options" class="anchor" href="#extra-configure-options"><span class="octicon octicon-link"></span></a>Extra Configure Options</h2>
+
+<p>To pass extra configure arguments, you can do this:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install 5.3.10 +mysql +sqlite -- <span class="se">\</span>
+    --enable-ftp --apxs2<span class="o">=</span>/opt/local/apache2/bin/apxs
+</pre></div>
+
+<h2>
+<a name="use-and-switch" class="anchor" href="#use-and-switch"><span class="octicon octicon-link"></span></a>Use And Switch</h2>
+
+<p>Use (switch version temporarily):</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew use 5.4.22
+</pre></div>
+
+<p>Switch PHP version (switch default version)</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew switch 5.4.18
+</pre></div>
+
+<p>Turn Off:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew off
+</pre></div>
+
+<h2>
+<a name="list-installed-php" class="anchor" href="#list-installed-php"><span class="octicon octicon-link"></span></a>List installed PHP</h2>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew list
+</pre></div>
+
+<h2>
+<a name="the-extension-installer" class="anchor" href="#the-extension-installer"><span class="octicon octicon-link"></span></a>The Extension Installer</h2>
+
+<p>You can also install PHP extension with ease, either the extensions shipped
+with PHP source code or even from PECL.</p>
+
+<p>If the extension directory is found in PHP source, PHPBrew automatically switch into
+the PHP source directory and install the extension.</p>
+
+<p>If the extension directory is not found in PHP source, PHPBrew fetch the extension
+package from PECL <a href="http://pecl.php.net">http://pecl.php.net</a>.</p>
+
+<p>PHPBrew also creates extension config to enable the installed extension, so you
+don't need to write the config file to enable it by hands. The extension config
+directory is in:</p>
+
+<pre><code>~/.phpbrew/php/php-{version}/var/db
+</code></pre>
+
+<h3>
+<a name="installing-extension---the-most-simple-way" class="anchor" href="#installing-extension---the-most-simple-way"><span class="octicon octicon-link"></span></a>Installing Extension - The Most Simple Way</h3>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew ext install APC
+<span class="nv">$ </span>phpbrew ext install memcache
+</pre></div>
+
+<h3>
+<a name="installing-extension-with-version" class="anchor" href="#installing-extension-with-version"><span class="octicon octicon-link"></span></a>Installing Extension With Version</h3>
+
+<p>To install extensions with stability tag:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew ext install xdebug stable
+<span class="nv">$ </span>phpbrew ext install xdebug latest
+<span class="nv">$ </span>phpbrew ext install xdebug beta
+</pre></div>
+
+<p>To install extensions with version name:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew ext install xdebug 2.0.1
+</pre></div>
+
+<p>To install extensions with customized options:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew ext install yaml -- --with-yaml<span class="o">=</span>/opt/local
+</pre></div>
+
+<h3>
+<a name="enabling-extension" class="anchor" href="#enabling-extension"><span class="octicon octicon-link"></span></a>Enabling Extension</h3>
+
+<p>You can also install extension via PECL and enable it manually:</p>
+
+<div class="highlight highlight-bash"><pre>pecl install mongo
+phpbrew ext <span class="nb">enable </span>mongo
+</pre></div>
+
+<p>The <code>ext enable</code> command allows you to create a config {current php base}/var/db/{extension name}.ini
+to enable the extension.</p>
+
+<h3>
+<a name="configuring-the-phpini-for-current-php-version" class="anchor" href="#configuring-the-phpini-for-current-php-version"><span class="octicon octicon-link"></span></a>Configuring the php.ini for current php version</h3>
+
+<p>Simply run:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew config
+</pre></div>
+
+<p>You may specify the EDITOR environment variable to your favorite editor:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nb">export </span><span class="nv">EDITOR</span><span class="o">=</span>vim
+phpbrew config
+</pre></div>
+
+<h2>
+<a name="upgrade-phpbrew" class="anchor" href="#upgrade-phpbrew"><span class="octicon octicon-link"></span></a>Upgrade phpbrew</h2>
+
+<p>To upgrade phpbrew, you may simply run the <code>self-update</code> command,
+this command enables you to install the latest version of
+<code>master</code> branch from github:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew self-update
+</pre></div>
+
+<h2>
+<a name="the-installed-phps" class="anchor" href="#the-installed-phps"><span class="octicon octicon-link"></span></a>The Installed PHP(s)</h2>
+
+<p>The installed phps are located in <code>~/.phpbrew/php</code>, for example, php 5.4.0RC7 is located at:</p>
+
+<pre><code>~/.phpbrew/php/5.4.20/bin/php
+</code></pre>
+
+<p>And you should put your configuration file in:</p>
+
+<pre><code>~/.phpbrew/php/5.4.20/etc/php.ini
+</code></pre>
+
+<p>Extension configuration files should be put in:</p>
+
+<pre><code>~/.phpbrew/php/5.4.20/var/db
+~/.phpbrew/php/5.4.20/var/db/xdebug.ini
+~/.phpbrew/php/5.4.20/var/db/apc.ini
+~/.phpbrew/php/5.4.20/var/db/memcache.ini
+... etc
+</code></pre>
+
+<h2>
+<a name="quick-commands-to-switch-between-directories" class="anchor" href="#quick-commands-to-switch-between-directories"><span class="octicon octicon-link"></span></a>Quick commands to switch between directories</h2>
+
+<p>Switching to PHP build directory</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew build-dir
+</pre></div>
+
+<p>Switching to PHP dist directory</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew dist-dir
+</pre></div>
+
+<p>Switching to PHP etc directory</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew etc-dir
+</pre></div>
+
+<p>Switching to PHP var directory</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew var-dir
+</pre></div>
+
+<h2>
+<a name="php-fpm" class="anchor" href="#php-fpm"><span class="octicon octicon-link"></span></a>PHP FPM</h2>
+
+<p>phpbrew also provides useful fpm managing sub-commands. to use them, please
+remember to enable <code>+fpm</code> variant when building your own php.</p>
+
+<p>To start php-fpm, simply type:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew fpm start
+</pre></div>
+
+<p>To stop php-fpm, type:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew fpm stop
+</pre></div>
+
+<p>To show php-fpm modules:</p>
+
+<div class="highlight highlight-bash"><pre>phpbrew fpm module
+</pre></div>
+
+<p>To test php-fpm config:</p>
+
+<div class="highlight highlight-bash"><pre>phpbrew fpm <span class="nb">test</span>
+</pre></div>
+
+<p>To edit php-fpm config:</p>
+
+<div class="highlight highlight-bash"><pre>phpbrew fpm config
+</pre></div>
+
+<blockquote>
+<p>The installed <code>php-fpm</code> is located in <code>~/.phpbrew/php/php-*/sbin</code>.</p>
+
+<p>The correspond <code>php-fpm.conf</code> is lcoated in <code>~/.phpbrew/php/php-*/etc/php-fpm.conf.default</code>,
+you may copy the default config file to the desired location. e.g.,</p>
+
+<pre><code>cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
+    ~/.phpbrew/php/php-*/etc/php-fpm.conf
+
+php-fpm --php-ini {php config file} --fpm-config {fpm config file}
+</code></pre>
+</blockquote>
+
+<h2>
+<a name="installing-extra-component" class="anchor" href="#installing-extra-component"><span class="octicon octicon-link"></span></a>Installing Extra Component</h2>
+
+<h3>
+<a name="installing-composer" class="anchor" href="#installing-composer"><span class="octicon octicon-link"></span></a>Installing composer</h3>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install-composer
+</pre></div>
+
+<h3>
+<a name="installing-phpunit" class="anchor" href="#installing-phpunit"><span class="octicon octicon-link"></span></a>Installing phpunit</h3>
+
+<div class="highlight highlight-bash"><pre>phpbrew install-phpunit
+</pre></div>
+
+<h2>
+<a name="enabling-version-info-prompt" class="anchor" href="#enabling-version-info-prompt"><span class="octicon octicon-link"></span></a>Enabling Version Info Prompt</h2>
+
+<p>To add PHP version info in your shell prompt, you can use
+<code>"PHPBREW_SET_PROMPT=1"</code> variable.</p>
+
+<p>The default is <code>"PHPBREW_SET_PROMPT=0"</code> (disable). To enable it, you can add this
+line to your <code>~/.bashrc</code> file and put this line before you source
+<code>~/.phpbrew/bashrc</code>.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nb">export </span><span class="nv">PHPBREW_SET_PROMPT</span><span class="o">=</span>1
+</pre></div>
+
+<p>To embed version info in your prompt, you can use
+<code>current_php_version</code> shell function, which is defined in <code>.phpbrew/bashrc</code>.
+and you can set the version info in your <code>PS1</code> var.
+e.g.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">PHP_VERSION</span><span class="o">=</span><span class="k">$(</span>current_php_version<span class="k">)</span>
+<span class="nv">PS1</span><span class="o">=</span><span class="s2">" $PHP_VERSION \$ "</span>
+</pre></div>
+
+<h2>
+<a name="known-issues" class="anchor" href="#known-issues"><span class="octicon octicon-link"></span></a>Known Issues</h2>
+
+<ul>
+<li><p>For PHP-5.3+ versions, "Building intl 64-bit fails on OS X" <a href="https://bugs.php.net/bug.php?id=48795">https://bugs.php.net/bug.php?id=48795</a></p></li>
+<li>
+<p>To build PHP with GD extension, you need to specify your libpng dir and libjpeg dir, for example,</p>
+
+<p>$ phpbrew install php-5.4.10 +default +mysql +intl +gettext +apxs2=/usr/bin/apxs2 \
+    -- --with-libdir=lib/x86_64-linux-gnu \
+       --with-gd=shared \
+       --enable-gd-natf \
+       --with-jpeg-dir=/usr \
+       --with-png-dir=/usr</p>
+</li>
+</ul><h2>
+<a name="troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
+
+<p>Please see <a href="https://github.com/c9s/phpbrew/wiki/TroubleShooting">TroubleShooting</a></p>
+
+<h2>
+<a name="faq" class="anchor" href="#faq"><span class="octicon octicon-link"></span></a>FAQ</h2>
+
+<p>Q: How do I have the same version with different compile option?</p>
+
+<p>A: Currently, you can install php5.x.x and rename the /Users/c9s/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3</p>
+
+<h2>
+<a name="contribution" class="anchor" href="#contribution"><span class="octicon octicon-link"></span></a>Contribution</h2>
+
+<p>Please see <a href="https://github.com/c9s/phpbrew/wiki/Contribution">Contribution</a></p>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>Please see <a href="https://github.com/c9s/phpbrew/wiki">Wiki</a></p>
+
+<h2>
+<a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
+
+<p>Join us on #php-tw on irc.freenode.net</p>
+
+<h2>
+<a name="author" class="anchor" href="#author"><span class="octicon octicon-link"></span></a>Author</h2>
+
+<p>Yo-An Lin (c9s)  </p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>See LICENSE file.</p>
+        </section>
+
+        <footer>
+          Phpbrew is maintained by <a href="https://github.com/c9s">c9s</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+                  <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-2196512-14");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+      </div>
+    </div>
+  </body>
+</html>
