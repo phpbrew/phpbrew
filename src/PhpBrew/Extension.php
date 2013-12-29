@@ -4,14 +4,7 @@ namespace PhpBrew;
 
 use PhpBrew\Config;
 use PhpBrew\ExtensionInstaller;
-
-interface ExtensionInterface
-{
-	public function __construct($name, $logger);
-	public function install($version, array $options);
-    public function enable();
-    public function disable();
-}
+use PhpBrew\ExtensionInterface;
 
 class Extension implements ExtensionInterface
 {
