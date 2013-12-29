@@ -10,6 +10,7 @@ class EnableCommand extends \CLIFramework\Command
 
     public function execute($extname)
     {
-        (new Extension($extname, $this->logger))->enable();
+        $extension = new Extension($extname, $this->logger);
+        $extension->enable();
     }
 }

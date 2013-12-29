@@ -10,6 +10,7 @@ class DisableCommand extends \CLIFramework\Command
 
     public function execute($extname)
     {
-        (new Extension($extname, $this->logger))->disable();
+        $extension = new Extension($extname, $this->logger);
+        $extension->disable();
     }
 }

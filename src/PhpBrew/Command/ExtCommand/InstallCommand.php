@@ -33,6 +33,7 @@ class InstallCommand extends \CLIFramework\Command
         $buildDir = Config::getBuildDir();
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
 
-        (new Extension($extname, $this->logger))->install($version, $options);
+        $extension = new Extension($extname, $this->logger);
+        $extension->install($version, $options);
     }
 }

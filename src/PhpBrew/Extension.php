@@ -16,22 +16,22 @@ class Extension implements ExtensionInterface
      * List of zend extensions
      * @var array
      */
-    protected $zend = [
+    protected $zend = array (
         'opcache',
         'xdebug',
         'xhprof'
-    ];
+    );
 
     /**
      * Maps extensions that have binary file name different from extension name
      * This helps phpbrew to source correct {EXTENSION}.so file
      * @var array
      */
-    protected $sources = [
+    protected $sources = array (
         'jsonc' 	=> 'json',		// jsonc loads json.so
         'markdown' 	=> 'discount',	// markdown loads discount.so
         'pecl_http' => 'http',		// pecl_http loads http.so
-    ];
+    );
 
     /**
      * Map of extensions that can't be enabled at the same time.
@@ -39,10 +39,10 @@ class Extension implements ExtensionInterface
      * an extension with a known conflict.
      * @var array
      */
-    protected $conflicts = [
+    protected $conflicts = array (
         'json' 	=> ['jsonc'],	// enabling jsonc disables json
         'jsonc' => ['json'],	// enabling json disables jsonc
-    ];
+    );
 
     public function __construct($name, $logger)
     {
@@ -51,7 +51,7 @@ class Extension implements ExtensionInterface
         $this->config = $this->solveConfigFileName();
     }
 
-    public function install($version = 'stable', array $options = [])
+    public function install($version = 'stable', array $options = array())
     {
         $this->logger->quiet();
         $this->disable();

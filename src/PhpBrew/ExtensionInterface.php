@@ -5,7 +5,7 @@ namespace PhpBrew;
 interface ExtensionInterface
 {
     public function __construct($name, $logger);
-    public function install($version, array $options = []);
+    public function install($version, array $options = array());
     public function enable();
     public function disable();
     public function isLoaded();
