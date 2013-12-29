@@ -22,44 +22,6 @@ class Utils
         }
     }
 
-    static function get_extension_config_path($extname)
-    {
-        // create extension config file
-        $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $extname . '.ini';
-        if ( ! file_exists( dirname($path) ) ) {
-            mkdir(dirname($path),0755,true);
-        }
-        return $path;
-    }
-
-    static function enable_extension($extname, $zendpath = '')
-    {
-        $extname = strtolower($extname);
-        // create extension config file
-        $configPath = self::get_extension_config_path($extname);
-
-        if ( file_exists($configPath) ) {
-            $lines = file($configPath);
-            foreach( $lines as &$line ) {
-                if ( preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs ) ) {
-                    $line = $regs[1];
-                }
-            }
-            file_put_contents($configPath, join("\n", $lines) );
-            return $configPath;
-        } else {
-            if( $zendpath ) {
-                $content = "zend_extension=$zendpath";
-            } else {
-                $content = "extension=$extname.so";
-            }
-            file_put_contents($configPath,$content);
-            return $configPath;
-        }
-        return false;
-    }
-
-
     /**
      * Find bin from prefix list
      */

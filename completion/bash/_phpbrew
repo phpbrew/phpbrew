@@ -37,15 +37,7 @@ _phpbrew_comp()
     esac
 
     case "${prev}" in
-        install|disable|enable)
-
-            # case "${prev_prev}" in
-            #     phpbrew)
-            #     # list known php versions
-            #     COMPREPLY=( $(compgen -W "$(phpbrew known | grep php)" -- ${cur}) )
-            #     return 0
-            #     ;;
-            # esac
+        install)
             case "${prev_prev}" in
                 ext)
                 # list available extensions
@@ -54,6 +46,27 @@ _phpbrew_comp()
                 return 0
                 ;;
             esac
+            ;;
+        enable)
+            case "${prev_prev}" in
+                ext)
+                # list available extensions
+                opts="$(cd $PHPBREW_HOME/php/$PHPBREW_PHP/var/db/ && ls | grep .disabled | cut -d '.' -f 1)"
+                COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+                return 0
+                ;;
+            esac
+            ;;
+        disable)
+            case "${prev_prev}" in
+                ext)
+                # list available extensions
+                opts="$(cd $PHPBREW_HOME/php/$PHPBREW_PHP/var/db/ && ls | grep --invert-match .disabled | cut -d '.' -f 1)"
+                COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+                return 0
+                ;;
+            esac
+            ;;
     esac
 
     case "${cur}" in
