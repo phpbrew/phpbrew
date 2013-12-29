@@ -5,9 +5,9 @@ use PhpBrew\Extension;
 
 class InstallCommand extends \CLIFramework\Command
 {
-    public function usage() 
+    public function usage()
     {
-        return 'phpbrew [-dv] ext install [extension name] [-- [options....]]'; 
+        return 'phpbrew [-dv] ext install [extension name] [-- [options....]]';
     }
 
     public function brief()
@@ -19,12 +19,12 @@ class InstallCommand extends \CLIFramework\Command
     {
         $args = func_get_args();
         $options = array();
-        if( ($pos = array_search('--',$args)) !== false ) {
+        if ( ($pos = array_search('--',$args)) !== false ) {
             $options = array_slice($args,$pos + 1);
         }
 
         // preventing `phpbrew ext install yaml -- --with-yaml=/opt/local`
-        if( $version == '--' ) {
+        if ($version == '--') {
             $version = 'stable';
         }
 
