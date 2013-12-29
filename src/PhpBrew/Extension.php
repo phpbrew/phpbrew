@@ -10,7 +10,7 @@ class Extension implements ExtensionInterface
 {
     protected $name;
     protected $logger;
-    protected $config_file;
+    protected $config;
 
     /**
      * List of zend extensions
@@ -27,7 +27,7 @@ class Extension implements ExtensionInterface
      * This helps phpbrew to source correct {EXTENSION}.so file
      * @var array
      */
-    protected $source_map = [
+    protected $sources = [
         'jsonc' 	=> 'json',		// jsonc loads json.so
         'markdown' 	=> 'discount',	// markdown loads discount.so
         'pecl_http' => 'http',		// pecl_http loads http.so
@@ -39,7 +39,7 @@ class Extension implements ExtensionInterface
      * an extension with a known conflict.
      * @var array
      */
-    protected $conflict_map = [
+    protected $conflicts = [
         'json' 	=> ['jsonc'],	// enabling jsonc disables json
         'jsonc' => ['json'],	// enabling json disables jsonc
     ];
@@ -48,7 +48,7 @@ class Extension implements ExtensionInterface
     {
         $this->name = strtolower($name);
         $this->logger = $logger;
-        $this->config_file = $this->solveConfigFileName();
+        $this->config = $this->solveConfigFileName();
     }
 
     public function install($version = 'stable', array $options = [])
@@ -73,8 +73,8 @@ class Extension implements ExtensionInterface
             $extension_so = $installer->installFromPecl($this->name, $version ,$options);
         }
 
-        $this->logger->info("===> Creating config file {$this->config_file}");
-        $config_file = $this->config_file . '.disabled';
+        $this->logger->info("===> Creating config file {$this->config}");
+        $config_file = $this->config . '.disabled';
         // create extension config file
         if ( file_exists($config_file) ) {
             $lines = file($config_file);
@@ -92,13 +92,13 @@ class Extension implements ExtensionInterface
                 $content = "extension={$extension_so}.so";
             }
             file_put_contents($config_file,$content);
-            $this->logger->debug("{$this->config_file} is created.");
+            $this->logger->debug("{$this->config} is created.");
         }
         $this->logger->info("===> Enabling extension...");
         $this->enable();
         $this->logger->info("Done.");
 
-        return $this->config_file;
+        return $this->config;
     }
 
     /**
@@ -107,8 +107,8 @@ class Extension implements ExtensionInterface
      */
     public function enable()
     {
-        $disabled_file = $this->config_file . '.disabled';
-        if (file_exists($this->config_file)) {
+        $disabled_file = $this->config . '.disabled';
+        if (file_exists($this->config)) {
             $this->logger->info("[*] {$this->name} extension is already enabled.");
 
             return true;
@@ -116,7 +116,7 @@ class Extension implements ExtensionInterface
 
         if (file_exists($disabled_file)) {
             $this->disableAntagonists();
-            if ( rename($disabled_file, $this->config_file) ) {
+            if ( rename($disabled_file, $this->config) ) {
                 $this->logger->info("[*] {$this->name} extension is enabled.");
 
                 return true;
@@ -135,7 +135,7 @@ class Extension implements ExtensionInterface
      */
     public function disable()
     {
-        $disabled_file = $this->config_file . '.disabled';
+        $disabled_file = $this->config . '.disabled';
 
         if (file_exists($disabled_file)) {
             $this->logger->info("[ ] {$this->name} extension is already disabled.");
@@ -143,8 +143,8 @@ class Extension implements ExtensionInterface
             return true;
         }
 
-        if (file_exists($this->config_file)) {
-            if (rename($this->config_file, $disabled_file)) {
+        if (file_exists($this->config)) {
+            if (rename($this->config, $disabled_file)) {
                 $this->logger->info("[ ] {$this->name} extension is disabled.");
 
                 return true;
@@ -160,8 +160,8 @@ class Extension implements ExtensionInterface
      */
     public function disableAntagonists()
     {
-        if (isset($this->conflict_map[$this->name])) {
-            $conflicts = $this->conflict_map[$this->name];
+        if (isset($this->conflicts[$this->name])) {
+            $conflicts = $this->conflicts[$this->name];
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
             foreach ($conflicts as $extension) {
                 (new Extension($extension, $this->logger))->disable();
@@ -207,8 +207,8 @@ class Extension implements ExtensionInterface
 
     public function purge()
     {
-        unlink( $this->config_file );
-        unlink( $this->config_file . '.disabled' );
+        unlink( $this->config );
+        unlink( $this->config . '.disabled' );
     }
 
     final public function solveConfigFileName()
@@ -223,6 +223,6 @@ class Extension implements ExtensionInterface
 
     final public function solveSourceFileName()
     {
-        return isset($this->source_map[$this->name]) ? $this->source_map[$this->name] : $this->name;
+        return isset($this->sources[$this->name]) ? $this->sources[$this->name] : $this->name;
     }
 }

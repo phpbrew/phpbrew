@@ -8,8 +8,8 @@ class DisableCommand extends \CLIFramework\Command
 
     public function brief() { return 'Disable PHP extension'; }
 
-    public function execute($extension_name)
+    public function execute($extname)
     {
-        (new Extension($extension_name, $this->logger))->disable();
+        (new Extension($extname, $this->logger))->disable();
     }
 }

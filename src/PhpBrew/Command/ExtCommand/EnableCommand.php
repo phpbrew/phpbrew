@@ -8,8 +8,8 @@ class EnableCommand extends \CLIFramework\Command
 
     public function brief() { return 'Enable PHP extension'; }
 
-    public function execute($extension_name)
+    public function execute($extname)
     {
-        (new Extension($extension_name, $this->logger))->enable();
+        (new Extension($extname, $this->logger))->enable();
     }
 }
