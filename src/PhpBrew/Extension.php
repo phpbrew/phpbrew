@@ -164,7 +164,8 @@ class Extension implements ExtensionInterface
             $conflicts = $this->conflicts[$this->name];
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
             foreach ($conflicts as $extension) {
-                (new Extension($extension, $this->logger))->disable();
+                $extension = new Extension($extension, $this->logger);
+                $extension->disable();
             }
         }
     }
