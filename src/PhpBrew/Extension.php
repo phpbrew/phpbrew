@@ -86,10 +86,10 @@ class Extension implements ExtensionInterface
             file_put_contents($config_file, join('', $lines) );
         } else {
             if ( $this->isZend() ) {
-                $content = "zend_extension={$extension_so}.so";
+                $content = "zend_extension={$extension_so}";
             } else {
                 $extension_so = $this->solveSourceFileName();
-                $content = "extension={$extension_so}.so";
+                $content = "extension={$extension_so}";
             }
             file_put_contents($config_file,$content);
             $this->logger->debug("{$this->config} is created.");
@@ -223,6 +223,6 @@ class Extension implements ExtensionInterface
 
     final public function solveSourceFileName()
     {
-        return isset($this->sources[$this->name]) ? $this->sources[$this->name] : $this->name;
+        return (isset($this->sources[$this->name]) ? $this->sources[$this->name] : $this->name) . '.so';
     }
 }
