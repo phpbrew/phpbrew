@@ -5,6 +5,7 @@ namespace PhpBrew;
 use PhpBrew\Config;
 use PhpBrew\ExtensionInstaller;
 use PhpBrew\ExtensionInterface;
+use PEARX\Utils as PEARXUtils;
 
 class Extension implements ExtensionInterface
 {
@@ -13,25 +14,10 @@ class Extension implements ExtensionInterface
     protected $config;
 
     /**
-     * List of zend extensions
-     * @var array
+     * PECL meta data
+     * @var
      */
-    protected $zend = array (
-        'opcache',
-        'xdebug',
-        'xhprof'
-    );
-
-    /**
-     * Maps extensions that have binary file name different from extension name
-     * This helps phpbrew to source correct {EXTENSION}.so file
-     * @var array
-     */
-    protected $sources = array (
-        'jsonc' 	=> 'json',		// jsonc loads json.so
-        'markdown' 	=> 'discount',	// markdown loads discount.so
-        'pecl_http' => 'http',		// pecl_http loads http.so
-    );
+    protected $meta;
 
     /**
      * Map of extensions that can't be enabled at the same time.
@@ -40,8 +26,8 @@ class Extension implements ExtensionInterface
      * @var array
      */
     protected $conflicts = array (
-        'json' 	=> ['jsonc'],	// enabling jsonc disables json
-        'jsonc' => ['json'],	// enabling json disables jsonc
+        'json'  => ['jsonc'],   // enabling jsonc disables json
+        'jsonc' => ['json'],    // enabling json disables jsonc
     );
 
     public function __construct($name, $logger)
@@ -64,13 +50,18 @@ class Extension implements ExtensionInterface
         $path = $extDir . DIRECTORY_SEPARATOR . $this->name;
 
         // Install local extension
-        if ( file_exists( $path ) ) {
+        if ( file_exists( $path ) ) { 
             $this->logger->info("===> Installing {$this->name} extension...");
             $this->logger->debug("Extension path $path");
-            $extension_so = $installer->runInstall($this->name, $path, $options);
+            list($extension_so, $xml) = $installer->runInstall($this->name, $path, $options);
         } else {
             chdir($extDir);
-            $extension_so = $installer->installFromPecl($this->name, $version ,$options);
+            list($extension_so, $xml) = $installer->installFromPecl($this->name, $version ,$options);
+        }
+
+        $meta = PEARXUtils::create_dom();
+        if( false === $meta->loadXml( file_get_contents($xml)) ) {
+            throw new Exception("Error in XMl document: $xml");
         }
 
         $this->logger->info("===> Creating config file {$this->config}");
@@ -85,10 +76,10 @@ class Extension implements ExtensionInterface
             }
             file_put_contents($config_file, join('', $lines) );
         } else {
-            if ( $this->isZend() ) {
+            if ( $meta->getElementsByTagName('zendextsrcrelease')->length ) {
                 $content = "zend_extension={$extension_so}";
             } else {
-                $extension_so = $this->solveSourceFileName();
+                $extension_so = $meta->getElementsByTagName('providesextension')->item(0)->nodeValue . '.so';
                 $content = "extension={$extension_so}";
             }
             file_put_contents($config_file,$content);
@@ -170,16 +161,6 @@ class Extension implements ExtensionInterface
         }
     }
 
-    /**
-     * Checks if current extension is a zend engine extension
-     * @return boolean
-     */
-    final public function isZend()
-    {
-        if(in_array($this->name, $this->zend)) return true;
-
-        return false;
-    }
 
     /**
      * Checks if current extension is loaded
@@ -222,8 +203,4 @@ class Extension implements ExtensionInterface
         return $path;
     }
 
-    final public function solveSourceFileName()
-    {
-        return (isset($this->sources[$this->name]) ? $this->sources[$this->name] : $this->name) . '.so';
-    }
 }
