@@ -87,16 +87,11 @@ class ExtensionInstaller
 
 
         $this->logger->debug($output);
-        $lines = explode("\n", $output );
 
         $installedPath = null;
-        foreach( $lines as $line ) {
-            if( preg_match('#Installing shared extensions:\s+(\S+)#',$line, $regs) ) {
-                $installedPath = $regs[1];
-                break;
-            }
+        if( preg_match('#Installing shared extensions:\s+(\S+)#', $output, $regs) ) {
+            $installedPath = $regs[1];
         }
-
 
         $installedPath .= strtolower($packageName) . '.so';
         $this->logger->debug("Installed extension: " . $installedPath);
