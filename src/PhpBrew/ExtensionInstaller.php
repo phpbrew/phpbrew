@@ -32,15 +32,14 @@ class ExtensionInstaller
         $url = $this->findPeclPackageUrl($packageName, $version);
         $downloader = new Downloader\UrlDownloader($this->logger);
         $basename = $downloader->download($url);
-
+        $info = pathinfo($basename);
+        $extension_dir = $info['filename'];
         // extract
         $this->logger->info("===> Extracting $basename...");
         Utils::system("tar xf $basename");
+        Utils::system("mv package.xml $extension_dir    ");
 
-        $info = pathinfo($basename);
-        $dir = $info['filename'];
-
-        return $this->runInstall($packageName, $dir, $configureOptions);
+        return $this->runInstall($packageName, $extension_dir, $configureOptions);
     }
 
     public function runInstall($packageName, $dir, $configureOptions)
