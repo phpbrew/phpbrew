@@ -285,7 +285,7 @@ PHPBrewをアップグレードする場合、 `self-update` コマンドを実�
 
     ~/.phpbrew/php/5.4.0RC7/etc/php.ini
 
-拡張モジュールの設定ファイルは下記の位置に置く必要があります:
+拡張モジュールの設定ファイルは以下の位置に置く必要があります:
 
     ~/.phpbrew/php/5.4.0RC7/var/db
     ~/.phpbrew/php/5.4.0RC7/var/db/xdebug.ini
@@ -335,7 +335,7 @@ PHPBrewがビルドしたPHPをユーザーに使用させるには、bashユー
 
 PHPバージョン情報をシェルプロンプトに追加するには、`"PHPBREW_SET_PROMPT=1"` 変数を利用してください。
 
-デフォルトは`"PHPBREW_SET_PROMPT=0"` (無効化). 有効化にする場合、`~/.phpbrew/bashrc`をソースする前に、下記の行を`~/.bashrc` ファイルに追加してください。
+デフォルトは`"PHPBREW_SET_PROMPT=0"` (無効)です。 有効化にする場合、`~/.phpbrew/bashrc`をソースする前に、下記の行を`~/.bashrc` ファイルに追加してください。
 
 ```sh
     export PHPBREW_SET_PROMPT=1
