@@ -25,13 +25,13 @@ PHPBrewのできること：:
 * Ubuntu
 * Debian
 
-## 必須環境
+## 必要環境
 
 * PHP5.3
 * curl
 * gcc, binutil, autoconf, libxml, zlib, readline
 
-### Mac OS X 必須環境
+### Mac OS X 必要環境
 
 MacPorts：
 
@@ -46,16 +46,16 @@ brew install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg l
 brew link icu4c
 ```
 
-### Ubuntu/Debian必須環境
+### Ubuntu/Debian必要環境
 
 ```bash
 sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev
 sudo apt-get build-dep php5
 ```
 
-### Cent OS必須環境
+### Cent OS必要環境
 
-Cent OS必須環境の設定
+Cent OS必要環境の設定
 
 ```bash
 sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
