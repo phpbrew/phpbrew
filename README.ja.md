@@ -31,7 +31,7 @@ PHPBrewのできること：:
 * curl
 * gcc, binutil, autoconf, libxml, zlib, readline
 
-### Mac OS X 必要環境
+### Mac OS X
 
 MacPorts：
 
@@ -46,16 +46,16 @@ brew install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg l
 brew link icu4c
 ```
 
-### Ubuntu/Debian必要環境
+### Ubuntu/Debian
 
 ```bash
 sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev
 sudo apt-get build-dep php5
 ```
 
-### Cent OS必要環境
+### Cent OS
 
-Cent OS必要環境の設定
+Cent OSの設定
 
 ```bash
 sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
@@ -80,7 +80,7 @@ sudo cp phpbrew /usr/bin/phpbrew
 ```
 
 
-## 基本用法
+## 基本的な使い方
 
 まずはシェル環境にbash scriptをInitします。
 
@@ -105,7 +105,7 @@ Available stable versions:
     php-5.3.7
 ```
 
-既知のサブバージョンを一覧表示します：
+既知のsvnを含んだバージョンを一覧表示します：
 
 ```bash
 $ phpbrew known --svn
@@ -146,7 +146,7 @@ $ phpbrew -d install --test php-5.4.0
 
 ## バリアント（variants）
 
-PHPBrewはConfigureオプションを管理できます。VARIANTのクラス名を指定するだけで、PHPBrewはincludeパスとオプションを検知します。
+PHPBrewはConfigureオプションを管理します。VARIANTのクラス名を指定するだけで、PHPBrewはincludeパスとオプションを検知します。
 
 PHPBrewは常用のVARIANTクラスを収録し、デフォルトのVARIANTセットを提供しています。
 収録されているVARIANTクラスを確認するには、簡単にサブコマンド`variants`を実行して一覧表示を確認できます：
