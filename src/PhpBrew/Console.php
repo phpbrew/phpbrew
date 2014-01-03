@@ -5,7 +5,7 @@ use CLIFramework\Application;
 class Console extends Application
 {
     const NAME = 'phpbrew';
-    const VERSION = "1.11.6";
+    const VERSION = "1.11.7";
 
     public function init()
     {
