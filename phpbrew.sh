@@ -26,6 +26,9 @@ fi
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
 
+[[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
+[[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
+
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
 
