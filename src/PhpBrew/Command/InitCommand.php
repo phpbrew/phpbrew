@@ -20,7 +20,7 @@ class InitCommand extends \CLIFramework\Command
             mkdir( $root, 0755, true );
         }
         if ( ! file_exists($home) ) {
-            mkdir( $root, 0755, true );
+            mkdir( $home, 0755, true );
         }
         if ( ! file_exists($buildPrefix) ) {
             mkdir( $buildPrefix, 0755, true );
@@ -29,8 +29,9 @@ class InitCommand extends \CLIFramework\Command
             mkdir( $buildDir, 0755, true );
         }
 
-        // write init script
-        $bashScript = $root . DIRECTORY_SEPARATOR . 'bashrc';
+        // write init script to phpbrew home
+        $bashScript = $home . DIRECTORY_SEPARATOR . 'bashrc';
+
         // $initScript = $root . DIRECTORY_SEPARATOR . 'init';
         file_put_contents( $bashScript , $this->getBashScript() );
 
