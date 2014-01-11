@@ -43,7 +43,7 @@ class InstallCommand extends Command
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
         $opts->add('like:', 'inherit variants from previous build');
-        $opts->add('make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
+        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
     }
 
     public function execute($version)
