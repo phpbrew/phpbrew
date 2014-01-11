@@ -450,9 +450,9 @@ function __phpbrew_remove_purge ()
         return 1
     fi
 
-    _PHP_BIN_PATH=$PHPBREW_HOME/php/$_PHP_VERSION
-    _PHP_SOURCE_FILE=$PHPBREW_HOME/build/$_PHP_VERSION.tar.bz2
-    _PHP_BUILD_PATH=$PHPBREW_HOME/build/$_PHP_VERSION
+    _PHP_BIN_PATH=$PHPBREW_ROOT/php/$_PHP_VERSION
+    _PHP_SOURCE_FILE=$PHPBREW_ROOT/build/$_PHP_VERSION.tar.bz2
+    _PHP_BUILD_PATH=$PHPBREW_ROOT/build/$_PHP_VERSION
 
     if [ -d $_PHP_BIN_PATH ]; then
 
@@ -487,6 +487,7 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
