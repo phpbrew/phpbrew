@@ -13,7 +13,7 @@ class BuildTask extends BaseTask
         $this->logPath = $path;
     }
 
-    public function build($nice = null)
+    public function build($nice = null, $makeJobs = null)
     {
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
@@ -23,6 +23,9 @@ class BuildTask extends BaseTask
         }
         if( $nice ) {
             $cmd->nice($nice);
+        }
+        if($makeJobs > 1) {
+            $cmd->addArg("-j{$makeJobs}");
         }
         $this->debug( '' .  $cmd  );
         $startTime = microtime(true);

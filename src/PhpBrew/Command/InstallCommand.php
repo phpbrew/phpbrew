@@ -43,6 +43,7 @@ class InstallCommand extends Command
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
         $opts->add('like:', 'inherit variants from previous build');
+        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
     }
 
     public function execute($version)
@@ -156,7 +157,7 @@ class InstallCommand extends Command
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
-        $buildTask->build();
+        $buildTask->build(null, $options->{'make-jobs'});
 
         if( $options->{'test'} ) {
             $test = new TestTask($this->logger);
