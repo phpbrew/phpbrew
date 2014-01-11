@@ -45,19 +45,47 @@ class ExtensionInstaller
 
     public function runInstall($packageName, $dir, $configureOptions)
     {
-        $sw = new DirectorySwitch;
-        $sw->cd( $dir );
 
         $this->logger->info("===> Phpizing...");
 
-        if ( ! file_exists('config.m4') ) {
-            $this->logger->warn("File config.m4 not found, checking config0.m4");
-            if ( file_exists('config0.m4') ) {
-                $this->logger->info("Found config.0.m4, copying to config.m4");
-                if ( false === copy('config0.m4','config.m4') ) {
-                    throw new Exception("Copy failed.");
-                }
+        $directoryIterator = new \RecursiveDirectoryIterator($dir);
+        $it = new \RecursiveIteratorIterator($directoryIterator);
+
+        $extDir = array();
+        // search for config.m4 or config0.m4 and use them to determine
+        // the directory of the extension's source, because it's not always
+        // the root directory in the ext archive (example xhprof)
+        foreach ($it as $file) {
+            if (basename($file) == 'config.m4') {
+            	$extDir['config.m4'] = dirname(realpath($file));
+            	break;
             }
+
+            if (basename($file) == 'config0.m4') {
+            	$extDir['config0.m4'] = dirname(realpath($file));
+            }
+        }
+
+        if (isset($extDir['config.m4'])) {
+
+            $sw = new DirectorySwitch;
+            $sw->cd($extDir['config.m4']);
+
+        } elseif (isset($extDir['config0.m4'])) {
+
+            $this->logger->warn("File config.m4 not found");
+            $this->logger->info("Found config.0.m4, copying to config.m4");
+
+            $sw = new DirectorySwitch;
+            $sw->cd($extDir['config0.m4']);
+
+            if ( false === copy('config0.m4','config.m4') ) {
+                throw new \Exception("Copy failed.");
+            }
+
+        } else {
+
+        	throw new \Exception('Neither config.m4 nor config0.m4 was found');
         }
 
         Utils::system('phpize > build.log');
@@ -100,7 +128,6 @@ class ExtensionInstaller
 
         $installedPath .= strtolower($packageName) . '.so';
         $this->logger->debug("Installed extension: " . $installedPath);
-
 
         // Try to find the installed path by pattern
         // Installing shared extensions:     /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
