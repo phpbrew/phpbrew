@@ -18,8 +18,7 @@ class Extension implements ExtensionInterface
      */
     protected $zend = array (
         'opcache',
-        'xdebug',
-        'xhprof'
+        'xdebug'
     );
 
     /**
@@ -40,8 +39,8 @@ class Extension implements ExtensionInterface
      * @var array
      */
     protected $conflicts = array (
-        'json' 	=> ['jsonc'],	// enabling jsonc disables json
-        'jsonc' => ['json'],	// enabling json disables jsonc
+        'json' 	=> array('jsonc'),	// enabling jsonc disables json
+        'jsonc' => array('json'),	// enabling json disables jsonc
     );
 
     public function __construct($name, $logger)
@@ -85,12 +84,15 @@ class Extension implements ExtensionInterface
             }
             file_put_contents($config_file, join('', $lines) );
         } else {
+
+            $extension_so = $this->solveSourceFileName();
+
             if ( $this->isZend() ) {
                 $content = "zend_extension={$extension_so}.so";
             } else {
-                $extension_so = $this->solveSourceFileName();
                 $content = "extension={$extension_so}.so";
             }
+
             file_put_contents($config_file,$content);
             $this->logger->debug("{$this->config} is created.");
         }
@@ -164,7 +166,8 @@ class Extension implements ExtensionInterface
             $conflicts = $this->conflicts[$this->name];
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
             foreach ($conflicts as $extension) {
-                (new Extension($extension, $this->logger))->disable();
+                $e = new Extension($extension, $this->logger);
+                $e->disable();
             }
         }
     }
