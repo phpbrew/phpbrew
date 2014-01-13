@@ -101,8 +101,7 @@ class ExtensionInstaller
         $sw->back();
 
         $this->logger->info("===> Extension is installed.");
-        return array($installedPath, $dir . '/package.xml');
+        return $dir . '/package.xml';
     }
 
 }
-

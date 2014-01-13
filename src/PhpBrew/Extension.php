@@ -9,15 +9,17 @@ use PEARX\Utils as PEARXUtils;
 
 class Extension implements ExtensionInterface
 {
-    protected $name;
-    protected $logger;
-    protected $config;
 
     /**
-     * PECL meta data
-     * @var
+     * Extension meta
+     * @var PhpBrew\ExtensionMetaInterface
      */
     protected $meta;
+
+    /**
+     * Application logger
+     */
+    protected $logger;
 
     /**
      * Map of extensions that can't be enabled at the same time.
@@ -26,15 +28,14 @@ class Extension implements ExtensionInterface
      * @var array
      */
     protected $conflicts = array (
-        'json'  => ['jsonc'],   // enabling jsonc disables json
-        'jsonc' => ['json'],    // enabling json disables jsonc
+        'json'  => array ('jsonc'),   // enabling jsonc disables json
+        'jsonc' => array ('json'),    // enabling json disables jsonc
     );
 
     public function __construct($name, $logger)
     {
-        $this->name = strtolower($name);
         $this->logger = $logger;
-        $this->config = $this->solveConfigFileName();
+        $this->meta = $this->buildMetaFromName($name);
     }
 
     public function install($version = 'stable', array $options = array())
@@ -43,53 +44,48 @@ class Extension implements ExtensionInterface
         $this->disable();
         $this->logger->setLevel(4);
 
-        $php = Config::getCurrentPhpName();
-        $buildDir = Config::getBuildDir();
-        $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
         $installer = new ExtensionInstaller($this->logger);
-        $path = $extDir . DIRECTORY_SEPARATOR . $this->name;
+        $path = $this->meta->getPath();
+        $name = $this->meta->getName();
 
         // Install local extension
         if ( file_exists( $path ) ) { 
-            $this->logger->info("===> Installing {$this->name} extension...");
+            $this->logger->info("===> Installing {$name} extension...");
             $this->logger->debug("Extension path $path");
-            list($extension_so, $xml) = $installer->runInstall($this->name, $path, $options);
+            $xml = $installer->runInstall($name, $path, $options);
         } else {
-            chdir($extDir);
-            list($extension_so, $xml) = $installer->installFromPecl($this->name, $version ,$options);
+            chdir(dirname($path));
+            $xml = $installer->installFromPecl($name, $version ,$options);
         }
 
-        $meta = PEARXUtils::create_dom();
-        if( false === $meta->loadXml( file_get_contents($xml)) ) {
-            throw new Exception("Error in XMl document: $xml");
+        // try to rebuild meta from xml, which is more accurate right now
+        if(file_exists($xml)) {
+            $this->logger->warning("===> switching to xml meta");
+            $this->meta = new ExtensionMetaXml($xml);
         }
 
-        $this->logger->info("===> Creating config file {$this->config}");
-        $config_file = $this->config . '.disabled';
+        $ini = $this->meta->getIniFile() . '.disabled';
+        $this->logger->info("===> Creating config file {$ini}");
+
         // create extension config file
-        if ( file_exists($config_file) ) {
-            $lines = file($config_file);
+        if ( file_exists($ini) ) {
+            $lines = file($ini);
             foreach ($lines as &$line) {
                 if ( preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs ) ) {
                     $line = $regs[1];
                 }
             }
-            file_put_contents($config_file, join('', $lines) );
+            file_put_contents($ini, join('', $lines) );
         } else {
-            if ( $meta->getElementsByTagName('zendextsrcrelease')->length ) {
-                $content = "zend_extension={$extension_so}";
-            } else {
-                $extension_so = $meta->getElementsByTagName('providesextension')->item(0)->nodeValue . '.so';
-                $content = "extension={$extension_so}";
-            }
-            file_put_contents($config_file,$content);
-            $this->logger->debug("{$this->config} is created.");
+            $this->meta->isZend() ? $content = "zend_extension=" :  $content = "extension=";
+            file_put_contents($ini, $content . $this->meta->getSourceFile() );
+            $this->logger->debug("{$ini} is created.");
         }
         $this->logger->info("===> Enabling extension...");
         $this->enable();
         $this->logger->info("Done.");
 
-        return $this->config;
+        return $path;
     }
 
     /**
@@ -98,24 +94,28 @@ class Extension implements ExtensionInterface
      */
     public function enable()
     {
-        $disabled_file = $this->config . '.disabled';
-        if (file_exists($this->config)) {
-            $this->logger->info("[*] {$this->name} extension is already enabled.");
+        $name = $this->meta->getName();
+        $enabled_file = $this->meta->getIniFile();
+        $disabled_file = $enabled_file . '.disabled';
+
+        if (file_exists($enabled_file)) {
+            $this->logger->info("[*] {$name} extension is already enabled.");
 
             return true;
         }
 
         if (file_exists($disabled_file)) {
             $this->disableAntagonists();
-            if ( rename($disabled_file, $this->config) ) {
-                $this->logger->info("[*] {$this->name} extension is enabled.");
+            if ( rename($disabled_file, $enabled_file) ) {
+                $this->logger->info("[*] {$name} extension is enabled.");
 
                 return true;
             }
-            $this->logger->warning("failed to enable {$this->name} extension.");
+            $this->logger->warning("failed to enable {$name} extension.");
         }
-        $this->logger->info("{$this->name} extension is not installed. Suggestions:");
-        $this->logger->info("\t\$ phpbrew ext install {$this->name}");
+
+        $this->logger->info("{$name} extension is not installed. Suggestions:");
+        $this->logger->info("\t\$ phpbrew ext install {$name}");
 
         return false;
     }
@@ -126,21 +126,23 @@ class Extension implements ExtensionInterface
      */
     public function disable()
     {
-        $disabled_file = $this->config . '.disabled';
+        $name = $this->meta->getName();
+        $enabled_file = $this->meta->getIniFile();
+        $disabled_file = $enabled_file . '.disabled';
 
         if (file_exists($disabled_file)) {
-            $this->logger->info("[ ] {$this->name} extension is already disabled.");
+            $this->logger->info("[ ] {$name} extension is already disabled.");
 
             return true;
         }
 
-        if (file_exists($this->config)) {
-            if (rename($this->config, $disabled_file)) {
-                $this->logger->info("[ ] {$this->name} extension is disabled.");
+        if (file_exists($enabled_file)) {
+            if (rename($enabled_file, $disabled_file)) {
+                $this->logger->info("[ ] {$name} extension is disabled.");
 
                 return true;
             }
-            $this->logger->warning("failed to disable {$this->name} extension.");
+            $this->logger->warning("failed to disable {$name} extension.");
         }
 
         return false;
@@ -151,8 +153,9 @@ class Extension implements ExtensionInterface
      */
     public function disableAntagonists()
     {
-        if (isset($this->conflicts[$this->name])) {
-            $conflicts = $this->conflicts[$this->name];
+        $name = $this->meta->getName();
+        if (isset($this->conflicts[$name])) {
+            $conflicts = $this->conflicts[$name];
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
             foreach ($conflicts as $extension) {
                 $extension = new Extension($extension, $this->logger);
@@ -168,7 +171,7 @@ class Extension implements ExtensionInterface
      */
     public function isLoaded()
     {
-        return extension_loaded($this->name);
+        return extension_loaded($this->meta->getName());
     }
 
     /**
@@ -177,9 +180,8 @@ class Extension implements ExtensionInterface
      */
     public function isAvailable()
     {
-        $extDir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/' . 'ext';
-        foreach (glob($extDir.'/*', GLOB_ONLYDIR) as $available_extension) {
-            if (false !== strpos(basename($available_extension), $this->name)) {
+        foreach (glob($this->meta->getPath() . '/*', GLOB_ONLYDIR) as $available_extension) {
+            if (false !== strpos(basename($available_extension), $name)) {
                 return true;
             }
         }
@@ -189,18 +191,42 @@ class Extension implements ExtensionInterface
 
     public function purge()
     {
-        unlink( $this->config );
-        unlink( $this->config . '.disabled' );
+        $ini = $this->meta->getIniFile();
+        unlink( $ini );
+        unlink( $ini . '.disabled' );
     }
 
-    final public function solveConfigFileName()
+    // final public function solveConfigFileName()
+    // {
+    //     $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $this->name . '.ini';
+    //     $path = $this->meta->getIniFile();
+    //     if ( ! file_exists( dirname($path) ) ) {
+    //         mkdir(dirname($path),0755,true);
+    //     }
+
+    //     return $path;
+    // }
+
+    public function buildMetaFromName($name)
     {
-        $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $this->name . '.ini';
-        if ( ! file_exists( dirname($path) ) ) {
-            mkdir(dirname($path),0755,true);
+        $path = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext/'. $name;
+        $xml = $path . '/package.xml';
+        $m4 = $path . '/config.m4';
+
+        if(file_exists($xml)) {
+            $this->logger->warning("===> usin xml meta");
+            $meta = new ExtensionMetaXml($xml);
+        }
+        elseif(file_exists($m4)) {
+            $this->logger->warning("===> usin m4 meta");
+            $meta = new ExtensionMetaM4($m4);
+        }
+        else {
+            $this->logger->warning("===> usin polyfill meta");
+            $meta = new ExtensionMetaPolyfill($name);
         }
 
-        return $path;
+        return $meta;
     }
 
 }
