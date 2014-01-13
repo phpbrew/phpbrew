@@ -2,6 +2,7 @@
 
 namespace PhpBrew;
 
+use PhpBrew\Migrations;
 use PhpBrew\Config;
 use PhpBrew\ExtensionInstaller;
 use PhpBrew\ExtensionInterface;
@@ -34,6 +35,7 @@ class Extension implements ExtensionInterface
 
     public function __construct($name, $logger)
     {
+        Migrations::setupConfigFolder();
         $this->logger = $logger;
         $this->meta = $this->buildMetaFromName($name);
     }
@@ -195,17 +197,6 @@ class Extension implements ExtensionInterface
         unlink( $ini );
         unlink( $ini . '.disabled' );
     }
-
-    // final public function solveConfigFileName()
-    // {
-    //     $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $this->name . '.ini';
-    //     $path = $this->meta->getIniFile();
-    //     if ( ! file_exists( dirname($path) ) ) {
-    //         mkdir(dirname($path),0755,true);
-    //     }
-
-    //     return $path;
-    // }
 
     public function buildMetaFromName($name)
     {
