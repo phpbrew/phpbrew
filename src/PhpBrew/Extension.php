@@ -62,7 +62,7 @@ class Extension implements ExtensionInterface
 
         // try to rebuild meta from xml, which is more accurate right now
         if(file_exists($xml)) {
-            $this->logger->warning("===> switching to xml meta");
+            $this->logger->warning("===> Switching to xml extension meta");
             $this->meta = new ExtensionMetaXml($xml);
         }
 
@@ -205,15 +205,15 @@ class Extension implements ExtensionInterface
         $m4 = $path . '/config.m4';
 
         if(file_exists($xml)) {
-            $this->logger->warning("===> usin xml meta");
+            $this->logger->warning("===> Using xml extension meta");
             $meta = new ExtensionMetaXml($xml);
         }
         elseif(file_exists($m4)) {
-            $this->logger->warning("===> usin m4 meta");
+            $this->logger->warning("===> Using m4 extension meta");
             $meta = new ExtensionMetaM4($m4);
         }
         else {
-            $this->logger->warning("===> usin polyfill meta");
+            $this->logger->warning("===> Using polyfill extension meta");
             $meta = new ExtensionMetaPolyfill($name);
         }
 
