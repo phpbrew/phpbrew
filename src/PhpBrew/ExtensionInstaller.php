@@ -32,15 +32,14 @@ class ExtensionInstaller
         $url = $this->findPeclPackageUrl($packageName, $version);
         $downloader = new Downloader\UrlDownloader($this->logger);
         $basename = $downloader->download($url);
-
+        $info = pathinfo($basename);
+        $extension_dir = $info['filename'];
         // extract
         $this->logger->info("===> Extracting $basename...");
         Utils::system("tar xf $basename");
+        Utils::system("mv package.xml $extension_dir    ");
 
-        $info = pathinfo($basename);
-        $dir = $info['filename'];
-
-        return $this->runInstall($packageName, $dir, $configureOptions);
+        return $this->runInstall($packageName, $extension_dir, $configureOptions);
     }
 
     public function runInstall($packageName, $dir, $configureOptions)
@@ -115,16 +114,11 @@ class ExtensionInstaller
 
 
         $this->logger->debug($output);
-        $lines = explode("\n", $output );
 
         $installedPath = null;
-        foreach( $lines as $line ) {
-            if( preg_match('#Installing shared extensions:\s+(\S+)#',$line, $regs) ) {
-                $installedPath = $regs[1];
-                break;
-            }
+        if( preg_match('#Installing shared extensions:\s+(\S+)#', $output, $regs) ) {
+            $installedPath = $regs[1];
         }
-
 
         $installedPath .= strtolower($packageName) . '.so';
         $this->logger->debug("Installed extension: " . $installedPath);
@@ -134,8 +128,7 @@ class ExtensionInstaller
         $sw->back();
 
         $this->logger->info("===> Extension is installed.");
-        return $installedPath;
+        return $dir . '/package.xml';
     }
 
 }
-
