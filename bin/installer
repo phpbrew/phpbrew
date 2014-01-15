@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+phpbrew_install_init() {
+  export phpbrew_prefix
+}
+
+phpbrew_install_set_defaults() {
+  if [[ "$UID" = 0 ]]; then
+    phpbrew_prefix="/usr/local"
+  else
+    phpbrew_prefix="$HOME/.phpbrew"
+  fi
+}
