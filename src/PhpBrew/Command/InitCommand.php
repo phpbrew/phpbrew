@@ -96,6 +96,15 @@ fi
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
 
+
+function __wget_as ()
+{
+    local url=$1
+    local target=$2
+    wget --no-check-certificate -c $url -O $target
+}
+
+
 function __phpbrew_set_lookup_prefix ()
 {
     case $1 in
@@ -197,6 +206,14 @@ function phpbrew ()
                 __phpbrew_update_config
             fi
             ;;
+        install-pyrus)
+            echo "Installing pyrus..."
+            cd $PHPBREW_BIN && \
+                wget --no-check-certificate -c http://pear2.php.net/pyrus.phar -O pyrus && \
+                chmod +x pyrus && \
+                cd -
+            hash -r
+            ;;
         install-phpunit)
             pear channel-discover pear.phpunit.de
             pear install -a phpunit/PHPUnit
@@ -204,39 +221,42 @@ function phpbrew ()
             ;;
         install-composer)
             echo "Installing composer..."
-            cd $PHPBREW_BIN
-            wget --no-check-certificate -c --no-verbose http://getcomposer.org/composer.phar -O composer
-            chmod +x $PHPBREW_BIN/composer
-            cd -
+            cd $PHPBREW_BIN && \
+                wget --no-check-certificate -c http://getcomposer.org/composer.phar -O composer && \
+                chmod +x composer && \
+                cd -
             hash -r
             ;;
         install-onion)
             echo "Installing onion..."
             cd $PHPBREW_BIN
-            wget --no-check-certificate -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O onion
+            wget --no-check-certificate -c https://raw.github.com/c9s/Onion/master/onion -O onion
             chmod +x onion
             cd -
             hash -r
             ;;
-        var-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
-            echo "Switching to $chdir"
+        cd)
+            case $2 in
+                var)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
+                    ;;
+                etc)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
+                    ;;
+                dist)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
+                    ;;
+                build)
+                    local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
+                    ;;
+                *)
+                    echo "$2 not found"
+                    return 0
+                ;;
+            esac
+            echo "Switching to $chdir, run 'cd -' to go back."
             cd $chdir
-            ;;
-        etc-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        dist-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        build-dir)
-            local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
+            return 0
             ;;
         config)
             if [[ -n $EDITOR ]] ; then
@@ -487,6 +507,7 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
 
 
 
