@@ -7,6 +7,16 @@ use PhpBrew\Exceptions\OopsException;
 
 
 /**
+ * VariantBuilder build variants to configure options.
+ *
+ * TODO: In future, we want different kind of variant:
+ *
+ *    1. configure option variant
+ *    2. pecl package variant, e.g. +xdebug +phpunit
+ *    3. config settings variant.  +timezone=Asia/Taipei
+ *
+ * API:
+ *
  * $variantBuilder = new VariantBuilder;
  * $variantBuilder->register('debug', function() {
  *
@@ -308,9 +318,13 @@ class VariantBuilder
 
         $this->variants['pgsql'] = function($build, $prefix = null) use($self) {
             $opts = array();
-            $opts[] = '--with-pgsql' . ($prefix ? "=$prefix" : '');
+            $possibleNames = array('psql90','psql91','psql92','psql93','psql');
+            while ( ! $prefix && ! empty($possibleNames) ) {
+                $prefix = Utils::findbin( array_pop($possibleNames) );
+            }
+            $opts[] = $prefix ? "--with-pgsql=$prefix" : "--with-pgsql";
             if ( $build->hasVariant('pdo') ) {
-                $opts[] = '--with-pdo-pgsql' . ($prefix ? "=$prefix" : '');
+                $opts[] = $prefix ? "--with-pdo-pgsql=$prefix" : '--with-pdo-pgsql';
             }
             return $opts;
         };
@@ -542,7 +556,9 @@ class VariantBuilder
 
 
     /**
-     * build configure options from variants
+     * Build variants to configure options from php build object.
+     *
+     * @param PhpBrew\Build $build The build object, contains version information
      */
     public function build($build)
     {
@@ -619,5 +635,10 @@ class VariantBuilder
         $this->options = array();
         return $options;
     }
+
+
+
+
+
 }
 

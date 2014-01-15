@@ -1,6 +1,15 @@
 CHANGES
 =======
 
+Version 1.12 - Wed Dec 11 09:56:22 2013
+
+- Install command now run commands below after installations:
+
+    pear config-set temp_dir $HOME/.phpbrew/tmp/pear/temp
+    pear config-set cache_dir $HOME/.phpbrew/tmp/pear/cache_dir
+    pear config-set download_dir $HOME/.phpbrew/tmp/pear/download_dir
+    pear config-set auto_discover 1
+
 Version 1.11.3 - Sun Dec  8 14:38:14 2013
 
 - Fixed libdir detection

@@ -22,11 +22,11 @@ use CLIFramework\Command;
  * TODO: refactor tasks to Task class.
  */
 
-class InstallCommand extends Command 
+class InstallCommand extends Command
 {
     public function brief() { return 'install php'; }
 
-    public function usage() 
+    public function usage()
     {
         return 'phpbrew install [php-version] ([+variant...])';
     }
@@ -42,6 +42,8 @@ class InstallCommand extends Command
         $opts->add('patch:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
+        $opts->add('like:', 'inherit variants from previous build');
+        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
     }
 
     public function execute($version)
@@ -59,15 +61,22 @@ class InstallCommand extends Command
 
         $name = $this->options->name ?: $version;
 
+        // find inherited variants
+        $inheritedVariants = array();
+        if ($this->options->like) {
+            $inheritedVariants = VariantParser::getInheritedVariants($this->options->like);
+        }
+
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
         // ['disabled_variants'] => disabled variants
-        $variantInfo = VariantParser::parseCommandArguments($args);
+        $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if( ! $info)
+        if ( ! $info) {
             throw new Exception("Version $version not found.");
+        }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
@@ -148,7 +157,7 @@ class InstallCommand extends Command
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
-        $buildTask->build();
+        $buildTask->build(null, $options->{'make-jobs'});
 
         if( $options->{'test'} ) {
             $test = new TestTask($this->logger);
@@ -228,7 +237,21 @@ class InstallCommand extends Command
             }
         }
 
-        $this->logger->info("Source directory: " . $targetDir );
+        $this->logger->info("Initializing pear config...");
+        $home = Config::getPhpbrewHome();
+
+        @mkdir("$home/tmp/pear/temp", 0755, true);
+        @mkdir("$home/tmp/pear/cache_dir", 0755, true);
+        @mkdir("$home/tmp/pear/download_dir", 0755, true);
+
+        system("pear config-set temp_dir $home/tmp/pear/temp");
+        system("pear config-set cache_dir $home/tmp/pear/cache_dir");
+        system("pear config-set download_dir $home/tmp/pear/download_dir");
+
+        $this->logger->info("Enabling pear auto-discover...");
+        system("pear config-set auto_discover 1");
+
+        $this->logger->debug("Source directory: " . $targetDir );
 
         $this->logger->info("Congratulations! Now you have PHP with $version.");
 
