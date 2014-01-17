@@ -51,6 +51,9 @@ class InstallCommand extends Command
         if( ! preg_match('/^php-/', $version) )
             $version = 'php-' . $version;
 
+        if ( preg_match('/^php-5.[3-5]$/', $version) )
+            $version = 'php-' . $this->getLatestMinorVersion($version);
+
         $options = $this->options;
         $logger = $this->logger;
 
@@ -267,6 +270,19 @@ Or you can use switch command to switch your default php version to $version:
 Enjoy!
 EOT;
 
+    }
+
+    private function getLatestMinorVersion($majorVersion)
+    {
+        $latestMinorVersion = '';
+        foreach (array_keys(PhpSource::getStableVersions()) as $version) {
+            if (strpos($version, $majorVersion) === 0) {
+                $latestMinorVersion = $version;
+                break;
+            }
+        }
+
+        return $latestMinorVersion;
     }
 }
 
