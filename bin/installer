@@ -29,6 +29,6 @@ phpbrew_check_system() {
 
   supported_os=(Ubuntu Darwin Debian)
   if [[ ! "${supported_os[@]}" =~ "$phpbrew_os" ]]; then
-    exit 1
+    return 1
   fi
 }

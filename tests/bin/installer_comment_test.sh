@@ -1,19 +1,22 @@
 #!/usr/bin/env bash
 
-source bin/installer
+source tests/mock/installer_mock.sh
 
-set +o errtrace
+source bin/installer
 set +o errexit
 
 ## set prefix to $HOME/.phpbrew if installed as normal user
-sh -c "source bin/installer; phpbrew_install_set_defaults; if [[ \"\$HOME\" = \"\$phpbrew_prefix\" ]]; then exit 0; else exit 1; fi" # status=0
+phpbrew_install_set_defaults
+[[ "$HOME" = "$phpbrew_prefix" ]] # status=0
 
 ## set prefix to /usr/local if installed as root
 ## trick to "mock" UID: http://lists.gnu.org/archive/html/bug-bash/2000-09/msg00019.html
 env - UID=0 /usr/bin/env sh -c "source bin/installer; phpbrew_install_set_defaults; echo \$phpbrew_prefix" # match=/\/usr\/local/
 
 ## can check os
-sh -c "source bin/installer; lsb_release() { echo 'Ubuntu'; }; phpbrew_check_system; echo \$phpbrew_os" # match=/Ubuntu/
+mock_lsb_release "Ubuntu"
+phpbrew_check_system # env[phpbrew_os]=~/^Ubuntu$/
 
 ## error on unsupported os
-sh -c "source bin/installer; lsb_release() { echo 'unknown'; }; phpbrew_check_system; echo \$?" # status=1
+mock_lsb_release "unknown"
+phpbrew_check_system # status=1
