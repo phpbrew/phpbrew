@@ -14,7 +14,7 @@ phpbrew_install_set_defaults() {
   fi
 }
 
-phpbrew_check_system() {
+phpbrew_install_check_system() {
   local supported_os
 
   if [[ $(command -v lsb_release) ]]; then

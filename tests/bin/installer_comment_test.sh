@@ -15,11 +15,11 @@ env - UID=0 /usr/bin/env sh -c "source bin/installer; phpbrew_install_set_defaul
 
 ## can check os
 mock_lsb_release "Ubuntu"
-phpbrew_check_system # env[phpbrew_os]=~/^Ubuntu$/
+phpbrew_install_check_system # env[phpbrew_os]=~/^Ubuntu$/
 
 ## error on unsupported os
 mock_lsb_release "unknown"
-phpbrew_check_system # status=1
+phpbrew_install_check_system # status=1
 
 ## osx requirements can be installed with macports
 export phpbrew_os="Darwin"
