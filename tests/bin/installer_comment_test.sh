@@ -39,3 +39,11 @@ phpbrew_install_bin
 # env[curl_args]=~/^-O https://raw.github.com/c9s/phpbrew/master/phpbrew$/
 # env[chmod_args]=~/^\+x phpbrew$/
 # env[mv_args]=~/^phpbrew \/usr\/local\/bin\/phpbrew$/
+
+## phpbrew is initialized
+phpbrew_install_init # env[phpbrew_args]=~/^init$/
+
+## if sudo install, move everything to $phpbrew_prefix/phpbrew
+export phpbrew_sudo_user=true
+export phpbrew_prefix="/usr/local"
+phpbrew_install_init # env[mv_args]=~/^\.phpbrew \/usr\/local\/phpbrew$/

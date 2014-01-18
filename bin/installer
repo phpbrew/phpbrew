@@ -3,12 +3,13 @@
 set -o errexit
 
 phpbrew_install_init() {
-  export phpbrew_prefix phpbrew_os
+  export phpbrew_prefix phpbrew_os phpbrew_sudo_user
 }
 
 phpbrew_install_set_defaults() {
   if [[ "$UID" = 0 ]]; then
     phpbrew_prefix="/usr/local"
+    phpbrew_sudo_user=true
   else
     phpbrew_prefix="${HOME/\/$/}"
   fi
@@ -60,4 +61,15 @@ phpbrew_install_bin() {
   curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
   chmod +x phpbrew
   sudo mv phpbrew /usr/local/bin/phpbrew
+}
+
+phpbrew_install_init() {
+  phpbrew init
+
+  if [[ $phpbrew_sudo_user ]]
+  then
+    cd $HOME
+    sudo mv .phpbrew $phpbrew_prefix/phpbrew
+    cd -
+  fi
 }

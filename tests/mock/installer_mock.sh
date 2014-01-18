@@ -49,3 +49,9 @@ mv() {
 
   mv_args=$*
 }
+
+phpbrew() {
+  export phpbrew_args
+
+  phpbrew_args=$*
+}
