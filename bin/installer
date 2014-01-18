@@ -3,7 +3,7 @@
 set -o errexit
 
 phpbrew_install_init() {
-  export phpbrew_prefix
+  export phpbrew_prefix phpbrew_os
 }
 
 phpbrew_install_set_defaults() {
@@ -11,5 +11,24 @@ phpbrew_install_set_defaults() {
     phpbrew_prefix="/usr/local"
   else
     phpbrew_prefix="${HOME/\/$/}"
+  fi
+}
+
+phpbrew_check_system() {
+  local supported_os
+
+  if [[ $(command -v lsb_release) ]]; then
+    phpbrew_os=$(lsb_release -si)
+  else
+    if [[ $(command -v uname) ]]; then
+      phpbrew_os=$(uname)
+    else
+      phpbrew_os="unknown"
+    fi
+  fi
+
+  supported_os=(Ubuntu Darwin Debian)
+  if [[ ! "${supported_os[@]}" =~ "$phpbrew_os" ]]; then
+    exit 1
   fi
 }
