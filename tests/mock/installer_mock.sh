@@ -9,3 +9,15 @@ mock_lsb_release() {
 lsb_release() {
   echo $lsb_value
 }
+
+port() {
+  export port_args
+
+  port_args=$*
+}
+
+brew() {
+  export brew_args
+
+  brew_args="$brew_args $*"
+}

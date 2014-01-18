@@ -32,3 +32,22 @@ phpbrew_check_system() {
     return 1
   fi
 }
+
+phpbrew_install_dependencies() {
+  case "$phpbrew_os" in
+    "Darwin")
+      if [[ $(command -v port) ]]
+      then
+        port install curl automake autoconf icu depof:php5 depof:php5-gd mcrypt re2c gettext openssl
+      else
+        if [[ $(command -v brew) ]]
+        then
+          brew install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
+          brew link icu4c
+        else
+          return 1
+        fi
+      fi
+      ;;
+  esac
+}
