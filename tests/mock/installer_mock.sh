@@ -21,3 +21,13 @@ brew() {
 
   brew_args="$brew_args $*"
 }
+
+sudo() {
+  $*
+}
+
+apt-get() {
+  export apt_args
+
+  apt_args="$apt_args $*"
+}

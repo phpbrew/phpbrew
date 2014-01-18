@@ -29,3 +29,7 @@ phpbrew_install_dependencies # env[port_args]=~/^install curl automake autoconf 
 export phpbrew_os="Darwin"
 unset port
 phpbrew_install_dependencies # env[brew_args]=~/^ install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg libxml2 mcrypt gmp libevent link icu4c$/
+
+## ubuntu requirements can be installed
+export phpbrew_os="Ubuntu"
+phpbrew_install_dependencies # env[apt_args]=~/^ build-dep php5 install -y php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev$/

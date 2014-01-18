@@ -49,5 +49,9 @@ phpbrew_install_dependencies() {
         fi
       fi
       ;;
+    "Ubuntu")
+      sudo apt-get build-dep php5
+      sudo apt-get install -y php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev
+      ;;
   esac
 }
