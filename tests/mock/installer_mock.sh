@@ -31,3 +31,21 @@ apt-get() {
 
   apt_args="$apt_args $*"
 }
+
+curl() {
+  export curl_args
+
+  curl_args=$*
+}
+
+chmod() {
+  export chmod_args
+
+  chmod_args=$*
+}
+
+mv() {
+  export mv_args
+
+  mv_args=$*
+}

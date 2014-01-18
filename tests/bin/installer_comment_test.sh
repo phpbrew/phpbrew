@@ -33,3 +33,9 @@ phpbrew_install_dependencies # env[brew_args]=~/^ install automake autoconf curl
 ## ubuntu requirements can be installed
 export phpbrew_os="Ubuntu"
 phpbrew_install_dependencies # env[apt_args]=~/^ build-dep php5 install -y php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev$/
+
+## phpbrew bin is downloaded
+phpbrew_install_bin
+# env[curl_args]=~/^-O https://raw.github.com/c9s/phpbrew/master/phpbrew$/
+# env[chmod_args]=~/^\+x phpbrew$/
+# env[mv_args]=~/^phpbrew \/usr\/local\/bin\/phpbrew$/

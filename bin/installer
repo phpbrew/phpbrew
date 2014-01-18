@@ -55,3 +55,9 @@ phpbrew_install_dependencies() {
       ;;
   esac
 }
+
+phpbrew_install_bin() {
+  curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+  chmod +x phpbrew
+  sudo mv phpbrew /usr/local/bin/phpbrew
+}
