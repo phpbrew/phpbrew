@@ -2,8 +2,23 @@
 
 set -o errexit
 
+phpbrew_install_info() {
+  printf "  [ \033[00;34m..\033[0m ] $1"
+}
+
+phpbrew_install_success() {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+phpbrew_install_fail() {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+}
+
 phpbrew_install_init() {
   export phpbrew_prefix phpbrew_os phpbrew_sudo_user
+
+  phpbrew_install_info 'Starting phpbrew installation…'
+  echo ''
 }
 
 phpbrew_install_set_defaults() {
@@ -30,11 +45,14 @@ phpbrew_install_check_system() {
 
   supported_os=(Ubuntu Darwin)
   if [[ ! "${supported_os[@]}" =~ "$phpbrew_os" ]]; then
+    phpbrew_install_fail 'You operating system is not yet supported by phpbrew. You can ask for help at https://github.com/c9s/phpbrew/issues?state=open'
     return 1
   fi
 }
 
 phpbrew_install_dependencies() {
+  phpbrew_install_info 'Installing phpbrew dependencies…'
+
   case "$phpbrew_os" in
     "Darwin")
       if [[ $(command -v port) ]]
@@ -46,6 +64,7 @@ phpbrew_install_dependencies() {
           brew install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
           brew link icu4c
         else
+          phpbrew_install_fail 'Cannot install phpbrew dependencies. You need to install either MacPorts (http://www.macports.org/) or Homebrew (http://brew.sh/).'
           return 1
         fi
       fi
@@ -55,6 +74,8 @@ phpbrew_install_dependencies() {
       sudo apt-get install -y php5 php5-dev php-pear autoconf automake curl build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev
       ;;
   esac
+
+  phpbrew_install_success 'Installing phpbrew dependencies…'
 }
 
 phpbrew_install_bin() {
@@ -64,6 +85,8 @@ phpbrew_install_bin() {
 }
 
 phpbrew_install_init() {
+  phpbrew_install_info 'Initializing phpbrew…'
+
   phpbrew init
 
   if [[ $phpbrew_sudo_user ]]
@@ -77,6 +100,8 @@ phpbrew_install_init() {
     echo "export PHPBREW_ROOT=$phpbrew_prefix/phpbrew" | sudo tee -a /etc/profile.d/phpbrew.sh
     echo "export PHPBREW_HOME=$phpbrew_prefix/phpbrew" | sudo tee -a /etc/profile.d/phpbrew.sh
   fi
+
+  phpbrew_install_success 'Initializing phpbrew…'
 }
 
 phpbrew_install_post_install() {
@@ -89,4 +114,7 @@ phpbrew_install_post_install() {
       fi
     fi
   fi
+
+  phpbrew_install_success 'Phpbrew is successfuly installed on your system!'
+  phpbrew_install_info "Remember to add 'source $phpbrew_prefix/phpbrew/bashrca to your bashrc!'"
 }
