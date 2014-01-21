@@ -71,5 +71,10 @@ phpbrew_install_init() {
     cd $HOME
     sudo mv .phpbrew $phpbrew_prefix/phpbrew
     cd -
+    sudo groupadd phpbrew
+    sudo chown -R root:phpbrew $phpbrew_prefix/phpbrew
+    sudo chmod -R 0775 $phpbrew_prefix/phpbrew
+    echo "export PHPBREW_ROOT=$phpbrew_prefix/phpbrew" | sudo tee -a /etc/profile.d/phpbrew.sh
+    echo "export PHPBREW_HOME=$phpbrew_prefix/phpbrew" | sudo tee -a /etc/profile.d/phpbrew.sh
   fi
 }

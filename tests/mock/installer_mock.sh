@@ -55,3 +55,15 @@ phpbrew() {
 
   phpbrew_args=$*
 }
+
+groupadd() {
+  export groupadd_args
+
+  groupadd_args=$*
+}
+
+chown() {
+  export chown_args
+
+  chown_args=$*
+}

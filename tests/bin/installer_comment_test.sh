@@ -46,4 +46,8 @@ phpbrew_install_init # env[phpbrew_args]=~/^init$/
 ## if sudo install, move everything to $phpbrew_prefix/phpbrew
 export phpbrew_sudo_user=true
 export phpbrew_prefix="/usr/local"
-phpbrew_install_init # env[mv_args]=~/^\.phpbrew \/usr\/local\/phpbrew$/
+phpbrew_install_init
+# env[mv_args]=~/^\.phpbrew \/usr\/local\/phpbrew$/
+# env[groupadd_args]=~/^phpbrew$/
+# env[chown_args]=~/^-R root:phpbrew \/usr\/local\/phpbrew$/
+# env[chmod_args]=~/^-R 0775 \/usr\/local\/phpbrew$/
