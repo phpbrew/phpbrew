@@ -51,3 +51,7 @@ phpbrew_install_init
 # env[groupadd_args]=~/^phpbrew$/
 # env[chown_args]=~/^-R root:phpbrew \/usr\/local\/phpbrew$/
 # env[chmod_args]=~/^-R 0775 \/usr\/local\/phpbrew$/
+
+## is osx post install should set the lookup-prefix
+export phpbrew_os="Darwin"
+phpbrew_install_post_install # env[phpbrew_args]=~/^lookup-prefix homebrew$/

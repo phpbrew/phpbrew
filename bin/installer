@@ -78,3 +78,15 @@ phpbrew_install_init() {
     echo "export PHPBREW_HOME=$phpbrew_prefix/phpbrew" | sudo tee -a /etc/profile.d/phpbrew.sh
   fi
 }
+
+phpbrew_install_post_install() {
+  if [[ "$phpbrew_os" == "Darwin" ]]; then
+    if [[ $(command -v port) ]]; then
+      phpbrew lookup-prefix macports
+    else
+      if [[ $(command -v brew) ]]; then
+        phpbrew lookup-prefix homebrew
+      fi
+    fi
+  fi
+}
