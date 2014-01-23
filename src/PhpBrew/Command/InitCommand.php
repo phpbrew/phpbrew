@@ -281,8 +281,18 @@ function phpbrew ()
         ext)
             case $2 in
                 disable)
-                    echo "Removing extension config..."
-                    rm -fv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini
+                    echo "Disabling extension..."
+                    if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled" ]]; then
+                      echo "[ ] $3 extension is already disabled"
+                    else
+                      if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini" ]]; then
+                        mv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled
+                        echo "[ ] $3 extension is disabled"
+                      else
+                        echo "Failed to disable $3 extension. Maybe it's not installed yet?"
+                        return 1
+                      fi
+                    fi
                 ;;
                 *)
                     command $BIN ${*:1}
@@ -507,6 +517,10 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
+
+
+
 
 
 
