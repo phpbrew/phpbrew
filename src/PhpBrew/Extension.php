@@ -43,7 +43,6 @@ class Extension implements ExtensionInterface
     public function install($version = 'stable', array $options = array())
     {
         $this->logger->quiet();
-        $this->disable();
         $this->logger->setLevel(4);
 
         $installer = new ExtensionInstaller($this->logger);
