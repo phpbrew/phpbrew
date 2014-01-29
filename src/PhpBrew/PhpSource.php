@@ -21,6 +21,7 @@ class PhpSource
         return array(
             'stas' => 'Stanislav Malyshev',
             'dsp' => 'David Soria Parra',
+            'tyrael' => 'Ferenc Kovács'
         );
     }
 
