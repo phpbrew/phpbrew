@@ -125,7 +125,7 @@ class InstallCommand extends Command
         $build = new Build($version, $name, $buildPrefix);
         $build->setName($name);
         $build->setVersion($version);
-        $build->setInstallDirectory($buildPrefix);
+        $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
 

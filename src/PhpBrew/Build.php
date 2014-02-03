@@ -21,7 +21,7 @@ class Build
 
     public $sourceDirectory;
 
-    public $installDirectory;
+    public $installPrefix;
 
     public $extraOptions = array();
 
@@ -43,7 +43,7 @@ class Build
         $this->name = $name ? $name : $version;
 
         if ( $prefix ) {
-            $this->setInstallDirectory($prefix);
+            $this->setInstallPrefix($prefix);
             // read the build info from $prefix
             /*
             $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
@@ -202,14 +202,14 @@ class Build
         return $this->sourceDirectory;
     }
 
-    public function setInstallDirectory($dir)
+    public function setInstallPrefix($prefix)
     {
-        $this->installDirectory = $dir;
+        $this->installPrefix = $dir;
     }
 
     public function getInstallDirectory()
     {
-        return $this->installDirectory;
+        return $this->installPrefix;
     }
 
     public function setExtraOptions($options)
