@@ -192,6 +192,9 @@ class Build
     }
 
 
+    /**
+     * PHP Source directory, this method returns value only when source directory is set.
+     */
     public function setSourceDirectory($dir)
     {
         $this->sourceDirectory = $dir;
@@ -211,6 +214,18 @@ class Build
     {
         return $this->installPrefix;
     }
+
+
+
+    /**
+     * Returns {prefix}/var/db path
+     */
+    public function getCurrentConfigScanPath()
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+    }
+
+
 
     public function setExtraOptions($options)
     {

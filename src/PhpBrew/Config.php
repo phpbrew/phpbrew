@@ -96,6 +96,9 @@ class Config
         return $versions;
     }
 
+    /**
+     * XXX: This method should be migrated to PhpBrew\Build class.
+     */
     static function getCurrentPhpConfigScanPath()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
