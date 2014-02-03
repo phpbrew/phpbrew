@@ -122,7 +122,7 @@ class InstallCommand extends Command
 
 
         // The build object, contains the information to build php.
-        $build = new Build;
+        $build = new Build($version, $name, $buildPrefix);
         $build->setName($name);
         $build->setVersion($version);
         $build->setInstallDirectory($buildPrefix);

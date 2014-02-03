@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+use PhpBrew\Config;
 
 /**
  * A build object contains version information, 
@@ -26,11 +27,23 @@ class Build
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
-    public function __construct($prefix = null)
+
+    /**
+     * Construct a Build object,
+     *
+     * A build object contains the information of all build options, prefix, paths... etc
+     *
+     * @param string $version build version
+     * @param string $name    build name
+     * @param string $prefix  install prefix
+     */
+    public function __construct($version, $name = null, $prefix = null)
     {
+        $this->version = $version;
+        $this->name = $name ? $name : $version;
+
         if ( $prefix ) {
             $this->setInstallDirectory($prefix);
-
             // read the build info from $prefix
             /*
             $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
