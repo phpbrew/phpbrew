@@ -225,6 +225,20 @@ class Build
         return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
+    public function getEtcPath($version)
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+    }
+
+    public function getBinPath($version)
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
+    }
+
+    public function getPath($subpath) 
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
+    }
 
 
     public function setExtraOptions($options)
