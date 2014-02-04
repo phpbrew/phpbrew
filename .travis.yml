@@ -2,6 +2,7 @@ language: php
 php:
   - 5.3
   - 5.4
+  - 5.5
   - hhvm
 
 before_script:
@@ -12,6 +13,8 @@ before_script:
 
 script:
   - source phpbrew.sh
+  - php bin/phpbrew
+  - php bin/phpbrew known
   - phpunit --debug
 # notifications:
 #  webbooks: http://wireroom.extremedev.org/=/travis-ci/Hall
