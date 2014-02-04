@@ -63,8 +63,8 @@ class Builder
 
         $cmd = new CommandBuilder('./configure');
 
-        putenv('CFLAGS=-O3');
-        $prefix = $build->getInstallDirectory();
+        // putenv('CFLAGS=-O3');
+        $prefix = $build->getInstallPrefix();
         $args[] = "--prefix=" . $prefix;
         $args[] = "--with-config-file-path={$prefix}/etc";
         $args[] = "--with-config-file-scan-dir={$prefix}/var/db";

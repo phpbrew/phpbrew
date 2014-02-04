@@ -207,14 +207,10 @@ class Build implements Serializable
         return $this->sourceDirectory;
     }
 
-    public function getBinPath()
-    {
-        return $this->getInstallDirectory() . DIRECTORY_SEPARATOR . 'bin';
-    }
 
     public function setInstallPrefix($prefix)
     {
-        $this->installPrefix = $dir;
+        $this->installPrefix = $prefix;
     }
 
     public function getEtcDirectory() 
@@ -232,12 +228,10 @@ class Build implements Serializable
         return $this->installDirectory . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-    public function getInstallDirectory()
+    public function getInstallPrefix()
     {
         return $this->installPrefix;
     }
-
-
 
     /**
      * Returns {prefix}/var/db path
@@ -245,16 +239,6 @@ class Build implements Serializable
     public function getCurrentConfigScanPath()
     {
         return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
-    }
-
-    public function getEtcPath($version)
-    {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
-    }
-
-    public function getBinPath($version)
-    {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
     }
 
     public function getPath($subpath) 
@@ -315,8 +299,11 @@ class Build implements Serializable
     }
 
     public function importVariantFromFile($variantFile) {
+        // XXX: not implemented yet
+        return;
         if ( file_exists($variantFile) ) {
-            $info = unserialize(file_get_contents());
+            $info = unserialize(file_get_contents($variantFile));
+            var_dump( $info ); 
             // echo VariantParser::revealCommandArguments($info);
             // XXX: handle info
         }

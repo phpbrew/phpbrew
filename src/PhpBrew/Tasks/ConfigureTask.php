@@ -37,9 +37,7 @@ class ConfigureTask extends BaseTask
             system('./buildconf') !== false or die('buildconf error');
         }
 
-
-        putenv('CFLAGS=-O3');
-        $prefix = $build->getInstallDirectory();
+        $prefix = $build->getInstallPrefix();
 
         // append cflags
         if( $this->o ) {
