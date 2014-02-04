@@ -5,7 +5,7 @@ use CLIFramework\Application;
 class Console extends Application
 {
     const NAME = 'phpbrew';
-    const VERSION = "1.11.2";
+    const VERSION = "1.13.0";
 
     public function init()
     {
@@ -21,7 +21,8 @@ class Console extends Application
         $this->registerCommand('env');
         $this->registerCommand('ext');
         $this->registerCommand('variants');
-        $this->registerCommand('config');
+        $this->registerCommand('path');
+        $this->registerCommand('cd');
         $this->registerCommand('download');
         $this->registerCommand('clean');
         $this->registerCommand('ctags', 'PhpBrew\Command\CtagsCommand');

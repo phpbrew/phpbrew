@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew;
 use Serializable;
+use PhpBrew\Config;
 
 /**
  * A build object contains version information, 
@@ -22,17 +23,29 @@ class Build implements Serializable
 
     public $sourceDirectory;
 
-    public $installDirectory;
+    public $installPrefix;
 
     public $extraOptions = array();
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
-    public function __construct($prefix = null)
-    {
-        if ( $prefix ) {
-            $this->setInstallDirectory($prefix);
 
+    /**
+     * Construct a Build object,
+     *
+     * A build object contains the information of all build options, prefix, paths... etc
+     *
+     * @param string $version build version
+     * @param string $name    build name
+     * @param string $prefix  install prefix
+     */
+    public function __construct($version, $name = null, $prefix = null)
+    {
+        $this->version = $version;
+        $this->name = $name ? $name : $version;
+
+        if ( $prefix ) {
+            $this->setInstallPrefix($prefix);
             // read the build info from $prefix
             /*
             $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
@@ -181,6 +194,9 @@ class Build implements Serializable
     }
 
 
+    /**
+     * PHP Source directory, this method returns value only when source directory is set.
+     */
     public function setSourceDirectory($dir)
     {
         $this->sourceDirectory = $dir;
@@ -191,26 +207,14 @@ class Build implements Serializable
         return $this->sourceDirectory;
     }
 
-
-    /**
-     * An alias method of getInstallDirectory
-     */
-    public function getPrefixPath()
-    {
-        return $this->getInstallDirectory();
-    }
-
-
     public function getBinPath()
     {
         return $this->getInstallDirectory() . DIRECTORY_SEPARATOR . 'bin';
     }
 
-
-
-    public function setInstallDirectory($dir)
+    public function setInstallPrefix($prefix)
     {
-        $this->installDirectory = $dir;
+        $this->installPrefix = $dir;
     }
 
     public function getEtcDirectory() 
@@ -230,8 +234,34 @@ class Build implements Serializable
 
     public function getInstallDirectory()
     {
-        return $this->installDirectory;
+        return $this->installPrefix;
     }
+
+
+
+    /**
+     * Returns {prefix}/var/db path
+     */
+    public function getCurrentConfigScanPath()
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+    }
+
+    public function getEtcPath($version)
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+    }
+
+    public function getBinPath($version)
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
+    }
+
+    public function getPath($subpath) 
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
+    }
+
 
     public function setExtraOptions($options)
     {

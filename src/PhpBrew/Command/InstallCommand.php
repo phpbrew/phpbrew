@@ -45,6 +45,7 @@ class InstallCommand extends Command
         $opts->add('f|force','force');
         $opts->add('d|dryrun','dryrun');
         $opts->add('like:', 'inherit variants from previous build');
+        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
     }
 
     public function execute($version)
@@ -52,6 +53,9 @@ class InstallCommand extends Command
         if ( ! preg_match('/^php-/', $version) ) {
             $version = 'php-' . $version;
         }
+
+        if ( preg_match('/^php-5.[3-5]$/', $version) )
+            $version = 'php-' . $this->getLatestMinorVersion($version);
 
         $options = $this->options;
         $logger = $this->logger;
@@ -120,11 +124,9 @@ class InstallCommand extends Command
         file_put_contents($variantInfoFile, serialize($variantInfo));
 
 
-        // Create new build object, add the informations of building php.
-        $build = new Build;
-        $build->setName($name);
-        $build->setVersion($version);
-        $build->setInstallDirectory($buildPrefix);
+        // The build object, contains the information to build php.
+        $build = new Build($version, $name, $buildPrefix);
+        $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
 
@@ -252,6 +254,19 @@ Or you can use switch command to switch your default php version to $version:
 Enjoy!
 EOT;
 
+    }
+
+    private function getLatestMinorVersion($majorVersion)
+    {
+        $latestMinorVersion = '';
+        foreach (array_keys(PhpSource::getStableVersions()) as $version) {
+            if (strpos($version, $majorVersion) === 0) {
+                $latestMinorVersion = $version;
+                break;
+            }
+        }
+
+        return $latestMinorVersion;
     }
 }
 

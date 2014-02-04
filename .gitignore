@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 .onion
 vendor
+=======
+Gemfile.lock
+vendor/bundle
+>>>>>>> b55183f... Added tf as test suite for bash sripts

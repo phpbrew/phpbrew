@@ -9,19 +9,18 @@
     ],
     "require": {
         "corneltek\/cliframework": "~1.5",
-        "corneltek\/pearx": "dev-master",
+        "corneltek\/pearx": "~1.3",
         "symfony\/process": "~2.3"
     },
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master",
         "corneltek\/universal": "*",
-        "cbednarski/pharcc": "0.2.*",
-        "cbednarski/fileutils": "dev-master"
+        "cbednarski\/pharcc": "0.2.*"
     },
     "autoload": {
         "psr-0": {
             "PhpBrew": "src"
         }
     },
-    "version": "1.11.2"
+    "version": "1.13.0"
 }

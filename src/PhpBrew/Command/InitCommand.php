@@ -16,17 +16,22 @@ class InitCommand extends \CLIFramework\Command
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
-        if( ! file_exists($root) )
+        if ( ! file_exists($root) ) {
             mkdir( $root, 0755, true );
-
-        if( ! file_exists($buildPrefix) )
+        }
+        if ( ! file_exists($home) ) {
+            mkdir( $home, 0755, true );
+        }
+        if ( ! file_exists($buildPrefix) ) {
             mkdir( $buildPrefix, 0755, true );
-
-        if( ! file_exists($buildDir) )
+        }
+        if ( ! file_exists($buildDir) ) {
             mkdir( $buildDir, 0755, true );
+        }
 
-        // write init script
-        $bashScript = $root . DIRECTORY_SEPARATOR . 'bashrc';
+        // write init script to phpbrew home
+        $bashScript = $home . DIRECTORY_SEPARATOR . 'bashrc';
+
         // $initScript = $root . DIRECTORY_SEPARATOR . 'init';
         file_put_contents( $bashScript , $this->getBashScript() );
 
@@ -85,7 +90,19 @@ fi
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
 
+[[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
+[[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
+
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
+
+
+
+function __wget_as ()
+{
+    local url=$1
+    local target=$2
+    wget --no-check-certificate -c $url -O $target
+}
 
 
 function __phpbrew_set_lookup_prefix ()
@@ -102,7 +119,7 @@ function __phpbrew_set_lookup_prefix ()
             echo /opt/local
         ;;
         homebrew)
-            echo /usr/local:/usr/local/Cellar
+            echo /usr/local/Cellar:/usr/local
         ;;
         *)
             if [[ -e $1 ]] ; then
@@ -195,6 +212,14 @@ function phpbrew ()
                 __phpbrew_update_config
             fi
             ;;
+        install-pyrus)
+            echo "Installing pyrus..."
+            cd $PHPBREW_BIN && \
+                wget --no-check-certificate -c http://pear2.php.net/pyrus.phar -O pyrus && \
+                chmod +x pyrus && \
+                cd -
+            hash -r
+            ;;
         install-phpunit)
             pear channel-discover pear.phpunit.de
             pear install -a phpunit/PHPUnit
@@ -202,39 +227,42 @@ function phpbrew ()
             ;;
         install-composer)
             echo "Installing composer..."
-            cd $PHPBREW_BIN
-            wget --no-check-certificate -c --no-verbose http://getcomposer.org/composer.phar -O composer
-            chmod +x $PHPBREW_BIN/composer
-            cd -
+            cd $PHPBREW_BIN && \
+                wget --no-check-certificate -c http://getcomposer.org/composer.phar -O composer && \
+                chmod +x composer && \
+                cd -
             hash -r
             ;;
         install-onion)
             echo "Installing onion..."
             cd $PHPBREW_BIN
-            wget --no-check-certificate -c --no-verbose https://raw.github.com/c9s/Onion/master/onion -O onion
+            wget --no-check-certificate -c https://raw.github.com/c9s/Onion/master/onion -O onion
             chmod +x onion
             cd -
             hash -r
             ;;
-        var-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
-            echo "Switching to $chdir"
+        cd)
+            case $2 in
+                var)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
+                    ;;
+                etc)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
+                    ;;
+                dist)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
+                    ;;
+                build)
+                    local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
+                    ;;
+                *)
+                    echo "$2 not found"
+                    return 0
+                ;;
+            esac
+            echo "Switching to $chdir, run 'cd -' to go back."
             cd $chdir
-            ;;
-        etc-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        dist-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        build-dir)
-            local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
+            return 0
             ;;
         config)
             if [[ -n $EDITOR ]] ; then
@@ -244,11 +272,33 @@ function phpbrew ()
                 nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
             fi
             ;;
+        clean)
+            local _VERSION=$2
+            if [[ -z $_version ]] ; then
+                _VERSION=$PHPBREW_PHP
+            fi
+            echo "Cleaning up $_VERSION build directory..."
+            local build_dir=$PHPBREW_ROOT/build/$_VERSION
+            echo "build_dir=$build_dir"
+            if [[ -e $build_dir ]] ; then
+                cd $build_dir && make clean && cd -
+            fi
+            ;;
         ext)
             case $2 in
                 disable)
-                    echo "Removing extension config..."
-                    rm -fv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini
+                    echo "Disabling extension..."
+                    if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled" ]]; then
+                      echo "[ ] $3 extension is already disabled"
+                    else
+                      if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini" ]]; then
+                        mv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled
+                        echo "[ ] $3 extension is disabled"
+                      else
+                        echo "Failed to disable $3 extension. Maybe it's not installed yet?"
+                        return 1
+                      fi
+                    fi
                 ;;
                 *)
                     command $BIN ${*:1}
@@ -436,9 +486,9 @@ function __phpbrew_remove_purge ()
         return 1
     fi
 
-    _PHP_BIN_PATH=$PHPBREW_HOME/php/$_PHP_VERSION
-    _PHP_SOURCE_FILE=$PHPBREW_HOME/build/$_PHP_VERSION.tar.bz2
-    _PHP_BUILD_PATH=$PHPBREW_HOME/build/$_PHP_VERSION
+    _PHP_BIN_PATH=$PHPBREW_ROOT/php/$_PHP_VERSION
+    _PHP_SOURCE_FILE=$PHPBREW_ROOT/build/$_PHP_VERSION.tar.bz2
+    _PHP_BUILD_PATH=$PHPBREW_ROOT/build/$_PHP_VERSION
 
     if [ -d $_PHP_BIN_PATH ]; then
 
@@ -473,5 +523,6 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
+
     }
 }

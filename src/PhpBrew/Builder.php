@@ -69,7 +69,9 @@ class Builder
         $args[] = "--with-config-file-path={$prefix}/etc";
         $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
         $args[] = "--with-pear={$prefix}/lib/php";
-        $args[] = "--enable-xml";
+
+        // this is to support pear
+        $build->enableVariant('xml');
 
 
         $variantOptions = $variantBuilder->build($build);
@@ -154,7 +156,7 @@ PATCH;
         $cmd->execute() !== false or die('Configure failed.');
 
         // Then patch Makefile for PHP 5.3.x on 64bit system.
-        if( Utils::support_64bit() && $build->compareVersion('5.4') == -1 ) {
+        if( Utils::support_64bit() && $build->compareVersion('5.4') == -1 && $build->compareVersion('5.2') == 1 ) {
             $this->logger->info("===> Applying patch file for php5.3.x on 64bit machine.");
             system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
             system('sed -i \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');

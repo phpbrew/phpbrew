@@ -22,44 +22,6 @@ class Utils
         }
     }
 
-    static function get_extension_config_path($extname)
-    {
-        // create extension config file
-        $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $extname . '.ini';
-        if ( ! file_exists( dirname($path) ) ) {
-            mkdir(dirname($path),0755,true);
-        }
-        return $path;
-    }
-
-    static function enable_extension($extname, $zendpath = '')
-    {
-        $extname = strtolower($extname);
-        // create extension config file
-        $configPath = self::get_extension_config_path($extname);
-
-        if ( file_exists($configPath) ) {
-            $lines = file($configPath);
-            foreach( $lines as &$line ) {
-                if ( preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs ) ) {
-                    $line = $regs[1];
-                }
-            }
-            file_put_contents($configPath, join("\n", $lines) );
-            return $configPath;
-        } else {
-            if( $zendpath ) {
-                $content = "zend_extension=$zendpath";
-            } else {
-                $content = "extension=$extname.so";
-            }
-            file_put_contents($configPath,$content);
-            return $configPath;
-        }
-        return false;
-    }
-
-
     /**
      * Find bin from prefix list
      */
@@ -79,6 +41,31 @@ class Utils
     }
 
 
+    static function find_libdir()
+    {
+        $prefixes = array(
+            '/opt',
+            '/opt/local',
+            '/usr',
+            '/usr/local',
+        );
+        if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
+            $paths = explode(':', $pathstr);
+            foreach( $paths as $path ) {
+                $prefixes[] = $path;
+            }
+        }
+        $prefixes = array_reverse($prefixes);
+
+        foreach( $prefixes as $prefix ) {
+            if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
+                return "lib/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+                return "lib/i386-linux-gnu";
+            }
+        }
+    }
+
     static function get_lookup_prefixes() 
     {
         $prefixes = array(
@@ -97,10 +84,10 @@ class Utils
 
         // if there is lib path, insert it to the end.
         foreach( $prefixes as $prefix ) {
-            if ( file_exists("$prefix/x86_64-linux-gnu") ) {
-                $prefixes[] = "$prefix/x86_64-linux-gnu";
-            } else if ( file_exists("$prefix/i386-linux-gnu") ) {
-                $prefixes[] = "$prefix/i386-linux-gnu";
+            if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
+                $prefixes[] = "$prefix/lib/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+                $prefixes[] = "$prefix/lib/i386-linux-gnu";
             } 
         }
         return array_reverse($prefixes);

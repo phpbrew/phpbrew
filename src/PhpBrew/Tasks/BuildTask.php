@@ -26,12 +26,16 @@ class BuildTask extends BaseTask
             $cmd->nice($options->nice);
         }
 
+        if( $makeJobs = $options->{'make-jobs'}) {
+            $cmd->addArg("-j{$makeJobs}");
+        }
+
         $this->debug( $cmd->__toString()  );
 
         if ( ! $options->dryrun ) {
             $startTime = microtime(true);
             $cmd->execute() !== false or die('Make failed.');
-            $buildTime = (int)((microtime(true) - $startTime) / 60);
+            $buildTime = ceil((microtime(true) - $startTime) / 60);
             $this->info("Build finished: $buildTime minutes.");
         }
     }

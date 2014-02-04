@@ -26,6 +26,9 @@ fi
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
 
+[[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
+[[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
+
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
 
 
@@ -174,25 +177,28 @@ function phpbrew ()
             cd -
             hash -r
             ;;
-        var-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
-            echo "Switching to $chdir"
+        cd)
+            case $2 in
+                var)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/var
+                    ;;
+                etc)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
+                    ;;
+                dist)
+                    local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
+                    ;;
+                build)
+                    local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
+                    ;;
+                *)
+                    echo "$2 not found"
+                    return 0
+                ;;
+            esac
+            echo "Switching to $chdir, run 'cd -' to go back."
             cd $chdir
-            ;;
-        etc-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP/etc
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        dist-dir)
-            local chdir=$PHPBREW_ROOT/php/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
-            ;;
-        build-dir)
-            local chdir=$PHPBREW_ROOT/build/$PHPBREW_PHP
-            echo "Switching to $chdir"
-            cd $chdir
+            return 0
             ;;
         config)
             if [[ -n $EDITOR ]] ; then
@@ -217,8 +223,18 @@ function phpbrew ()
         ext)
             case $2 in
                 disable)
-                    echo "Removing extension config..."
-                    rm -fv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini
+                    echo "Disabling extension..."
+                    if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled" ]]; then
+                      echo "[ ] $3 extension is already disabled"
+                    else
+                      if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini" ]]; then
+                        mv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled
+                        echo "[ ] $3 extension is disabled"
+                      else
+                        echo "Failed to disable $3 extension. Maybe it's not installed yet?"
+                        return 1
+                      fi
+                    fi
                 ;;
                 *)
                     command $BIN ${*:1}
