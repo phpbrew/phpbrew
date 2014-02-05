@@ -184,7 +184,7 @@ class VariantBuilder
                 return "--with-curl=$prefix";
             }
             if( $prefix = Utils::find_include_prefix('curl/curl.h') ) {
-                return "--with-zlib=$prefix";
+                return "--with-curl=$prefix";
             }
             if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
                 return "--with-curl=$prefix";
