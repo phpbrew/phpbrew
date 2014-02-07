@@ -156,7 +156,9 @@ PATCH;
         $cmd->execute() !== false or die('Configure failed.');
 
         // Then patch Makefile for PHP 5.3.x on 64bit system.
-        if( Utils::support_64bit() && $build->compareVersion('5.4') == -1 && $build->compareVersion('5.2') == 1 ) {
+        $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $this->version);
+
+        if( Utils::support_64bit() && version_compare($currentVersion, '5.3', '==')) {
             $this->logger->info("===> Applying patch file for php5.3.x on 64bit machine.");
             system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
             system('sed -i \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
