@@ -7,3 +7,11 @@ is_phpbrew_active() {
     return 1
   fi
 }
+
+get_current_php_major_version() {
+  echo ${PHPBREW_PHP%.[0-9]*}
+}
+
+is_version_lower_than() {
+  [ "$1" = "$2" ] && return 1 || [  "$1" = "$(echo -e "$1\n$2" | sort | head -n1)" ]
+}
