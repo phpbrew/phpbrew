@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+is_phpbrew_active() {
+  if [[ -n "$PHPBREW_PHP" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
