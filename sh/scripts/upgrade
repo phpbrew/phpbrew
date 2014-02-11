@@ -21,7 +21,7 @@ get_major_release_for() {
   latest_minor_version=''
 
   oldIFS="$IFS"
-  all_minor_version=( $(command -p phpbrew known) )
+  all_minor_version=( $(/usr/bin/env phpbrew known) )
   IFS="$oldIFS"
 
   for version in ${all_minor_version[@]}; do
@@ -38,4 +38,25 @@ get_major_release_for() {
   done
 
   echo $latest_minor_version
+}
+
+get_current_variants() {
+  variants=$(php -r "
+  \$variants = unserialize('$(cat $PHPBREW_HOME/php/$PHPBREW_PHP/phpbrew.variants)');
+  if (!empty(\$variants['enabled_variants'])) {
+    foreach (\$variants['enabled_variants'] as \$variant => \$value) {
+      echo '+' . \$variant;
+      if (\$value !== true) {
+        echo '=' . \$value;
+      }
+      echo ' ';
+    }
+  }
+  if (!empty(\$variants['disabled_variants'])) {
+    echo '-' . implode(' -', array_keys(\$variants['disabled_variants'])) . ' ';
+  }
+  if (!empty(\$variants['extra_options'])) {
+    echo ' -- ' . implode(' ', \$variants['extra_options']);
+  }")
+  echo $variants
 }
