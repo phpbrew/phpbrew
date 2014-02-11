@@ -33,6 +33,9 @@ class Console extends Application
 
         $this->registerCommand('remove');
         $this->registerCommand('purge');
+
+        $this->registerCommand('off');
+        $this->registerCommand('switch-off', 'PhpBrew\Command\SwitchOffCommand');
     }
 
     public function brief()
