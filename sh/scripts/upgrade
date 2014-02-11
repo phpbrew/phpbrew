@@ -15,3 +15,27 @@ get_current_php_major_version() {
 is_version_lower_than() {
   [ "$1" = "$2" ] && return 1 || [  "$1" = "$(echo -e "$1\n$2" | sort | head -n1)" ]
 }
+
+get_major_release_for() {
+  major_version="$1"
+  latest_minor_version=''
+
+  oldIFS="$IFS"
+  all_minor_version=( $(command -p phpbrew known) )
+  IFS="$oldIFS"
+
+  for version in ${all_minor_version[@]}; do
+    version=${version%,}
+    if [[ "$version" =~ ^${major_version#php-}.[0-9]+$ ]]; then
+      if [[ -n "$latest_minor_version" ]]; then
+        if [ $(is_version_lower_than "$latest_minor_version" "$version") ]; then
+          latest_minor_version=$version
+        fi
+      else
+        latest_minor_version=$version
+      fi
+    fi
+  done
+
+  echo $latest_minor_version
+}
