@@ -60,3 +60,5 @@ get_current_variants() {
   }")
   echo $variants
 }
+
+phpbrew install $(get_major_release_for $(get_current_php_major_version)) $(get_current_variants)
