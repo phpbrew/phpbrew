@@ -21,7 +21,7 @@ get_major_release_for() {
   latest_minor_version=''
 
   oldIFS="$IFS"
-  all_minor_version=( $(/usr/bin/env phpbrew known) )
+  all_minor_version=( $(phpbrew known) )
   IFS="$oldIFS"
 
   for version in ${all_minor_version[@]}; do
