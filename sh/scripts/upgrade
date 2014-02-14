@@ -65,4 +65,11 @@ get_installed_exts() {
   ls $PHPBREW_HOME/php/$PHPBREW_PHP/var/db | sed -ne 's/\([^.]*\)\.ini/\1/pg'
 }
 
-phpbrew install $(get_major_release_for $(get_current_php_major_version)) $(get_current_variants)
+current_php_version=${PHPBREW_PHP#php-}
+new_php_version=$(get_major_release_for $(get_current_php_major_version))
+
+phpbrew install $new_php_version $(get_current_variants)
+
+phpbrew use $new_php_version
+get_installed_exts | awk '{ system("phpbrew ext install "$1) }'
+phpbrew use $current_php_version
