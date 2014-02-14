@@ -20,3 +20,12 @@ phpbrew() {
   fi
   return 0
 }
+
+ls() {
+  if test "$1" = "$PHPBREW_HOME/php/$PHPBREW_PHP/var/db"
+  then
+    echo "curl.ini openssl.ini xdebug.ini"
+  else
+    command -p ls $*
+  fi
+}

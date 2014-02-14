@@ -61,4 +61,8 @@ get_current_variants() {
   echo $variants
 }
 
+get_installed_exts() {
+  ls $PHPBREW_HOME/php/$PHPBREW_PHP/var/db | sed -ne 's/\([^.]*\)\.ini/\1/pg'
+}
+
 phpbrew install $(get_major_release_for $(get_current_php_major_version)) $(get_current_variants)

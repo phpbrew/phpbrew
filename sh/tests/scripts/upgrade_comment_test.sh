@@ -19,3 +19,6 @@ get_major_release_for php-5.3 # match=/^5.3.28$/
 
 ## can get current php variants
 get_current_variants # match=/^\+pdo \+mysql \+pgsql=/opt/local/lib/postgresql92/bin \+fpm \+sqlite \+pcntl \+posix \+gettext \+intl \+openssl \+default -pgsql -- --with-icu-dir=/opt/local --with-mcrypt=/opt/local --enable-maintainer-zts --enable-debug$/
+
+## can list ext-installed extensions
+get_installed_exts # match=/^curl openssl xdebug$/
