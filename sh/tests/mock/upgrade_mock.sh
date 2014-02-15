@@ -33,3 +33,7 @@ ls() {
 awk() {
   return 0
 }
+
+cp() {
+  return 0
+}
