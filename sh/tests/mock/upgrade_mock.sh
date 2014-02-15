@@ -29,3 +29,7 @@ ls() {
     command -p ls $*
   fi
 }
+
+awk() {
+  return 0
+}
