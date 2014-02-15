@@ -13,6 +13,7 @@ class Console extends Application
         $this->registerCommand('init');
         $this->registerCommand('known');
         $this->registerCommand('install');
+        $this->registerCommand('upgrade');
         $this->registerCommand('list');
         $this->registerCommand('use');
         $this->registerCommand('switch');
