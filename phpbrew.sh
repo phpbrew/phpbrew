@@ -357,6 +357,10 @@ function phpbrew ()
               __phpbrew_remove_purge $2 purge
             fi
             ;;
+        upgrade)
+            shift
+            source $PHPBREW_HOME/sh/scripts/upgrade $*
+            ;;
         *)
             command $BIN $short_option "$@"
             exit_status=$?
