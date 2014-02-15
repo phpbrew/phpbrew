@@ -77,6 +77,12 @@ done
 current_php_version=${PHPBREW_PHP#php-}
 new_php_version=$(__get_major_release_for $(__get_current_php_major_version))
 
+if test "$current_php_version" = "$new_php_version"
+then
+  echo "You are already up-to-date!"
+  return 0
+fi
+
 phpbrew install $new_php_version $(__get_current_variants)
 
 if test -d $PHPBREW_HOME/php/php-$1/var/db
