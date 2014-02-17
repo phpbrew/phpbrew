@@ -107,6 +107,11 @@ function phpbrew ()
                     _PHP_VERSION="php-$2"
                 fi
 
+                if [[ $_PHP_VERSION =~ ^php-[0-9]*\.[0-9]*$ ]]
+                then
+                  _PHP_VERSION=$(find $PHPBREW_HOME/php -name "$_PHP_VERSION*" -maxdepth 1 | sort -nr | head -1 | sed "s/${PHPBREW_HOME//\//\\/}\/php\///")
+                fi
+
                 # checking php version exists?
                 NEW_PHPBREW_PHP_PATH="$PHPBREW_ROOT/php/$_PHP_VERSION"
                 if [ -d $NEW_PHPBREW_PHP_PATH ]; then
@@ -399,6 +404,12 @@ function __phpbrew_reinit ()
     else
         local _PHP_VERSION="php-$1"
     fi
+
+    if [[ $_PHP_VERSION =~ ^php-[0-9]*\.[0-9]*$ ]]
+    then
+      _PHP_VERSION=$(find $PHPBREW_HOME/php -name "$_PHP_VERSION*" -maxdepth 1 | sort -nr | head -1 | sed "s/${PHPBREW_HOME//\//\\/}\/php\///")
+    fi
+
     if [[ ! -d "$PHPBREW_HOME" ]]
     then
         mkdir -p -p "$PHPBREW_HOME"
