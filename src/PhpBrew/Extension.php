@@ -43,6 +43,7 @@ class Extension implements ExtensionInterface
     public function install($version = 'stable', array $options = array())
     {
         $this->logger->quiet();
+        $this->disable();
         $this->logger->setLevel(4);
 
         $installer = new ExtensionInstaller($this->logger);
@@ -121,6 +122,33 @@ class Extension implements ExtensionInterface
         return false;
     }
 
+    /**
+     * Disables ini file for current extension
+     * @return boolean
+     */
+    public function disable()
+    {
+        $name = $this->meta->getName();
+        $enabled_file = $this->meta->getIniFile();
+        $disabled_file = $enabled_file . '.disabled';
+
+        if (file_exists($disabled_file)) {
+            $this->logger->info("[ ] {$name} extension is already disabled.");
+
+            return true;
+        }
+
+        if (file_exists($enabled_file)) {
+            if (rename($enabled_file, $disabled_file)) {
+                $this->logger->info("[ ] {$name} extension is disabled.");
+
+                return true;
+            }
+            $this->logger->warning("failed to disable {$name} extension.");
+        }
+
+        return false;
+    }
     /**
      * Disable extensions known to conflict with current one
      */
