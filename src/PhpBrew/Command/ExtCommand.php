@@ -23,7 +23,6 @@ class ExtCommand extends Command
         // $this->registerCommand('enable','PhpBrew\\Command\\ExtCommand\\EnableCommand');
         $this->registerCommand('enable');
         $this->registerCommand('install');
-        $this->registerCommand('disable');
     }
 
     public function execute()

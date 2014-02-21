@@ -1,12 +1,5 @@
 #!/usr/bin/env php
 <?php
-define('ROOT', dirname(__DIR__) );
-require 'vendor/pear/Universal/ClassLoader/BasePathClassLoader.php';
-$loader = new \Universal\ClassLoader\BasePathClassLoader( array(
-    ROOT . '/src', 
-    ROOT . '/vendor/pear' 
-));
-$loader->useIncludePath(false);
-$loader->register();
+$loader = require 'vendor/autoload.php';
 $console = new PhpBrew\Console;
 $console->run( $argv );

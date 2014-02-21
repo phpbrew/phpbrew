@@ -47,6 +47,12 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
+
+    /**
+     * A build prefix is the prefix we specified when we install the PHP.
+     *
+     * @return string
+     */
     static function getBuildPrefix()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';

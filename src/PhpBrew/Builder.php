@@ -70,6 +70,9 @@ class Builder
         $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
         $args[] = "--with-pear={$prefix}/lib/php";
 
+        // this is to support pear
+        $build->enableVariant('xml');
+
 
         $variantOptions = $variantBuilder->build($build);
         if( $variantOptions )
@@ -84,6 +87,42 @@ class Builder
             $this->logger->info("===> Applying patch file from $patchFile ...");
             system("patch -p0 < $patchFile");
         }
+
+
+        /**
+         * https://bugs.php.net/bug.php?id=66198
+         */
+        $this->logger->info("===> Applying patch file for freetype include path bug...");
+        $freetypeIncludePathPatch =<<<'PATCH'
+--- configure	2013-12-04 17:55:13.000000000 +0800
++++ configure.new	2013-12-04 17:54:54.000000000 +0800
+@@ -39213,6 +39213,11 @@
+         FREETYPE2_INC_DIR=$i/include/freetype2
+         break
+       fi
++      if test -f "$i/include/freetype2/freetype.h"; then
++        FREETYPE2_DIR=$i
++        FREETYPE2_INC_DIR=$i/include/freetype2
++        break
++      fi
+     done
+
+     if test -z "$FREETYPE2_DIR"; then
+@@ -41390,6 +41395,11 @@
+         FREETYPE2_INC_DIR=$i/include/freetype2
+         break
+       fi
++      if test -f "$i/include/freetype2/freetype.h"; then
++        FREETYPE2_DIR=$i
++        FREETYPE2_INC_DIR=$i/include/freetype2
++        break
++      fi
+     done
+
+     if test -z "$FREETYPE2_DIR"; then
+PATCH;
+        file_put_contents("freetype-include-path.patch", $freetypeIncludePathPatch);
+        system("patch -p0 < freetype-include-path.patch");
 
 
         // let's apply patch for libphp{php version}.so (apxs)
@@ -117,7 +156,9 @@ class Builder
         $cmd->execute() !== false or die('Configure failed.');
 
         // Then patch Makefile for PHP 5.3.x on 64bit system.
-        if( Utils::support_64bit() && $build->compareVersion('5.4') == -1 ) {
+        $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $this->version);
+
+        if( Utils::support_64bit() && version_compare($currentVersion, '5.3', '==')) {
             $this->logger->info("===> Applying patch file for php5.3.x on 64bit machine.");
             system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
             system('sed -i \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');

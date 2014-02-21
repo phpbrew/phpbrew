@@ -4,8 +4,8 @@ use CLIFramework\Application;
 
 class Console extends Application
 {
-    const name = 'phpbrew';
-    const VERSION = "1.8.19";
+    const NAME = 'phpbrew';
+    const VERSION = "1.13.1";
 
     public function init()
     {
@@ -21,7 +21,8 @@ class Console extends Application
         $this->registerCommand('env');
         $this->registerCommand('ext');
         $this->registerCommand('variants');
-        $this->registerCommand('config');
+        $this->registerCommand('path');
+        $this->registerCommand('cd');
         $this->registerCommand('download');
         $this->registerCommand('clean');
 
@@ -32,6 +33,9 @@ class Console extends Application
 
         $this->registerCommand('remove');
         $this->registerCommand('purge');
+
+        $this->registerCommand('off');
+        $this->registerCommand('switch-off', 'PhpBrew\Command\SwitchOffCommand');
     }
 
     public function brief()

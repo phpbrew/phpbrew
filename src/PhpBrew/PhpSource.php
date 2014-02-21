@@ -21,6 +21,7 @@ class PhpSource
         return array(
             'stas' => 'Stanislav Malyshev',
             'dsp' => 'David Soria Parra',
+            'tyrael' => 'Ferenc Kovács'
         );
     }
 
@@ -63,7 +64,7 @@ class PhpSource
                 continue;
             }
 
-            $baseUrl = 'http://www.php.net/distributions/';
+            $baseUrl = 'http://www.php.net/get/{php-version}/from/this/mirror';
             $dom = new DOMDocument;
             @$dom->loadHtml( $html );
             $items = $dom->getElementsByTagName('a');
@@ -75,7 +76,7 @@ class PhpSource
                     }
                     $version = 'php-' . $regs[1];
                     if( strpos($link, '/') === 0 ) {
-                        $link = $baseUrl . $version . '.tar.bz2';
+                        $link = str_replace("{php-version}", $version . '.tar.bz2', $baseUrl);
                     }
                     $versions[$version] = array( 'url' => $link );
                 }

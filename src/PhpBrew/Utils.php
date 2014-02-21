@@ -22,68 +22,123 @@ class Utils
         }
     }
 
-    static function get_extension_config_path($extname)
+    /**
+     * Find bin from prefix list
+     */
+    static function find_bin_by_prefix($bin)
     {
-        // create extension config file
-        $path = Config::getCurrentPhpConfigScanPath() . DIRECTORY_SEPARATOR . $extname . '.ini';
-        if ( ! file_exists( dirname($path) ) ) {
-            mkdir(dirname($path),0755,true);
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            $binpath = $prefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
+            if ( file_exists($binpath) ) {
+                return $binpath;
+            }
+            $binpath = $prefix . DIRECTORY_SEPARATOR . 'sbin' . DIRECTORY_SEPARATOR . $bin;
+            if ( file_exists($binpath) ) {
+                return $binpath;
+            }
         }
-        return $path;
     }
 
-    static function enable_extension($extname, $zendpath = '')
-    {
-        // create extension config file
-        $configPath = self::get_extension_config_path($extname);
 
-        if ( file_exists($configPath) ) {
-            $lines = file($configPath);
-            foreach( $lines as &$line ) {
-                if ( preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs ) ) {
-                    $line = $regs[1];
+    static function find_libdir()
+    {
+        $prefixes = array(
+            '/opt',
+            '/opt/local',
+            '/usr',
+            '/usr/local',
+        );
+        if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
+            $paths = explode(':', $pathstr);
+            foreach( $paths as $path ) {
+                $prefixes[] = $path;
+            }
+        }
+        $prefixes = array_reverse($prefixes);
+
+        foreach( $prefixes as $prefix ) {
+            if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
+                return "lib/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+                return "lib/i386-linux-gnu";
+            }
+        }
+    }
+
+    static function get_lookup_prefixes() 
+    {
+        $prefixes = array(
+            '/opt',
+            '/opt/local',
+            '/usr',
+            '/usr/local',
+        );
+
+        if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
+            $paths = explode(':', $pathstr);
+            foreach( $paths as $path ) {
+                $prefixes[] = $path;
+            }
+        }
+
+        // if there is lib path, insert it to the end.
+        foreach( $prefixes as $prefix ) {
+            if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
+                $prefixes[] = "$prefix/lib/x86_64-linux-gnu";
+            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+                $prefixes[] = "$prefix/lib/i386-linux-gnu";
+            } 
+        }
+        return array_reverse($prefixes);
+    }
+
+    
+
+    /**
+     * Return the actual header file path from the lookup prefixes.
+     *
+     * @param string $hfile the header file name
+     * @return string full qualified header file path
+     */
+    static function find_include_path()
+    {
+        $files = func_get_args();
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            foreach( $files as $file ) {
+                $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
+                $path = $dir . DIRECTORY_SEPARATOR . $file;
+                if ( file_exists($path) ) {
+                    return $dir;
                 }
             }
-            file_put_contents($configPath, join("\n", $lines) );
-            return $configPath;
-        } else {
-            if( $zendpath ) {
-                $content = "zend_extension=$zendpath";
-            } else {
-                $content = "extension=$extname.so";
+        }
+    }
+
+    static function find_lib_prefix() {
+        $files = func_get_args();
+        $prefixes = self::get_lookup_prefixes();
+        foreach( $prefixes as $prefix ) {
+            foreach( $files as $file ) {
+                $p = $prefix . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file;
+                if ( file_exists($p) ) {
+                    return $prefix;
+                }
             }
-            file_put_contents($configPath,$content);
-            return $configPath;
         }
-        return false;
     }
 
-    static function find_include_path($hfile)
+    static function find_include_prefix()
     {
-        $prefixes = array('/usr', '/opt', '/usr/local', '/opt/local' );
+        $files = func_get_args();
+        $prefixes = self::get_lookup_prefixes();
         foreach( $prefixes as $prefix ) {
-            $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
-            $path = $dir . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($path) )
-                return $dir;
-        }
-
-    }
-
-
-    static function find_include_prefix($hfile)
-    {
-        // TODO: phpbrew can be smarter (add brew path for detection here)
-        $prefixes = array(
-            '/usr',
-            '/opt', 
-            '/usr/local', 
-            '/opt/local',
-        );
-        foreach( $prefixes as $prefix ) {
-            $p = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $hfile;
-            if( file_exists($p) )
-                return $prefix;
+            foreach( $files as $file ) {
+                if ( file_exists($prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file) ) {
+                    return $prefix;
+                }
+            }
         }
     }
 
@@ -103,6 +158,12 @@ class Utils
         }
     }
 
+    /**
+     * Find executable binary by PATH environment.
+     *
+     * @param string $bin binary name
+     * @return string the path
+     */
     static function findbin($bin)
     {
         $path = getenv('PATH');
@@ -110,6 +171,9 @@ class Utils
         foreach( $paths as $path ) {
             $f = $path . DIRECTORY_SEPARATOR . $bin;
             if( file_exists($f) ) {
+                while ( is_link($f) ) {
+                    $f = readlink($f);
+                }
                 return $f;
             }
         }

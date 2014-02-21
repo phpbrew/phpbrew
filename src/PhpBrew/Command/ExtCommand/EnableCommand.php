@@ -1,8 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtCommand;
-use PhpBrew\Utils;
-use PhpBrew\Config;
-use Exception;
+use PhpBrew\Extension;
 
 class EnableCommand extends \CLIFramework\Command
 {
@@ -10,14 +8,9 @@ class EnableCommand extends \CLIFramework\Command
 
     public function brief() { return 'Enable PHP extension'; }
 
-    public function execute($extensionName)
+    public function execute($extname)
     {
-        if( ! extension_loaded($extensionName) ) {
-            $path = Utils::enable_extension($extensionName);
-            $this->logger->debug("Writing extension config file: $path");
-            $this->logger->info("$extensionName is enabled now.");
-        } else {
-            $this->logger->info("$extensionName is already enabled.");
-        }
+        $extension = new Extension($extname, $this->logger);
+        $extension->enable();
     }
 }

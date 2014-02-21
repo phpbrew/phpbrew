@@ -3,14 +3,14 @@ PHPBrew
 
 PHPBrewは異なるバージョンのPHPをホームディレクトリにビルド（build）とインストールすることができます。
 
-環境変数の管理もでき、個人の需要に応じてバージョンを切り替えて利用することが可能です。
+環境変数の管理もでき、個人の需要に応じてバージョンを切り替えて使うことが出来ます。
 
 PHPBrewのできること：:
 
 - PDO、mysql、sqlite、debugなど様々なバリアント（variant）を持つPHPをビルドします。
-- apache phpモジュールをコンパイルし、ヴァージョンごとに分けます。
+- apacheモジュールをコンパイルし、バージョンごとに分けます。
 - 異なるバージョンのphpをホームディレクトリにインストールするので、ルートパーミッション（root permission）は必要なくなります。
-- 簡易にバージョンを切り替えることができます。しかもbash/zshシェルと統合されました。
+- 簡単にバージョンを切り替えることができます。しかもbash/zshシェルと統合されました。
 - 自動機能検知。
 - system-wide環境に複数のPHPバージョンをインストールできます。
 
@@ -19,43 +19,43 @@ PHPBrewのできること：:
 <img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/03.png"/>
 
 
-## 支援OS
+## 動作確認環境 (support OS)
 
 * Mac OS 10.5+
 * Ubuntu
 * Debian
 
-## 必須環境
+## 必要環境
 
 * PHP5.3
 * curl
 * gcc, binutil, autoconf, libxml, zlib, readline
 
-### Mac OS X 必須環境
+### Mac OS X
 
-MacPorts使用者：
+MacPorts：
 
 ```bash
 port install curl automake autoconf icu $(port echo depof:php5)
 ```
 
-HomeBrew使用者：
+HomeBrew：
 
 ```bash
-brew install automake autoconf curl pcre re2c mhash glibtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
+brew install automake autoconf curl pcre re2c mhash libtool icu4c gettext jpeg libxml2 mcrypt gmp libevent
 brew link icu4c
 ```
 
-### Ubuntu/Debian必須環境
+### Ubuntu/Debian
 
 ```bash
 sudo apt-get install autoconf automake curl build-essential libxslt1-dev re2c libxml2-dev
 sudo apt-get build-dep php5
 ```
 
-### Cent OS必須環境
+### Cent OS
 
-Cent OS必須環境の設定
+Cent OSの設定
 
 ```bash
 sudo rpm -Uvh http://repo.webtatic.com/yum/centos/5/latest.rpm
@@ -80,7 +80,7 @@ sudo cp phpbrew /usr/bin/phpbrew
 ```
 
 
-## 基本用法
+## 基本的な使い方
 
 まずはシェル環境にbash scriptをInitします。
 
@@ -105,7 +105,7 @@ Available stable versions:
     php-5.3.7
 ```
 
-既知のサブバージョンを一覧表示します：
+既知のsvnを含んだバージョンを一覧表示します：
 
 ```bash
 $ phpbrew known --svn
@@ -146,7 +146,7 @@ $ phpbrew -d install --test php-5.4.0
 
 ## バリアント（variants）
 
-PHPBrewはConfigureオプションを管理できます。VARIANTのクラス名を指定するだけで、PHPBrewはincludeパスとオプションを検知します。
+PHPBrewはConfigureオプションを管理します。VARIANTのクラス名を指定するだけで、PHPBrewはincludeパスとオプションを検知します。
 
 PHPBrewは常用のVARIANTクラスを収録し、デフォルトのVARIANTセットを提供しています。
 収録されているVARIANTクラスを確認するには、簡単にサブコマンド`variants`を実行して一覧表示を確認できます：
@@ -185,7 +185,7 @@ Variants:
 
     $ phpbrew install php-5.3.10 +mysql +pgsql +apxs2=/usr/bin/apxs2
 
-PDOはデフォルトで起動されています。
+PDOはデフォルトで有効です。
 
 PHPとpgSQL (Postgresql)拡張モジュールをビルドします：
 
@@ -199,13 +199,13 @@ PHPとpgSQL (Postgresql)拡張モジュールをビルドします：
 注意点：
 
 > 1. apacheのphpモジュールをビルドする場合、
-> モジュールディレクトリのパーミッションを変更してください。
+> モジュールディレクトリのパーミッションを書き込み可能に変更してください。
 > 例： `/opt/local/apache2/modules/`。
-> パーミッションは書き込む可能です。PHPBrewはパーミッションを変更することができます。
-> インストールした後、httpd.conf設定ファイルを確認し、PHPモジュールを切り替わってください。
+> PHPBrewはパーミッションを変更します。
+> インストールした後、httpd.conf設定ファイルを確認し、PHPモジュールを切り替えてください。
 >
-> 2. 現時点PHPBrewはapxs2 (apache2)しか支援しません。
-複数のPHPをインストールした環境の下で`apxs2` VARIANTを有効化したなら、apacheのconfファイルは以下のように示されています：
+> 2. 現在、PHPBrewはapxs2 (apache2) しかサポートしません。
+複数のPHPをインストールした環境の下で`apxs2` VARIANTを有効化したなら、apacheのconfファイルは以下のように設定されています：
 
     # LoadModule php5_module        modules/libphp5.3.10.so
     # LoadModule php5_module        modules/libphp5.4.0.so
@@ -216,32 +216,32 @@ PHPとpgSQL (Postgresql)拡張モジュールをビルドします：
     # LoadModule php5_module        modules/libphp5.4.2.so
     LoadModule php5_module          modules/libphp5.4.4.so
 
-コメント化や非コメント化を利用して簡単にphp5
+コメントイン、コメントアウトをして簡単にphp5
 apacheモジュールを無効化／有効化にすることができます。
 編集したあとは必ずapache http サーバーを再起動してください:)
 
-## エクストラオプション
+## 追加オプション
 
-エクストラconfigure引数を渡すには、以下のようにしてください:
+configureスクリプトに追加の引数を渡すには、以下のようにしてください:
 
     $ phpbrew install php-5.3.10 +mysql +sqlite -- \
       --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
 
-## 使用と切り替え
+## 使用(use)と切り替え(switch)
 
-使用 (switch version temporarily):
+use (一時的なバージョンの切り替え。現在のシェルのみで有効です。):
 
 ```bash
 $ phpbrew use php-5.4.0RC7
 ```
 
-切り替え (特定のバージョンをデフォルトとして切り替えます)
+switch (特定のバージョンをデフォルトとして使用します。):
 
 ```bash
 $ phpbrew switch php-5.4.0
 ```
 
-終了：
+終了 (useやswitchをやめシステムのPHPを使用します。):
 
 ```bash
 $ phpbrew off
@@ -253,7 +253,7 @@ $ phpbrew off
 $ phpbrew list
 ```
 
-## PHPから拡張モジュールをビルドとインストール
+## PHPの拡張モジュールをビルド、インストールする
 
 (インストール手順の後):
 
@@ -285,7 +285,7 @@ PHPBrewをアップグレードする場合、 `self-update` コマンドを実�
 
     ~/.phpbrew/php/5.4.0RC7/etc/php.ini
 
-拡張モジュールの設定ファイルは下記の位置に置く必要があります:
+拡張モジュールの設定ファイルは以下の位置に置く必要があります:
 
     ~/.phpbrew/php/5.4.0RC7/var/db
     ~/.phpbrew/php/5.4.0RC7/var/db/xdebug.ini
@@ -317,7 +317,7 @@ PHPBrew bashrcをソース（source）する。
     phpbrew install php-5.4.5 +default +dbs
 
 これでPHPファイルは /opt/phpbrew の下にインストールされました。
-PHPBrewがビルドしたPHPをユーザーに使用させるには、bashユーザーがphpbrew/bashrcを読み込む前に`PHPBREW_ROOT` 環境を/etc/bashrc または/etc/profile.d/phpbrewにエクスポートする必要があります。。
+PHPBrewがビルドしたPHPをユーザーに使用させるには、bashユーザーがphpbrew/bashrcを読み込む前に`PHPBREW_ROOT` 環境を/etc/bashrc または/etc/profile.d/phpbrewにエクスポートする必要があります。
 
     export PHPBREW_ROOT=/opt/phpbrew
     source /opt/phpbrew/bashrc
@@ -335,7 +335,7 @@ PHPBrewがビルドしたPHPをユーザーに使用させるには、bashユー
 
 PHPバージョン情報をシェルプロンプトに追加するには、`"PHPBREW_SET_PROMPT=1"` 変数を利用してください。
 
-デフォルトは`"PHPBREW_SET_PROMPT=0"` (無効化). 有効化にする場合、`~/.phpbrew/bashrc`をソースする前に、下記の行を`~/.bashrc` ファイルに追加してください。
+デフォルトは`"PHPBREW_SET_PROMPT=0"` (無効)です。 有効化にする場合、`~/.phpbrew/bashrc`をソースする前に、下記の行を`~/.bashrc` ファイルに追加してください。
 
 ```sh
     export PHPBREW_SET_PROMPT=1

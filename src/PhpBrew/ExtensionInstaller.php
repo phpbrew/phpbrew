@@ -32,32 +32,59 @@ class ExtensionInstaller
         $url = $this->findPeclPackageUrl($packageName, $version);
         $downloader = new Downloader\UrlDownloader($this->logger);
         $basename = $downloader->download($url);
-
+        $info = pathinfo($basename);
+        $extension_dir = $info['filename'];
         // extract
         $this->logger->info("===> Extracting $basename...");
         Utils::system("tar xf $basename");
+        Utils::system("mv package.xml $extension_dir    ");
 
-        $info = pathinfo($basename);
-        $dir = $info['filename'];
-
-        return $this->runInstall($packageName, $dir, $configureOptions);
+        return $this->runInstall($packageName, $extension_dir, $configureOptions);
     }
 
     public function runInstall($packageName, $dir, $configureOptions)
     {
-        $sw = new DirectorySwitch;
-        $sw->cd( $dir );
 
         $this->logger->info("===> Phpizing...");
 
-        if ( ! file_exists('config.m4') ) {
-            $this->logger->warn("File config.m4 not found, checking config0.m4");
-            if ( file_exists('config0.m4') ) {
-                $this->logger->info("Found config.0.m4, copying to config.m4");
-                if ( false === copy('config0.m4','config.m4') ) {
-                    throw new Exception("Copy failed.");
-                }
+        $directoryIterator = new \RecursiveDirectoryIterator($dir);
+        $it = new \RecursiveIteratorIterator($directoryIterator);
+
+        $extDir = array();
+        // search for config.m4 or config0.m4 and use them to determine
+        // the directory of the extension's source, because it's not always
+        // the root directory in the ext archive (example xhprof)
+        foreach ($it as $file) {
+            if (basename($file) == 'config.m4') {
+            	$extDir['config.m4'] = dirname(realpath($file));
+            	break;
             }
+
+            if (basename($file) == 'config0.m4') {
+            	$extDir['config0.m4'] = dirname(realpath($file));
+            }
+        }
+
+        if (isset($extDir['config.m4'])) {
+
+            $sw = new DirectorySwitch;
+            $sw->cd($extDir['config.m4']);
+
+        } elseif (isset($extDir['config0.m4'])) {
+
+            $this->logger->warn("File config.m4 not found");
+            $this->logger->info("Found config.0.m4, copying to config.m4");
+
+            $sw = new DirectorySwitch;
+            $sw->cd($extDir['config0.m4']);
+
+            if ( false === copy('config0.m4','config.m4') ) {
+                throw new \Exception("Copy failed.");
+            }
+
+        } else {
+
+        	throw new \Exception('Neither config.m4 nor config0.m4 was found');
         }
 
         Utils::system('phpize > build.log');
@@ -87,28 +114,21 @@ class ExtensionInstaller
 
 
         $this->logger->debug($output);
-        $lines = explode("\n", $output );
 
         $installedPath = null;
-        foreach( $lines as $line ) {
-            if( preg_match('#Installing shared extensions:\s+(\S+)#',$line, $regs) ) {
-                $installedPath = $regs[1];
-                break;
-            }
+        if( preg_match('#Installing shared extensions:\s+(\S+)#', $output, $regs) ) {
+            $installedPath = $regs[1];
         }
-
 
         $installedPath .= strtolower($packageName) . '.so';
         $this->logger->debug("Installed extension: " . $installedPath);
-
 
         // Try to find the installed path by pattern
         // Installing shared extensions:     /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
         $sw->back();
 
         $this->logger->info("===> Extension is installed.");
-        return $installedPath;
+        return $dir . '/package.xml';
     }
 
 }
-

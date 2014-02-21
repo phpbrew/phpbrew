@@ -15,17 +15,18 @@ use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Build;
 use PhpBrew\DirectorySwitch;
+use CLIFramework\Command;
 
 
 /*
  * TODO: refactor tasks to Task class.
  */
 
-class InstallCommand extends \CLIFramework\Command
+class InstallCommand extends Command
 {
     public function brief() { return 'install php'; }
 
-    public function usage() 
+    public function usage()
     {
         return 'phpbrew install [php-version] ([+variant...])';
     }
@@ -41,12 +42,17 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('patch:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
+        $opts->add('like:', 'inherit variants from previous build');
+        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
     }
 
     public function execute($version)
     {
         if( ! preg_match('/^php-/', $version) )
             $version = 'php-' . $version;
+
+        if ( preg_match('/^php-5.[3-5]$/', $version) )
+            $version = 'php-' . $this->getLatestMinorVersion($version);
 
         $options = $this->options;
         $logger = $this->logger;
@@ -58,15 +64,22 @@ class InstallCommand extends \CLIFramework\Command
 
         $name = $this->options->name ?: $version;
 
+        // find inherited variants
+        $inheritedVariants = array();
+        if ($this->options->like) {
+            $inheritedVariants = VariantParser::getInheritedVariants($this->options->like);
+        }
+
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
         // ['disabled_variants'] => disabled variants
-        $variantInfo = VariantParser::parseCommandArguments($args);
+        $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
 
         $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if( ! $info)
+        if ( ! $info) {
             throw new Exception("Version $version not found.");
+        }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
@@ -147,7 +160,7 @@ class InstallCommand extends \CLIFramework\Command
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
-        $buildTask->build();
+        $buildTask->build(null, $options->{'make-jobs'});
 
         if( $options->{'test'} ) {
             $test = new TestTask($this->logger);
@@ -175,24 +188,36 @@ class InstallCommand extends \CLIFramework\Command
             rename( $dSYM , $php );
         }
 
+        if ( ! file_exists( Config::getVersionEtcPath($version) ) ) {
+            $this->logger->info("---> Preparing config directory...");
+            mkdir( Config::getVersionEtcPath($version) , 0755 , true );
+        }
 
 
-        $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
-        $this->logger->info("---> Copying $phpConfigFile ");
-        if( file_exists($phpConfigFile) ) {
-            if( ! file_exists( Config::getVersionEtcPath($version) ) )
-                mkdir( Config::getVersionEtcPath($version) , 0755 , true );
+        // copy php-fpm config
+        $this->logger->info("---> Creating php-fpm.conf");
+        $phpfpmConfigPath = "sapi/fpm/php-fpm.conf";
+        $phpfpmTargetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php-fpm.conf';
+        if ( file_exists($phpfpmConfigPath) ) {
+            if ( ! file_exists( $phpfpmTargetConfigPath ) ) {
+                copy($phpfpmConfigPath, $phpfpmTargetConfigPath);
+            } else {
+                $this->logger->notice("Found existing $phpfpmTargetConfigPath.");
+            }
+        }
 
+
+        $phpConfigPath = $options->production ? 'php.ini-production' : 'php.ini-development';
+        $this->logger->info("---> Copying $phpConfigPath ");
+        if( file_exists($phpConfigPath) ) {
             $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
             if( file_exists($targetConfigPath) ) {
-                $this->logger->notice("$targetConfigPath exists, do not overwrite.");
-            }
-            else {
+                $this->logger->notice("Found existing $targetConfigPath.");
+            } else {
 
                 // TODO: Move this to PhpConfigPatchTask
-
                 // move config file to target location
-                rename( $phpConfigFile , $targetConfigPath );
+                copy( $phpConfigPath , $targetConfigPath );
 
                 // replace current timezone
                 $timezone = ini_get('date.timezone');
@@ -215,7 +240,21 @@ class InstallCommand extends \CLIFramework\Command
             }
         }
 
-        $this->logger->info("Source directory: " . $targetDir );
+        $this->logger->info("Initializing pear config...");
+        $home = Config::getPhpbrewHome();
+
+        @mkdir("$home/tmp/pear/temp", 0755, true);
+        @mkdir("$home/tmp/pear/cache_dir", 0755, true);
+        @mkdir("$home/tmp/pear/download_dir", 0755, true);
+
+        system("pear config-set temp_dir $home/tmp/pear/temp");
+        system("pear config-set cache_dir $home/tmp/pear/cache_dir");
+        system("pear config-set download_dir $home/tmp/pear/download_dir");
+
+        $this->logger->info("Enabling pear auto-discover...");
+        system("pear config-set auto_discover 1");
+
+        $this->logger->debug("Source directory: " . $targetDir );
 
         $this->logger->info("Congratulations! Now you have PHP with $version.");
 
@@ -231,6 +270,19 @@ Or you can use switch command to switch your default php version to $version:
 Enjoy!
 EOT;
 
+    }
+
+    private function getLatestMinorVersion($majorVersion)
+    {
+        $latestMinorVersion = '';
+        foreach (array_keys(PhpSource::getStableVersions()) as $version) {
+            if (strpos($version, $majorVersion) === 0) {
+                $latestMinorVersion = $version;
+                break;
+            }
+        }
+
+        return $latestMinorVersion;
     }
 }
 
