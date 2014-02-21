@@ -362,6 +362,10 @@ function phpbrew ()
               __phpbrew_remove_purge $2 purge
             fi
             ;;
+        upgrade)
+            shift
+            __phpbrew_upgrade $*
+            ;;
         *)
             command $BIN $short_option "$@"
             exit_status=$?
@@ -466,4 +470,107 @@ function __phpbrew_remove_purge ()
     fi
 
     return 0
+}
+
+__is_phpbrew_active() {
+  if [[ -n "$PHPBREW_PHP" ]]; then
+return 0
+  else
+return 1
+  fi
+}
+
+__get_current_php_major_version() {
+  echo ${PHPBREW_PHP%.[0-9]*}
+}
+
+__is_version_lower_than() {
+  [ "$1" = "$2" ] && return 1 || [ "$1" = "$(echo -e "$1\n$2" | sort | head -n1)" ]
+}
+
+__get_major_release_for() {
+  major_version="$1"
+  latest_minor_version=''
+
+  oldIFS="$IFS"
+  all_minor_version=( $(phpbrew known) )
+  IFS="$oldIFS"
+
+  for version in ${all_minor_version[@]}; do
+version=${version%,}
+    if [[ "$version" =~ ^${major_version#php-}.[0-9]+$ ]]; then
+if [[ -n "$latest_minor_version" ]]; then
+if [ $(__is_version_lower_than "$latest_minor_version" "$version") ]; then
+latest_minor_version=$version
+        fi
+else
+latest_minor_version=$version
+      fi
+fi
+done
+
+echo $latest_minor_version
+}
+
+__get_current_variants() {
+  variants=$(php -r "
+\$variants = unserialize('$(cat $PHPBREW_HOME/php/$PHPBREW_PHP/phpbrew.variants)');
+if (!empty(\$variants['enabled_variants'])) {
+foreach (\$variants['enabled_variants'] as \$variant => \$value) {
+echo '+' . \$variant;
+if (\$value !== true) {
+echo '=' . \$value;
+}
+echo ' ';
+}
+}
+if (!empty(\$variants['disabled_variants'])) {
+echo '-' . implode(' -', array_keys(\$variants['disabled_variants'])) . ' ';
+}
+if (!empty(\$variants['extra_options'])) {
+echo ' -- ' . implode(' ', \$variants['extra_options']);
+}")
+  echo $variants
+}
+
+__get_installed_exts() {
+  ls $PHPBREW_HOME/php/php-$1/var/db | sed -ne 's/\([^.]*\)\.ini\(\.disabled\)*/\1/pg'
+}
+
+__phpbrew_upgrade() {
+    keep_current=false
+
+    while getopts "k" option
+    do
+    case $option in
+            k) keep_current=true;;
+        esac
+    done
+
+    current_php_version=${PHPBREW_PHP#php-}
+    new_php_version=$(__get_major_release_for $(__get_current_php_major_version))
+
+    if test "$current_php_version" = "$new_php_version"
+    then
+        echo "You are already up-to-date!"
+        return 0
+    fi
+
+    phpbrew install $new_php_version $(__get_current_variants)
+
+    if test -d $PHPBREW_HOME/php/php-$1/var/db
+    then
+        phpbrew use $new_php_version
+        __get_installed_exts $current_php_version | awk '{ system("phpbrew ext install "$1) }'
+        phpbrew use $current_php_version
+    fi
+
+    cp -RPp $PHPBREW_HOME/php/php-$current_php_version/etc/* $PHPBREW_HOME/php/php-$new_php_version/etc
+
+    phpbrew switch $new_php_version
+
+    if test $keep_current = false
+    then
+        phpbrew purge $current_php_version
+    fi
 }
