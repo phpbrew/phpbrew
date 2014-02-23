@@ -583,14 +583,11 @@ class VariantBuilder
             }
         }
 
-        if ( $prefix = Utils::find_lib_prefix('i386-linux-gnu') ) {
-            $this->addOptions("--with-libdir=lib/i386-linux-gnu");
-        } else if ( $prefix = Utils::find_lib_prefix('x86_64-linux-gnu') ) {
+        if ( $prefix = Utils::find_lib_prefix('x86_64-linux-gnu') ) {
             $this->addOptions("--with-libdir=lib/x86_64-linux-gnu");
+        } else if ( $prefix = Utils::find_lib_prefix('i386-linux-gnu') ) {
+            $this->addOptions("--with-libdir=lib/i386-linux-gnu");
         }
-
-
-
 
         // enable/expand virtual variants
         foreach( $this->virtualVariants as $name => $variantNames ) {
