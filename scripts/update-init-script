@@ -5,11 +5,14 @@ local $/ = undef;
 my $sh = <FH>;
 close FH;
 
-$sh ="// SHBLOCK {{{
-        return <<<'EOS'
+$sh =<<"END";
+// SHBLOCK {{{
+    return <<<'EOS'
 $sh
 EOS;
-// SHBLOCK }}}";
+// SHBLOCK }}}
+END
+
 
 open FH , "src/PhpBrew/Command/InitCommand.php";
 local $/ = undef;
@@ -21,6 +24,7 @@ $php =~ s!
         (.*) 
 (//\s*SHBLOCK\s*}}})
 !$sh!xmsg;
+
 
 open OUT, ">", "src/PhpBrew/Command/InitCommand.php";
 print OUT $php;
