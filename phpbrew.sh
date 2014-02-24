@@ -512,27 +512,6 @@ done
 echo $latest_minor_version
 }
 
-__get_current_variants() {
-  variants=$(php -r "
-\$variants = unserialize('$(cat $PHPBREW_HOME/php/$PHPBREW_PHP/phpbrew.variants)');
-if (!empty(\$variants['enabled_variants'])) {
-foreach (\$variants['enabled_variants'] as \$variant => \$value) {
-echo '+' . \$variant;
-if (\$value !== true) {
-echo '=' . \$value;
-}
-echo ' ';
-}
-}
-if (!empty(\$variants['disabled_variants'])) {
-echo '-' . implode(' -', array_keys(\$variants['disabled_variants'])) . ' ';
-}
-if (!empty(\$variants['extra_options'])) {
-echo ' -- ' . implode(' ', \$variants['extra_options']);
-}")
-  echo $variants
-}
-
 __get_installed_exts() {
   ls $PHPBREW_HOME/php/php-$1/var/db | sed -ne 's/\([^.]*\)\.ini\(\.disabled\)*/\1/pg'
 }
@@ -556,7 +535,7 @@ __phpbrew_upgrade() {
         return 0
     fi
 
-    phpbrew install $new_php_version $(__get_current_variants)
+    phpbrew install --like $current_php_version $new_php_version
 
     if test -d $PHPBREW_HOME/php/php-$1/var/db
     then
