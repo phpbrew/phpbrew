@@ -52,7 +52,7 @@ class InstallCommand extends Command
             $version = 'php-' . $version;
 
         if ( preg_match('/^php-5.[3-5]$/', $version) )
-            $version = 'php-' . $this->getLatestMinorVersion($version);
+            $version = $this->getLatestMinorVersion($version);
 
         $options = $this->options;
         $logger = $this->logger;
