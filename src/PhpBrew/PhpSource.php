@@ -26,10 +26,29 @@ class PhpSource
         );
     }
 
+    static function readFromUrl($url)
+    {
+        if (isset($_SERVER['http_proxy'])) {
+            list($proxyHost, $proxyPort) = explode(":", str_replace('http://', '', $_SERVER['http_proxy']));
+            $opts = array(
+                'http'=>array(
+                    'proxy' => sprintf('tcp://%s:%s', $proxyHost, $proxyPort),
+                    'request_fulluri' => true
+                )
+            );
+            $streamContext = stream_context_create($opts);
+
+        } else {
+            $streamContext = null;
+        }
+
+        return file_get_contents($url, false, $streamContext);
+    }
+
     static function getReleaseManagerVersions($id)
     {
         $baseUrl = "http://downloads.php.net/$id/";
-        $html = file_get_contents($baseUrl);
+        $html = self::readFromUrl($baseUrl);
         $dom = new DOMDocument;
         $dom->loadHtml( $html );
 
@@ -59,7 +78,7 @@ class PhpSource
         $versions = array();
 
         foreach( $downloadUrls as $downloadUrl ) {
-            $html = @file_get_contents($downloadUrl);
+            $html = self::readFromUrl($downloadUrl);
             if( ! $html ) {
                 echo "connection eror: $downloadUrl\n";
                 continue;
