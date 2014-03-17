@@ -79,7 +79,14 @@ class Extension implements ExtensionInterface
             }
             file_put_contents($ini, join('', $lines) );
         } else {
-            $this->meta->isZend() ? $content = "zend_extension=" :  $content = "extension=";
+            if ($this->meta->isZend()) {
+                $makefile = file_get_contents("$path/Makefile");
+                preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
+
+                $content = "zend_extension={$regs[1]}/";
+            } else {
+                $content = "extension=";
+            }
             file_put_contents($ini, $content . $this->meta->getSourceFile() );
             $this->logger->debug("{$ini} is created.");
         }
