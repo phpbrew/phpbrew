@@ -38,7 +38,7 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         ok($installer);
         $installedPath = $installer->installFromPecl($packageName);
         chdir('..');
-        path_ok( getcwd() . "/tmp/$installedPath" );
+        path_ok( $installedPath );
     }
 }
 

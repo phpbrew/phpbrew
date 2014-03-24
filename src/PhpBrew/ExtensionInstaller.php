@@ -33,7 +33,8 @@ class ExtensionInstaller
         $downloader = new Downloader\UrlDownloader($this->logger);
         $basename = $downloader->download($url);
         $info = pathinfo($basename);
-        
+        $extension_dir = getcwd() . "/$packageName";
+
         // extract
         $this->logger->info("===> Extracting $basename...");
         Utils::system("tar xf $basename");
@@ -41,7 +42,7 @@ class ExtensionInstaller
         Utils::system("mv {$info['filename']} $packageName");
         Utils::system("mv package.xml $packageName");
 
-        return $this->runInstall($packageName, $packageName, $configureOptions);
+        return $this->runInstall($packageName, $extension_dir, $configureOptions);
     }
 
     public function runInstall($packageName, $dir, $configureOptions)
