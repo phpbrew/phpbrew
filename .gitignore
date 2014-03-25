@@ -1,3 +1,4 @@
 .onion
+tmp
 vendor
 composer.lock
