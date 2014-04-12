@@ -525,6 +525,16 @@ function __phpbrew_remove_purge ()
     return 0
 }
 
+function _phpbrewrc_load ()
+{
+    [[ -r .phpbrewrc ]] && source .phpbrewrc
+}
+
+function cd ()
+{
+    builtin cd "$@" && _phpbrewrc_load;
+}
+
 EOS;
 // SHBLOCK }}}
 
