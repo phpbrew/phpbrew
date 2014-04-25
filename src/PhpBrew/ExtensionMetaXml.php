@@ -35,7 +35,7 @@ class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMeta
         $provides = $this->meta->getElementsByTagName('providesextension');
         $provides->length ? $source = $provides->item(0)->nodeValue : $source = $this->getName();
         $source .= '.so';
-        return $source;
+        return strtolower($source);
     }
 
     public function getVersion()

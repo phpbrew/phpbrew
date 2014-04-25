@@ -23,11 +23,6 @@ class ExtensionMetaPolyfill  extends ExtensionMetaAbstraction implements Extensi
         return $this->name;
     }
 
-    public function getSourceFile()
-    {
-        return  $this->name . '.so';
-    }
-
     public function getVersion()
     {
         return null;
