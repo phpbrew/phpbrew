@@ -17,4 +17,9 @@ abstract class ExtensionMetaAbstraction implements ExtensionMetaInterface
         return Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext/' . $this->getName();
     }
 
+    public function getSourceFile()
+    {
+        return  strtolower($this->getName()) . '.so';
+    }
+
 }
