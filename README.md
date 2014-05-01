@@ -9,7 +9,7 @@ version whenever you need.
 What phpbrew can do for you:
 
 - Build php with different variants like PDO, mysql, sqlite, debug ...etc.
-- Compile apache php module and seperate them by different versions.
+- Compile apache php module and separate them by different versions.
 - Build and install php(s) in your home directory, so you don't need root permission.
 - Switch versions very easily and is integrated with bash/zsh shell.
 - Automatic feature detection.
