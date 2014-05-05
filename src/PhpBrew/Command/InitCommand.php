@@ -527,13 +527,15 @@ function __phpbrew_remove_purge ()
 
 function _phpbrewrc_load ()
 {
-    [[ -r .phpbrewrc ]] && source .phpbrewrc
+    if [ -r .phpbrewrc ]; then
+        echo "Found .phpbrewrc, now sourcing..."
+        source .phpbrewrc
+    fi
 }
 
-function cd ()
-{
-    builtin cd "$@" && _phpbrewrc_load;
-}
+if [[ -n "$BASH_VERSION" ]]; then
+    trap '[[ "$BASH_COMMAND" != "$PROMPT_COMMAND" ]] && _phpbrewrc_load' DEBUG
+fi
 
 EOS;
 // SHBLOCK }}}
