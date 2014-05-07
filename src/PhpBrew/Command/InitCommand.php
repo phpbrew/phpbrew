@@ -79,12 +79,17 @@ EOS;
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
-if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
+function __phpbrew_load_user_config()
+{
     # load user-defined config
     if [[ -f $PHPBREW_HOME/init ]]; then
         . $PHPBREW_HOME/init
         export PATH=$PHPBREW_PATH:$PATH
     fi
+}
+
+if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
+    __phpbrew_load_user_config
 fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
@@ -527,15 +532,26 @@ function __phpbrew_remove_purge ()
 
 function _phpbrewrc_load ()
 {
-    if [[ -r .phpbrewrc ]] && [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
-        echo "Found .phpbrewrc file. Now sourcing..."
-        source .phpbrewrc
+    # check if working dir has changed
+    if [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
+        # load .phpbrewrc if present
+        if [[ -r .phpbrewrc ]]; then
+            PHPBREW_QUEUE_RELOAD="1"
+            echo "Found .phpbrewrc file. Now sourcing..."
+            source .phpbrewrc
+        # restore global user config when dir is left
+        else
+            if [[ "$PHPBREW_QUEUE_RELOAD" ]]; then
+                unset PHPBREW_QUEUE_RELOAD
+                __phpbrew_load_user_config
+            fi
+        fi
     fi
     PHPBREW_LAST_DIR="$PWD"
 }
 
 if [[ -n "$BASH_VERSION" ]]; then
-    trap '_phpbrewrc_load' DEBUG
+    trap "_phpbrewrc_load" DEBUG
 fi
 
 EOS;
