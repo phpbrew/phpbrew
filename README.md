@@ -29,7 +29,7 @@ building PHP.
 Just download it:
 
 ```bash
-curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+curl -L -O https://raw.github.com/c9s/phpbrew/master/phpbrew
 chmod +x phpbrew
 sudo cp phpbrew /usr/bin/phpbrew
 ```
