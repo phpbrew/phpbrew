@@ -25,43 +25,69 @@ class ExtCommand extends Command
         $this->registerCommand('install');
     }
 
+    public function options($opts)
+    {
+        $opts->add('pv|phpVersion:','The php version for which we install the module.');
+    }
+
     public function execute()
     {
-        $php = Config::getCurrentPhpName();
+        if ($this->options->{'phpVersion'} !== null) {
+            $php = Utils::findLatestPhpVersion($this->options->{'phpVersion'});
+        } else {
+            $php = Config::getCurrentPhpName();
+        }
+
         $buildDir = Config::getBuildDir();
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
 
         // listing all local extensions
-        $loaded = array_map( 'strtolower' , get_loaded_extensions());
-
-        $this->logger->info( 'Available extensions:');
-        $fp = opendir( $extDir );
-
-
-        // list for exts not neabled
-        $exts = array();
-        while( $file = readdir($fp) ) {
-            if ( $file === '.' || $file === '..' )
-                continue;
-
-            if ( is_file($extDir . DIRECTORY_SEPARATOR . $file) )
-                continue;
-
-            $n = strtolower(preg_replace('#-[\d\.]+$#', '', $file));
-            if ( in_array($n,$loaded) )
-                continue;
-            $exts[] = $n;
+        if (version_compare(phpversion(), $php, '==')) {
+            $loaded = array_map('strtolower' , get_loaded_extensions());
+        } else {
+            $this->logger->info('PHP version is different from current active version.');
+            $this->logger->info('Only available extensions are listed.');
+            $this->logger->info('You will not see which of them are loaded.');
+            $loaded = array();
         }
-        sort($loaded);
-        sort($exts);
+
+        // list for extensions which are not enabled
+        $extensions = array();
+
+        if (is_dir($extDir)) {
+            $fp = opendir( $extDir );
+
+            if ($fp !== false) {
+                while( $file = readdir($fp) ) {
+                    if ( $file === '.' || $file === '..' )
+                        continue;
+
+                    if ( is_file($extDir . DIRECTORY_SEPARATOR . $file) )
+                        continue;
+
+                    $n = strtolower(preg_replace('#-[\d\.]+$#', '', $file));
+                    if ( in_array($n,$loaded) )
+                        continue;
+
+                    $extensions[] = $n;
+                }
+
+                sort($loaded);
+                sort($extensions);
+
+                closedir($fp);
+            }
+        }
 
         foreach( $loaded as $ext ) {
+            $this->logger->info('Loaded extensions:');
             $this->logger->info("  [*] $ext");
         }
-        foreach( $exts as $ext ) {
+
+        foreach( $extensions as $ext ) {
+            $this->logger->info('Available extensions:');
             $this->logger->info("  [ ] $ext");
         }
-        closedir($fp);
     }
 }
 
