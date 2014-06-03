@@ -415,7 +415,13 @@ class VariantBuilder
 
         // merge virtual variants with config file
         $customVirtualVariants = Config::getConfigParam('virtualVariants');
-        $this->virtualVariants = array_merge(array_keys($customVirtualVariants), $this->virtualVariants);
+        $customVirtualVariantsToAdd = array();
+
+        foreach ($customVirtualVariants as $key => $extension) {
+            $customVirtualVariantsToAdd[$key] = array_keys($extension);
+        }
+
+        $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);
     }
 
     private function _getConflict($build, $feature)
