@@ -137,10 +137,12 @@ class Config
         $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
         $yaml = Yaml::parse($configFile);
 
-        if ($param === null) {
-            return $yaml;
-        } elseif ($param != null && isset($yaml[$param])) {
-            return $yaml[$param];
+        if (is_array($yaml)) {
+            if ($param === null) {
+                return $yaml;
+            } elseif ($param != null && isset($yaml[$param])) {
+                return $yaml[$param];
+            }
         }
 
         return array();
