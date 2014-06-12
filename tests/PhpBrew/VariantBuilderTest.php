@@ -29,6 +29,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         ok( in_array('--without-sqlite3',$options) );
         ok( in_array('--without-mysql',$options) );
         ok( in_array('--without-mysqli',$options) );
+        ok( in_array('--disable-all',$options) );
     }
 
     public function testMysqlPdoVariant()
@@ -70,5 +71,21 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         ok( in_array('--without-mysql',$options) );
     }
 
+    /**
+     * A test case for `neutral' virtual variant.
+     */
+    public function testNeutralVirtualVariant()
+    {
+        $variants = new PhpBrew\VariantBuilder;
+        ok($variants);
+
+        $build = new PhpBrew\Build;
+        $build->setVersion('5.3.0');
+        $build->enableVariant('neutral');
+        $build->resolveVariants();
+
+        $options = $variants->build($build);
+        ok( empty($options) );
+    }
 }
 

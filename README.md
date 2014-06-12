@@ -151,6 +151,7 @@ Variants:
 Virtual variants:
   dbs:      sqlite, mysql, pgsql, pdo
   mb:       mbstring, mbregex
+  neutral:
   default:  filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
             pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
             xml_all
@@ -201,6 +202,16 @@ $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
 ```
 
 The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
+
+
+To build PHP with neutral compile options, you can specify `neutral` virtual variant, which means that phpbrew
+doesn't add any additional compile options including `--disable-all`. But some options(for example `--enable-libxml`)
+are still automatically added to support `pear`  installation.
+You can build PHP with `neutral`:
+
+```bash
+$ phpbrew install 5.4.1 +neutral
+```
 
 
 For more details, please check out [PHPBrew Cookbook](https://github.com/c9s/phpbrew/wiki).
