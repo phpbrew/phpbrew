@@ -85,7 +85,12 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build->resolveVariants();
 
         $options = $variants->build($build);
-        ok( empty($options) );
+        // ignore `--with-libdir` because this option should be set depending on client environments.
+        $actual = array_filter($options, function($option) {
+            return !preg_match("/^--with-libdir/", $option);
+        });
+
+        is( array(), $actual );
     }
 }
 
