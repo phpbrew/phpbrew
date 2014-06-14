@@ -60,6 +60,9 @@ class VariantBuilder
             'mbregex',
         ),
 
+        // provide no additional feature
+        'neutral' => array(),
+
         // provide all basic features
         'default' => array(
             'bcmath',
@@ -566,7 +569,7 @@ class VariantBuilder
         $this->builtList = array();
 
         // reset built options
-        if ( $build->hasVariant('all') ) {
+        if ( $build->hasVariant('all') || $build->hasVariant('neutral') ) {
             $this->options = array();
         } else {
             // build common options
