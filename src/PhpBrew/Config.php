@@ -1,9 +1,11 @@
 <?php
 namespace PhpBrew;
 use Exception;
+use Symfony\Component\Yaml\Yaml;
 
 class Config
 {
+    static protected $_currentPhpVersion = null;
 
     static function getPhpbrewHome()
     {
@@ -103,11 +105,25 @@ class Config
 
     static function getCurrentPhpDir()
     {
-        return getenv('PHPBREW_ROOT') . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . getenv('PHPBREW_PHP');
+        return getenv('PHPBREW_ROOT') . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+    }
+
+    static function useSystemPhpVersion()
+    {
+        self::$_currentPhpVersion = null;
+    }
+
+    static function setPhpVersion($phpVersion)
+    {
+        self::$_currentPhpVersion = 'php-'.$phpVersion;
     }
 
     static function getCurrentPhpName()
     {
+        if (self::$_currentPhpVersion !== null) {
+            return self::$_currentPhpVersion;
+        }
+
         return getenv('PHPBREW_PHP');
     }
 
@@ -116,6 +132,20 @@ class Config
         return getenv('PHPBREW_PATH');
     }
 
+    static function getConfigParam($param = null)
+    {
+        $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
+        $yaml = Yaml::parse($configFile);
 
+        if (is_array($yaml)) {
+            if ($param === null) {
+                return $yaml;
+            } elseif ($param != null && isset($yaml[$param])) {
+                return $yaml[$param];
+            }
+        }
+
+        return array();
+    }
 }
 

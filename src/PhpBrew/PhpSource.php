@@ -8,12 +8,13 @@ use DOMDocument;
  */
 class PhpSource
 {
-    static function versionCompare($verion1, $verion2)
+    static function versionCompare($version1, $version2)
     {
-        if( $verion1 == $verion2 ) {
+        if ($version1 == $version2) {
             return 0;
         }
-        return version_compare($verion1, $verion2, '>') ? -1 : 1;
+
+        return version_compare($version1, $version2, '>') ? -1 : 1;
     }
 
     static function getReleaseManagers()

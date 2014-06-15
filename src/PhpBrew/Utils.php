@@ -98,13 +98,13 @@ class Utils
     /**
      * Return the actual header file path from the lookup prefixes.
      *
-     * @param string $hfile the header file name
      * @return string full qualified header file path
      */
     static function find_include_path()
     {
         $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
+
         foreach( $prefixes as $prefix ) {
             foreach( $files as $file ) {
                 $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
@@ -114,11 +114,14 @@ class Utils
                 }
             }
         }
+
+        return null;
     }
 
     static function find_lib_prefix() {
         $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
+
         foreach( $prefixes as $prefix ) {
             foreach( $files as $file ) {
                 $p = $prefix . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file;
@@ -127,12 +130,15 @@ class Utils
                 }
             }
         }
+
+        return null;
     }
 
     static function find_include_prefix()
     {
         $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
+
         foreach( $prefixes as $prefix ) {
             foreach( $files as $file ) {
                 if ( file_exists($prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file) ) {
@@ -140,6 +146,8 @@ class Utils
                 }
             }
         }
+
+        return null;
     }
 
     static function get_pkgconfig_prefix($package)
@@ -188,6 +196,51 @@ class Utils
                 array("pipe","w"), // stderr
             ), $pipes);
         return stream_get_contents($pipes[1]);
+    }
+
+    static function startsWith($haystack, $needle)
+    {
+        return $needle === "" || strpos($haystack, $needle) === 0;
+    }
+
+    static function endsWith($haystack, $needle)
+    {
+        return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+    }
+
+    static function findLatestPhpVersion($version = null)
+    {
+        $foundVersion = false;
+        $buildDir = Config::getBuildDir();
+
+        if (is_dir($buildDir)) {
+            $fp = opendir($buildDir);
+
+            if ($fp !== false) {
+                while($file = readdir($fp)) {
+                    if ($file === '.'
+                        || $file === '..'
+                        || is_file($buildDir . DIRECTORY_SEPARATOR . $file)
+                    ) {
+                        continue;
+                    }
+
+                    $curVersion = strtolower(preg_replace('/^[\D]*-/', '', $file));
+
+                    if (self::startsWith($curVersion, $version) && version_compare($curVersion, $version, '>=')) {
+                        $foundVersion = $curVersion;
+
+                        if (version_compare($foundVersion, $version, '=')) {
+                            break;
+                        }
+                    }
+                }
+
+                closedir($fp);
+            }
+        }
+
+        return $foundVersion;
     }
 }
 

@@ -2,6 +2,8 @@
 namespace PhpBrew\Command\ExtCommand;
 use PhpBrew\Config;
 use PhpBrew\Extension;
+use PhpBrew\Utils;
+use Symfony\Component\Yaml\Yaml;
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -15,25 +17,67 @@ class InstallCommand extends \CLIFramework\Command
         return 'Install PHP extension';
     }
 
-    public function execute($extname, $version = 'stable')
+    public function options($opts)
     {
-        $args = func_get_args();
+        $opts->add('pv|phpVersion:','The php version for which we install the module.');
+    }
+
+    protected function _getExtData($args)
+    {
+        $version = 'stable';
         $options = array();
-        if ( ($pos = array_search('--',$args)) !== false ) {
-            $options = array_slice($args,$pos + 1);
+
+        if (count($args) > 0) {
+            $pos = array_search('--', $args);
+
+            if ($pos !== false) {
+                $options = array_slice($args, $pos + 1);
+            }
+
+            if ($pos === false || $pos == 1) {
+                $version = $args[0];
+            }
         }
 
-        // preventing `phpbrew ext install yaml -- --with-yaml=/opt/local`
-        if ($version == '--') {
-            $version = 'stable';
-        }
+        $extData = new \stdClass();
+        $extData->version = $version;
+        $extData->options = $options;
 
+        return $extData;
+    }
+
+    public function execute($extName, $version = 'stable')
+    {
         $logger = $this->getLogger();
-        $php = Config::getCurrentPhpName();
-        $buildDir = Config::getBuildDir();
-        $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
+        $extensions = array();
 
-        $extension = new Extension($extname, $this->logger);
-        $extension->install($version, $options);
+        if (Utils::startsWith($extName, '+')) {
+            $config = Config::getConfigParam('extensions');
+            $extName = ltrim($extName, '+');
+
+            if (isset($config[$extName])) {
+                foreach ($config[$extName] as $extensionName => $extOptions) {
+                    $args = explode(' ', $extOptions);
+                    $extensions[$extensionName] = $this->_getExtData($args);
+                }
+            } else {
+                $logger->info('Extension set name not found. Have you configured it at the config.yaml file?');
+            }
+        } else {
+            $args = array_slice(func_get_args(), 1);
+            $extensions[$extName] = $this->_getExtData($args);
+        }
+
+        if ($this->options->{'phpVersion'} !== null) {
+            $phpVersion = Utils::findLatestPhpVersion($this->options->{'phpVersion'});
+            Config::setPhpVersion($phpVersion);
+        }
+
+        foreach ($extensions as $extensionName => $extData) {
+            $extension = new Extension($extensionName, $logger);
+            $extension->install($extData->version, $extData->options);
+        }
+
+        Config::useSystemPhpVersion();
     }
 }

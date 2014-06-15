@@ -100,7 +100,6 @@ class VariantBuilder
         $self = $this;
 
         // init variant builders
-
         $this->variants['all']      = '--enable-all';
         $this->variants['dba']      = '--enable-dba';
         $this->variants['ipv6']     = '--enable-ipv6';
@@ -416,6 +415,16 @@ class VariantBuilder
                 '--enable-sysvmsg',
             );
         };
+
+        // merge virtual variants with config file
+        $customVirtualVariants = Config::getConfigParam('virtualVariants');
+        $customVirtualVariantsToAdd = array();
+
+        foreach ($customVirtualVariants as $key => $extension) {
+            $customVirtualVariantsToAdd[$key] = array_keys($extension);
+        }
+
+        $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);
     }
 
     private function _getConflict($build, $feature)
@@ -561,10 +570,25 @@ class VariantBuilder
     /**
      * Build variants to configure options from php build object.
      *
-     * @param PhpBrew\Build $build The build object, contains version information
+     * @param Build $build The build object, contains version information
+     *
+     * @return array|void
+     * @throws \Exception
      */
     public function build($build)
     {
+        $customVirtualVariants = Config::getConfigParam('virtualVariants');
+
+        foreach (array_keys($build->variants) as $variantName) {
+            if (isset($customVirtualVariants[$variantName])) {
+                foreach ($customVirtualVariants[$variantName] as $lib => $params) {
+                    if (is_array($params)) {
+                        $this->variants[$lib] = $params;
+                    }
+                }
+            }
+        }
+
         // reset builtList
         $this->builtList = array();
 
@@ -635,10 +659,5 @@ class VariantBuilder
         $this->options = array();
         return $options;
     }
-
-
-
-
-
 }
 
