@@ -16,11 +16,11 @@ What phpbrew can do for you:
 - Install & enable php extensions into current environment with ease.
 - Install multiple php into system-wide environment.
 
-<img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
+<img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
 
 ## Requirement
 
-Please see [Requirement](https://github.com/c9s/phpbrew/wiki/Requirement)
+Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
 before you get started. you need to install some development packages for
 building PHP.
 
@@ -29,9 +29,9 @@ building PHP.
 Just download it:
 
 ```bash
-curl -L -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+curl -L -O https://raw.github.com/phpbrew/phpbrew/master/phpbrew
 chmod +x phpbrew
-sudo cp phpbrew /usr/bin/phpbrew
+sudo mv phpbrew /usr/bin/phpbrew
 ```
 
 ## Basic usage
@@ -214,7 +214,7 @@ $ phpbrew install 5.4.1 +neutral
 ```
 
 
-For more details, please check out [PHPBrew Cookbook](https://github.com/c9s/phpbrew/wiki).
+For more details, please check out [PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki).
 
 
 ## Extra Configure Options
@@ -484,25 +484,25 @@ Known Issues
 
 Troubleshooting
 -------------------
-Please see [TroubleShooting](https://github.com/c9s/phpbrew/wiki/TroubleShooting)
+Please see [TroubleShooting](https://github.com/phpbrew/phpbrew/wiki/TroubleShooting)
 
 FAQ
 -------------------------
 
 Q: How do I have the same version with different compile option?
 
-A: Currently, you can install php5.x.x and rename the /Users/c9s/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3
+A: Currently, you can install php5.x.x and rename the /Users/phpbrew/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3
 
 
 
 Contribution
 ------------------
-Please see [Contribution](https://github.com/c9s/phpbrew/wiki/Contribution)
+Please see [Contribution](https://github.com/phpbrew/phpbrew/wiki/Contribution)
 
 
 Documentation
 -------------
-Please see [Wiki](https://github.com/c9s/phpbrew/wiki)
+Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
 
 
 Community
