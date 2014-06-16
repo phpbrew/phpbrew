@@ -21,8 +21,7 @@ class SelfUpdateCommand extends Command
 
         // fetch new version phpbrew
         $this->logger->info("Updating phpbrew $script from $branch...");
-
-        $url = "https://raw.github.com/c9s/phpbrew/$branch/phpbrew";
+        $url = "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/phpbrew";
         system("curl -# -L $url > $script") == 0 or die('Update failed.');
 
         $this->logger->info("Version updated.");
