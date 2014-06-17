@@ -178,7 +178,8 @@ function phpbrew ()
                 then
                     _PHP_VERSION=$2
                 else
-                    _PHP_VERSION="php-$2"
+                    s_esc="$(echo "$2" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
+                    _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
                 fi
 
                 # checking php version exists?
@@ -465,7 +466,8 @@ function __phpbrew_reinit ()
     then
         local _PHP_VERSION=$1
     else
-        local _PHP_VERSION="php-$1"
+        s_esc="$(echo "$1" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
+        local _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
     fi
     if [[ ! -d "$PHPBREW_HOME" ]]
     then
@@ -481,7 +483,8 @@ function __phpbrew_remove_purge ()
     then
         _PHP_VERSION=$1
     else
-        _PHP_VERSION="php-$1"
+        s_esc="$(echo "$1" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
+        _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
     fi
 
     if [[ "$_PHP_VERSION" = "$PHPBREW_PHP" ]]

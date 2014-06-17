@@ -61,7 +61,7 @@ class PhpSource
         foreach( $downloadUrls as $downloadUrl ) {
             $html = @file_get_contents($downloadUrl);
             if( ! $html ) {
-                echo "connection eror: $downloadUrl\n";
+                echo "connection error: $downloadUrl\n";
                 continue;
             }
 
