@@ -1,7 +1,7 @@
 <?php
 $console = new PhpBrew\Console;
 try {
-    if ($argv) {
+    if (isset($argv)) {
         $console->run( $argv );
     }
 } catch ( Exception $e ) {
