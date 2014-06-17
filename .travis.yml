@@ -7,8 +7,7 @@ php:
 
 before_script:
   - phpenv rehash
-  - curl http://install.onionphp.org/ | bash
-  - curl -O https://raw.github.com/c9s/Onion/master/onion
+  - cd /usr/local/bin && sudo curl -LO https://github.com/phpbrew/Onion/raw/master/onion && sudo chmod +x onion && cd -
   - composer install --dev
 
 script:
