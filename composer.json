@@ -1,6 +1,7 @@
 {
     "name": "phpbrew\/phpbrew",
     "description": "PHPBrew API library",
+    "license":"MIT",
     "authors": [
         {
             "name": "c9s",
