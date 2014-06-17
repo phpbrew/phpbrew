@@ -1,4 +1,5 @@
+tmp/
+vendor/
+build/
 .onion
-tmp
-vendor
 composer.lock
