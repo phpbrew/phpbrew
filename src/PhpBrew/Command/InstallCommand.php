@@ -76,22 +76,31 @@ class InstallCommand extends Command
         $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
 
-        $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if ( ! $info) {
+        $info = PhpSource::getVersionInfo( $version, $this->options->old);
+
+        if (!$info) {
             throw new Exception("Version $version not found.");
         }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
 
-
-
-
         // convert patch to realpath
-        if( $this->options->patch ) {
-            $patch = realpath($this->options->patch);
-            // rewrite patch path
-            $this->options->keys['patch']->value = $patch;
+        if ($this->options->patch) {
+            $patchPaths = array();
+            $patches = explode('|', $this->options->patch);
+
+            foreach ($patches as $patch) {
+                $patchPath = realpath($patch);
+
+                if ($patchPath !== false) {
+                    $patchPaths[$patch] = $patchPath;
+                }
+
+            }
+
+            // rewrite patch paths
+            $this->options->keys['patch']->value = $patchPaths;
         }
 
         // Move to to build directory, because we are going to download distribution.
@@ -111,7 +120,7 @@ class InstallCommand extends Command
 
         $buildPrefix = Config::getVersionBuildPrefix( $version );
 
-        if( ! file_exists($buildPrefix) ) {
+        if (!file_exists($buildPrefix)) {
             mkdir($buildPrefix,0755,true);
         }
 
