@@ -232,7 +232,7 @@ class Utils
 
                     $curVersion = strtolower(preg_replace('/^[\D]*-/', '', $file));
 
-                    if (self::startsWith($curVersion, $version) && version_compare($curVersion, $version, '>=')) {
+                    if (self::startsWith($curVersion, $version) && version_compare($curVersion, $foundVersion, '>=')) {
                         $foundVersion = $curVersion;
 
                         if (version_compare($foundVersion, $version, '=')) {
