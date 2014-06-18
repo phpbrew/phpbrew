@@ -8,7 +8,7 @@ class InitCommand extends \CLIFramework\Command
 
     public function options($opts)
     {
-        $opts->add('cf|configFile:', 'The config file which should be used.');
+        $opts->add('cf|config-file:', 'The config file which should be used.');
     }
 
     public function execute()
@@ -25,8 +25,8 @@ class InitCommand extends \CLIFramework\Command
             mkdir( $root, 0755, true );
         }
 
-        if ($this->options->{'configFile'} !== null) {
-            copy($this->options->{'configFile'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
+        if ($this->options->{'config-file'} !== null) {
+            copy($this->options->{'config-file'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
         if ( ! file_exists($home) ) {
