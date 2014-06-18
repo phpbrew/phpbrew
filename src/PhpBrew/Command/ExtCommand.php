@@ -27,13 +27,13 @@ class ExtCommand extends Command
 
     public function options($opts)
     {
-        $opts->add('pv|phpVersion:','The php version for which we install the module.');
+        $opts->add('pv|php-version:','The php version for which we install the module.');
     }
 
     public function execute()
     {
-        if ($this->options->{'phpVersion'} !== null) {
-            $php = Utils::findLatestPhpVersion($this->options->{'phpVersion'});
+        if ($this->options->{'php-version'} !== null) {
+            $php = Utils::findLatestPhpVersion($this->options->{'php-version'});
         } else {
             $php = Config::getCurrentPhpName();
         }

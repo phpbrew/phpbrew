@@ -19,7 +19,7 @@ class InstallCommand extends \CLIFramework\Command
 
     public function options($opts)
     {
-        $opts->add('pv|phpVersion:','The php version for which we install the module.');
+        $opts->add('pv|php-version:','The php version for which we install the module.');
     }
 
     protected function _getExtData($args)
@@ -68,8 +68,8 @@ class InstallCommand extends \CLIFramework\Command
             $extensions[$extName] = $this->_getExtData($args);
         }
 
-        if ($this->options->{'phpVersion'} !== null) {
-            $phpVersion = Utils::findLatestPhpVersion($this->options->{'phpVersion'});
+        if ($this->options->{'php-version'} !== null) {
+            $phpVersion = Utils::findLatestPhpVersion($this->options->{'php-version'});
             Config::setPhpVersion($phpVersion);
         }
 
