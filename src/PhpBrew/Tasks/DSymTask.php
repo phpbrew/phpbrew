@@ -8,8 +8,8 @@ class DSymTask extends BaseTask
     /* Check if php.dSYM exists */
     public function check($build) 
     {
-        $phpbin = $build->getBinPath() . DIRECTORY_SEPARATOR . 'php';
-        $dSYM = $build->getBinPath() . DIRECTORY_SEPARATOR . 'php.dSYM';
+        $phpbin = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php';
+        $dSYM = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php.dSYM';
         return ! file_exists($phpbin) && file_exists($dSYM);
     }
 
