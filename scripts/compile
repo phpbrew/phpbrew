@@ -6,6 +6,10 @@ onion compile \
     --lib vendor/corneltek/getoptionkit/src \
     --lib vendor/corneltek/universal/src \
     --lib vendor/symfony/process \
+    --lib vendor/symfony/yaml \
+    --exclude Tests/ \
+    --exclude CHANGELOG\|README \
+    --exclude phpunit.xml \
     --classloader \
     --bootstrap scripts/phpbrew-emb.php \
     --executable \

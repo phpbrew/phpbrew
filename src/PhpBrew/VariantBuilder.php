@@ -60,6 +60,9 @@ class VariantBuilder
             'mbregex',
         ),
 
+        // provide no additional feature
+        'neutral' => array(),
+
         // provide all basic features
         'default' => array(
             'bcmath',
@@ -97,7 +100,6 @@ class VariantBuilder
         $self = $this;
 
         // init variant builders
-
         $this->variants['all']      = '--enable-all';
         $this->variants['dba']      = '--enable-dba';
         $this->variants['ipv6']     = '--enable-ipv6';
@@ -184,7 +186,7 @@ class VariantBuilder
                 return "--with-curl=$prefix";
             }
             if( $prefix = Utils::find_include_prefix('curl/curl.h') ) {
-                return "--with-zlib=$prefix";
+                return "--with-curl=$prefix";
             }
             if( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
                 return "--with-curl=$prefix";
@@ -413,6 +415,16 @@ class VariantBuilder
                 '--enable-sysvmsg',
             );
         };
+
+        // merge virtual variants with config file
+        $customVirtualVariants = Config::getConfigParam('virtualVariants');
+        $customVirtualVariantsToAdd = array();
+
+        foreach ($customVirtualVariants as $key => $extension) {
+            $customVirtualVariantsToAdd[$key] = array_keys($extension);
+        }
+
+        $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);
     }
 
     private function _getConflict($build, $feature)
@@ -558,15 +570,30 @@ class VariantBuilder
     /**
      * Build variants to configure options from php build object.
      *
-     * @param PhpBrew\Build $build The build object, contains version information
+     * @param Build $build The build object, contains version information
+     *
+     * @return array|void
+     * @throws \Exception
      */
     public function build($build)
     {
+        $customVirtualVariants = Config::getConfigParam('virtualVariants');
+
+        foreach (array_keys($build->variants) as $variantName) {
+            if (isset($customVirtualVariants[$variantName])) {
+                foreach ($customVirtualVariants[$variantName] as $lib => $params) {
+                    if (is_array($params)) {
+                        $this->variants[$lib] = $params;
+                    }
+                }
+            }
+        }
+
         // reset builtList
         $this->builtList = array();
 
         // reset built options
-        if ( $build->hasVariant('all') ) {
+        if ( $build->hasVariant('all') || $build->hasVariant('neutral') ) {
             $this->options = array();
         } else {
             // build common options
@@ -583,14 +610,11 @@ class VariantBuilder
             }
         }
 
-        if ( $prefix = Utils::find_lib_prefix('i386-linux-gnu') ) {
-            $this->addOptions("--with-libdir=lib/i386-linux-gnu");
-        } else if ( $prefix = Utils::find_lib_prefix('x86_64-linux-gnu') ) {
+        if ( $prefix = Utils::find_lib_prefix('x86_64-linux-gnu') ) {
             $this->addOptions("--with-libdir=lib/x86_64-linux-gnu");
+        } else if ( $prefix = Utils::find_lib_prefix('i386-linux-gnu') ) {
+            $this->addOptions("--with-libdir=lib/i386-linux-gnu");
         }
-
-
-
 
         // enable/expand virtual variants
         foreach( $this->virtualVariants as $name => $variantNames ) {
@@ -635,10 +659,5 @@ class VariantBuilder
         $this->options = array();
         return $options;
     }
-
-
-
-
-
 }
 

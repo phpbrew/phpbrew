@@ -6,6 +6,11 @@ class InitCommand extends \CLIFramework\Command
 {
     public function brief() { return 'Initialize phpbrew config file.'; }
 
+    public function options($opts)
+    {
+        $opts->add('cf|config-file:', 'The config file which should be used.');
+    }
+
     public function execute()
     {
         // $currentVersion;
@@ -19,6 +24,11 @@ class InitCommand extends \CLIFramework\Command
         if ( ! file_exists($root) ) {
             mkdir( $root, 0755, true );
         }
+
+        if ($this->options->{'config-file'} !== null) {
+            copy($this->options->{'config-file'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
+        }
+
         if ( ! file_exists($home) ) {
             mkdir( $home, 0755, true );
         }

@@ -32,11 +32,6 @@ class ExtensionMetaM4 extends ExtensionMetaAbstraction implements ExtensionMetaI
         return $this->name;
     }
 
-    public function getSourceFile()
-    {
-        return $this->name . '.so';
-    }
-
     public function getVersion()
     {
         return null;

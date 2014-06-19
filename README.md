@@ -9,18 +9,18 @@ version whenever you need.
 What phpbrew can do for you:
 
 - Build php with different variants like PDO, mysql, sqlite, debug ...etc.
-- Compile apache php module and seperate them by different versions.
+- Compile apache php module and separate them by different versions.
 - Build and install php(s) in your home directory, so you don't need root permission.
 - Switch versions very easily and is integrated with bash/zsh shell.
 - Automatic feature detection.
 - Install & enable php extensions into current environment with ease.
 - Install multiple php into system-wide environment.
 
-<img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"/>
+<img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
 
 ## Requirement
 
-Please see [Requirement](https://github.com/c9s/phpbrew/wiki/Requirement)
+Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
 before you get started. you need to install some development packages for
 building PHP.
 
@@ -29,9 +29,9 @@ building PHP.
 Just download it:
 
 ```bash
-curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+curl -L -O https://raw.github.com/phpbrew/phpbrew/master/phpbrew
 chmod +x phpbrew
-sudo cp phpbrew /usr/bin/phpbrew
+sudo mv phpbrew /usr/bin/phpbrew
 ```
 
 ## Basic usage
@@ -151,6 +151,7 @@ Variants:
 Virtual variants:
   dbs:      sqlite, mysql, pgsql, pdo
   mb:       mbstring, mbregex
+  neutral:
   default:  filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
             pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
             xml_all
@@ -203,7 +204,17 @@ $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
 The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
 
 
-For more details, please check out [PHPBrew Cookbook](https://github.com/c9s/phpbrew/wiki).
+To build PHP with neutral compile options, you can specify `neutral` virtual variant, which means that phpbrew
+doesn't add any additional compile options including `--disable-all`. But some options(for example `--enable-libxml`)
+are still automatically added to support `pear`  installation.
+You can build PHP with `neutral`:
+
+```bash
+$ phpbrew install 5.4.1 +neutral
+```
+
+
+For more details, please check out [PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki).
 
 
 ## Extra Configure Options
@@ -473,25 +484,25 @@ Known Issues
 
 Troubleshooting
 -------------------
-Please see [TroubleShooting](https://github.com/c9s/phpbrew/wiki/TroubleShooting)
+Please see [TroubleShooting](https://github.com/phpbrew/phpbrew/wiki/TroubleShooting)
 
 FAQ
 -------------------------
 
 Q: How do I have the same version with different compile option?
 
-A: Currently, you can install php5.x.x and rename the /Users/c9s/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3
+A: Currently, you can install php5.x.x and rename the /Users/phpbrew/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3
 
 
 
 Contribution
 ------------------
-Please see [Contribution](https://github.com/c9s/phpbrew/wiki/Contribution)
+Please see [Contribution](https://github.com/phpbrew/phpbrew/wiki/Contribution)
 
 
 Documentation
 -------------
-Please see [Wiki](https://github.com/c9s/phpbrew/wiki)
+Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
 
 
 Community

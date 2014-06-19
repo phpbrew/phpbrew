@@ -157,8 +157,11 @@ function phpbrew ()
             hash -r
             ;;
         install-phpunit)
-            pear channel-discover pear.phpunit.de
-            pear install -a phpunit/PHPUnit
+            echo "Installing phpunit..."
+            cd $PHPBREW_BIN && \
+                wget --no-check-certificate -c https://phar.phpunit.de/phpunit.phar -O phpunit && \
+                chmod +x phpunit && \
+                cd -
             hash -r
             ;;
         install-composer)
