@@ -215,22 +215,22 @@ class Build implements Serializable
 
     public function getBinDirectory() 
     {
-        return $this->installDirectory . DIRECTORY_SEPARATOR . 'bin';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
     }
 
     public function getEtcDirectory() 
     {
-        return $this->installDirectory . DIRECTORY_SEPARATOR . 'etc';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
     }
 
     public function getVarDirectory() 
     {
-        return $this->installDirectory . DIRECTORY_SEPARATOR . 'var';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var';
     }
 
     public function getVarConfigDirectory()
     {
-        return $this->installDirectory . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
     public function getInstallPrefix()
