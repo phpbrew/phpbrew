@@ -213,6 +213,11 @@ class Build implements Serializable
         $this->installPrefix = $prefix;
     }
 
+    public function getBinDirectory() 
+    {
+        return $this->installDirectory . DIRECTORY_SEPARATOR . 'bin';
+    }
+
     public function getEtcDirectory() 
     {
         return $this->installDirectory . DIRECTORY_SEPARATOR . 'etc';
