@@ -268,6 +268,7 @@ Or you can use switch command to switch your default php version to $version:
     $ phpbrew switch $version
 
 Enjoy!
+
 EOT;
 
     }
