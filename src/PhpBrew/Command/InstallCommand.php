@@ -39,7 +39,7 @@ class InstallCommand extends Command
         $opts->add('post-clean','Run make clean after building PHP.');
         $opts->add('production','Use production configuration');
         $opts->add('n|nice:', 'process nice level');
-        $opts->add('patch:',  'apply patch before build');
+        $opts->add('patch+:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
         $opts->add('like:', 'inherit variants from previous build');
@@ -87,10 +87,7 @@ class InstallCommand extends Command
 
         // convert patch to realpath
         if ($this->options->patch) {
-            $patchPaths = array();
-            $patches = explode('|', $this->options->patch);
-
-            foreach ($patches as $patch) {
+            foreach ($this->options->patch as $patch) {
                 $patchPath = realpath($patch);
 
                 if ($patchPath !== false) {
