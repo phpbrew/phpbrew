@@ -8,7 +8,7 @@ class InitCommand extends \CLIFramework\Command
 
     public function options($opts)
     {
-        $opts->add('cf|config-file:', 'The config file which should be used.');
+        $opts->add('c|config:', 'The config file which should be used.');
     }
 
     public function execute()
