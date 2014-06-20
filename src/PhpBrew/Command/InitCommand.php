@@ -25,8 +25,8 @@ class InitCommand extends \CLIFramework\Command
             mkdir( $root, 0755, true );
         }
 
-        if ($this->options->{'config-file'} !== null) {
-            copy($this->options->{'config-file'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
+        if ($this->options->{'config'} !== null) {
+            copy($this->options->{'config'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
         if ( ! file_exists($home) ) {
