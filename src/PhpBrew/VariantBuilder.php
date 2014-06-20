@@ -417,7 +417,7 @@ class VariantBuilder
         };
 
         // merge virtual variants with config file
-        $customVirtualVariants = Config::getConfigParam('virtualVariants');
+        $customVirtualVariants = Config::getConfigParam('variants');
         $customVirtualVariantsToAdd = array();
 
         foreach ($customVirtualVariants as $key => $extension) {
@@ -577,7 +577,7 @@ class VariantBuilder
      */
     public function build($build)
     {
-        $customVirtualVariants = Config::getConfigParam('virtualVariants');
+        $customVirtualVariants = Config::getConfigParam('variants');
 
         foreach (array_keys($build->variants) as $variantName) {
             if (isset($customVirtualVariants[$variantName])) {
