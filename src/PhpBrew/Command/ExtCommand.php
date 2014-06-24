@@ -27,13 +27,13 @@ class ExtCommand extends Command
 
     public function options($opts)
     {
-        $opts->add('pv|php-version:','The php version for which we install the module.');
+        $opts->add('v|php:','The php version for which we install the module.');
     }
 
     public function execute()
     {
-        if ($this->options->{'php-version'} !== null) {
-            $php = Utils::findLatestPhpVersion($this->options->{'php-version'});
+        if ($this->options->{'php'} !== null) {
+            $php = Utils::findLatestPhpVersion($this->options->{'php'});
         } else {
             $php = Config::getCurrentPhpName();
         }
@@ -42,7 +42,7 @@ class ExtCommand extends Command
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
 
         // listing all local extensions
-        if (version_compare(phpversion(), $php, '==')) {
+        if (version_compare( 'php-'. phpversion(), $php, '==')) {
             $loaded = array_map('strtolower' , get_loaded_extensions());
         } else {
             $this->logger->info('PHP version is different from current active version.');
@@ -62,7 +62,7 @@ class ExtCommand extends Command
                     if ( $file === '.' || $file === '..' )
                         continue;
 
-                    if ( is_file($extDir . DIRECTORY_SEPARATOR . $file) )
+                    if ( is_file($extDir . '/' . $file) )
                         continue;
 
                     $n = strtolower(preg_replace('#-[\d\.]+$#', '', $file));
@@ -79,13 +79,13 @@ class ExtCommand extends Command
             }
         }
 
+        $this->logger->info('Loaded extensions:');
         foreach( $loaded as $ext ) {
-            $this->logger->info('Loaded extensions:');
             $this->logger->info("  [*] $ext");
         }
 
+        $this->logger->info('Available extensions:');
         foreach( $extensions as $ext ) {
-            $this->logger->info('Available extensions:');
             $this->logger->info("  [ ] $ext");
         }
     }

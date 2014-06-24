@@ -6,7 +6,7 @@ class ExtCommandTest extends PHPUnit_Framework_TestCase
     {
         ob_start();
         $console = new PhpBrew\Console;
-        $console->run( [null, 'ext'] );
+        $console->run( array(null, 'ext') );
         $output = ob_get_clean();
 
         $this->assertEquals(1, preg_match_all('#Loaded extensions:#', $output));
@@ -22,7 +22,7 @@ class ExtCommandTest extends PHPUnit_Framework_TestCase
     public function testOutputWithDifferentPHPVersion()
     {
         $console = new PhpBrew\Console;
-        $console->run( [null, 'ext', '--php', '0.0'] );
+        $console->run( array(null, 'ext', '--php', '0.0') );
 
         $this->expectOutputRegex('#PHP version is different from current active version.#');
     }
