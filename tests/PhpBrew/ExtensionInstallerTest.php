@@ -17,12 +17,11 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
     public function packageNameProvider()
     {
         return array( 
-            array('APC'),
+            // array('APC'),
             array('xdebug'),
             // array('yaml'),
         );
     }
-
 
     /**
      * @dataProvider packageNameProvider
