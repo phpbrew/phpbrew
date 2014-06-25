@@ -13,4 +13,4 @@ before_script:
 script:
   - source phpbrew.sh
   - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit --debug # test src
+  - phpunit # test src
