@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use CLIFramework\Application;
 
 class Console extends Application
@@ -27,8 +28,8 @@ class Console extends Application
         $this->registerCommand('clean');
         $this->registerCommand('ctags', 'PhpBrew\Command\CtagsCommand');
 
-        $this->registerCommand('enable',     'PhpBrew\Command\MigratedCommand');
-        $this->registerCommand('install-ext','PhpBrew\Command\MigratedCommand');
+        $this->registerCommand('enable', 'PhpBrew\Command\MigratedCommand');
+        $this->registerCommand('install-ext', 'PhpBrew\Command\MigratedCommand');
 
         $this->registerCommand('self-update', 'PhpBrew\Command\SelfUpdateCommand');
 

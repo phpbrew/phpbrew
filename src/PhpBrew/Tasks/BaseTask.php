@@ -1,17 +1,19 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use CLIFramework\Logger;
 
 class BaseTask
 {
-    public $logger;
+    protected $logger = null;
+    protected $logPath = null;
 
-    public function __construct(Logger $logger)
+    public function setLogPath($path)
     {
-        $this->logger = $logger;
+        $this->logPath = $path;
     }
 
-    public function setLogger($logger)
+    public function __construct(Logger $logger)
     {
         $this->logger = $logger;
     }
@@ -19,6 +21,11 @@ class BaseTask
     public function getLogger()
     {
         return $this->logger;
+    }
+
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
     }
 
     public function info($msg)

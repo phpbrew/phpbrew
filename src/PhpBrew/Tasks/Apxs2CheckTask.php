@@ -1,38 +1,42 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use Exception;
 use PhpBrew\Utils;
-use PhpBrew\Build;
 
 class Apxs2CheckTask extends BaseTask
 {
-
-    public function check(Build $build)
+    /**
+     * @param \PhpBrew\Build $build
+     * @throws \Exception
+     */
+    public function check($build)
     {
         $apxs = $build->getVariant('apxs2');
 
-        if (! $apxs) {
-            $apxs = Utils::findbin('apxs');
+        if ($apxs === null) {
+            $apxs = Utils::findBin('apxs');
         }
 
-        $this->logger->debug("Found apxs2 sbin: $apxs");
+        if ($apxs !== null) {
+            $this->logger->debug("Found apxs2 sbin: $apxs");
 
-        // use apxs to check module dir permission
-        if ( $apxs && $libdir = trim( Utils::pipe_execute( "$apxs -q LIBEXECDIR" ) ) ) {
-            if ( false === is_writable($libdir) ) {
-                $msg = array();
-                throw new Exception("Apache module dir $libdir is not writable.\nPlease consider using chmod or sudo.");
+            $libDir = Utils::pipeExecute("$apxs -q LIBEXECDIR");
+
+            // use apxs to check module dir permission
+            if (false !== $libDir && false === is_writable($libDir)) {
+                throw new Exception("Apache module dir $libDir is not writable.\nPlease consider using chmod or sudo.");
             }
-        }
-        if ( $apxs && $confdir = trim( Utils::pipe_execute( "$apxs -q SYSCONFDIR" ) ) ) {
-            if ( false === is_writable($confdir) ) {
+
+            $confDir = Utils::pipeExecute("$apxs -q SYSCONFDIR");
+
+            if (false !== $confDir && false === is_writable($confDir)) {
                 $msg = array();
-                $msg[] = "Apache conf dir $confdir is not writable for phpbrew.";
+                $msg[] = "Apache conf dir $confDir is not writable for phpbrew.";
                 $msg[] = "Please consider using chmod or sudo: ";
-                $msg[] = "    \$ sudo chmod -R og+rw $confdir";
-                throw new Exception( join("\n", $msg ) );
+                $msg[] = "    \$ sudo chmod -R og+rw $confDir";
+                throw new Exception(join("\n", $msg));
             }
         }
     }
-
 }

@@ -1,6 +1,8 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use PhpBrew\Config;
+
 class DSymTask extends BaseTask
 {
 
@@ -16,11 +18,13 @@ class DSymTask extends BaseTask
 
     public function patch($build, $options)
     {
-        if ( $this->check($build) ) {
+        if ($this->check($build)) {
             $this->logger->info("---> Moving php.dSYM to php ");
-            if (! $options->dryrun) {
-                $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
-                rename( $dSYM , $php );
+
+            if (!$options->dryrun) {
+                $dSYM = ''; //TODO set var
+                $php = Config::getBuildPrefix() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
+                rename($dSYM, $php);
             }
         }
     }

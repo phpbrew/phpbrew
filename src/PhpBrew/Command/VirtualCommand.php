@@ -1,8 +1,10 @@
 <?php
 namespace PhpBrew\Command;
+
+use CLIFramework\Command;
 use Exception;
 
-class VirtualCommand extends \CLIFramework\Command
+class VirtualCommand extends Command
 {
     public function execute($version = null)
     {

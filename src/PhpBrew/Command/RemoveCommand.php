@@ -1,10 +1,15 @@
 <?php
 namespace PhpBrew\Command;
+
+use CLIFramework\Command;
 use Exception;
 
-class RemoveCommand extends \CLIFramework\Command
+class RemoveCommand extends Command
 {
-    public function brief() { return 'remove installed php version.'; }
+    public function brief()
+    {
+        return 'remove installed php version.';
+    }
 
     public function execute($version = null)
     {
