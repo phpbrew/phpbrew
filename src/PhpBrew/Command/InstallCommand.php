@@ -39,7 +39,7 @@ class InstallCommand extends Command
         $opts->add('post-clean','Run make clean after building PHP.');
         $opts->add('production','Use production configuration');
         $opts->add('n|nice:', 'process nice level');
-        $opts->add('patch:',  'apply patch before build');
+        $opts->add('patch+:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
         $opts->add('like:', 'inherit variants from previous build');
@@ -76,22 +76,28 @@ class InstallCommand extends Command
         $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
 
-        $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if ( ! $info) {
+        $info = PhpSource::getVersionInfo( $version, $this->options->old);
+
+        if (!$info) {
             throw new Exception("Version $version not found.");
         }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
 
-
-
-
         // convert patch to realpath
-        if( $this->options->patch ) {
-            $patch = realpath($this->options->patch);
-            // rewrite patch path
-            $this->options->keys['patch']->value = $patch;
+        if ($this->options->patch) {
+            foreach ($this->options->patch as $patch) {
+                $patchPath = realpath($patch);
+
+                if ($patchPath !== false) {
+                    $patchPaths[$patch] = $patchPath;
+                }
+
+            }
+
+            // rewrite patch paths
+            $this->options->keys['patch']->value = $patchPaths;
         }
 
         // Move to to build directory, because we are going to download distribution.
@@ -111,7 +117,7 @@ class InstallCommand extends Command
 
         $buildPrefix = Config::getVersionBuildPrefix( $version );
 
-        if( ! file_exists($buildPrefix) ) {
+        if (!file_exists($buildPrefix)) {
             mkdir($buildPrefix,0755,true);
         }
 
