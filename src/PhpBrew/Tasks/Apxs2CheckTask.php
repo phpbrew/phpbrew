@@ -2,11 +2,12 @@
 namespace PhpBrew\Tasks;
 use Exception;
 use PhpBrew\Utils;
+use PhpBrew\Build;
 
 class Apxs2CheckTask extends BaseTask
 {
 
-    public function check($build)
+    public function check(Build $build)
     {
         $apxs = $build->getVariant('apxs2');
 
