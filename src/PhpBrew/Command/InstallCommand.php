@@ -51,8 +51,7 @@ class InstallCommand extends Command
         if( ! preg_match('/^php-/', $version) )
             $version = 'php-' . $version;
 
-        if ( preg_match('/^php-5.[3-5]$/', $version) )
-            $version = $this->getLatestMinorVersion($version);
+        $version = $this->getLatestMinorVersion($version, $this->options->old);
 
         $options = $this->options;
         $logger = $this->logger;
@@ -279,10 +278,10 @@ EOT;
 
     }
 
-    private function getLatestMinorVersion($majorVersion)
+    private function getLatestMinorVersion($majorVersion, $includeOld)
     {
         $latestMinorVersion = '';
-        foreach (array_keys(PhpSource::getStableVersions()) as $version) {
+        foreach (array_keys(PhpSource::getStableVersions($includeOld)) as $version) {
             if (strpos($version, $majorVersion) === 0) {
                 $latestMinorVersion = $version;
                 break;

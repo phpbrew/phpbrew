@@ -80,7 +80,7 @@ class PhpSource
         foreach( $downloadUrls as $downloadUrl ) {
             $html = self::readFromUrl($downloadUrl);
             if( ! $html ) {
-                echo "connection eror: $downloadUrl\n";
+                echo "connection error: $downloadUrl\n";
                 continue;
             }
 

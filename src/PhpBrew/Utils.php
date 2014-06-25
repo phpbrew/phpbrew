@@ -212,8 +212,13 @@ class Utils
     {
         $foundVersion = false;
         $buildDir = Config::getBuildDir();
+        $hasPrefix = self::startsWith($version, 'php-');
 
         if (is_dir($buildDir)) {
+            if ($hasPrefix == true) {
+                $version = str_replace('php-', '', $version);
+            }
+
             $fp = opendir($buildDir);
 
             if ($fp !== false) {
@@ -227,7 +232,7 @@ class Utils
 
                     $curVersion = strtolower(preg_replace('/^[\D]*-/', '', $file));
 
-                    if (self::startsWith($curVersion, $version) && version_compare($curVersion, $version, '>=')) {
+                    if (self::startsWith($curVersion, $version) && version_compare($curVersion, $foundVersion, '>=')) {
                         $foundVersion = $curVersion;
 
                         if (version_compare($foundVersion, $version, '=')) {
@@ -237,6 +242,10 @@ class Utils
                 }
 
                 closedir($fp);
+            }
+
+            if ($hasPrefix == true && $foundVersion !== false) {
+                $foundVersion = 'php-'.$foundVersion;
             }
         }
 
