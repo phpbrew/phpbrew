@@ -13,10 +13,9 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         ok($url);
     }
 
-
     public function packageNameProvider()
     {
-        return array( 
+        return array(
             // array('APC'),
             array('xdebug'),
             // array('yaml'),
@@ -28,7 +27,7 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
      */
     public function testInstallPackages($packageName)
     {
-        if( ! file_exists('tmp') ) {
+        if ( ! file_exists('tmp') ) {
             mkdir('tmp');
         }
         chdir('tmp');
@@ -40,4 +39,3 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         path_ok( $installedPath );
     }
 }
-

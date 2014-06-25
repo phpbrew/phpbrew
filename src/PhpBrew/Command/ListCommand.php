@@ -12,20 +12,19 @@ class ListCommand extends \CLIFramework\Command
         $versions = Config::getInstalledPhpVersions();
         $currentVersion = Config::getCurrentPhpName();
 
-
-        // var_dump( $versions ); 
+        // var_dump( $versions );
         echo "Installed versions:\n";
 
         if ( $currentVersion === false or in_array($currentVersion, $versions) === false ) {
             echo "* (system)\n";
         }
 
-        foreach( $versions as $version ) {
+        foreach ($versions as $version) {
             $versionPrefix = Config::getVersionBuildPrefix($version);
 
             printf('  %-15s  (%-10s)', $version, $versionPrefix);
 
-            if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
+            if ( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
                 $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
 
                 echo "\n";
@@ -37,5 +36,3 @@ class ListCommand extends \CLIFramework\Command
         }
     }
 }
-
-

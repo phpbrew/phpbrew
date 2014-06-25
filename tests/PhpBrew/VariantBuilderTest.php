@@ -52,7 +52,6 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         ok( in_array('--with-pdo-sqlite',$options) );
     }
 
-
     public function testAllVariant()
     {
         $variants = new PhpBrew\VariantBuilder;
@@ -86,11 +85,10 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
 
         $options = $variants->build($build);
         // ignore `--with-libdir` because this option should be set depending on client environments.
-        $actual = array_filter($options, function($option) {
+        $actual = array_filter($options, function ($option) {
             return !preg_match("/^--with-libdir/", $option);
         });
 
         is( array(), $actual );
     }
 }
-

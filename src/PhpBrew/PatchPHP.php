@@ -24,7 +24,7 @@ class PatchPHP
     public $diff;
     public $patchName;
 
-    public function __construct($patchName = null) 
+    public function __construct($patchName = null)
     {
         $this->patchName = $patchName;
         $this->diff = '';
@@ -52,7 +52,7 @@ class PatchPHP
      */
     public function patch()
     {
-        if( $this->diff ) {
+        if ($this->diff) {
             $patchFile = $this->getPatchFilename();
             file_put_contents( $patchFile , $this->diff );
             system( "patch < $patchFile" );
@@ -63,4 +63,3 @@ class PatchPHP
     }
 
 }
-

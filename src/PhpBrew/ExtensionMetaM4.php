@@ -2,8 +2,6 @@
 
 namespace PhpBrew;
 
-use PEARX\Utils as PEARXUtils;
-
 class ExtensionMetaM4 extends ExtensionMetaAbstraction implements ExtensionMetaInterface
 {
 
@@ -13,7 +11,7 @@ class ExtensionMetaM4 extends ExtensionMetaAbstraction implements ExtensionMetaI
 
     public function __construct($m4)
     {
-        if(!file_exists($m4)) {
+        if (!file_exists($m4)) {
             throw new \Exception("Error loading m4 file: {$m4}");
         }
         $this->m4 = file_get_contents($m4);

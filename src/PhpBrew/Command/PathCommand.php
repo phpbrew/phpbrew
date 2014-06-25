@@ -9,8 +9,7 @@ class PathCommand extends Command
 
     public function execute($name)
     {
-        switch($name) 
-        {
+        switch ($name) {
         case 'home':
             echo Config::getPhpbrewRoot();
             break;
@@ -21,15 +20,13 @@ class PathCommand extends Command
             echo Config::getCurrentPhpBin();
             break;
         case 'include':
-            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) . 
+            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) .
                     DIRECTORY_SEPARATOR . 'include';
             break;
         case 'etc':
-            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) . 
+            echo Config::getVersionBuildPrefix( Config::getCurrentPhpName() ) .
                     DIRECTORY_SEPARATOR . 'etc';
             break;
         }
     }
 }
-
-

@@ -1,10 +1,5 @@
 <?php
 namespace PhpBrew;
-use Exception;
-use PhpBrew\Config;
-use PhpBrew\CommandBuilder;
-use PhpBrew\Utils;
-use PhpBrew\VariantBuilder;
 
 class Builder
 {
@@ -19,7 +14,6 @@ class Builder
      * @var string Version string
      */
     public $version;
-
 
     /**
      * @var string source code directory, path to extracted source directory
@@ -71,13 +65,12 @@ class Builder
         // this is to support pear
         $build->enableVariant('xml');
 
-
         $variantOptions = $variantBuilder->build($build);
 
         if ($variantOptions) {
             $args = array_merge($args , $variantOptions);
         }
-        
+
         $this->logger->debug('Enabled variants: ' . join(', ',array_keys($build->getVariants())  ));
         $this->logger->debug('Disabled variants: ' . join(', ',array_keys($build->getDisabledVariants())  ));
 
@@ -145,5 +138,3 @@ class Builder
     }
 
 }
-
-

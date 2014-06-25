@@ -5,19 +5,19 @@ use Exception;
 class Utils
 {
 
-    static function support_64bit()
+    public static function support_64bit()
     {
         $int = "9223372036854775807";
         $int = intval($int);
         if ($int == 9223372036854775807) {
             /* 64bit */
+
             return true;
-        }
-        elseif ($int == 2147483647) {
+        } elseif ($int == 2147483647) {
             /* 32bit */
+
             return false;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -25,10 +25,10 @@ class Utils
     /**
      * Find bin from prefix list
      */
-    static function find_bin_by_prefix($bin)
+    public static function find_bin_by_prefix($bin)
     {
         $prefixes = self::get_lookup_prefixes();
-        foreach( $prefixes as $prefix ) {
+        foreach ($prefixes as $prefix) {
             $binpath = $prefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
             if ( file_exists($binpath) ) {
                 return $binpath;
@@ -40,8 +40,7 @@ class Utils
         }
     }
 
-
-    static function find_libdir()
+    public static function find_libdir()
     {
         $prefixes = array(
             '/opt',
@@ -51,22 +50,22 @@ class Utils
         );
         if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
             $paths = explode(':', $pathstr);
-            foreach( $paths as $path ) {
+            foreach ($paths as $path) {
                 $prefixes[] = $path;
             }
         }
         $prefixes = array_reverse($prefixes);
 
-        foreach( $prefixes as $prefix ) {
+        foreach ($prefixes as $prefix) {
             if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
                 return "lib/x86_64-linux-gnu";
-            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+            } elseif ( file_exists("$prefix/lib/i386-linux-gnu") ) {
                 return "lib/i386-linux-gnu";
             }
         }
     }
 
-    static function get_lookup_prefixes() 
+    public static function get_lookup_prefixes()
     {
         $prefixes = array(
             '/opt',
@@ -77,36 +76,35 @@ class Utils
 
         if ( $pathstr = getenv('PHPBREW_LOOKUP_PREFIX') ) {
             $paths = explode(':', $pathstr);
-            foreach( $paths as $path ) {
+            foreach ($paths as $path) {
                 $prefixes[] = $path;
             }
         }
 
         // if there is lib path, insert it to the end.
-        foreach( $prefixes as $prefix ) {
+        foreach ($prefixes as $prefix) {
             if ( file_exists("$prefix/lib/x86_64-linux-gnu") ) {
                 $prefixes[] = "$prefix/lib/x86_64-linux-gnu";
-            } else if ( file_exists("$prefix/lib/i386-linux-gnu") ) {
+            } elseif ( file_exists("$prefix/lib/i386-linux-gnu") ) {
                 $prefixes[] = "$prefix/lib/i386-linux-gnu";
-            } 
+            }
         }
+
         return array_reverse($prefixes);
     }
-
-    
 
     /**
      * Return the actual header file path from the lookup prefixes.
      *
      * @return string full qualified header file path
      */
-    static function find_include_path()
+    public static function find_include_path()
     {
         $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
 
-        foreach( $prefixes as $prefix ) {
-            foreach( $files as $file ) {
+        foreach ($prefixes as $prefix) {
+            foreach ($files as $file) {
                 $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
                 $path = $dir . DIRECTORY_SEPARATOR . $file;
                 if ( file_exists($path) ) {
@@ -118,12 +116,13 @@ class Utils
         return null;
     }
 
-    static function find_lib_prefix() {
+    public static function find_lib_prefix()
+    {
         $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
 
-        foreach( $prefixes as $prefix ) {
-            foreach( $files as $file ) {
+        foreach ($prefixes as $prefix) {
+            foreach ($files as $file) {
                 $p = $prefix . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file;
                 if ( file_exists($p) ) {
                     return $prefix;
@@ -134,13 +133,13 @@ class Utils
         return null;
     }
 
-    static function find_include_prefix()
+    public static function find_include_prefix()
     {
         $files = func_get_args();
         $prefixes = self::get_lookup_prefixes();
 
-        foreach( $prefixes as $prefix ) {
-            foreach( $files as $file ) {
+        foreach ($prefixes as $prefix) {
+            foreach ($files as $file) {
                 if ( file_exists($prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file) ) {
                     return $prefix;
                 }
@@ -150,18 +149,19 @@ class Utils
         return null;
     }
 
-    static function get_pkgconfig_prefix($package)
+    public static function get_pkgconfig_prefix($package)
     {
         $cmd = 'pkg-config --variable=prefix ' . $package;
         $process = new Process( $cmd );
         $process->run();
+
         return trim($process->getOutput());
     }
 
-    static function system($command, $msg = 'execute fail')
+    public static function system($command, $msg = 'execute fail')
     {
         $lastline = system( $command, $retval );
-        if ( $retval != 0 ) {
+        if ($retval != 0) {
             throw new Exception($lastline);
         }
     }
@@ -169,46 +169,47 @@ class Utils
     /**
      * Find executable binary by PATH environment.
      *
-     * @param string $bin binary name
+     * @param  string $bin binary name
      * @return string the path
      */
-    static function findbin($bin)
+    public static function findbin($bin)
     {
         $path = getenv('PATH');
         $paths = explode( PATH_SEPARATOR , $path );
-        foreach( $paths as $path ) {
+        foreach ($paths as $path) {
             $f = $path . DIRECTORY_SEPARATOR . $bin;
-            if( file_exists($f) ) {
+            if ( file_exists($f) ) {
                 while ( is_link($f) ) {
                     $f = readlink($f);
                 }
+
                 return $f;
             }
         }
     }
 
-
-    static function pipe_execute($command)
+    public static function pipe_execute($command)
     {
         $proc = proc_open( $command , array(
                 array("pipe","r"), // stdin
                 array("pipe","w"), // stdout
                 array("pipe","w"), // stderr
             ), $pipes);
+
         return stream_get_contents($pipes[1]);
     }
 
-    static function startsWith($haystack, $needle)
+    public static function startsWith($haystack, $needle)
     {
         return $needle === "" || strpos($haystack, $needle) === 0;
     }
 
-    static function endsWith($haystack, $needle)
+    public static function endsWith($haystack, $needle)
     {
         return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
     }
 
-    static function findLatestPhpVersion($version = null)
+    public static function findLatestPhpVersion($version = null)
     {
         $foundVersion = false;
         $buildDir = Config::getBuildDir();
@@ -222,7 +223,7 @@ class Utils
             $fp = opendir($buildDir);
 
             if ($fp !== false) {
-                while($file = readdir($fp)) {
+                while ($file = readdir($fp)) {
                     if ($file === '.'
                         || $file === '..'
                         || is_file($buildDir . DIRECTORY_SEPARATOR . $file)
@@ -252,7 +253,3 @@ class Utils
         return $foundVersion;
     }
 }
-
-
-
-

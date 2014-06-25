@@ -2,7 +2,7 @@
 namespace PhpBrew;
 
 /**
- * A build object contains version information, 
+ * A build object contains version information,
  * variant configuration, paths and an build identifier (BuildId)
  */
 class Build
@@ -28,7 +28,7 @@ class Build
 
     public function __construct($prefix = null)
     {
-        if ( $prefix ) {
+        if ($prefix) {
             $this->setInstallDirectory($prefix);
 
             // read the build info from $prefix
@@ -36,18 +36,18 @@ class Build
             $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
             if ( file_exists($metaFile) ) {
                 $meta = unserialize(file_get_contents($metaFile));
-                if ( $meta['name'] ) {
+                if ($meta['name']) {
                     $this->setName($meta['name']);
                 }
-                if ( $meta['version'] ) {
+                if ($meta['version']) {
                     $this->setVersion($meta->version);
                 }
             }
             */
 
-            // TODO: in future, we only stores build meta information, and that 
+            // TODO: in future, we only stores build meta information, and that
             // also contains the variant info,
-            // but for backward compatibility, we still need a method to handle 
+            // but for backward compatibility, we still need a method to handle
             // the variant info file..
             $variantFile =  $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
             if ( file_exists($variantFile) ) {
@@ -81,7 +81,6 @@ class Build
         $this->variants[$name] = $value ?: true;
     }
 
-
     /**
      * Disable variant.
      */
@@ -92,14 +91,14 @@ class Build
 
     public function resolveVariants()
     {
-        foreach( $this->disabledVariants as $n => $true ) {
-            if( $this->hasVariant($n) ) {
+        foreach ($this->disabledVariants as $n => $true) {
+            if ( $this->hasVariant($n) ) {
                 $this->removeVariant($n);
             }
         }
     }
 
-    public function isDisabledVariant($name) 
+    public function isDisabledVariant($name)
     {
         return isset($this->disabledVariants[$name]);
     }
@@ -109,13 +108,12 @@ class Build
         return isset($this->variants[$name]);
     }
 
-
     public function removeDisabledVariant($name)
     {
         unset($this->disabledVariants[$name]);
     }
 
-    /** 
+    /**
      * Set enabled variants.
      *
      * @param array $variants
@@ -125,11 +123,10 @@ class Build
         $this->variants = $variants;
     }
 
-
     /**
      * Check if we've enabled the variant
      *
-     * @param string $name
+     * @param  string $name
      * @return bool
      */
     public function hasVariant($name)
@@ -169,12 +166,13 @@ class Build
     /**
      * Returns variant user value
      *
-     * @param string $n variant name
+     * @param  string $n variant name
      * @return string variant value
      */
     public function getVariant($n)
     {
         if( isset($this->variants[$n]) )
+
             return $this->variants[$n];
     }
 
@@ -219,13 +217,13 @@ class Build
 
         $names[] = $this->version;
 
-        if($this->variants) {
+        if ($this->variants) {
             $keys = array_keys($this->variants);
             sort($keys);
 
-            foreach( $keys as $n ) {
+            foreach ($keys as $n) {
                 $v = $this->getVariant($n);
-                if( is_bool($v) ) {
+                if ( is_bool($v) ) {
                     $names[] = $n;
                 } else {
                     $v = preg_replace( '#\W+#', '_', $v );
@@ -236,11 +234,12 @@ class Build
 
         }
 
-        if($this->phpEnvironment === self::ENV_PRODUCTION ) {
+        if ($this->phpEnvironment === self::ENV_PRODUCTION) {
             $names[] = 'prod';
-        } elseif($this->phpEnvironment === self::ENV_DEVELOPMENT ) {
+        } elseif ($this->phpEnvironment === self::ENV_DEVELOPMENT) {
             $names[] = 'dev';
         }
+
         return join('-', $names);
     }
 
@@ -250,7 +249,8 @@ class Build
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
 
-    public function importVariantFromFile($variantFile) {
+    public function importVariantFromFile($variantFile)
+    {
         if ( file_exists($variantFile) ) {
             $info = unserialize(file_get_contents());
             // echo VariantParser::revealCommandArguments($info);
@@ -261,22 +261,23 @@ class Build
 
     /**
      * Find a installed build by name,
-     * currently a $name is a php version, but in future we may have customized 
+     * currently a $name is a php version, but in future we may have customized
      * name for users.
      *
-     * @param string $name
+     * @param  string $name
      * @return Build
      */
-    static public function findByName($name) 
+    public static function findByName($name)
     {
         $prefix = Config::getVersionBuildPrefix($name);
         if ( file_exists($prefix) ) {
             // a installation exists
             $build = new self($prefix);
+
             return $build;
         }
         /*
-        if( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
+        if ( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
             $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
             echo "\n";
             echo str_repeat(' ',19);
@@ -288,6 +289,3 @@ class Build
     }
 
 }
-
-
-

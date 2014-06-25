@@ -1,7 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
 use PhpBrew\Config;
-use PhpBrew\PhpSource;
 
 class PrepareDirectoryTask extends BaseTask
 {

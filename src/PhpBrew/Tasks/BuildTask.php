@@ -1,12 +1,11 @@
 <?php
 namespace PhpBrew\Tasks;
 use PhpBrew\CommandBuilder;
-use PhpBrew\Config;
 
 /**
  * Task to run `make`
  */
-class BuildTask extends BaseTask 
+class BuildTask extends BaseTask
 {
     public function setLogPath($path)
     {
@@ -18,13 +17,13 @@ class BuildTask extends BaseTask
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
         $cmd->append = true;
-        if($this->logPath) {
+        if ($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
-        if( $nice ) {
+        if ($nice) {
             $cmd->nice($nice);
         }
-        if($makeJobs > 1) {
+        if ($makeJobs > 1) {
             $cmd->addArg("-j{$makeJobs}");
         }
         $this->debug( '' .  $cmd  );
@@ -34,5 +33,3 @@ class BuildTask extends BaseTask
         $this->info("Build finished: $buildTime minutes.");
     }
 }
-
-

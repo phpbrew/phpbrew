@@ -1,7 +1,6 @@
 <?php
 namespace PhpBrew;
 use PEARX;
-use PhpBrew\Utils;
 
 class ExtensionInstaller
 {
@@ -25,7 +24,6 @@ class ExtensionInstaller
         // just use tgz format file.
         return $url . '.tgz';
     }
-
 
     public function installFromPecl($packageName, $version = 'stable', $configureOptions = array() )
     {
@@ -59,12 +57,12 @@ class ExtensionInstaller
         // the root directory in the ext archive (example xhprof)
         foreach ($it as $file) {
             if (basename($file) == 'config.m4') {
-            	$extDir['config.m4'] = dirname(realpath($file));
-            	break;
+                $extDir['config.m4'] = dirname(realpath($file));
+                break;
             }
 
             if (basename($file) == 'config0.m4') {
-            	$extDir['config0.m4'] = dirname(realpath($file));
+                $extDir['config0.m4'] = dirname(realpath($file));
             }
         }
 
@@ -87,7 +85,7 @@ class ExtensionInstaller
 
         } else {
 
-        	throw new \Exception('Neither config.m4 nor config0.m4 was found');
+            throw new \Exception('Neither config.m4 nor config0.m4 was found');
         }
 
         Utils::system('phpize > build.log');
@@ -96,7 +94,7 @@ class ExtensionInstaller
         // 5.2 does not support closure. We haven't decided whether to
         // support 5.2 yet.
         $escapeOptions = array();
-        foreach( $configureOptions as $opt ) {
+        foreach ($configureOptions as $opt) {
             $escapeOptions[] = escapeshellarg($opt);
         }
         $this->logger->info("===> Configuring...");
@@ -111,15 +109,14 @@ class ExtensionInstaller
         // This function is disabled when PHP is running in safe mode.
         $output = shell_exec('make install');
 
-        if ( ! $output ) {
+        if (! $output) {
             throw new Exception("Extension Install Failed.");
         }
-
 
         $this->logger->debug($output);
 
         $installedPath = null;
-        if( preg_match('#Installing shared extensions:\s+(\S+)#', $output, $regs) ) {
+        if ( preg_match('#Installing shared extensions:\s+(\S+)#', $output, $regs) ) {
             $installedPath = $regs[1];
         }
 
@@ -131,6 +128,7 @@ class ExtensionInstaller
         $sw->back();
 
         $this->logger->info("===> Extension is installed.");
+
         return $dir . '/package.xml';
     }
 

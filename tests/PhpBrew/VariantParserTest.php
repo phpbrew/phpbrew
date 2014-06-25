@@ -31,4 +31,3 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
         ok($info['disabled_variants']['apxs2']);
     }
 }
-

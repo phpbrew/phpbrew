@@ -2,7 +2,7 @@
 
 class UrlDownloaderTest extends PHPUnit_Framework_TestCase
 {
-    function test()
+    public function test()
     {
         $logger = CLIFramework\Logger::getInstance();
         $d = new PhpBrew\Downloader\UrlDownloader( $logger );
@@ -10,4 +10,3 @@ class UrlDownloaderTest extends PHPUnit_Framework_TestCase
     }
 
 }
-

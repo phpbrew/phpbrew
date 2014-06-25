@@ -2,8 +2,6 @@
 
 namespace PhpBrew;
 
-use PhpBrew\Config;
-
 abstract class ExtensionMetaAbstraction implements ExtensionMetaInterface
 {
 

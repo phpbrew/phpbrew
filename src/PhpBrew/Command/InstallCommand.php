@@ -2,9 +2,7 @@
 namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\PkgConfig;
 use PhpBrew\PhpSource;
-use PhpBrew\CommandBuilder;
 use PhpBrew\Builder;
 use PhpBrew\VariantParser;
 
@@ -14,9 +12,7 @@ use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Build;
-use PhpBrew\DirectorySwitch;
 use CLIFramework\Command;
-
 
 /*
  * TODO: refactor tasks to Task class.
@@ -74,7 +70,6 @@ class InstallCommand extends Command
         // ['disabled_variants'] => disabled variants
         $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
-
         $info = PhpSource::getVersionInfo( $version, $this->options->old);
 
         if (!$info) {
@@ -106,13 +101,12 @@ class InstallCommand extends Command
         $download = new DownloadTask($this->logger);
         $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
 
-        if( ! file_exists($targetDir) ) {
+        if ( ! file_exists($targetDir) ) {
             throw new Exception("Download failed.");
         }
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
-
 
         $buildPrefix = Config::getVersionBuildPrefix( $version );
 
@@ -125,7 +119,6 @@ class InstallCommand extends Command
         $this->logger->debug("Writing variant info to $variantInfoFile");
         file_put_contents($variantInfoFile, serialize($variantInfo));
 
-
         // The build object, contains the information to build php.
         $build = new Build;
         $build->setName($name);
@@ -133,27 +126,26 @@ class InstallCommand extends Command
         $build->setInstallDirectory($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
-
         $builder = new Builder($targetDir, $version);
         $builder->logger = $this->logger;
         $builder->options = $this->options;
 
         $this->logger->debug( 'Build Directory: ' . realpath($targetDir) );
 
-        foreach( $variantInfo['enabled_variants'] as $name => $value ) {
+        foreach ($variantInfo['enabled_variants'] as $name => $value) {
             $build->enableVariant($name, $value);
         }
 
-        foreach( $variantInfo['disabled_variants'] as $name => $value ) {
+        foreach ($variantInfo['disabled_variants'] as $name => $value) {
             $build->disableVariant($name);
-            if($build->hasVariant($name) ) {
+            if ($build->hasVariant($name) ) {
                 $this->logger->warn("Removing variant $name since we've disabled it from command.");
                 $build->removeVariant($name);
             }
         }
         $build->setExtraOptions( $variantInfo['extra_options'] );
 
-        if( $options->clean ) {
+        if ($options->clean) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
@@ -167,7 +159,7 @@ class InstallCommand extends Command
         $buildTask->setLogPath($buildLogFile);
         $buildTask->build(null, $options->{'make-jobs'});
 
-        if( $options->{'test'} ) {
+        if ($options->{'test'}) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
             $test->test();
@@ -177,7 +169,7 @@ class InstallCommand extends Command
         $install->setLogPath($buildLogFile);
         $install->install();
 
-        if( $options->{'post-clean'} ) {
+        if ($options->{'post-clean'}) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
@@ -198,7 +190,6 @@ class InstallCommand extends Command
             mkdir( Config::getVersionEtcPath($version) , 0755 , true );
         }
 
-
         // copy php-fpm config
         $this->logger->info("---> Creating php-fpm.conf");
         $phpfpmConfigPath = "sapi/fpm/php-fpm.conf";
@@ -211,12 +202,11 @@ class InstallCommand extends Command
             }
         }
 
-
         $phpConfigPath = $options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigPath ");
-        if( file_exists($phpConfigPath) ) {
+        if ( file_exists($phpConfigPath) ) {
             $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
-            if( file_exists($targetConfigPath) ) {
+            if ( file_exists($targetConfigPath) ) {
                 $this->logger->notice("Found existing $targetConfigPath.");
             } else {
 
@@ -227,14 +217,14 @@ class InstallCommand extends Command
                 // replace current timezone
                 $timezone = ini_get('date.timezone');
                 $pharReadonly = ini_get('phar.readonly');
-                if( $timezone || $pharReadonly ) {
+                if ($timezone || $pharReadonly) {
                     // patch default config
                     $content = file_get_contents($targetConfigPath);
-                    if( $timezone ) {
+                    if ($timezone) {
                         $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
                         $content = preg_replace( '/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone" , $content );
                     }
-                    if( ! $pharReadonly ) {
+                    if (! $pharReadonly) {
                         $this->logger->info("---> Disable phar.readonly option.");
                         $content = preg_replace( '/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0" , $content );
                     }
@@ -291,4 +281,3 @@ EOT;
         return $latestMinorVersion;
     }
 }
-

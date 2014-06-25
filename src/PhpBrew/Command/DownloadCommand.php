@@ -2,11 +2,8 @@
 namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\Variants;
 use PhpBrew\PhpSource;
-use PhpBrew\CommandBuilder;
 use PhpBrew\Tasks\DownloadTask;
-use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\DirectorySwitch;
 
@@ -16,7 +13,7 @@ class DownloadCommand extends Command
 {
     public function brief() { return 'download php'; }
 
-    public function usage() 
+    public function usage()
     {
         return 'phpbrew download [php-version]';
     }
@@ -47,11 +44,10 @@ class DownloadCommand extends Command
         $download = new DownloadTask($this->logger);
         $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
 
-        if( ! file_exists( $targetDir ) ) {
+        if ( ! file_exists( $targetDir ) ) {
             throw new Exception("Download failed.");
         }
         $this->logger->info("Done, please look at: $buildDir/$targetDir");
         $dw->back();
     }
 }
-

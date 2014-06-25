@@ -11,7 +11,7 @@ class EnvCommand extends \CLIFramework\Command
     public function execute($version = null)
     {
         // get current version
-        if ( ! $version ) {
+        if (! $version) {
             $version = getenv('PHPBREW_PHP');
         }
 
@@ -26,7 +26,6 @@ class EnvCommand extends \CLIFramework\Command
         echo "export PHPBREW_ROOT=$root\n";
         echo "export PHPBREW_HOME=$home\n";
         echo "export PHPBREW_LOOKUP_PREFIX=$lookup\n";
-        
 
         if ($version !== false) {
             // checking php version exists

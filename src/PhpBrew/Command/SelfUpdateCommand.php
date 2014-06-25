@@ -1,7 +1,6 @@
 <?php
 namespace PhpBrew\Command;
 use Exception;
-use PhpBrew\Config;
 use CLIFramework\Command;
 
 class SelfUpdateCommand extends Command
@@ -15,7 +14,7 @@ class SelfUpdateCommand extends Command
     {
         global $argv;
         $script = realpath( $argv[0] );
-        if( ! is_writable($script) ) {
+        if ( ! is_writable($script) ) {
             throw new Exception("$script is not writable.");
         }
 
@@ -29,7 +28,3 @@ class SelfUpdateCommand extends Command
         system( $script . ' --version' );
     }
 }
-
-
-
-

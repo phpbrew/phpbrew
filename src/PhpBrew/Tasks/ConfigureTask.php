@@ -6,7 +6,7 @@ use PhpBrew\Config;
 /**
  * Task to run `make`
  */
-class BuildTask extends BaseTask 
+class ConfigureTask extends BaseTask
 {
 
     public $o;
@@ -15,7 +15,6 @@ class BuildTask extends BaseTask
     {
         $this->logPath = $path;
     }
-
 
     public function setOptimizationLevel($o)
     {
@@ -27,8 +26,7 @@ class BuildTask extends BaseTask
         $root        = Config::getPhpbrewRoot();
         $buildPrefix = Config::getVersionBuildPrefix( $version );
 
-
-        if( ! file_exists('configure') ) {
+        if ( ! file_exists('configure') ) {
             $this->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
         }
@@ -36,7 +34,7 @@ class BuildTask extends BaseTask
         $cmd = new CommandBuilder('./configure');
 
         // append cflags
-        if( $this->o ) {
+        if ($this->o) {
             $o = $this->o;
             $cflags = getenv('CFLAGS');
             putenv("CFLAGS=$cflags -O$o");
@@ -51,5 +49,3 @@ class BuildTask extends BaseTask
 
     }
 }
-
-

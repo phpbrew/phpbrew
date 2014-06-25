@@ -9,7 +9,7 @@ class Migrations
 {
     /**
      * Creates extension config folder
-     * 
+     *
      * Creates var/db/ folder for current php version if necessary
      * to keep Compatibility with older versions of phpbrew
      */

@@ -8,9 +8,10 @@ class DirectorySwitch
 
     protected function _chdir($dir)
     {
-        if( false === chdir($dir) ) {
+        if ( false === chdir($dir) ) {
             throw new Exception("Can not change directory to $dir.");
         }
+
         return $dir;
     }
 
@@ -31,5 +32,3 @@ class DirectorySwitch
     }
 
 }
-
-

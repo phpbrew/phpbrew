@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew\Command;
-use Exception;
 use PhpBrew\Config;
 use PhpBrew\Utils;
 use CLIFramework\Command;
@@ -58,7 +57,7 @@ class ExtCommand extends Command
             $fp = opendir( $extDir );
 
             if ($fp !== false) {
-                while( $file = readdir($fp) ) {
+                while ( $file = readdir($fp) ) {
                     if ( $file === '.' || $file === '..' )
                         continue;
 
@@ -80,18 +79,13 @@ class ExtCommand extends Command
         }
 
         $this->logger->info('Loaded extensions:');
-        foreach( $loaded as $ext ) {
+        foreach ($loaded as $ext) {
             $this->logger->info("  [*] $ext");
         }
 
         $this->logger->info('Available extensions:');
-        foreach( $extensions as $ext ) {
+        foreach ($extensions as $ext) {
             $this->logger->info("  [ ] $ext");
         }
     }
 }
-
-
-
-
-

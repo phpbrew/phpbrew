@@ -14,7 +14,7 @@ class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMeta
     public function __construct($packagexml, $peclinstallpath = null)
     {
         $this->meta = PEARXUtils::create_dom();
-        if( false === $this->meta->loadXml( file_get_contents($packagexml)) ) {
+        if ( false === $this->meta->loadXml( file_get_contents($packagexml)) ) {
             throw new \Exception("Error loading XMl document: {$packagexml}");
         }
         $this->peclinstallpath = $peclinstallpath;
@@ -35,6 +35,7 @@ class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMeta
         $provides = $this->meta->getElementsByTagName('providesextension');
         $provides->length ? $source = $provides->item(0)->nodeValue : $source = $this->getName();
         $source .= '.so';
+
         return strtolower($source);
     }
 

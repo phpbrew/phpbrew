@@ -9,21 +9,25 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('boolean', Utils::support_64bit());
     }
 
-    public function testLookupPrefix() {
+    public function testLookupPrefix()
+    {
         ok( Utils::get_lookup_prefixes() );
     }
 
-    public function testPrefix() {
+    public function testPrefix()
+    {
         $this->assertNotNull(Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc'));
         $this->assertNotNull(Utils::find_include_prefix('openssl/opensslv.h'));
     }
 
-    public function testFindbin() {
+    public function testFindbin()
+    {
         ok(Utils::findbin('ls'));
         ok(Utils::findbin('psql'));
     }
 
-    public function testFindLatestPhpVersion() {
+    public function testFindLatestPhpVersion()
+    {
         $buildDir = Config::getBuildDir();
 
         $paths = array();
@@ -51,4 +55,3 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         }
     }
 }
-

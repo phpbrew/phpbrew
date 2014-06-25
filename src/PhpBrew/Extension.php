@@ -2,12 +2,6 @@
 
 namespace PhpBrew;
 
-use PhpBrew\Migrations;
-use PhpBrew\Config;
-use PhpBrew\ExtensionInstaller;
-use PhpBrew\ExtensionInterface;
-use PEARX\Utils as PEARXUtils;
-
 class Extension implements ExtensionInterface
 {
 
@@ -51,7 +45,7 @@ class Extension implements ExtensionInterface
         $name = $this->meta->getName();
 
         // Install local extension
-        if ( file_exists( $path ) ) { 
+        if ( file_exists( $path ) ) {
             $this->logger->info("===> Installing {$name} extension...");
             $this->logger->debug("Extension path $path");
             $xml = $installer->runInstall($name, $path, $options);
@@ -61,7 +55,7 @@ class Extension implements ExtensionInterface
         }
 
         // try to rebuild meta from xml, which is more accurate right now
-        if(file_exists($xml)) {
+        if (file_exists($xml)) {
             $this->logger->warning("===> Switching to xml extension meta");
             $this->meta = new ExtensionMetaXml($xml);
         }
@@ -210,15 +204,13 @@ class Extension implements ExtensionInterface
         $xml = $path . '/package.xml';
         $m4 = $path . '/config.m4';
 
-        if(file_exists($xml)) {
+        if (file_exists($xml)) {
             $this->logger->warning("===> Using xml extension meta");
             $meta = new ExtensionMetaXml($xml);
-        }
-        elseif(file_exists($m4)) {
+        } elseif (file_exists($m4)) {
             $this->logger->warning("===> Using m4 extension meta");
             $meta = new ExtensionMetaM4($m4);
-        }
-        else {
+        } else {
             $this->logger->warning("===> Using polyfill extension meta");
             $meta = new ExtensionMetaPolyfill($name);
         }

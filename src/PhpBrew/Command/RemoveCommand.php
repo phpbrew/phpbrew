@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew\Command;
-use PhpBrew\Config;
 use Exception;
 
 class RemoveCommand extends \CLIFramework\Command
