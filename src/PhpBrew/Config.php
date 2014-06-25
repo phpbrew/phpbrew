@@ -84,7 +84,7 @@ class Config
         $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
         if ( file_exists($path) && $fp = opendir( $path ) ) {
             while ( ($item = readdir( $fp )) !== false ) {
-                if( $item == '.' || $item == '..' ) {
+                if ($item == '.' || $item == '..') {
                     continue;
                 }
                 if ( file_exists($path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php' ) ) {
@@ -93,6 +93,7 @@ class Config
             }
             closedir( $fp );
         }
+
         return $versions;
     }
 

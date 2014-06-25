@@ -1,8 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
 use PhpBrew\Config;
-use PhpBrew\DirectorySwitch;
-use PhpBrew\CommandBuilder;
 
 /**
  * Task to run `make clean`
@@ -14,7 +12,7 @@ class DefaultConfigTask extends BaseTask
     {
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
 
-        $this->logger->info("---> Copying config file for " 
+        $this->logger->info("---> Copying config file for "
             . $options->production ? 'production' : 'development' );
 
         if ( file_exists($phpConfigFile) ) {
@@ -38,14 +36,14 @@ class DefaultConfigTask extends BaseTask
                 $timezone = ini_get('date.timezone');
                 $pharReadonly = ini_get('phar.readonly');
 
-                if ( $timezone || $pharReadonly ) {
+                if ($timezone || $pharReadonly) {
                     // patch default config
                     $content = file_get_contents($targetConfigPath);
-                    if ( $timezone ) {
+                    if ($timezone) {
                         $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
                         $content = preg_replace( '/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone" , $content );
                     }
-                    if ( ! $pharReadonly ) {
+                    if (! $pharReadonly) {
                         $this->logger->info("---> Disable phar.readonly option.");
                         $content = preg_replace( '/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0" , $content );
                     }
@@ -56,7 +54,3 @@ class DefaultConfigTask extends BaseTask
     }
 
 }
-
-
-
-

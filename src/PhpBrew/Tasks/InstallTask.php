@@ -22,7 +22,7 @@ class InstallTask extends BaseTask
         if ($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
-        if ( ! $options->dryrun ) {
+        if (! $options->dryrun) {
             $cmd->execute() !== false or die('Install failed.');
         }
     }

@@ -5,7 +5,6 @@ use PhpBrew\Config;
 use PhpBrew\PhpSource;
 use PhpBrew\Builder;
 use PhpBrew\VariantParser;
-use PhpBrew\CommandBuilder;
 
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
@@ -206,14 +205,14 @@ class InstallCommand extends Command
                 // replace current timezone
                 $timezone = ini_get('date.timezone');
                 $pharReadonly = ini_get('phar.readonly');
-                if ( $timezone || $pharReadonly ) {
+                if ($timezone || $pharReadonly) {
                     // patch default config
                     $content = file_get_contents($targetConfigPath);
-                    if ( $timezone ) {
+                    if ($timezone) {
                         $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
                         $content = preg_replace( '/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone" , $content );
                     }
-                    if ( ! $pharReadonly ) {
+                    if (! $pharReadonly) {
                         $this->logger->info("---> Disable phar.readonly option.");
                         $content = preg_replace( '/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0" , $content );
                     }

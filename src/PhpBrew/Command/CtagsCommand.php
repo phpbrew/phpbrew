@@ -3,7 +3,6 @@ namespace PhpBrew\Command;
 use PhpBrew\Config;
 use PhpBrew\Build;
 use PhpBrew\CommandBuilder;
-use Exception;
 
 class CtagsCommand extends \CLIFramework\Command
 {
@@ -33,7 +32,7 @@ class CtagsCommand extends \CLIFramework\Command
         $cmd->arg( $sourceDir . DIRECTORY_SEPARATOR . 'ext');
         $cmd->arg( $sourceDir . DIRECTORY_SEPARATOR . 'Zend');
 
-        foreach ( $args as $a ) {
+        foreach ($args as $a) {
             $cmd->arg($a);
         }
 

@@ -8,10 +8,9 @@ class Apxs2PatchTask extends BaseTask
     {
         $this->logger->info('===> Applying patch - apxs2 module version name ...');
 
-        if ( $options->dryrun ) {
+        if ($options->dryrun) {
             return;
         }
-
 
             // patch for libphp$(PHP_MAJOR_VERSION).so
             $patch=<<<'EOS'

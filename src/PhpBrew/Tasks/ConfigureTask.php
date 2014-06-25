@@ -3,7 +3,6 @@ namespace PhpBrew\Tasks;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\Build;
-use PhpBrew\VariantParser;
 use PhpBrew\VariantBuilder;
 
 /**
@@ -32,7 +31,7 @@ class ConfigureTask extends BaseTask
         $variantBuilder = new VariantBuilder;
         $extra = $build->getExtraOptions();
 
-        if( ! file_exists('configure') ) {
+        if ( ! file_exists('configure') ) {
             $this->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
         }
@@ -54,21 +53,21 @@ class ConfigureTask extends BaseTask
         $args[] = "--with-pear={$prefix}/lib/php";
 
         $variantOptions = $variantBuilder->build($build);
-        if ( $variantOptions ) {
+        if ($variantOptions) {
             $args = array_merge( $args , $variantOptions );
         }
 
         $this->debug('Enabled variants: ' . join(', ',array_keys($build->getVariants())  ));
         $this->debug('Disabled variants: ' . join(', ',array_keys($build->getDisabledVariants())  ));
 
-        if( $patchFile = $options->patch ) {
+        if ($patchFile = $options->patch) {
             // copy patch file to here
             $this->info("===> Applying patch file from $patchFile ...");
             system("patch -p0 < $patchFile");
         }
 
         // let's apply patch for libphp{php version}.so (apxs)
-        if( $build->isEnabledVariant('apxs2') ) {
+        if ( $build->isEnabledVariant('apxs2') ) {
             $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
             $apxs2Checker->check($build, $options);
 
@@ -76,7 +75,7 @@ class ConfigureTask extends BaseTask
             $apxs2Patch->patch($build, $options);
         }
 
-        foreach( $extra as $a ) {
+        foreach ($extra as $a) {
             $args[] = $a;
         }
 
@@ -93,11 +92,11 @@ class ConfigureTask extends BaseTask
 
         $this->debug( $cmd->getCommand() );
 
-        if ( $options->nice ) {
+        if ($options->nice) {
             $cmd->nice( $options->nice );
         }
 
-        if ( ! $options->dryrun ) {
+        if (! $options->dryrun) {
             $cmd->execute() !== false or die('Configure failed.');
         }
 

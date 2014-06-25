@@ -1,11 +1,10 @@
 <?php
 namespace PhpBrew;
 use Serializable;
-use PhpBrew\Config;
 
 /**
- * A build object contains version information, 
- * variant configuration, 
+ * A build object contains version information,
+ * variant configuration,
  * paths and an build identifier (BuildId)
  */
 class Build implements Serializable
@@ -29,7 +28,6 @@ class Build implements Serializable
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
-
     /**
      * Construct a Build object,
      *
@@ -43,7 +41,7 @@ class Build implements Serializable
     {
         $this->version = $version;
         $this->name = $name ? $name : $version;
-        if ( $prefix ) {
+        if ($prefix) {
             $this->setInstallPrefix($prefix);
             // read the build info from $prefix
             /*
@@ -210,17 +208,17 @@ class Build implements Serializable
         $this->installPrefix = $prefix;
     }
 
-    public function getBinDirectory() 
+    public function getBinDirectory()
     {
         return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
     }
 
-    public function getEtcDirectory() 
+    public function getEtcDirectory()
     {
         return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
     }
 
-    public function getVarDirectory() 
+    public function getVarDirectory()
     {
         return $this->installPrefix . DIRECTORY_SEPARATOR . 'var';
     }
@@ -243,7 +241,7 @@ class Build implements Serializable
         return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-    public function getPath($subpath) 
+    public function getPath($subpath)
     {
         return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
     }
@@ -307,7 +305,7 @@ class Build implements Serializable
         return;
         if ( file_exists($variantFile) ) {
             $info = unserialize(file_get_contents($variantFile));
-            var_dump( $info ); 
+            var_dump( $info );
             // echo VariantParser::revealCommandArguments($info);
             // XXX: handle info
         }
@@ -318,6 +316,7 @@ class Build implements Serializable
     {
         $build = new self;
         $build->import($data);
+
         return $build;
     }
 
@@ -364,10 +363,9 @@ class Build implements Serializable
         $this->import($data);
     }
 
-
     public function import($data)
     {
-        foreach( $data as $key => $value ) {
+        foreach ($data as $key => $value) {
             $this->{$key} = $value;
         }
     }

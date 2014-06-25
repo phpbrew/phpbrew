@@ -11,4 +11,3 @@ class CommandBuilderTest extends PHPUnit_Framework_TestCase
         ob_end_clean();
     }
 }
-
