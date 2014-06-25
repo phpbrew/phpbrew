@@ -34,6 +34,11 @@ class CommandBuilder
         $this->args[] = $arg;
     }
 
+    public function arg($arg)
+    {
+        $this->args[] = $arg;
+    }
+
     public function nice($nice)
     {
         $this->nice = $nice;

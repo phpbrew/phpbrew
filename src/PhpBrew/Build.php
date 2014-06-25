@@ -1,11 +1,19 @@
 <?php
 namespace PhpBrew;
+use Serializable;
+use PhpBrew\Config;
 
 /**
+<<<<<<< HEAD
  * A build object contains version information,
  * variant configuration, paths and an build identifier (BuildId)
+=======
+ * A build object contains version information, 
+ * variant configuration, 
+ * paths and an build identifier (BuildId)
+>>>>>>> refactoring-tasks
  */
-class Build
+class Build implements Serializable
 {
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
@@ -20,17 +28,34 @@ class Build
 
     public $sourceDirectory;
 
-    public $installDirectory;
+    public $installPrefix;
 
     public $extraOptions = array();
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
-    public function __construct($prefix = null)
+
+    /**
+     * Construct a Build object,
+     *
+     * A build object contains the information of all build options, prefix, paths... etc
+     *
+     * @param string $version build version
+     * @param string $name    build name
+     * @param string $prefix  install prefix
+     */
+    public function __construct($version, $name = null, $prefix = null)
     {
+<<<<<<< HEAD
         if ($prefix) {
             $this->setInstallDirectory($prefix);
+=======
+        $this->version = $version;
+        $this->name = $name ? $name : $version;
+>>>>>>> refactoring-tasks
 
+        if ( $prefix ) {
+            $this->setInstallPrefix($prefix);
             // read the build info from $prefix
             /*
             $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
@@ -177,6 +202,9 @@ class Build
     }
 
 
+    /**
+     * PHP Source directory, this method returns value only when source directory is set.
+     */
     public function setSourceDirectory($dir)
     {
         $this->sourceDirectory = $dir;
@@ -187,15 +215,50 @@ class Build
         return $this->sourceDirectory;
     }
 
-    public function setInstallDirectory($dir)
+
+    public function setInstallPrefix($prefix)
     {
-        $this->installDirectory = $dir;
+        $this->installPrefix = $prefix;
     }
 
-    public function getInstallDirectory()
+    public function getBinDirectory() 
     {
-        return $this->installDirectory;
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
     }
+
+    public function getEtcDirectory() 
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+    }
+
+    public function getVarDirectory() 
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var';
+    }
+
+    public function getVarConfigDirectory()
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+    }
+
+    public function getInstallPrefix()
+    {
+        return $this->installPrefix;
+    }
+
+    /**
+     * Returns {prefix}/var/db path
+     */
+    public function getCurrentConfigScanPath()
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+    }
+
+    public function getPath($subpath) 
+    {
+        return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
+    }
+
 
     public function setExtraOptions($options)
     {
@@ -251,13 +314,32 @@ class Build
 
     public function importVariantFromFile($variantFile)
     {
+        // XXX: not implemented yet
+        return;
         if ( file_exists($variantFile) ) {
-            $info = unserialize(file_get_contents());
+            $info = unserialize(file_get_contents($variantFile));
+            var_dump( $info ); 
             // echo VariantParser::revealCommandArguments($info);
             // XXX: handle info
         }
     }
 
+
+    public function __set_state($data)
+    {
+        $build = new self;
+        $build->import($data);
+        return $build;
+    }
+
+
+    /**
+     * XXX: Make sure Serializable interface works for php 5.3
+     */
+    public function serialize()
+    {
+        return serialize($this->export());
+    }
 
     /**
      * Find a installed build by name,
@@ -285,7 +367,35 @@ class Build
         }
         echo "\n";
         */
-
     }
 
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->import($data);
+    }
+
+
+    public function import($data)
+    {
+        foreach( $data as $key => $value ) {
+            $this->{$key} = $value;
+        }
+    }
+
+    public function export($data)
+    {
+        return get_object_vars($this);
+    }
+
+    public function writeFile($file)
+    {
+        file_put_contents($file, $this->serialize());
+    }
+
+    public function loadFile($file)
+    {
+        $serialized = file_get_contents($file);
+        $this->unserialize($serialized);
+    }
 }

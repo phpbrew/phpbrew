@@ -65,6 +65,9 @@ class Config
         return self::getBuildDir() . DIRECTORY_SEPARATOR .  $version . DIRECTORY_SEPARATOR . 'build.log';
     }
 
+    /**
+     * XXX: This method should be migrated to PhpBrew\Build class.
+     */
     public static function getVersionEtcPath($version)
     {
         return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
@@ -83,8 +86,10 @@ class Config
             while ( ($item = readdir( $fp )) !== false ) {
                 if( $item == '.' || $item == '..' )
                     continue;
-                if( file_exists($path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php' ) )
+                }
+                if ( file_exists($path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php' ) ) {
                     $versions[] = $item;
+                }
             }
             closedir( $fp );
         }
@@ -92,6 +97,9 @@ class Config
         return $versions;
     }
 
+    /**
+     * XXX: This method should be migrated to PhpBrew\Build class.
+     */
     public static function getCurrentPhpConfigScanPath()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';

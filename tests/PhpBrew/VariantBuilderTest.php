@@ -7,8 +7,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $variants = new PhpBrew\VariantBuilder;
         ok($variants);
 
-        $build = new PhpBrew\Build;
-        $build->setVersion('5.3.0');
+        $build = new PhpBrew\Build('5.3.0');
         $build->enableVariant('debug');
         $build->enableVariant('icu');
         $build->enableVariant('sqlite');
@@ -37,8 +36,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $variants = new PhpBrew\VariantBuilder;
         ok($variants);
 
-        $build = new PhpBrew\Build;
-        $build->setVersion('5.3.0');
+        $build = new PhpBrew\Build('5.3.0');
         $build->enableVariant('pdo');
         $build->enableVariant('mysql');
         $build->enableVariant('sqlite');
@@ -57,8 +55,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $variants = new PhpBrew\VariantBuilder;
         ok($variants);
 
-        $build = new PhpBrew\Build;
-        $build->setVersion('5.3.0');
+        $build = new PhpBrew\Build('5.3.0');
         $build->enableVariant('all');
         $build->disableVariant('mysql');
         $build->disableVariant('apxs2');
@@ -78,8 +75,8 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $variants = new PhpBrew\VariantBuilder;
         ok($variants);
 
-        $build = new PhpBrew\Build;
-        $build->setVersion('5.3.0');
+        $build = new PhpBrew\Build('5.3.0');
+        // $build->setVersion('5.3.0');
         $build->enableVariant('neutral');
         $build->resolveVariants();
 

@@ -198,6 +198,12 @@ function phpbrew()
                 fi
             fi
             ;;
+        cd-src)
+            local SOURCE_DIR=$PHPBREW_HOME/build/$PHPBREW_PHP
+            if [[ -d $SOURCE_DIR ]] ; then
+                cd $SOURCE_DIR
+            fi
+            ;;
         switch)
             if [[ -z "$2" ]]
             then

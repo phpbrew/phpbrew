@@ -5,12 +5,16 @@ use PhpBrew\Config;
 use PhpBrew\PhpSource;
 use PhpBrew\Builder;
 use PhpBrew\VariantParser;
+use PhpBrew\CommandBuilder;
 
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
+use PhpBrew\Tasks\DSymTask;
+
+use PhpBrew\VariantParser;
 use PhpBrew\Build;
 use CLIFramework\Command;
 
@@ -38,14 +42,16 @@ class InstallCommand extends Command
         $opts->add('patch+:',  'apply patch before build');
         $opts->add('old','install old phps (less than 5.3)');
         $opts->add('f|force','force');
+        $opts->add('d|dryrun','dryrun');
         $opts->add('like:', 'inherit variants from previous build');
         $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
     }
 
     public function execute($version)
     {
-        if( ! preg_match('/^php-/', $version) )
+        if ( ! preg_match('/^php-/', $version) ) {
             $version = 'php-' . $version;
+        }
 
         $version = $this->getLatestMinorVersion($version, $this->options->old);
 
@@ -89,7 +95,6 @@ class InstallCommand extends Command
                 }
 
             }
-
             // rewrite patch paths
             $this->options->keys['patch']->value = $patchPaths;
         }
@@ -120,10 +125,8 @@ class InstallCommand extends Command
         file_put_contents($variantInfoFile, serialize($variantInfo));
 
         // The build object, contains the information to build php.
-        $build = new Build;
-        $build->setName($name);
-        $build->setVersion($version);
-        $build->setInstallDirectory($buildPrefix);
+        $build = new Build($version, $name, $buildPrefix);
+        $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
         $builder = new Builder($targetDir, $version);
@@ -152,22 +155,22 @@ class InstallCommand extends Command
 
         $buildLogFile = Config::getVersionBuildLogPath( $version );
 
-        // we should only run configure after cleaning files  (?)
-        $builder->configure($build);
+        $configure = new \PhpBrew\Tasks\ConfigureTask($this->logger);
+        $configure->configure($build, $this->options);
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
-        $buildTask->build(null, $options->{'make-jobs'});
+        $buildTask->build($build, $this->options);
 
         if ($options->{'test'}) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
-            $test->test();
+            $test->test($build, $this->options );
         }
 
         $install = new InstallTask($this->logger);
         $install->setLogPath($buildLogFile);
-        $install->install();
+        $install->install($build, $this->options);
 
         if ($options->{'post-clean'}) {
             $clean = new CleanTask($this->logger);
@@ -175,20 +178,8 @@ class InstallCommand extends Command
         }
 
         /** POST INSTALLATION **/
-
-        /* Check if php.dSYM exists */
-        // Fix php.dSYM
-        $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
-        if ( file_exists($dSYM)) {
-            $this->logger->info("---> Moving php.dSYM to php ");
-            $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
-            rename( $dSYM , $php );
-        }
-
-        if ( ! file_exists( Config::getVersionEtcPath($version) ) ) {
-            $this->logger->info("---> Preparing config directory...");
-            mkdir( Config::getVersionEtcPath($version) , 0755 , true );
-        }
+        $dsym = new DSymTask($this->logger);
+        $dsym->patch( $build, $this->options );
 
         // copy php-fpm config
         $this->logger->info("---> Creating php-fpm.conf");
@@ -217,21 +208,19 @@ class InstallCommand extends Command
                 // replace current timezone
                 $timezone = ini_get('date.timezone');
                 $pharReadonly = ini_get('phar.readonly');
-                if ($timezone || $pharReadonly) {
+                if ( $timezone || $pharReadonly ) {
                     // patch default config
                     $content = file_get_contents($targetConfigPath);
-                    if ($timezone) {
+                    if ( $timezone ) {
                         $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
                         $content = preg_replace( '/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone" , $content );
                     }
-                    if (! $pharReadonly) {
+                    if ( ! $pharReadonly ) {
                         $this->logger->info("---> Disable phar.readonly option.");
                         $content = preg_replace( '/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0" , $content );
                     }
                     file_put_contents($targetConfigPath, $content);
-
                 }
-
             }
         }
 
