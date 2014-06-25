@@ -28,6 +28,7 @@ class UtilsTest extends PHPUnit_Framework_TestCase
 
     public function testFindLatestPhpVersion()
     {
+        $this->markTestSkipped("We should use a virtual file system here (vsfStream)");
         $buildDir = Config::getBuildDir();
 
         $paths = array();
