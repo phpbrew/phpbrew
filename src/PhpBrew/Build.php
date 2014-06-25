@@ -4,14 +4,9 @@ use Serializable;
 use PhpBrew\Config;
 
 /**
-<<<<<<< HEAD
- * A build object contains version information,
- * variant configuration, paths and an build identifier (BuildId)
-=======
  * A build object contains version information, 
  * variant configuration, 
  * paths and an build identifier (BuildId)
->>>>>>> refactoring-tasks
  */
 class Build implements Serializable
 {
@@ -46,14 +41,8 @@ class Build implements Serializable
      */
     public function __construct($version, $name = null, $prefix = null)
     {
-<<<<<<< HEAD
-        if ($prefix) {
-            $this->setInstallDirectory($prefix);
-=======
         $this->version = $version;
         $this->name = $name ? $name : $version;
->>>>>>> refactoring-tasks
-
         if ( $prefix ) {
             $this->setInstallPrefix($prefix);
             // read the build info from $prefix
