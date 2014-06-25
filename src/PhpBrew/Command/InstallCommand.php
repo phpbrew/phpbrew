@@ -13,8 +13,6 @@ use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
-
-use PhpBrew\VariantParser;
 use PhpBrew\Build;
 use CLIFramework\Command;
 
