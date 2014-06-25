@@ -3,7 +3,6 @@ namespace PhpBrew\Command\ExtCommand;
 use PhpBrew\Config;
 use PhpBrew\Extension;
 use PhpBrew\Utils;
-use Symfony\Component\Yaml\Yaml;
 
 class InstallCommand extends \CLIFramework\Command
 {
