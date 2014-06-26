@@ -142,7 +142,7 @@ class VariantBuilder
             if ($prefix) {
                 return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
             }
-            if ( $prefix = Utils::find_include_prefix('pcre.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('pcre.h') ) {
                 return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
             }
 
@@ -153,7 +153,7 @@ class VariantBuilder
             if ($prefix) {
                 return "--with-mhash=$prefix";
             }
-            if ( $prefix = Utils::find_include_prefix('mhash.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('mhash.h') ) {
                 return "--with-mhash=$prefix";
             }
 
@@ -164,7 +164,7 @@ class VariantBuilder
             if ($prefix) {
                 return "--with-mcrypt=$prefix";
             }
-            if ( $prefix = Utils::find_include_prefix('mcrypt.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('mcrypt.h') ) {
                 return "--with-mcrypt=$prefix";
             }
 
@@ -172,7 +172,7 @@ class VariantBuilder
         };
 
         $this->variants['zlib'] = function ($build) {
-            if ( $prefix = Utils::find_include_prefix('zlib.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('zlib.h') ) {
                 return '--with-zlib=' . $prefix;
             }
         };
@@ -181,19 +181,19 @@ class VariantBuilder
             if ($prefix) {
                 return "--with-curl=$prefix";
             }
-            if ( $prefix = Utils::find_include_prefix('curl/curl.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('curl/curl.h') ) {
                 return "--with-curl=$prefix";
             }
-            if ( $prefix = Utils::get_pkgconfig_prefix('libcurl') ) {
+            if ( $prefix = Utils::getPkgConfigPrefix('libcurl') ) {
                 return "--with-curl=$prefix";
             }
         };
 
         $this->variants['readline'] = function ($build,$prefix = null) {
-            if ( $prefix = Utils::find_include_prefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+            if ( $prefix = Utils::findIncludePrefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                 $opts = array();
                 $opts[] = '--with-readline=' . $prefix;
-                if ( $prefix = Utils::find_include_prefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                if ( $prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
                     $opts[] = '--with-libedit=' . $prefix;
                 }
 
@@ -211,16 +211,16 @@ class VariantBuilder
 
             if ($prefix) {
                 $opts[] = "--with-gd=$prefix";
-            } elseif ( $prefix = Utils::find_include_prefix('gd.h') ) {
+            } elseif ( $prefix = Utils::findIncludePrefix('gd.h') ) {
                 $opts[] = "--with-gd=shared,$prefix";
             }
 
             $opts[] = '--enable-gd-native-ttf';
 
-            if ( $prefix = Utils::find_include_prefix('jpeglib.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('jpeglib.h') ) {
                 $opts[] = "--with-jpeg-dir=$prefix";
             }
-            if ( $prefix = Utils::find_include_prefix('png.h', 'libpng12/pngconf.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h') ) {
                 $opts[] = "--with-png-dir=$prefix";
             }
 
@@ -229,9 +229,9 @@ class VariantBuilder
             //
             // from configure:
             //   for path in $i/include/freetype2/freetype/freetype.h
-            if ( $prefix = Utils::find_include_prefix('freetype2/freetype.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('freetype2/freetype.h') ) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ( $prefix = Utils::find_include_prefix("freetype2/freetype/freetype.h") ) {
+            } elseif ( $prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h") ) {
                 $opts[] = "--with-freetype-dir=$prefix";
             }
 
@@ -247,12 +247,12 @@ class VariantBuilder
                 return '--with-icu-dir=' . $val;
             }
             // the last one path is for Ubuntu
-            if ( $prefix = Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc') ) {
+            if ( $prefix = Utils::findLibPrefix('icu/pkgdata.inc','icu/Makefile.inc') ) {
                 return '--with-icu-dir=' . $prefix;
             }
 
             // For macports
-            if ( $prefix = Utils::get_pkgconfig_prefix('icu-i18n') ) {
+            if ( $prefix = Utils::getPkgConfigPrefix('icu-i18n') ) {
                 return '--with-icu-dir=' . $prefix;
             }
             die("libicu not found, please install libicu-dev or libicu library/development files.");
@@ -271,10 +271,10 @@ class VariantBuilder
             if ($val) {
                 return "--with-openssl=$val";
             }
-            if ( $prefix = Utils::find_include_prefix('openssl/opensslv.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('openssl/opensslv.h') ) {
                 return "--with-openssl=$prefix";
             }
-            if ( $prefix = Utils::get_pkgconfig_prefix('openssl') ) {
+            if ( $prefix = Utils::getPkgConfigPrefix('openssl') ) {
                 return "--with-openssl=$prefix";
             }
             // This will create openssl.so file for dynamic loading.
@@ -324,7 +324,7 @@ class VariantBuilder
             $opts = array();
             $possibleNames = array('psql90','psql91','psql92','psql93','psql');
             while ( ! $prefix && ! empty($possibleNames) ) {
-                $prefix = Utils::findbin( array_pop($possibleNames) );
+                $prefix = Utils::findBin( array_pop($possibleNames) );
             }
             $opts[] = $prefix ? "--with-pgsql=$prefix" : "--with-pgsql";
             if ( $build->hasVariant('pdo') ) {
@@ -345,11 +345,11 @@ class VariantBuilder
                 '--enable-xmlwriter',
                 '--with-xsl'
             );
-            if ( $prefix = Utils::get_pkgconfig_prefix('libxml') ) {
+            if ( $prefix = Utils::getPkgConfigPrefix('libxml') ) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ( $prefix = Utils::find_include_prefix('libxml2/libxml/globals.h') ) {
+            } elseif ( $prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h') ) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ( $prefix = Utils::find_lib_prefix('libxml2.a') ) {
+            } elseif ( $prefix = Utils::findLibPrefix('libxml2.a') ) {
                 $options[] = "--with-libxml-dir=$prefix";
             }
 
@@ -363,10 +363,10 @@ class VariantBuilder
             if ($prefix) {
                 return '--with-apxs2=' . $prefix;
             }
-            if ( $bin = Utils::find_bin_by_prefix('apxs2') ) {
+            if ( $bin = Utils::findBinByPrefix('apxs2') ) {
                 return '--with-apxs2=' . $bin;
             }
-            if ( $bin = Utils::find_bin_by_prefix('apxs') ) {
+            if ( $bin = Utils::findBinByPrefix('apxs') ) {
                 return '--with-apxs2=' . $bin;
             }
 
@@ -378,7 +378,7 @@ class VariantBuilder
             if ($prefix) {
                 return '--with-gettext=' . $prefix;
             }
-            if ( $prefix = Utils::find_include_prefix('libintl.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('libintl.h') ) {
                 return '--with-gettext=' . $prefix;
             }
 
@@ -408,7 +408,7 @@ class VariantBuilder
             if ($prefix) {
                 return "--with-bz2=$prefix";
             }
-            if ( $prefix = Utils::find_include_prefix('bzlib.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('bzlib.h') ) {
                 return "--with-bz2=$prefix";
             }
 
@@ -470,7 +470,7 @@ class VariantBuilder
 
     public function checkPkgPrefix($option,$pkgName)
     {
-        $prefix = Utils::get_pkgconfig_prefix($pkgName);
+        $prefix = Utils::getPkgConfigPrefix($pkgName);
 
         return $prefix ? $option . '=' . $prefix : $option;
     }
@@ -608,14 +608,14 @@ class VariantBuilder
                 '--enable-tokenizer',
                 '--with-pcre-regex',
             );
-            if ( $prefix = Utils::find_include_prefix('zlib.h') ) {
+            if ( $prefix = Utils::findIncludePrefix('zlib.h') ) {
                 $this->addOptions('--with-zlib=' . $prefix);
             }
         }
 
-        if ( $prefix = Utils::find_lib_prefix('x86_64-linux-gnu') ) {
+        if ( $prefix = Utils::findLibPrefix('x86_64-linux-gnu') ) {
             $this->addOptions("--with-libdir=lib/x86_64-linux-gnu");
-        } elseif ( $prefix = Utils::find_lib_prefix('i386-linux-gnu') ) {
+        } elseif ( $prefix = Utils::findLibPrefix('i386-linux-gnu') ) {
             $this->addOptions("--with-libdir=lib/i386-linux-gnu");
         }
 

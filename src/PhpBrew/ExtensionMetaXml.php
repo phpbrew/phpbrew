@@ -1,23 +1,23 @@
 <?php
-
 namespace PhpBrew;
 
 use PEARX\Utils as PEARXUtils;
 
 class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMetaInterface
 {
-
     protected $meta;
 
-    protected $peclinstallpath;
+    protected $peclInstallPath;
 
-    public function __construct($packagexml, $peclinstallpath = null)
+    public function __construct($packageXml, $peclInstallPath = null)
     {
         $this->meta = PEARXUtils::create_dom();
-        if ( false === $this->meta->loadXml( file_get_contents($packagexml)) ) {
-            throw new \Exception("Error loading XMl document: {$packagexml}");
+
+        if (false === $this->meta->loadXml(file_get_contents($packageXml))) {
+            throw new \Exception("Error loading XMl document: {$packageXml}");
         }
-        $this->peclinstallpath = $peclinstallpath;
+
+        $this->peclInstallPath = $peclInstallPath;
     }
 
     public function isZend()

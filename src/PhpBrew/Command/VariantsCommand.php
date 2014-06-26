@@ -1,11 +1,16 @@
 <?php
 namespace PhpBrew\Command;
-use PhpBrew\VariantBuilder;
 
-class VariantsCommand extends \CLIFramework\Command
+use PhpBrew\VariantBuilder;
+use CLIFramework\Command;
+
+class VariantsCommand extends Command
 {
 
-    public function brief() { return 'list php variants'; }
+    public function brief()
+    {
+        return 'list php variants';
+    }
 
     public function usage()
     {
@@ -16,9 +21,11 @@ class VariantsCommand extends \CLIFramework\Command
     {
         $lineX = 0;
         $newLine = $prefix;
-        for ($i = 0; $i < strlen($line) ; $i++ && $lineX++ ) {
+
+        for ($i = 0; $i < strlen($line); $i++ && $lineX++) {
             $c = $line[$i];
             $newLine .= $c;
+
             if ($lineX > 68 && $c === ' ') {
                 $newLine .= "\n" . $indent;
                 $lineX = 0;
@@ -35,13 +42,15 @@ class VariantsCommand extends \CLIFramework\Command
         sort($list);
 
         echo "Variants: \n";
-        echo $this->wrapLine(join(', ',$list)) , "\n";
+        echo $this->wrapLine(join(', ', $list)) , "\n";
         echo "\n\n";
 
         echo "Virtual variants: \n";
+
         foreach ($variants->virtualVariants as $name => $subvars) {
             echo $this->wrapLine("$name: " . join(', ', $subvars)) , "\n";
         }
+
         echo "\n\n";
 
         echo "Using variants to build PHP:\n";

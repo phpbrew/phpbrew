@@ -42,23 +42,21 @@ class PatchPHP
      */
     public function fetchDiff($url)
     {
-        $this->diff = file_get_contents( $url );
+        $this->diff = file_get_contents($url);
     }
 
     /**
      * patch file
-     *
-     * @param string $file file to patch.
      */
     public function patch()
     {
         if ($this->diff) {
             $patchFile = $this->getPatchFilename();
-            file_put_contents( $patchFile , $this->diff );
-            system( "patch < $patchFile" );
+            file_put_contents($patchFile, $this->diff);
+            system("patch < $patchFile");
 
             // clean up patch File
-            unlink( $patchFile );
+            unlink($patchFile);
         }
     }
 
