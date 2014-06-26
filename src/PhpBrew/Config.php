@@ -1,32 +1,29 @@
 <?php
 namespace PhpBrew;
-
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 class Config
 {
-    protected static $currentPhpVersion = null;
+    protected static $_currentPhpVersion = null;
 
     public static function getPhpbrewHome()
     {
-        if ($custom = getenv('PHPBREW_HOME')) {
+        if ($custom = getenv('PHPBREW_HOME'))
             return $custom;
-        }
 
-        if ($home = getenv('HOME')) {
+        if ( $home = getenv('HOME') ) {
             return $home . DIRECTORY_SEPARATOR . '.phpbrew';
         }
-
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
 
     public static function getPhpbrewRoot()
     {
-        if ($root = getenv('PHPBREW_ROOT')) {
+        if ( $root = getenv('PHPBREW_ROOT')) {
             return $root;
         }
-        if ($home = getenv('HOME')) {
+        if ( $home = getenv('HOME') ) {
             return $home . DIRECTORY_SEPARATOR . '.phpbrew';
         }
         throw new Exception('Environment variable PHPBREW_ROOT is required');
@@ -70,10 +67,6 @@ class Config
 
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
-     *
-     * @param string $version
-     *
-     * @return string
      */
     public static function getVersionEtcPath($version)
     {
@@ -89,21 +82,16 @@ class Config
     {
         $versions = array();
         $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
-
-        if (file_exists($path) && $fp = opendir($path)) {
-            while (($item = readdir($fp)) !== false) {
+        if ( file_exists($path) && $fp = opendir( $path ) ) {
+            while ( ($item = readdir( $fp )) !== false ) {
                 if ($item == '.' || $item == '..') {
                     continue;
                 }
-
-                $file = $path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
-
-                if (file_exists($file)) {
+                if ( file_exists($path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php' ) ) {
                     $versions[] = $item;
                 }
             }
-
-            closedir($fp);
+            closedir( $fp );
         }
 
         return $versions;
@@ -124,18 +112,18 @@ class Config
 
     public static function useSystemPhpVersion()
     {
-        self::$currentPhpVersion = null;
+        self::$_currentPhpVersion = null;
     }
 
     public static function setPhpVersion($phpVersion)
     {
-        self::$currentPhpVersion = 'php-'.$phpVersion;
+        self::$_currentPhpVersion = 'php-'.$phpVersion;
     }
 
     public static function getCurrentPhpName()
     {
-        if (self::$currentPhpVersion !== null) {
-            return self::$currentPhpVersion;
+        if (self::$_currentPhpVersion !== null) {
+            return self::$_currentPhpVersion;
         }
 
         return getenv('PHPBREW_PHP');

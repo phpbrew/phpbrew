@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew\Tasks;
-
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\Build;
@@ -11,24 +10,28 @@ use PhpBrew\VariantBuilder;
  */
 class ConfigureTask extends BaseTask
 {
-    public $optimizationLevel;
+
+    public $o;
 
     public function setLogPath($path)
     {
         $this->logPath = $path;
     }
 
-    public function setOptimizationLevel($optimizationLevel)
+    public function setOptimizationLevel($o)
     {
-        $this->optimizationLevel = $optimizationLevel;
+        $this->o = $o;
     }
 
     public function configure(Build $build, $options)
     {
+        $root        = Config::getPhpbrewRoot();
+        $buildDir    = Config::getBuildDir();
+
         $variantBuilder = new VariantBuilder;
         $extra = $build->getExtraOptions();
 
-        if (!file_exists('configure')) {
+        if ( ! file_exists('configure') ) {
             $this->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
         }
@@ -36,8 +39,8 @@ class ConfigureTask extends BaseTask
         $prefix = $build->getInstallPrefix();
 
         // append cflags
-        if ($this->optimizationLevel) {
-            $o = $this->optimizationLevel;
+        if ($this->o) {
+            $o = $this->o;
             $cflags = getenv('CFLAGS');
             putenv("CFLAGS=$cflags -O$o");
             $_ENV['CFLAGS'] = "$cflags -O$o";
@@ -50,13 +53,12 @@ class ConfigureTask extends BaseTask
         $args[] = "--with-pear={$prefix}/lib/php";
 
         $variantOptions = $variantBuilder->build($build);
-
         if ($variantOptions) {
-            $args = array_merge($args, $variantOptions);
+            $args = array_merge( $args , $variantOptions );
         }
 
-        $this->debug('Enabled variants: ' . join(', ', array_keys($build->getVariants())));
-        $this->debug('Disabled variants: ' . join(', ', array_keys($build->getDisabledVariants())));
+        $this->debug('Enabled variants: ' . join(', ',array_keys($build->getVariants())  ));
+        $this->debug('Disabled variants: ' . join(', ',array_keys($build->getDisabledVariants())  ));
 
         if ($patchFile = $options->patch) {
             // copy patch file to here
@@ -65,11 +67,11 @@ class ConfigureTask extends BaseTask
         }
 
         // let's apply patch for libphp{php version}.so (apxs)
-        if ($build->isEnabledVariant('apxs2')) {
-            $apxs2Checker = new Apxs2CheckTask($this->logger);
+        if ( $build->isEnabledVariant('apxs2') ) {
+            $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
             $apxs2Checker->check($build, $options);
 
-            $apxs2Patch = new Apxs2PatchTask($this->logger);
+            $apxs2Patch = new \PhpBrew\Tasks\Apxs2PatchTask($this->logger);
             $apxs2Patch->patch($build, $options);
         }
 
@@ -82,23 +84,23 @@ class ConfigureTask extends BaseTask
 
         $this->info("===> Configuring {$build->version}...");
         $cmd->append = false;
-        $cmd->stdout = Config::getVersionBuildLogPath($build->name);
+        $cmd->stdout = Config::getVersionBuildLogPath( $build->name );
 
         echo "\n\n";
         echo "Use tail command to see what's going on:\n";
         echo "   $ tail -f {$cmd->stdout}\n\n\n";
 
-        $this->debug($cmd->getCommand());
+        $this->debug( $cmd->getCommand() );
 
         if ($options->nice) {
-            $cmd->nice($options->nice);
+            $cmd->nice( $options->nice );
         }
 
-        if (!$options->dryrun) {
+        if (! $options->dryrun) {
             $cmd->execute() !== false or die('Configure failed.');
         }
 
-        $patch64bit = new Patch64BitSupportTask($this->logger);
+        $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger);
         $patch64bit->patch($build, $options);
     }
 }

@@ -1,24 +1,16 @@
 <?php
 namespace PhpBrew\Command\ExtCommand;
-
 use PhpBrew\Extension;
-use CLIFramework\Command;
 
-class EnableCommand extends Command
+class EnableCommand extends \CLIFramework\Command
 {
-    public function usage()
-    {
-        return 'phpbrew ext enable [extension name]';
-    }
+    public function usage() { return 'phpbrew ext enable [extension name]'; }
 
-    public function brief()
-    {
-        return 'Enable PHP extension';
-    }
+    public function brief() { return 'Enable PHP extension'; }
 
-    public function execute($extName)
+    public function execute($extname)
     {
-        $extension = new Extension($extName, $this->logger);
+        $extension = new Extension($extname, $this->logger);
         $extension->enable();
     }
 }

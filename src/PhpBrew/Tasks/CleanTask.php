@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew\Tasks;
-
 use PhpBrew\Config;
 
 /**
@@ -8,9 +7,10 @@ use PhpBrew\Config;
  */
 class CleanTask extends BaseTask
 {
+
     public function clean($path)
     {
-        if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
+        if ( ! file_exists( $path . DIRECTORY_SEPARATOR . 'Makefile') ) {
             return false;
         }
 
@@ -25,7 +25,8 @@ class CleanTask extends BaseTask
 
     public function cleanByVersion($version, $verbose = false)
     {
-        $buildPrefix = Config::getVersionBuildPrefix($version);
+        $home = Config::getPhpbrewRoot();
+        $buildPrefix = Config::getVersionBuildPrefix( $version );
 
         return $this->clean($buildPrefix);
     }
@@ -39,4 +40,5 @@ class CleanTask extends BaseTask
     {
         // XXX:
     }
+
 }

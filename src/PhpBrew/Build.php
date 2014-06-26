@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew;
-
 use Serializable;
 
 /**
@@ -62,8 +61,8 @@ class Build implements Serializable
             // also contains the variant info,
             // but for backward compatibility, we still need a method to handle
             // the variant info file..
-            $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-            if (file_exists($variantFile)) {
+            $variantFile =  $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+            if ( file_exists($variantFile) ) {
                 $this->importVariantFromFile($variantFile);
             }
         }
@@ -76,7 +75,7 @@ class Build implements Serializable
 
     public function setVersion($version)
     {
-        $this->version = preg_replace('#^php-#', '', $version);
+        $this->version = preg_replace('#^php-#','',$version);
     }
 
     public function getVersion()
@@ -86,7 +85,7 @@ class Build implements Serializable
 
     public function compareVersion($version)
     {
-        return version_compare($this->version, $version);
+        return version_compare($this->version,$version);
     }
 
     public function enableVariant($name, $value = null)
@@ -96,8 +95,6 @@ class Build implements Serializable
 
     /**
      * Disable variant.
-     *
-     * @param string $name The variant name.
      */
     public function disableVariant($name)
     {
@@ -107,7 +104,7 @@ class Build implements Serializable
     public function resolveVariants()
     {
         foreach ($this->disabledVariants as $n => $true) {
-            if ($this->hasVariant($n)) {
+            if ( $this->hasVariant($n) ) {
                 $this->removeVariant($n);
             }
         }
@@ -186,11 +183,9 @@ class Build implements Serializable
      */
     public function getVariant($n)
     {
-        if (isset($this->variants[$n])) {
-            return $this->variants[$n];
-        }
+        if( isset($this->variants[$n]) )
 
-        return null;
+            return $this->variants[$n];
     }
 
 
@@ -278,11 +273,10 @@ class Build implements Serializable
 
             foreach ($keys as $n) {
                 $v = $this->getVariant($n);
-
-                if (is_bool($v)) {
+                if ( is_bool($v) ) {
                     $names[] = $n;
                 } else {
-                    $v = preg_replace('#\W+#', '_', $v);
+                    $v = preg_replace( '#\W+#', '_', $v );
                     $str = $n . '=' . $v;
                     $names[] = $str;
                 }
@@ -309,10 +303,9 @@ class Build implements Serializable
     {
         // XXX: not implemented yet
         return;
-
-        if (file_exists($variantFile)) {
+        if ( file_exists($variantFile) ) {
             $info = unserialize(file_get_contents($variantFile));
-            var_dump($info);
+            var_dump( $info );
             // echo VariantParser::revealCommandArguments($info);
             // XXX: handle info
         }
@@ -321,7 +314,7 @@ class Build implements Serializable
 
     public function __set_state($data)
     {
-        $build = new self(self::getVersion());
+        $build = new self;
         $build->import($data);
 
         return $build;
@@ -347,8 +340,7 @@ class Build implements Serializable
     public static function findByName($name)
     {
         $prefix = Config::getVersionBuildPrefix($name);
-
-        if (file_exists($prefix)) {
+        if ( file_exists($prefix) ) {
             // a installation exists
             $build = new self($prefix);
 
@@ -363,8 +355,6 @@ class Build implements Serializable
         }
         echo "\n";
         */
-
-        return null;
     }
 
     public function unserialize($serialized)
@@ -380,7 +370,7 @@ class Build implements Serializable
         }
     }
 
-    public function export()
+    public function export($data)
     {
         return get_object_vars($this);
     }

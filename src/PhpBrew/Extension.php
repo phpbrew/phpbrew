@@ -4,17 +4,15 @@ namespace PhpBrew;
 
 class Extension implements ExtensionInterface
 {
-    protected $name;
 
     /**
      * Extension meta
-     * @var \PhpBrew\ExtensionMetaInterface
+     * @var PhpBrew\ExtensionMetaInterface
      */
     protected $meta;
 
     /**
      * Application logger
-     * @var \CLIFramework\Logger
      */
     protected $logger;
 
@@ -32,7 +30,6 @@ class Extension implements ExtensionInterface
     public function __construct($name, $logger)
     {
         Migrations::setupConfigFolder();
-        $this->name = $name;
         $this->logger = $logger;
         $this->meta = $this->buildMetaFromName($name);
     }
@@ -48,13 +45,13 @@ class Extension implements ExtensionInterface
         $name = $this->meta->getName();
 
         // Install local extension
-        if (file_exists($path)) {
+        if ( file_exists( $path ) ) {
             $this->logger->info("===> Installing {$name} extension...");
             $this->logger->debug("Extension path $path");
             $xml = $installer->runInstall($name, $path, $options);
         } else {
             chdir(dirname($path));
-            $xml = $installer->installFromPecl($name, $version, $options);
+            $xml = $installer->installFromPecl($name, $version ,$options);
         }
 
         // try to rebuild meta from xml, which is more accurate right now
@@ -67,16 +64,14 @@ class Extension implements ExtensionInterface
         $this->logger->info("===> Creating config file {$ini}");
 
         // create extension config file
-        if (file_exists($ini)) {
+        if ( file_exists($ini) ) {
             $lines = file($ini);
-
             foreach ($lines as &$line) {
-                if (preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs)) {
+                if ( preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs ) ) {
                     $line = $regs[1];
                 }
             }
-
-            file_put_contents($ini, join('', $lines));
+            file_put_contents($ini, join('', $lines) );
         } else {
             if ($this->meta->isZend()) {
                 $makefile = file_get_contents("$path/Makefile");
@@ -86,11 +81,9 @@ class Extension implements ExtensionInterface
             } else {
                 $content = "extension=";
             }
-
-            file_put_contents($ini, $content. $this->meta->getSourceFile());
+            file_put_contents($ini, $content . $this->meta->getSourceFile() );
             $this->logger->debug("{$ini} is created.");
         }
-
         $this->logger->info("===> Enabling extension...");
         $this->enable();
         $this->logger->info("Done.");
@@ -116,13 +109,11 @@ class Extension implements ExtensionInterface
 
         if (file_exists($disabled_file)) {
             $this->disableAntagonists();
-
-            if (rename($disabled_file, $enabled_file)) {
+            if ( rename($disabled_file, $enabled_file) ) {
                 $this->logger->info("[*] {$name} extension is enabled.");
 
                 return true;
             }
-
             $this->logger->warning("failed to enable {$name} extension.");
         }
 
@@ -192,7 +183,7 @@ class Extension implements ExtensionInterface
     public function isAvailable()
     {
         foreach (glob($this->meta->getPath() . '/*', GLOB_ONLYDIR) as $available_extension) {
-            if (false !== strpos(basename($available_extension), $this->name)) {
+            if (false !== strpos(basename($available_extension), $name)) {
                 return true;
             }
         }
@@ -203,8 +194,8 @@ class Extension implements ExtensionInterface
     public function purge()
     {
         $ini = $this->meta->getIniFile();
-        unlink($ini);
-        unlink($ini . '.disabled');
+        unlink( $ini );
+        unlink( $ini . '.disabled' );
     }
 
     public function buildMetaFromName($name)

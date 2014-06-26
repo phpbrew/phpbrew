@@ -1,12 +1,10 @@
 <?php
 namespace PhpBrew\Command\ExtCommand;
-
 use PhpBrew\Config;
 use PhpBrew\Extension;
 use PhpBrew\Utils;
-use CLIFramework\Command;
 
-class InstallCommand extends Command
+class InstallCommand extends \CLIFramework\Command
 {
     public function usage()
     {
@@ -18,15 +16,12 @@ class InstallCommand extends Command
         return 'Install PHP extension';
     }
 
-    /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
-     */
     public function options($opts)
     {
-        $opts->add('pv|php-version:', 'The php version for which we install the module.');
+        $opts->add('pv|php-version:','The php version for which we install the module.');
     }
 
-    protected function getExtData($args)
+    protected function _getExtData($args)
     {
         $version = 'stable';
         $options = array();
@@ -62,14 +57,14 @@ class InstallCommand extends Command
             if (isset($config[$extName])) {
                 foreach ($config[$extName] as $extensionName => $extOptions) {
                     $args = explode(' ', $extOptions);
-                    $extensions[$extensionName] = $this->getExtData($args);
+                    $extensions[$extensionName] = $this->_getExtData($args);
                 }
             } else {
                 $logger->info('Extension set name not found. Have you configured it at the config.yaml file?');
             }
         } else {
             $args = array_slice(func_get_args(), 1);
-            $extensions[$extName] = $this->getExtData($args);
+            $extensions[$extName] = $this->_getExtData($args);
         }
 
         if ($this->options->{'php-version'} !== null) {

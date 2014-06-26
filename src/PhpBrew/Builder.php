@@ -1,13 +1,10 @@
 <?php
 namespace PhpBrew;
 
-use \PhpBrew\Tasks\Apxs2CheckTask;
-use \PhpBrew\Tasks\Apxs2PatchTask;
-
 class Builder
 {
     /**
-     * @var \CLIFramework\Logger logger object
+     * @var CLIFramework\Logger logger object
      */
     public $logger;
 
@@ -24,7 +21,7 @@ class Builder
     public $targetDir;
 
     /**
-     * @var string source build directory
+     * @var source build directory
      */
     public $buildDir;
 
@@ -33,16 +30,16 @@ class Builder
      */
     public $root;
 
-    public function __construct($targetDir, $version)
+    public function __construct($targetDir,$version)
     {
-        $this->targetDir = $targetDir;
-        $this->root      = Config::getPhpbrewRoot();
-        $this->buildDir  = Config::getBuildDir();
-        $this->version   = $version;
+        $this->targetDir   = $targetDir;
+        $this->root        = Config::getPhpbrewRoot();
+        $this->buildDir    = Config::getBuildDir();
+        $this->version = $version;
         chdir($targetDir);
     }
 
-    public function configure(Build $build)
+    public function configure(\PhpBrew\Build $build)
     {
         $variantBuilder = new VariantBuilder;
 
@@ -71,11 +68,11 @@ class Builder
         $variantOptions = $variantBuilder->build($build);
 
         if ($variantOptions) {
-            $args = array_merge($args, $variantOptions);
+            $args = array_merge($args , $variantOptions);
         }
 
-        $this->logger->debug('Enabled variants: ' . join(', ', array_keys($build->getVariants())));
-        $this->logger->debug('Disabled variants: ' . join(', ', array_keys($build->getDisabledVariants())));
+        $this->logger->debug('Enabled variants: ' . join(', ',array_keys($build->getVariants())  ));
+        $this->logger->debug('Disabled variants: ' . join(', ',array_keys($build->getDisabledVariants())  ));
 
         if ($patchFiles = $this->options->patch) {
             foreach ($patchFiles as $patchFile) {
@@ -87,13 +84,10 @@ class Builder
 
         // let's apply patch for libphp{php version}.so (apxs)
         if ($build->isEnabledVariant('apxs2')) {
-            $apxs2Checker = new Apxs2CheckTask($this->logger);
+            $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
             $apxs2Checker->check($build);
-            $apxs2Patch = new Apxs2PatchTask($this->logger);
-
-            $options = new \stdClass();
-
-            $apxs2Patch->patch($build, $options);
+            $apxs2Patch = new \PhpBrew\Tasks\Apxs2PatchTask($this->logger);
+            $apxs2Patch->patch($build);
         }
 
         foreach ($extra as $a) {
@@ -105,24 +99,23 @@ class Builder
         $this->logger->info("===> Configuring {$build->version}...");
 
         $cmd->append = false;
-        $cmd->stdout = Config::getVersionBuildLogPath($build->name);
+        $cmd->stdout = Config::getVersionBuildLogPath( $build->name );
 
         echo "\n\n";
         echo "Use tail command to see what's going on:\n";
         echo "   $ tail -f {$cmd->stdout}\n\n\n";
 
-        $this->logger->debug($cmd->getCommand());
+        $this->logger->debug( $cmd->getCommand() );
 
-        if ($this->options->nice) {
-            $cmd->nice($this->options->nice);
-        }
+        if( $this->options->nice )
+            $cmd->nice( $this->options->nice );
 
         $cmd->execute() !== false or die('Configure failed.');
 
         // Then patch Makefile for PHP 5.3.x on 64bit system.
         $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $this->version);
 
-        if (Utils::support64bit() && version_compare($currentVersion, '5.3', '==')) {
+        if (Utils::support_64bit() && version_compare($currentVersion, '5.3', '==')) {
             $this->logger->info("===> Applying patch file for php5.3.x on 64bit machine.");
             system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
             system('sed -i \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
@@ -143,4 +136,5 @@ class Builder
     {
 
     }
+
 }

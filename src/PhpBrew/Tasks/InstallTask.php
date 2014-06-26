@@ -19,11 +19,9 @@ class InstallTask extends BaseTask
         $this->info("Installing...");
         $cmd = new CommandBuilder('make install');
         $cmd->append = true;
-
         if ($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
-
         if (! $options->dryrun) {
             $cmd->execute() !== false or die('Install failed.');
         }

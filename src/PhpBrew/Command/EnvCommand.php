@@ -1,22 +1,17 @@
 <?php
 namespace PhpBrew\Command;
-
 use PhpBrew\Config;
 use Exception;
 use PhpBrew\Utils;
-use CLIFramework\Command;
 
-class EnvCommand extends Command
+class EnvCommand extends \CLIFramework\Command
 {
-    public function brief()
-    {
-        return 'export environment variables';
-    }
+    public function brief() { return 'export environment variables'; }
 
     public function execute($version = null)
     {
         // get current version
-        if (!$version) {
+        if (! $version) {
             $version = getenv('PHPBREW_PHP');
         }
 
@@ -36,14 +31,13 @@ class EnvCommand extends Command
             // checking php version exists
             $version = Utils::findLatestPhpVersion($version);
             $targetPhpBinPath = Config::getVersionBinPath($version);
-
             if (!is_dir($targetPhpBinPath)) {
                 throw new Exception("# php version: " . $version . " not exists.");
             }
-
-            echo 'export PHPBREW_PHP=' . $version . "\n";
+            echo 'export PHPBREW_PHP='  . $version . "\n";
             echo 'export PHPBREW_PATH=' . ($version ? Config::getVersionBinPath($version) : '') . "\n";
         }
 
     }
+
 }

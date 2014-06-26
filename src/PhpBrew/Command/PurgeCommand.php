@@ -1,15 +1,11 @@
 <?php
 namespace PhpBrew\Command;
-
-use CLIFramework\Command;
+use PhpBrew\Config;
 use Exception;
 
-class PurgeCommand extends Command
+class PurgeCommand extends \CLIFramework\Command
 {
-    public function brief()
-    {
-        return 'remove installed php version and config files.';
-    }
+    public function brief() { return 'remove installed php version and config files.'; }
 
     public function execute($version = null)
     {

@@ -12,11 +12,8 @@ class UrlDownloader
     }
 
     /**
-     * @param string $url
-     *
-     * @return bool|string
-     *
-     * @throws \Exception
+     * @param  string $url
+     * @return string downloaded file (basename)
      */
     public function download($url)
     {
@@ -28,25 +25,17 @@ class UrlDownloader
         }
 
         // check for wget or curl for downloading the php source archive
-        if (exec('command -v wget')) {
-            $sysReturn = system('wget --no-check-certificate -c -O ' . $basename . ' ' . $url);
-
-            if ($sysReturn === false) {
-                die("Download failed.\n");
-            }
-        } elseif (exec('command -v curl')) {
-            $sysReturn = system('curl -C - -# -L -o ' . $basename . ' ' . $url);
-
-            if ($sysReturn === false) {
-                die("Download failed.\n");
-            }
+        if ( exec( 'command -v wget' ) ) {
+            system( 'wget --no-check-certificate -c -O ' . $basename . ' ' . $url ) !== false or die("Download failed.\n");
+        } elseif (exec( 'command -v curl' )) {
+            system( 'curl -C - -# -L -o ' . $basename . ' ' . $url ) !== false or die("Download failed.\n");
         } else {
             die("Download failed - neither wget nor curl was found\n");
         }
 
         $this->logger->info("===> $basename downloaded.");
 
-        if (!file_exists($basename)) {
+        if ( ! file_exists($basename) ) {
             throw new \Exception("Download failed.");
         }
 
@@ -68,11 +57,11 @@ class UrlDownloader
 
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
-
-        if (false === $path || false === strpos($path, ".")) {
+        if ( false === $path || false === strpos($path, ".") ) {
             return false;
         }
 
-        return basename($path);
+        return basename( $path );
     }
+
 }
