@@ -7,7 +7,7 @@ class Patch64BitSupportTask extends BaseTask
 
     public function match($build)
     {
-        return ( Utils::support64bit() && $build->compareVersion('5.4') == -1 );
+        return ( Utils::support_64bit() && $build->compareVersion('5.4') == -1 );
     }
 
     public function patch($build, $options)

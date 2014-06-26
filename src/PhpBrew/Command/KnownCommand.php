@@ -4,23 +4,16 @@ use PhpBrew\PhpSource;
 
 class KnownCommand extends \CLIFramework\Command
 {
-    public function brief()
-    {
-        return 'list known PHP versions';
-    }
+    public function brief() { return 'list known PHP versions'; }
 
-    /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
-     */
     public function options($opts)
     {
-        $opts->add('more', 'show more older versions');
-        $opts->add('svn', 'list subversion phps');
-        $opts->add('old', 'list old phps (less than 5.3)');
+        $opts->add('more','show more older versions');
+        $opts->add('svn','list subversion phps');
+        $opts->add('old','list old phps (less than 5.3)');
         $managers = PhpSource::getReleaseManagers();
-
         foreach ($managers as $id => $fullName) {
-            $opts->add($id, "list $id phps");
+            $opts->add($id,"list $id phps");
         }
     }
 

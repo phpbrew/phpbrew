@@ -1,8 +1,10 @@
 <?php
+
 namespace PhpBrew;
 
-class ExtensionMetaPolyfill extends ExtensionMetaAbstraction implements ExtensionMetaInterface
+class ExtensionMetaPolyfill  extends ExtensionMetaAbstraction implements ExtensionMetaInterface
 {
+
     protected $name;
 
     public function __construct($name)

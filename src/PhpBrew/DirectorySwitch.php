@@ -1,15 +1,14 @@
 <?php
 namespace PhpBrew;
-
 use Exception;
 
 class DirectorySwitch
 {
     protected $stack = array();
 
-    protected function chdir($dir)
+    protected function _chdir($dir)
     {
-        if (false === chdir($dir)) {
+        if ( false === chdir($dir) ) {
             throw new Exception("Can not change directory to $dir.");
         }
 
@@ -19,14 +18,14 @@ class DirectorySwitch
     public function cd($dir)
     {
         $this->stack[] = getcwd();
-        $this->chdir($dir);
+        $this->_chdir($dir);
     }
 
     public function back()
     {
-        if (!empty($this->stack)) {
+        if ( !empty($this->stack) ) {
             $dir = array_pop($this->stack);
-            $this->chdir($dir);
+            $this->_chdir($dir);
         } else {
             throw new Exception("The directory stack is empty. Can not go back.");
         }

@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew;
-
 use Exception;
 use PhpBrew\Exceptions\OopsException;
 
@@ -9,10 +8,10 @@ class VariantParser
 
     public static function splitVariantValue($str)
     {
-        if (strpos($str, '=') !== false) {
-            list($name, $val) = explode('=', $str);
+        if ( strpos($str,'=') !== false ) {
+            list($name,$val) = explode('=',$str);
 
-            return array($name => $val);
+            return array( $name => $val );
         }
 
         return array( $str => true );
@@ -35,20 +34,20 @@ class VariantParser
 
             if (! $startExtra) {
                 if ($arg[0] === '+' || $arg[0] === '-') {
-                    if (substr($arg, 0, 2) === '--') {
+                    if ( substr($arg,0,2) === '--' ) {
                         throw new Exception("Invalid variant option $arg");
                     }
 
-                    $variantStrings = preg_split('#(?=[+-])#', $arg);
-                    $variantStrings = array_filter($variantStrings);
+                    $variantStrs = preg_split('#(?=[+-])#', $arg);
+                    $variantStrs = array_filter($variantStrs);
 
-                    foreach ($variantStrings as $str) {
+                    foreach ($variantStrs as $str) {
                         if ($str[0] == '+') {
-                            $a = self::splitVariantValue(substr($str, 1));
-                            $enabledVariants = array_merge($enabledVariants, $a);
+                            $a = self::splitVariantValue( substr($str,1) );
+                            $enabledVariants = array_merge( $enabledVariants, $a );
                         } elseif ($str[0] == '-') {
-                            $a = self::splitVariantValue(substr($str, 1));
-                            $disabledVariants = array_merge($disabledVariants, $a);
+                            $a = self::splitVariantValue( substr($str,1) );
+                            $disabledVariants = array_merge( $disabledVariants, $a );
                         } else {
                             throw new OopsException;
                         }
@@ -95,6 +94,7 @@ class VariantParser
             'disabled_variants' => $disabledVariants,
             'extra_options' => $extra,
         );
+
     }
 
     public static function revealCommandArguments($info)
@@ -103,17 +103,15 @@ class VariantParser
 
         foreach ($info['enabled_variants'] as $k => $v) {
             $out .= '+' . $k;
-
             if (! is_bool($v)) {
                 $out .= '=' . $v . ' ';
             }
         }
-
-        if (!empty($info['disabled_variants'])) {
+        if ( ! empty($info['disabled_variants']) ) {
             $out .= " " . '-' . join('-', array_keys($info['disabled_variants']));
         }
 
-        if (!empty($info['extra_options'])) {
+        if ( ! empty($info['extra_options']) ) {
             $out .= " " . '-- ' . join(' ', $info['extra_options']);
         }
 
@@ -137,7 +135,7 @@ class VariantParser
 
         if (array_search($version, $installedVersions) === false) {
             throw new Exception(
-                "Can't inherit variants from {$version} because this version is not installed!"
+               "Can't inherit variants from {$version} because this version is not installed!"
             );
         }
         $variantsFile = Config::getVersionBuildPrefix($version)
@@ -152,4 +150,5 @@ class VariantParser
 
         return unserialize(file_get_contents($variantsFile));
     }
+
 }
