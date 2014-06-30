@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://www.php.net/releases/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" class=" js flexbox flexboxlegacy datauri"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+  <title>PHP: Releases</title>
+
+ <link rel="shortcut icon" href="http://www.php.net/favicon.ico">
+ <link rel="search" type="application/opensearchdescription+xml" href="http://php.net/phpnetimprovedsearch.src" title="Add PHP.net search">
+ <link rel="alternate" type="application/atom+xml" href="http://www.php.net/releases/feed.php" title="PHP Release feed">
+ <link rel="alternate" type="application/atom+xml" href="http://www.php.net/feed.atom" title="PHP: Hypertext Preprocessor">
+
+ <link rel="canonical" href="http://php.net/releases/index.php">
+ <link rel="shorturl" href="http://php.net/releases/index">
+ <link rel="alternate" href="http://php.net/releases/index" hreflang="x-default">
+
+
+
+<link rel="stylesheet" type="text/css" href="./php_net_releases_files/cached.php" media="screen">
+<link rel="stylesheet" type="text/css" href="./php_net_releases_files/cached(1).php" media="screen">
+<link rel="stylesheet" type="text/css" href="./php_net_releases_files/cached(2).php" media="screen">
+
+ <!--[if lte IE 7]>
+ <link rel="stylesheet" type="text/css" href="http://www.php.net/styles/workarounds.ie7.css" media="screen">
+ <![endif]-->
+
+ <!--[if lte IE 8]>
+ <script type="text/javascript">
+  window.brokenIE = true;
+ </script>
+ <![endif]-->
+
+ <!--[if lte IE 9]>
+ <link rel="stylesheet" type="text/css" href="http://www.php.net/styles/workarounds.ie9.css" media="screen">
+ <![endif]-->
+
+ <!--[if IE]>
+ <script type="text/javascript" src="http://www.php.net/js/ext/html5.js"></script>
+ <![endif]-->
+
+ <!--<base href="http://www.php.net/releases/index.php">--><base href=".">
+
+<style type="text/css"></style></head>
+<body class="downloads ">
+
+<nav id="head-nav" class="navbar navbar-fixed-top">
+  <div class="navbar-inner clearfix">
+    <a href="http://www.php.net/" class="brand"><img src="./php_net_releases_files/logo.php" width="48" height="24" alt="php"></a>
+    <div id="mainmenu-toggle-overlay"></div>
+    <input type="checkbox" id="mainmenu-toggle">
+    <ul class="nav">
+      <li class="active"><a href="http://www.php.net/downloads">Downloads</a></li>
+      <li class=""><a href="http://www.php.net/docs.php">Documentation</a></li>
+      <li class=""><a href="http://www.php.net/get-involved">Get Involved</a></li>
+      <li class=""><a href="http://www.php.net/support">Help</a></li>
+    </ul>
+    <form class="navbar-search" id="topsearch" action="http://www.php.net/search.php">
+      <input type="hidden" name="show" value="quickref">
+      <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input class="tt-hint search-query" type="text" autocomplete="off" spellcheck="off" disabled="" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input type="search" name="pattern" class="search-query tt-query" placeholder="Search" accesskey="s" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;"><input type="submit" style="visibility: hidden; position: fixed"><span style="position: absolute; left: -9999px; visibility: hidden; white-space: nowrap; font-family: &#39;Fira Sans&#39;, &#39;Source Sans Pro&#39;, Helvetica, Arial, sans-serif; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></span><span class="tt-dropdown-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"></span></span>
+    </form>
+  </div>
+  <div id="flash-message"></div>
+</nav>
+<nav id="trick"><div><dl>
+<dt><a href="http://www.php.net/manual/en/getting-started.php">Getting Started</a></dt>
+	<dd><a href="http://www.php.net/manual/en/introduction.php">Introduction</a></dd>
+	<dd><a href="http://www.php.net/manual/en/tutorial.php">A simple tutorial</a></dd>
+<dt><a href="http://www.php.net/manual/en/langref.php">Language Reference</a></dt>
+	<dd><a href="http://www.php.net/manual/en/language.basic-syntax.php">Basic syntax</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.types.php">Types</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.variables.php">Variables</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.constants.php">Constants</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.expressions.php">Expressions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.operators.php">Operators</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.control-structures.php">Control Structures</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.functions.php">Functions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.oop5.php">Classes and Objects</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.namespaces.php">Namespaces</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.exceptions.php">Exceptions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.generators.php">Generators</a></dd>
+	<dd><a href="http://www.php.net/manual/en/language.references.php">References Explained</a></dd>
+	<dd><a href="http://www.php.net/manual/en/reserved.variables.php">Predefined Variables</a></dd>
+	<dd><a href="http://www.php.net/manual/en/reserved.exceptions.php">Predefined Exceptions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/reserved.interfaces.php">Predefined Interfaces and Classes</a></dd>
+	<dd><a href="http://www.php.net/manual/en/context.php">Context options and parameters</a></dd>
+	<dd><a href="http://www.php.net/manual/en/wrappers.php">Supported Protocols and Wrappers</a></dd>
+</dl>
+<dl>
+<dt><a href="http://www.php.net/manual/en/security.php">Security</a></dt>
+	<dd><a href="http://www.php.net/manual/en/security.intro.php">Introduction</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.general.php">General considerations</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.cgi-bin.php">Installed as CGI binary</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.apache.php">Installed as an Apache module</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.filesystem.php">Filesystem Security</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.database.php">Database Security</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.errors.php">Error Reporting</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.globals.php">Using Register Globals</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.variables.php">User Submitted Data</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.magicquotes.php">Magic Quotes</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.hiding.php">Hiding PHP</a></dd>
+	<dd><a href="http://www.php.net/manual/en/security.current.php">Keeping Current</a></dd>
+<dt><a href="http://www.php.net/manual/en/features.php">Features</a></dt>
+	<dd><a href="http://www.php.net/manual/en/features.http-auth.php">HTTP authentication with PHP</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.cookies.php">Cookies</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.sessions.php">Sessions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.xforms.php">Dealing with XForms</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.file-upload.php">Handling file uploads</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.remote-files.php">Using remote files</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.connection-handling.php">Connection handling</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.persistent-connections.php">Persistent Database Connections</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.safe-mode.php">Safe Mode</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.commandline.php">Command line usage</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.gc.php">Garbage Collection</a></dd>
+	<dd><a href="http://www.php.net/manual/en/features.dtrace.php">DTrace Dynamic Tracing</a></dd>
+</dl>
+<dl>
+<dt><a href="http://www.php.net/manual/en/funcref.php">Function Reference</a></dt>
+	<dd><a href="http://www.php.net/manual/en/refs.basic.php.php">Affecting PHP's Behaviour</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.utilspec.audio.php">Audio Formats Manipulation</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.remote.auth.php">Authentication Services</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.utilspec.cmdline.php">Command Line Specific Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.compression.php">Compression and Archive Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.creditcard.php">Credit Card Processing</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.crypto.php">Cryptography Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.database.php">Database Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.calendar.php">Date and Time Related Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.fileprocess.file.php">File System Related Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.international.php">Human Language and Character Encoding Support</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.utilspec.image.php">Image Processing and Generation</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.remote.mail.php">Mail Related Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.math.php">Mathematical Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.utilspec.nontext.php">Non-Text MIME Output</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.fileprocess.process.php">Process Control Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.basic.other.php">Other Basic Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.remote.other.php">Other Services</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.search.php">Search Engine Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.utilspec.server.php">Server Specific Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.basic.session.php">Session Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.basic.text.php">Text Processing</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.basic.vartype.php">Variable and Type Related Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.webservice.php">Web Services</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.utilspec.windows.php">Windows Only Extensions</a></dd>
+	<dd><a href="http://www.php.net/manual/en/refs.xml.php">XML Manipulation</a></dd>
+</dl>
+<dl>
+<dt>Keyboard Shortcuts</dt><dt>?</dt>
+<dd>This help</dd>
+<dt>j</dt>
+<dd>Next menu item</dd>
+<dt>k</dt>
+<dd>Previous menu item</dd>
+<dt>g p</dt>
+<dd>Previous man page</dd>
+<dt>g n</dt>
+<dd>Next man page</dd>
+<dt>G</dt>
+<dd>Scroll to bottom</dd>
+<dt>g g</dt>
+<dd>Scroll to top</dd>
+<dt>g h</dt>
+<dd>Goto homepage</dd>
+<dt>g s</dt>
+<dd>Goto search<br>(current page)</dd>
+<dt>/</dt>
+<dd>Focus search box</dd>
+</dl></div></nav>
+<div id="goto">
+    <div class="search">
+         <div class="text"></div>
+         <div class="results"><ul></ul></div>
+   </div>
+</div>
+
+
+
+
+
+<div id="layout">
+  <section id="layout-content">
+
+<h1>Unsupported Historical Releases</h1>
+
+<p>
+ We have collected all the official information and code available for
+ past PHP releases. You can find more details on the current release
+ on <a href="http://www.php.net/downloads.php">our downloads page</a>. Please note that
+ <em>older releases are listed for archival purposes only, and
+ they are no longer supported</em>.
+</p>
+
+<p>
+ <em>Note to Windows users: Only PHP 5.3+ versions are available as both VC6 and VC9 builds.
+ All versions prior were built using VC6.</em>
+</p>
+
+<a name="v5"></a><a name="5.5.13"></a>
+<h2>5.5.13</h2>
+<ul>
+ <li>Released: 29 May 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_13.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.13">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.13.tar.bz2/from/a/mirror">PHP 5.5.13 (tar.bz2)</a><br>
+<span class="md5sum">md5: e26e90af25ee6505dc18855e0180ffe9</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.13.tar.gz/from/a/mirror">PHP 5.5.13 (tar.gz)</a><br>
+<span class="md5sum">md5: 32d0fc26fccdb249a918c0e01ffb7b82</span>
+ </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.12"></a>
+<h2>5.5.12</h2>
+<ul>
+ <li>Released: 30 Apr 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_12.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.12">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.12.tar.bz2/from/a/mirror">PHP 5.5.12 (tar.bz2)</a><br>
+<span class="md5sum">md5: 943af92c2e67bba29429bdd9acf9cbd4</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.12.tar.gz/from/a/mirror">PHP 5.5.12 (tar.gz)</a><br>
+<span class="md5sum">md5: b6a6e9c72589c265aafb7b3353a34030</span>
+ </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.11"></a>
+<h2>5.5.11</h2>
+<ul>
+ <li>Released: 3 Apr 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_11.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.11">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.11.tar.bz2/from/a/mirror">PHP 5.5.11 (tar.bz2)</a><br>
+<span class="md5sum">md5: c8c9ad960bae0265054b5879423f7a75</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.11.tar.gz/from/a/mirror">PHP 5.5.11 (tar.gz)</a><br>
+<span class="md5sum">md5: 9156fcd4b254cbfa9a7535f931da29d5</span>
+ </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.10"></a>
+<h2>5.5.10</h2>
+<ul>
+ <li>Released: 6 Mar 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_10.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.10">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.10.tar.bz2/from/a/mirror">PHP 5.5.10 (tar.bz2)</a><br>
+<span class="md5sum">md5: d608230c7890b6a0cc5b92e66e866226</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.10.tar.gz/from/a/mirror">PHP 5.5.10 (tar.gz)</a><br>
+<span class="md5sum">md5: e760656f7cf2f05158f73da75e8b720b</span>
+ </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.9"></a>
+<h2>5.5.9</h2>
+<ul>
+ <li>Released: 6 Feb 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_9.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.9">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.9.tar.bz2/from/a/mirror">PHP 5.5.9 (tar.bz2)</a><br>
+<span class="md5sum">md5: c4a348a07b52f6e177d8fdc75fe507b1</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.9.tar.gz/from/a/mirror">PHP 5.5.9 (tar.gz)</a><br>
+<span class="md5sum">md5: c018461604db38af48d1ca304cb592c6</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.9.tar.xz/from/a/mirror">PHP 5.5.9 (tar.xz)</a><br>
+<span class="md5sum">md5: 139e2ac02fddd4c80cc31de000c6f7e3</span>
+ </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.8"></a>
+<h2>5.5.8</h2>
+<ul>
+ <li>Released: 9 Jan 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_8.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.8">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.8.tar.bz2/from/a/mirror">PHP 5.5.8 (tar.bz2)</a><br>
+<span class="md5sum">md5: 42fe814a3cbbf34b21a2c39f66ee0001</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.8.tar.gz/from/a/mirror">PHP 5.5.8 (tar.gz)</a><br>
+<span class="md5sum">md5: 1ed2b0193ecaca8b980a9b6a90357f1c</span>
+ </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.7"></a>
+<h2>5.5.7</h2>
+<ul>
+ <li>Released: 12 Dec 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_7.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.7">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.7.tar.bz2/from/a/mirror">PHP 5.5.7 (tar.bz2)</a><br>
+<span class="md5sum">md5: 19d1ca0a58e192bcc133f700c7e78037</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.7.tar.gz/from/a/mirror">PHP 5.5.7 (tar.gz)</a><br>
+<span class="md5sum">md5: c8e1eda750819e6c8682f06d381f3971</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.7.tar.xz/from/a/mirror">PHP 5.5.7 (tar.xz)</a><br>
+<span class="md5sum">md5: 0c02437f661105221e99a301a5275a41</span>
+ </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.6"></a>
+<h2>5.5.6</h2>
+<ul>
+ <li>Released: 14 Nov 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_6.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.6">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.6.tar.bz2/from/a/mirror">PHP 5.5.6 (tar.bz2)</a><br>
+<span class="md5sum">md5: 1472b1f968a2a4ae8b26f3134a116011</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.6.tar.gz/from/a/mirror">PHP 5.5.6 (tar.gz)</a><br>
+<span class="md5sum">md5: 82968eac50c523ecf7a05855cb5c3d0a</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.6.tar.xz/from/a/mirror">PHP 5.5.6 (tar.xz)</a><br>
+<span class="md5sum">md5: 77ad90035931aacb95d11318b09c12ca</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.5">Windows 5.5.6 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.5"></a>
+<h2>5.5.5</h2>
+<ul>
+ <li>Released: 17 Oct 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_5.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.5">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.5.5.tar.bz2/from/a/mirror">PHP 5.5.5 (tar.bz2)</a><br>
+<span class="md5sum">md5: 186c330c272d6322d254db9b2d18482a</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.5.tar.gz/from/a/mirror">PHP 5.5.5 (tar.gz)</a><br>
+<span class="md5sum">md5: 6bb31ee3466ed7a47943dcc04dd64195</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.5.5.tar.xz/from/a/mirror">PHP 5.5.5 (tar.xz)</a><br>
+<span class="md5sum">md5: a4788118fdb0c4d8cef08be72025e983</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.5">Windows 5.5.5 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.5.4"></a>
+<h2>5.5.4</h2>
+<ul>
+ <li>Released: 19 Sep 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_4.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.5.4.tar.bz2">PHP 5.5.4 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.5.4.tar.gz">PHP 5.5.4 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.5.4.tar.xz">PHP 5.5.4 (tar.xz)</a>
+  </li>
+ </ul>
+<a name="5.5.3"></a>
+<h2>5.5.3</h2>
+<ul>
+ <li>Released: 22 Aug 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_3.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.5.3.tar.bz2">PHP 5.5.3 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.5.3.tar.gz">PHP 5.5.3 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.5.3.tar.xz">PHP 5.5.3 (tar.xz)</a>
+  </li>
+ </ul>
+<a name="5.5.2"></a>
+<h2>5.5.2</h2>
+<ul>
+ <li>Released: 15 Aug 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_2.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.5.2.tar.bz2">PHP 5.5.2 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.5.2.tar.gz">PHP 5.5.2 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.5.2.tar.xz">PHP 5.5.2 (tar.xz)</a>
+  </li>
+ </ul>
+<a name="5.5.1"></a>
+<h2>5.5.1</h2>
+<ul>
+ <li>Released: 18 Jul 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.5.1.tar.bz2">PHP 5.5.1 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.5.1.tar.gz">PHP 5.5.1 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.5.1.tar.xz">PHP 5.5.1 (tar.xz)</a>
+  </li>
+ </ul>
+<a name="5.5.0"></a>
+<h2>5.5.0</h2>
+<ul>
+ <li>Released: 20 Jun 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_5_0.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.5.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.5.0.tar.bz2">PHP 5.5.0 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.5.0.tar.gz">PHP 5.5.0 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.5.0.tar.xz">PHP 5.5.0 (tar.xz)</a>
+  </li>
+ </ul>
+<a name="5.4.29"></a>
+<h2>5.4.29</h2>
+<ul>
+ <li>Released: 29 May 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_29.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.29">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.29.tar.bz2/from/a/mirror">PHP 5.4.29 (tar.bz2)</a><br>
+<span class="md5sum">md5: 64326cef257e5af17c366fefab136e53</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.29.tar.gz/from/a/mirror">PHP 5.4.29 (tar.gz)</a><br>
+<span class="md5sum">md5: 9caf973b19ba93bb2b78f78c61643d5d</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.29 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.28"></a>
+<h2>5.4.28</h2>
+<ul>
+ <li>Released: 2 May 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_28.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.28">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.28.tar.bz2/from/a/mirror">PHP 5.4.28 (tar.bz2)</a><br>
+<span class="md5sum">md5: 1676c807683041445f0df63913738571</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.28.tar.gz/from/a/mirror">PHP 5.4.28 (tar.gz)</a><br>
+<span class="md5sum">md5: 7fd1235a56d4579ef3c9497a983c4a83</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.28 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.27"></a>
+<h2>5.4.27</h2>
+<ul>
+ <li>Released: 3 Apr 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_27.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.27">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.27.tar.bz2/from/a/mirror">PHP 5.4.27 (tar.bz2)</a><br>
+<span class="md5sum">md5: 1c6e99187d25023411b663ea09f145ee</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.27.tar.gz/from/a/mirror">PHP 5.4.27 (tar.gz)</a><br>
+<span class="md5sum">md5: 3080690bbb14d798a511e325a81a6f32</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.27 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.26"></a>
+<h2>5.4.26</h2>
+<ul>
+ <li>Released: 6 Mar 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_26.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.26">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.26.tar.bz2/from/a/mirror">PHP 5.4.26 (tar.bz2)</a><br>
+<span class="md5sum">md5: 979e17b5492ce9c65a3c37f22c7c9655</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.26.tar.gz/from/a/mirror">PHP 5.4.26 (tar.gz)</a><br>
+<span class="md5sum">md5: 7e5f6254d1bac06efc225259a1e38a27</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.26 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.25"></a>
+<h2>5.4.25</h2>
+<ul>
+ <li>Released: 6 Feb 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_25.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.25">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.25.tar.bz2/from/a/mirror">PHP 5.4.25 (tar.bz2)</a><br>
+<span class="md5sum">md5: 5dca494468e77528e145f8d3f07b389e</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.25.tar.gz/from/a/mirror">PHP 5.4.25 (tar.gz)</a><br>
+<span class="md5sum">md5: 5fa2bd02d639154471602b286e223015</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.25 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.24"></a>
+<h2>5.4.24</h2>
+<ul>
+ <li>Released: 9 Jan 2014</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_24.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.24">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.24.tar.bz2/from/a/mirror">PHP 5.4.24 (tar.bz2)</a><br>
+<span class="md5sum">md5: acef880cc808b85e216897ee88187ee1</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.24.tar.gz/from/a/mirror">PHP 5.4.24 (tar.gz)</a><br>
+<span class="md5sum">md5: 5f91782611a4bd665a3df162b43237c2</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.24 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.23"></a>
+<h2>5.4.23</h2>
+<ul>
+ <li>Released: 12 Dec 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_23.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.23">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.23.tar.bz2/from/a/mirror">PHP 5.4.23 (tar.bz2)</a><br>
+<span class="md5sum">md5: 023857598b92ea5c78137543817f4bc5</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.23.tar.gz/from/a/mirror">PHP 5.4.23 (tar.gz)</a><br>
+<span class="md5sum">md5: 5f75398b736548c7355fea199ea5c987</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.23 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.22"></a>
+<h2>5.4.22</h2>
+<ul>
+ <li>Released: 14 Nov 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_22.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.22">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.4.22.tar.bz2/from/a/mirror">PHP 5.4.22 (tar.bz2)</a><br>
+<span class="md5sum">md5: 0a7400d1d7f1f55b2b36285bf1a00762</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.4.22.tar.gz/from/a/mirror">PHP 5.4.22 (tar.gz)</a><br>
+<span class="md5sum">md5: a23fead825db383f6b364dd3c825b729</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.4">Windows 5.4.22 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.4.21"></a>
+<h2>5.4.21</h2>
+<ul>
+ <li>Released: 17 Oct 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_21.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.21">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.21.tar.bz2">PHP 5.4.21 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.21.tar.gz">PHP 5.4.21 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.20"></a>
+<h2>5.4.20</h2>
+<ul>
+ <li>Released: 19 Sep 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_20.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.20">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.20.tar.bz2">PHP 5.4.20 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.20.tar.gz">PHP 5.4.20 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.19"></a>
+<h2>5.4.19</h2>
+<ul>
+ <li>Released: 22 Aug 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_19.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.19">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.19.tar.bz2">PHP 5.4.19 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.19.tar.gz">PHP 5.4.19 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.18"></a>
+<h2>5.4.18</h2>
+<ul>
+ <li>Released: 04 Jul 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_18.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.18">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.18.tar.bz2">PHP 5.4.18 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.18.tar.gz">PHP 5.4.18 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.17"></a>
+<h2>5.4.17</h2>
+<ul>
+ <li>Released: 04 Jul 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_17.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.17">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.17.tar.bz2">PHP 5.4.17 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.17.tar.gz">PHP 5.4.17 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.16"></a>
+<h2>5.4.16</h2>
+<ul>
+ <li>Released: 09 May 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_16.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.16">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.16.tar.bz2">PHP 5.4.16 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.16.tar.gz">PHP 5.4.16 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.15"></a>
+<h2>5.4.15</h2>
+<ul>
+ <li>Released: 09 May 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_15.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.15">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.15.tar.bz2">PHP 5.4.15 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.15.tar.gz">PHP 5.4.15 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.14"></a>
+<h2>5.4.14</h2>
+<ul>
+ <li>Released: 11 Apr 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_14.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.14">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.14.tar.bz2">PHP 5.4.14 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.14.tar.gz">PHP 5.4.14 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.13"></a>
+<h2>5.4.13</h2>
+<ul>
+ <li>Released: 14 Mar 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_13.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.13">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.13.tar.bz2">PHP 5.4.13 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.13.tar.gz">PHP 5.4.13 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.12"></a>
+<h2>5.4.12</h2>
+<ul>
+ <li>Released: 21 Feb 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_12.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.12">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.12.tar.bz2">PHP 5.4.12 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.12.tar.gz">PHP 5.4.12 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.11"></a>
+<h2>5.4.11</h2>
+<ul>
+ <li>Released: 17 Jan 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_11.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.11">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.11.tar.bz2">PHP 5.4.11 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.11.tar.gz">PHP 5.4.11 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.10"></a>
+<h2>5.4.10</h2>
+<ul>
+ <li>Released: 20 Dec 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_10.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.10">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.10.tar.bz2">PHP 5.4.10 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.10.tar.gz">PHP 5.4.10 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.9"></a>
+<h2>5.4.9</h2>
+<ul>
+ <li>Released: 22 Nov 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_9.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.9">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.9.tar.bz2">PHP 5.4.9 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.9.tar.gz">PHP 5.4.9 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.8"></a>
+<h2>5.4.8</h2>
+<ul>
+ <li>Released: 18 Oct 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_8.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.8">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.8.tar.bz2">PHP 5.4.8 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.8.tar.gz">PHP 5.4.8 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.7"></a>
+<h2>5.4.7</h2>
+<ul>
+ <li>Released: 13 Sep 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_7.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.7">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.7.tar.bz2">PHP 5.4.7 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.7.tar.gz">PHP 5.4.7 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.6"></a>
+<h2>5.4.6</h2>
+<ul>
+ <li>Released: 16 Aug 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_6.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.6">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.6.tar.bz2">PHP 5.4.6 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.6.tar.gz">PHP 5.4.6 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.5"></a>
+<h2>5.4.5</h2>
+<ul>
+ <li>Released: 19 July 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_5.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.5.tar.bz2">PHP 5.4.5 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.5.tar.gz">PHP 5.4.5 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.4"></a>
+<h2>5.4.4</h2>
+<ul>
+ <li>Released: 14 June 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_4.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.4.tar.bz2">PHP 5.4.4 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.4.tar.gz">PHP 5.4.4 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.3"></a>
+<h2>5.4.3</h2>
+<ul>
+ <li>Released: 08 May 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_3.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.3.tar.bz2">PHP 5.4.3 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.3.tar.gz">PHP 5.4.3 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.2"></a>
+<h2>5.4.2</h2>
+<ul>
+ <li>Released: 03 May 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_2.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.2.tar.bz2">PHP 5.4.2 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.2.tar.gz">PHP 5.4.2 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.1"></a>
+<h2>5.4.1</h2>
+<ul>
+ <li>Released: 26 April 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.1.tar.bz2">PHP 5.4.1 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.1.tar.gz">PHP 5.4.1 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.4.0"></a>
+<h2>5.4.0</h2>
+<ul>
+ <li>Released: 01 March 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_4_0.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.4.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.4.0.tar.bz2">PHP 5.4.0 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.4.0.tar.gz">PHP 5.4.0 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.27"></a>
+<h2>5.3.27</h2>
+<ul>
+ <li>Released: 11 Jul 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_27.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.27">ChangeLog</a></li>
+ <li>
+  Download:
+<ul>
+ <li>
+<a href="http://www.php.net/get/php-5.3.27.tar.bz2/from/a/mirror">PHP 5.3.27 (tar.bz2)</a><br>
+<span class="md5sum">md5: 25ae23a5b9615fe8d33de5b63e1bb788</span>
+ </li>
+ <li>
+<a href="http://www.php.net/get/php-5.3.27.tar.gz/from/a/mirror">PHP 5.3.27 (tar.gz)</a><br>
+<span class="md5sum">md5: bd03bfa9e7db40b6f2950fcbcf6a8276</span>
+ </li>
+ <li>
+<a href="http://windows.php.net/download/#php-5.3">Windows 5.3.27 binaries and source</a> </li>
+</ul>
+  </li>
+ </ul>
+<a name="5.3.26"></a>
+<h2>5.3.26</h2>
+<ul>
+ <li>Released: 06 Jun 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_26.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.26">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.26.tar.bz2">PHP 5.3.26 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.26.tar.gz">PHP 5.3.26 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.25"></a>
+<h2>5.3.25</h2>
+<ul>
+ <li>Released: 09 May 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_25.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.25">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.25.tar.bz2">PHP 5.3.25 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.25.tar.gz">PHP 5.3.25 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.24"></a>
+<h2>5.3.24</h2>
+<ul>
+ <li>Released: 11 Apr 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_24.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.24">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.24.tar.bz2">PHP 5.3.24 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.24.tar.gz">PHP 5.3.24 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.23"></a>
+<h2>5.3.23</h2>
+<ul>
+ <li>Released: 14 Mar 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_23.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.23">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.23.tar.bz2">PHP 5.3.23 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.23.tar.gz">PHP 5.3.23 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.22"></a>
+<h2>5.3.22</h2>
+<ul>
+ <li>Released: 21 Feb 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_22.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.22">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.22.tar.bz2">PHP 5.3.22 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.22.tar.gz">PHP 5.3.22 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.21"></a>
+<h2>5.3.21</h2>
+<ul>
+ <li>Released: 17 Jan 2013</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_21.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.21">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.21.tar.bz2">PHP 5.3.21 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.21.tar.gz">PHP 5.3.21 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.20"></a>
+<h2>5.3.20</h2>
+<ul>
+ <li>Released: 20 Dec 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_20.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.20">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.20.tar.bz2">PHP 5.3.20 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.20.tar.gz">PHP 5.3.20 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.19"></a>
+<h2>5.3.19</h2>
+<ul>
+ <li>Released: 22 Nov 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_19.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.19">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.19.tar.bz2">PHP 5.3.19 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.19.tar.gz">PHP 5.3.19 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.18"></a>
+<h2>5.3.18</h2>
+<ul>
+ <li>Released: 18 Oct 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_18.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.18">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.18.tar.bz2">PHP 5.3.18 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.18.tar.gz">PHP 5.3.18 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.17"></a>
+<h2>5.3.17</h2>
+<ul>
+ <li>Released: 13 Sep 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_17.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.17">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.17.tar.bz2">PHP 5.3.17 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.17.tar.gz">PHP 5.3.17 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.16"></a>
+<h2>5.3.16</h2>
+<ul>
+ <li>Released: 16 Aug 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_16.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.16">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.16.tar.bz2">PHP 5.3.16 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.16.tar.gz">PHP 5.3.16 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.15"></a>
+<h2>5.3.15</h2>
+<ul>
+ <li>Released: 19 July 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_15.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.15">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.15.tar.bz2">PHP 5.3.15 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.15.tar.gz">PHP 5.3.15 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.14"></a>
+<h2>5.3.14</h2>
+<ul>
+ <li>Released: 14 June 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_14.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.14">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.14.tar.bz2">PHP 5.3.14 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.14.tar.gz">PHP 5.3.14 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.13"></a>
+<h2>5.3.13</h2>
+<ul>
+ <li>Released: 08 May 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_13.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.13">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.13.tar.bz2">PHP 5.3.13 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.13.tar.gz">PHP 5.3.13 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.12"></a>
+<h2>5.3.12</h2>
+<ul>
+ <li>Released: 03 May 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_12.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.12">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.12.tar.bz2">PHP 5.3.12 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.12.tar.gz">PHP 5.3.12 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.11"></a>
+<h2>5.3.11</h2>
+<ul>
+ <li>Released: 26 April 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_11.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.11">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.11.tar.bz2">PHP 5.3.11 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.11.tar.gz">PHP 5.3.11 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.10"></a>
+<h2>5.3.10</h2>
+<ul>
+ <li>Released: 02 February 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_10.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.10">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.10.tar.bz2">PHP 5.3.10 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.10.tar.gz">PHP 5.3.10 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.9"></a>
+<h2>5.3.9</h2>
+<ul>
+ <li>Released: 10 January 2012</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_9.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.9">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.9.tar.bz2">PHP 5.3.9 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.9.tar.gz">PHP 5.3.9 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.8"></a>
+<h2>5.3.8</h2>
+<ul>
+ <li>Released: 23 August 2011</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_8.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.8">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.8.tar.bz2">PHP 5.3.8 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.8.tar.gz">PHP 5.3.8 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.7"></a>
+<h2>5.3.7</h2>
+<ul>
+ <li>Released: 18 August 2011</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_7.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.7">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.7.tar.bz2">PHP 5.3.7 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.7.tar.gz">PHP 5.3.7 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.6"></a>
+<h2>5.3.6</h2>
+<ul>
+ <li>Released: 19 March 2011</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_6.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.6">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.6.tar.bz2">PHP 5.3.6 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.6.tar.gz">PHP 5.3.6 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.5"></a>
+<h2>5.3.5</h2>
+<ul>
+ <li>Released: 06 January 2011</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_5.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.5.tar.bz2">PHP 5.3.5 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.5.tar.gz">PHP 5.3.5 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.4"></a>
+<h2>5.3.4</h2>
+<ul>
+ <li>Released: 09 December 2010</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_4.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.4.tar.bz2">PHP 5.3.4 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.4.tar.gz">PHP 5.3.4 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.2.17"></a>
+<h2>5.2.17</h2>
+<ul>
+ <li>Released: 06 January 2011</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_17.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.17">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.17.tar.bz2">PHP 5.2.17 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.17.tar.gz">PHP 5.2.17 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.2.16"></a>
+<h2>5.2.16</h2>
+<ul>
+ <li>Released: 16 December 2010</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_16.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.16">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.16.tar.bz2">PHP 5.2.16 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.16.tar.gz">PHP 5.2.16 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.2.15"></a>
+<h2>5.2.15</h2>
+<ul>
+ <li>Released: 09 December 2010</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_15.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.15">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.15.tar.bz2">PHP 5.2.15 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.15.tar.gz">PHP 5.2.15 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.3"></a>
+<h2>5.3.3</h2>
+<ul>
+ <li>Released: 22 July 2010</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_3.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.3.tar.bz2">PHP 5.3.3 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.3.tar.gz">PHP 5.3.3 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.2.14"></a>
+<h2>5.2.14</h2>
+<ul>
+ <li>Released: 22 July 2010</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_14.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.14">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.14.tar.bz2">PHP 5.2.14 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.14.tar.gz">PHP 5.2.14 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.3.2"></a>
+<h2>5.3.2</h2>
+<ul>
+ <li>Released: 04 Mar 2010</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_2.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.2.tar.bz2">PHP 5.3.2 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.2.tar.gz">PHP 5.3.2 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.2.13"></a>
+<h2>5.2.13</h2>
+<ul>
+ <li>Released: 25 Feb 2010</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_13.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.13">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.13.tar.bz2">PHP 5.2.13 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.13.tar.gz">PHP 5.2.13 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.13-Win32.zip">PHP 5.2.13 zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.13-win32-installer.msi">PHP 5.2.13 installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.13-Win32.zip">PHP 5.2.13 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/php-5.2.13-nts-Win32.zip">PHP 5.2.13 Non-thread-safe zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.13-nts-win32-installer.msi">PHP 5.2.13 Non-thread-safe installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.13-nts-Win32.zip">PHP 5.2.13 Non-thread-safe Win32 Debug Pack</a>
+  </li>
+ </ul>
+<a name="5.3.1"></a>
+<h2>5.3.1</h2>
+<ul>
+ <li>Released: 19 Nov 2009</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.1.tar.bz2">PHP 5.3.1 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.1.tar.gz">PHP 5.3.1 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.2.12"></a>
+<h2>5.2.12</h2>
+<ul>
+ <li>Released: 17 December 2009</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_12.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.12">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.12.tar.bz2">PHP 5.2.12 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.12.tar.gz">PHP 5.2.12 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.12-Win32.zip">PHP 5.2.12 zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.12-win32-installer.msi">PHP 5.2.12 installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.12-Win32.zip">PHP 5.2.12 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/php-5.2.12-nts-Win32.zip">PHP 5.2.12 Non-thread-safe zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.12-nts-win32-installer.msi">PHP 5.2.12 Non-thread-safe installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.12-nts-Win32.zip">PHP 5.2.12 Non-thread-safe Win32 Debug Pack</a>
+  </li>
+ </ul>
+<a name="5.2.11"></a>
+<h2>5.2.11</h2>
+<ul>
+ <li>Released: 17 September 2009</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_11.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.11">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.11.tar.bz2">PHP 5.2.11 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.11.tar.gz">PHP 5.2.11 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.11-Win32.zip">PHP 5.2.11 zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.11-win32-installer.msi">PHP 5.2.11 installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.11-Win32.zip">PHP 5.2.11 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/php-5.2.11-nts-Win32.zip">PHP 5.2.11 Non-thread-safe zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.11-nts-win32-installer.msi">PHP 5.2.11 Non-thread-safe installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.11-nts-Win32.zip">PHP 5.2.11 Non-thread-safe Win32 Debug Pack</a>
+  </li>
+ </ul>
+<a name="5.3.0"></a>
+<h2>5.3.0</h2>
+<ul>
+ <li>Released: 30 June 2009</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_3_0.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.3.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.3.0.tar.bz2">PHP 5.3.0 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.3.0.tar.gz">PHP 5.3.0 (tar.gz)</a>
+  </li>
+ </ul>
+<a name="5.2.10"></a>
+<h2>5.2.10</h2>
+<ul>
+ <li>Released: 18 June 2009</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_10.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.10">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.10.tar.bz2">PHP 5.2.10 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.10.tar.gz">PHP 5.2.10 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.10-Win32.zip">PHP 5.2.10 zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.10-win32-installer.msi">PHP 5.2.10 installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.10-Win32.zip">PHP 5.2.10 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/php-5.2.10-nts-Win32.zip">PHP 5.2.10 Non-thread-safe zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.10-nts-win32-installer.msi">PHP 5.2.10 Non-thread-safe installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.10-nts-Win32.zip">PHP 5.2.10 Non-thread-safe Win32 Debug Pack</a>
+  </li>
+ </ul>
+<a name="5.2.9"></a>
+<h2>5.2.9</h2>
+<ul>
+ <li>Released: 26 February 2009</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_9.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.9">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.9.tar.bz2">PHP 5.2.9 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.9.tar.gz">PHP 5.2.9 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.9-2-Win32.zip">PHP 5.2.9-2 zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.9-2-win32-installer.msi">PHP 5.2.9-2 installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.9-2-Win32.zip">PHP 5.2.9 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/php-5.2.9-2-nts-Win32.zip">PHP 5.2.9-2 Non-thread-safe zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.9-2-nts-win32-installer.msi">PHP 5.2.9-2 Non-thread-safe installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.9-2-nts-Win32.zip">PHP 5.2.9 Non-thread-safe Win32 Debug Pack</a>
+  </li>
+ </ul>
+<a name="5.2.8"></a>
+<h2>5.2.8</h2>
+<ul>
+ <li>Released: 08 December 2008</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_8.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.8">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.8.tar.bz2">PHP 5.2.8 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.8.tar.gz">PHP 5.2.8 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.8-Win32.zip">PHP 5.2.8 zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.8-win32-installer.msi">PHP 5.2.8 installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.8-Win32.zip">PHP 5.2.8 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/php-5.2.8-nts-Win32.zip">PHP 5.2.8 Non-thread-safe zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.8-nts-win32-installer.msi">PHP 5.2.8 Non-thread-safe installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.8-nts-Win32.zip">PHP 5.2.8 Non-thread-safe Win32 Debug Pack</a>
+  </li>
+ </ul>
+<a name="5.2.6"></a>
+<h2>5.2.6</h2>
+<ul>
+ <li>Released: 01 May 2008</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_6.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.6">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.6.tar.bz2">PHP 5.2.6 (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.6.tar.gz">PHP 5.2.6 (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.6-Win32.zip">PHP 5.2.6 zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.6-win32-installer.msi">PHP 5.2.6 installer</a>
+<a href="http://museum.php.net/php5/pecl-5.2.6-Win32.zip">PECL 5.2.6 Win32 binaries</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.6-Win32.zip">PHP 5.2.6 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/php-5.2.6-nts-Win32.zip">PHP 5.2.6 Non-thread-safe zip package</a>
+<a href="http://museum.php.net/php5/php-5.2.6-nts-win32-installer.msi">PHP 5.2.6 Non-thread-safe installer</a>
+<a href="http://museum.php.net/php5/php-debug-pack-5.2.6-nts-Win32.zip">PHP 5.2.6 Win32 Debug Pack</a>
+<a href="http://museum.php.net/php5/pecl-5.2.6-nts-Win32.zip">PECL 5.2.6 Non-thread-safe Win32 binaries</a>
+  </li>
+ </ul>
+<a name="5.2.5"></a>
+<h2>5.2.5</h2>
+<ul>
+ <li>Released: 08 November 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_5.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.5.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.5.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.5-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.2.5-Win32.zip">Collection of PECL modules for PHP 5.2.5</a>
+  </li>
+ </ul>
+<a name="5.2.4"></a>
+<h2>5.2.4</h2>
+<ul>
+ <li>Released: 30 August 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_4.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.4.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.4.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.4-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.2.4-Win32.zip">Collection of PECL modules for PHP 5.2.4</a>
+  </li>
+ </ul>
+<a name="5.2.3"></a>
+<h2>5.2.3</h2>
+<ul>
+ <li>Released: 31 May 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_3.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.3.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.3.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.3-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.2.3-Win32.zip">Collection of PECL modules for PHP 5.2.3</a>
+  </li>
+ </ul>
+<a name="5.2.2"></a>
+<h2>5.2.2</h2>
+<ul>
+ <li>Released: 03 May 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_2.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.2.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.2-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.2.2-Win32.zip">Collection of PECL modules for PHP 5.2.2</a>
+  </li>
+ </ul>
+<a name="5.2.1"></a>
+<h2>5.2.1</h2>
+<ul>
+ <li>Released: 08 Feb 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.1.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.2.1-Win32.zip">Collection of PECL modules for PHP 5.2.1</a>
+  </li>
+ </ul>
+<a name="5.2.0"></a>
+<h2>5.2.0</h2>
+<ul>
+ <li>Released: 02 Nov 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_2_0.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.2.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.2.0.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.2.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.2.0-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.2.0-Win32.zip">Collection of PECL modules for PHP 5.2.0</a>
+  </li>
+ </ul>
+<a name="5.1.6"></a>
+<h2>5.1.6</h2>
+<ul>
+ <li>Released: 24 Aug 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_1_6.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.1.6">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.1.6.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.1.6.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.1.6-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.1.6-Win32.zip">Collection of PECL modules for PHP 5.1.6</a>
+  </li>
+ </ul>
+<a name="5.1.5"></a>
+<h2>5.1.5</h2>
+<ul>
+ <li>Released: 17 Aug 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_1_5.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.1.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.1.5.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.1.5.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.1.5-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.1.5-Win32.zip">Collection of PECL modules for PHP 5.1.5</a>
+  </li>
+ </ul>
+<a name="5.1.4"></a>
+<h2>5.1.4</h2>
+<ul>
+ <li>Released: 04 May 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_1_4.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.1.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.1.4.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php5/php-5.1.4.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.1.4-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.1.4-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.1.4-Win32.zip">Collection of PECL modules for PHP 5.1.4</a>
+  </li>
+ </ul>
+<a name="5.1.3"></a>
+<h2>5.1.3</h2>
+<ul>
+ <li>Released: 02 May 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_1_3.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.1.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.1.3.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.1.3-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.1.3-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.1.3-Win32.zip">Collection of PECL modules for PHP 5.1.3</a>
+  </li>
+ </ul>
+<a name="5.1.2"></a>
+<h2>5.1.2</h2>
+<ul>
+ <li>Released: 12 Jan 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_1_2.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.1.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.1.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.1.2-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.1.2-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.1.2-Win32.zip">Collection of PECL modules for PHP 5.1.2</a>
+  </li>
+ </ul>
+<a name="5.1.1"></a>
+<h2>5.1.1</h2>
+<ul>
+ <li>Released: 28 Nov 2005</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_1_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.1.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.1.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.1.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.1.1-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.1.1-Win32.zip">Collection of PECL modules for PHP 5.1.1</a>
+  </li>
+ </ul>
+<a name="5.1.0"></a>
+<h2>5.1.0</h2>
+<ul>
+ <li>Released: 24 Nov 2005</li>
+ <li>Announcement: <a href="http://www.php.net/releases/5_1_0.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.1.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.1.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.1.0-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.1.0-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="5.0.5"></a>
+<h2>5.0.5</h2>
+<ul>
+ <li>Released: 05 Sep 2005</li>
+ <li>Announcement: None</li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.0.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.0.5.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.0.5-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.0.5-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.0.5-Win32.zip">Collection of PECL modules for PHP 5.0.5</a>
+  </li>
+ </ul>
+<a name="5.0.4"></a>
+<h2>5.0.4</h2>
+<ul>
+ <li>Released: 31 Mar 2005</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/55">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.0.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.0.4.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.0.4-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.0.4-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.0.4-Win32.zip">Collection of PECL modules for PHP 5.0.4</a>
+  </li>
+ </ul>
+<a name="5.0.3"></a>
+<h2>5.0.3</h2>
+<ul>
+ <li>Released: 15 Dec 2004</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/54">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.0.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.0.3.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.0.3-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.0.3-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.0.3-Win32.zip">Collection of PECL modules for PHP 5.0.3</a>
+  </li>
+ </ul>
+<a name="5.0.2"></a>
+<h2>5.0.2</h2>
+<ul>
+ <li>Released: 23 Sep 2004</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/53">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.0.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.0.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.0.2-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.0.2-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.0.2-Win32.zip">Collection of PECL modules for PHP 5.0.2</a>
+  </li>
+ </ul>
+<a name="5.0.1"></a>
+<h2>5.0.1</h2>
+<ul>
+ <li>Released: 12 Aug 2004</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/51">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.0.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.0.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.0.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/pecl-5.0.1-Win32.zip">Collection of PECL modules for PHP 5.0.1</a>
+  </li>
+ </ul>
+<a name="5.0.0"></a>
+<h2>5.0.0</h2>
+<ul>
+ <li>Released: 13 July 2004</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/50">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-5.php#5.0.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php5/php-5.0.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php5/php-5.0.0-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/php5/php-5.0.0-installer.exe">Windows installer</a>
+<a href="http://museum.php.net/php5/pecl-5.0.0-Win32.zip">Collection of PECL modules for PHP 5.0.0</a>
+  </li>
+ </ul>
+<a name="v4"></a>
+<hr>
+<p>Support for PHP 4 has been <b style="color: red;">discontinued</b> since 2007-12-31. Please consider upgrading to PHP 5.</p>
+<a name="4.4.9"></a>
+<h2>4.4.9</h2>
+<ul>
+ <li>Released: 07 August 2008</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_9.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.9">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.9.tar.bz2">PHP 4.4.9 (tar.bz2)</a>
+<a href="http://museum.php.net/php4/php-4.4.9.tar.gz">PHP 4.4.9 (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.4.9-Win32.zip">PHP 4.4.9 zip package</a>
+  </li>
+ </ul>
+<a name="4.4.8"></a>
+<h2>4.4.8</h2>
+<ul>
+ <li>Released: 03 January 2008</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_8.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.8">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.8.tar.bz2">PHP 4.4.8 (tar.bz2)</a>
+<a href="http://museum.php.net/php4/php-4.4.8.tar.gz">PHP 4.4.8 (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.4.8-Win32.zip">PHP 4.4.8 zip package</a>
+  </li>
+ </ul>
+<a name="4.4.7"></a>
+<h2>4.4.7</h2>
+<ul>
+ <li>Released: 03 May 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_7.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.7">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.7.tar.bz2">PHP 4.4.7 (tar.bz2)</a>
+<a href="http://museum.php.net/php4/php-4.4.7.tar.gz">PHP 4.4.7 (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.4.7-Win32.zip">PHP 4.4.7 zip package</a>
+  </li>
+ </ul>
+<a name="4.4.6"></a>
+<h2>4.4.6</h2>
+<ul>
+ <li>Released: 01 Mar 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_6.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.6">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.6.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php4/php-4.4.6.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.4.6-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="4.4.5"></a>
+<h2>4.4.5</h2>
+<ul>
+ <li>Released: 14 Feb 2007</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_5.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.5.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php4/php-4.4.5.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.4.5-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="4.4.4"></a>
+<h2>4.4.4</h2>
+<ul>
+ <li>Released: 17 Aug 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_4.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.4.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php4/php-4.4.4.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.4.4-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.4.4-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.4.3"></a>
+<h2>4.4.3</h2>
+<ul>
+ <li>Released: 03 Aug 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_3.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.3.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/php4/php-4.4.3.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.4.3-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.4.3-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.4.2"></a>
+<h2>4.4.2</h2>
+<ul>
+ <li>Released: 13 Jan 2006</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_2.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.4.2.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.4.2-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.4.2-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.4.1"></a>
+<h2>4.4.1</h2>
+<ul>
+ <li>Released: 31 Oct 2005</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.4.1.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.4.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.4.1-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.4.0"></a>
+<h2>4.4.0</h2>
+<ul>
+ <li>Released: 11 Jul 2005</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_4_0.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.4.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.4.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.4.0.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.4.0-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.4.0-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.11"></a>
+<h2>4.3.11</h2>
+<ul>
+ <li>Released: 31 Mar 2005</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_11.php">English</a> <a href="http://www.php.net/releases/4_3_11_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.11">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.11.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.3.11.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.3.11-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.11-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.10"></a>
+<h2>4.3.10</h2>
+<ul>
+ <li>Released: 15 Dec 2004</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_10.php">English</a> <a href="http://www.php.net/releases/4_3_10_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.10">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.10.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.3.10.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.3.10-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.10-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.9"></a>
+<h2>4.3.9</h2>
+<ul>
+ <li>Released: 22 Sep 2004</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_9.php">English</a> <a href="http://www.php.net/releases/4_3_9_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.9">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.9.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.3.9.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.3.9-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.9-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.8"></a>
+<h2>4.3.8</h2>
+<ul>
+ <li>Released: 13 July 2004</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_8.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.8">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.8.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.3.8-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.8-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.7"></a>
+<h2>4.3.7</h2>
+<ul>
+ <li>Released: 03 June 2004</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_7.php">English</a> <a href="http://www.php.net/releases/4_3_7_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.7">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.7.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.3.7-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.7-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.6"></a>
+<h2>4.3.6</h2>
+<ul>
+ <li>Released: 15 April 2004</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_6.php">English</a> <a href="http://www.php.net/releases/4_3_6_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.6">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.6.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.3.6-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.6-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.5"></a>
+<h2>4.3.5</h2>
+<ul>
+ <li>Released: 26 March 2004</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_5.php">English</a> <a href="http://www.php.net/releases/4_3_5_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.5.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.3.5-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.5-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.4"></a>
+<h2>4.3.4</h2>
+<ul>
+ <li>Released: 03 November 2003</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_4.php">English</a> <a href="http://www.php.net/releases/4_3_4_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.4.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.3.4-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.4-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.3"></a>
+<h2>4.3.3</h2>
+<ul>
+ <li>Released: 25 August 2003</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_3.php">English</a> <a href="http://www.php.net/releases/4_3_3_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.3.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.3.3.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.3.3-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="4.3.2"></a>
+<h2>4.3.2</h2>
+<ul>
+ <li>Released: 29 May 2003</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_2.php">English</a> <a href="http://www.php.net/releases/4_3_2_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.3.2.tar.bz2">Source (tar.bz2)</a>
+<a href="http://museum.php.net/win32/php-4.3.2-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.2-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.1"></a>
+<h2>4.3.1</h2>
+<ul>
+ <li>Released: 17 February 2003</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.3.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.1-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.3.0"></a>
+<h2>4.3.0</h2>
+<ul>
+ <li>Released: 27 December 2002</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_3_0.php">English</a> <a href="http://www.php.net/releases/4_3_0_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.3.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.3.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.3.0-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.3.0-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.2.3"></a>
+<h2>4.2.3</h2>
+<ul>
+ <li>Released: 6 September 2002</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/37">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.2.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.2.3.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.2.3-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.2.3-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.2.2"></a>
+<h2>4.2.2</h2>
+<ul>
+ <li>Released: 22 July 2002</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_2_2.php">English</a> <a href="http://www.php.net/releases/4_2_2_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.2.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.2.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.2.2-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.2.2-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.2.1"></a>
+<h2>4.2.1</h2>
+<ul>
+ <li>Released: 13 May 2002</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_2_1.php">English</a> <a href="http://www.php.net/releases/4_2_1_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.2.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.2.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.2.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.2.1-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.2.0"></a>
+<h2>4.2.0</h2>
+<ul>
+ <li>Released: 22 April 2002</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_2_0.php">English</a> <a href="http://www.php.net/releases/4_2_0_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.2.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.2.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.2.0-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.2.0-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.1.2"></a>
+<h2>4.1.2</h2>
+<ul>
+ <li>Released: 12 March 2002</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_1_2_win32.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.1.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.1.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.1.2-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.1.2-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.1.1"></a>
+<h2>4.1.1</h2>
+<ul>
+ <li>Released: 26 Dec 2001</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_1_1.php">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.1.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.1.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.1.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.1.1-installer.exe">Windows installer</a>
+  </li>
+ </ul>
+<a name="4.1.0"></a>
+<h2>4.1.0</h2>
+<ul>
+ <li>Released: 10 Dec 2001</li>
+ <li>Announcement: <a href="http://www.php.net/releases/4_1_0.php">English</a> <a href="http://www.php.net/releases/4_1_0_fr.php">French</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.1.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.1.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.1.0-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="4.0.6"></a>
+<h2>4.0.6</h2>
+<ul>
+ <li>Released: 23 June 2001</li>
+ <li>Announcement: None</li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.0.6">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.0.6.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.0.6-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="4.0.5"></a>
+<h2>4.0.5</h2>
+<ul>
+ <li>Released: 30 April 2001</li>
+ <li>Announcement: None</li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.0.5">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.0.5.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.0.5-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="4.0.4"></a>
+<h2>4.0.4</h2>
+<ul>
+ <li>Released: 19 December 2000</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/28">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.0.4">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.0.4.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.0.4pl1.tar.gz">4.0.4pl1 Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.0.4-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.0.4-installer.zip">Windows installer</a>
+<a href="http://museum.php.net/win32/php-4.0.4pl1-Win32.zip">4.0.4pl1 Windows binary</a>
+  </li>
+ </ul>
+<a name="4.0.3"></a>
+<h2>4.0.3</h2>
+<ul>
+ <li>Released: 11 October 2000</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/26">English</a> <a href="http://news.php.net/php.announce/27">English (pl1)</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.0.3">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.0.3.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.0.3pl1.tar.gz">4.0.3pl1 Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.0.3-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.0.3pl1-installer.exe">4.0.3pl1 Windows installer</a>
+  </li>
+ </ul>
+<a name="4.0.2"></a>
+<h2>4.0.2</h2>
+<ul>
+ <li>Released: 29 August 2000</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/24">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.0.2">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.0.2.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.0.2-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="4.0.1"></a>
+<h2>4.0.1</h2>
+<ul>
+ <li>Released: 28 June 2000</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/23">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.0.1">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.0.1.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/php4/php-4.0.1pl2.tar.gz">4.0.1pl2 Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.0.1-Win32.zip">Windows binary</a>
+<a href="http://museum.php.net/win32/php-4.0.1pl1-Win32.zip">4.0.1pl1 Windows binary</a>
+  </li>
+ </ul>
+<a name="4.0.0"></a>
+<h2>4.0.0</h2>
+<ul>
+ <li>Released: 22 May 2000</li>
+ <li>Announcement: <a href="http://news.php.net/php.announce/22">English</a> </li>
+ <li><a href="http://www.php.net/ChangeLog-4.php#4.0.0">ChangeLog</a></li>
+ <li>
+  Download:
+<a href="http://museum.php.net/php4/php-4.0.0.tar.gz">Source (tar.gz)</a>
+<a href="http://museum.php.net/win32/php-4.0.0-Win32.zip">Windows binary</a>
+  </li>
+ </ul>
+<a name="v3"></a>
+<hr>
+<a name="3.0.x"></a>
+<h2>3.0.x</h2>
+<ul>
+ <li>Released: 20 Oct 2000</li>
+ <li>Announcement: None</li>
+
+ <li>
+  Download:
+<a href="http://museum.php.net/php3/php-3.0.18.tar.gz">PHP 3.0.18 Source Code</a>
+<a href="http://museum.php.net/win32/php-3.0.17-win32.zip">PHP 3.0.17 Windows binary</a>
+  </li>
+ </ul>
+    </section><!-- layout-content -->
+    
+<aside class="tips">
+    <div class="inner">
+
+<div class="panel">
+  <a class="headline" href="http://www.php.net/eol.php">End of Life Dates</a>
+  <div class="body">
+    <p>The most recent branches to reach end of life status are:</p>
+    <ul><li>5.2: 6 Jan 2011</li><li>4.4: 7 Aug 2008</li></ul>
+  </div>
+</div>
+
+<p class="panel">
+ <a href="http://www.php.net/ChangeLog-5.php">PHP 5 ChangeLog</a>
+</p>
+<p class="panel">
+ <a href="http://www.php.net/ChangeLog-4.php">PHP 4 ChangeLog</a>
+</p>
+
+<div class="panel">
+ <a href="http://museum.php.net/">PHP Museum</a>
+</div>
+
+<div class="panel">
+  <div class="headline">Want a PHP serialize()d list of the PHP releases?</div>
+  <div class="body">
+    <p>Add <a href="http://www.php.net/releases/index.php?serialize=1">?serialize=1</a> to the url</p>
+    <p>Only want PHP 5 releases? <a href="http://www.php.net/releases/index.php?serialize=1&version=5">&amp;version=5</a></p>
+    <p>The last 3? <a href="http://www.php.net/releases/index.php?serialize=1&version=5&max=3">&amp;max=3</a></p>
+  </div>
+</div>
+</div>
+</aside>
+
+  </div><!-- layout -->
+         
+  <footer>
+    <div class="container footer-content">
+      <div class="row-fluid">
+      <ul class="footmenu">
+        <li><a href="http://www.php.net/copyright.php">Copyright © 2001-2014 The PHP Group</a></li>
+        <li><a href="http://www.php.net/my.php">My PHP.net</a></li>
+        <li><a href="http://www.php.net/contact.php">Contact</a></li>
+        <li><a href="http://www.php.net/sites.php">Other PHP.net sites</a></li>
+        <li><a href="http://www.php.net/mirrors.php">Mirror sites</a></li>
+        <li><a href="http://www.php.net/privacy.php">Privacy policy</a></li>
+      </ul>
+      </div>
+    </div>
+  </footer>
+
+    
+ <!-- External and third party libraries. -->
+ <script type="text/javascript" src="./php_net_releases_files/jquery.min.js"></script>
+<script type="text/javascript" src="./php_net_releases_files/cached(3).php"></script>
+<script type="text/javascript" src="./php_net_releases_files/cached(4).php"></script>
+<script type="text/javascript" src="./php_net_releases_files/cached(5).php"></script>
+<script type="text/javascript" src="./php_net_releases_files/cached(6).php"></script>
+<script type="text/javascript" src="./php_net_releases_files/cached(7).php"></script>
+<script type="text/javascript" src="./php_net_releases_files/cached(8).php"></script>
+
+<a id="toTop" href="javascript:;"><span id="toTopHover"></span><img width="40" height="40" alt="To Top" src="./php_net_releases_files/to-top@2x.png"></a>
+
+
+
+
+<script id="hiddenlpsubmitdiv" style="display: none;"></script><script>try{for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){ var lastpass_f = document.forms[lastpass_iter]; if(typeof(lastpass_f.lpsubmitorig2)=="undefined"){ lastpass_f.lpsubmitorig2 = lastpass_f.submit; lastpass_f.submit = function(){ var form=this; var customEvent = document.createEvent("Event"); customEvent.initEvent("lpCustomEvent", true, true); var d = document.getElementById("hiddenlpsubmitdiv"); if (d) {for(var i = 0; i < document.forms.length; i++){ if(document.forms[i]==form){ d.innerText=i; } } d.dispatchEvent(customEvent); }form.lpsubmitorig2(); } } }}catch(e){}</script><span id="buffer-extension-hover-button" style="display: none;position: absolute;z-index: 8675309;width: 100px;height: 25px;background-image: url(chrome-extension://noojglkidnpfjbincgijbaiedldjfbhh/data/shared/img/buffer-hover-icon@1x.png);background-size: 100px 25px;opacity: 0.9;cursor: pointer;"></span></body></html>
