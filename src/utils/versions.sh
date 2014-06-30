@@ -1,7 +1,15 @@
 #/usr/bin/env sh
 
 function fetch_remote_versions() {
-  local php_file_pattern sources html versions
+  local php_file_pattern sources html versions with_old
+
+  while getopts "o" option; do
+    case "$option" in
+      o)
+        with_old=true
+        ;;
+    esac
+  done
 
   php_file_pattern="/php-[0-9.]*\\.tar\\.bz2/"
   sources=('http://www.php.net/downloads.php' 'http://www.php.net/releases/')
@@ -14,11 +22,23 @@ function fetch_remote_versions() {
       continue
     fi
 
-    for version in $(echo "$html" | awk "match(\$0, $php_file_pattern) {
+    for version in $(echo "${html}" | awk "match(\$0, ${php_file_pattern}) {
       print substr(\$0, RSTART + 4, RLENGTH - 12) }"); do
-      versions=("${versions[@]}" "${version}")
+      if ! is_version_lower_than ${version} "5.3.0" || [[ ${with_old} = true ]]; then
+        if ! is_version_lower_than ${version} "5.0.0"; then
+          versions=("${versions[@]}" "${version}")
+        fi
+      fi
     done
   done
 
   echo "${versions[@]}"
+}
+
+function is_version_lower_than() {
+  [ "$1" = "$2" ] && return 1 || is_version_lower_than_or_equal $1 $2
+}
+
+function is_version_lower_than_or_equal() {
+  [ "$1" = "$(echo -e "$1\n$2" | sort | head -n 1)" ]
 }
