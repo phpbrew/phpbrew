@@ -1,5 +1,4 @@
 <?php
-
 namespace PhpBrew;
 
 interface ExtensionMetaInterface

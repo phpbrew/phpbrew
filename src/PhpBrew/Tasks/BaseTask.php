@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use CLIFramework\Logger;
 
 class BaseTask
@@ -34,5 +35,4 @@ class BaseTask
             $this->logger->debug($msg);
         }
     }
-
 }

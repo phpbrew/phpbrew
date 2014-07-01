@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\CommandBuilder;
 
 /**
@@ -19,10 +20,12 @@ class InstallTask extends BaseTask
         $this->info("Installing...");
         $cmd = new CommandBuilder('make install');
         $cmd->append = true;
+
         if ($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
-        if (! $options->dryrun) {
+
+        if (!$options->dryrun) {
             $cmd->execute() !== false or die('Install failed.');
         }
     }

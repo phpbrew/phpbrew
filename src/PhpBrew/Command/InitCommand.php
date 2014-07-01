@@ -1,10 +1,14 @@
 <?php
 namespace PhpBrew\Command;
+
 use PhpBrew\Config;
 
 class InitCommand extends \CLIFramework\Command
 {
-    public function brief() { return 'Initialize phpbrew config file.'; }
+    public function brief()
+    {
+        return 'Initialize phpbrew config file.';
+    }
 
     public function options($opts)
     {
@@ -21,29 +25,29 @@ class InitCommand extends \CLIFramework\Command
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
-        if ( ! file_exists($root) ) {
-            mkdir( $root, 0755, true );
+        if (!file_exists($root)) {
+            mkdir($root, 0755, true);
         }
 
         if ($this->options->{'config'} !== null) {
             copy($this->options->{'config'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
-        if ( ! file_exists($home) ) {
-            mkdir( $home, 0755, true );
+        if (!file_exists($home)) {
+            mkdir($home, 0755, true);
         }
-        if ( ! file_exists($buildPrefix) ) {
-            mkdir( $buildPrefix, 0755, true );
+        if (!file_exists($buildPrefix)) {
+            mkdir($buildPrefix, 0755, true);
         }
-        if ( ! file_exists($buildDir) ) {
-            mkdir( $buildDir, 0755, true );
+        if (!file_exists($buildDir)) {
+            mkdir($buildDir, 0755, true);
         }
 
         // write init script to phpbrew home
         $bashScript = $home . DIRECTORY_SEPARATOR . 'bashrc';
 
         // $initScript = $root . DIRECTORY_SEPARATOR . 'init';
-        file_put_contents( $bashScript , $this->getBashScript() );
+        file_put_contents($bashScript , $this->getBashScript());
 
         echo <<<EOS
 Phpbrew environment is initialized, required directories are created under
@@ -544,7 +548,6 @@ function __phpbrew_remove_purge()
 
 EOS;
 // SHBLOCK }}}
-
 
     }
 }

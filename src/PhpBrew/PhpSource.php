@@ -49,13 +49,15 @@ class PhpSource
         $baseUrl = "http://downloads.php.net/$id/";
         $html = self::readFromUrl($baseUrl);
         $dom = new DOMDocument;
-        $dom->loadHtml( $html );
+        $dom->loadHtml($html);
 
         $items = $dom->getElementsByTagName('a');
         $versions = array();
+
         foreach ($items as $item) {
             $href = $item->getAttribute('href');
-            if ( preg_match('/php-(.*?)\.tar\.bz2$/' , $href , $regs ) ) {
+
+            if (preg_match('/php-(.*?)\.tar\.bz2$/', $href, $regs)) {
                 $version = $regs[1];
                 $link = $baseUrl . $href;
                 $versions[ 'php-' . $version] = array( 'url' => $link );
@@ -85,23 +87,28 @@ class PhpSource
 
             $baseUrl = 'http://www.php.net/get/{php-version}/from/this/mirror';
             $dom = new DOMDocument;
-            @$dom->loadHtml( $html );
+            @$dom->loadHtml($html);
             $items = $dom->getElementsByTagName('a');
+
             foreach ($items as $item) {
                 $link = $item->getAttribute('href');
-                if ( preg_match($phpFilePattern, $link, $regs ) ) {
-                    if ( ! $includeOld && version_compare($regs[1],'5.3.0') < 0 ) {
+
+                if (preg_match($phpFilePattern, $link, $regs)) {
+                    if (!$includeOld && version_compare($regs[1], '5.3.0') < 0) {
                         continue;
                     }
+
                     $version = 'php-' . $regs[1];
-                    if ( strpos($link, '/') === 0 ) {
+                    if (strpos($link, '/') === 0) {
                         $link = str_replace("{php-version}", $version . '.tar.bz2', $baseUrl);
                     }
+
                     $versions[$version] = array( 'url' => $link );
                 }
             }
         }
-        uksort( $versions, array('self', 'versionCompare') );
+
+        uksort($versions, array('self', 'versionCompare'));
 
         return $versions;
     }
@@ -110,9 +117,9 @@ class PhpSource
     {
         //    http://www.php.net/svn.php # svn
         return array(
-            'php-svn-head' => array( 'svn' => 'https://svn.php.net/repository/php/php-src/trunk' ),
-            'php-svn-5.3' => array( 'svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_3' ),
-            'php-svn-5.4' => array( 'svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_4' ),
+            'php-svn-head' => array('svn' => 'https://svn.php.net/repository/php/php-src/trunk'),
+            'php-svn-5.3' => array('svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_3'),
+            'php-svn-5.4' => array('svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_4'),
         );
     }
 
@@ -124,22 +131,25 @@ class PhpSource
     public static function getVersionInfo($version, $includeOld = false)
     {
         $versions = self::getStableVersions($includeOld);
-        if( isset($versions[$version]) )
 
-            return $versions[ $version ];
+        if (isset($versions[$version])) {
+            return $versions[$version];
+        }
 
         $versions = self::getSvnVersions();
-        if( isset($versions[$version]) )
 
-            return $versions[ $version ];
+        if (isset($versions[$version])) {
+            return $versions[$version];
+        }
 
         $managers = self::getReleaseManagers();
+
         foreach ($managers as $id => $fullName) {
             $versions = self::getReleaseManagerVersions($id);
-            if( isset($versions[$version]) )
 
-                return $versions[ $version ];
+            if (isset($versions[$version])) {
+                return $versions[$version];
+            }
         }
     }
-
 }

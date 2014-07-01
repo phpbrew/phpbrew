@@ -6,24 +6,24 @@ class UtilsTest extends PHPUnit_Framework_TestCase
 {
     public function test()
     {
-        $this->assertInternalType('boolean', Utils::support_64bit());
+        $this->assertInternalType('boolean', Utils::support64bit());
     }
 
     public function testLookupPrefix()
     {
-        ok( Utils::get_lookup_prefixes() );
+        ok( Utils::getLookupPrefixes() );
     }
 
     public function testPrefix()
     {
-        $this->assertNotNull(Utils::find_lib_prefix('icu/pkgdata.inc','icu/Makefile.inc'));
-        $this->assertNotNull(Utils::find_include_prefix('openssl/opensslv.h'));
+        $this->assertNotNull(Utils::findLibPrefix('icu/pkgdata.inc','icu/Makefile.inc'));
+        $this->assertNotNull(Utils::findIncludePrefix('openssl/opensslv.h'));
     }
 
     public function testFindbin()
     {
-        ok(Utils::findbin('ls'));
-        ok(Utils::findbin('psql'));
+        ok(Utils::findBin('ls'));
+        ok(Utils::findBin('psql'));
     }
 
     public function testFindLatestPhpVersion()
