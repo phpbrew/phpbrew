@@ -1,7 +1,7 @@
 Features:
 
 * [ ] known => list remote available versions
-  * [ ] with old/repo versions
+  * [ ] with old (and repo?) versions
 * [ ] install a php version
   * [ ] with variants
   * [ ] with options
