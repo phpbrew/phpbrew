@@ -2,9 +2,10 @@
 
 class BuildTest extends PHPUnit_Framework_TestCase
 {
-    public function test()
+    public function testBuildAPI()
     {
-        $build = new PhpBrew\Build;
+        $build = new PhpBrew\Build('5.3.1');
+        ok($build);
 
         $build->setVersion('5.3.1');
         $build->enableVariant('debug');
@@ -20,7 +21,6 @@ class BuildTest extends PHPUnit_Framework_TestCase
         is( -1 , $build->compareVersion('5.4.0') );
         is( -1 , $build->compareVersion('5.4') );
 
-
         $id = $build->getIdentifier();
         ok($id);
         is('php-5.3.1-debug-icu-dev',$id);
@@ -28,8 +28,7 @@ class BuildTest extends PHPUnit_Framework_TestCase
 
     public function testNeutralVirtualVariant()
     {
-        $build = new PhpBrew\Build;
-
+        $build = new PhpBrew\Build('5.5.0');
         $build->setVersion('5.5.0');
         $build->enableVariant('neutral');
         $build->resolveVariants();
@@ -37,4 +36,3 @@ class BuildTest extends PHPUnit_Framework_TestCase
         ok( $build->hasVariant('neutral') );
     }
 }
-

@@ -2,9 +2,7 @@
 
 namespace PhpBrew;
 
-use PEARX\Utils as PEARXUtils;
-
-class ExtensionMetaPolyfill  extends ExtensionMetaAbstraction implements ExtensionMetaInterface
+class ExtensionMetaPolyfill extends ExtensionMetaAbstraction implements ExtensionMetaInterface
 {
 
     protected $name;

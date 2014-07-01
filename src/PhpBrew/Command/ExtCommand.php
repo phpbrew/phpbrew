@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Command;
-use Exception;
+
 use PhpBrew\Config;
 use PhpBrew\Utils;
 use CLIFramework\Command;
@@ -25,15 +25,18 @@ class ExtCommand extends Command
         $this->registerCommand('install');
     }
 
+    /**
+     * @param \GetOptionKit\OptionSpecCollection $opts
+     */
     public function options($opts)
     {
-        $opts->add('pv|php-version:','The php version for which we install the module.');
+        $opts->add('v|php:', 'The php version for which we install the module.');
     }
 
     public function execute()
     {
-        if ($this->options->{'php-version'} !== null) {
-            $php = Utils::findLatestPhpVersion($this->options->{'php-version'});
+        if ($this->options->{'php'} !== null) {
+            $php = Utils::findLatestPhpVersion($this->options->{'php'});
         } else {
             $php = Config::getCurrentPhpName();
         }
@@ -42,8 +45,8 @@ class ExtCommand extends Command
         $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
 
         // listing all local extensions
-        if (version_compare(phpversion(), $php, '==')) {
-            $loaded = array_map('strtolower' , get_loaded_extensions());
+        if (version_compare('php-'. phpversion(), $php, '==')) {
+            $loaded = array_map('strtolower', get_loaded_extensions());
         } else {
             $this->logger->info('PHP version is different from current active version.');
             $this->logger->info('Only available extensions are listed.');
@@ -55,19 +58,23 @@ class ExtCommand extends Command
         $extensions = array();
 
         if (is_dir($extDir)) {
-            $fp = opendir( $extDir );
+            $fp = opendir($extDir);
 
             if ($fp !== false) {
-                while( $file = readdir($fp) ) {
-                    if ( $file === '.' || $file === '..' )
+                while ($file = readdir($fp)) {
+                    if ($file === '.' || $file === '..') {
                         continue;
+                    }
 
-                    if ( is_file($extDir . DIRECTORY_SEPARATOR . $file) )
+                    if (is_file($extDir . '/' . $file)) {
                         continue;
+                    }
 
                     $n = strtolower(preg_replace('#-[\d\.]+$#', '', $file));
-                    if ( in_array($n,$loaded) )
+
+                    if (in_array($n, $loaded)) {
                         continue;
+                    }
 
                     $extensions[] = $n;
                 }
@@ -79,19 +86,16 @@ class ExtCommand extends Command
             }
         }
 
-        foreach( $loaded as $ext ) {
-            $this->logger->info('Loaded extensions:');
+        $this->logger->info('Loaded extensions:');
+
+        foreach ($loaded as $ext) {
             $this->logger->info("  [*] $ext");
         }
 
-        foreach( $extensions as $ext ) {
-            $this->logger->info('Available extensions:');
+        $this->logger->info('Available extensions:');
+
+        foreach ($extensions as $ext) {
             $this->logger->info("  [ ] $ext");
         }
     }
 }
-
-
-
-
-

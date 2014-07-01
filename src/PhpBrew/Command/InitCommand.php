@@ -1,10 +1,14 @@
 <?php
 namespace PhpBrew\Command;
+
 use PhpBrew\Config;
 
 class InitCommand extends \CLIFramework\Command
 {
-    public function brief() { return 'Initialize phpbrew config file.'; }
+    public function brief()
+    {
+        return 'Initialize phpbrew config file.';
+    }
 
     public function options($opts)
     {
@@ -21,29 +25,29 @@ class InitCommand extends \CLIFramework\Command
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
-        if ( ! file_exists($root) ) {
-            mkdir( $root, 0755, true );
+        if (!file_exists($root)) {
+            mkdir($root, 0755, true);
         }
 
         if ($this->options->{'config'} !== null) {
             copy($this->options->{'config'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
-        if ( ! file_exists($home) ) {
-            mkdir( $home, 0755, true );
+        if (!file_exists($home)) {
+            mkdir($home, 0755, true);
         }
-        if ( ! file_exists($buildPrefix) ) {
-            mkdir( $buildPrefix, 0755, true );
+        if (!file_exists($buildPrefix)) {
+            mkdir($buildPrefix, 0755, true);
         }
-        if ( ! file_exists($buildDir) ) {
-            mkdir( $buildDir, 0755, true );
+        if (!file_exists($buildDir)) {
+            mkdir($buildDir, 0755, true);
         }
 
         // write init script to phpbrew home
         $bashScript = $home . DIRECTORY_SEPARATOR . 'bashrc';
 
         // $initScript = $root . DIRECTORY_SEPARATOR . 'init';
-        file_put_contents( $bashScript , $this->getBashScript() );
+        file_put_contents($bashScript , $this->getBashScript());
 
         echo <<<EOS
 Phpbrew environment is initialized, required directories are created under
@@ -75,7 +79,7 @@ EOS;
 #!/bin/bash
 # Brought from gugod's perlbrew.
 # Author: Yo-An Lin
-# NOTICE: This script is for local testing, to release updated script, 
+# NOTICE: This script is for local testing, to release updated script,
 # please also modify the src/PhpBrew/Command/InitCommand.php
 
 # default phpbrew root and phpbrew home path
@@ -83,7 +87,7 @@ EOS;
 
 # PHPBREW_HOME: contains the phpbrew config (for users)
 # PHPBREW_ROOT: contains installed php(s) and php source files.
-# PHPBREW_SKIP_INIT: if you need to skip loading config from the init file. 
+# PHPBREW_SKIP_INIT: if you need to skip loading config from the init file.
 # PHPBREW_PHP:  the current php version.
 # PHPBREW_PATH: the bin path of the current php.
 
@@ -107,7 +111,7 @@ fi
 
 
 
-function __wget_as ()
+function __wget_as()
 {
     local url=$1
     local target=$2
@@ -115,7 +119,7 @@ function __wget_as ()
 }
 
 
-function __phpbrew_set_lookup_prefix ()
+function __phpbrew_set_lookup_prefix()
 {
     case $1 in
         debian|ubuntu|linux)
@@ -142,9 +146,9 @@ function __phpbrew_set_lookup_prefix ()
 }
 
 
-function phpbrew ()
+function phpbrew()
 {
-    # Check bin/phpbrew if we are in PHPBrew source directory, 
+    # Check bin/phpbrew if we are in PHPBrew source directory,
     # This is only for development
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
@@ -178,7 +182,8 @@ function phpbrew ()
                 then
                     _PHP_VERSION=$2
                 else
-                    _PHP_VERSION="php-$2"
+                    s_esc="$(echo "$2" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
+                    _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
                 fi
 
                 # checking php version exists?
@@ -195,6 +200,12 @@ function phpbrew ()
                 else
                     echo "php version: $_PHP_VERSION not exists."
                 fi
+            fi
+            ;;
+        cd-src)
+            local SOURCE_DIR=$PHPBREW_HOME/build/$PHPBREW_PHP
+            if [[ -d $SOURCE_DIR ]] ; then
+                cd $SOURCE_DIR
             fi
             ;;
         switch)
@@ -264,11 +275,13 @@ function phpbrew ()
                     ;;
                 *)
                     echo "$2 not found"
+
                     return 0
                 ;;
             esac
             echo "Switching to $chdir, run 'cd -' to go back."
             cd $chdir
+
             return 0
             ;;
         config)
@@ -303,6 +316,7 @@ function phpbrew ()
                         echo "[ ] $3 extension is disabled"
                       else
                         echo "Failed to disable $3 extension. Maybe it's not installed yet?"
+
                         return 1
                       fi
                     fi
@@ -434,10 +448,11 @@ function phpbrew ()
             ;;
     esac
     hash -r
+
     return ${exit_status:-0}
 }
 
-function __phpbrew_set_path ()
+function __phpbrew_set_path()
 {
     [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
@@ -454,7 +469,7 @@ function __phpbrew_set_path ()
     # echo "PATH => $PATH"
 }
 
-function __phpbrew_update_config ()
+function __phpbrew_update_config()
 {
     local VERSION=$1
     echo '# DO NOT EDIT THIS FILE' >| "$PHPBREW_HOME/init"
@@ -462,13 +477,14 @@ function __phpbrew_update_config ()
     . "$PHPBREW_HOME/init"
 }
 
-function __phpbrew_reinit () 
+function __phpbrew_reinit()
 {
     if [[ $1 =~ ^php- ]]
     then
         local _PHP_VERSION=$1
     else
-        local _PHP_VERSION="php-$1"
+        s_esc="$(echo "$1" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
+        local _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
     fi
     if [[ ! -d "$PHPBREW_HOME" ]]
     then
@@ -478,18 +494,20 @@ function __phpbrew_reinit ()
     __phpbrew_set_path
 }
 
-function __phpbrew_remove_purge ()
+function __phpbrew_remove_purge()
 {
     if [[ $1 =~ ^php- ]]
     then
         _PHP_VERSION=$1
     else
-        _PHP_VERSION="php-$1"
+        s_esc="$(echo "$1" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
+        _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
     fi
 
     if [[ "$_PHP_VERSION" = "$PHPBREW_PHP" ]]
     then
         echo "php version: $_PHP_VERSION is already in used."
+
         return 1
     fi
 
@@ -530,7 +548,6 @@ function __phpbrew_remove_purge ()
 
 EOS;
 // SHBLOCK }}}
-
 
     }
 }

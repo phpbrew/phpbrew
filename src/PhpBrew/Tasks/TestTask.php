@@ -1,12 +1,12 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\CommandBuilder;
-use PhpBrew\Config;
 
 /**
  * Task to run `make test`
  */
-class TestTask extends BaseTask 
+class TestTask extends BaseTask
 {
     public function setLogPath($path)
     {
@@ -17,15 +17,18 @@ class TestTask extends BaseTask
     {
         $this->info("Testing...");
         $cmd = new CommandBuilder('make test');
-        if($nice)
+
+        if ($nice) {
             $cmd->nice($nice);
+        }
+
         $cmd->append = true;
-        if($this->logPath) {
+
+        if ($this->logPath !== null) {
             $cmd->stdout = $this->logPath;
         }
-        $this->debug( '' .  $cmd  );
+
+        $this->debug('' .  $cmd);
         $cmd->execute() !== false or die('Test failed.');
     }
 }
-
-

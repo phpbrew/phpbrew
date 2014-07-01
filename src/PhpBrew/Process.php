@@ -48,14 +48,23 @@ class Process
      *
      * @api
      */
-    public function __construct($commandline, $cwd = null, array $env = null, $stdin = null, $timeout = 60, array $options = array())
-    {
+    public function __construct(
+        $commandline,
+        $cwd = null,
+        array $env = null,
+        $stdin = null,
+        $timeout = 60,
+        array $options = array()
+    ) {
         if (!function_exists('proc_open')) {
-            throw new \RuntimeException('The Process class relies on proc_open, which is not available on your PHP installation.');
+            throw new \RuntimeException(
+                'The Process class relies on proc_open, which is not available on your PHP installation.'
+            );
         }
 
         $this->commandline = $commandline;
         $this->cwd = null === $cwd ? getcwd() : $cwd;
+
         if (null !== $env) {
             $this->env = array();
             foreach ($env as $key => $value) {
@@ -64,9 +73,13 @@ class Process
         } else {
             $this->env = null;
         }
+
         $this->stdin = $stdin;
         $this->timeout = $timeout;
-        $this->options = array_merge(array('suppress_errors' => true, 'binary_pipes' => true, 'bypass_shell' => false), $options);
+        $this->options = array_merge(
+            array('suppress_errors' => true, 'binary_pipes' => true, 'bypass_shell' => false),
+            $options
+        );
     }
 
     /**
@@ -79,7 +92,7 @@ class Process
      * The STDOUT and STDERR are also available after the process is finished
      * via the getOutput() and getErrorOutput() methods.
      *
-     * @param Closure|string|array $callback A PHP callback to run whenever there is some
+     * @param callable|string|array $callback A PHP callback to run whenever there is some
      *                                       output available on STDOUT or STDERR
      *
      * @return integer The exit status code
@@ -95,8 +108,7 @@ class Process
         $that = $this;
         $out = self::OUT;
         $err = self::ERR;
-        $callback = function ($type, $data) use ($that, $callback, $out, $err)
-        {
+        $callback = function ($type, $data) use ($that, $callback, $out, $err) {
             if ($out == $type) {
                 $that->addOutput($data);
             } else {
@@ -128,6 +140,7 @@ class Process
             $stdinLen = strlen($this->stdin);
             $stdinOffset = 0;
         }
+
         unset($pipes[0]);
 
         while ($pipes || $writePipes) {
@@ -147,9 +160,11 @@ class Process
 
             if ($w) {
                 $written = fwrite($writePipes[0], (binary) substr($this->stdin, $stdinOffset), 8192);
+
                 if (false !== $written) {
                     $stdinOffset += $written;
                 }
+
                 if ($stdinOffset >= $stdinLen) {
                     fclose($writePipes[0]);
                     $writePipes = null;
@@ -172,19 +187,20 @@ class Process
         $this->status = proc_get_status($process);
 
         $time = 0;
+
         while (1 == $this->status['running'] && $time < 1000000) {
             $time += 1000;
             usleep(1000);
             $this->status = proc_get_status($process);
         }
 
-        $exitcode = proc_close($process);
+        $exitCode = proc_close($process);
 
         if ($this->status['signaled']) {
             throw new \RuntimeException(sprintf('The process stopped because of a "%s" signal.', $this->status['stopsig']));
         }
 
-        return $this->exitcode = $this->status['running'] ? $exitcode : $this->status['exitcode'];
+        return $this->exitcode = $this->status['running'] ? $exitCode : $this->status['exitcode'];
     }
 
     /**
@@ -367,6 +383,3 @@ class Process
         $this->options = $options;
     }
 }
-
-
-

@@ -5,7 +5,6 @@ use CLIFramework\Command;
 
 class MigratedCommand extends Command
 {
-
     public function brief()
     {
         return 'This command is migrated';
@@ -18,8 +17,4 @@ class MigratedCommand extends Command
 - `phpbrew enable` command is now moved to `phpbrew ext enable`
 HELP;
     }
-
 }
-
-
-

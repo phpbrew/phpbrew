@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\CommandBuilder;
-use PhpBrew\Config;
 
 /**
  * Task to run `make install`
@@ -15,16 +15,18 @@ class InstallTask extends BaseTask
         $this->logPath = $path;
     }
 
-    public function install()
+    public function install($build, $options)
     {
         $this->info("Installing...");
         $cmd = new CommandBuilder('make install');
         $cmd->append = true;
-        if($this->logPath) {
+
+        if ($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
-        $cmd->execute() !== false or die('Install failed.');
+
+        if (!$options->dryrun) {
+            $cmd->execute() !== false or die('Install failed.');
+        }
     }
 }
-
-

@@ -9,6 +9,3 @@ class OopsException extends Exception
         parent::__construct('Oops, report this issue on GitHub? http://github.com/c9s/phpbrew ');
     }
 }
-
-
-

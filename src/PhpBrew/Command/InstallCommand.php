@@ -1,22 +1,19 @@
 <?php
 namespace PhpBrew\Command;
+
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\PkgConfig;
 use PhpBrew\PhpSource;
-use PhpBrew\CommandBuilder;
 use PhpBrew\Builder;
 use PhpBrew\VariantParser;
-
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
+use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Build;
-use PhpBrew\DirectorySwitch;
 use CLIFramework\Command;
-
 
 /*
  * TODO: refactor tasks to Task class.
@@ -24,35 +21,42 @@ use CLIFramework\Command;
 
 class InstallCommand extends Command
 {
-    public function brief() { return 'install php'; }
+    public function brief()
+    {
+        return 'install php';
+    }
 
     public function usage()
     {
         return 'phpbrew install [php-version] ([+variant...])';
     }
 
+    /**
+     * @param \GetOptionKit\OptionSpecCollection $opts
+     */
     public function options($opts)
     {
-        $opts->add('test','run tests');
-        $opts->add('name:','prefix name');
-        $opts->add('clean','Run make clean before building.');
-        $opts->add('post-clean','Run make clean after building PHP.');
-        $opts->add('production','Use production configuration');
+        $opts->add('test', 'run tests');
+        $opts->add('name:', 'prefix name');
+        $opts->add('clean', 'Run make clean before building.');
+        $opts->add('post-clean', 'Run make clean after building PHP.');
+        $opts->add('production', 'Use production configuration');
         $opts->add('n|nice:', 'process nice level');
-        $opts->add('patch:',  'apply patch before build');
-        $opts->add('old','install old phps (less than 5.3)');
-        $opts->add('f|force','force');
+        $opts->add('patch+:', 'apply patch before build');
+        $opts->add('old', 'install old phps (less than 5.3)');
+        $opts->add('f|force', 'force');
+        $opts->add('d|dryrun', 'dryrun');
         $opts->add('like:', 'inherit variants from previous build');
         $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
     }
 
     public function execute($version)
     {
-        if( ! preg_match('/^php-/', $version) )
+        if (!preg_match('/^php-/', $version)) {
             $version = 'php-' . $version;
+        }
 
-        if ( preg_match('/^php-5.[3-5]$/', $version) )
-            $version = $this->getLatestMinorVersion($version);
+        $version = $this->getLatestMinorVersion($version, $this->options->old);
 
         $options = $this->options;
         $logger = $this->logger;
@@ -75,23 +79,27 @@ class InstallCommand extends Command
         // ['disabled_variants'] => disabled variants
         $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
+        $info = PhpSource::getVersionInfo($version, $this->options->old);
 
-        $info = PhpSource::getVersionInfo( $version, $this->options->old );
-        if ( ! $info) {
+        if (!$info) {
             throw new Exception("Version $version not found.");
         }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
 
-
-
-
         // convert patch to realpath
-        if( $this->options->patch ) {
-            $patch = realpath($this->options->patch);
-            // rewrite patch path
-            $this->options->keys['patch']->value = $patch;
+        if ($this->options->patch) {
+            foreach ($this->options->patch as $patch) {
+                $patchPath = realpath($patch);
+
+                if ($patchPath !== false) {
+                    $patchPaths[$patch] = $patchPath;
+                }
+
+            }
+            // rewrite patch paths
+            $this->options->keys['patch']->value = $patchPaths;
         }
 
         // Move to to build directory, because we are going to download distribution.
@@ -99,20 +107,19 @@ class InstallCommand extends Command
         chdir($buildDir);
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->downloadByVersionString($version, $this->options->old , $this->options->force );
+        $targetDir = $download->downloadByVersionString($version, $this->options->old, $this->options->force);
 
-        if( ! file_exists($targetDir) ) {
+        if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");
         }
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
 
+        $buildPrefix = Config::getVersionBuildPrefix($version);
 
-        $buildPrefix = Config::getVersionBuildPrefix( $version );
-
-        if( ! file_exists($buildPrefix) ) {
-            mkdir($buildPrefix,0755,true);
+        if (!file_exists($buildPrefix)) {
+            mkdir($buildPrefix, 0755, true);
         }
 
         // write variants info.
@@ -120,123 +127,108 @@ class InstallCommand extends Command
         $this->logger->debug("Writing variant info to $variantInfoFile");
         file_put_contents($variantInfoFile, serialize($variantInfo));
 
-
         // The build object, contains the information to build php.
-        $build = new Build;
-        $build->setName($name);
-        $build->setVersion($version);
-        $build->setInstallDirectory($buildPrefix);
+        $build = new Build($version, $name, $buildPrefix);
+        $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
-
 
         $builder = new Builder($targetDir, $version);
         $builder->logger = $this->logger;
         $builder->options = $this->options;
 
-        $this->logger->debug( 'Build Directory: ' . realpath($targetDir) );
+        $this->logger->debug('Build Directory: ' . realpath($targetDir));
 
-        foreach( $variantInfo['enabled_variants'] as $name => $value ) {
+        foreach ($variantInfo['enabled_variants'] as $name => $value) {
             $build->enableVariant($name, $value);
         }
 
-        foreach( $variantInfo['disabled_variants'] as $name => $value ) {
+        foreach ($variantInfo['disabled_variants'] as $name => $value) {
             $build->disableVariant($name);
-            if($build->hasVariant($name) ) {
+
+            if ($build->hasVariant($name)) {
                 $this->logger->warn("Removing variant $name since we've disabled it from command.");
                 $build->removeVariant($name);
             }
         }
-        $build->setExtraOptions( $variantInfo['extra_options'] );
 
-        if( $options->clean ) {
+        $build->setExtraOptions($variantInfo['extra_options']);
+
+        if ($options->clean) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
 
-        $buildLogFile = Config::getVersionBuildLogPath( $version );
+        $buildLogFile = Config::getVersionBuildLogPath($version);
 
-        // we should only run configure after cleaning files  (?)
-        $builder->configure($build);
+        $configure = new \PhpBrew\Tasks\ConfigureTask($this->logger);
+        $configure->configure($build, $this->options);
 
         $buildTask = new BuildTask($this->logger);
         $buildTask->setLogPath($buildLogFile);
-        $buildTask->build(null, $options->{'make-jobs'});
+        $buildTask->build($build, $this->options);
 
-        if( $options->{'test'} ) {
+        if ($options->{'test'}) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
-            $test->test();
+            $test->test($build, $this->options);
         }
 
         $install = new InstallTask($this->logger);
         $install->setLogPath($buildLogFile);
-        $install->install();
+        $install->install($build, $this->options);
 
-        if( $options->{'post-clean'} ) {
+        if ($options->{'post-clean'}) {
             $clean = new CleanTask($this->logger);
             $clean->cleanByVersion($version);
         }
 
         /** POST INSTALLATION **/
-
-        /* Check if php.dSYM exists */
-        // Fix php.dSYM
-        $dSYM = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php.dSYM';
-        if ( file_exists($dSYM)) {
-            $this->logger->info("---> Moving php.dSYM to php ");
-            $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
-            rename( $dSYM , $php );
-        }
-
-        if ( ! file_exists( Config::getVersionEtcPath($version) ) ) {
-            $this->logger->info("---> Preparing config directory...");
-            mkdir( Config::getVersionEtcPath($version) , 0755 , true );
-        }
-
+        $dsym = new DSymTask($this->logger);
+        $dsym->patch($build, $this->options);
 
         // copy php-fpm config
         $this->logger->info("---> Creating php-fpm.conf");
-        $phpfpmConfigPath = "sapi/fpm/php-fpm.conf";
-        $phpfpmTargetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php-fpm.conf';
-        if ( file_exists($phpfpmConfigPath) ) {
-            if ( ! file_exists( $phpfpmTargetConfigPath ) ) {
-                copy($phpfpmConfigPath, $phpfpmTargetConfigPath);
+        $phpFpmConfigPath = "sapi/fpm/php-fpm.conf";
+        $phpFpmTargetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php-fpm.conf';
+
+        if (file_exists($phpFpmConfigPath)) {
+            if (!file_exists($phpFpmTargetConfigPath)) {
+                copy($phpFpmConfigPath, $phpFpmTargetConfigPath);
             } else {
-                $this->logger->notice("Found existing $phpfpmTargetConfigPath.");
+                $this->logger->notice("Found existing $phpFpmTargetConfigPath.");
             }
         }
 
-
         $phpConfigPath = $options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigPath ");
-        if( file_exists($phpConfigPath) ) {
+
+        if (file_exists($phpConfigPath)) {
             $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
-            if( file_exists($targetConfigPath) ) {
+
+            if (file_exists($targetConfigPath)) {
                 $this->logger->notice("Found existing $targetConfigPath.");
             } else {
 
                 // TODO: Move this to PhpConfigPatchTask
                 // move config file to target location
-                copy( $phpConfigPath , $targetConfigPath );
+                copy($phpConfigPath, $targetConfigPath);
 
                 // replace current timezone
                 $timezone = ini_get('date.timezone');
                 $pharReadonly = ini_get('phar.readonly');
-                if( $timezone || $pharReadonly ) {
+                if ($timezone || $pharReadonly) {
                     // patch default config
                     $content = file_get_contents($targetConfigPath);
-                    if( $timezone ) {
+                    if ($timezone) {
                         $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
-                        $content = preg_replace( '/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone" , $content );
+                        $content = preg_replace('/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone", $content);
                     }
-                    if( ! $pharReadonly ) {
+                    if (! $pharReadonly) {
                         $this->logger->info("---> Disable phar.readonly option.");
-                        $content = preg_replace( '/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0" , $content );
+                        $content = preg_replace('/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0", $content);
                     }
                     file_put_contents($targetConfigPath, $content);
-
                 }
-
             }
         }
 
@@ -254,7 +246,7 @@ class InstallCommand extends Command
         $this->logger->info("Enabling pear auto-discover...");
         system("pear config-set auto_discover 1");
 
-        $this->logger->debug("Source directory: " . $targetDir );
+        $this->logger->debug("Source directory: " . $targetDir);
 
         $this->logger->info("Congratulations! Now you have PHP with $version.");
 
@@ -273,10 +265,10 @@ EOT;
 
     }
 
-    private function getLatestMinorVersion($majorVersion)
+    private function getLatestMinorVersion($majorVersion, $includeOld)
     {
         $latestMinorVersion = '';
-        foreach (array_keys(PhpSource::getStableVersions()) as $version) {
+        foreach (array_keys(PhpSource::getStableVersions($includeOld)) as $version) {
             if (strpos($version, $majorVersion) === 0) {
                 $latestMinorVersion = $version;
                 break;
@@ -286,4 +278,3 @@ EOT;
         return $latestMinorVersion;
     }
 }
-
