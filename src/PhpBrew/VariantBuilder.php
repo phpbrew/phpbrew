@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use Exception;
 use PhpBrew\Exceptions\OopsException;
 
@@ -143,7 +144,7 @@ class VariantBuilder
                 return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
             }
 
-            if ( $prefix = Utils::findIncludePrefix('pcre.h') ) {
+            if ($prefix = Utils::findIncludePrefix('pcre.h')) {
                 return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
             }
 
@@ -155,7 +156,7 @@ class VariantBuilder
                 return "--with-mhash=$prefix";
             }
 
-            if ( $prefix = Utils::findIncludePrefix('mhash.h') ) {
+            if ($prefix = Utils::findIncludePrefix('mhash.h')) {
                 return "--with-mhash=$prefix";
             }
 
@@ -167,7 +168,7 @@ class VariantBuilder
                 return "--with-mcrypt=$prefix";
             }
 
-            if ( $prefix = Utils::findIncludePrefix('mcrypt.h') ) {
+            if ($prefix = Utils::findIncludePrefix('mcrypt.h')) {
                 return "--with-mcrypt=$prefix";
             }
 
@@ -175,7 +176,7 @@ class VariantBuilder
         };
 
         $this->variants['zlib'] = function ($build) {
-            if ( $prefix = Utils::findIncludePrefix('zlib.h') ) {
+            if ($prefix = Utils::findIncludePrefix('zlib.h')) {
                 return '--with-zlib=' . $prefix;
             }
         };
@@ -185,21 +186,21 @@ class VariantBuilder
                 return "--with-curl=$prefix";
             }
 
-            if ( $prefix = Utils::findIncludePrefix('curl/curl.h') ) {
+            if ($prefix = Utils::findIncludePrefix('curl/curl.h')) {
                 return "--with-curl=$prefix";
             }
 
-            if ( $prefix = Utils::getPkgConfigPrefix('libcurl') ) {
+            if ($prefix = Utils::getPkgConfigPrefix('libcurl')) {
                 return "--with-curl=$prefix";
             }
         };
 
-        $this->variants['readline'] = function ($build,$prefix = null) {
-            if ( $prefix = Utils::findIncludePrefix( 'readline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+        $this->variants['readline'] = function ($build, $prefix = null) {
+            if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 $opts = array();
                 $opts[] = '--with-readline=' . $prefix;
 
-                if ( $prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h') ) {
+                if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                     $opts[] = '--with-libedit=' . $prefix;
                 }
 
@@ -217,17 +218,17 @@ class VariantBuilder
 
             if ($prefix) {
                 $opts[] = "--with-gd=$prefix";
-            } elseif ( $prefix = Utils::findIncludePrefix('gd.h') ) {
+            } elseif ($prefix = Utils::findIncludePrefix('gd.h')) {
                 $opts[] = "--with-gd=shared,$prefix";
             }
 
             $opts[] = '--enable-gd-native-ttf';
 
-            if ( $prefix = Utils::findIncludePrefix('jpeglib.h') ) {
+            if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
             }
 
-            if ( $prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h') ) {
+            if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
                 $opts[] = "--with-png-dir=$prefix";
             }
 
@@ -236,9 +237,9 @@ class VariantBuilder
             //
             // from configure:
             //   for path in $i/include/freetype2/freetype/freetype.h
-            if ( $prefix = Utils::findIncludePrefix('freetype2/freetype.h') ) {
+            if ($prefix = Utils::findIncludePrefix('freetype2/freetype.h')) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ( $prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h") ) {
+            } elseif ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
                 $opts[] = "--with-freetype-dir=$prefix";
             }
 
@@ -254,12 +255,12 @@ class VariantBuilder
                 return '--with-icu-dir=' . $val;
             }
             // the last one path is for Ubuntu
-            if ( $prefix = Utils::findLibPrefix('icu/pkgdata.inc','icu/Makefile.inc') ) {
+            if ($prefix = Utils::findLibPrefix('icu/pkgdata.inc', 'icu/Makefile.inc')) {
                 return '--with-icu-dir=' . $prefix;
             }
 
             // For macports
-            if ( $prefix = Utils::getPkgConfigPrefix('icu-i18n') ) {
+            if ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
                 return '--with-icu-dir=' . $prefix;
             }
             die("libicu not found, please install libicu-dev or libicu library/development files.");
@@ -278,10 +279,12 @@ class VariantBuilder
             if ($val) {
                 return "--with-openssl=$val";
             }
-            if ( $prefix = Utils::findIncludePrefix('openssl/opensslv.h') ) {
+
+            if ($prefix = Utils::findIncludePrefix('openssl/opensslv.h')) {
                 return "--with-openssl=$prefix";
             }
-            if ( $prefix = Utils::getPkgConfigPrefix('openssl') ) {
+
+            if ($prefix = Utils::getPkgConfigPrefix('openssl')) {
                 return "--with-openssl=$prefix";
             }
             // This will create openssl.so file for dynamic loading.
@@ -308,7 +311,8 @@ class VariantBuilder
                 "--with-mysql=$prefix",
                 "--with-mysqli=$prefix"
             );
-            if ( $build->hasVariant('pdo') ) {
+
+            if ($build->hasVariant('pdo')) {
                 $opts[] = "--with-pdo-mysql=$prefix";
             }
 
@@ -320,7 +324,8 @@ class VariantBuilder
             $opts = array(
                 '--with-sqlite3' . ($prefix ? "=$prefix" : '')
             );
-            if ( $build->hasVariant('pdo') ) {
+
+            if ($build->hasVariant('pdo')) {
                 $opts[] = '--with-pdo-sqlite';
             }
 
@@ -330,11 +335,13 @@ class VariantBuilder
         $this->variants['pgsql'] = function ($build, $prefix = null) use ($self) {
             $opts = array();
             $possibleNames = array('psql90','psql91','psql92','psql93','psql');
-            while ( ! $prefix && ! empty($possibleNames) ) {
-                $prefix = Utils::findBin( array_pop($possibleNames) );
+            while (!$prefix && ! empty($possibleNames)) {
+                $prefix = Utils::findBin(array_pop($possibleNames));
             }
+
             $opts[] = $prefix ? "--with-pgsql=$prefix" : "--with-pgsql";
-            if ( $build->hasVariant('pdo') ) {
+
+            if ($build->hasVariant('pdo')) {
                 $opts[] = $prefix ? "--with-pdo-pgsql=$prefix" : '--with-pdo-pgsql';
             }
 
@@ -352,11 +359,12 @@ class VariantBuilder
                 '--enable-xmlwriter',
                 '--with-xsl'
             );
-            if ( $prefix = Utils::getPkgConfigPrefix('libxml') ) {
+
+            if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ( $prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h') ) {
+            } elseif ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ( $prefix = Utils::findLibPrefix('libxml2.a') ) {
+            } elseif ($prefix = Utils::findLibPrefix('libxml2.a')) {
                 $options[] = "--with-libxml-dir=$prefix";
             }
 
@@ -370,10 +378,12 @@ class VariantBuilder
             if ($prefix) {
                 return '--with-apxs2=' . $prefix;
             }
-            if ( $bin = Utils::findBinByPrefix('apxs2') ) {
+
+            if ($bin = Utils::findBinByPrefix('apxs2')) {
                 return '--with-apxs2=' . $bin;
             }
-            if ( $bin = Utils::findBinByPrefix('apxs') ) {
+
+            if ($bin = Utils::findBinByPrefix('apxs')) {
                 return '--with-apxs2=' . $bin;
             }
 
@@ -385,7 +395,8 @@ class VariantBuilder
             if ($prefix) {
                 return '--with-gettext=' . $prefix;
             }
-            if ( $prefix = Utils::findIncludePrefix('libintl.h') ) {
+
+            if ($prefix = Utils::findIncludePrefix('libintl.h')) {
                 return '--with-gettext=' . $prefix;
             }
 
@@ -415,7 +426,8 @@ class VariantBuilder
             if ($prefix) {
                 return "--with-bz2=$prefix";
             }
-            if ( $prefix = Utils::findIncludePrefix('bzlib.h') ) {
+
+            if ($prefix = Utils::findIncludePrefix('bzlib.h')) {
                 return "--with-bz2=$prefix";
             }
 
@@ -442,13 +454,15 @@ class VariantBuilder
         $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);
     }
 
-    private function _getConflict($build, $feature)
+    private function getConflict($build, $feature)
     {
-        if ( isset( $this->conflicts[ $feature ] ) ) {
+        if (isset($this->conflicts[ $feature ])) {
             $conflicts = array();
+
             foreach ($this->conflicts[ $feature ] as $f) {
-                if( $build->isEnabledVariant($f) )
+                if ($build->isEnabledVariant($f)) {
                     $conflicts[] = $f;
+                }
             }
 
             return $conflicts;
@@ -459,23 +473,25 @@ class VariantBuilder
 
     public function checkConflicts($build)
     {
-        if ( $build->isEnabledVariant('apxs2') && version_compare( $build->getVersion() , 'php-5.4.0' ) < 0 ) {
-            if ( $conflicts = $this->_getConflict($build,'apxs2') ) {
+        if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion() , 'php-5.4.0') < 0) {
+            if ($conflicts = $this->getConflict($build, 'apxs2')) {
                 $msgs = array();
                 $msgs[] = "PHP Version lower than 5.4.0 can only build one SAPI at the same time.";
-                $msgs[] = "+apxs2 is in conflict with " . join(',',$conflicts);
+                $msgs[] = "+apxs2 is in conflict with " . join(',', $conflicts);
+
                 foreach ($conflicts as $c) {
                     $msgs[] = "Disabling $c";
                     $build->disableVariant($c);
                 }
-                echo join("\n",$msgs) . "\n";
+
+                echo join("\n", $msgs) . "\n";
             }
         }
 
         return true;
     }
 
-    public function checkPkgPrefix($option,$pkgName)
+    public function checkPkgPrefix($option, $pkgName)
     {
         $prefix = Utils::getPkgConfigPrefix($pkgName);
 
@@ -484,37 +500,44 @@ class VariantBuilder
 
     public function getVariantNames()
     {
-        return array_keys( $this->variants );
+        return array_keys($this->variants);
     }
 
     /**
      * Build options from variant
      *
-     * @param string $feature   variant name
-     * @param string $userValue option value.
+     * @param Builder $build
+     * @param string  $feature   variant name
+     * @param string  $userValue option value.
+     *
+     * @return array
+     *
+     * @throws OopsException
      */
     public function buildVariant($build, $feature, $userValue = null)
     {
-        if ( ! isset( $this->variants[ $feature ] )) {
+        if (!isset($this->variants[ $feature ])) {
             throw new Exception("Variant '$feature' is not defined.");
         }
 
         // Skip if we've built it
-        if ( in_array($feature, $this->builtList) )
+        if (in_array($feature, $this->builtList)) {
             return array();
+        }
 
         // Skip if we've disabled it
-        if ( isset($this->disables[ $feature ] ))
+        if (isset($this->disables[$feature])) {
             return array();
+        }
 
         $this->builtList[] = $feature;
         $cb = $this->variants[ $feature ];
 
-        if ( is_array($cb) ) {
+        if (is_array($cb)) {
             return $cb;
-        } elseif ( is_string($cb) ) {
+        } elseif (is_string($cb)) {
             return array($cb);
-        } elseif ( is_callable($cb) ) {
+        } elseif (is_callable($cb)) {
             $args = is_string($userValue) ? array($build,$userValue) : array($build);
 
             return (array) call_user_func_array($cb, $args);
@@ -523,11 +546,12 @@ class VariantBuilder
         }
     }
 
-    public function buildDisableVariant($build , $feature,$userValue = null)
+    public function buildDisableVariant($build, $feature, $userValue = null)
     {
-        if ( isset( $this->variants[ $feature ] )) {
-            if ( in_array('-'.$feature, $this->builtList) )
+        if (isset( $this->variants[ $feature ])) {
+            if (in_array('-'.$feature, $this->builtList)) {
                 return array();
+            }
 
             $this->builtList[] = '-'.$feature;
             $func = $this->variants[ $feature ];
@@ -536,10 +560,11 @@ class VariantBuilder
             // then convert the '--enable' and '--with' options
             // to '--disable' and '--without'
             $args = is_string($userValue) ? array($build,$userValue) : array($build);
-            if ( is_string($func) ) {
+
+            if (is_string($func)) {
                 $disableOptions = (array) $func;
-            } elseif ( is_callable($func) ) {
-                $disableOptions = (array) call_user_func_array($func,$args);
+            } elseif (is_callable($func)) {
+                $disableOptions = (array) call_user_func_array($func, $args);
             } else {
                 throw new Exception("Unsupported variant handler type. neither string nor callable.");
             }
@@ -570,10 +595,11 @@ class VariantBuilder
         if (! $options) {
             return;
         }
-        if (is_string($options) ) {
+
+        if (is_string($options)) {
             $this->options[] = $options;
         } else {
-            $this->options = array_merge($this->options,$options);
+            $this->options = array_merge($this->options, $options);
         }
     }
 
@@ -603,7 +629,7 @@ class VariantBuilder
         $this->builtList = array();
 
         // reset built options
-        if ( $build->hasVariant('all') || $build->hasVariant('neutral') ) {
+        if ($build->hasVariant('all') || $build->hasVariant('neutral')) {
             $this->options = array();
         } else {
             // build common options
@@ -615,26 +641,28 @@ class VariantBuilder
                 '--enable-tokenizer',
                 '--with-pcre-regex',
             );
-            if ( $prefix = Utils::findIncludePrefix('zlib.h') ) {
+
+            if ($prefix = Utils::findIncludePrefix('zlib.h')) {
                 $this->addOptions('--with-zlib=' . $prefix);
             }
         }
 
-        if ( $prefix = Utils::findLibPrefix('x86_64-linux-gnu') ) {
+        if ($prefix = Utils::findLibPrefix('x86_64-linux-gnu')) {
             $this->addOptions("--with-libdir=lib/x86_64-linux-gnu");
-        } elseif ( $prefix = Utils::findLibPrefix('i386-linux-gnu') ) {
+        } elseif ($prefix = Utils::findLibPrefix('i386-linux-gnu')) {
             $this->addOptions("--with-libdir=lib/i386-linux-gnu");
         }
 
         // enable/expand virtual variants
         foreach ($this->virtualVariants as $name => $variantNames) {
-            if ( $build->isEnabledVariant($name) ) {
+            if ($build->isEnabledVariant($name)) {
                 foreach ($variantNames as $subVariantName) {
-                    $build->enableVariant( $subVariantName );
+                    $build->enableVariant($subVariantName);
                 }
+
                 // it's a virtual variant, can not be built by buildVariant
                 // method.
-                $build->removeVariant( $name );
+                $build->removeVariant($name);
             }
         }
 
@@ -645,14 +673,14 @@ class VariantBuilder
         // we need to check the enabled and disabled variants
         $this->checkConflicts($build);
 
-        foreach ( $build->getVariants() as $feature => $userValue ) {
-            if ( $options = $this->buildVariant( $build, $feature , $userValue ) ) {
+        foreach ($build->getVariants() as $feature => $userValue) {
+            if ($options = $this->buildVariant($build, $feature, $userValue)) {
                 $this->addOptions($options);
             }
         }
 
-        foreach ( $build->getDisabledVariants() as $feature => $true ) {
-            if ( $options = $this->buildDisableVariant($build, $feature ) ) {
+        foreach ($build->getDisabledVariants() as $feature => $true) {
+            if ($options = $this->buildDisableVariant($build, $feature)) {
                 $this->addOptions($options);
             }
         }
@@ -661,7 +689,7 @@ class VariantBuilder
         $opts = array_merge( $opts ,
             $this->getVersionSpecificOptions($version) );
         */
-        $options =  array_merge(array(),$this->options);
+        $options =  array_merge(array(), $this->options);
 
         // reset options
         $this->options = array();
