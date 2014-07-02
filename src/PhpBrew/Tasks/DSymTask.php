@@ -11,16 +11,17 @@ class DSymTask extends BaseTask
         $phpbin = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php';
         $dSYM = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php.dSYM';
 
-        return ! file_exists($phpbin) && file_exists($dSYM);
+        return !file_exists($phpbin) && file_exists($dSYM);
     }
 
     public function patch($build, $options)
     {
-        if ( $this->check($build) ) {
+        if ($this->check($build)) {
             $this->logger->info("---> Moving php.dSYM to php ");
-            if (! $options->dryrun) {
+
+            if (!$options->dryrun) {
                 $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
-                rename( $dSYM , $php );
+                rename($dSYM, $php);
             }
         }
     }

@@ -25,7 +25,7 @@ class ExtensionInstaller
         return $url . '.tgz';
     }
 
-    public function installFromPecl($packageName, $version = 'stable', $configureOptions = array() )
+    public function installFromPecl($packageName, $version = 'stable', $configureOptions = array())
     {
         $url = $this->findPeclPackageUrl($packageName, $version);
         $downloader = new Downloader\UrlDownloader($this->logger);
@@ -79,7 +79,7 @@ class ExtensionInstaller
             $sw = new DirectorySwitch;
             $sw->cd($extDir['config0.m4']);
 
-            if ( false === copy('config0.m4','config.m4') ) {
+            if (false === copy('config0.m4', 'config.m4')) {
                 throw new \Exception("Copy failed.");
             }
 
@@ -94,11 +94,14 @@ class ExtensionInstaller
         // 5.2 does not support closure. We haven't decided whether to
         // support 5.2 yet.
         $escapeOptions = array();
+
         foreach ($configureOptions as $opt) {
             $escapeOptions[] = escapeshellarg($opt);
         }
+
         $this->logger->info("===> Configuring...");
-        Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log' )
+
+        Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log')
             !== false or die('Configure failed.');
 
         $this->logger->info("===> Building...");
@@ -116,7 +119,8 @@ class ExtensionInstaller
         $this->logger->debug($output);
 
         $installedPath = null;
-        if ( preg_match('#Installing shared extensions:\s+(\S+)#', $output, $regs) ) {
+
+        if (preg_match('#Installing shared extensions:\s+(\S+)#', $output, $regs)) {
             $installedPath = $regs[1];
         }
 
@@ -124,12 +128,11 @@ class ExtensionInstaller
         $this->logger->debug("Installed extension: " . $installedPath);
 
         // Try to find the installed path by pattern
-        // Installing shared extensions:     /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
+        // Installing shared extensions: /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
         $sw->back();
 
         $this->logger->info("===> Extension is installed.");
 
         return $dir . '/package.xml';
     }
-
 }
