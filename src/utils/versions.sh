@@ -3,8 +3,9 @@
 function fetch_remote_versions() {
   local php_file_pattern sources html versions with_old
 
-  while getopts "o" option; do
-    case "$option" in
+  local OPTIND
+  while getopts 'o' option; do
+    case "${option}" in
       o)
         with_old=true
         ;;
