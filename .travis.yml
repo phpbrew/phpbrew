@@ -1,0 +1,3 @@
+language: bash
+script:
+  - vendor/shebang_unit/shebang_unit test/
