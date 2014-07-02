@@ -1,4 +1,4 @@
-#/usr/bin/env sh
+#/usr/bin/env bash
 
 function fetch_remote_versions() {
   local php_file_pattern sources html versions with_old
