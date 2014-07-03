@@ -9,3 +9,10 @@ function configure() {
 
   ./configure --prefix $2
 }
+
+function compile() {
+  cd $1
+
+  make
+  make install
+}

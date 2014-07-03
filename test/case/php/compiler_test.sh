@@ -25,3 +25,22 @@ function test_can_run_configure() {
 function _configure_mock() {
   assertion__equal '--prefix /prefix/dir' "--prefix $2"
 }
+
+function test_can_compile() {
+  make_call=0;
+  mock__make_function_call 'make' '_make_mock $@'
+  compile /build/dir
+}
+
+function _make_mock() {
+  case ${make_call} in
+    0)
+      assertion__string_empty "$@"
+      ;;
+    1)
+      assertion__equal 'install' "$@"
+      ;;
+  esac
+
+  make_call=$((${make_call}+1))
+}
