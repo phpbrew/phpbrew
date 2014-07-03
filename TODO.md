@@ -3,6 +3,8 @@ Features:
 * [x] known => list remote available versions
   * [x] with old (and repo?) versions
 * [ ] install a php version
+  * [x] download sources
+  * [ ] compile
   * [ ] with variants
   * [ ] with options
 * [ ] help
