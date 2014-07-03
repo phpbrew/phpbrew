@@ -31,6 +31,13 @@ class InstallCommand extends Command
         return 'phpbrew install [php-version] ([+variant...])';
     }
 
+    public function arguments($args) {
+        $args->add('version')->suggestions(array( '5.3', '5.4', '5.5' ) );
+        $args->add('variants')->multiple()->suggestions(function() {
+            return array( '+mysql' , '+postgresql' , '+default' );
+        });
+    }
+
     /**
      * @param \GetOptionKit\OptionSpecCollection $opts
      */
