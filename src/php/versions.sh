@@ -12,7 +12,7 @@ function fetch_remote_versions() {
     esac
   done
 
-  php_file_pattern="/php-[0-9.]*\\.tar\\.bz2/"
+  php_file_pattern="$(get_php_file_pattern)"
   sources=('http://www.php.net/downloads.php' 'http://www.php.net/releases/')
 
   versions=()
@@ -42,4 +42,12 @@ function is_version_lower_than() {
 
 function is_version_lower_than_or_equal() {
   [ "$1" = "$(echo -e "$1\n$2" | sort | head -n 1)" ]
+}
+
+function get_most_recent_version() {
+  curl -sSL 'http://www.php.net/downloads.php' | awk "match(\$0, $(get_php_file_pattern) ) { print substr(\$0, RSTART + 4, RLENGTH - 12) }" | head -1
+}
+
+function get_php_file_pattern() {
+  echo "/php-[0-9.]*\\.tar\\.bz2/"
 }
