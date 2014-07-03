@@ -7,6 +7,7 @@ function setup() {
   mock__make_function_do_nothing 'cd'
   mock__make_function_do_nothing 'test'
   mock__make_function_do_nothing './buildconfig'
+  mock__make_function_do_nothing './configure'
 }
 
 function test_create_configure_file_if_none_exists() {
