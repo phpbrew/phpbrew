@@ -23,8 +23,7 @@ function fetch_remote_versions() {
       continue
     fi
 
-    for version in $(echo "${html}" | awk "match(\$0, ${php_file_pattern}) {
-      print substr(\$0, RSTART + 4, RLENGTH - 12) }"); do
+    for version in $(echo "${html}" | awk "match(\$0, ${php_file_pattern}) { print substr(\$0, RSTART + 4, RLENGTH - 12) }"); do
       if ! is_version_lower_than ${version} "5.3.0" || [[ ${with_old} = true ]]; then
         if ! is_version_lower_than ${version} "5.0.0"; then
           versions=("${versions[@]}" "${version}")
