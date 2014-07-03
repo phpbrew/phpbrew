@@ -18,6 +18,12 @@ function test_can_get_most_recent_version() {
   assertion__equal 5.5.14 "$(get_most_recent_version)"
 }
 
+function test_can_get_latest_minor_release_for_major_release() {
+  mock__make_function_call "curl" "_curl_mock \$@"
+  assertion__equal 5.5.14 "$(get_latest_for_major 5.5)"
+  assertion__equal 5.3.28 "$(get_latest_for_major 5.3)"
+}
+
 function _curl_mock() {
   case $2 in
     'http://www.php.net/downloads.php')

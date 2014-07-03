@@ -50,3 +50,7 @@ function get_most_recent_version() {
 function get_php_file_pattern() {
   echo "/php-[0-9.]*\\.tar\\.bz2/"
 }
+
+function get_latest_for_major() {
+  fetch_remote_versions | tr ' ' '\n' | grep "^$1" | sort -t. -k1,1rn -k2,2rn -k3,3rn | head -1
+}
