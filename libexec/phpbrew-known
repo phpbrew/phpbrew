@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-source ${_PHPBREW_ROOT}/src/utils/versions.sh
+source ${_PHPBREW_ROOT}/src/php/versions.sh
 source ${_PHPBREW_ROOT}/src/utils/echo.sh
 
 options='' 
