@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source ${DIR}/../../../src/utils/versions.sh
+source ${DIR}/../../../src/php/versions.sh
 
 function test_can_fetch_all_remote_versions_greater_than_4() {
   mock__make_function_call "curl" "_curl_mock \$@"
