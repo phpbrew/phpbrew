@@ -6,6 +6,7 @@ use PhpBrew\Config;
 use PhpBrew\PhpSource;
 use PhpBrew\Builder;
 use PhpBrew\VariantParser;
+use PhpBrew\VariantBuilder;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
@@ -34,7 +35,10 @@ class InstallCommand extends Command
     public function arguments($args) {
         $args->add('version')->suggestions(array( '5.3', '5.4', '5.5' ) );
         $args->add('variants')->multiple()->suggestions(function() {
-            return array( '+mysql' , '+postgresql' , '+default' );
+            $variants = new VariantBuilder;
+            $list = $variants->getVariantNames();
+            sort($list);
+            return array_map(function($n) { return '+' . $n; }, $list);
         });
     }
 
@@ -49,7 +53,9 @@ class InstallCommand extends Command
         $opts->add('post-clean', 'Run make clean after building PHP.');
         $opts->add('production', 'Use production configuration');
         $opts->add('n|nice:', 'process nice level');
-        $opts->add('patch+:', 'apply patch before build');
+        $opts->add('patch+:', 'apply patch before build')
+            ->isa('file')
+            ;
         $opts->add('old', 'install old phps (less than 5.3)');
         $opts->add('f|force', 'force');
         $opts->add('d|dryrun', 'dryrun');
