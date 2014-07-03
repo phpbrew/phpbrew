@@ -1,5 +1,7 @@
 # PHPBrew
 
+[![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=bash-rework)](https://travis-ci.org/phpbrew/phpbrew)
+
 ## Bash rework branch
 
 See TODO.md to watch progression
