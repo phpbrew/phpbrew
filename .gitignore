@@ -1,1 +1,5 @@
 vendor/bundle
+
+# build dirs
+build/
+php/
