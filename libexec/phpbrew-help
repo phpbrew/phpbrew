@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+source ${_PHPBREW_ROOT}/src/utils/echo.sh
+
+echo_info 'Usage: '
+
+case "$1" in
+  'install')
+    echo_info 'phpbrew install <version> [options]\n'
+    echo_info '   version:     latest, 5.5[.14]\n'
+    ;;
+  *)
+    echo_info 'phpbrew <command> <arguments> [options]\n'
+    echo_info '   help:       show this help\n'
+    echo_info '   install:    install a PHP version\n'
+    ;;
+esac
