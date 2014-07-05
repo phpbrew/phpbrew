@@ -2,6 +2,7 @@
 set -e
 
 source ${_PHPBREW_ROOT}/src/utils/echo.sh
+source ${_PHPBREW_ROOT}/src/utils/run_process.sh
 source ${_PHPBREW_ROOT}/src/php/versions.sh
 source ${_PHPBREW_ROOT}/src/php/downloader.sh
 source ${_PHPBREW_ROOT}/src/php/compiler.sh
@@ -17,6 +18,7 @@ fi
 build_dir=${_PHPBREW_ROOT}/build
 install_dir=${_PHPBREW_ROOT}/php/php-${version}
 sources_archive_path=${build_dir}/php-${version}.tar.bz2
+log_file=${build_dir}/php-${version}/build.log
 
 if test ! -d ${build_dir}; then
   mkdir -p ${build_dir}
@@ -28,5 +30,23 @@ fi
 
 cd ${build_dir} >/dev/null
 
-echo_info "Download PHP sources for version ${version}\n"
+if test -d ${build-dir}/php-${version}; then
+  rm -rf ${build-dir}/php-${version}
+fi
+
+if test -d ${install_dir}; then
+  rm -rf ${install_dir}
+fi
+
+echo_info "Download PHP sources for version ${version}…\n"
 download $version ${sources_archive_path}
+
+echo_info 'Extracting archive…\n'
+run_process tar xf ${sources_archive_path}
+
+echo_user "Build log will be available at ${log_file}\n"
+
+echo_info 'Running configure…\n'
+run_process -l ${log_file} configure ${build_dir}/php-${version} ${install_dir}
+echo_info "Compiling into ${install_dir}…\n"
+run_process -l ${log_file} compile ${build_dir}/php-${version}
