@@ -132,13 +132,15 @@ class Process
             stream_set_blocking($pipe, false);
         }
 
+        $stdinLen = 0;
+        $stdinOffset = 0;
+
         if (null === $this->stdin) {
             fclose($pipes[0]);
             $writePipes = null;
         } else {
             $writePipes = array($pipes[0]);
             $stdinLen = strlen($this->stdin);
-            $stdinOffset = 0;
         }
 
         unset($pipes[0]);

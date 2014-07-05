@@ -46,6 +46,8 @@ class Utils
                 return $binPath;
             }
         }
+
+        return null;
     }
 
     public static function findLibDir()
@@ -74,6 +76,8 @@ class Utils
                 return "lib/i386-linux-gnu";
             }
         }
+
+        return null;
     }
 
     public static function getLookupPrefixes()
@@ -203,6 +207,8 @@ class Utils
                 return $f;
             }
         }
+
+        return null;
     }
 
     public static function pipeExecute($command)

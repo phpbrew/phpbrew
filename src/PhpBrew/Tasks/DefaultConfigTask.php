@@ -19,6 +19,8 @@ class DefaultConfigTask extends BaseTask
         if (file_exists($phpConfigFile)) {
             $this->logger->info("Found config file: $phpConfigFile");
 
+            $version = Config::getCurrentPhpName();
+
             if (!file_exists(Config::getVersionEtcPath($version))) {
                 $dir = Config::getVersionEtcPath($version);
                 $this->logger->debug("Creating config directory");

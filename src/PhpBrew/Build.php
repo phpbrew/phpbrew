@@ -183,6 +183,7 @@ class Build implements Serializable
      * Returns variant user value
      *
      * @param  string $n variant name
+     *
      * @return string variant value
      */
     public function getVariant($n)
@@ -190,6 +191,8 @@ class Build implements Serializable
         if (isset($this->variants[$n])) {
             return $this->variants[$n];
         }
+
+        return null;
     }
 
     /**
@@ -319,7 +322,7 @@ class Build implements Serializable
 
     public function __set_state($data)
     {
-        $build = new self;
+        $build = new self($this->version);
         $build->import($data);
 
         return $build;
@@ -361,6 +364,8 @@ class Build implements Serializable
         }
         echo "\n";
         */
+
+        return null;
     }
 
     public function unserialize($serialized)
@@ -376,7 +381,7 @@ class Build implements Serializable
         }
     }
 
-    public function export($data)
+    public function export()
     {
         return get_object_vars($this);
     }

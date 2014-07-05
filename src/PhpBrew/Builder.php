@@ -87,7 +87,8 @@ class Builder
             $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
             $apxs2Checker->check($build);
             $apxs2Patch = new \PhpBrew\Tasks\Apxs2PatchTask($this->logger);
-            $apxs2Patch->patch($build);
+
+            $apxs2Patch->patch($build, $this->options);
         }
 
         foreach ($extra as $a) {
