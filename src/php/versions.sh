@@ -54,3 +54,9 @@ function get_php_file_pattern() {
 function get_latest_for_major() {
   fetch_remote_versions | tr ' ' '\n' | grep "^$1" | sort -t. -k1,1rn -k2,2rn -k3,3rn | head -1
 }
+
+function version_exists() {
+  fetch_remote_versions -o | tr ' ' '\n' | grep "^$1$" >/dev/null
+
+  return $?
+}
