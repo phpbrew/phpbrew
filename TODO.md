@@ -4,7 +4,7 @@ Features:
   * [x] with old (and repo?) versions
 * [ ] install a php version
   * [x] download sources
-  * [ ] compile
+  * [x] compile
   * [ ] with variants
   * [ ] with options
 * [ ] help
