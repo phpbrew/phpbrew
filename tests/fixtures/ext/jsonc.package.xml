@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>jsonc</name>
+ <channel>pecl.php.net</channel>
+ <summary>JavaScript Object Notation</summary>
+ <description>Support for JSON (JavaScript Object Notation) serialization.
+This is a drop-in alternative to PHP standard json extension.</description>
+ <lead>
+  <name>Remi Collet</name>
+  <user>remi</user>
+  <email>remi@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2014-04-10</date>
+ <time>09:32:51</time>
+ <version>
+  <release>1.3.5</release>
+  <api>1.3.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license>PHP 3.01</license>
+ <notes>
+- libjson-c CVE-2013-6371: hash collision denial of service
+- libjson-c CVE-2013-6370: buffer overflow if size_t is larger than int
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="b2ae6559c090d5f60cfbee3fd33c0e03" name="json-c/arraylist.c" role="src" />
+   <file md5sum="1d673b92e797df5ed47431cac5cf3985" name="json-c/arraylist.h" role="src" />
+   <file md5sum="243073e518be3ce60f23059f62e6c359" name="json-c/AUTHORS" role="src" />
+   <file md5sum="263627940e87c73e80c7742286172dbd" name="json-c/bits.h" role="src" />
+   <file md5sum="541d9418edc48acc64b6bf9121d47ecb" name="json-c/ChangeLog" role="src" />
+   <file md5sum="f4f01b0e3b50d7b1044059965a1c2c0b" name="json-c/config.h" role="src" />
+   <file md5sum="de54b60fbbc35123ba193fea8ee216f2" name="json-c/COPYING" role="src" />
+   <file md5sum="e13e3d90b733d91b90e53c7fa1cfce6d" name="json-c/debug.c" role="src" />
+   <file md5sum="ff21fb08f9a49e7ca0c36153846f3f56" name="json-c/debug.h" role="src" />
+   <file md5sum="e3336f941fdbddf6ba7ea746ec4539d5" name="json-c/json_config.h" role="src" />
+   <file md5sum="ceccce64b1f5ef0b89f1227ca5856a56" name="json-c/json_c_version.c" role="src" />
+   <file md5sum="7669a563ad014b271e0cb03eb4212565" name="json-c/json_c_version.h" role="src" />
+   <file md5sum="437685ad5ad287135d39b00a8100a363" name="json-c/json.h" role="src" />
+   <file md5sum="2fd8805c77e9e0b05cc1395053ae8021" name="json-c/json_inttypes.h" role="src" />
+   <file md5sum="60a4c6b41ee537298fa7e149ef4529bc" name="json-c/json_object.c" role="src" />
+   <file md5sum="f5f3a314e10300f8a795c6b955a31e56" name="json-c/json_object.h" role="src" />
+   <file md5sum="ac5dc6404fa43d3b4b3bdfe131c64667" name="json-c/json_object_iterator.c" role="src" />
+   <file md5sum="f161781b73e2b8d0b24641db45216825" name="json-c/json_object_iterator.h" role="src" />
+   <file md5sum="cb1fe721570aeb3a2a2972af91c02833" name="json-c/json_object_private.h" role="src" />
+   <file md5sum="5121c0dd99168c165337bd07d0731a69" name="json-c/json_tokener.c" role="src" />
+   <file md5sum="2573454bc112eb99c962ca8f82d49b9f" name="json-c/json_tokener.h" role="src" />
+   <file md5sum="66a4073cae4c61ea5d8437aed063a091" name="json-c/json_util.c" role="src" />
+   <file md5sum="6071a703f77f07aaf5ce1f890daddb7d" name="json-c/json_util.h" role="src" />
+   <file md5sum="af319d9ad0ede392adc6e310b05c2c9a" name="json-c/linkhash.c" role="src" />
+   <file md5sum="c1b3e8c7aa4f1ec61dede9d51f36cf12" name="json-c/linkhash.h" role="src" />
+   <file md5sum="ffc41b79fd64bb2d7efa7ba1e7e041fa" name="json-c/printbuf.c" role="src" />
+   <file md5sum="7fe32738ba2f6ce017eb322102f34497" name="json-c/printbuf.h" role="src" />
+   <file md5sum="ec5765f012e2ae0ef3693b1d969534b4" name="json-c/random_seed.c" role="src" />
+   <file md5sum="31f2883e091577910d2a6e42f16435f6" name="json-c/random_seed.h" role="src" />
+   <file md5sum="c4de6acf66ff0137b145a66f68b139fb" name="tests/001.phpt" role="test" />
+   <file md5sum="2e76dc7da2c83c944cb6e650dc828ba8" name="tests/002.phpt" role="test" />
+   <file md5sum="52f1e43becdc3810a4bed968924c31ee" name="tests/003.phpt" role="test" />
+   <file md5sum="6ea46bf12ae0284cca9f370f53a89faa" name="tests/004.phpt" role="test" />
+   <file md5sum="cf51b1d0b6d2f672c98de900e6a907ac" name="tests/005.phpt" role="test" />
+   <file md5sum="f7949b883600881492cf2e9712978b43" name="tests/006.phpt" role="test" />
+   <file md5sum="646633c185b3fd1b5484e56df69a7275" name="tests/007.phpt" role="test" />
+   <file md5sum="95d4f43b2726af9d37b6c6afb4d5e97f" name="tests/007-jsonc.phpt" role="test" />
+   <file md5sum="33e561fb95fb36fe8dbed1771047c023" name="tests/008.phpt" role="test" />
+   <file md5sum="5bac5f71d723a03f611b0cb65b543382" name="tests/008-jsonc.phpt" role="test" />
+   <file md5sum="0a6e20cd07e413b8db414958a3ec4d52" name="tests/009-incrementalparser.phpt" role="test" />
+   <file md5sum="060c3f8bcaeb7d56cbde659b8ee6c7ff" name="tests/010-incrementalparserfile.phpt" role="test" />
+   <file md5sum="bb76625e5f970e7d80fc85b62d832a31" name="tests/011-comments.phpt" role="test" />
+   <file md5sum="08f3c3e30c40998ed05bdc8136e91d4d" name="tests/012-null-byte.phpt" role="test" />
+   <file md5sum="3551ba4a2c7e18a0be962c685aa31b29" name="tests/bug40503.phpt" role="test" />
+   <file md5sum="e46ce07df723166b9990d3a12504bcbb" name="tests/bug41034.phpt" role="test" />
+   <file md5sum="50c044e15ded05b35f0da8b1e00a9a03" name="tests/bug41067.phpt" role="test" />
+   <file md5sum="41f5c76d54465ec0348b52a633511f88" name="tests/bug41403.phpt" role="test" />
+   <file md5sum="d3e6f205ba7ef0ca1529a9d08f1868ae" name="tests/bug41504.phpt" role="test" />
+   <file md5sum="ff14e6d1d21985171e93d470ac58d0fb" name="tests/bug41567.phpt" role="test" />
+   <file md5sum="72c0661f0c557947113a97336d799745" name="tests/bug42090.phpt" role="test" />
+   <file md5sum="c141b97a90b48db4f17fb9e80d978e51" name="tests/bug42785.phpt" role="test" />
+   <file md5sum="ce78611621b021431e3e8cd505172cef" name="tests/bug43941.phpt" role="test" />
+   <file md5sum="bee1f215aed8fa02ee21743142792fb4" name="tests/bug45791.phpt" role="test" />
+   <file md5sum="a12364dfa0c56466a49c2b9106479ef1" name="tests/bug46215.phpt" role="test" />
+   <file md5sum="aede7b113213500be0687710a2914e76" name="tests/bug46944.phpt" role="test" />
+   <file md5sum="5ebcb00b46f32bed825ef9259bd89eb5" name="tests/bug47644.phpt" role="test" />
+   <file md5sum="a129d3fc0d8cc4e93d582918dd778a33" name="tests/bug53946.phpt" role="test" />
+   <file md5sum="954f62e04b7ae9388668965026f13a34" name="tests/bug54058.phpt" role="test" />
+   <file md5sum="60bb90104a85f971fcdc33d2819b6d30" name="tests/bug54484.phpt" role="test" />
+   <file md5sum="544cefbd5f3a1c4d3af4c67f8a388127" name="tests/bug55543.phpt" role="test" />
+   <file md5sum="02d10979c2cb83f8b3d2e307dc8d0b46" name="tests/bug61537.phpt" role="test" />
+   <file md5sum="d88bb088e17ea2395ed915075510dc46" name="tests/bug61978.phpt" role="test" />
+   <file md5sum="b903027190fca504accf55941971c948" name="tests/bug62369.phpt" role="test" />
+   <file md5sum="afb4fd761e76096d5b4771bc028f2afe" name="tests/depth.phpt" role="test" />
+   <file md5sum="c41573ff8c95f780c936ad2eda0c6c7a" name="tests/fail001.phpt" role="test" />
+   <file md5sum="72649f2f1269999a7655b60ec99f9ca8" name="tests/inf_nan_error.phpt" role="test" />
+   <file md5sum="b7f9601610e863f5eb746c84f9f5cd97" name="tests/json_decode_basic.phpt" role="test" />
+   <file md5sum="606aa34c2c9b344461908eae3f18c92f" name="tests/json_decode_error.phpt" role="test" />
+   <file md5sum="9b065574e108dcdd19638ff693047061" name="tests/json_encode_basic.phpt" role="test" />
+   <file md5sum="65f634a97dd4b4315f2e4eda3469592c" name="tests/json_encode_basic_utf8.phpt" role="test" />
+   <file md5sum="9a3dd6fc3a3723c80b7bb342e1891e2c" name="tests/json_encode_error.phpt" role="test" />
+   <file md5sum="a338082e4a69423024fd9e734b939a4d" name="tests/json_encode_numeric.phpt" role="test" />
+   <file md5sum="4e164a33af0c32add9718432aaa0001f" name="tests/json_encode_pretty_print.phpt" role="test" />
+   <file md5sum="18ac6d08bf11c70eb399bf45954d8275" name="tests/json_encode_unescaped_slashes.phpt" role="test" />
+   <file md5sum="2199e3e8bf6ae249862167fb6a398a15" name="tests/jsonp.phpt" role="test" />
+   <file md5sum="d7eb54913c294c39f13f88e5ddf02056" name="tests/pass001.1_64bit.phpt" role="test" />
+   <file md5sum="05124b53da64137ebb09854a6444fa7d" name="tests/pass001.1.phpt" role="test" />
+   <file md5sum="12b2f1d05e152ee51a44bc4f0b7f67ff" name="tests/pass001.phpt" role="test" />
+   <file md5sum="1d05793b2c83d6798f9f82a27f51d3b8" name="tests/pass002.phpt" role="test" />
+   <file md5sum="586879b1c6f4c4e42f0d8af581a52132" name="tests/pass003.phpt" role="test" />
+   <file md5sum="721118292f685f5a98b6944b86d85059" name="tests/serialize.phpt" role="test" />
+   <file md5sum="664f1ed10831935a1eee85652b57937f" name="tests/unsupported_type_error.phpt" role="test" />
+   <file md5sum="dcf9c0de31a24aa671d355a5d687fe1a" name="CREDITS" role="doc" />
+   <file md5sum="5bb09683f8f09b15b7076f4b4c31d61f" name="LICENSE" role="doc" />
+   <file md5sum="a1d61195688ad3aa47932a065c6ca517" name="README.md" role="doc" />
+   <file md5sum="5bb789e013aa053e2b060f7dad7fa169" name="INSTALL" role="doc" />
+   <file md5sum="191c9742a336ec361c6d5ec5d71abe3a" name="config.m4" role="src" />
+   <file md5sum="1d4984289dd57d22be2e1dc9384a0c8c" name="json.c" role="src" />
+   <file md5sum="7f5f9d57df04b1f7c8f8382af29fa444" name="php_json.h" role="src" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.4.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.9.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>json</providesextension>
+ <extsrcrelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-04-01</date>
+   <license>PHP 3.01</license>
+   <notes>
+Initial release.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-10</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed non-linear and mixed type array index issues, fixed issues with escaping \\, forked json-c and added Unicode support.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-11</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed issues with object reference counts under PHP4.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-15</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed json-c string corruption issues under Mac OS X and FreeBSD.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.4</release>
+    <api>1.0.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-15</date>
+   <license>PHP 3.01</license>
+   <notes>
+Changes in 1.0.4 released with 1.0.5.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.5</release>
+    <api>1.0.5</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-16</date>
+   <license>PHP 3.01</license>
+   <notes>
+Changed spacing in json-c encoding, added optional assoc (boolean) parameter to json_decode to decode as associative array instead of object, fixed issues with escaping /.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.6</release>
+    <api>1.0.6</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-08-05</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed issues with exporting private and protected class members.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.7</release>
+    <api>1.0.7</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-09-07</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed issues with negative array keys, modified json-c to return an error on unquoted object key names instead of going into an infinite loop.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.8</release>
+    <api>1.0.8</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-12-01</date>
+   <license>PHP 3.01</license>
+   <notes>
+Changed license to LGPL, modified build system to allow static compilation into PHP, added strndup check for json-c.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-12-04</date>
+   <license>PHP 3.01</license>
+   <notes>
+Port to Win32.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-01-12</date>
+   <license>PHP 3.01</license>
+   <notes>
+Cleanup and TSRM performance fixes by rasmus.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.0</release>
+    <api>1.2.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-03-15</date>
+   <license>PHP 3.01</license>
+   <notes>
+Complete rewrite using JSON_checker as the base for the parser. Implements the JSON specification. 3-8x faster on encodes and 1.2x-4x faster on decodes.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.1</release>
+    <api>1.2.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-03-18</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fix PECL bug #7147 - rework handling of comma insertion while encoding.
+Add tests to package.xml
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.0</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2013-06-04</date>
+   <license>PHP 3.01</license>
+   <notes>
+Version 1.3.0 is Major rewrite which use the use json-c library 0.11:
+- json_decode use json-c parser
+- add JsonIncrementalParser class
+- temporarily rename as jsonc
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.1</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2013-06-12</date>
+   <license>PHP 3.01</license>
+   <notes>
+- windows build support (thanks to weltling)
+- build as json.so or jsonc.so (--with-jsonc option)
+- rename LIBJSON_VERSION to HAVE_LIBJSON (internal only)
+- parse 64 bits integer as float, or string, on 32 bits build
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.2</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2013-09-09</date>
+   <license>PHP 3.01</license>
+   <notes>
+- number must not have leading zeroes (json-c library pr #90, merged)
+- string must be double-quoted (json-c library PR #94, merged)
+- comment are not allowed (json-c library PR #94, merged)
+- trailing char after data not allowed (json-c library PR #94, merged)
+- add JSON_C_BUNDLED and JSON_C_VERSION constants
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.3</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2013-12-12</date>
+   <license>PHP 3.01</license>
+   <notes>
+- properly decode string value with null-byte
+- allow to build in php tree
+- drop confusing warning about JSON_BIGINT_AS_STRING
+- add E_NOTICE &quot;integer overflow detected&quot;
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.4</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2014-02-22</date>
+   <license>PHP 3.01</license>
+   <notes>
+- Fixed bug #65753 JsonSerializeable couldn&apos;t implement on module extension
+   </notes>
+  </release>
+ </changelog>
+</package>
