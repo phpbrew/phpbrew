@@ -179,6 +179,8 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('zlib.h')) {
                 return '--with-zlib=' . $prefix;
             }
+
+            return null;
         };
 
         $this->variants['curl'] = function ($build, $prefix = null) {
@@ -193,6 +195,8 @@ class VariantBuilder
             if ($prefix = Utils::getPkgConfigPrefix('libcurl')) {
                 return "--with-curl=$prefix";
             }
+
+            return null;
         };
 
         $this->variants['readline'] = function ($build, $prefix = null) {
@@ -506,13 +510,14 @@ class VariantBuilder
     /**
      * Build options from variant
      *
-     * @param Builder $build
+     * @param Build $build
      * @param string  $feature   variant name
      * @param string  $userValue option value.
      *
      * @return array
      *
      * @throws OopsException
+     * @throws Exception
      */
     public function buildVariant($build, $feature, $userValue = null)
     {
@@ -542,13 +547,13 @@ class VariantBuilder
 
             return (array) call_user_func_array($cb, $args);
         } else {
-            throw OopsException;
+            throw new OopsException();
         }
     }
 
     public function buildDisableVariant($build, $feature, $userValue = null)
     {
-        if (isset( $this->variants[ $feature ])) {
+        if (isset( $this->variants[$feature])) {
             if (in_array('-'.$feature, $this->builtList)) {
                 return array();
             }
@@ -584,9 +589,9 @@ class VariantBuilder
             }
 
             return $resultOptions;
-        } else {
-            throw new Exception("Variant $feature is not defined.");
         }
+
+        throw new Exception("Variant $feature is not defined.");
     }
 
     public function addOptions($options)

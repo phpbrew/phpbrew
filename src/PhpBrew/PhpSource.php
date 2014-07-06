@@ -151,5 +151,7 @@ class PhpSource
                 return $versions[$version];
             }
         }
+
+        return null;
     }
 }

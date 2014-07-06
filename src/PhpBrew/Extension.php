@@ -4,6 +4,7 @@ namespace PhpBrew;
 
 class Extension implements ExtensionInterface
 {
+    protected $name;
 
     /**
      * Extension meta
@@ -33,6 +34,7 @@ class Extension implements ExtensionInterface
         Migrations::setupConfigFolder();
         $this->logger = $logger;
         $this->meta = $this->buildMetaFromName($name);
+        $this->name = $name;
     }
 
     public function install($version = 'stable', array $options = array())
@@ -189,7 +191,7 @@ class Extension implements ExtensionInterface
     public function isAvailable()
     {
         foreach (glob($this->meta->getPath() . '/*', GLOB_ONLYDIR) as $available_extension) {
-            if (false !== strpos(basename($available_extension), $name)) {
+            if (false !== strpos(basename($available_extension), $this->name)) {
                 return true;
             }
         }

@@ -29,7 +29,7 @@ class SvnDownloader
         }
 
         if (!file_exists($basename)) {
-            throw Exception("Download failed.");
+            throw new Exception("Download failed.");
         }
 
         return $basename;

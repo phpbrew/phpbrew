@@ -12,6 +12,7 @@ use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
+use PhpBrew\Tasks\TestTask;
 use PhpBrew\Build;
 use CLIFramework\Command;
 
@@ -90,6 +91,8 @@ class InstallCommand extends Command
 
         // convert patch to realpath
         if ($this->options->patch) {
+            $patchPaths = array();
+
             foreach ($this->options->patch as $patch) {
                 $patchPath = realpath($patch);
 
@@ -98,6 +101,7 @@ class InstallCommand extends Command
                 }
 
             }
+
             // rewrite patch paths
             $this->options->keys['patch']->value = $patchPaths;
         }

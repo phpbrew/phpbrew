@@ -112,8 +112,8 @@ class ExtensionInstaller
         // This function is disabled when PHP is running in safe mode.
         $output = shell_exec('make install');
 
-        if (! $output) {
-            throw new Exception("Extension Install Failed.");
+        if (!$output) {
+            throw new \Exception("Extension Install Failed.");
         }
 
         $this->logger->debug($output);
