@@ -9,7 +9,7 @@ class DSymTask extends BaseTask
     // Fix php.dSYM
     /* Check if php.dSYM exists */
     /**
-     * @param \PhpBrew\Build $build
+     * @param  \PhpBrew\Build $build
      * @return bool
      */
     public function check($build)

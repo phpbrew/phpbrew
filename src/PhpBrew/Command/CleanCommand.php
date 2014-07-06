@@ -35,7 +35,6 @@ class CleanCommand extends Command
             throw new Exception("Version $version not found.");
         }
 
-
         $clean = new CleanTask($this->logger);
 
         if ($clean->cleanByVersion($version)) {

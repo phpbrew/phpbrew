@@ -182,7 +182,7 @@ class Build implements Serializable
     /**
      * Returns variant user value
      *
-     * @param  string $n variant name
+     * @param string $n variant name
      *
      * @return string variant value
      */

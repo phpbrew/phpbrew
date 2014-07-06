@@ -93,7 +93,7 @@ class Process
      * via the getOutput() and getErrorOutput() methods.
      *
      * @param callable|string|array $callback A PHP callback to run whenever there is some
-     *                                       output available on STDOUT or STDERR
+     *                                        output available on STDOUT or STDERR
      *
      * @return integer The exit status code
      *

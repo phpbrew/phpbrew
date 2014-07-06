@@ -510,9 +510,9 @@ class VariantBuilder
     /**
      * Build options from variant
      *
-     * @param Build $build
-     * @param string  $feature   variant name
-     * @param string  $userValue option value.
+     * @param Build  $build
+     * @param string $feature   variant name
+     * @param string $userValue option value.
      *
      * @return array
      *
