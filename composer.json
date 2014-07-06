@@ -6,6 +6,11 @@
         {
             "name": "c9s",
             "email": "cornelius.howl@gmail.com"
+        },
+        {
+            "name": "Márcio Almada",
+            "email": "marcio3w@gmail.com",
+            "homepage": "https://github.com/marcioAlmada/"
         }
     ],
     "require": {
