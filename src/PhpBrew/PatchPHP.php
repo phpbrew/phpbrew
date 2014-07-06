@@ -1,24 +1,26 @@
 <?php
 namespace PhpBrew;
 
-/*
-A simple wrapper for `patch` command.
-
-    $patchphp = new PatchPHP('patch-name');
-    $patchphp->fetchDiff( 'http://remote.url/patch-1.diff' );
-    $patchphp->patch();
-
-OR:
-
-    $patchphp = new PatchPHP('patch-name');
-    $patchphp->diff =<<<EOS
-
-    ... diff content
-
-    EOS;
-    $patchphp->patch();
-
-*/
+/**
+ * A simple wrapper for `patch` command.
+ * 
+ * <code>
+ * $patchphp = new PatchPHP('patch-name');
+ * $patchphp->fetchDiff( 'http://remote.url/patch-1.diff' );
+ * $patchphp->patch();
+ * </code>
+ * 
+ * OR:
+ * <code>
+ * $patchphp = new PatchPHP('patch-name');
+ * $patchphp->diff =<<<EOS
+ * 
+ * ... diff content
+ * 
+ * EOS;
+ * $patchphp->patch();
+ * </code>
+ */
 class PatchPHP
 {
     public $diff;
