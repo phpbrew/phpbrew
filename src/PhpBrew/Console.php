@@ -38,6 +38,14 @@ class Console extends Application
 
         $this->registerCommand('off');
         $this->registerCommand('switch-off', 'PhpBrew\Command\SwitchOffCommand');
+
+        $this->configure();
+    }
+
+    public function configure()
+    {
+        // avoid warnings when web scraping malformed HTML
+        libxml_use_internal_errors(true);
     }
 
     public function brief()
