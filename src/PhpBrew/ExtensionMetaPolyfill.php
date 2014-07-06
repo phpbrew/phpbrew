@@ -14,6 +14,7 @@ class ExtensionMetaPolyfill extends ExtensionMetaAbstraction implements Extensio
 
     public function isZend()
     {
+        return false;
     }
 
     public function getName()

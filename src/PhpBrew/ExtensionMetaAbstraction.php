@@ -15,7 +15,7 @@ abstract class ExtensionMetaAbstraction implements ExtensionMetaInterface
 
     public function getSourceFile()
     {
-        return  strtolower($this->getName()) . '.so';
+        return  strtolower($this->getRuntimeName()) . '.so';
     }
 
 }
