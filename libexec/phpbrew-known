@@ -1,44 +1,54 @@
 #!/usr/bin/env bash
 set -e
 
-source ${_PHPBREW_ROOT}/src/php/versions.sh
-source ${_PHPBREW_ROOT}/src/utils/echo.sh
+command_description() {
+    echo_info '   known:      lists known php versions\n'
+}
 
-options='' 
-while getopts ':-:' option; do
-  case "${option}" in
+command_help() {
+    echo_info 'phpbrew known\n'
+}
+
+command_run() {
+  source ${_PHPBREW_ROOT}/src/php/versions.sh
+  source ${_PHPBREW_ROOT}/src/utils/echo.sh
+  
+  options='' 
+  while getopts ':-:' option; do
+    case "${option}" in
     -)
       case "${OPTARG}" in
-        old)
-          options=( "${options[@]}" '-o' )
-          ;;
+      old)
+        options=( "${options[@]}" '-o' )
+        ;;
       esac
-  esac
-done
-
-versions=$(fetch_remote_versions ${options[@]})
-
-echo_user 'Available stable versions:'
-
-curr_major_version=''
-
-for version in $(echo -e "${versions// /\\n}" | sort -t. -k1,1rn -k2,2rn -k3,3rn); do
-  if test -z $curr_major_version || test $curr_major_version != ${version%\.[0-9]*}; then
+    esac
+  done
+  
+  versions=$(fetch_remote_versions ${options[@]})
+  
+  echo_user 'Available stable versions:'
+  
+  curr_major_version=''
+  
+  for version in $(echo -e "${versions// /\\n}" | sort -t. -k1,1rn -k2,2rn -k3,3rn); do
+    if test -z $curr_major_version || test $curr_major_version != ${version%\.[0-9]*}; then
     curr_major_version_count=0
     curr_major_version=${version%\.[0-9]*}
-
+  
     echo ''
-    echo_info "  ${curr_major_version} versions:    "
-  else
+    echo_info "  ${curr_major_version} versions:  "
+    else
     curr_major_version_count=$((curr_major_version_count+1))
-  fi
-
-  if test "$curr_major_version_count" -gt "7"
-  then
+    fi
+  
+    if test "$curr_major_version_count" -gt "7"
+    then
     continue
-  fi
-
-  printf "%-7s" $version
-done
-
-echo ''
+    fi
+  
+    printf "%-7s" $version
+  done
+  
+  echo ''
+}

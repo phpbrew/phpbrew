@@ -2,16 +2,33 @@
 
 source ${_PHPBREW_ROOT}/src/utils/echo.sh
 
-echo_info 'Usage: '
+if test -z "$1"; then
+  echo_info 'Usage: '
+  echo_info 'phpbrew <command> <arguments> [options]\n'
+  echo_info '   help:       show this help\n'
 
-case "$1" in
-  'install')
-    echo_info 'phpbrew install <version> [options]\n'
-    echo_info '   version:     latest, 5.5[.14]\n'
-    ;;
-  *)
-    echo_info 'phpbrew <command> <arguments> [options]\n'
-    echo_info '   help:       show this help\n'
-    echo_info '   install:    install a PHP version\n'
-    ;;
-esac
+  commands=( "${libexec_path}/*" )
+
+  for command in ${commands}; do
+    if [[ "${command}" != *phpbrew ]] && [[ "${command}" != *phpbrew-help ]]; then
+      source ${command}
+      command_description
+    fi
+  done
+
+  exit 0
+else
+  command_path="$(command -v "phpbrew-$1" || true)"
+
+  if [ ! -x "$command_path" ]; then
+    source ${_PHPBREW_ROOT}/src/utils/echo.sh
+    echo_fail "phpbrew: no such command \`$1'\n" >&2
+    exit 1
+  fi
+
+  shift
+  source "$command_path"
+  command_help
+
+  exit 0
+fi

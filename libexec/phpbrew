@@ -37,6 +37,7 @@ case "$command" in
   fi
 
   shift
-  exec "$command_path" "$@"
+  source "$command_path"
+  command_run "$@"
   ;;
 esac
