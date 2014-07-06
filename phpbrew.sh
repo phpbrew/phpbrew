@@ -224,27 +224,6 @@ function phpbrew ()
                 cd $build_dir && make clean && cd -
             fi
             ;;
-        ext)
-            case $2 in
-                disable)
-                    echo "Disabling extension..."
-                    if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled" ]]; then
-                      echo "[ ] $3 extension is already disabled"
-                    else
-                      if [[ -e "$PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini" ]]; then
-                        mv $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini $PHPBREW_ROOT/php/$PHPBREW_PHP/var/db/$3.ini.disabled
-                        echo "[ ] $3 extension is disabled"
-                      else
-                        echo "Failed to disable $3 extension. Maybe it's not installed yet?"
-                        return 1
-                      fi
-                    fi
-                ;;
-                *)
-                    command $BIN ${*:1}
-                ;;
-            esac
-            ;;
         fpm)
             PHPFPM_BIN=$PHPBREW_ROOT/php/$PHPBREW_PHP/sbin/php-fpm
             PHPFPM_PIDFILE=$PHPBREW_ROOT/php/$PHPBREW_PHP/var/run/php-fpm.pid

@@ -29,6 +29,11 @@ class ExtensionMetaM4 extends ExtensionMetaAbstraction implements ExtensionMetaI
         return $this->name;
     }
 
+    public function getRuntimeName()
+    {
+        return $this->getName();
+    }
+
     public function getVersion()
     {
         return null;

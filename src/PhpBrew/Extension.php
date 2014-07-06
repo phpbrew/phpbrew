@@ -2,9 +2,10 @@
 
 namespace PhpBrew;
 
+use CLIFramework\Logger;
+
 class Extension implements ExtensionInterface
 {
-    protected $name;
 
     /**
      * Extension meta
@@ -29,12 +30,11 @@ class Extension implements ExtensionInterface
         'jsonc' => array ('json'),    // enabling json disables jsonc
     );
 
-    public function __construct($name, $logger)
+    public function __construct($name, Logger $logger)
     {
         Migrations::setupConfigFolder();
         $this->logger = $logger;
         $this->meta = $this->buildMetaFromName($name);
-        $this->name = $name;
     }
 
     public function install($version = 'stable', array $options = array())
@@ -107,8 +107,7 @@ class Extension implements ExtensionInterface
         $name = $this->meta->getName();
         $enabled_file = $this->meta->getIniFile();
         $disabled_file = $enabled_file . '.disabled';
-
-        if (file_exists($enabled_file)) {
+        if (file_exists($enabled_file) || ($this->isLoaded() && ! $this->hasConflicts())) {
             $this->logger->info("[*] {$name} extension is already enabled.");
 
             return true;
@@ -174,6 +173,10 @@ class Extension implements ExtensionInterface
         }
     }
 
+    public function hasConflicts()
+    {
+        return array_key_exists($this->meta->getName(), $this->conflicts);
+    }
 
     /**
      * Checks if current extension is loaded
@@ -181,7 +184,7 @@ class Extension implements ExtensionInterface
      */
     public function isLoaded()
     {
-        return extension_loaded($this->meta->getName());
+        return extension_loaded($this->meta->getRuntimeName());
     }
 
     /**
@@ -191,7 +194,7 @@ class Extension implements ExtensionInterface
     public function isAvailable()
     {
         foreach (glob($this->meta->getPath() . '/*', GLOB_ONLYDIR) as $available_extension) {
-            if (false !== strpos(basename($available_extension), $this->name)) {
+            if (false !== strpos(basename($available_extension), $this->meta->getName())) {
                 return true;
             }
         }

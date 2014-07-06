@@ -21,6 +21,11 @@ class ExtensionMetaPolyfill extends ExtensionMetaAbstraction implements Extensio
         return $this->name;
     }
 
+    public function getRuntimeName()
+    {
+        return $this->getName();
+    }
+
     public function getVersion()
     {
         return null;

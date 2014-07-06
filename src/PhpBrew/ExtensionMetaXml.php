@@ -30,13 +30,16 @@ class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMeta
         return $this->meta->getElementsByTagName('name')->item(0)->nodeValue;
     }
 
-    public function getSourceFile()
+    public function getRuntimeName()
     {
         $provides = $this->meta->getElementsByTagName('providesextension');
-        $provides->length ? $source = $provides->item(0)->nodeValue : $source = $this->getName();
-        $source .= '.so';
 
-        return strtolower($source);
+        return $provides->length ? $provides->item(0)->nodeValue : $this->getName();
+    }
+
+    public function getSourceFile()
+    {
+        return strtolower($this->getRuntimeName() . '.so');
     }
 
     public function getVersion()
