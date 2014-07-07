@@ -9,10 +9,29 @@ source ${_PHPBREW_ROOT}/src/php/compiler.sh
 
 if test -z "$1"; then
   phpbrew help install
+  exit
 fi
 
 if test "$1" = 'latest'; then
   version=$(get_most_recent_version)
+else
+  if [[ "$1" =~ ^[0-9]\.[0-9]$ ]]; then
+    version=$(get_latest_for_major $1)
+  else
+    if [[ "$1" =~ ^[0-9]\.[0-9]\.[0-9][0-9]*$ ]]; then
+      if $(version_exists $1); then
+        version=$1
+      else
+        echo_fail 'Unknwon PHP version\n'
+        echo_info "You can run \`phpbrew known' to get available versions\n"
+        exit
+      fi
+    else
+      echo_fail 'Unknown version format.\n'
+      phpbrew help install
+      exit
+    fi
+  fi
 fi
 
 build_dir=${_PHPBREW_ROOT}/build
