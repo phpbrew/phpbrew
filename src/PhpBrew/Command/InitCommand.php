@@ -25,6 +25,12 @@ class InitCommand extends \CLIFramework\Command
         // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
+        touch( $root . DIRECTORY_SEPARATOR . '.metadata_never_index' ); // prevent spotlight index here
+        if ($root != $home) {
+            touch( $home . DIRECTORY_SEPARATOR . '.metadata_never_index' );
+        }
+
+
         if (!file_exists($root)) {
             mkdir($root, 0755, true);
         }
@@ -42,6 +48,8 @@ class InitCommand extends \CLIFramework\Command
         if (!file_exists($buildDir)) {
             mkdir($buildDir, 0755, true);
         }
+
+
 
         // write init script to phpbrew home
         $bashScript = $home . DIRECTORY_SEPARATOR . 'bashrc';
