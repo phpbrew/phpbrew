@@ -143,6 +143,7 @@ local ret=1
             local commands; commands=(
               'enable:Enable PHP extension'
               'install:Install PHP extension'
+              'disable:Disable PHP extension'
             )
             _describe -t commands 'command' commands && ret=0
               ;;
@@ -159,6 +160,12 @@ local ret=1
                         _arguments -w -S -s \
                           '(-pv --php-version)'{-pv,--php-version=}'[The php version for which we install the module.]' \
                           ':extensions:{___phpbrew_meta "extensions" ext.install arg 0 suggestions}' \
+                           && ret=0
+                  
+                  ;;
+                  (disable)
+                        _arguments -w -S -s \
+                          ':extname' \
                            && ret=0
                   
                   ;;
