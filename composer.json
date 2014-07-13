@@ -1,7 +1,7 @@
 {
     "name": "phpbrew\/phpbrew",
     "description": "PHPBrew API library",
-    "license":"MIT",
+    "license": "MIT",
     "authors": [
         {
             "name": "c9s",
@@ -24,5 +24,5 @@
             "PhpBrew": "src"
         }
     },
-    "version": "1.13.1"
+    "version": "1.13.2"
 }
