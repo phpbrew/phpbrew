@@ -25,6 +25,18 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('pv|php-version:', 'The php version for which we install the module.');
     }
 
+    public function arguments($args) {
+        $args->add('extensions')
+            ->suggestions(function() {
+                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+                return array_filter(scandir($extdir), function($d) use ($extdir) {
+                    return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
+                });
+            })
+            ;
+    }
+
+
     protected function getExtData($args)
     {
         $version = 'stable';
