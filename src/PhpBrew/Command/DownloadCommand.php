@@ -22,6 +22,12 @@ class DownloadCommand extends Command
         return 'phpbrew download [php-version]';
     }
 
+    public function arguments($args) {
+        $args->add('php version')
+            ->validValues(array('5.3','5.4','5.5'))
+            ;
+    }
+
     /**
      * @param \GetOptionKit\OptionSpecCollection $opts
      */

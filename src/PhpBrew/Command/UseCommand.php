@@ -6,7 +6,7 @@ class UseCommand extends VirtualCommand
 
     public function arguments($args) {
         $args->add('installed php')
-            ->validValues('PhpBrew\\Config::getInstalledPhpVersions')
+            ->validValues(function() { return \PhpBrew\Config::getInstalledPhpVersions(); })
             ;
     }
 
