@@ -8,6 +8,8 @@ function configure() {
   fi
 
   ./configure --prefix $2
+
+  return $?
 }
 
 function compile() {
@@ -15,4 +17,6 @@ function compile() {
 
   make
   make install
+
+  return $?
 }

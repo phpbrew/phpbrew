@@ -24,6 +24,16 @@ function test_can_get_latest_minor_release_for_major_release() {
   assertion__equal 5.3.28 "$(get_latest_for_major 5.3)"
 }
 
+function test_can_tell_if_a_given_verion_exists() {
+  mock__make_function_call "curl" "_curl_mock \$@"
+
+  version_exists 5.5.14
+  assertion__status_code_is_success $?
+
+  version_exists 5.5.90
+  assertion__status_code_is_failure $?
+}
+
 function _curl_mock() {
   case $2 in
     'http://www.php.net/downloads.php')

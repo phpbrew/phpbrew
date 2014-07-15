@@ -30,4 +30,7 @@ function run_process() {
   echo ""
 
   set -o monitor
+
+  wait ${pid}
+  return $?
 }

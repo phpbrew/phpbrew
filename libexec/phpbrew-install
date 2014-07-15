@@ -23,13 +23,39 @@ command_run() {
 
   if test "$1" = 'latest'; then
     version=$(get_most_recent_version)
+  else
+    if [[ "$1" =~ ^[0-9]\.[0-9]$ ]]; then
+      version=$(get_latest_for_major $1)
+    else
+      if [[ "$1" =~ ^[0-9]\.[0-9]\.[0-9][0-9]*$ ]]; then
+        if $(version_exists $1); then
+          version=$1
+        else
+          echo_fail 'Unknwon PHP version\n'
+          echo_info "You can run \`phpbrew known' to get available versions\n"
+          exit 1
+        fi
+      else
+        echo_fail 'Unknown version format.\n'
+        phpbrew help install
+        exit 1
+      fi
+    fi
   fi
 
   build_dir=${_PHPBREW_ROOT}/build
   install_dir=${_PHPBREW_ROOT}/php/php-${version}
   sources_archive_path=${build_dir}/php-${version}.tar.bz2
-    log_file=${build_dir}/php-${version}/build.log
+  log_file=${build_dir}/php-${version}/build.log
   
+  if test -d ${build-dir}/php-${version}; then
+    rm -rf ${build-dir}/php-${version}
+  fi
+
+  if test -d ${install_dir}; then
+    rm -rf ${install_dir}
+  fi
+
   if test ! -d ${build_dir}; then
     mkdir -p ${build_dir}
   fi
@@ -40,24 +66,32 @@ command_run() {
   
   cd ${build_dir} >/dev/null
   
-  if test -d ${build-dir}/php-${version}; then
-    rm -rf ${build-dir}/php-${version}
-  fi
-  
-  if test -d ${install_dir}; then
-    rm -rf ${install_dir}
-  fi
-  
   echo_info "Download PHP sources for version ${version}…\n"
   download ${version} ${sources_archive_path}
   
   echo_info 'Extracting archive…\n'
   run_process tar xf ${sources_archive_path}
   
+  if test $? != 0; then
+    echo_fail 'Extraction failed, please check downloaded archive\n'
+    exit 1
+  fi
+  
   echo_user "Build log will be available at ${log_file}\n"
   
   echo_info 'Running configure…\n'
   run_process -l ${log_file} configure ${build_dir}/php-${version} ${install_dir}
+  
+  if test $? != 0; then
+    echo_fail 'Configure failed, look at the log for more info…\n'
+    exit 1
+  fi
+
   echo_info "Compiling into ${install_dir}…\n"
   run_process -l ${log_file} compile ${build_dir}/php-${version}
+  
+  if test $? != 0; then
+    echo_fail 'Compilation failed, look at the log for more info…\n'
+    exit 1
+  fi
 }
