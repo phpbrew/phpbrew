@@ -27,7 +27,7 @@ class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMeta
 
     public function getName()
     {
-        return $this->meta->getElementsByTagName('name')->item(0)->nodeValue;
+        return str_replace('ext_', '', $this->meta->getElementsByTagName('name')->item(0)->nodeValue);
     }
 
     public function getRuntimeName()
