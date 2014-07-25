@@ -6,6 +6,13 @@ use Exception;
 
 class PurgeCommand extends \CLIFramework\Command
 {
+
+    public function arguments($args) {
+        $args->add('installed php')
+            ->validValues('PhpBrew\\Config::getInstalledPhpVersions')
+            ;
+    }
+
     public function brief()
     {
         return 'remove installed php version and config files.';

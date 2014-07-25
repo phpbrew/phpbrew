@@ -23,6 +23,12 @@ class CleanCommand extends Command
     {
     }
 
+    public function arguments($args) {
+        $args->add('installed php')
+            ->validValues(function() { return \PhpBrew\Config::getInstalledPhpVersions(); })
+            ;
+    }
+
     public function execute($version)
     {
         if (!preg_match('/^php-/', $version)) {
