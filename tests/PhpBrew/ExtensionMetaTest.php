@@ -15,7 +15,7 @@ class ExtensionMetaTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->path = __DIR__ . '/../fixtures/ext';        
+        $this->path = __DIR__ . '/../fixtures/ext';
     }
 
     public function testMetaPolyfill()
@@ -84,5 +84,18 @@ class ExtensionMetaTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertStringEndsWith('/ext/' . $this->meta->getName(), $this->meta->getPath());
         $this->assertStringEndsWith($this->meta->getName() . '.ini', $this->meta->getIniFile());
+    }
+
+    /**
+     * Test for issue #277
+     * 
+     * @link github.com/phpbrew/phpbrew/issues/277
+     */
+    public function testIssue277()
+    {
+        $this->meta = new ExtensionMetaXml('data://,<?xml version="1.0" encoding="ISO-8859-1" ?><package><name>ext_foo</name></package>');
+        $this->assertEquals('foo', $this->meta->getName());
+        $this->meta = new ExtensionMetaXml('data://,<?xml version="1.0" encoding="ISO-8859-1" ?><package><name>extfoo</name></package>');
+        $this->assertEquals('extfoo', $this->meta->getName());
     }
 }
