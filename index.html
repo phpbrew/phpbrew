@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Phpbrew : Brew &amp; manage PHP versions in pure PHP at HOME" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Phpbrew : Brew &amp; manage PHP versions in pure PHP at HOME">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -16,14 +16,14 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/c9s/phpbrew">View on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/phpbrew/phpbrew">View on GitHub</a>
 
           <h1 id="project_title">Phpbrew</h1>
           <h2 id="project_tagline">Brew &amp; manage PHP versions in pure PHP at HOME</h2>
 
             <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/c9s/phpbrew/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/c9s/phpbrew/tarball/master">Download this project as a tar.gz file</a>
+              <a class="zip_download_link" href="https://github.com/phpbrew/phpbrew/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/phpbrew/phpbrew/tarball/master">Download this project as a tar.gz file</a>
             </section>
         </header>
     </div>
@@ -43,18 +43,18 @@ version whenever you need.</p>
 
 <ul>
 <li>Build php with different variants like PDO, mysql, sqlite, debug ...etc.</li>
-<li>Compile apache php module and seperate them by different versions.</li>
+<li>Compile apache php module and separate them by different versions.</li>
 <li>Build and install php(s) in your home directory, so you don't need root permission.</li>
 <li>Switch versions very easily and is integrated with bash/zsh shell.</li>
 <li>Automatic feature detection.</li>
 <li>Install &amp; enable php extensions into current environment with ease.</li>
 <li>Install multiple php into system-wide environment.</li>
-</ul><p><img width="600" src="https://raw.github.com/c9s/phpbrew/master/screenshots/01.png"></p>
+</ul><p><img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"></p>
 
 <h2>
 <a name="requirement" class="anchor" href="#requirement"><span class="octicon octicon-link"></span></a>Requirement</h2>
 
-<p>Please see <a href="https://github.com/c9s/phpbrew/wiki/Requirement">Requirement</a>
+<p>Please see <a href="https://github.com/phpbrew/phpbrew/wiki/Requirement">Requirement</a>
 before you get started. you need to install some development packages for
 building PHP.</p>
 
@@ -63,9 +63,9 @@ building PHP.</p>
 
 <p>Just download it:</p>
 
-<div class="highlight highlight-bash"><pre>curl -O https://raw.github.com/c9s/phpbrew/master/phpbrew
+<div class="highlight highlight-bash"><pre>curl -L -O https://raw.github.com/phpbrew/phpbrew/master/phpbrew
 chmod +x phpbrew
-sudo cp phpbrew /usr/bin/phpbrew
+sudo mv phpbrew /usr/bin/phpbrew
 </pre></div>
 
 <h2>
@@ -172,6 +172,7 @@ Variants:
 Virtual variants:
   dbs:      sqlite, mysql, pgsql, pdo
   mb:       mbstring, mbregex
+  neutral:
   default:  filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
             pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
             xml_all
@@ -221,7 +222,15 @@ database supports (mysql, sqlite, postgresql), you may simply run:</p>
 
 <p>The pgsql path is the location of <code>pg_config</code>, you could find <code>pg_config</code> in the /opt/local/lib/postgresql91/bin</p>
 
-<p>For more details, please check out <a href="https://github.com/c9s/phpbrew/wiki">PHPBrew Cookbook</a>.</p>
+<p>To build PHP with neutral compile options, you can specify <code>neutral</code> virtual variant, which means that phpbrew
+doesn't add any additional compile options including <code>--disable-all</code>. But some options(for example <code>--enable-libxml</code>)
+are still automatically added to support <code>pear</code>  installation.
+You can build PHP with <code>neutral</code>:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install 5.4.1 +neutral
+</pre></div>
+
+<p>For more details, please check out <a href="https://github.com/phpbrew/phpbrew/wiki">PHPBrew Cookbook</a>.</p>
 
 <h2>
 <a name="extra-configure-options" class="anchor" href="#extra-configure-options"><span class="octicon octicon-link"></span></a>Extra Configure Options</h2>
@@ -482,24 +491,24 @@ e.g.</p>
 </ul><h2>
 <a name="troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
 
-<p>Please see <a href="https://github.com/c9s/phpbrew/wiki/TroubleShooting">TroubleShooting</a></p>
+<p>Please see <a href="https://github.com/phpbrew/phpbrew/wiki/TroubleShooting">TroubleShooting</a></p>
 
 <h2>
 <a name="faq" class="anchor" href="#faq"><span class="octicon octicon-link"></span></a>FAQ</h2>
 
 <p>Q: How do I have the same version with different compile option?</p>
 
-<p>A: Currently, you can install php5.x.x and rename the /Users/c9s/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3</p>
+<p>A: Currently, you can install php5.x.x and rename the /Users/phpbrew/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3</p>
 
 <h2>
 <a name="contribution" class="anchor" href="#contribution"><span class="octicon octicon-link"></span></a>Contribution</h2>
 
-<p>Please see <a href="https://github.com/c9s/phpbrew/wiki/Contribution">Contribution</a></p>
+<p>Please see <a href="https://github.com/phpbrew/phpbrew/wiki/Contribution">Contribution</a></p>
 
 <h2>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p>Please see <a href="https://github.com/c9s/phpbrew/wiki">Wiki</a></p>
+<p>Please see <a href="https://github.com/phpbrew/phpbrew/wiki">Wiki</a></p>
 
 <h2>
 <a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
@@ -521,22 +530,12 @@ e.g.</p>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Phpbrew maintained by <a href="https://github.com/c9s">c9s</a></p>
+        <p class="copyright">Phpbrew maintained by <a href="https://github.com/phpbrew">phpbrew</a></p>
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-2196512-14");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+    
 
   </body>
 </html>
