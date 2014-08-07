@@ -107,10 +107,11 @@ class InstallCommand extends Command
             $patchPaths = array();
 
             foreach ($this->options->patch as $patch) {
+                /** @var \SplFileInfo $patch */
                 $patchPath = realpath($patch);
 
                 if ($patchPath !== false) {
-                    $patchPaths[$patch] = $patchPath;
+                    $patchPaths[(string) $patch] = $patchPath;
                 }
 
             }

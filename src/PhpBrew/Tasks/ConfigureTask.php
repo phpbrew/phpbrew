@@ -61,10 +61,10 @@ class ConfigureTask extends BaseTask
         $this->debug('Enabled variants: ' . join(', ', array_keys($build->getVariants())));
         $this->debug('Disabled variants: ' . join(', ', array_keys($build->getDisabledVariants())));
 
-        if ($patchFile = $options->patch) {
+        foreach ((array) $options->patch as $patchPath) {
             // copy patch file to here
-            $this->info("===> Applying patch file from $patchFile ...");
-            system("patch -p0 < $patchFile");
+            $this->info("===> Applying patch file from $patchPath ...");
+            system("patch -p0 < $patchPath");
         }
 
         // let's apply patch for libphp{php version}.so (apxs)
