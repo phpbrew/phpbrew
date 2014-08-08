@@ -229,4 +229,9 @@ class Extension implements ExtensionInterface
         return $meta;
     }
 
+    public function getMeta()
+    {
+        return $this->meta;
+    }
+
 }

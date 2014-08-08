@@ -10,7 +10,7 @@ class ExtCommand extends Command
 
     public function usage()
     {
-        return "    phpbrew ext [install|enable|disable]";
+        return "    phpbrew ext [install|enable|disable|config]";
     }
 
     public function brief()
@@ -20,10 +20,10 @@ class ExtCommand extends Command
 
     public function init()
     {
-        // $this->registerCommand('enable','PhpBrew\\Command\\ExtCommand\\EnableCommand');
         $this->registerCommand('enable');
         $this->registerCommand('install');
         $this->registerCommand('disable');
+        $this->registerCommand('config');
     }
 
     /**
