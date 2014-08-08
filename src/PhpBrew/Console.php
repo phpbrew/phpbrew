@@ -18,6 +18,7 @@ class Console extends Application
         $this->registerCommand('use');
         $this->registerCommand('switch');
 
+        $this->registerCommand('config');
         $this->registerCommand('info');
         $this->registerCommand('env');
         $this->registerCommand('ext');
