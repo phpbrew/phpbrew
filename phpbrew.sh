@@ -204,14 +204,6 @@ function phpbrew ()
             cd $chdir
             return 0
             ;;
-        config)
-            if [[ -n $EDITOR ]] ; then
-                $EDITOR $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
-            else
-                echo "Please set EDITOR environment variable for your favor."
-                nano $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini
-            fi
-            ;;
         clean)
             local _VERSION=$2
             if [[ -z $_version ]] ; then
