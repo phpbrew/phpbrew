@@ -10,7 +10,7 @@ class ExtCommand extends Command
 
     public function usage()
     {
-        return "    phpbrew ext [install|enable|disable|config]";
+        return 'phpbrew ext [install|enable|disable|config]';
     }
 
     public function brief()

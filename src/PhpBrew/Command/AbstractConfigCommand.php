@@ -11,6 +11,8 @@ abstract class AbstractConfigCommand extends \CLIFramework\Command
     {
         $tty  = exec("tty");
         $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
+        $this->logger->info("Opening {$file} with {$editor}...");
         exec("{$editor} {$file} > {$tty}");
+        $this->logger->info("Closed {$editor}.");
     }
 }
