@@ -11,5 +11,6 @@ interface ExtensionInterface
     public function enable();
     public function disable();
     public function isLoaded();
+    public function isInstalled();
     public function isAvailable();
 }

@@ -180,6 +180,7 @@ class Extension implements ExtensionInterface
 
     /**
      * Checks if current extension is loaded
+     *
      * @return boolean
      */
     public function isLoaded()
@@ -188,7 +189,17 @@ class Extension implements ExtensionInterface
     }
 
     /**
-     * Checks if current extension is available for local install
+     * Checks if extension.so file is in place
+     *
+     * @return boolean
+     */
+    public function isInstalled()
+    {
+        return file_exists(ini_get('extension_dir') . '/' . $this->meta->getSourceFile());
+    }
+
+    /**
+     * Checks if current extension source is available for local install
      * @return boolean
      */
     public function isAvailable()
