@@ -7,7 +7,7 @@ class UnstableCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'list known PHP versions, including unstable';
+        return 'list unstable PHP versions grouped by release managers';
     }
 
     public function execute()
