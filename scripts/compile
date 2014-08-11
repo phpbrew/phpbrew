@@ -7,6 +7,7 @@ onion compile \
     --lib vendor/corneltek/universal/src \
     --lib vendor/symfony/process \
     --lib vendor/symfony/yaml \
+    --lib shell \
     --exclude Tests/ \
     --exclude CHANGELOG\|README \
     --exclude phpunit.xml \

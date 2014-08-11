@@ -6,7 +6,6 @@
 
 # default phpbrew root and phpbrew home path
 
-
 # PHPBREW_HOME: contains the phpbrew config (for users)
 # PHPBREW_ROOT: contains installed php(s) and php source files.
 # PHPBREW_SKIP_INIT: if you need to skip loading config from the init file. 
