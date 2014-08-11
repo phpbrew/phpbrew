@@ -11,6 +11,6 @@ before_script:
   - composer install --dev
 
 script:
-  - source phpbrew.sh
+  - source shell/bashrc
   - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
   - phpunit # test src
