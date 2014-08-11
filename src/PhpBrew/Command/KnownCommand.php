@@ -9,6 +9,11 @@ class KnownCommand extends \CLIFramework\Command
         return 'list known PHP versions';
     }
 
+    public function init()
+    {
+        $this->registerCommand('unstable');
+    }
+
     /**
      * @param \GetOptionKit\OptionSpecCollection $opts
      */
@@ -41,7 +46,7 @@ class KnownCommand extends \CLIFramework\Command
             if (! $this->options->more) {
                 array_splice($versions, 8);
             }
-            echo "  $minorVersion versions:    " . join(', ', $versions) . "\n";
+            echo $this->formatter->format("{$minorVersion}+\t", 'yellow'), join(', ', $versions), "\n";
         }
 
         if ($this->options->svn) {
