@@ -8,7 +8,9 @@ class Patch64BitSupportTask extends BaseTask
 
     public function match($build)
     {
-        return ( Utils::support64bit() && $build->compareVersion('5.4') == -1);
+        $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $build->version);
+
+        return (Utils::support64bit() && version_compare($currentVersion, '5.3', '=='));
     }
 
     public function patch($build, $options)
