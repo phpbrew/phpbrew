@@ -64,7 +64,18 @@ class ConfigureTask extends BaseTask
         foreach ((array) $options->patch as $patchPath) {
             // copy patch file to here
             $this->info("===> Applying patch file from $patchPath ...");
-            system("patch -p0 < $patchPath");
+
+            // Search for strip parameter
+            for ($i = 0; $i <= 16; $i++) {
+                ob_start();
+                system("patch -p$i --dry-run < $patchPath", $return);
+                ob_clean();
+
+                if ($return === 0) {
+                    system("patch -p$i --dry-run < $patchPath");
+                    break;
+                }
+            }
         }
 
         // let's apply patch for libphp{php version}.so (apxs)
