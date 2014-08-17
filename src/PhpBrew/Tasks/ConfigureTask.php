@@ -72,7 +72,7 @@ class ConfigureTask extends BaseTask
                 ob_clean();
 
                 if ($return === 0) {
-                    system("patch -p$i --dry-run < $patchPath");
+                    system("patch -p$i < $patchPath");
                     break;
                 }
             }
