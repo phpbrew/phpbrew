@@ -28,7 +28,7 @@ fi
 [[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
 [[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
 
-[[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
+[[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN > /dev/null 2>&1
 
 
 
@@ -222,17 +222,28 @@ function phpbrew ()
             function fpm_start()
             {
               echo "Starting php-fpm..."
-              $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
-                --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
-                --pid $PHPFPM_PIDFILE \
-                ${*:3}
+              local regex="^php-5\.2.*"
+
+              if [[ $PHPBREW_PHP =~ ${regex} ]]; then
+                $PHPFPM_BIN start
+              else
+                $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php.ini \
+                  --fpm-config $PHPBREW_ROOT/php/$PHPBREW_PHP/etc/php-fpm.conf \
+                  --pid $PHPFPM_PIDFILE \
+                  ${*:3}
+              fi
+
               if [[ $? != "0" ]] ; then
                 echo "php-fpm start failed."
               fi
             }
             function fpm_stop()
             {
-              if [[ -e $PHPFPM_PIDFILE ]] ; then
+              local regex="^php-5\.2.*"
+
+              if [[ $PHPBREW_PHP =~ ${regex} ]]; then
+                $PHPFPM_BIN stop
+              elif [[ -e $PHPFPM_PIDFILE ]] ; then
                 echo "Stopping php-fpm..."
                 kill $(cat $PHPFPM_PIDFILE)
                 rm -f $PHPFPM_PIDFILE
