@@ -1,11 +1,10 @@
 #!/bin/bash
 # Brought from gugod's perlbrew.
-# Author: Yo-An Lin
-# NOTICE: This script is for local testing, to release updated script, 
-# please also modify the src/PhpBrew/Command/InitCommand.php
+# Authors:
+#   - Yo-An Lin
+#   - Márcio Almada
 
-# default phpbrew root and phpbrew home path
-
+# PHPBrew defaults:
 # PHPBREW_HOME: contains the phpbrew config (for users)
 # PHPBREW_ROOT: contains installed php(s) and php source files.
 # PHPBREW_SKIP_INIT: if you need to skip loading config from the init file. 
@@ -23,7 +22,7 @@ if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
 fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
-[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_ROOT/.phpbrew/bin"
+[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
 
 [[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
 [[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
