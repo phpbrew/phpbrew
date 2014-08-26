@@ -119,7 +119,7 @@ class Config
 
     public static function getCurrentPhpDir()
     {
-        return getenv('PHPBREW_ROOT') . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
     public static function useSystemPhpVersion()
