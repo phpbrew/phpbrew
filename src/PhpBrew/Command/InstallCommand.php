@@ -70,7 +70,10 @@ class InstallCommand extends Command
             $version = 'php-' . $version;
         }
 
-        $version = $this->getLatestMinorVersion($version, $this->options->old);
+        $latestMinorVersion = $this->getLatestMinorVersion($version, $this->options->old);
+        if (!empty($latestMinorVersion)) {
+            $version = $latestMinorVersion;
+        }
 
         $options = $this->options;
         $logger = $this->logger;
