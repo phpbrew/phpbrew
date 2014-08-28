@@ -123,6 +123,15 @@ class PhpSource
         );
     }
 
+    public static function getAllVersions($includeOld = false)
+    {
+        $unstables = [];
+        foreach(static::getReleaseManagers() as $id => $manager)
+            $unstables = array_merge($unstables, static::getReleaseManagerVersions($id));
+
+        return array_merge(static::getStableVersions($includeOld), $unstables);
+    }
+
     public static function getSnapshotVersions()
     {
         // http://snaps.php.net/php5.3-201202070630.tar.bz2

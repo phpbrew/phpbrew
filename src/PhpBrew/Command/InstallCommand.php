@@ -286,7 +286,7 @@ EOT;
     private function getLatestMinorVersion($majorVersion, $includeOld)
     {
         $latestMinorVersion = '';
-        foreach (array_keys(PhpSource::getStableVersions($includeOld)) as $version) {
+        foreach (array_keys(PhpSource::getAllVersions($includeOld)) as $version) {
             if (strpos($version, $majorVersion) === 0) {
                 $latestMinorVersion = $version;
                 break;
