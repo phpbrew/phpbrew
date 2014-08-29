@@ -102,18 +102,24 @@ class VariantBuilder
         $this->variants['all']      = '--enable-all';
         $this->variants['calendar'] = '--enable-calendar';
         $this->variants['wddx']     = '--enable-wddx';
+        $this->variants['static']   = '--enable-static';
+        $this->variants['inifile']  = '--enable-inifile';
+        $this->variants['inline']   = '--enable-inline-optimization';
 
         $this->variants['cli']      = '--enable-cli';
         $this->variants['fpm']      = '--enable-fpm';
         $this->variants['ftp']      = '--enable-ftp';
         $this->variants['filter']   = '--enable-filter';
         $this->variants['gcov']     = '--enable-gcov';
+        $this->variants['maintainer'] = '--enable-maintainer-zts';
 
         $this->variants['json']     = '--enable-json';
         $this->variants['hash']     = '--enable-hash';
         $this->variants['exif']     = '--enable-exif';
         $this->variants['mbstring'] = '--enable-mbstring';
         $this->variants['mbregex']  = '--enable-mbregex';
+        $this->variants['libgcc']   = '--enable-libgcc';
+        // $this->variants['gd-jis'] = '--enable-gd-jis-conv';
 
         $this->variants['pdo']      = '--enable-pdo';
         $this->variants['posix']    = '--enable-posix';
@@ -128,6 +134,7 @@ class VariantBuilder
         $this->variants['ctype']    = '--enable-ctype';
         $this->variants['cgi']      = '--enable-cgi';
         $this->variants['soap']     = '--enable-soap';
+        $this->variants['gcov']     = '--enable-gcov';
         $this->variants['pcntl']    = '--enable-pcntl';
         $this->variants['intl']     = '--enable-intl';
         $this->variants['phar']     = '--enable-phar';
