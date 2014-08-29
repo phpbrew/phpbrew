@@ -51,7 +51,9 @@ class Console extends Application
         // prevent execution time limit fatal error
         set_time_limit(0);
         // prevent warnings when timezone is not set
-        date_default_timezone_set('America/Los_Angeles');
+        date_default_timezone_set(
+            is_readable($tz = '/etc/timezone') ? trim(file_get_contents($tz)) : 'America/Los_Angeles'
+        );
     }
 
     public function brief()
