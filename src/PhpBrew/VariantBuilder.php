@@ -120,6 +120,8 @@ class VariantBuilder
         $this->variants['embed']    = '--enable-embed';
         $this->variants['sockets']  = '--enable-sockets';
         $this->variants['debug']    = '--enable-debug';
+        $this->variants['phpdbg']    = '--enable-phpdbg';
+
         $this->variants['zip']      = '--enable-zip';
         $this->variants['bcmath']   = '--enable-bcmath';
         $this->variants['fileinfo'] = '--enable-fileinfo';
@@ -375,7 +377,6 @@ class VariantBuilder
             return $options;
         };
         $this->variants['xml_all'] = $this->variants['xml'];
-
 
         $this->variants['apxs2'] = function ($build, $prefix = null) use ($self) {
             $a = '--with-apxs2';
