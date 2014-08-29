@@ -48,6 +48,10 @@ class Console extends Application
     {
         // avoid warnings when web scraping malformed HTML
         libxml_use_internal_errors(true);
+        // prevent execution time limit fatal error
+        set_time_limit(0);
+        // prevent warnings when timezone is not set
+        date_default_timezone_set('America/Los_Angeles');
     }
 
     public function brief()
