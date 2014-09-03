@@ -3,7 +3,8 @@
 # THIS IS AN AUTO-GENERATED FILE, PLEASE DON'T MODIFY THIS FILE DIRECTLY.
 ___phpbrew_meta () {
   local curcontext=$curcontext state line ret=1
-  declare -A opt_args
+  typeset -A opt_args
+  typeset -A val_args
   declare -a lines
   declare -a args
   local ret=1
@@ -12,8 +13,20 @@ ___phpbrew_meta () {
   local valtype=$3
   local pos=$4
   local completion=$5
-  lines=("${(@f)$(phpbrew _meta $cmdsig $valtype $pos $completion)}")
-  if [[ $lines[1] == "#values" ]] ; then
+  output=$(phpbrew _meta --zsh $cmdsig $valtype $pos $completion)
+  lines=("${(@f)output}")
+  output_type=${lines[1]}
+  if [[ $lines[1] == "#groups" ]] ; then
+      eval $output
+      for tag in ${(k)groups} ; do
+          complete_values=(${(z)${groups[$tag]}})
+          label=${labels[$tag]}
+          if [[ -z $label ]] ; then
+              label=$tag
+          fi
+          _describe -t $tag $label complete_values && ret=0
+      done
+  elif [[ $lines[1] == "#values" ]] ; then
       args=(${lines:1})
      _values "$desc" ${=args} && ret=0
   elif [[ $lines[1] == "#descriptions" ]] ; then
@@ -40,29 +53,31 @@ local ret=1
   case $state in
     (cmds)
   local commands; commands=(
-    'help:Show help message of a command'
-    'init:Initialize phpbrew config file.'
-    'known:list known PHP versions'
-    'install:install php'
-    'list:list installed PHP versions'
-    'use:use php, switch version temporarily'
-    'switch:switch default php version.'
-    'info:show current php information'
-    'env:export environment variables'
-    'ext:List extensions or execute extension subcommands'
-    'variants:list php variants'
-    'path:Show paths of the current PHP.'
-    'cd:Change to directories'
-    'download:download php'
-    'clean:clean up php distribution'
-    'ctags:Run ctags at current php source dir for extension development.'
-    'enable:This command is migrated'
-    'install-ext:This command is migrated'
-    'self-update:self-update, default to master version'
-    'remove:remove installed php version.'
-    'purge:remove installed php version and config files.'
-    'off:temporarily go back to the system php'
-    'switch-off:definitely go back to the system php'
+    help:'Show help message of a command'
+    init:'Initialize phpbrew config file.'
+    known:'list known PHP versions'
+    install:'install php'
+    list:'list installed PHP versions'
+    use:'use php, switch version temporarily'
+    switch:'switch default php version.'
+    each:'iterate and run a given command over all php versions managed by PHPBrew.'
+    config:'edit your current php.ini in your favorite $EDITOR'
+    info:'show current php information'
+    env:'export environment variables'
+    ext:'List extensions or execute extension subcommands'
+    variants:'list php variants'
+    path:'Show paths of the current PHP.'
+    cd:'Change to directories'
+    download:'download php'
+    clean:'clean up php distribution'
+    ctags:'Run ctags at current php source dir for extension development.'
+    enable:'This command is migrated'
+    install-ext:'This command is migrated'
+    self-update:'self-update, default to master version'
+    remove:'remove installed php version.'
+    purge:'remove installed php version and config files.'
+    off:'temporarily go back to the system php'
+    switch-off:'definitely go back to the system php'
   )
   _describe -t commands 'command' commands && ret=0
     ;;
@@ -79,14 +94,32 @@ local ret=1
         
         ;;
         (known)
-            _arguments -w -S -s \
+            _arguments -C \
               '--more[show more older versions]' \
               '--svn[list subversion phps]' \
               '--old[list old phps (less than 5.3)]' \
               '--stas[list stas phps]' \
               '--dsp[list dsp phps]' \
               '--tyrael[list tyrael phps]' \
-               && ret=0
+              ': :->cmds' \
+              '*:: :->option-or-argument' \
+               && return
+            case $state in
+              (cmds)
+            local commands; commands=(
+              unstable:'list unstable PHP versions grouped by release managers'
+            )
+            _describe -t commands 'command' commands && ret=0
+              ;;
+              (option-or-argument)
+                curcontext=${curcontext%:*}-$line[1]:
+                case $line[1] in
+                  (unstable)
+                  
+                  ;;
+                esac
+                ;;
+              esac
         
         ;;
         (install)
@@ -103,7 +136,7 @@ local ret=1
               '(-d --dryrun)'{-d,--dryrun}'[dryrun]' \
               '--like=[inherit variants from previous build]' \
               '(-j --make-jobs)'{-j,--make-jobs=}'[Specifies the number of jobs to run simultaneously (make -jN).]' \
-              ':version:(5.3 5.4 5.5)' \
+              ':version:("5.3" "5.4" "5.5")' \
               '*:variants:{___phpbrew_meta "variants" install arg 1 suggestions}' \
                && ret=0
         
@@ -121,6 +154,17 @@ local ret=1
             _arguments -w -S -s \
               ':installed php:{___phpbrew_meta "installed php" switch arg 0 valid-values}' \
                && ret=0
+        
+        ;;
+        (each)
+            _arguments -w -S -s \
+              '(-d --debug)'{-d,--debug}'[show debug information]' \
+              '(-y --assumeyes)'{-y,--assumeyes}'[now confirmation]' \
+              ':command' \
+               && ret=0
+        
+        ;;
+        (config)
         
         ;;
         (info)
@@ -141,9 +185,10 @@ local ret=1
             case $state in
               (cmds)
             local commands; commands=(
-              'enable:Enable PHP extension'
-              'install:Install PHP extension'
-              'disable:Disable PHP extension'
+              enable:'Enable PHP extension'
+              install:'Install PHP extension'
+              disable:'Disable PHP extension'
+              config:'phpbrew ext config [extension name]'
             )
             _describe -t commands 'command' commands && ret=0
               ;;
@@ -169,6 +214,12 @@ local ret=1
                            && ret=0
                   
                   ;;
+                  (config)
+                        _arguments -w -S -s \
+                          ':extname' \
+                           && ret=0
+                  
+                  ;;
                 esac
                 ;;
               esac
@@ -188,7 +239,7 @@ local ret=1
         ;;
         (cd)
             _arguments -w -S -s \
-              ':directory:(var etc build dist)' \
+              ':directory:("var" "etc" "build" "dist")' \
                && ret=0
         
         ;;
@@ -196,7 +247,7 @@ local ret=1
             _arguments -w -S -s \
               '(-f --force)'{-f,--force}'[Force extraction]' \
               '--old[enable old phps (less than 5.3)]' \
-              ':php version:(5.3 5.4 5.5)' \
+              ':php version:("5.3" "5.4" "5.5")' \
                && ret=0
         
         ;;

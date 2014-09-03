@@ -125,7 +125,7 @@ class PhpSource
 
     public static function getAllVersions($includeOld = false)
     {
-        $unstables = [];
+        $unstables = array();
         foreach(static::getReleaseManagers() as $id => $manager)
             $unstables = array_merge($unstables, static::getReleaseManagerVersions($id));
 
