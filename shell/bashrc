@@ -431,3 +431,20 @@ function __phpbrew_remove_purge ()
 
     return 0
 }
+
+function phpbrew_current_php_version() {
+  if type "php" > /dev/null; then
+    local version=$(php -v | grep "PHP 5" | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-5)
+    if [[ -z "$PHPBREW_PHP" ]]; then
+      echo "php:$version-system"
+    else
+      echo "php:$version-phpbrew"
+    fi
+  else
+     echo "php:not-installed"
+  fi
+}
+
+if [[ -n "$PHPBREW_SET_PROMPT" && "$PHPBREW_SET_PROMPT" == "1" ]]; then
+    export PS1="\w > \u@\h [$(phpbrew_current_php_version)]\n\\$ "
+fi
