@@ -86,7 +86,6 @@ class VariantBuilder
             'xml',
             'curl',
             'zip',
-            'bz2',
         )
     );
 
@@ -99,7 +98,6 @@ class VariantBuilder
         $this->variants['dba']      = '--enable-dba';
         $this->variants['ipv6']     = '--enable-ipv6';
         $this->variants['dom']      = '--enable-dom';
-        $this->variants['all']      = '--enable-all';
         $this->variants['calendar'] = '--enable-calendar';
         $this->variants['wddx']     = '--enable-wddx';
         $this->variants['static']   = '--enable-static';
