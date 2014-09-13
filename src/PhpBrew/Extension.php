@@ -37,7 +37,7 @@ class Extension implements ExtensionInterface
         $this->meta = $this->buildMetaFromName($name);
     }
 
-    public function install($version = 'stable', array $options = array())
+    public function install($version = 'stable', array $options = array(), $pecl = false)
     {
         $this->logger->quiet();
         $this->disable();
@@ -48,7 +48,7 @@ class Extension implements ExtensionInterface
         $name = $this->meta->getName();
 
         // Install local extension
-        if (file_exists($path)) {
+        if (file_exists($path) && ! $pecl) {
             $this->logger->info("===> Installing {$name} extension...");
             $this->logger->debug("Extension path $path");
             $xml = $installer->runInstall($name, $path, $options);
@@ -107,7 +107,7 @@ class Extension implements ExtensionInterface
         $name = $this->meta->getName();
         $enabled_file = $this->meta->getIniFile();
         $disabled_file = $enabled_file . '.disabled';
-        if (file_exists($enabled_file) || ($this->isLoaded() && ! $this->hasConflicts())) {
+        if (file_exists($enabled_file) && ($this->isLoaded() && ! $this->hasConflicts())) {
             $this->logger->info("[*] {$name} extension is already enabled.");
 
             return true;

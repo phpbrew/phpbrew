@@ -9,7 +9,7 @@ class InstallCommand extends \CLIFramework\Command
 {
     public function usage()
     {
-        return 'phpbrew [-dv] ext install [extension name] [-- [options....]]';
+        return 'phpbrew [-dv, -r] ext install [extension name] [-- [options....]]';
     }
 
     public function brief()
@@ -23,6 +23,7 @@ class InstallCommand extends \CLIFramework\Command
     public function options($opts)
     {
         $opts->add('pv|php-version:', 'The php version for which we install the module.');
+        $opts->add('pecl', 'Try to download from pecl even when ext source is bundled with php-src.');
     }
 
     public function arguments($args) {
@@ -90,7 +91,7 @@ class InstallCommand extends \CLIFramework\Command
 
         foreach ($extensions as $extensionName => $extData) {
             $extension = new Extension($extensionName, $logger);
-            $extension->install($extData->version, $extData->options);
+            $extension->install($extData->version, $extData->options, $this->options->{'pecl'});
         }
 
         Config::useSystemPhpVersion();
