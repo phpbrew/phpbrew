@@ -389,7 +389,10 @@ function __phpbrew_update_config ()
 
 function __phpbrew_reinit () 
 {
-    if [[ $1 =~ ^php- ]]
+    if [[ -z "$1" ]]
+    then
+        local _PHP_VERSION=""
+    elif [[ $1 =~ ^php- ]]
     then
         local _PHP_VERSION=$1
     else
