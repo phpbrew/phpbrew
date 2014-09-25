@@ -13,6 +13,7 @@
             "homepage": "https://github.com/marcioAlmada/"
         }
     ],
+    "bin": ["bin/phpbrew"],
     "require": {
         "corneltek/cliframework": "~1.7",
         "corneltek/pearx": "~1.3",
