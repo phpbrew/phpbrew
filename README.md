@@ -1,6 +1,12 @@
 PHPBrew
 ==========
 
+[![Build Status][t-badge]][t-link]
+[![Coverage Status][c-badge]][c-link]
+[![Scrutinizer Quality Score][s-badge]][s-link]
+[![Latest Stable Version][v-badge]][p-link]
+[![License][l-badge]][p-link]
+
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
 
 phpbrew also manage the environment variables, so you can `use`, `switch` php
