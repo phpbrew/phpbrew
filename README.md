@@ -526,3 +526,12 @@ License
 
 See LICENSE file.
 
+
+
+[t-link]: https://travis-ci.org/phpbrew/phpbrew "Travis Build"
+[c-link]: https://coveralls.io/r/phpbrew/phpbrew?branch=master "Code Coverage"
+[s-link]: https://scrutinizer-ci.com/g/phpbrew/phpbrew/?branch=master "Code Quality"
+[p-link]: https://packagist.org/packages/marc/phpbrew "Packagist"
+[sl-link]: https://insight.sensiolabs.com/projects/02d1fd01-8a70-4fe4-a550-381a3c0e33f3 "Sensiolabs Insight"
+[t-badge]: https://travis-ci.org/phpbrew/phpbrew.png?branch=master
+[c-badge]: https://coveralls.io/repos/phpbrew/phpbrew/badge.png?branch=master
