@@ -12,7 +12,7 @@ class ListIniCommand extends Command
     public function execute()
     {
         if ($filelist = php_ini_scanned_files()) {
-            echo "Loaded ini files:";
+            echo "Loaded ini files:\n";
             if (strlen($filelist) > 0) {
                 $files = explode(',', $filelist);
                 foreach ($files as $file) {
