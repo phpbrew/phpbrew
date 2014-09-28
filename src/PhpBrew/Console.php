@@ -28,6 +28,9 @@ class Console extends Application
         $this->registerCommand('cd');
         $this->registerCommand('download');
         $this->registerCommand('clean');
+
+        $this->registerCommand('list-ini', 'PhpBrew\Command\ListIniCommand');
+
         $this->registerCommand('ctags', 'PhpBrew\Command\CtagsCommand');
 
         $this->registerCommand('enable', 'PhpBrew\Command\MigratedCommand');
