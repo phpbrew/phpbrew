@@ -41,7 +41,7 @@ class PhpSource
             $streamContext = null;
         }
 
-        return file_get_contents($url, false, $streamContext);
+        return @file_get_contents($url, false, $streamContext);
     }
 
     public static function getReleaseManagerVersions($id)
@@ -49,8 +49,7 @@ class PhpSource
         $baseUrl = "http://downloads.php.net/$id/";
         $html = self::readFromUrl($baseUrl);
         $dom = new DOMDocument;
-        $dom->loadHtml($html);
-
+        if(false !== $html) $dom->loadHtml($html);
         $items = $dom->getElementsByTagName('a');
         $versions = array();
 
