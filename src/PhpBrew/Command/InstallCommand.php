@@ -94,10 +94,10 @@ class InstallCommand extends Command
         $variantInfo = VariantParser::parseCommandArguments($args, $inheritedVariants);
 
         // assume +default variant if no build config is given and warn about that
-        if(! $variantInfo['enabled_variants'] && ! $variantInfo['disabled_variants']){
+        if(! $variantInfo['enabled_variants']){
             $variantInfo['enabled_variants'] = array(
                 'json' => true,
-                'xml' => true,
+                'xml'  => true,
                 'pcre' => true,
                 'pdo' => true,
                 'phar' => true,
@@ -106,11 +106,18 @@ class InstallCommand extends Command
                 'fileinfo' => true,
                 'curl' => true,
                 'zip' => true,
+                'openssl' => 'yes',
             );
-            $this->logger->error("\nYou haven't specified any build variant. The +default set of extensions will be installed:");
+            $this->logger->error("\nYou haven't used any '+' build variant. A default set of extensions will be installed:");
             $this->logger->warn('[' . implode(', ', array_keys($variantInfo['enabled_variants'])) . ']');
             $this->logger->info("Please run 'phpbrew variants' for more information.\n");
         }
+
+        // always add +xml by default unless --without-pear is present
+        if(! in_array('--without-pear', $variantInfo['extra_options'])){
+            $variantInfo['enabled_variants']['xml'] = true;
+        }
+
         $info = PhpSource::getVersionInfo($version, $this->options->old);
 
         if (!$info) {
