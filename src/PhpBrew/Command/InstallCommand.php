@@ -95,11 +95,20 @@ class InstallCommand extends Command
 
         // assume +default variant if no build config is given and warn about that
         if(! $variantInfo['enabled_variants'] && ! $variantInfo['disabled_variants']){
-            $variantBuilder = new VariantBuilder;
-            $defaultVariant = $variantBuilder->virtualVariants['default'];
-            $variantInfo['enabled_variants']['default'] = true;
+            $variantInfo['enabled_variants'] = [
+                'json' => true,
+                'xml' => true,
+                'pcre' => true,
+                'pdo' => true,
+                'phar' => true,
+                'posix' => true,
+                'sockets' => true,
+                'fileinfo' => true,
+                'curl' => true,
+                'zip' => true,
+            ];
             $this->logger->error("\nYou haven't specified any build variant. The +default set of extensions will be installed:");
-            $this->logger->warn('[' . implode(', ', $defaultVariant) . ']');
+            $this->logger->warn('[' . implode(', ', array_keys($variantInfo['enabled_variants'])) . ']');
             $this->logger->info("Please run 'phpbrew variants' for more information.\n");
         }
         $info = PhpSource::getVersionInfo($version, $this->options->old);
