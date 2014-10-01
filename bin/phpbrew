@@ -1,5 +1,4 @@
 #!/usr/bin/env php
 <?php
-$loader = require __DIR__.'/../vendor/autoload.php';
-$console = new PhpBrew\Console;
-$console->run( $argv );
+require __DIR__.'/../vendor/autoload.php';
+include __DIR__.'/../scripts/phpbrew-emb.php';
