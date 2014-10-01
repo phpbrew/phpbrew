@@ -8,7 +8,13 @@ class ListCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'list installed PHP versions';
+        return 'List installed PHP versions';
+    }
+
+    public function options($opts) 
+    {
+        $opts->add('d|dir','Show php directories.');
+        $opts->add('v|variants','Show used variants.');
     }
 
     public function execute()
@@ -26,14 +32,16 @@ class ListCommand extends \CLIFramework\Command
         foreach ($versions as $version) {
             $versionPrefix = Config::getVersionBuildPrefix($version);
 
-            printf('  %-15s  (%-10s)', $version, $versionPrefix);
+            printf('* %-15s', $version);
 
-            if (file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants')) {
+            if ($this->options->dir) {
+                printf("\n    %s", $versionPrefix);
+            }
+
+            if ($this->options->variants && file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants')) {
                 $info = unserialize(file_get_contents($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
-
-                echo "\n";
-                echo str_repeat(' ', 19);
-                echo VariantParser::revealCommandArguments($info);
+                echo "\n    ";
+                echo wordwrap(VariantParser::revealCommandArguments($info), 75, " \\\n    ");
             }
 
             echo "\n";

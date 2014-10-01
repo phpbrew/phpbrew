@@ -57,7 +57,7 @@ local ret=1
     init:'Initialize phpbrew config file.'
     known:'list known PHP versions'
     install:'install php'
-    list:'list installed PHP versions'
+    list:'List installed PHP versions'
     use:'use php, switch version temporarily'
     switch:'switch default php version.'
     each:'iterate and run a given command over all php versions managed by PHPBrew.'
@@ -142,6 +142,10 @@ local ret=1
         
         ;;
         (list)
+            _arguments -w -S -s \
+              '(-d --dir)'{-d,--dir}'[Show php directories.]' \
+              '(-v --variants)'{-v,--variants}'[Show used variants.]' \
+               && ret=0
         
         ;;
         (use)
