@@ -70,6 +70,7 @@ local ret=1
     cd:'Change to directories'
     download:'download php'
     clean:'clean up php distribution'
+    list-ini:'List loaded ini config files.'
     ctags:'Run ctags at current php source dir for extension development.'
     enable:'This command is migrated'
     install-ext:'This command is migrated'
@@ -208,6 +209,7 @@ local ret=1
                   (install)
                         _arguments -w -S -s \
                           '(-pv --php-version)'{-pv,--php-version=}'[The php version for which we install the module.]' \
+                          '--pecl[Try to download from pecl even when ext source is bundled with php-src.]' \
                           ':extensions:{___phpbrew_meta "extensions" ext.install arg 0 suggestions}' \
                            && ret=0
                   
@@ -259,6 +261,9 @@ local ret=1
             _arguments -w -S -s \
               ':installed php:{___phpbrew_meta "installed php" clean arg 0 valid-values}' \
                && ret=0
+        
+        ;;
+        (list-ini)
         
         ;;
         (ctags)
