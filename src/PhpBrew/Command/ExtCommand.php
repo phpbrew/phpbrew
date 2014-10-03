@@ -20,10 +20,10 @@ class ExtCommand extends Command
 
     public function init()
     {
-        $this->registerCommand('enable');
-        $this->registerCommand('install');
-        $this->registerCommand('disable');
-        $this->registerCommand('config');
+        $this->command('enable');
+        $this->command('install');
+        $this->command('disable');
+        $this->command('config');
     }
 
     /**

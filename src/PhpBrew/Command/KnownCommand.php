@@ -11,7 +11,7 @@ class KnownCommand extends \CLIFramework\Command
 
     public function init()
     {
-        $this->registerCommand('unstable');
+        $this->command('unstable');
     }
 
     /**

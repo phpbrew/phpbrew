@@ -17,11 +17,13 @@
         "bin\/phpbrew"
     ],
     "require": {
-        "corneltek\/cliframework": "~1.7",
-        "corneltek\/pearx": "~1.3",
-        "symfony\/process": "~2.3",
-        "symfony\/yaml": "2.3.*"
+        "corneltek/cliframework": "2.0.x-dev@dev",
+        "corneltek/pearx": "~1.3@stable",
+        "symfony/process": "~2.3@stable",
+        "symfony/yaml": "2.3.*@stable"
+
     },
+    "minimum-stability": "dev",
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master",
         "corneltek\/universal": "*",
