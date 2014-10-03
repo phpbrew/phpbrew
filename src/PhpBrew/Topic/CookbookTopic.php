@@ -10,9 +10,9 @@ use CLIFramework\Topic\GitHubTopic;
 class CookbookTopic  extends GitHubTopic {
 
 
-public $remoteUrl = 'https://github.com/phpbrew/phpbrew/wiki/Cookbook.md';
-public $title = 'Cookbook';
 public $id = 'cookbook';
+public $url = 'https://github.com/phpbrew/phpbrew/wiki/Cookbook.md';
+public $title = 'Cookbook';
 
 
     public function getRemoteUrl() {

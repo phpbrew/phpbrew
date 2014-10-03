@@ -10,9 +10,9 @@ use CLIFramework\Topic\GitHubTopic;
 class ContributionTopic  extends GitHubTopic {
 
 
-public $remoteUrl = 'https://github.com/phpbrew/phpbrew/wiki/Contribution.md';
-public $title = 'Contribution';
 public $id = 'contribution';
+public $url = 'https://github.com/phpbrew/phpbrew/wiki/Contribution.md';
+public $title = 'Contribution';
 
 
     public function getRemoteUrl() {

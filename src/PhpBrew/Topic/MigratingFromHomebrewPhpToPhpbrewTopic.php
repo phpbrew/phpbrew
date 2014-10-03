@@ -10,9 +10,9 @@ use CLIFramework\Topic\GitHubTopic;
 class MigratingFromHomebrewPhpToPhpbrewTopic  extends GitHubTopic {
 
 
-public $remoteUrl = 'https://github.com/phpbrew/phpbrew/wiki/Migrating-from-homebrew-php-to-phpbrew.md';
-public $title = 'Migrating from homebrew php to phpbrew';
 public $id = 'migrating-from-homebrew-php-to-phpbrew';
+public $url = 'https://github.com/phpbrew/phpbrew/wiki/Migrating-from-homebrew-php-to-phpbrew.md';
+public $title = 'Migrating from homebrew php to phpbrew';
 
 
     public function getRemoteUrl() {

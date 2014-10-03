@@ -10,9 +10,9 @@ use CLIFramework\Topic\GitHubTopic;
 class PHPBrewJATopic  extends GitHubTopic {
 
 
-public $remoteUrl = 'https://github.com/phpbrew/phpbrew/wiki/PHPBrew JA 日語指引.md';
-public $title = 'PHPBrewJA';
-public $id = 'phpbrew ja 日語指引';
+public $id = 'phpbrew-ja';
+public $url = 'https://github.com/phpbrew/phpbrew/wiki/PHPBrew JA 日語指引.md';
+public $title = 'PHPBrew JA 日語指引';
 
 
     public function getRemoteUrl() {

@@ -10,9 +10,9 @@ use CLIFramework\Topic\GitHubTopic;
 class SettingUpConfigurationTopic  extends GitHubTopic {
 
 
-public $remoteUrl = 'https://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration.md';
-public $title = 'Setting up Configuration';
 public $id = 'setting-up-configuration';
+public $url = 'https://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration.md';
+public $title = 'Setting up Configuration';
 
 
     public function getRemoteUrl() {

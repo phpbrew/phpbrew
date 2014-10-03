@@ -10,9 +10,9 @@ use CLIFramework\Topic\GitHubTopic;
 class ReleaseProcessTopic  extends GitHubTopic {
 
 
-public $remoteUrl = 'https://github.com/phpbrew/phpbrew/wiki/Release-Process.md';
-public $title = 'Release Process';
 public $id = 'release-process';
+public $url = 'https://github.com/phpbrew/phpbrew/wiki/Release-Process.md';
+public $title = 'Release Process';
 
 
     public function getRemoteUrl() {
