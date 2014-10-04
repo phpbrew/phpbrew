@@ -48,9 +48,6 @@ class CommandBuilder
         $ret = null;
         $command = $this->getCommand();
         $line = system($command, $ret);
-        if ($ret !== 0) {
-            throw new SystemCommandException($line);
-        }
         return $ret;
     }
 
@@ -87,7 +84,6 @@ class CommandBuilder
             $cmd[] = '2>';
             $cmd[] = $this->stderr;
         }
-
         return join(' ', $cmd);
     }
 }

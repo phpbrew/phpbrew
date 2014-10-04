@@ -24,11 +24,13 @@ class TestTask extends BaseTask
 
         $cmd->append = true;
 
-        if ($this->logPath !== null) {
+        if ($this->logPath != null) {
             $cmd->stdout = $this->logPath;
         }
 
         $this->debug('' .  $cmd);
-        $cmd->execute() !== 0 or die('Test failed.');
+        $code = $cmd->execute();
+        if ($code != 0)
+            die('Test failed.');
     }
 }
