@@ -8,9 +8,9 @@ php:
 before_script:
   - phpenv rehash
   - cd /usr/local/bin && sudo curl -LO https://github.com/phpbrew/Onion/raw/master/onion && sudo chmod +x onion && cd -
-  - composer install --dev
+  - composer install --dev --no-interaction
 
 script:
   - source shell/bashrc
   - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit # test src
+  - phpunit --coverage-clover build/logs/clover.xml
