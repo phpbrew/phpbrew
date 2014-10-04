@@ -25,14 +25,18 @@ class ListCommand extends \CLIFramework\Command
         // var_dump( $versions );
         echo "Installed versions:\n";
 
-        if ($currentVersion === false or in_array($currentVersion, $versions) === false) {
+        if ($currentVersion === false or !in_array($currentVersion, $versions)) {
             echo "* (system)\n";
         }
 
         foreach ($versions as $version) {
             $versionPrefix = Config::getVersionBuildPrefix($version);
 
-            printf('* %-15s', $version);
+            if ($currentVersion == $version) {
+                printf('* %-15s', $version);
+            } else {
+                printf('  %-15s', $version);
+            }
 
             if ($this->options->dir) {
                 printf("\n    %s", $versionPrefix);
