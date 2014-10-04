@@ -14,3 +14,9 @@ script:
   - source shell/bashrc
   - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
   - phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v
+
+cache:
+  - vendor
