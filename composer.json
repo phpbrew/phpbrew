@@ -1,5 +1,5 @@
 {
-    "name": "phpbrew\/phpbrew",
+    "name": "phpbrew/phpbrew",
     "description": "PHPBrew API library",
     "license": "MIT",
     "authors": [
@@ -8,29 +8,29 @@
             "email": "cornelius.howl@gmail.com"
         },
         {
-            "name": "M\u00e1rcio Almada",
+            "name": "Márcio Almada",
             "email": "marcio3w@gmail.com",
-            "homepage": "https:\/\/github.com\/marcioAlmada\/"
+            "homepage": "https://github.com/marcioAlmada/"
         }
     ],
     "bin": [
-        "bin\/phpbrew"
+        "bin/phpbrew"
     ],
     "require": {
-        "corneltek\/cliframework": "~1.10",
-        "corneltek\/pearx": "~1.3",
-        "symfony\/process": "~2.3",
-        "symfony\/yaml": "2.3.*"
+        "corneltek/cliframework": "~1.10",
+        "corneltek/pearx": "~1.3",
+        "symfony/process": "~2.3",
+        "symfony/yaml": "2.3.*"
     },
     "require-dev": {
-        "corneltek\/phpunit-testmore": "dev-master",
-        "corneltek\/universal": "*",
-        "cbednarski\/pharcc": "0.2.*"
+        "corneltek/phpunit-testmore": "dev-master",
+        "corneltek/universal": "*",
+        "cbednarski/pharcc": "0.2.*"
     },
     "autoload": {
         "psr-0": {
             "PhpBrew": "src"
         }
     },
-    "version": "1.14.1"
+    "version": "1.14.3"
 }
