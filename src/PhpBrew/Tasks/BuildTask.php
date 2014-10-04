@@ -34,7 +34,7 @@ class BuildTask extends BaseTask
 
         if (!$options->dryrun) {
             $startTime = microtime(true);
-            $cmd->execute() !== false or die('Make failed.');
+            $cmd->execute() !== 0 or die('Make failed.');
             $buildTime = ceil((microtime(true) - $startTime) / 60);
             $this->info("Build finished: $buildTime minutes.");
         }
