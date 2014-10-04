@@ -48,6 +48,10 @@ class CommandBuilder
         $ret = null;
         $command = $this->getCommand();
         $line = system($command, $ret);
+        if ($ret != 0) {
+            // XXX: improve this later.
+            echo substr($line,0, 78) . "\n";
+        }
         return $ret;
     }
 
