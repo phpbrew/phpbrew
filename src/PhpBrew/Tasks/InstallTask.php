@@ -26,7 +26,7 @@ class InstallTask extends BaseTask
         }
 
         if (!$options->dryrun) {
-            $cmd->execute() !== false or die('Install failed.');
+            $cmd->execute() !== 0 or die('Install failed.');
         }
     }
 }

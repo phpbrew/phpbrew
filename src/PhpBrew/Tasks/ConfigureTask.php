@@ -109,7 +109,7 @@ class ConfigureTask extends BaseTask
         }
 
         if (!$options->dryrun) {
-            $cmd->execute() !== false or die('Configure failed.');
+            $cmd->execute() !== 0 or die('Configure failed.');
         }
 
         $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $options);

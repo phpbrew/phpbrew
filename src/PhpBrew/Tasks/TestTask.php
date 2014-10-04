@@ -29,6 +29,6 @@ class TestTask extends BaseTask
         }
 
         $this->debug('' .  $cmd);
-        $cmd->execute() !== false or die('Test failed.');
+        $cmd->execute() !== 0 or die('Test failed.');
     }
 }
