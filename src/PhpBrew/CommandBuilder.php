@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+use PhpBrew\Exception\SystemCommandException;
 
 class CommandBuilder
 {
@@ -47,12 +48,10 @@ class CommandBuilder
         $ret = null;
         $command = $this->getCommand();
         $line = system($command, $ret);
-
         if ($ret !== 0) {
-            die('Error');
+            throw new SystemCommandException($line);
         }
-
-        return $line;
+        return $ret;
     }
 
     public function __toString()
