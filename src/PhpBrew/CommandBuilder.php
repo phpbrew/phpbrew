@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+use PhpBrew\Exception\SystemCommandException;
 
 class CommandBuilder
 {
@@ -47,12 +48,11 @@ class CommandBuilder
         $ret = null;
         $command = $this->getCommand();
         $line = system($command, $ret);
-
-        if ($ret !== 0) {
-            die('Error');
+        if ($ret != 0) {
+            // XXX: improve this later.
+            echo substr($line,0, 78) . "\n";
         }
-
-        return $line;
+        return $ret;
     }
 
     public function __toString()
@@ -88,7 +88,6 @@ class CommandBuilder
             $cmd[] = '2>';
             $cmd[] = $this->stderr;
         }
-
         return join(' ', $cmd);
     }
 }

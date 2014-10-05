@@ -19,14 +19,19 @@ class InstallTask extends BaseTask
     {
         $this->info("Installing...");
         $cmd = new CommandBuilder('make install');
-        $cmd->append = true;
 
+        /*
+         * XXX: stderr redirection will make the execute return code = 0
+        $cmd->append = true;
         if ($this->logPath) {
             $cmd->stdout = $this->logPath;
         }
+        */
 
         if (!$options->dryrun) {
-            $cmd->execute() !== false or die('Install failed.');
+            $code = $cmd->execute();
+            if ($code != 0)
+                die('Install failed.');
         }
     }
 }

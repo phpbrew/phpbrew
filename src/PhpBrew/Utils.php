@@ -179,7 +179,6 @@ class Utils
     public static function system($command, $msg = 'execute fail')
     {
         $lastLine = system($command, $returnValue);
-
         if ($returnValue != 0) {
             throw new Exception($lastLine);
         }

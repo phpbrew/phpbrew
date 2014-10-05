@@ -47,7 +47,7 @@ class Builder
 
         if (!file_exists('configure')) {
             $this->logger->debug("configure file not found, running buildconf script...");
-            system('./buildconf') !== false or die('buildconf error');
+            system('./buildconf') !== 0 or die('buildconf error');
         }
 
         // build configure args
@@ -112,7 +112,9 @@ class Builder
             $cmd->nice($this->options->nice);
         }
 
-        $cmd->execute() !== false or die('Configure failed.');
+        $code = $cmd->execute();
+        if ($code != 0) 
+            die('Configure failed.');
 
         // Then patch Makefile for PHP 5.3.x on 64bit system.
         $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $this->version);
