@@ -7,7 +7,7 @@ use PhpBrew\PhpSource;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\DirectorySwitch;
-
+use PhpBrew\Utils;
 use CLIFramework\Command;
 
 class DownloadCommand extends Command
@@ -39,9 +39,7 @@ class DownloadCommand extends Command
 
     public function execute($version)
     {
-        if (!preg_match('/^php-/', $version)) {
-            $version = 'php-' . $version;
-        }
+        $version = Utils::canonicalizeVersionName($version); // Get version name in php-{version} form
 
         $info = PhpSource::getVersionInfo($version, $this->options->old);
 
