@@ -15,6 +15,7 @@ use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
 use PhpBrew\Build;
+use PhpBrew\Utils;
 use CLIFramework\Command;
 
 /*
@@ -86,9 +87,7 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
-        if (!preg_match('/^php-/', $version)) {
-            $version = 'php-' . $version;
-        }
+        $version = Utils::canonicalizeVersionName($version); // Get version name in php-{version} form
 
         $version = $this->getLatestMinorVersion($version, $this->options->old);
 
