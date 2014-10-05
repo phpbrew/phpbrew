@@ -53,19 +53,30 @@ class InstallCommand extends Command
     public function options($opts)
     {
         $opts->add('test', 'run tests');
-        $opts->add('name:', 'prefix name');
+
+        $opts->add('name:', 'prefix name')->valueName('name');
+
         $opts->add('clean', 'Run make clean before building.');
+
         $opts->add('post-clean', 'Run make clean after building PHP.');
+
         $opts->add('production', 'Use production configuration');
-        $opts->add('n|nice:', 'process nice level');
+
+        $opts->add('n|nice:', 'process nice level')
+            ->valueName('priority')
+            ;
         $opts->add('patch+:', 'apply patch before build')
             ->isa('file')
             ;
         $opts->add('old', 'install old phps (less than 5.3)');
         $opts->add('f|force', 'force');
         $opts->add('d|dryrun', 'dryrun');
-        $opts->add('like:', 'inherit variants from previous build');
-        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).');
+        $opts->add('like:', 'inherit variants from previous build')
+            ->valueName('version');
+
+        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).')
+            ->valueName('concurrent job number')
+            ;
     }
 
     public function execute($version)
