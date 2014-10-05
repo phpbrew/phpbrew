@@ -70,13 +70,13 @@ class InstallCommand extends Command
             ->isa('file')
             ;
 
-        $opts->add('old', 'install old phps (less than 5.3)');
+        $opts->add('old', 'Install phpbrew incompatible phps (< 5.3)');
 
-        $opts->add('f|force', 'force');
+        $opts->add('f|force', 'Force the installation.');
 
-        $opts->add('d|dryrun', 'dryrun');
+        $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');
 
-        $opts->add('like:', 'inherit variants from previous build')
+        $opts->add('like:', 'Inherit variants from an existing build')
             ->valueName('version');
 
         $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).')
