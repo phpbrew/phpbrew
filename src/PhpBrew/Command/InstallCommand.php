@@ -52,9 +52,9 @@ class InstallCommand extends Command
      */
     public function options($opts)
     {
-        $opts->add('test', 'run tests');
+        $opts->add('test', 'Run tests after the installation.');
 
-        $opts->add('name:', 'prefix name')->valueName('name');
+        $opts->add('name:', 'Prefix name')->valueName('name');
 
         $opts->add('clean', 'Run make clean before building.');
 
@@ -62,15 +62,20 @@ class InstallCommand extends Command
 
         $opts->add('production', 'Use production configuration');
 
-        $opts->add('n|nice:', 'process nice level')
+        $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority.')
             ->valueName('priority')
             ;
-        $opts->add('patch+:', 'apply patch before build')
+
+        $opts->add('patch+:', 'Apply patch before build.')
             ->isa('file')
             ;
+
         $opts->add('old', 'install old phps (less than 5.3)');
+
         $opts->add('f|force', 'force');
+
         $opts->add('d|dryrun', 'dryrun');
+
         $opts->add('like:', 'inherit variants from previous build')
             ->valueName('version');
 
