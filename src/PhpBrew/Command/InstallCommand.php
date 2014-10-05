@@ -25,7 +25,11 @@ class InstallCommand extends Command
 {
     public function brief()
     {
-        return 'install php';
+        return 'Install php';
+    }
+
+    public function aliases() {
+        return array('i','ins');
     }
 
     public function usage()
