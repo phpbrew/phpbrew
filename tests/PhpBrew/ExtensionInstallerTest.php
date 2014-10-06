@@ -34,7 +34,11 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         $logger = new CLIFramework\Logger;
         $installer = new PhpBrew\ExtensionInstaller($logger);
         ok($installer);
+
+        ob_start();
         $installedPath = $installer->installFromPecl($packageName);
+        ob_end_clean();
+
         chdir('..');
         path_ok( $installedPath );
     }
