@@ -21,6 +21,9 @@ class Build implements Serializable
 
     public $disabledVariants = array();
 
+    /**
+     * The source directory
+     */
     public $sourceDirectory;
 
     public $installPrefix;
@@ -205,9 +208,17 @@ class Build implements Serializable
 
     public function getSourceDirectory()
     {
+        if (!file_exists($this->sourceDirectory)) {
+            mkdir($this->sourceDirectory, 0755, true);
+        }
         return $this->sourceDirectory;
     }
 
+    public function getBuildLogPath() 
+    {
+        $dir = $this->getSourceDirectory() . DIRECTORY_SEPARATOR . 'build.log';
+        return $dir;
+    }
 
     public function setInstallPrefix($prefix)
     {

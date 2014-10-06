@@ -97,7 +97,7 @@ class ConfigureTask extends BaseTask
 
         $this->info("===> Configuring {$build->version}...");
         $cmd->append = false;
-        $cmd->stdout = Config::getVersionBuildLogPath($build->name);
+        $cmd->stdout = $build->getBuildLogPath();
 
         echo "\n\n";
         echo "Use tail command to see what's going on:\n";

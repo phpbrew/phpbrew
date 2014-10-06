@@ -28,6 +28,7 @@ class InstallTask extends BaseTask
             $cmd->stdout = $this->logPath;
         }
         */
+        $cmd->stdout = $build->getBuildLogPath();
 
         if (!$options->dryrun) {
             $code = $cmd->execute();

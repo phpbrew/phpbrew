@@ -63,6 +63,10 @@ class InstallCommand extends Command
 
         $opts->add('production', 'Use production configuration');
 
+        $opts->add('build-dir:','Specify the build directory')
+            ->isa('dir')
+            ;
+
         $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority.')
             ->valueName('priority')
             ;
@@ -138,7 +142,6 @@ class InstallCommand extends Command
         }
 
         $info = PhpSource::getVersionInfo($version, $this->options->old);
-
         if (!$info) {
             throw new Exception("Version $version not found.");
         }
@@ -165,7 +168,11 @@ class InstallCommand extends Command
         }
 
         // Move to to build directory, because we are going to download distribution.
-        $buildDir = Config::getBuildDir();
+        $buildDir = $this->options->{'build-dir'} ?: Config::getBuildDir();
+        if (!file_exists($buildDir)) {
+            mkdir($buildDir, 0755, true);
+        }
+        $this->logger->debug("Changing directory to $buildDir");
         chdir($buildDir);
 
         $download = new DownloadTask($this->logger);
@@ -187,7 +194,9 @@ class InstallCommand extends Command
         // write variants info.
         $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
-        file_put_contents($variantInfoFile, serialize($variantInfo));
+        if (false === file_put_contents($variantInfoFile, serialize($variantInfo))) {
+            $this->logger->notice("Can't store variant info.");
+        }
 
         // The build object, contains the information to build php.
         $build = new Build($version, $name, $buildPrefix);
@@ -217,10 +226,10 @@ class InstallCommand extends Command
 
         if ($options->clean) {
             $clean = new CleanTask($this->logger);
-            $clean->cleanByVersion($version);
+            $clean->clean($build);
         }
 
-        $buildLogFile = Config::getVersionBuildLogPath($version);
+        $buildLogFile = $build->getBuildLogPath();
 
         $configure = new \PhpBrew\Tasks\ConfigureTask($this->logger);
         $configure->configure($build, $this->options);
@@ -241,7 +250,7 @@ class InstallCommand extends Command
 
         if ($options->{'post-clean'}) {
             $clean = new CleanTask($this->logger);
-            $clean->cleanByVersion($version);
+            $clean->clean($build);
         }
 
         /** POST INSTALLATION **/

@@ -21,6 +21,8 @@ class BuildTask extends BaseTask
 
         if ($this->logPath) {
             $cmd->stdout = $this->logPath;
+        } else {
+            $cmd->stdout = $build->getBuildLogPath();
         }
 
         if ($options->nice) {
