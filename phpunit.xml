@@ -6,41 +6,37 @@
          verbose="true">
 
     <testsuites>
-        <testsuite name="PHPUnit">
+        <testsuite name="All">
             <directory suffix="Test.php">tests</directory>
+        </testsuite>
+
+        <testsuite name="Core">
+            <file>tests/PhpBrew/BuildTest.php</file>
+            <file>tests/PhpBrew/UtilsTest.php</file>
+            <file>tests/PhpBrew/VariantBuilderTest.php</file>
+            <file>tests/PhpBrew/VariantParserTest.php</file>
+            <file>tests/PhpBrew/VersionTest.php</file>
+            <file>tests/PhpBrew/ConfigTest.php</file>
+        </testsuite>
+
+        <testsuite name="Extension">
+            <file>tests/PhpBrew/ExtensionInstallerTest.php</file>
+            <file>tests/PhpBrew/ExtensionMetaTest.php</file>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>src/</directory>
+            <directory>src</directory>
         </whitelist>
     </filter>
 
     <logging>
-        <log
-            type="tap"
-            target="build/logs/report.tap"
-        />
-        <log
-            type="junit"
-            target="build/logs/report.junit.xml"
-        />
-        <log
-            type="coverage-html"
-            target="build/logs/coverage"
-            charset="UTF-8"
-            yui="true"
-            highlight="true"
-        />
-        <log
-            type="coverage-text"
-            target="build/logs/coverage.txt"
-        />
-        <log
-            type="coverage-clover"
-            target="build/logs/clover.xml"
-        />
+        <log type="tap" target="build/logs/report.tap" />
+        <log type="junit" target="build/logs/report.junit.xml" />
+        <log type="coverage-html" target="build/logs/coverage" charset="UTF-8" yui="true" highlight="true" />
+        <log type="coverage-text" target="build/logs/coverage.txt" />
+        <log type="coverage-clover" target="build/logs/clover.xml" />
     </logging>
 
 </phpunit>

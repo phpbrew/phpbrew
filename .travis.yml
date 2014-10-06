@@ -13,7 +13,7 @@ before_script:
 script:
   - source shell/bashrc
   - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit --coverage-clover build/logs/clover.xml
+  - phpunit
 
 after_script:
   - php vendor/bin/coveralls -v
