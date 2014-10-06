@@ -239,7 +239,7 @@ function phpbrew ()
                 ${PHPFPM_BIN} start
               else
                 ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
-                  --fpm-config $${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf \
+                  --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf \
                   --pid ${PHPFPM_PIDFILE} \
                   ${*:3}
               fi
