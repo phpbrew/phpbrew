@@ -78,6 +78,11 @@ class Build implements Serializable
         $this->name = $name;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function setVersion($version)
     {
         $this->version = preg_replace('#^php-#', '', $version);
@@ -335,7 +340,6 @@ class Build implements Serializable
     {
         $build = new self($this->version);
         $build->import($data);
-
         return $build;
     }
 
