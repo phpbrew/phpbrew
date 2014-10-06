@@ -11,7 +11,10 @@ class InstallCommandTest extends CommandTestCase
 
     public function testInstallCommand()
     {
-        $ret = $this->runCommand('phpbrew install 5.4 +default');
+        // suppress output messages
+        ob_start();
+        ok($this->runCommand('phpbrew install 5.4 +default'));
+        ob_end_clean();
     }
 }
 
