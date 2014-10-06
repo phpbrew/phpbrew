@@ -65,10 +65,6 @@ class Config
         return self::getBuildPrefix() . DIRECTORY_SEPARATOR . $version;
     }
 
-    public static function getVersionBuildLogPath($version)
-    {
-        return self::getBuildDir() . DIRECTORY_SEPARATOR .  $version . DIRECTORY_SEPARATOR . 'build.log';
-    }
 
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
