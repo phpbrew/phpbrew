@@ -5,6 +5,11 @@
          colors="true"
          verbose="true">
 
+    <php>
+        <env name="PHPBREW_ROOT" value="tests/.phpbrew"/>
+        <env name="PHPBREW_HOME" value="tests/.phpbrew"/>
+    </php>
+
     <testsuites>
         <testsuite name="All">
             <directory suffix="Test.php">tests</directory>
