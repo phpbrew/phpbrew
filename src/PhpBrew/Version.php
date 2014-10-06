@@ -19,11 +19,19 @@ class Version
     {
         if (preg_match('/^(\w+)-(.*?)$/',$a, $regs)) {
             $this->dist = $dist ?: $regs[1];
-            $this->version = $version;
+            $this->version = $regs[2];
         } else {
             $this->version = $a;
             $this->dist = $dist ?: 'php'; // default dist name to PHP
         }
+    }
+
+    public function getVersion() {
+        return $this->version;
+    }
+
+    public function getDist() {
+        return $this->dist;
     }
 
     public function compare($b) {
@@ -35,6 +43,10 @@ class Version
      */
     public function getCanonicalizedVersionName() {
         return $this->dist . '-' . $this->version;
+    }
+
+    public function __toString() {
+        return $this->getCanonicalizedVersionName();
     }
 
 }
