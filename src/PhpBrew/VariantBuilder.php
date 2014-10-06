@@ -2,7 +2,7 @@
 namespace PhpBrew;
 
 use Exception;
-use PhpBrew\Exceptions\OopsException;
+use PhpBrew\Exception\OopsException;
 
 /**
  * VariantBuilder build variants to configure options.
