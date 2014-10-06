@@ -24,13 +24,10 @@ class DSymTask extends BaseTask
     {
         if ($this->check($build)) {
             $this->logger->info("---> Moving php.dSYM to php ");
-
             if (!$options->dryrun) {
+                $phpBin = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php';
                 $dSYM = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php.dSYM';
-
-                $buildPrefix = Config::getBuildPrefix();
-                $php = $buildPrefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php';
-                rename($dSYM, $php);
+                rename($dSYM, $phpBin);
             }
         }
     }
