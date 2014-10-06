@@ -2,7 +2,7 @@ PHPBrew
 ==========
 
 [![Build Status][t-badge]][t-link]
-[![Coverage Status][c-badge]][c-link]
+[![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
 
@@ -526,7 +526,6 @@ See LICENSE file.
 
 
 [t-link]: https://travis-ci.org/phpbrew/phpbrew "Travis Build"
-[c-link]: https://coveralls.io/r/phpbrew/phpbrew?branch=master "Code Coverage"
 [s-link]: https://scrutinizer-ci.com/g/phpbrew/phpbrew/?branch=master "Code Quality"
 [p-link]: https://packagist.org/packages/marc/phpbrew "Packagist"
 [sl-link]: https://insight.sensiolabs.com/projects/02d1fd01-8a70-4fe4-a550-381a3c0e33f3 "Sensiolabs Insight"
