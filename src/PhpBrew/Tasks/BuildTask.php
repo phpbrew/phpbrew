@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 use PhpBrew\CommandBuilder;
+use PhpBrew\Build;
 
 /**
  * Task to run `make`
@@ -12,7 +13,7 @@ class BuildTask extends BaseTask
         $this->logPath = $path;
     }
 
-    public function build($build, $options)
+    public function build(Build $build, $options)
     {
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');

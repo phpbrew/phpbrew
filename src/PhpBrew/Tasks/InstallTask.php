@@ -2,6 +2,7 @@
 namespace PhpBrew\Tasks;
 
 use PhpBrew\CommandBuilder;
+use PhpBrew\Build;
 
 /**
  * Task to run `make install`
@@ -15,7 +16,7 @@ class InstallTask extends BaseTask
         $this->logPath = $path;
     }
 
-    public function install($build, $options)
+    public function install(Build $build, $options)
     {
         $this->info("Installing...");
         $cmd = new CommandBuilder('make install');

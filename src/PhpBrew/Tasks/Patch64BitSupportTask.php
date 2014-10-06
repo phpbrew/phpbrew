@@ -1,19 +1,20 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use PhpBrew\Build;
 use PhpBrew\Utils;
 
 class Patch64BitSupportTask extends BaseTask
 {
 
-    public function match($build)
+    public function match(Build $build)
     {
         $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $build->version);
 
         return (Utils::support64bit() && version_compare($currentVersion, '5.3', '=='));
     }
 
-    public function patch($build, $options)
+    public function patch(Build $build, $options)
     {
         $this->info("===> Checking if php-5.3 source is on 64bit machine");
 

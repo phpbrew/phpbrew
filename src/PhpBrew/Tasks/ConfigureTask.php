@@ -3,8 +3,9 @@ namespace PhpBrew\Tasks;
 
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
-use PhpBrew\Build;
 use PhpBrew\VariantBuilder;
+use PhpBrew\Build;
+
 
 /**
  * Task to run `make`
