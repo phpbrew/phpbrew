@@ -18,15 +18,17 @@ class BuildRegister
     }
 
     public function register(Build $build) {
-        $file = $this->baseDir . DIRECTORY_SEPARATOR . $build->getName() . '-' . $build->getVersion();
+        $file = $this->baseDir . DIRECTORY_SEPARATOR . $build->getName();
         $build->writeFile($file);
     }
 
     public function deregister(Build $build) {
-        $file = $this->baseDir . DIRECTORY_SEPARATOR . $build->getName() . '-' . $build->getVersion();
+        $file = $this->baseDir . DIRECTORY_SEPARATOR . $build->getName();
         if (file_exists($file)) {
             unlink($file);
+            return true;
         }
+        return false;
     }
 }
 
