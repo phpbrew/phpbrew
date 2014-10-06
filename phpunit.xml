@@ -24,6 +24,10 @@
             <file>tests/PhpBrew/ConfigTest.php</file>
         </testsuite>
 
+        <testsuite name="Commands">
+            <directory suffix="Test.php">tests/PhpBrew/Command</directory>
+        </testsuite>
+
         <testsuite name="Extension">
             <file>tests/PhpBrew/ExtensionInstallerTest.php</file>
             <file>tests/PhpBrew/ExtensionMetaTest.php</file>
