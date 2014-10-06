@@ -137,6 +137,7 @@ class InstallCommand extends Command
         }
 
         // always add +xml by default unless --without-pear is present
+        // TODO: This can be done by "-pear"
         if(! in_array('--without-pear', $variantInfo['extra_options'])){
             $variantInfo['enabled_variants']['xml'] = true;
         }
@@ -152,15 +153,12 @@ class InstallCommand extends Command
         // convert patch to realpath
         if ($this->options->patch) {
             $patchPaths = array();
-
             foreach ($this->options->patch as $patch) {
                 /** @var \SplFileInfo $patch */
                 $patchPath = realpath($patch);
-
                 if ($patchPath !== false) {
                     $patchPaths[(string) $patch] = $patchPath;
                 }
-
             }
 
             // rewrite patch paths
@@ -202,10 +200,6 @@ class InstallCommand extends Command
         $build = new Build($version, $name, $buildPrefix);
         $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
-
-        $builder = new Builder($targetDir, $version);
-        $builder->logger = $this->logger;
-        $builder->options = $this->options;
 
         $this->logger->debug('Build Directory: ' . realpath($targetDir));
 
