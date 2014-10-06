@@ -7,6 +7,11 @@ namespace PhpBrew;
  *   - 5.3 => php-5.3.29 (get the latest patched version)
  *   - 5.3.29 => php-5.3.29
  *   - php-5.4 => php-5.4.26
+ *   - hhvm-3.3 => hhvm-3.3
+ *
+ * TODO:
+ *
+ *    - Parse stability
  *
  */
 class Version
@@ -35,7 +40,7 @@ class Version
     }
 
     public function compare($b) {
-        // TODO:
+        return version_compare($a->getVersion(), $b->getVersion());
     }
 
     /**
