@@ -43,6 +43,29 @@ class Version
         return version_compare($a->getVersion(), $b->getVersion());
     }
 
+
+    public function upgradePatchVersion(array $availableVersions) {
+        $this->version = self::findLatestPatchVersion($this->getVersion(), $availableVersions);
+    }
+
+    public static function findLatestPatchVersion($currentVersion, array $versions) {
+        // Trim 5.4.29 to 5.4
+        $va = explode('.', $currentVersion);
+        if (count($va) == 3) {
+            list($cMajor, $cMinor, $cPatch) = $va;
+        } elseif(count($va) == 2) {
+            list($cMajor, $cMinor) = $va;
+            $cPatch = 0;
+        }
+        foreach ($versions as $version) {
+            list($major, $minor, $patch) = explode('.', $version);
+            if ($major == $cMajor && $minor == $cMinor && $patch > $cPatch) {
+                $cPatch = $patch;
+            }
+        }
+        return join('.', array($cMajor, $cMinor, $cPatch));
+    }
+
     /**
      * @return string the version string, php-5.3.29, php-5.4.2 without prefix
      */
