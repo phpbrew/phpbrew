@@ -254,8 +254,7 @@ class InstallCommand extends Command
         // copy php-fpm config
         $this->logger->info("---> Creating php-fpm.conf");
         $phpFpmConfigPath = "sapi/fpm/php-fpm.conf";
-        $phpFpmTargetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php-fpm.conf';
-
+        $phpFpmTargetConfigPath = $build->getEtcDirectory() . DIRECTORY_SEPARATOR . 'php-fpm.conf';
         if (file_exists($phpFpmConfigPath)) {
             if (!file_exists($phpFpmTargetConfigPath)) {
                 copy($phpFpmConfigPath, $phpFpmTargetConfigPath);
@@ -264,11 +263,14 @@ class InstallCommand extends Command
             }
         }
 
+
+
+        $this->logger->info("---> Creating php.ini");
         $phpConfigPath = $options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigPath ");
 
         if (file_exists($phpConfigPath)) {
-            $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
+            $targetConfigPath = $build->getEtcDirectory() . DIRECTORY_SEPARATOR . 'php.ini';
 
             if (file_exists($targetConfigPath)) {
                 $this->logger->notice("Found existing $targetConfigPath.");
