@@ -24,5 +24,10 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $ret = Version::findLatestPatchVersion('5.5', array('5.5.26', '5.5.25', '5.5.1'));
         is('5.5.26',$ret);
     }
+
+    public function testHasPatchVersion() {
+        ok(Version::hasPatchVersion('5.5.2'));
+        ok(!Version::hasPatchVersion('5.5'));
+    }
 }
 

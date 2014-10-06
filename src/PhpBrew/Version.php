@@ -48,6 +48,11 @@ class Version
         $this->version = self::findLatestPatchVersion($this->getVersion(), $availableVersions);
     }
 
+    public static function hasPatchVersion($version) {
+        $va = explode('.', $version);
+        return count($va) >= 3;
+    }
+
     public static function findLatestPatchVersion($currentVersion, array $versions) {
         // Trim 5.4.29 to 5.4
         $va = explode('.', $currentVersion);
