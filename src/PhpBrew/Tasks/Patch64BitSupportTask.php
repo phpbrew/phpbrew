@@ -22,8 +22,8 @@ class Patch64BitSupportTask extends BaseTask
             $this->info("===> Applying patch file for php5.3.x on 64bit machine.");
 
             if (!$options->dryrun) {
-                system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
-                system('sed -i \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
+                system('sed -i.bak \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
+                system('sed -i.bak \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
             }
         }
     }
