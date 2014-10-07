@@ -404,23 +404,11 @@ class Build implements Serializable
     public static function findByName($name)
     {
         $prefix = Config::getVersionBuildPrefix($name);
-
         if (file_exists($prefix)) {
             // a installation exists
             $build = new self($prefix);
-
             return $build;
         }
-        /*
-        if ( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
-            $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
-            echo "\n";
-            echo str_repeat(' ',19);
-            echo VariantParser::revealCommandArguments($info);
-        }
-        echo "\n";
-        */
-
         return null;
     }
 
