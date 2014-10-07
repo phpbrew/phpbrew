@@ -55,7 +55,7 @@ class InstallCommand extends Command
     {
         $opts->add('test', 'Run tests after the installation.');
 
-        $opts->add('name:', 'Prefix name')->valueName('name');
+        $opts->add('alias:', 'The alias of the installation')->valueName('alias');
 
         $opts->add('clean', 'Run make clean before building.');
 
@@ -103,7 +103,7 @@ class InstallCommand extends Command
         // the first argument is the target version.
         array_shift($args);
 
-        $name = $this->options->name ?: $version;
+        $alias = $this->options->alias ?: $version;
 
         // find inherited variants
         $inheritedVariants = array();
@@ -131,9 +131,14 @@ class InstallCommand extends Command
                 'zip' => true,
                 'openssl' => 'yes',
             );
-            $this->logger->error("\nYou haven't used any '+' build variant. A default set of extensions will be installed:");
-            $this->logger->warn('[' . implode(', ', array_keys($variantInfo['enabled_variants'])) . ']');
-            $this->logger->info("Please run 'phpbrew variants' for more information.\n");
+            $this->logger->notice("\nYou haven't used any '+' build variant. A default set of extensions will be installed:");
+            $this->logger->notice('[' . implode(', ', array_keys($variantInfo['enabled_variants'])) . ']');
+            $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
+        }
+
+        if (preg_match('/5\.3\./',$build->getVersion())) {
+            $this->logger->notice("PHP 5.3 requires +intl, enabled by default.");
+            $build->enableVariant('intl');
         }
 
         // always add +xml by default unless --without-pear is present
@@ -197,7 +202,7 @@ class InstallCommand extends Command
         }
 
         // The build object, contains the information to build php.
-        $build = new Build($version, $name, $buildPrefix);
+        $build = new Build($version, $alias, $buildPrefix);
         $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
@@ -209,7 +214,6 @@ class InstallCommand extends Command
 
         foreach ($variantInfo['disabled_variants'] as $name => $value) {
             $build->disableVariant($name);
-
             if ($build->hasVariant($name)) {
                 $this->logger->warn("Removing variant $name since we've disabled it from command.");
                 $build->removeVariant($name);

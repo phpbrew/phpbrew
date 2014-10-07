@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+use PhpBrew\Version;
 
 use Serializable;
 

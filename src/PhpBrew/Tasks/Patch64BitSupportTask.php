@@ -9,8 +9,8 @@ class Patch64BitSupportTask extends BaseTask
 
     public function match(Build $build)
     {
+        // parse version from something like "php-5.3.2..."
         $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $build->version);
-
         return (Utils::support64bit() && version_compare($currentVersion, '5.3', '=='));
     }
 

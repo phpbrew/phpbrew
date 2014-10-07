@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+use InvalidArgumentException;
 
 /**
  * Version class to handle version conversions:
@@ -22,6 +23,7 @@ class Version
 
     public function __construct($a, $dist = NULL)
     {
+        // XXX: support stability flag.
         if (preg_match('/^(\w+)-(.*?)$/',$a, $regs)) {
             $this->dist = $dist ?: $regs[1];
             $this->version = $regs[2];
@@ -29,6 +31,20 @@ class Version
             $this->version = $a;
             $this->dist = $dist ?: 'php'; // default dist name to PHP
         }
+    }
+
+    public function getMinorVersion() {
+        if (preg_match('/(\d+)\.(\d+)\.(\d+)/', $this->version, $regs)) {
+            return $regs[2];
+        }
+        throw new InvalidArgumentException('Incorrect version string: ' . $this->version);
+    }
+
+    public function getMajorVersion() {
+        if (preg_match('/(\d+)\.(\d+)\.(\d+)/', $this->version, $regs)) {
+            return $regs[1];
+        }
+        throw new InvalidArgumentException('Incorrect version string: ' . $this->version);
     }
 
     public function getVersion() {
