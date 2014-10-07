@@ -137,9 +137,9 @@ class InstallCommand extends Command
                 'zip' => true,
                 'openssl' => 'yes',
             ));
-            $this->logger->notice("\nYou haven't used any '+' build variant. A default set of extensions will be installed:");
-            $this->logger->notice('[' . implode(', ', array_keys($variantInfo['enabled_variants'])) . ']');
-            $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
+            $this->logger->notice("You haven't used any '+' build variant. A default set of extensions will be installed:");
+            $this->logger->notice('[' . implode(', ', array_keys($build->getVariants())) . ']');
+            $this->logger->notice("\nPlease run 'phpbrew variants' for more information.");
         }
 
         if (preg_match('/5\.3\./',$version)) {

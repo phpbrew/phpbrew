@@ -15,11 +15,9 @@ class PrepareDirectoryTask extends BaseTask
         if (!file_exists($variantsDir)) {
             mkdir($variantsDir, 0755, true);
         }
-
         if (!file_exists($buildDir)) {
             mkdir($buildDir, 0755, true);
         }
-
         if (!file_exists($buildPrefix)) {
             mkdir($buildPrefix, 0755, true);
         }

@@ -28,6 +28,10 @@ class UrlDownloader
             throw new RuntimeException("Can not parse url: $url");
         }
 
+        if (!is_writable($dir)) {
+            throw new RuntimeException("Directory is not writable: $dir");
+        }
+
         $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
 
         // check for wget or curl for downloading the php source archive
@@ -45,7 +49,7 @@ class UrlDownloader
             throw new RuntimeException("Download failed.");
         }
         $this->logger->info("===> $targetFilePath downloaded.");
-        return $basename; // return the filename
+        return $targetFilePath; // return the filename
     }
 
     /**
