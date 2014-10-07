@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Downloader;
-
+use Exception;
 use RuntimeException;
 
 class UrlDownloader
@@ -19,30 +19,32 @@ class UrlDownloader
      *
      * @throws \Exception
      */
-    public function download($url)
+    public function download($url, $dir, $basename = NULL)
     {
         $this->logger->info("===> Downloading from $url");
 
-        $basename = $this->resolveDownloadFileName($url);
-        if (false === $basename) {
+        $basename = $basename ?: $this->resolveDownloadFileName($url);
+        if (!$basename) {
             throw new RuntimeException("Can not parse url: $url");
         }
 
+        $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
+
         // check for wget or curl for downloading the php source archive
+        // TODO: use findbin
         if (exec('command -v wget')) {
-            system('wget --no-check-certificate -c -O ' . $basename . ' ' . $url) !== false or die("Download failed.\n");
+            system('wget --no-check-certificate -c -O ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
         } elseif (exec('command -v curl')) {
-            system('curl -C - -# -L -o ' . $basename . ' ' . $url) !== false or die("Download failed.\n");
+            system('curl -C - -# -L -o ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
         } else {
             die("Download failed - neither wget nor curl was found\n");
         }
 
-        $this->logger->info("===> $basename downloaded.");
-
-        if (!file_exists($basename)) {
-            throw new \Exception("Download failed.");
+        // Verify the downloaded file.
+        if (!file_exists($targetFilePath)) {
+            throw new RuntimeException("Download failed.");
         }
-
+        $this->logger->info("===> $targetFilePath downloaded.");
         return $basename; // return the filename
     }
 
@@ -61,11 +63,9 @@ class UrlDownloader
 
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
-
         if (false === $path || false === strpos($path, ".")) {
-            return false;
+            return NULL;
         }
-
         return basename($path);
     }
 }

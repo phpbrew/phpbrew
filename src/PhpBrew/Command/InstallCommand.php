@@ -180,11 +180,9 @@ class InstallCommand extends Command
         if (!file_exists($buildDir)) {
             mkdir($buildDir, 0755, true);
         }
-        $this->logger->debug("Changing directory to $buildDir");
-        chdir($buildDir);
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->downloadByVersionString($version, $this->options->old, $this->options->force);
+        $targetDir = $download->downloadByVersionString($version, $buildDir, $this->options->old, $this->options->force);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");
