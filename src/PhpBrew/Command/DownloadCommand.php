@@ -40,9 +40,8 @@ class DownloadCommand extends Command
     public function execute($version)
     {
         $version = Utils::canonicalizeVersionName($version); // Get version name in php-{version} form
-        $info = PhpSource::getVersionInfo($version, $this->options->old);
-
-        if (!$info) {
+        $versionInfo = PhpSource::getVersionInfo($version, $this->options->old);
+        if (!$versionInfo) {
             throw new Exception("Version $version not found.");
         }
 
@@ -52,7 +51,7 @@ class DownloadCommand extends Command
         $buildDir = Config::getBuildDir();
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->downloadByVersionString($version, $buildDir, $this->options->old, $this->options->force);
+        $targetDir = $download->download($versionInfo['url'], $buildDir, $this->options);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");

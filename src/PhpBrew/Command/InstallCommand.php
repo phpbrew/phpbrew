@@ -93,8 +93,14 @@ class InstallCommand extends Command
     public function execute($version)
     {
         $version = Utils::canonicalizeVersionName($version); // Get version name in php-{version} form
-
         $version = $this->getLatestMinorVersion($version, $this->options->old);
+
+        $this->logger->debug('Fetching version info...');
+        $versionInfo = PhpSource::getVersionInfo($version, $this->options->old);
+        if (!$versionInfo) {
+            throw new Exception("Version $version not found.");
+        }
+
 
         $options = $this->options;
         $logger = $this->logger;
@@ -153,10 +159,6 @@ class InstallCommand extends Command
             $build->enableVariant('xml');
         }
 
-        $info = PhpSource::getVersionInfo($version, $this->options->old);
-        if (!$info) {
-            throw new Exception("Version $version not found.");
-        }
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
@@ -182,7 +184,7 @@ class InstallCommand extends Command
         }
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->downloadByVersionString($version, $buildDir, $this->options->old, $this->options->force);
+        $targetDir = $download->download($versionInfo['url'], $buildDir, $this->options);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");
