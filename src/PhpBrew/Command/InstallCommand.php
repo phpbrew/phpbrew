@@ -170,7 +170,6 @@ class InstallCommand extends Command
                     $patchPaths[(string) $patch] = $patchPath;
                 }
             }
-
             // rewrite patch paths
             $this->options->keys['patch']->value = $patchPaths;
         }

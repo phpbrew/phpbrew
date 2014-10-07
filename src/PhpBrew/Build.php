@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew;
 use PhpBrew\Version;
-
+use Exception;
 use Serializable;
 
 /**
@@ -18,6 +18,10 @@ class Build implements Serializable
 
     public $version;
 
+
+    /**
+     * Enabled variants
+     */
     public $variants = array();
 
     public $disabledVariants = array();
@@ -67,7 +71,6 @@ class Build implements Serializable
             // but for backward compatibility, we still need a method to handle
             // the variant info file..
             $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-
             if (file_exists($variantFile)) {
                 $this->importVariantFromFile($variantFile);
             }
@@ -335,6 +338,24 @@ class Build implements Serializable
     public function getSourceExtensionDirectory()
     {
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
+    }
+
+
+
+    /**
+     * Load and return the variant info from file.
+     */
+    public function loadVariantInfoFile()
+    {
+        $prefix = $this->getInstallPrefix();
+        $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        if (!is_readable($variantsFile)) {
+            throw new Exception(
+                "Can't inherit variant from {$version}!"
+                . "Variants file {$variantsFile} is not readable."
+            );
+        }
+        return unserialize(file_get_contents($variantsFile));
     }
 
     public function importVariantFromFile($variantFile)
