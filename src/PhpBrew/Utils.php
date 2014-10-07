@@ -90,15 +90,16 @@ class Utils
             /opt/bar/include/sparc-solaris/
          */
         $multiArchs = array(
-            'lib64',
-            'lib32',
-            'ia64-linux-gnu', // Linux IA-64
-            'x86_64-linux-gnu', // Linux x86_64
-            'x86_64-kfreebsd-gnu', // FreeBSD
-            'i386-linux-gnu',
+            'lib/lib64',
+            'lib/lib32',
+            'lib64', // Linux Fedora
+            'lib/ia64-linux-gnu', // Linux IA-64
+            'lib/x86_64-linux-gnu', // Linux x86_64
+            'lib/x86_64-kfreebsd-gnu', // FreeBSD
+            'lib/i386-linux-gnu',
         );
         foreach ($multiArchs as $archName) {
-            if (file_exists("$prefix/lib/$archName")) {
+            if (file_exists("$prefix/$archName")) {
                 return $archName;
             }
         }
@@ -127,7 +128,7 @@ class Utils
         // if there is lib path, insert it to the end.
         foreach($prefixes as $prefix) {
             if ($arch = self::detectArch($prefix)) {
-                $prefixes[] = "$prefix/lib/$arch";
+                $prefixes[] = "$prefix/$arch";
             }
         }
         return array_reverse($prefixes);
