@@ -52,27 +52,15 @@ class Build implements Serializable
         $this->name = $alias ? $alias : $version;
         if ($prefix) {
             $this->setInstallPrefix($prefix);
-            // read the build info from $prefix
-            /*
-            $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
-            if ( file_exists($metaFile) ) {
-                $meta = unserialize(file_get_contents($metaFile));
-                if ($meta['name']) {
-                    $this->setName($meta['name']);
-                }
-                if ($meta['version']) {
-                    $this->setVersion($meta->version);
-                }
-            }
-            */
-
             // TODO: in future, we only stores build meta information, and that
             // also contains the variant info,
             // but for backward compatibility, we still need a method to handle
             // the variant info file..
             $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
             if (file_exists($variantFile)) {
-                $this->importVariantFromFile($variantFile);
+                $variantInfo = $this->loadVariantInfoFile($variantFile);
+
+                // Resolve the variants
             }
         }
     }
@@ -131,13 +119,21 @@ class Build implements Serializable
         $this->disabledVariants[$name] = true;
     }
 
+
+    /**
+     * Remove the enabled the variants since we've disabled 
+     * them.
+     */
     public function resolveVariants()
     {
+        $removed = array();
         foreach ($this->disabledVariants as $n => $true) {
             if ($this->hasVariant($n)) {
                 $this->removeVariant($n);
+                $removed[] = $n;
             }
         }
+        return $removed;
     }
 
     public function isDisabledVariant($name)
@@ -345,31 +341,31 @@ class Build implements Serializable
     /**
      * Load and return the variant info from file.
      */
-    public function loadVariantInfoFile()
+    public function loadVariantInfoFile($variantFile)
     {
-        $prefix = $this->getInstallPrefix();
-        $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         if (!is_readable($variantsFile)) {
             throw new Exception(
-                "Can't inherit variant from {$version}!"
-                . "Variants file {$variantsFile} is not readable."
+                "Can't load variant info! Variants file {$variantsFile} is not readable."
             );
         }
-        return unserialize(file_get_contents($variantsFile));
+        $variantInfo = unserialize(file_get_contents($variantsFile));
+        return $this->loadVariantInfo($variantInfo);
     }
 
-    public function importVariantFromFile($variantFile)
+    public function loadVariantInfo(array $variantInfo) 
     {
-        // XXX: not implemented yet
-        return;
-
-        if (file_exists($variantFile)) {
-            $info = unserialize(file_get_contents($variantFile));
-            var_dump($info);
-            // echo VariantParser::revealCommandArguments($info);
-            // XXX: handle info
+        if (isset($variantInfo['enabled_variants'])) {
+            $this->enableVariants($variantInfo['enabled_variants']);
         }
+        if (isset($variantInfo['disabled_variants'])) {
+            $this->disableVariants($variantInfo['disabled_variants']);
+        }
+        if (isset($variantInfo['extra_options'])) {
+            $this->setExtraOptions($variantInfo['extra_options']);
+        }
+        return $this->resolveVariants(); // Remove the enabled variants
     }
+
 
 
     public function __set_state($data)

@@ -203,16 +203,8 @@ class InstallCommand extends Command
 
         $this->logger->debug('Build Directory: ' . realpath($targetDir));
 
-        $build->enableVariants($variantInfo['enabled_variants']);
-
-        foreach ($variantInfo['disabled_variants'] as $name => $value) {
-            $build->disableVariant($name);
-            if ($build->hasVariant($name)) {
-                $this->logger->warn("Removing variant $name since we've disabled it from command.");
-                $build->removeVariant($name);
-            }
-        }
-        $build->setExtraOptions($variantInfo['extra_options']);
+        $build->loadVariantInfo($variantInfo);
+        // $this->logger->warn("Removing variant $name since we've disabled it from command.");
 
         // Write variants info.
         $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
