@@ -11,6 +11,7 @@ use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
+use PhpBrew\Tasks\ConfigureTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
@@ -231,7 +232,7 @@ class InstallCommand extends Command
 
         $buildLogFile = $build->getBuildLogPath();
 
-        $configure = new \PhpBrew\Tasks\ConfigureTask($this->logger);
+        $configure = new ConfigureTask($this->logger);
         $configure->configure($build, $this->options);
 
         $buildTask = new BuildTask($this->logger);
