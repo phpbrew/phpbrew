@@ -209,11 +209,9 @@ class InstallCommand extends Command
         // Write variants info.
         $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
-        if (false === file_put_contents($variantInfoFile, serialize($variantInfo))) {
-            $this->logger->notice("Can't store variant info.");
+        if ( false === $build->writeVariantInfoFile($variantInfoFile)) {
+            $this->logger->warn("Can't store variant info.");
         }
-
-
 
 
         if ($this->options->clean) {

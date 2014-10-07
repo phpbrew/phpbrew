@@ -356,6 +356,18 @@ class Build implements Serializable
         return $this->loadVariantInfo($variantInfo);
     }
 
+
+    public function writeVariantInfoFile($variantInfoFile) 
+    {
+        return file_put_contents($variantInfoFile, serialize(array(
+            'enabled_variants' => $this->variants,
+            'disabled_variants' => $this->disableVariants,
+            'extra_options' => $this->extraOptions,
+        )));
+    }
+
+
+
     public function loadVariantInfo(array $variantInfo, $reset = false)
     {
         if ($reset) {
