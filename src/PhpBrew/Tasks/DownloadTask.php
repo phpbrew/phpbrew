@@ -16,19 +16,8 @@ class DownloadTask extends BaseTask
 
         if (isset($info['url'])) {
             $targetDir = $this->downloadByUrl($info['url'], $force);
-        } elseif (isset($info['svn'])) {
-            $targetDir = $this->downloadFromSvn($info['svn']);
         }
-
         return $targetDir;
-    }
-
-    public function downloadFromSvn($svnUrl)
-    {
-        $downloader = new \PhpBrew\Downloader\SvnDownloader($this->getLogger());
-        $targetDir = $downloader->download($svnUrl);
-
-        return realpath($targetDir);
     }
 
     public function downloadByUrl($url, $forceExtract = false)
