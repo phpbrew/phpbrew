@@ -99,6 +99,12 @@ class Build implements Serializable
         return version_compare($this->version, $version);
     }
 
+    public function enableVariants(array $settings) {
+        foreach($settings as $name => $value) {
+            $this->enableVariant($name, $value);
+        }
+    }
+
     public function enableVariant($name, $value = null)
     {
         $this->variants[$name] = $value ?: true;
