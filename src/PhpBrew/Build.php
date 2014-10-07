@@ -189,8 +189,6 @@ class Build implements Serializable
         return $this->variants;
     }
 
-
-
     /**
      * Get all disabled variants
      */
@@ -283,10 +281,16 @@ class Build implements Serializable
     }
 
 
-    public function setExtraOptions($options)
+    public function setExtraOptions(array $options)
     {
         $this->extraOptions = $options;
     }
+
+    public function appendExtraOptions($option) {
+        $this->extraOptions[] = $option;
+    }
+
+
 
     public function getExtraOptions()
     {
@@ -352,8 +356,13 @@ class Build implements Serializable
         return $this->loadVariantInfo($variantInfo);
     }
 
-    public function loadVariantInfo(array $variantInfo) 
+    public function loadVariantInfo(array $variantInfo, $reset = false)
     {
+        if ($reset) {
+            $this->variants = array();
+            $this->disableVariants = array();
+            $this->extraOptions = array();
+        }
         if (isset($variantInfo['enabled_variants'])) {
             $this->enableVariants($variantInfo['enabled_variants']);
         }
@@ -361,7 +370,7 @@ class Build implements Serializable
             $this->disableVariants($variantInfo['disabled_variants']);
         }
         if (isset($variantInfo['extra_options'])) {
-            $this->setExtraOptions($variantInfo['extra_options']);
+            $this->extraOptions = array_merge($this->extraOptions, $variantInfo['extra_options']);
         }
         return $this->resolveVariants(); // Remove the enabled variants
     }

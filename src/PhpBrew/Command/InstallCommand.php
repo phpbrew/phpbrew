@@ -120,10 +120,11 @@ class InstallCommand extends Command
         // ['enabled_variants'] => enabeld variants
         // ['disabled_variants'] => disabled variants
         $variantInfo = VariantParser::parseCommandArguments($args);
+        $build->loadVariantInfo($variantInfo); // load again
 
         // assume +default variant if no build config is given and warn about that
-        if(! $variantInfo['enabled_variants']){
-            $variantInfo['enabled_variants'] = array(
+        if (!$variantInfo['enabled_variants']) {
+            $build->enableVariants(array(
                 'json' => true,
                 'xml'  => true,
                 'pcre' => true,
@@ -135,7 +136,7 @@ class InstallCommand extends Command
                 'curl' => true,
                 'zip' => true,
                 'openssl' => 'yes',
-            );
+            ));
             $this->logger->notice("\nYou haven't used any '+' build variant. A default set of extensions will be installed:");
             $this->logger->notice('[' . implode(', ', array_keys($variantInfo['enabled_variants'])) . ']');
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
@@ -143,13 +144,13 @@ class InstallCommand extends Command
 
         if (preg_match('/5\.3\./',$version)) {
             $this->logger->notice("PHP 5.3 requires +intl, enabled by default.");
-            $variantInfo['enabled_variants']['intl'] = true;
+            $build->enableVariant('intl');
         }
 
         // always add +xml by default unless --without-pear is present
         // TODO: This can be done by "-pear"
         if(! in_array('--without-pear', $variantInfo['extra_options'])){
-            $variantInfo['enabled_variants']['xml'] = true;
+            $build->enableVariant('xml');
         }
 
         $info = PhpSource::getVersionInfo($version, $this->options->old);
