@@ -136,9 +136,9 @@ class InstallCommand extends Command
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
         }
 
-        if (preg_match('/5\.3\./',$build->getVersion())) {
+        if (preg_match('/5\.3\./',$version)) {
             $this->logger->notice("PHP 5.3 requires +intl, enabled by default.");
-            $build->enableVariant('intl');
+            $variantInfo['enabled_variants']['intl'] = true;
         }
 
         // always add +xml by default unless --without-pear is present
