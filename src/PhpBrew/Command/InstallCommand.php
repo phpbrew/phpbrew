@@ -101,8 +101,6 @@ class InstallCommand extends Command
             throw new Exception("Version $version not found.");
         }
 
-
-        $options = $this->options;
         $logger = $this->logger;
 
         // get options and variants for building php
@@ -218,7 +216,7 @@ class InstallCommand extends Command
 
 
 
-        if ($options->clean) {
+        if ($this->options->clean) {
             $clean = new CleanTask($this->logger);
             $clean->clean($build);
         }
@@ -232,7 +230,7 @@ class InstallCommand extends Command
         $buildTask->setLogPath($buildLogFile);
         $buildTask->build($build, $this->options);
 
-        if ($options->{'test'}) {
+        if ($this->options->{'test'}) {
             $test = new TestTask($this->logger);
             $test->setLogPath($buildLogFile);
             $test->test($build, $this->options);
@@ -242,7 +240,7 @@ class InstallCommand extends Command
         $install->setLogPath($buildLogFile);
         $install->install($build, $this->options);
 
-        if ($options->{'post-clean'}) {
+        if ($this->options->{'post-clean'}) {
             $clean = new CleanTask($this->logger);
             $clean->clean($build);
         }
@@ -266,7 +264,7 @@ class InstallCommand extends Command
 
 
         $this->logger->info("---> Creating php.ini");
-        $phpConfigPath = $options->production ? 'php.ini-production' : 'php.ini-development';
+        $phpConfigPath = $this->options->production ? 'php.ini-production' : 'php.ini-development';
         $this->logger->info("---> Copying $phpConfigPath ");
 
         if (file_exists($phpConfigPath)) {
