@@ -99,7 +99,8 @@ class Build implements Serializable
         return version_compare($this->version, $version);
     }
 
-    public function enableVariants(array $settings) {
+    public function enableVariants(array $settings) 
+    {
         foreach($settings as $name => $value) {
             $this->enableVariant($name, $value);
         }
@@ -108,6 +109,13 @@ class Build implements Serializable
     public function enableVariant($name, $value = null)
     {
         $this->variants[$name] = $value ?: true;
+    }
+
+    public function disableVariants(array $settings) 
+    {
+        foreach($settings as $name => $value) {
+            $this->disableVariant($name);
+        }
     }
 
     /**

@@ -197,21 +197,13 @@ class InstallCommand extends Command
             mkdir($buildPrefix, 0755, true);
         }
 
-        // write variants info.
-        $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-        $this->logger->debug("Writing variant info to $variantInfoFile");
-        if (false === file_put_contents($variantInfoFile, serialize($variantInfo))) {
-            $this->logger->notice("Can't store variant info.");
-        }
 
         $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
         $this->logger->debug('Build Directory: ' . realpath($targetDir));
 
-        foreach ($variantInfo['enabled_variants'] as $name => $value) {
-            $build->enableVariant($name, $value);
-        }
+        $build->enableVariants($variantInfo['enabled_variants']);
 
         foreach ($variantInfo['disabled_variants'] as $name => $value) {
             $build->disableVariant($name);
@@ -220,8 +212,17 @@ class InstallCommand extends Command
                 $build->removeVariant($name);
             }
         }
-
         $build->setExtraOptions($variantInfo['extra_options']);
+
+        // Write variants info.
+        $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        $this->logger->debug("Writing variant info to $variantInfoFile");
+        if (false === file_put_contents($variantInfoFile, serialize($variantInfo))) {
+            $this->logger->notice("Can't store variant info.");
+        }
+
+
+
 
         if ($options->clean) {
             $clean = new CleanTask($this->logger);
