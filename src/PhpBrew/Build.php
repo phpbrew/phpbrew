@@ -39,13 +39,13 @@ class Build implements Serializable
      * A build object contains the information of all build options, prefix, paths... etc
      *
      * @param string $version build version
-     * @param string $name    build name
+     * @param string $alias   build alias
      * @param string $prefix  install prefix
      */
-    public function __construct($version, $name = null, $prefix = null)
+    public function __construct($version, $alias = null, $prefix = null)
     {
         $this->version = $version;
-        $this->name = $name ? $name : $version;
+        $this->name = $alias ? $alias : $version;
         if ($prefix) {
             $this->setInstallPrefix($prefix);
             // read the build info from $prefix

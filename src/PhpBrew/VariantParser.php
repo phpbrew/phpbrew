@@ -18,7 +18,7 @@ class VariantParser
         return array( $str => true );
     }
 
-    public static function parseCommandArguments($args, array $inheritedVariants = array())
+    public static function parseCommandArguments(array $args, array $inheritedVariants = array())
     {
         $extra = array();
 
@@ -89,7 +89,6 @@ class VariantParser
                 $extra
             );
         }
-
         return array(
             'enabled_variants' => $enabledVariants,
             'disabled_variants' => $disabledVariants,

@@ -105,10 +105,14 @@ class InstallCommand extends Command
 
         $alias = $this->options->alias ?: $version;
 
+        // Initialize the build object, contains the information to build php.
+        $build = new Build($version, $alias);
+
+
         // find inherited variants
         $inheritedVariants = array();
-        if ($this->options->like) {
-            $inheritedVariants = VariantParser::getInheritedVariants($this->options->like);
+        if ($buildName = $this->options->like) {
+            $inheritedVariants = VariantParser::getInheritedVariants($buildName);
         }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
@@ -189,7 +193,6 @@ class InstallCommand extends Command
         chdir($targetDir);
 
         $buildPrefix = Config::getVersionBuildPrefix($version);
-
         if (!file_exists($buildPrefix)) {
             mkdir($buildPrefix, 0755, true);
         }
@@ -201,8 +204,6 @@ class InstallCommand extends Command
             $this->logger->notice("Can't store variant info.");
         }
 
-        // The build object, contains the information to build php.
-        $build = new Build($version, $alias, $buildPrefix);
         $build->setInstallPrefix($buildPrefix);
         $build->setSourceDirectory($targetDir);
 
