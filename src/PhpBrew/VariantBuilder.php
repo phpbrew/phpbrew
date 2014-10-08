@@ -148,11 +148,11 @@ class VariantBuilder
         $this->variants['xmlrpc'] = '--with-xmlrpc';
         $this->variants['pcre'] = function ($build, $prefix = null) {
             if ($prefix) {
-                return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
+                return array("--with-pcre-regex", "--with-pcre-dir=$prefix");
             }
 
             if ($prefix = Utils::findIncludePrefix('pcre.h')) {
-                return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
+                return array("--with-pcre-regex", "--with-pcre-dir=$prefix");
             }
 
             return array("--with-pcre-regex");

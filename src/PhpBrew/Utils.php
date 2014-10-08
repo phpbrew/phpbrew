@@ -75,16 +75,44 @@ class Utils
 
         $prefixes = array_reverse($prefixes);
 
-        foreach ($prefixes as $prefix) {
-            if (file_exists("$prefix/lib/x86_64-linux-gnu")) {
-                return "lib/x86_64-linux-gnu";
-            } elseif (file_exists("$prefix/lib/i386-linux-gnu")) {
-                return "lib/i386-linux-gnu";
+        foreach($prefixes as $prefix) {
+            if ($arch = self::detectArch($prefix)) {
+                return "lib/$arch";
             }
         }
-
-        return null;
+        return NULL;
     }
+
+
+    public static function detectArch($prefix) {
+        /*
+         * Follow the FHS compliant
+            /usr/lib/i386-linux-gnu/
+            /usr/include/i386-linux-gnu/
+            /usr/lib/x86_64-linux-gnu/
+            /usr/local/lib/powerpc-linux-gnu/
+            /usr/local/include/powerpc-linux-gnu/
+            /opt/foo/lib/sparc-solaris/
+            /opt/bar/include/sparc-solaris/
+         */
+        $multiArchs = array(
+            'lib/lib64',
+            'lib/lib32',
+            'lib64', // Linux Fedora
+            'lib/ia64-linux-gnu', // Linux IA-64
+            'lib/x86_64-linux-gnu', // Linux x86_64
+            'lib/x86_64-kfreebsd-gnu', // FreeBSD
+            'lib/i386-linux-gnu',
+        );
+        foreach ($multiArchs as $archName) {
+            if (file_exists("$prefix/$archName")) {
+                return $archName;
+            }
+        }
+        return NULL;
+    }
+
+
 
     public static function getLookupPrefixes()
     {
@@ -104,14 +132,11 @@ class Utils
         }
 
         // if there is lib path, insert it to the end.
-        foreach ($prefixes as $prefix) {
-            if (file_exists("$prefix/lib/x86_64-linux-gnu")) {
-                $prefixes[] = "$prefix/lib/x86_64-linux-gnu";
-            } elseif (file_exists("$prefix/lib/i386-linux-gnu")) {
-                $prefixes[] = "$prefix/lib/i386-linux-gnu";
+        foreach($prefixes as $prefix) {
+            if ($arch = self::detectArch($prefix)) {
+                $prefixes[] = "$prefix/$arch";
             }
         }
-
         return array_reverse($prefixes);
     }
 
