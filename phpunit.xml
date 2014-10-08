@@ -25,7 +25,7 @@
         </testsuite>
 
         <testsuite name="Commands">
-            <directory suffix="Test.php">tests/PhpBrew/Command</directory>
+            <directory suffix="Test.php" phpVersion="5.3" phpVersionOperator="==">tests/PhpBrew/Command</directory>
         </testsuite>
 
         <testsuite name="Extension">
