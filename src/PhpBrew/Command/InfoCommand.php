@@ -5,7 +5,7 @@ class InfoCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'show current php information';
+        return 'Show current php information';
     }
 
     public function usage()

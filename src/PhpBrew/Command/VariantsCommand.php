@@ -8,7 +8,7 @@ class VariantsCommand extends \CLIFramework\Command
 
     public function brief()
     {
-        return 'list php variants';
+        return 'List php variants';
     }
 
     public function usage()

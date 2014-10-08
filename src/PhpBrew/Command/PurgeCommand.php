@@ -15,7 +15,7 @@ class PurgeCommand extends \CLIFramework\Command
 
     public function brief()
     {
-        return 'remove installed php version and config files.';
+        return 'Remove installed php version and config files.';
     }
 
     public function execute($version = null)

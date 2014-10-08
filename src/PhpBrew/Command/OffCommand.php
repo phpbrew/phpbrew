@@ -5,6 +5,6 @@ class OffCommand extends VirtualCommand
 {
     public function brief()
     {
-        return 'temporarily go back to the system php';
+        return 'Temporarily go back to the system php';
     }
 }

@@ -14,7 +14,7 @@ class DownloadCommand extends Command
 {
     public function brief()
     {
-        return 'download php';
+        return 'Download php';
     }
 
     public function usage()
