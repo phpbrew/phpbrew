@@ -116,8 +116,9 @@ class InstallCommand extends Command
 
         // find inherited variants
         if ($buildName = $this->options->like) {
-            $inheritedVariants = VariantParser::getInheritedVariants($buildName);
-            $build->loadVariantInfo($inheritedVariants);
+            if ($parentBuild = Build::findByName(Utils::canonicalizeVersionName($buildName))) {
+                $build->loadVariantInfo($parentBuild->settings->toArray());
+            }
         }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
@@ -185,19 +186,18 @@ class InstallCommand extends Command
         $targetDir = $download->download($versionInfo['url'], $buildDir, $this->options);
 
         if (!file_exists($targetDir)) {
-            throw new Exception("Download failed.");
+            throw new Exception("Download failed, $targetDir does not exist.");
         }
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
 
-        $buildPrefix = Config::getVersionBuildPrefix($version);
-        if (!file_exists($buildPrefix)) {
-            mkdir($buildPrefix, 0755, true);
+        $installPrefix = Config::getVersionInstallPrefix($version);
+        if (!file_exists($installPrefix)) {
+            mkdir($installPrefix, 0755, true);
         }
 
-
-        $build->setInstallPrefix($buildPrefix);
+        $build->setInstallPrefix($installPrefix);
         $build->setSourceDirectory($targetDir);
 
         $this->logger->debug('Build Directory: ' . realpath($targetDir));
@@ -207,7 +207,7 @@ class InstallCommand extends Command
         $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
 
         // Write variants info.
-        $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        $variantInfoFile = $build->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
         if ( false === $build->writeVariantInfoFile($variantInfoFile)) {
             $this->logger->warn("Can't store variant info.");

@@ -5,6 +5,6 @@ class SwitchOffCommand extends VirtualCommand
 {
     public function brief()
     {
-        return 'definitely go back to the system php';
+        return 'Definitely go back to the system php';
     }
 }

@@ -10,13 +10,26 @@ before_script:
   - cd /usr/local/bin && sudo curl -LO https://github.com/phpbrew/Onion/raw/master/onion && sudo chmod +x onion && cd -
   - composer install --dev --no-interaction
 
+env:
+  - TEST_SUITE=Core
+  - TEST_SUITE=Commands
+  - TEST_SUITE=Extension
+
 script:
   - source shell/bashrc
-  - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit
+  - ./scripts/compile && phpunit --testsuite $TEST_SUITE --bootstrap tests/bootstrap-phar.php # test phar
+  - phpunit --testsuite $TEST_SUITE
 
 after_script:
   - php vendor/bin/coveralls -v
+
+matrix:
+  allow_failures:
+    - php: 5.3
+  exclude:
+    - php: 5.5
+    - php: 5.6
+  fast_finish: true
 
 cache:
   - vendor

@@ -11,7 +11,7 @@ class CleanCommand extends Command
 {
     public function brief()
     {
-        return 'clean up php distribution';
+        return 'Clean up php distribution';
     }
 
     public function usage()

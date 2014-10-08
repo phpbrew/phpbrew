@@ -12,7 +12,7 @@ class SelfUpdateCommand extends Command
 
     public function brief()
     {
-        return 'self-update, default to master version';
+        return 'Self-update, default to master version';
     }
 
     public function execute($branch = 'master')
