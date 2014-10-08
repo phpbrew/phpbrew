@@ -4,6 +4,8 @@ namespace PhpBrew;
 use Exception;
 use PhpBrew\Exception\OopsException;
 
+class InvalidVariantSyntaxException extends Exception {}
+
 class VariantParser
 {
 
@@ -33,15 +35,13 @@ class VariantParser
                 continue;
             }
 
-            if (! $startExtra) {
+            if (!$startExtra) {
                 if ($arg[0] === '+' || $arg[0] === '-') {
                     if (substr($arg, 0, 2) === '--') {
-                        throw new Exception("Invalid variant option $arg");
+                        throw new InvalidVariantSyntaxException($arg);
                     }
-
                     $variantStrings = preg_split('#(?=[+-])#', $arg);
                     $variantStrings = array_filter($variantStrings);
-
                     foreach ($variantStrings as $str) {
                         if ($str[0] == '+') {
                             $a = self::splitVariantValue(substr($str, 1));
@@ -50,12 +50,11 @@ class VariantParser
                             $a = self::splitVariantValue(substr($str, 1));
                             $disabledVariants = array_merge($disabledVariants, $a);
                         } else {
-                            throw new OopsException;
+                            throw new InvalidVariantSyntaxException($str);
                         }
                     }
-
                 } else {
-                    throw new Exception("Invalid variant option $arg");
+                    throw new InvalidVariantSyntaxException($arg);
                 }
             } else {
                 $extra[] = $arg;
