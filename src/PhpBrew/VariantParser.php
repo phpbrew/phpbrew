@@ -68,26 +68,26 @@ class VariantParser
         );
     }
 
-    public static function revealCommandArguments($info)
+
+    /**
+     * Reveal the variants info to command arguments
+     */
+    public static function revealCommandArguments(array $info)
     {
         $out = '';
 
         foreach ($info['enabled_variants'] as $k => $v) {
             $out .= '+' . $k;
-
             if (! is_bool($v)) {
                 $out .= '=' . $v . ' ';
             }
         }
-
         if (!empty($info['disabled_variants'])) {
             $out .= " " . '-' . join('-', array_keys($info['disabled_variants']));
         }
-
         if (!empty($info['extra_options'])) {
             $out .= " " . '-- ' . join(' ', $info['extra_options']);
         }
-
         return $out;
     }
 

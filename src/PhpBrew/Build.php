@@ -42,7 +42,7 @@ class Build implements Serializable
     {
         $this->version = $version;
         $this->name = $alias ? $alias : $version;
-        $this->settings = new BuildSettings();
+        $this->settings = new BuildSettings;
         if ($prefix) {
             $this->setInstallPrefix($prefix);
             // TODO: in future, we only stores build meta information, and that
@@ -53,6 +53,10 @@ class Build implements Serializable
             if (file_exists($variantFile)) {
                 $this->settings->loadVariantInfoFile($variantFile);
             }
+        } else {
+            // TODO: find the install prefix automatically
+
+
         }
     }
 
@@ -218,8 +222,7 @@ class Build implements Serializable
         $prefix = Config::getVersionBuildPrefix($name);
         if (file_exists($prefix)) {
             // a installation exists
-            $build = new self($prefix);
-            return $build;
+            return new self($name, NULL, $prefix);
         }
         return null;
     }

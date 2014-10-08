@@ -8,13 +8,13 @@ class InstallCommandTest extends CommandTestCase
         return new PhpBrew\Console;
     }
 
-
     public function testInstallCommand()
     {
         // suppress output messages
-        ob_start();
-        ok($this->runCommand('phpbrew install 5.4 +default'));
-        ob_end_clean();
+        //  ob_start();
+        ok($this->runCommand('phpbrew -d install 5.4.29 +default+iconv+intl'));
+        ok($this->runCommand('phpbrew -d install --like 5.4.29 5.5 +intl'));
+        // ob_end_clean();
     }
 }
 
