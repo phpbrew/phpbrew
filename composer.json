@@ -25,8 +25,7 @@
     "require-dev": {
         "corneltek/phpunit-testmore": "dev-master",
         "corneltek/universal": "*",
-        "cbednarski/pharcc": "0.2.*",
-        "satooshi/php-coveralls": "dev-master"
+        "cbednarski/pharcc": "0.2.*"
     },
     "autoload": {
         "psr-0": {
