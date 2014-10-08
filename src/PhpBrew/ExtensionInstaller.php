@@ -29,7 +29,7 @@ class ExtensionInstaller
     {
         $url = $this->findPeclPackageUrl($packageName, $version);
         $downloader = new Downloader\UrlDownloader($this->logger);
-        $basename = $downloader->download($url);
+        $basename = $downloader->download($url, getcwd());
         $info = pathinfo($basename);
         $extension_dir = getcwd() . "/$packageName";
 
