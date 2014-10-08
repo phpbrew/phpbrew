@@ -179,12 +179,12 @@ class BuildSettings
      */
     public function loadVariantInfoFile($variantFile)
     {
-        if (!is_readable($variantsFile)) {
+        if (!is_readable($variantFile)) {
             throw new Exception(
-                "Can't load variant info! Variants file {$variantsFile} is not readable."
+                "Can't load variant info! Variants file {$variantFile} is not readable."
             );
         }
-        $variantInfo = unserialize(file_get_contents($variantsFile));
+        $variantInfo = unserialize(file_get_contents($variantFile));
         return $this->loadVariantInfo($variantInfo);
     }
 
