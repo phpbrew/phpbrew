@@ -38,18 +38,18 @@ class Build implements Serializable
      * @param string $alias   build alias
      * @param string $prefix  install prefix
      */
-    public function __construct($version, $alias = null, $prefix = null)
+    public function __construct($version, $alias = null, $installPrefix = null)
     {
         $this->version = $version;
         $this->name = $alias ? $alias : $version;
         $this->settings = new BuildSettings;
-        if ($prefix) {
-            $this->setInstallPrefix($prefix);
+        if ($installPrefix) {
+            $this->setInstallPrefix($installPrefix);
             // TODO: in future, we only stores build meta information, and that
             // also contains the variant info,
             // but for backward compatibility, we still need a method to handle
             // the variant info file..
-            $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+            $variantFile = $installPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
             if (file_exists($variantFile)) {
                 $this->settings->loadVariantInfoFile($variantFile);
             }

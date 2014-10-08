@@ -193,13 +193,13 @@ class InstallCommand extends Command
         // Change directory to the downloaded source directory.
         chdir($targetDir);
 
-        $buildPrefix = Config::getVersionBuildPrefix($version);
-        if (!file_exists($buildPrefix)) {
-            mkdir($buildPrefix, 0755, true);
+        $installPrefix = Config::getVersionBuildPrefix($version);
+        if (!file_exists($installPrefix)) {
+            mkdir($installPrefix, 0755, true);
         }
 
 
-        $build->setInstallPrefix($buildPrefix);
+        $build->setInstallPrefix($installPrefix);
         $build->setSourceDirectory($targetDir);
 
         $this->logger->debug('Build Directory: ' . realpath($targetDir));
@@ -209,7 +209,7 @@ class InstallCommand extends Command
         $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
 
         // Write variants info.
-        $variantInfoFile = $buildPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        $variantInfoFile = $build->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
         if ( false === $build->writeVariantInfoFile($variantInfoFile)) {
             $this->logger->warn("Can't store variant info.");
