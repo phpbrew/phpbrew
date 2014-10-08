@@ -112,16 +112,6 @@ class PhpSource
         return $versions;
     }
 
-    public static function getSvnVersions()
-    {
-        //    http://www.php.net/svn.php # svn
-        return array(
-            'php-svn-head' => array('svn' => 'https://svn.php.net/repository/php/php-src/trunk'),
-            'php-svn-5.3' => array('svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_3'),
-            'php-svn-5.4' => array('svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_4'),
-        );
-    }
-
     public static function getAllVersions($includeOld = false)
     {
         $unstables = array();
@@ -144,14 +134,7 @@ class PhpSource
             return $versions[$version];
         }
 
-        $versions = self::getSvnVersions();
-
-        if (isset($versions[$version])) {
-            return $versions[$version];
-        }
-
         $managers = self::getReleaseManagers();
-
         foreach ($managers as $id => $fullName) {
             $versions = self::getReleaseManagerVersions($id);
 
@@ -159,7 +142,6 @@ class PhpSource
                 return $versions[$version];
             }
         }
-
         return null;
     }
 }
