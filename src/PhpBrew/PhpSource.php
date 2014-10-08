@@ -121,10 +121,6 @@ class PhpSource
         return array_merge(static::getStableVersions($includeOld), $unstables);
     }
 
-    public static function getSnapshotVersions()
-    {
-        // http://snaps.php.net/php5.3-201202070630.tar.bz2
-    }
 
     public static function getVersionInfo($version, $includeOld = false)
     {
