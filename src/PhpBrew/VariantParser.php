@@ -90,37 +90,4 @@ class VariantParser
         }
         return $out;
     }
-
-    /**
-     * Returns array with the variants for the
-     * given version
-     * @param  string    $version
-     * @throws Exception
-     * @return mixed
-     */
-    public static function getInheritedVariants($version)
-    {
-        if (!preg_match('/^php-/', $version)) {
-            $version = 'php-' . $version;
-        }
-
-        $installedVersions = Config::getInstalledPhpVersions();
-
-        if (array_search($version, $installedVersions) === false) {
-            throw new Exception(
-                "Can't inherit variants from {$version} because this version is not installed!"
-            );
-        }
-        $variantsFile = Config::getVersionInstallPrefix($version)
-                      . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-
-        if (!is_readable($variantsFile)) {
-            throw new Exception(
-                "Can't inherit variant from {$version}!"
-                . "Variants file {$variantsFile} is not readable."
-            );
-        }
-
-        return unserialize(file_get_contents($variantsFile));
-    }
 }

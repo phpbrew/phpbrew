@@ -119,7 +119,6 @@ class InstallCommand extends Command
             if ($parentBuild = Build::findByName(Utils::canonicalizeVersionName($buildName))) {
                 $build->loadVariantInfo($parentBuild->settings->toArray());
             }
-            // $inheritedVariants = VariantParser::getInheritedVariants($buildName);
         }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
