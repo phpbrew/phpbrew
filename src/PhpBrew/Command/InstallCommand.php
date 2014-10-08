@@ -187,17 +187,16 @@ class InstallCommand extends Command
         $targetDir = $download->download($versionInfo['url'], $buildDir, $this->options);
 
         if (!file_exists($targetDir)) {
-            throw new Exception("Download failed.");
+            throw new Exception("Download failed, $targetDir does not exist.");
         }
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
 
-        $installPrefix = Config::getVersionBuildPrefix($version);
+        $installPrefix = Config::getVersionInstallPrefix($version);
         if (!file_exists($installPrefix)) {
             mkdir($installPrefix, 0755, true);
         }
-
 
         $build->setInstallPrefix($installPrefix);
         $build->setSourceDirectory($targetDir);

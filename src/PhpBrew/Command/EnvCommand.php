@@ -24,7 +24,7 @@ class EnvCommand extends \CLIFramework\Command
         $home = Config::getPhpbrewHome();
         $lookup = getenv('PHPBREW_LOOKUP_PREFIX');
 
-        // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
+        // $versionBuildPrefix = Config::getVersionInstallPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
         echo "export PHPBREW_ROOT=$root\n";

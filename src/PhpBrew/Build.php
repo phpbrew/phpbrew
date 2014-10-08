@@ -219,7 +219,7 @@ class Build implements Serializable
      */
     public static function findByName($name)
     {
-        $prefix = Config::getVersionBuildPrefix($name);
+        $prefix = Config::getVersionInstallPrefix($name);
         if (file_exists($prefix)) {
             // a installation exists
             return new self($name, NULL, $prefix);

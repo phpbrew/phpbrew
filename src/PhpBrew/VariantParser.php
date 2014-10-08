@@ -111,7 +111,7 @@ class VariantParser
                 "Can't inherit variants from {$version} because this version is not installed!"
             );
         }
-        $variantsFile = Config::getVersionBuildPrefix($version)
+        $variantsFile = Config::getVersionInstallPrefix($version)
                       . DIRECTORY_SEPARATOR . 'phpbrew.variants';
 
         if (!is_readable($variantsFile)) {

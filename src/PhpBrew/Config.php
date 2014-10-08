@@ -60,7 +60,7 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
-    public static function getVersionBuildPrefix($version)
+    public static function getVersionInstallPrefix($version)
     {
         return self::getBuildPrefix() . DIRECTORY_SEPARATOR . $version;
     }
@@ -75,12 +75,12 @@ class Config
      */
     public static function getVersionEtcPath($version)
     {
-        return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
+        return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
     }
 
     public static function getVersionBinPath($version)
     {
-        return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'bin';
+        return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'bin';
     }
 
     public static function getInstalledPhpVersions()

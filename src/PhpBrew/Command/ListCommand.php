@@ -30,7 +30,7 @@ class ListCommand extends \CLIFramework\Command
         }
 
         foreach ($versions as $version) {
-            $versionPrefix = Config::getVersionBuildPrefix($version);
+            $versionPrefix = Config::getVersionInstallPrefix($version);
 
             if ($currentVersion == $version) {
                 printf('* %-15s', $version);
