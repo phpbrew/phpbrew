@@ -35,29 +35,30 @@ class VariantParser
                 continue;
             }
 
-            if (!$startExtra) {
-                if ($arg[0] === '+' || $arg[0] === '-') {
-                    if (substr($arg, 0, 2) === '--') {
-                        throw new InvalidVariantSyntaxException($arg);
-                    }
-                    $variantStrings = preg_split('#(?=[+-])#', $arg);
-                    $variantStrings = array_filter($variantStrings);
-                    foreach ($variantStrings as $str) {
-                        if ($str[0] == '+') {
-                            $a = self::splitVariantValue(substr($str, 1));
-                            $enabledVariants = array_merge($enabledVariants, $a);
-                        } elseif ($str[0] == '-') {
-                            $a = self::splitVariantValue(substr($str, 1));
-                            $disabledVariants = array_merge($disabledVariants, $a);
-                        } else {
-                            throw new InvalidVariantSyntaxException($str);
-                        }
-                    }
-                } else {
+            if ($startExtra) {
+                $extra[] = $arg;
+                continue;
+            }
+
+            if ($arg[0] === '+' || $arg[0] === '-') {
+                if (substr($arg, 0, 2) === '--') {
                     throw new InvalidVariantSyntaxException($arg);
                 }
+                $variantStrings = preg_split('#(?=[+-])#', $arg);
+                $variantStrings = array_filter($variantStrings);
+                foreach ($variantStrings as $str) {
+                    if ($str[0] == '+') {
+                        $a = self::splitVariantValue(substr($str, 1));
+                        $enabledVariants = array_merge($enabledVariants, $a);
+                    } elseif ($str[0] == '-') {
+                        $a = self::splitVariantValue(substr($str, 1));
+                        $disabledVariants = array_merge($disabledVariants, $a);
+                    } else {
+                        throw new InvalidVariantSyntaxException($str);
+                    }
+                }
             } else {
-                $extra[] = $arg;
+                throw new InvalidVariantSyntaxException($arg);
             }
         }
         return array(
