@@ -16,15 +16,6 @@ class PhpSource
         return version_compare($version1, $version2, '>') ? -1 : 1;
     }
 
-    public static function getReleaseManagers()
-    {
-        return array(
-            'stas' => 'Stanislav Malyshev',
-            'dsp' => 'David Soria Parra',
-            // 'tyrael' => 'Ferenc Kovács'
-        );
-    }
-
     public static function readFromUrl($url)
     {
         if (isset($_SERVER['http_proxy'])) {
@@ -40,30 +31,7 @@ class PhpSource
         } else {
             $streamContext = null;
         }
-
         return @file_get_contents($url, false, $streamContext);
-    }
-
-    public static function getReleaseManagerVersions($id)
-    {
-        $baseUrl = "http://downloads.php.net/$id/";
-        $html = self::readFromUrl($baseUrl);
-        $dom = new DOMDocument;
-        if(false !== $html) $dom->loadHtml($html);
-        $items = $dom->getElementsByTagName('a');
-        $versions = array();
-
-        foreach ($items as $item) {
-            $href = $item->getAttribute('href');
-
-            if (preg_match('/php-(.*?)\.tar\.bz2$/', $href, $regs)) {
-                $version = $regs[1];
-                $link = $baseUrl . $href;
-                $versions[ 'php-' . $version] = array( 'url' => $link );
-            }
-        }
-
-        return $versions;
     }
 
     public static function getStableVersions($includeOld = false)
@@ -114,29 +82,14 @@ class PhpSource
 
     public static function getAllVersions($includeOld = false)
     {
-        $unstables = array();
-        foreach(static::getReleaseManagers() as $id => $manager)
-            $unstables = array_merge($unstables, static::getReleaseManagerVersions($id));
-
-        return array_merge(static::getStableVersions($includeOld), $unstables);
+        return array_merge(static::getStableVersions($includeOld));
     }
-
 
     public static function getVersionInfo($version, $includeOld = false)
     {
         $versions = self::getStableVersions($includeOld);
-
         if (isset($versions[$version])) {
             return $versions[$version];
-        }
-
-        $managers = self::getReleaseManagers();
-        foreach ($managers as $id => $fullName) {
-            $versions = self::getReleaseManagerVersions($id);
-
-            if (isset($versions[$version])) {
-                return $versions[$version];
-            }
         }
         return null;
     }
