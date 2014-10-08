@@ -18,7 +18,7 @@ class VariantParser
         return array( $str => true );
     }
 
-    public static function parseCommandArguments(array $args, array $inheritedVariants = array())
+    public static function parseCommandArguments(array $args)
     {
         $extra = array();
 
@@ -60,34 +60,6 @@ class VariantParser
             } else {
                 $extra[] = $arg;
             }
-        }
-
-        // inherit variants
-        if (isset($inheritedVariants['enabled_variants'])
-            && is_array($inheritedVariants['enabled_variants'])
-        ) {
-            $enabledVariants = array_merge(
-                $inheritedVariants['enabled_variants'],
-                $enabledVariants
-            );
-        }
-
-        if (isset($inheritedVariants['disabled_variants'])
-            && is_array($inheritedVariants['disabled_variants'])
-        ) {
-            $disabledVariants = array_merge(
-                $inheritedVariants['disabled_variants'],
-                $disabledVariants
-            );
-        }
-
-        if (isset($inheritedVariants['extra_options'])
-            && is_array($inheritedVariants['extra_options'])
-        ) {
-            $extra = array_merge(
-                $inheritedVariants['extra_options'],
-                $extra
-            );
         }
         return array(
             'enabled_variants' => $enabledVariants,
