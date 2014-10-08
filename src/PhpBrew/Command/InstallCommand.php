@@ -116,7 +116,7 @@ class InstallCommand extends Command
 
         // find inherited variants
         if ($buildName = $this->options->like) {
-            if ($parentBuild = Build::findByName($buildName)) {
+            if ($parentBuild = Build::findByName(Utils::canonicalizeVersionName($buildName))) {
                 $build->loadVariantInfo($parentBuild->settings->toArray());
             }
             // $inheritedVariants = VariantParser::getInheritedVariants($buildName);
