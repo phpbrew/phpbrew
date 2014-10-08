@@ -1,8 +1,6 @@
 <?php
 namespace PhpBrew;
-
 use Exception;
-use PhpBrew\Exception\OopsException;
 
 class InvalidVariantSyntaxException extends Exception {}
 
