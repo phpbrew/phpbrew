@@ -147,7 +147,7 @@ class VariantBuilder
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
         $this->variants['xmlrpc'] = '--with-xmlrpc';
-        $this->variants['pcre'] = function ($build, $prefix = null) {
+        $this->variants['pcre'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return array("--with-pcre-regex=$prefix", "--with-pcre-dir=$prefix");
             }
@@ -159,7 +159,7 @@ class VariantBuilder
             return array("--with-pcre-regex");
         };
 
-        $this->variants['mhash'] = function ($build, $prefix = null) {
+        $this->variants['mhash'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return "--with-mhash=$prefix";
             }
@@ -171,7 +171,7 @@ class VariantBuilder
             return "--with-mhash"; // let autotool to find it.
         };
 
-        $this->variants['mcrypt'] = function ($build, $prefix = null) {
+        $this->variants['mcrypt'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return "--with-mcrypt=$prefix";
             }
@@ -183,7 +183,7 @@ class VariantBuilder
             return "--with-mcrypt"; // let autotool to find it.
         };
 
-        $this->variants['zlib'] = function ($build) {
+        $this->variants['zlib'] = function (Build $build) {
             if ($prefix = Utils::findIncludePrefix('zlib.h')) {
                 return '--with-zlib=' . $prefix;
             }
@@ -191,7 +191,7 @@ class VariantBuilder
             return null;
         };
 
-        $this->variants['curl'] = function ($build, $prefix = null) {
+        $this->variants['curl'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return "--with-curl=$prefix";
             }
@@ -207,7 +207,7 @@ class VariantBuilder
             return null;
         };
 
-        $this->variants['readline'] = function ($build, $prefix = null) {
+        $this->variants['readline'] = function (Build $build, $prefix = null) {
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 $opts = array();
                 $opts[] = '--with-readline=' . $prefix;
@@ -222,7 +222,7 @@ class VariantBuilder
             return '--with-readline';
         };
 
-        $this->variants['gd'] = function ($build, $prefix = null) use ($self) {
+        $this->variants['gd'] = function (Build $build, $prefix = null) use ($self) {
             $opts = array();
 
             // it looks like gd won't be compiled without "shared"
@@ -262,7 +262,7 @@ class VariantBuilder
         /**
          * with icu
          */
-        $this->variants['icu'] = function ($build, $val = null) use ($self) {
+        $this->variants['icu'] = function (Build $build, $val = null) use ($self) {
             if ($val) {
                 return '--with-icu-dir=' . $val;
             }
@@ -287,7 +287,7 @@ class VariantBuilder
          *
          * On ubuntu you need to install libssl-dev
          */
-        $this->variants['openssl'] = function ($build, $val = null) use ($self) {
+        $this->variants['openssl'] = function (Build $build, $val = null) use ($self) {
             if ($val) {
                 return "--with-openssl=$val";
             }
@@ -318,7 +318,7 @@ class VariantBuilder
 
         --with-mysql         // deprecated
         */
-        $this->variants['mysql'] = function ($build, $prefix = 'mysqlnd') use ($self) {
+        $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') use ($self) {
             $opts = array(
                 "--with-mysql=$prefix",
                 "--with-mysqli=$prefix"
@@ -332,7 +332,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['sqlite'] = function ($build, $prefix = null) use ($self) {
+        $this->variants['sqlite'] = function (Build $build, $prefix = null) use ($self) {
             $opts = array(
                 '--with-sqlite3' . ($prefix ? "=$prefix" : '')
             );
@@ -344,7 +344,7 @@ class VariantBuilder
             return $opts;
         };
 
-        $this->variants['pgsql'] = function ($build, $prefix = null) use ($self) {
+        $this->variants['pgsql'] = function (Build $build, $prefix = null) use ($self) {
             $opts = array();
             $possibleNames = array('psql90','psql91','psql92','psql93','psql');
             while (!$prefix && ! empty($possibleNames)) {
@@ -361,7 +361,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['xml'] = function ($build) {
+        $this->variants['xml'] = function (Build $build) {
             $options = array(
                 '--enable-dom',
                 '--enable-libxml',
@@ -384,7 +384,7 @@ class VariantBuilder
         };
         $this->variants['xml_all'] = $this->variants['xml'];
 
-        $this->variants['apxs2'] = function ($build, $prefix = null) use ($self) {
+        $this->variants['apxs2'] = function (Build $build, $prefix = null) use ($self) {
             $a = '--with-apxs2';
             if ($prefix) {
                 return '--with-apxs2=' . $prefix;
@@ -402,7 +402,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['gettext'] = function ($build, $prefix = null) {
+        $this->variants['gettext'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return '--with-gettext=' . $prefix;
             }
@@ -415,7 +415,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['iconv'] = function ($build, $prefix = null) {
+        $this->variants['iconv'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return "--with-iconv=$prefix";
             }
@@ -445,7 +445,7 @@ class VariantBuilder
             return '--with-bz2';
         };
 
-        $this->variants['ipc'] = function ($build) {
+        $this->variants['ipc'] = function (Build $build) {
             return array(
                 '--enable-shmop',
                 '--enable-sysvsem',
@@ -465,7 +465,7 @@ class VariantBuilder
         $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);
     }
 
-    private function getConflict($build, $feature)
+    private function getConflict(Build $build, $feature)
     {
         if (isset($this->conflicts[ $feature ])) {
             $conflicts = array();
