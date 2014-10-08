@@ -29,7 +29,7 @@ class BuildSettings
     public function toArray() {
         return array(
             'enabled_variants' => $this->variants,
-            'disabled_variants' => $this->disableVariants,
+            'disabled_variants' => $this->disabledVariants,
             'extra_options' => $this->extraOptions,
         );
     }
@@ -193,7 +193,7 @@ class BuildSettings
     {
         return file_put_contents($variantInfoFile, serialize(array(
             'enabled_variants' => $this->variants,
-            'disabled_variants' => $this->disableVariants,
+            'disabled_variants' => $this->disabledVariants,
             'extra_options' => $this->extraOptions,
         )));
     }
@@ -204,7 +204,7 @@ class BuildSettings
     {
         if ($reset) {
             $this->variants = array();
-            $this->disableVariants = array();
+            $this->disabledVariants = array();
             $this->extraOptions = array();
         }
         if (isset($variantInfo['enabled_variants'])) {
