@@ -29,6 +29,7 @@ matrix:
   exclude:
     - php: 5.5
     - php: 5.6
+  fast_finish: true
 
 cache:
   - vendor
