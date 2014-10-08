@@ -18,14 +18,6 @@ class Build implements Serializable
 
     public $version;
 
-
-    /**
-     * Enabled variants
-     */
-    public $variants = array();
-
-    public $disabledVariants = array();
-
     /**
      * The source directory
      */
@@ -33,9 +25,9 @@ class Build implements Serializable
 
     public $installPrefix;
 
-    public $extraOptions = array();
-
     public $phpEnvironment = self::ENV_DEVELOPMENT;
+
+    public $settings;
 
     /**
      * Construct a Build object,
@@ -50,6 +42,7 @@ class Build implements Serializable
     {
         $this->version = $version;
         $this->name = $alias ? $alias : $version;
+        $this->settings = new BuildSettings();
         if ($prefix) {
             $this->setInstallPrefix($prefix);
             // TODO: in future, we only stores build meta information, and that
@@ -58,9 +51,7 @@ class Build implements Serializable
             // the variant info file..
             $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
             if (file_exists($variantFile)) {
-                $variantInfo = $this->loadVariantInfoFile($variantFile);
-
-                // Resolve the variants
+                $this->settings->loadVariantInfoFile($variantFile);
             }
         }
     }
@@ -88,131 +79,6 @@ class Build implements Serializable
     public function compareVersion($version)
     {
         return version_compare($this->version, $version);
-    }
-
-    public function enableVariants(array $settings) 
-    {
-        foreach($settings as $name => $value) {
-            $this->enableVariant($name, $value);
-        }
-    }
-
-    public function enableVariant($name, $value = null)
-    {
-        $this->variants[$name] = $value ?: true;
-    }
-
-    public function disableVariants(array $settings) 
-    {
-        foreach($settings as $name => $value) {
-            $this->disableVariant($name);
-        }
-    }
-
-    /**
-     * Disable variant.
-     *
-     * @param string $name The variant name.
-     */
-    public function disableVariant($name)
-    {
-        $this->disabledVariants[$name] = true;
-    }
-
-
-    /**
-     * Remove the enabled the variants since we've disabled 
-     * them.
-     */
-    public function resolveVariants()
-    {
-        $removed = array();
-        foreach ($this->disabledVariants as $n => $true) {
-            if ($this->hasVariant($n)) {
-                $this->removeVariant($n);
-                $removed[] = $n;
-            }
-        }
-        return $removed;
-    }
-
-    public function isDisabledVariant($name)
-    {
-        return isset($this->disabledVariants[$name]);
-    }
-
-    public function isEnabledVariant($name)
-    {
-        return isset($this->variants[$name]);
-    }
-
-    public function removeDisabledVariant($name)
-    {
-        unset($this->disabledVariants[$name]);
-    }
-
-    /**
-     * Set enabled variants.
-     *
-     * @param array $variants
-     */
-    public function setVariants($variants)
-    {
-        $this->variants = $variants;
-    }
-
-    /**
-     * Check if we've enabled the variant
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function hasVariant($name)
-    {
-        return isset($this->variants[$name]);
-    }
-
-    /**
-     * Remove enabled variant.
-     */
-    public function removeVariant($variantName)
-    {
-        unset($this->variants[$variantName]);
-    }
-
-
-    /**
-     * Get enabled variants
-     */
-    public function getVariants()
-    {
-        return $this->variants;
-    }
-
-    /**
-     * Get all disabled variants
-     */
-    public function getDisabledVariants()
-    {
-        return $this->disabledVariants;
-    }
-
-
-
-    /**
-     * Returns variant user value
-     *
-     * @param string $n variant name
-     *
-     * @return string variant value
-     */
-    public function getVariant($n)
-    {
-        if (isset($this->variants[$n])) {
-            return $this->variants[$n];
-        }
-
-        return null;
     }
 
     /**
@@ -281,23 +147,6 @@ class Build implements Serializable
     }
 
 
-    public function setExtraOptions(array $options)
-    {
-        $this->extraOptions = $options;
-    }
-
-    public function appendExtraOptions($option) {
-        $this->extraOptions[] = $option;
-    }
-
-
-
-    public function getExtraOptions()
-    {
-        return $this->extraOptions;
-    }
-
-
     /**
      * Returns a build identifier.
      */
@@ -307,8 +156,8 @@ class Build implements Serializable
 
         $names[] = $this->version;
 
-        if ($this->variants) {
-            $keys = array_keys($this->variants);
+        if ($variants = $this->getVariants()) {
+            $keys = array_keys($variants);
             sort($keys);
 
             foreach ($keys as $n) {
@@ -339,55 +188,6 @@ class Build implements Serializable
     {
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
-
-
-
-    /**
-     * Load and return the variant info from file.
-     */
-    public function loadVariantInfoFile($variantFile)
-    {
-        if (!is_readable($variantsFile)) {
-            throw new Exception(
-                "Can't load variant info! Variants file {$variantsFile} is not readable."
-            );
-        }
-        $variantInfo = unserialize(file_get_contents($variantsFile));
-        return $this->loadVariantInfo($variantInfo);
-    }
-
-
-    public function writeVariantInfoFile($variantInfoFile) 
-    {
-        return file_put_contents($variantInfoFile, serialize(array(
-            'enabled_variants' => $this->variants,
-            'disabled_variants' => $this->disableVariants,
-            'extra_options' => $this->extraOptions,
-        )));
-    }
-
-
-
-    public function loadVariantInfo(array $variantInfo, $reset = false)
-    {
-        if ($reset) {
-            $this->variants = array();
-            $this->disableVariants = array();
-            $this->extraOptions = array();
-        }
-        if (isset($variantInfo['enabled_variants'])) {
-            $this->enableVariants($variantInfo['enabled_variants']);
-        }
-        if (isset($variantInfo['disabled_variants'])) {
-            $this->disableVariants($variantInfo['disabled_variants']);
-        }
-        if (isset($variantInfo['extra_options'])) {
-            $this->extraOptions = array_merge($this->extraOptions, $variantInfo['extra_options']);
-        }
-        return $this->resolveVariants(); // Remove the enabled variants
-    }
-
-
 
     public function __set_state($data)
     {
@@ -451,5 +251,9 @@ class Build implements Serializable
     {
         $serialized = file_get_contents($file);
         $this->unserialize($serialized);
+    }
+
+    public function __call($m, $a) {
+        return call_user_func_array(array($this->settings,$m), $a);
     }
 }

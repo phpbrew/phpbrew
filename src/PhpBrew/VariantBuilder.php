@@ -3,6 +3,7 @@ namespace PhpBrew;
 
 use Exception;
 use PhpBrew\Exception\OopsException;
+use PhpBrew\Build;
 
 /**
  * VariantBuilder build variants to configure options.
@@ -481,7 +482,7 @@ class VariantBuilder
         return false;
     }
 
-    public function checkConflicts($build)
+    public function checkConflicts(Build $build)
     {
         if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion() , 'php-5.4.0') < 0) {
             if ($conflicts = $this->getConflict($build, 'apxs2')) {
@@ -525,7 +526,7 @@ class VariantBuilder
      * @throws OopsException
      * @throws Exception
      */
-    public function buildVariant($build, $feature, $userValue = null)
+    public function buildVariant(Build $build, $feature, $userValue = null)
     {
         if (!isset($this->variants[ $feature ])) {
             throw new Exception("Variant '$feature' is not defined.");
@@ -557,7 +558,7 @@ class VariantBuilder
         }
     }
 
-    public function buildDisableVariant($build, $feature, $userValue = null)
+    public function buildDisableVariant(Build $build, $feature, $userValue = null)
     {
         if (isset( $this->variants[$feature])) {
             if (in_array('-'.$feature, $this->builtList)) {
@@ -622,11 +623,10 @@ class VariantBuilder
      * @return array|void
      * @throws \Exception
      */
-    public function build($build)
+    public function build(Build $build)
     {
         $customVirtualVariants = Config::getConfigParam('variants');
-
-        foreach (array_keys($build->variants) as $variantName) {
+        foreach (array_keys($build->getVariants()) as $variantName) {
             if (isset($customVirtualVariants[$variantName])) {
                 foreach ($customVirtualVariants[$variantName] as $lib => $params) {
                     if (is_array($params)) {
