@@ -26,6 +26,14 @@ class BuildSettings
         }
     }
 
+    public function toArray() {
+        return array(
+            'enabled_variants' => $this->variants,
+            'disabled_variants' => $this->disableVariants,
+            'extra_options' => $this->extraOptions,
+        );
+    }
+
     public function enableVariants(array $settings) 
     {
         foreach($settings as $name => $value) {

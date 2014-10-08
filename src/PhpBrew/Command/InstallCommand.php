@@ -116,8 +116,10 @@ class InstallCommand extends Command
 
         // find inherited variants
         if ($buildName = $this->options->like) {
-            $inheritedVariants = VariantParser::getInheritedVariants($buildName);
-            $build->loadVariantInfo($inheritedVariants);
+            if ($parentBuild = Build::findByName($buildName)) {
+                $build->loadVariantInfo($parentBuild->settings->toArray());
+            }
+            // $inheritedVariants = VariantParser::getInheritedVariants($buildName);
         }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
