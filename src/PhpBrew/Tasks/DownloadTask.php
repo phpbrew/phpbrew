@@ -10,6 +10,10 @@ class DownloadTask extends BaseTask
 {
     public function download($url, $dir, OptionResult $options)
     {
+
+
+
+
         $downloader = new \PhpBrew\Downloader\UrlDownloader($this->getLogger());
         $targetFilePath = $downloader->download($url, $dir);
 
