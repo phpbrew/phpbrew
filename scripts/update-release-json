@@ -1,6 +1,41 @@
 #!/usr/bin/env php
 <?php
+require 'vendor/autoload.php';
+
+use CurlKit\CurlDownloader;
+use CurlKit\ReleaseList;
+use CurlKit\Progress\ProgressBar;
+
+$downloader = new CurlDownloader;
+$downloader->setProgressHandler(new ProgressBar);
+
+$url = 'http://tw2.php.net/releases/index.php?serialize=1&version=5&max=20';
+$raw = $downloader->request($url);
+$obj = unserialize($raw);
+
+/*
 $raw = file_get_contents('http://tw2.php.net/releases/index.php?serialize=1&version=5&max=100');
-$releases = unserialize($raw);
-$json = json_encode($releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-file_put_contents('php-releases.json', $json);
+*/
+
+$releaseVersions = array();
+foreach($obj as $k => $v) {
+    if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
+        list($o, $major, $minor) = $matches;
+
+        $release = array( 'version' => $k );
+        if (isset($v['announcement']['English'])) {
+            $release['announcement'] = 'http://php.net/' . $v['announcement']['English'];
+        }
+        foreach ($v['source'] as $source) {
+            if (isset($source['filename']) && preg_match('/\.tar\.bz2$/', $source['filename'])) {
+                $release['filename'] = $source['filename'];
+                $release['md5']      = $source['md5'];
+                $release['date']     = $source['date'];
+                $release['name']     = $source['name'];
+            }
+        }
+        $releaseVersions[ "$major.$minor" ][] = (object) $release;
+    }
+}
+$json = json_encode($releaseVersions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+file_put_contents('assets/releases.json', $json);
