@@ -19,7 +19,7 @@ env:
 
 script:
   - source shell/bashrc
-  - ./scripts/compile && phpunit --testsuite $TEST_SUITE --bootstrap tests/bootstrap-phar.php # test phar
+  # - ./scripts/compile && phpunit --testsuite $TEST_SUITE --bootstrap tests/bootstrap-phar.php # test phar
   - phpunit --testsuite $TEST_SUITE
 
 after_script:
