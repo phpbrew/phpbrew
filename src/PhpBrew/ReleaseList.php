@@ -110,7 +110,7 @@ class ReleaseList
         if (!$instance) {
             $instance = new self;
             if (!$instance->foundLocalReleaseList()) {
-                $instance->fetchRemoteReleaseList('feature/release-list');
+                $instance->fetchRemoteReleaseList('develop');
             } else {
                 $instance->loadLocalReleaseList();
             }
