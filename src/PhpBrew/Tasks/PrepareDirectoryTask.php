@@ -11,7 +11,7 @@ class PrepareDirectoryTask extends BaseTask
         $dirs[] = Config::getPhpbrewRoot();
         $dirs[] = Config::getPhpbrewHome();
         $dirs[] = Config::getBuildDir();
-        $dirs[] = Config::getDistDir();
+        $dirs[] = Config::getDistFilesDir();
         $dirs[] = Config::getVariantsDir();
         $dirs[] = Config::getVersionInstallPrefix($version);
         foreach($dirs as $dir) {
