@@ -30,6 +30,11 @@ class ReleaseList
         $this->loadJson(file_get_contents($file));
     }
 
+    public function getLatestPatchVersion($major, $minor) {
+        $key = "$major.$minor";
+        return current($this->releases[$key]);
+    }
+
     public function getVersions($major, $minor)
     {
         $key = "$major.$minor";
