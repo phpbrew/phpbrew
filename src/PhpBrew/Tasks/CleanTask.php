@@ -8,7 +8,6 @@ use PhpBrew\Config;
  */
 class CleanTask extends BaseTask
 {
-
     public function clean(Build $build) {
         return $this->_clean($build->getSourceDirectory());
     }

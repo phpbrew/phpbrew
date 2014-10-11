@@ -1,15 +1,20 @@
 <?php
 namespace PhpBrew\Tasks;
-
 use CLIFramework\Logger;
+use GetOptionKit\OptionResult;
 
 class BaseTask
 {
     public $logger;
 
-    public function __construct(Logger $logger)
+    public $options;
+
+    public function __construct(Logger $logger, OptionResult $options = NULL)
     {
         $this->logger = $logger;
+        if ($options) {
+            $this->options = $options;
+        }
     }
 
     public function setLogger($logger)
