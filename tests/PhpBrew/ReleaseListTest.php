@@ -13,7 +13,7 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
 
     public function testGetVersions()
     {
-        $versions = $this->releaseList->getVersions(5,3);
+        $versions = $this->releaseList->getVersions("5.3");
         ok($versions);
         ok(is_array($versions));
     }
@@ -21,10 +21,10 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
 
     public function versionDataProvider() {
         return array(
-            array(5,3),
-            array(5,4),
-            array(5,5),
-            array(5,6),
+            array("5.3"),
+            array("5.4"),
+            array("5.5"),
+            array("5.6"),
         );
     }
 

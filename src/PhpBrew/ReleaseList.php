@@ -14,6 +14,8 @@ class ReleaseList
      */
     public $releases = array();
 
+    public $versions = array();
+
     public function __construct($releases = array())
     { 
         $this->releases = $releases;
@@ -22,11 +24,18 @@ class ReleaseList
     public function setReleases(array $releases)
     {
         $this->releases = $releases;
+        foreach($this->releases as $major => $versionReleases) {
+            foreach($versionReleases as $version => $release) {
+                $this->versions[ $version ] = $release;
+            }
+        }
     }
 
     public function loadJson($json)
     {
-        $this->releases = json_decode($json, true);
+        $releases = json_decode($json, true);
+        $this->setReleases($releases);
+        return $releases;
     }
 
     public function loadJsonFile($file) 
@@ -34,17 +43,35 @@ class ReleaseList
         $this->loadJson(file_get_contents($file));
     }
 
-    public function getLatestPatchVersion($major, $minor) {
-        $key = "$major.$minor";
-        return current($this->releases[$key]);
+    public function getLatestPatchVersion($version) {
+        if (isset($this->releases[$version])) {
+            reset($this->releases[$version]);
+            return current($this->releases[$version]);
+        }
     }
 
-    public function getVersions($major, $minor)
+    public function getVersion($fullQualifiedVersion) {
+        if (isset($this->versions[$fullQualifiedVersion])) {
+            return $this->versions[$fullQualifiedVersion];
+        }
+    }
+
+    /**
+     * Get version by minor version number
+     */
+    public function getVersions($key)
     {
-        $key = "$major.$minor";
         if (isset($this->releases[$key])) {
             return $this->releases[$key];
         }
+    }
+
+    public function loadLocalReleaseList() {
+        $releaseListFile = Config::getPHPReleaseListPath();
+        if ($json = file_get_contents($releaseListFile)) {
+            return $this->loadJson($json);
+        }
+        return false;
     }
 
     public function getRemoteReleaseListUrl($branch)
@@ -61,9 +88,14 @@ class ReleaseList
         if (false === file_put_contents($localFilepath, $json)) {
             throw new Exception("Can't store release json file");
         }
-        return $this->releases = json_decode($json, true);
+        return $this->loadJson($json);
     }
 
+
+    public function foundLocalReleaseList() {
+        $releaseListFile = Config::getPHPReleaseListPath();
+        return file_exists($releaseListFile);
+    }
 }
 
 

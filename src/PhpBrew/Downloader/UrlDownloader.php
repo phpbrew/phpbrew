@@ -45,10 +45,9 @@ class UrlDownloader
         $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
 
         if (extension_loaded('curl')) {
-            $this->logger->debug('Found curl extension.');
+            $this->logger->debug('---> Found curl extension.');
             $downloader = new CurlDownloader;
             if ($this->logger->level > 0) {
-                $this->logger->debug('Using progress bar');
                 $downloader->setProgressHandler(new ProgressBar);
                 $binary = $downloader->request($url);
                 if (false === file_put_contents($targetFilePath, $binary)) {

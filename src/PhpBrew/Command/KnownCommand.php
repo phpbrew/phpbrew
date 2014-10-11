@@ -2,6 +2,7 @@
 namespace PhpBrew\Command;
 use PhpBrew\PhpSource;
 use PhpBrew\Config;
+use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
 class KnownCommand extends \CLIFramework\Command
@@ -28,15 +29,13 @@ class KnownCommand extends \CLIFramework\Command
 
     public function execute()
     {
-        $releaseListFile = Config::getPHPReleaseListPath();
+        $releaseList = new ReleaseList;
 
         $releases = array();
-        if (!file_exists($releaseListFile) || $this->options->update) {
-            // Fetch
-            $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
-            $releases = $fetchTask->fetch('feature/release-list');
+        if (!$releaseList->foundLocalReleaseList() || $this->options->update) {
+            $releases = $releaseList->fetchRemoteReleaseList('feature/release-list');
         } else {
-            $releases = json_decode(file_get_contents($releaseListFile), true);
+            $releases = $releaseList->loadLocalReleaseList();
         }
 
         foreach($releases as $majorVersion => $versions) {

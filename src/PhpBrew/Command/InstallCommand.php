@@ -18,6 +18,7 @@ use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
 use PhpBrew\Build;
 use PhpBrew\Utils;
+use PhpBrew\ReleaseList;
 use CLIFramework\Command;
 
 /*
@@ -93,20 +94,30 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
-        $version = Utils::canonicalizeVersionName($version); // Get version name in php-{version} form
-        $version = $this->getLatestMinorVersion($version, $this->options->old);
+        $releases = array();
+        $releaseList = new ReleaseList;
+        if (!$releaseList->foundLocalReleaseList()) {
+            $releases = $releaseList->fetchRemoteReleaseList('feature/release-list');
+        } else {
+            $releases = $releaseList->loadLocalReleaseList();
+        }
+        $version = preg_replace('/^php-/', '', $version);
 
-        $this->logger->debug('Fetching version info...');
-        $versionInfo = PhpSource::getVersionInfo($version, $this->options->old);
+        if (isset($releases[$version])) {
+            $versionInfo = $releaseList->getLatestPatchVersion($version);
+            $version = $versionInfo['version'];
+        } else {
+            $versionInfo = $releaseList->getVersion($version);
+        }
+
         if (!$versionInfo) {
             throw new Exception("Version $version not found.");
         }
-
-        $logger = $this->logger;
+        $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
 
         // get options and variants for building php
+        // and skip the first argument since it's the target version.
         $args = func_get_args();
-        // the first argument is the target version.
         array_shift($args);
 
         $alias = $this->options->alias ?: $version;
@@ -197,7 +208,7 @@ class InstallCommand extends Command
         }
 
         $download = new DownloadTask($this->logger, $this->options);
-        $targetDir = $download->download($versionInfo['url'], $buildDir, $this->options);
+        $targetDir = $download->download($distUrl, $buildDir, $this->options);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed, $targetDir does not exist.");
