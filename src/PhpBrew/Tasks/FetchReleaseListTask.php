@@ -12,7 +12,7 @@ class FetchReleaseListTask extends BaseTask
         $this->logger->info('===> Fetching release list...');
         $downloader = new CurlDownloader;
         $downloader->setProgressHandler(new ProgressBar);
-        $url = "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/php-releases.json";
+        $url = "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/releases.json";
         $json = $downloader->request($url);
         $localFilepath = Config::getPHPReleaseListPath();
         if (false === file_put_contents($localFilepath, $json)) {

@@ -31,7 +31,7 @@ class KnownCommand extends \CLIFramework\Command
         $releaseListFile = Config::getPHPReleaseListPath();
 
         $releases = array();
-        if (!file_exists($releaseListFile) || $this->option->update) {
+        if (!file_exists($releaseListFile) || $this->options->update) {
             // Fetch
             $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
             $releases = $fetchTask->fetch('feature/release-list');
