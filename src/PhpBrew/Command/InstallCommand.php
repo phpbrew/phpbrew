@@ -9,6 +9,7 @@ use PhpBrew\VariantParser;
 use PhpBrew\VariantBuilder;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
+use PhpBrew\Tasks\MakeCleanTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\ConfigureTask;
@@ -172,8 +173,7 @@ class InstallCommand extends Command
             $build->enableVariant('xml');
         }
 
-
-        $prepare = new PrepareDirectoryTask($this->logger);
+        $prepare = new PrepareDirectoryTask($this->logger, $this->options);
         $prepare->prepareForVersion($version);
 
         // convert patch to realpath
@@ -196,7 +196,7 @@ class InstallCommand extends Command
             mkdir($buildDir, 0755, true);
         }
 
-        $download = new DownloadTask($this->logger);
+        $download = new DownloadTask($this->logger, $this->options);
         $targetDir = $download->download($versionInfo['url'], $buildDir, $this->options);
 
         if (!file_exists($targetDir)) {
@@ -229,36 +229,36 @@ class InstallCommand extends Command
 
 
         if ($this->options->clean) {
-            $clean = new CleanTask($this->logger);
+            $clean = new MakeCleanTask($this->logger, $this->options);
             $clean->clean($build);
         }
 
         $buildLogFile = $build->getBuildLogPath();
 
-        $configure = new ConfigureTask($this->logger);
+        $configure = new ConfigureTask($this->logger, $this->options);
         $configure->configure($build, $this->options);
 
-        $buildTask = new BuildTask($this->logger);
+        $buildTask = new BuildTask($this->logger, $this->options);
         $buildTask->setLogPath($buildLogFile);
         $buildTask->build($build, $this->options);
 
         if ($this->options->{'test'}) {
-            $test = new TestTask($this->logger);
+            $test = new TestTask($this->logger, $this->options);
             $test->setLogPath($buildLogFile);
             $test->test($build, $this->options);
         }
 
-        $install = new InstallTask($this->logger);
+        $install = new InstallTask($this->logger, $this->options);
         $install->setLogPath($buildLogFile);
         $install->install($build, $this->options);
 
         if ($this->options->{'post-clean'}) {
-            $clean = new CleanTask($this->logger);
+            $clean = new MakeCleanTask($this->logger, $this->options);
             $clean->clean($build);
         }
 
         /** POST INSTALLATION **/
-        $dsym = new DSymTask($this->logger);
+        $dsym = new DSymTask($this->logger, $this->options);
         $dsym->patch($build, $this->options);
 
         // copy php-fpm config
