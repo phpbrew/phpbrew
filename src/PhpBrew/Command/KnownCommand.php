@@ -36,7 +36,7 @@ class KnownCommand extends \CLIFramework\Command
             $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
             $releases = $fetchTask->fetch('feature/release-list');
         } else {
-            $releases = json_decode(file_get_contents($releaseListFile));
+            $releases = json_decode(file_get_contents($releaseListFile), true);
         }
 
         foreach($releases as $majorVersion => $releases) {
