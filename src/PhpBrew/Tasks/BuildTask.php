@@ -13,7 +13,7 @@ class BuildTask extends BaseTask
         $this->logPath = $path;
     }
 
-    public function build(Build $build, $options)
+    public function build(Build $build)
     {
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
@@ -25,17 +25,17 @@ class BuildTask extends BaseTask
             $cmd->stdout = $build->getBuildLogPath();
         }
 
-        if ($options->nice) {
-            $cmd->nice($options->nice);
+        if ($this->options->nice) {
+            $cmd->nice($this->options->nice);
         }
 
-        if ($makeJobs = $options->{'make-jobs'}) {
+        if ($makeJobs = $this->options->{'make-jobs'}) {
             $cmd->addArg("-j{$makeJobs}");
         }
 
         $this->debug($cmd->__toString());
 
-        if (!$options->dryrun) {
+        if (!$this->options->dryrun) {
             $startTime = microtime(true);
             $code = $cmd->execute();
             if ($code != 0 )
