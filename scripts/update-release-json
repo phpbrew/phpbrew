@@ -1,22 +1,8 @@
 #!/usr/bin/env php
 <?php
 require 'vendor/autoload.php';
-
-use CurlKit\CurlDownloader;
-use CurlKit\ReleaseList;
-use CurlKit\Progress\ProgressBar;
-
-
 $raw = file_get_contents('http://tw2.php.net/releases/index.php?serialize=1&version=5&max=100');
 $obj = unserialize($raw);
-file_put_contents('assets/php-releases.json', json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-
-$downloader = new CurlDownloader;
-$downloader->setProgressHandler(new ProgressBar);
-$url = 'https://raw.githubusercontent.com/phpbrew/phpbrew/feature/release-list/assets/php-releases.json';
-$json = $downloader->request($url);
-$obj = json_decode($json, true);
 $releaseVersions = array();
 foreach($obj as $k => $v) {
     if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
@@ -39,8 +25,14 @@ foreach($obj as $k => $v) {
                 }
             }
         }
-        $releaseVersions[ "$major.$minor" ][] = (object) $release;
+        $releaseVersions[ "$major.$minor" ][] = $release;
     }
 }
+
+foreach($releaseVersions as $key => & $versions) {
+    usort($releaseVersions[$key], function($a, $b) {
+        return version_compare($b['version'], $a['version']);
+    });
+}
 $json = json_encode($releaseVersions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-file_put_contents('assets/releases.json', $json);
+file_put_contents('assets/php-releases.json', $json);
