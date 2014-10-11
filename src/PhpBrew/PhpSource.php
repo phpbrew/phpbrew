@@ -12,7 +12,6 @@ class PhpSource
         if ($version1 == $version2) {
             return 0;
         }
-
         return version_compare($version1, $version2, '>') ? -1 : 1;
     }
 
@@ -74,9 +73,7 @@ class PhpSource
                 }
             }
         }
-
         uksort($versions, array('self', 'versionCompare'));
-
         return $versions;
     }
 

@@ -25,12 +25,14 @@ foreach($obj as $k => $v) {
                 }
             }
         }
-        $releaseVersions[ "$major.$minor" ][] = $release;
+        $releaseVersions["$major.$minor"][$k] = $release;
     }
 }
+
+
 foreach($releaseVersions as $key => & $versions) {
-    usort($releaseVersions[$key], function($a, $b) {
-        return version_compare($b['version'], $a['version']);
+    uksort($releaseVersions[$key],function($a, $b) {
+        return version_compare($b, $a);
     });
 }
 $json = json_encode($releaseVersions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

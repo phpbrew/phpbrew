@@ -43,11 +43,7 @@ class KnownCommand extends \CLIFramework\Command
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
                 continue;
             }
-
-            $versions = array_map(function($r) {
-                return $r->version;
-            }, $releases);
-
+            $versions = array_keys($releases);
             if (!$this->options->more) {
                 array_splice($versions, 8);
             }
