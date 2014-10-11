@@ -48,8 +48,6 @@ class ExtensionInstaller
 
         // extract
         $this->logger->info("===> Extracting $basename...");
-        $this->logger->info("tar xf $targetFilePath");
-
         Utils::system("tar xf $targetFilePath");
         Utils::system("rm -rf $packageName");
         Utils::system("mv {$info['filename']} $packageName");
