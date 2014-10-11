@@ -29,21 +29,9 @@ class UrlDownloader
      *
      * @throws \Exception
      */
-    public function download($url, $dir, $basename = NULL)
+    public function download($url, $targetFilePath)
     {
         $this->logger->info("===> Downloading from $url");
-
-        $basename = $basename ?: $this->resolveDownloadFileName($url);
-        if (!$basename) {
-            throw new RuntimeException("Can not parse url: $url");
-        }
-
-        if (!is_writable($dir)) {
-            throw new RuntimeException("Directory is not writable: $dir");
-        }
-
-        $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
-
         if (extension_loaded('curl')) {
             $this->logger->debug('---> Found curl extension.');
             $downloader = new CurlDownloader;
@@ -83,7 +71,7 @@ class UrlDownloader
      * @return string|boolean the resolved download file name or false it
      *                            the url string can't be parsed
      */
-    protected function resolveDownloadFileName($url)
+    public function resolveDownloadFileName($url)
     {
         // Check if the url is for php source archive
         if (preg_match('/php-.+\.tar\.bz2/', $url, $parts)) {

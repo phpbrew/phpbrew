@@ -11,6 +11,7 @@ use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\MakeCleanTask;
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
+use PhpBrew\Tasks\ExtractTask;
 use PhpBrew\Tasks\ConfigureTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
@@ -61,6 +62,8 @@ class InstallCommand extends Command
 
         $opts->add('clean', 'Run make clean before building.');
 
+        $opts->add('mirror:', 'Use mirror specific site.');
+
         $opts->add('post-clean', 'Run make clean after building PHP.');
 
         $opts->add('production', 'Use production configuration');
@@ -101,7 +104,12 @@ class InstallCommand extends Command
             throw new Exception("Version $version not found.");
         }
         $version = $versionInfo['version'];
+
         $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
+        if ($mirrorSite = $this->options->mirror) {
+            // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
+            $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+        }
 
         // get options and variants for building php
         // and skip the first argument since it's the target version.
@@ -196,10 +204,15 @@ class InstallCommand extends Command
         }
 
         $download = new DownloadTask($this->logger, $this->options);
-        $targetDir = $download->download($distUrl, $buildDir, $this->options);
+        $targetFilePath = $download->download($distUrl, $versionInfo['md5'], $buildDir);
+        if (!file_exists($targetFilePath)) {
+            throw new Exception("Download failed, $targetFilePath does not exist.");
+        }
 
+        $extract = new ExtractTask($this->logger, $this->options);
+        $targetDir = $extract->extract($targetFilePath);
         if (!file_exists($targetDir)) {
-            throw new Exception("Download failed, $targetDir does not exist.");
+            throw new Exception("Extract failed, $targetDir does not exist.");
         }
 
         // Change directory to the downloaded source directory.
