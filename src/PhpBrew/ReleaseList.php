@@ -3,6 +3,12 @@ namespace PhpBrew;
 
 class ReleaseList
 {
+
+    /**
+     * $releases['5.3'] = [ {},... ]
+     * $releases['5.4'] = [ {},... ]
+     * $releases['5.5'] = [ {},... ]
+     */
     public $releases = array();
 
     public function __construct()
@@ -14,25 +20,23 @@ class ReleaseList
         $this->releases = $releases;
     }
 
-    static public function loadJson($json) {
-        $obj = json_decode($json);
-        $list = new self;
-        foreach($obj as $k => $v) {
-            if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
-                list($o, $major, $minor) = $matches;
-                $list->releases[ "$major.$minor" ][$k] = $v;
-            }
-        }
-        return $list;
+    public function loadJson($json)
+    {
+        $this->releases = json_decode($json, true);
     }
 
-    public function getReleases($major, $minor) {
+    public function loadJsonFile($file) 
+    {
+        $this->loadJson(file_get_contents($file));
+    }
+
+    public function getVersions($major, $minor)
+    {
         $key = "$major.$minor";
         if (isset($this->releases[$key])) {
             return $this->releases[$key];
         }
     }
-
 
 }
 
