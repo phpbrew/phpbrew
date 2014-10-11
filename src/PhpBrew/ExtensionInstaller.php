@@ -25,27 +25,40 @@ class ExtensionInstaller
         return $url . '.tgz';
     }
 
+    /**
+     * When running this method, we're current in the directory of {build dir}/{version}/ext
+     *
+     * TODO: should not depends on chdir()
+     * TODO: download the file in distfiles dir.
+     */
     public function installFromPecl($packageName, $version = 'stable', $configureOptions = array())
     {
         $url = $this->findPeclPackageUrl($packageName, $version);
+        
         $downloader = new Downloader\UrlDownloader($this->logger);
-        $basename = $downloader->download($url, getcwd());
+        $basename = $downloader->resolveDownloadFileName($url);
+
+        $distDir = Config::getDistDir();
+        $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
+
+        $downloader->download($url, $targetFilePath);
+
         $info = pathinfo($basename);
-        $extension_dir = getcwd() . "/$packageName";
+        $extensionExtractedDir = getcwd() . "/$packageName";
 
         // extract
         $this->logger->info("===> Extracting $basename...");
-        Utils::system("tar xf $basename");
+        $this->logger->info("tar xf $targetFilePath");
+
+        Utils::system("tar xf $targetFilePath");
         Utils::system("rm -rf $packageName");
         Utils::system("mv {$info['filename']} $packageName");
         Utils::system("mv package.xml $packageName");
-
-        return $this->runInstall($packageName, $extension_dir, $configureOptions);
+        return $this->runInstall($packageName, $extensionExtractedDir, $configureOptions);
     }
 
     public function runInstall($packageName, $dir, $configureOptions)
     {
-
         $this->logger->info("===> Phpizing...");
 
         $directoryIterator = new \RecursiveDirectoryIterator($dir);

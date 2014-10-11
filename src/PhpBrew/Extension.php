@@ -53,7 +53,11 @@ class Extension implements ExtensionInterface
             $this->logger->debug("Extension path $path");
             $xml = $installer->runInstall($name, $path, $options);
         } else {
-            chdir(dirname($path));
+            $extDir = dirname($path);
+            if (!file_exists($extDir)) {
+                mkdir($extDir, 0755, true);
+            }
+            chdir($extDir);
             $xml = $installer->installFromPecl($name, $version, $options);
         }
 

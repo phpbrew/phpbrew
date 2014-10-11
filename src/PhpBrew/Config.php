@@ -50,6 +50,16 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
+    public static function getDistDir() 
+    {
+        $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'dists';
+        if (!file_exists($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        return $dir;
+    }
+
+
     public static function getPHPReleaseListPath() {
         // Release list from php.net
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';

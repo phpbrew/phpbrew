@@ -11,7 +11,7 @@
     <active>yes</active>
   </lead>
   <date>2014-10-11</date>
-  <time>18:38:05</time>
+  <time>19:53:50</time>
   <version>
     <release>1.9.2</release>
     <api>1.9.2</api>
@@ -42,9 +42,9 @@
       <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="95eaf315d990d1545a45ff7f3be416e9"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="9fe86aa9ef33bb05f828fbb2ebddb265"/>
       <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="9d9e00fa731c8b498224051e897b9e8d"/>
-      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="63f5d522fab199e44627b030163d3e1e"/>
+      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="96c65c120cadd8ae81fddf2debe4f958"/>
       <file name="src/PhpBrew/Command/KnownCommand/UnstableCommand.php" role="php" md5sum="b03f5a8ac1827e038b8bd2e07bd27ac0"/>
-      <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="8f14c6964c111c4ce3125243da427ea9"/>
+      <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="8f7ff474e34b4839d5e35c0edb5e31ca"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="124904a73e30514b709e2511cafb9657"/>
       <file name="src/PhpBrew/Command/ListIniCommand.php" role="php" md5sum="34dde98e2a31e8ac1dd9b34a6d781875"/>
       <file name="src/PhpBrew/Command/MigratedCommand.php" role="php" md5sum="6d0bcb830833b4fed28e47bf40b7bd71"/>
@@ -59,15 +59,15 @@
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="fc0cf19521af850bf33a0089371c3f7f"/>
       <file name="src/PhpBrew/Command/VirtualCommand.php" role="php" md5sum="61e3bd0062fb40f138fcb982810341b3"/>
       <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="77d549b6028f4088e9c9f9ebc9a25708"/>
-      <file name="src/PhpBrew/Config.php" role="php" md5sum="f2cb61b8841c4b43843564a6ab989298"/>
+      <file name="src/PhpBrew/Config.php" role="php" md5sum="11553195e3939d916520e638f8c3ffb8"/>
       <file name="src/PhpBrew/Console.php" role="php" md5sum="0f76c09c30dd5f005fb29c7dfc7f88de"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="fae1847a1c1636f505dcef511e9bfc10"/>
-      <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="02c65de616f7cb689d03fdaac3a945b4"/>
+      <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="4b84f2bb4563029bf9033a0fa4828ac4"/>
       <file name="src/PhpBrew/Exception/OopsException.php" role="php" md5sum="4da40913f3714a73343c59d5e077f9b0"/>
       <file name="src/PhpBrew/Exception/SystemCommandException.php" role="php" md5sum="2327f65bd13aaa4db96b19033f89f51d"/>
       <file name="src/PhpBrew/Exception/TaskFailureException.php" role="php" md5sum="cb516a841f97a64dd695856a5c3a117a"/>
-      <file name="src/PhpBrew/Extension.php" role="php" md5sum="a58b37942f3cccfd04ff2c94361775d7"/>
-      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="b04f1692c183a0110f9221d117496b41"/>
+      <file name="src/PhpBrew/Extension.php" role="php" md5sum="f70dbd562b7e19771c1c69e7d3392eed"/>
+      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="a8dfc6678b9c191d63762c9353e6d900"/>
       <file name="src/PhpBrew/ExtensionInterface.php" role="php" md5sum="337c3298e28b26660aba62c202f06c84"/>
       <file name="src/PhpBrew/ExtensionMetaAbstraction.php" role="php" md5sum="8af65c79b9fb6cb092b6a5c86e3d9482"/>
       <file name="src/PhpBrew/ExtensionMetaInterface.php" role="php" md5sum="596a2ea645cdb247504bfacb4fba4de2"/>
@@ -80,7 +80,7 @@
       <file name="src/PhpBrew/PhpBrew.php" role="php" md5sum="92034d613935567a9ef714c67945c4ad"/>
       <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="1041728fd6010ee26d68a74e6f0939c2"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="bc0897d85a892f464dd0849b50cbc864"/>
-      <file name="src/PhpBrew/ReleaseList.php" role="php" md5sum="d3e4a45a1fe3b72983bebd40a28c6ecf"/>
+      <file name="src/PhpBrew/ReleaseList.php" role="php" md5sum="29f498ccf7157a719539e87caff18d2a"/>
       <file name="src/PhpBrew/Tasks/Apxs2CheckTask.php" role="php" md5sum="19ca8816dfeab576a811beaa27f74fc5"/>
       <file name="src/PhpBrew/Tasks/Apxs2PatchTask.php" role="php" md5sum="73c9380e61aa1d74f4a251396cc9a084"/>
       <file name="src/PhpBrew/Tasks/BaseTask.php" role="php" md5sum="a28b666888131e26a8f32307959a4825"/>
@@ -88,13 +88,14 @@
       <file name="src/PhpBrew/Tasks/CleanTask.php" role="php" md5sum="61cf41441f83534cdac11cdc15117a8a"/>
       <file name="src/PhpBrew/Tasks/ConfigureTask.php" role="php" md5sum="0b5fe38d0e10f972f31b71213ca7746d"/>
       <file name="src/PhpBrew/Tasks/DefaultConfigTask.php" role="php" md5sum="678ef28c5cb2f5a0652e577c1071c3eb"/>
-      <file name="src/PhpBrew/Tasks/DownloadTask.php" role="php" md5sum="6710c168671baf6c7a243fc8e5993448"/>
+      <file name="src/PhpBrew/Tasks/DownloadTask.php" role="php" md5sum="c22157cfa34ed69b597e510254be7b17"/>
       <file name="src/PhpBrew/Tasks/DSymTask.php" role="php" md5sum="b3b51d6bcee0123be3833258a38609a1"/>
+      <file name="src/PhpBrew/Tasks/ExtractTask.php" role="php" md5sum="10a8ade075ad74d9549ee76382c1dffa"/>
       <file name="src/PhpBrew/Tasks/FetchReleaseListTask.php" role="php" md5sum="21ff75f0f8db1c7f7a995376149005e4"/>
       <file name="src/PhpBrew/Tasks/InstallTask.php" role="php" md5sum="6bf7068853d8594e1501727aab2e6ac8"/>
       <file name="src/PhpBrew/Tasks/MakeCleanTask.php" role="php" md5sum="4e3d902897a27745d46dfdced9b4b9e5"/>
       <file name="src/PhpBrew/Tasks/Patch64BitSupportTask.php" role="php" md5sum="bf81c7998b752c8249d52aed8be38553"/>
-      <file name="src/PhpBrew/Tasks/PrepareDirectoryTask.php" role="php" md5sum="96638e4d05ddb045b6514f9752b39020"/>
+      <file name="src/PhpBrew/Tasks/PrepareDirectoryTask.php" role="php" md5sum="1e34d6572d8c7800d69b9a1f3ea3c4c3"/>
       <file name="src/PhpBrew/Tasks/RemoveTask.php" role="php" md5sum="a53aacd684140a87d4e1c3a56fa6e9cf"/>
       <file name="src/PhpBrew/Tasks/TestTask.php" role="php" md5sum="4bbd1b31f62d92450c4cc98843b97ec0"/>
       <file name="src/PhpBrew/Topic/ContributionTopic.php" role="php" md5sum="aef8789e419711720f118cc7739cf453"/>
@@ -207,6 +208,7 @@
       <install name="src/PhpBrew/Tasks/DefaultConfigTask.php" as="PhpBrew/Tasks/DefaultConfigTask.php"/>
       <install name="src/PhpBrew/Tasks/DownloadTask.php" as="PhpBrew/Tasks/DownloadTask.php"/>
       <install name="src/PhpBrew/Tasks/DSymTask.php" as="PhpBrew/Tasks/DSymTask.php"/>
+      <install name="src/PhpBrew/Tasks/ExtractTask.php" as="PhpBrew/Tasks/ExtractTask.php"/>
       <install name="src/PhpBrew/Tasks/FetchReleaseListTask.php" as="PhpBrew/Tasks/FetchReleaseListTask.php"/>
       <install name="src/PhpBrew/Tasks/InstallTask.php" as="PhpBrew/Tasks/InstallTask.php"/>
       <install name="src/PhpBrew/Tasks/MakeCleanTask.php" as="PhpBrew/Tasks/MakeCleanTask.php"/>

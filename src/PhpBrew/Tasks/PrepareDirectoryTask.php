@@ -7,19 +7,18 @@ class PrepareDirectoryTask extends BaseTask
 {
     public function prepareForVersion($version)
     {
-        $home = Config::getPhpbrewRoot();
-        $buildDir = Config::getBuildDir();
-        $variantsDir = Config::getVariantsDir();
-        $buildPrefix = Config::getVersionInstallPrefix($version);
-
-        if (!file_exists($variantsDir)) {
-            mkdir($variantsDir, 0755, true);
-        }
-        if (!file_exists($buildDir)) {
-            mkdir($buildDir, 0755, true);
-        }
-        if (!file_exists($buildPrefix)) {
-            mkdir($buildPrefix, 0755, true);
+        $dirs = array();
+        $dirs[] = Config::getPhpbrewRoot();
+        $dirs[] = Config::getPhpbrewHome();
+        $dirs[] = Config::getBuildDir();
+        $dirs[] = Config::getDistDir();
+        $dirs[] = Config::getVariantsDir();
+        $dirs[] = Config::getVersionInstallPrefix($version);
+        foreach($dirs as $dir) {
+            if (!file_exists($dir)) {
+                $this->logger->debug("Creating directory $dir");
+                mkdir($dir, 0755, true);
+            }
         }
     }
 }
