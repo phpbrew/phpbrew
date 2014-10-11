@@ -1,12 +1,11 @@
 <?php
 namespace PhpBrew\Command;
-
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\PhpSource;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\DirectorySwitch;
+use PhpBrew\ReleaseList;
 use PhpBrew\Utils;
 use CLIFramework\Command;
 
@@ -39,11 +38,17 @@ class DownloadCommand extends Command
 
     public function execute($version)
     {
-        $version = Utils::canonicalizeVersionName($version); // Get version name in php-{version} form
-        $versionInfo = PhpSource::getVersionInfo($version, $this->options->old);
+
+        $version = preg_replace('/^php-/', '', $version);
+        $releaseList = ReleaseList::getReadyInstance();
+        $releases = $releaseList->getReleases();
+        $versionInfo = $releaseList->getVersion($version);
         if (!$versionInfo) {
             throw new Exception("Version $version not found.");
         }
+        $version = $versionInfo['version'];
+        $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
+
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
@@ -51,7 +56,7 @@ class DownloadCommand extends Command
         $buildDir = Config::getBuildDir();
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->download($versionInfo['url'], $buildDir, $this->options);
+        $targetDir = $download->download($distUrl, $buildDir, $this->options);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");

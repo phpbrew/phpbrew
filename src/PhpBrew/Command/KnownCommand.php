@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew\Command;
-use PhpBrew\PhpSource;
 use PhpBrew\Config;
 use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\FetchReleaseListTask;
@@ -14,7 +13,7 @@ class KnownCommand extends \CLIFramework\Command
 
     public function init()
     {
-        $this->command('unstable');
+        // $this->command('unstable');
     }
 
     /**

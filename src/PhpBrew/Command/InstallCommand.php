@@ -3,7 +3,6 @@ namespace PhpBrew\Command;
 
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\PhpSource;
 use PhpBrew\Builder;
 use PhpBrew\VariantParser;
 use PhpBrew\VariantBuilder;
@@ -94,25 +93,14 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
-        $releases = array();
-        $releaseList = new ReleaseList;
-        if (!$releaseList->foundLocalReleaseList()) {
-            $releases = $releaseList->fetchRemoteReleaseList('feature/release-list');
-        } else {
-            $releases = $releaseList->loadLocalReleaseList();
-        }
         $version = preg_replace('/^php-/', '', $version);
-
-        if (isset($releases[$version])) {
-            $versionInfo = $releaseList->getLatestPatchVersion($version);
-            $version = $versionInfo['version'];
-        } else {
-            $versionInfo = $releaseList->getVersion($version);
-        }
-
+        $releaseList = ReleaseList::getReadyInstance();
+        $releases = $releaseList->getReleases();
+        $versionInfo = $releaseList->getVersion($version);
         if (!$versionInfo) {
             throw new Exception("Version $version not found.");
         }
+        $version = $versionInfo['version'];
         $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
 
         // get options and variants for building php
@@ -351,18 +339,5 @@ Enjoy!
 
 EOT;
 
-    }
-
-    private function getLatestMinorVersion($majorVersion, $includeOld)
-    {
-        $latestMinorVersion = '';
-        foreach (array_keys(PhpSource::getAllVersions($includeOld)) as $version) {
-            if (strpos($version, $majorVersion) === 0) {
-                $latestMinorVersion = $version;
-                break;
-            }
-        }
-
-        return $latestMinorVersion;
     }
 }

@@ -50,10 +50,14 @@ class ReleaseList
         }
     }
 
-    public function getVersion($fullQualifiedVersion) {
-        if (isset($this->versions[$fullQualifiedVersion])) {
-            return $this->versions[$fullQualifiedVersion];
+    public function getVersion($version)
+    {
+        if (isset($this->releases[$version])) {
+            return $this->getLatestPatchVersion($version);
+        } elseif (isset($this->versions[$version])) {
+            return $this->versions[$version];
         }
+        return FALSE;
     }
 
     /**
@@ -91,11 +95,29 @@ class ReleaseList
         return $this->loadJson($json);
     }
 
-
     public function foundLocalReleaseList() {
         $releaseListFile = Config::getPHPReleaseListPath();
         return file_exists($releaseListFile);
     }
+
+    public function getReleases()
+    {
+        return $this->releases;
+    }
+
+    static public function getReadyInstance() {
+        static $instance;
+        if (!$instance) {
+            $instance = new self;
+            if (!$instance->foundLocalReleaseList()) {
+                $instance->fetchRemoteReleaseList('feature/release-list');
+            } else {
+                $instance->loadLocalReleaseList();
+            }
+        }
+        return $instance;
+    }
+
 }
 
 

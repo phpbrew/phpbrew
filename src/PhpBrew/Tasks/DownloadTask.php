@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew\Tasks;
-use PhpBrew\PhpSource;
 use GetOptionKit\OptionResult;
 
 /**
