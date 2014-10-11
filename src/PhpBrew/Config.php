@@ -50,7 +50,7 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
-    public static function getDistFilesDir() 
+    public static function getDistFileDir() 
     {
         $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'distfiles';
         if (!file_exists($dir)) {

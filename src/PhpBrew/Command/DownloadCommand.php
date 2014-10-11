@@ -53,14 +53,14 @@ class DownloadCommand extends Command
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->prepareForVersion($version);
 
-        $buildDir = Config::getBuildDir();
+        $distFileDir = Config::getDistFileDir();
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->download($distUrl, $buildDir, $this->options);
+        $targetDir = $download->download($distUrl, $distFileDir, $this->options);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");
         }
-        $this->logger->info("Done, please look at: $buildDir/$targetDir");
+        $this->logger->info("Done, please look at: $targetDir");
     }
 }

@@ -38,7 +38,7 @@ class ExtensionInstaller
         $downloader = new Downloader\UrlDownloader($this->logger);
         $basename = $downloader->resolveDownloadFileName($url);
 
-        $distDir = Config::getDistFilesDir();
+        $distDir = Config::getDistFileDir();
         $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
 
         $downloader->download($url, $targetFilePath);

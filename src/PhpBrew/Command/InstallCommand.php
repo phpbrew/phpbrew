@@ -203,14 +203,15 @@ class InstallCommand extends Command
             mkdir($buildDir, 0755, true);
         }
 
+        $distFileDir = Config::getDistFileDir();
         $download = new DownloadTask($this->logger, $this->options);
-        $targetFilePath = $download->download($distUrl, $versionInfo['md5'], $buildDir);
+        $targetFilePath = $download->download($distUrl, $versionInfo['md5'], $distFileDir);
         if (!file_exists($targetFilePath)) {
             throw new Exception("Download failed, $targetFilePath does not exist.");
         }
 
         $extract = new ExtractTask($this->logger, $this->options);
-        $targetDir = $extract->extract($targetFilePath);
+        $targetDir = $extract->extract($targetFilePath, $buildDir);
         if (!file_exists($targetDir)) {
             throw new Exception("Extract failed, $targetDir does not exist.");
         }
