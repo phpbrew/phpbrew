@@ -39,15 +39,16 @@ class KnownCommand extends \CLIFramework\Command
             $releases = json_decode(file_get_contents($releaseListFile), true);
         }
 
-        foreach($releases as $majorVersion => $releases) {
+        foreach($releases as $majorVersion => $versions) {
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
                 continue;
             }
-            $versions = array_keys($releases);
+            $versionList = array_keys($versions);
             if (!$this->options->more) {
-                array_splice($versions, 8);
+                array_splice($versionList, 8);
             }
-            $this->logger->writeln($this->formatter->format("{$majorVersion}:  ", 'yellow'). join(', ', $versions));
+            $this->logger->writeln($this->formatter->format("{$majorVersion}:  ", 'yellow'). join(', ', $versionList) 
+                . (!$this->options->more ? ' ...' : ''));
         }
     }
 }

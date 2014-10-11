@@ -1,5 +1,8 @@
 <?php
 namespace PhpBrew;
+use CurlKit\CurlDownloader;
+use CurlKit\Progress\ProgressBar;
+use PhpBrew\Config;
 
 class ReleaseList
 {
@@ -11,8 +14,9 @@ class ReleaseList
      */
     public $releases = array();
 
-    public function __construct()
+    public function __construct($releases = array())
     { 
+        $this->releases = $releases;
     }
 
     public function setReleases(array $releases)
@@ -41,6 +45,23 @@ class ReleaseList
         if (isset($this->releases[$key])) {
             return $this->releases[$key];
         }
+    }
+
+    public function getRemoteReleaseListUrl($branch)
+    {
+        return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/releases.json";
+    }
+
+    public function fetchRemoteReleaseList($branch = 'master') {
+        $downloader = new CurlDownloader;
+        $downloader->setProgressHandler(new ProgressBar);
+        $url = $this->getRemoteReleaseListUrl($branch);
+        $json = $downloader->request($url);
+        $localFilepath = Config::getPHPReleaseListPath();
+        if (false === file_put_contents($localFilepath, $json)) {
+            throw new Exception("Can't store release json file");
+        }
+        return $this->releases = json_decode($json, true);
     }
 
 }
