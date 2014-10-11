@@ -39,25 +39,19 @@ class KnownCommand extends \CLIFramework\Command
             $releases = json_decode(file_get_contents($releaseListFile));
         }
 
-        var_dump( $releases ); 
-
-        /*
-        $stableVersions = PhpSource::getStableVersions($this->options->old);
-        // aggregate by minor versions
-        $stableVersionsByMinorNumber = array();
-        foreach ($stableVersions as $version => $arg) {
-            if (preg_match('#php-(5\.\d+)#',$version, $regs)) {
-                $stableVersionsByMinorNumber[$regs[1]][] = str_replace('php-', '', $version);
+        foreach($releases as $majorVersion => $releases) {
+            if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
+                continue;
             }
-        }
 
-        echo "Available stable versions:\n";
-        foreach ($stableVersionsByMinorNumber as $minorVersion => $versions) {
-            if (! $this->options->more) {
+            $versions = array_map(function($r) {
+                return $r->version;
+            }, $releases);
+
+            if (!$this->options->more) {
                 array_splice($versions, 8);
             }
-            echo $this->formatter->format("{$minorVersion}+\t", 'yellow'), join(', ', $versions), "\n";
+            $this->logger->writeln($this->formatter->format("{$majorVersion}:  ", 'yellow'). join(', ', $versions));
         }
-        */
     }
 }
