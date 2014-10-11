@@ -12,10 +12,9 @@ $obj = unserialize($raw);
 file_put_contents('assets/php-releases.json', json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 
-/*
 $downloader = new CurlDownloader;
 $downloader->setProgressHandler(new ProgressBar);
-$url = 'https://raw.githubusercontent.com/phpbrew/phpbrew/feature/release-list/assets/releases.json';
+$url = 'https://raw.githubusercontent.com/phpbrew/phpbrew/feature/release-list/assets/php-releases.json';
 $json = $downloader->request($url);
 $obj = json_decode($json, true);
 $releaseVersions = array();
@@ -24,14 +23,20 @@ foreach($obj as $k => $v) {
         list($o, $major, $minor) = $matches;
         $release = array( 'version' => $k );
         if (isset($v['announcement']['English'])) {
-            $release['announcement'] = 'http://php.net/' . $v['announcement']['English'];
+            $release['announcement'] = 'http://php.net' . $v['announcement']['English'];
+        }
+
+        if (isset($v['date'])) {
+            $release['date'] = $v['date'];
         }
         foreach ($v['source'] as $source) {
             if (isset($source['filename']) && preg_match('/\.tar\.bz2$/', $source['filename'])) {
                 $release['filename'] = $source['filename'];
                 $release['md5']      = $source['md5'];
-                $release['date']     = $source['date'];
                 $release['name']     = $source['name'];
+                if (isset($source['date'])) {
+                    $release['date']     = $source['date'];
+                }
             }
         }
         $releaseVersions[ "$major.$minor" ][] = (object) $release;
@@ -39,4 +44,3 @@ foreach($obj as $k => $v) {
 }
 $json = json_encode($releaseVersions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 file_put_contents('assets/releases.json', $json);
- */
