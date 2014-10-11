@@ -28,7 +28,6 @@ foreach($obj as $k => $v) {
         $releaseVersions[ "$major.$minor" ][] = $release;
     }
 }
-
 foreach($releaseVersions as $key => & $versions) {
     usort($releaseVersions[$key], function($a, $b) {
         return version_compare($b['version'], $a['version']);

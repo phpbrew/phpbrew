@@ -50,6 +50,11 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
+    public static function getPHPReleaseListPath() {
+        // Release list from php.net
+        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
+    }
+
     /**
      * A build prefix is the prefix we specified when we install the PHP.
      *
