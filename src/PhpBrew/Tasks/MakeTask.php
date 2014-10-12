@@ -15,6 +15,7 @@ class MakeTask extends BaseTask
     public function makeAt($path, $target)
     {
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
+            $this->logger->error("Makefile not found");
             return false;
         }
         $this->logger->info("===> Make $target");
