@@ -115,8 +115,11 @@ class InstallCommand extends Command
         $args = func_get_args();
         array_shift($args);
 
+        // XXX: remove this later to make things consistent
+        $version = Utils::canonicalizeVersionName($version);
+
         // Initialize the build object, contains the information to build php.
-        $build = new Build(Utils::canonicalizeVersionName($version), $this->options->alias);
+        $build = new Build($version, $this->options->alias);
 
 
         // find inherited variants
@@ -286,7 +289,8 @@ class InstallCommand extends Command
 
 
         $this->logger->info("---> Creating php.ini");
-        $phpConfigPath = $this->options->production ? 'php.ini-production' : 'php.ini-development';
+        $phpConfigPath = $build->getSourceDirectory()
+             . DIRECTORY_SEPARATOR . ($this->options->production ? 'php.ini-production' : 'php.ini-development');
         $this->logger->info("---> Copying $phpConfigPath ");
 
         if (file_exists($phpConfigPath)) {
