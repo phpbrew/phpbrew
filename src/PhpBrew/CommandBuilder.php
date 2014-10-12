@@ -18,6 +18,8 @@ class CommandBuilder
 
     public $stderr;
 
+    public $append = true;
+
     public function __construct($script)
     {
         $this->script = $script;
@@ -81,7 +83,7 @@ class CommandBuilder
         /* can redirect stderr to stdout */
         if ($this->stdout) {
             // redirect stderr to stdout
-            $cmd[] = '>';
+            $cmd[] = '>>';
             $cmd[] = $this->stdout;
             $cmd[] = '2>&1';
         } elseif ($this->stderr) {
