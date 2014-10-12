@@ -297,7 +297,7 @@ class InstallCommand extends Command
              . DIRECTORY_SEPARATOR . ($this->options->production ? 'php.ini-production' : 'php.ini-development');
         $this->logger->info("---> Copying $phpConfigPath ");
 
-        if (file_exists($phpConfigPath)) {
+        if (file_exists($phpConfigPath) && ! $this->options->dryrun) {
             $targetConfigPath = $build->getEtcDirectory() . DIRECTORY_SEPARATOR . 'php.ini';
 
             if (file_exists($targetConfigPath)) {
