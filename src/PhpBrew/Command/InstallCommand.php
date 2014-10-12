@@ -115,9 +115,6 @@ class InstallCommand extends Command
         $args = func_get_args();
         array_shift($args);
 
-        // XXX: remove this later to make things consistent
-        $version = Utils::canonicalizeVersionName($version);
-
         // Initialize the build object, contains the information to build php.
         $build = new Build($version, $this->options->alias);
 
@@ -181,7 +178,7 @@ class InstallCommand extends Command
         }
 
         $prepare = new PrepareDirectoryTask($this->logger, $this->options);
-        $prepare->prepareForVersion($version);
+        $prepare->run($build);
 
         // convert patch to realpath
         if ($this->options->patch) {
@@ -219,11 +216,11 @@ class InstallCommand extends Command
         // Change directory to the downloaded source directory.
         chdir($targetDir);
 
-        $installPrefix = Config::getVersionInstallPrefix($version);
+
+        $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         if (!file_exists($installPrefix)) {
             mkdir($installPrefix, 0755, true);
         }
-
         $build->setInstallPrefix($installPrefix);
         $build->setSourceDirectory($targetDir);
 

@@ -3,6 +3,7 @@ namespace PhpBrew;
 use PhpBrew\Version;
 use Exception;
 use Serializable;
+use PhpBrew\Utils;
 
 /**
  * A build object contains version information,
@@ -40,6 +41,9 @@ class Build implements Serializable
      */
     public function __construct($version, $alias = null, $installPrefix = null)
     {
+        // Canonicalize the versionName to php-{version}
+        $version = Utils::canonicalizeVersionName($version);
+
         $this->version = $version;
         $this->name = $alias ? $alias : $version;
         $this->settings = new BuildSettings;
