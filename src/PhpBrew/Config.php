@@ -70,14 +70,14 @@ class Config
      *
      * @return string
      */
-    public static function getBuildPrefix()
+    public static function getInstallPrefix()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
     public static function getVersionInstallPrefix($version)
     {
-        return self::getBuildPrefix() . DIRECTORY_SEPARATOR . $version;
+        return self::getInstallPrefix() . DIRECTORY_SEPARATOR . $version;
     }
 
 

@@ -22,7 +22,7 @@ class InitCommand extends \CLIFramework\Command
         $root = Config::getPhpbrewRoot();
         $home = Config::getPhpbrewHome();
         $buildDir = Config::getBuildDir();
-        $buildPrefix = Config::getBuildPrefix();
+        $buildPrefix = Config::getInstallPrefix();
         // $versionBuildPrefix = Config::getVersionInstallPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 

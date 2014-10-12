@@ -164,7 +164,7 @@ class InstallCommand extends Command
                 'zip' => true,
                 'openssl' => 'yes',
             ));
-            $this->logger->notice("You haven't used any '+' build variant. A default set of extensions will be installed:");
+            $this->logger->notice("You haven't set any variant. A default set of extensions will be installed for the minimum requirement:");
             $this->logger->notice('[' . implode(', ', array_keys($build->getVariants())) . ']');
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
         }
