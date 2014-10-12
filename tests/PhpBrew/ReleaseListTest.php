@@ -8,7 +8,7 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->releaseList = new ReleaseList;
-        $this->releaseList->loadJsonFile('assets/releases.json');
+        $this->releaseList->loadJsonFile('assets/php-releases.json');
     }
 
     public function testGetVersions()
