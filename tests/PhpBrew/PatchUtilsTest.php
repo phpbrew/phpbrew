@@ -13,9 +13,8 @@ class PatchUtilsTest extends PHPUnit_Framework_TestCase
 +bbb
 
 PATCH;
-        ok(false !== file_put_contents('tests/a.txt', "aaa\n"));
-        $ret = PatchUtils::applyFileStdin('tests/a.txt', $diff, $output);
-        ok($ret == 0);
+        file_put_contents('tests/a.txt', "aaa\n");
+        $this->assertSame(0, PatchUtils::applyFileStdin('tests/a.txt', $diff, $output));
         unlink('tests/a.txt');
     }
 }
