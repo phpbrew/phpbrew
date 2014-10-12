@@ -107,14 +107,16 @@ class ReleaseList
 
     static public function getReadyInstance() {
         static $instance;
-        if (!$instance) {
-            $instance = new self;
-            if (!$instance->foundLocalReleaseList()) {
-                $instance->fetchRemoteReleaseList('develop');
-            } else {
-                $instance->loadLocalReleaseList();
-            }
+        if ($instance) {
+            return $instance;
         }
+        $instance = new self;
+        if ($instance->foundLocalReleaseList()) {
+            $instance->loadLocalReleaseList();
+        } else {
+            $instance->fetchRemoteReleaseList('develop');
+        }
+        var_dump( $instance ); 
         return $instance;
     }
 
