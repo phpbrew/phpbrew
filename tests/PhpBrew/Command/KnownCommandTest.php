@@ -11,11 +11,11 @@ class KnownCommandTest extends CommandTestCase
     public function testKnownCommand()
     {
         ob_start();
-        ok($this->runCommand('phpbrew known --update'));
-        ok($this->runCommand('phpbrew known -u'));
-        ok($this->runCommand('phpbrew known'));
-        ok($this->runCommand('phpbrew known --more'));
-        ok($this->runCommand('phpbrew known --old --more'));
+        $this->assertTrue($this->runCommand('phpbrew known --update'));
+        $this->assertTrue($this->runCommand('phpbrew known -u'));
+        $this->assertTrue($this->runCommand('phpbrew known'));
+        $this->assertTrue($this->runCommand('phpbrew known --more'));
+        $this->assertTrue($this->runCommand('phpbrew known --old --more'));
         ob_end_clean();
     }
 }
