@@ -202,18 +202,6 @@ function phpbrew ()
             cd $chdir
             return 0
             ;;
-        clean)
-            local _VERSION=$2
-            if [[ -z $_version ]] ; then
-                _VERSION=$PHPBREW_PHP
-            fi
-            echo "Cleaning up $_VERSION build directory..."
-            local build_dir=$PHPBREW_ROOT/build/$_VERSION
-            echo "build_dir=$build_dir"
-            if [[ -e $build_dir ]] ; then
-                cd $build_dir && make clean && cd -
-            fi
-            ;;
         fpm)
             if ! [[ -z $3 ]]; then
               if [[ $3 =~ ^php- ]]; then

@@ -1,7 +1,11 @@
 <?php
 namespace PhpBrew\Command;
-use Exception;
 use PhpBrew\Tasks\CleanTask;
+use PhpBrew\Build;
+use PhpBrew\Config;
+use Exception;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 use CLIFramework\Command;
 
@@ -19,6 +23,7 @@ class CleanCommand extends Command
 
     public function options($opts)
     {
+        $opts->add('a|all','Clean up whole source directory.');
     }
 
     public function arguments($args) {
@@ -29,12 +34,29 @@ class CleanCommand extends Command
 
     public function execute($version)
     {
-        if (!preg_match('/^php-/', $version)) {
-            $version = 'php-' . $version;
-        }
-        $clean = new CleanTask($this->logger);
-        if ($clean->cleanByVersion($version)) {
-            $this->logger->info("Distribution is cleaned up. Woof! ");
+        if ($this->options->all) {
+            $buildDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $version;
+
+            if (file_exists($buildDir)) {
+                $this->logger->info("Source directory " . $buildDir . " found, deleting...");
+                $directoryIterator = new RecursiveDirectoryIterator($buildDir, RecursiveDirectoryIterator::SKIP_DOTS);
+                $it = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
+                foreach ($it as $file) {
+                    $this->logger->debug($file->getPathname());
+                    if ($file->isDir()) {
+                        rmdir($file->getPathname());
+                    } else {
+                        unlink($file->getPathname());
+                    }
+                }
+            } else {
+                $this->logger->info("Source directory " . $buildDir . " not found.");
+            }
+        } else {
+            $clean = new CleanTask($this->logger);
+            if ($clean->clean($build)) {
+                $this->logger->info("Distribution is cleaned up. Woof! ");
+            }
         }
     }
 }

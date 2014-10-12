@@ -18,13 +18,8 @@ class CleanTask extends BaseTask
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
             return false;
         }
-
-        $this->logger->info('===> Cleaning...');
-        $pwd = getcwd();
-        chdir($path);
-        system('make clean');
-        chdir($pwd);
-
+        $this->logger->info('===> Cleaning: make clean');
+        system("make -C $path clean");
         return true;
     }
 }
