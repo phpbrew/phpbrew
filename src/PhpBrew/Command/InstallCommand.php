@@ -98,7 +98,6 @@ class InstallCommand extends Command
     {
         $version = preg_replace('/^php-/', '', $version);
         $releaseList = ReleaseList::getReadyInstance();
-        $releases = $releaseList->getReleases();
         $versionInfo = $releaseList->getVersion($version);
         if (!$versionInfo) {
             throw new Exception("Version $version not found.");
