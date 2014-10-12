@@ -115,10 +115,8 @@ class InstallCommand extends Command
         $args = func_get_args();
         array_shift($args);
 
-        $alias = $this->options->alias ?: $version;
-
         // Initialize the build object, contains the information to build php.
-        $build = new Build($version, $alias);
+        $build = new Build(Utils::canonicalizeVersionName($version), $this->options->alias);
 
 
         // find inherited variants
