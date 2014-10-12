@@ -42,7 +42,7 @@ class InstallCommand extends Command
     }
 
     public function arguments($args) {
-        $args->add('version')->suggestions(array( '5.3', '5.4', '5.5' ) );
+        $args->add('version')->suggestions(array( '5.3', '5.4', '5.5', '5.6' ) );
         $args->add('variants')->multiple()->suggestions(function() {
             $variants = new VariantBuilder;
             $list = $variants->getVariantNames();
