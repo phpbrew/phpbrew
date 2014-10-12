@@ -96,6 +96,21 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
+        // convert patch to realpath
+        if ($this->options->patch) {
+            $patchPaths = array();
+            foreach ($this->options->patch as $patch) {
+                /** @var \SplFileInfo $patch */
+                $patchPath = realpath($patch);
+                if ($patchPath !== false) {
+                    $patchPaths[(string) $patch] = $patchPath;
+                }
+            }
+            // rewrite patch paths
+            $this->options->keys['patch']->value = $patchPaths;
+        }
+
+
         $version = preg_replace('/^php-/', '', $version);
         $releaseList = ReleaseList::getReadyInstance();
         $versionInfo = $releaseList->getVersion($version);
@@ -179,19 +194,6 @@ class InstallCommand extends Command
         $prepare = new PrepareDirectoryTask($this->logger, $this->options);
         $prepare->run($build);
 
-        // convert patch to realpath
-        if ($this->options->patch) {
-            $patchPaths = array();
-            foreach ($this->options->patch as $patch) {
-                /** @var \SplFileInfo $patch */
-                $patchPath = realpath($patch);
-                if ($patchPath !== false) {
-                    $patchPaths[(string) $patch] = $patchPath;
-                }
-            }
-            // rewrite patch paths
-            $this->options->keys['patch']->value = $patchPaths;
-        }
 
         // Move to to build directory, because we are going to download distribution.
         $buildDir = $this->options->{'build-dir'} ?: Config::getBuildDir();
