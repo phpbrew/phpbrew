@@ -26,7 +26,7 @@ class DownloadTask extends BaseTask
         if (file_exists($targetFilePath)) {
             $this->logger->info('Checking distribution checksum...');
             $md5a = md5_file($targetFilePath);
-            if ($md5a != $md5) {
+            if ($md5 && $md5a != $md5) {
                 $this->logger->warn("Checksum mismatch: $md5a != $md5");
                 $this->logger->info("Re-Downloading...");
                 $downloader->download($url, $targetFilePath);
