@@ -116,7 +116,6 @@ class ReleaseList
         } else {
             $instance->fetchRemoteReleaseList('develop');
         }
-        var_dump( $instance ); 
         return $instance;
     }
 
