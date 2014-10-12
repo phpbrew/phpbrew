@@ -52,7 +52,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
+     * @param \GetOptionKit\OptionCollection $opts
      */
     public function options($opts)
     {
@@ -117,7 +117,6 @@ class InstallCommand extends Command
 
         // Initialize the build object, contains the information to build php.
         $build = new Build($version, $this->options->alias);
-
 
         // find inherited variants
         if ($buildName = $this->options->like) {

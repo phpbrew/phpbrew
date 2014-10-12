@@ -31,6 +31,13 @@ class Build implements Serializable
     public $settings;
 
     /**
+     * Build state
+     *
+     * @var string
+     */
+    public $state;
+
+    /**
      * Construct a Build object,
      *
      * A build object contains the information of all build options, prefix, paths... etc
@@ -59,8 +66,6 @@ class Build implements Serializable
             }
         } else {
             // TODO: find the install prefix automatically
-
-
         }
     }
 
@@ -76,8 +81,9 @@ class Build implements Serializable
 
     public function setVersion($version)
     {
-        $this->version = preg_replace('#^php-#', '', $version);
+        $this->version = Utils::canonicalizeVersionName($version);
     }
+
 
     public function getVersion()
     {
@@ -241,6 +247,41 @@ class Build implements Serializable
     {
         foreach ($data as $key => $value) {
             $this->{$key} = $value;
+        }
+    }
+
+    /**
+     * Where we store the last finished state, currently for:
+     *
+     *  - FALSE or NULL - nothing done yet.
+     *  - "download" - distribution file was downloaded.
+     *  - "extract"  - distribution file was extracted to the build directory.
+     *  - "configure" - configure was done.
+     *  - "make"      - make was done.
+     *  - "install"   - installation was done.
+     *
+     * Not used yet.
+     */
+    public function getStateFile()
+    {
+        if ($dir = $this->getSourceDirectory()) {
+            return $dir . DIRECTORY_SEPARATOR . 'phpbrew_status';
+        }
+    }
+
+    public function setState($state) {
+        $this->state = $state;
+        if ($path = $this->getStateFile()) {
+            file_put_contents($path, $state);
+        }
+    }
+
+    public function getState() {
+        if ($this->state) {
+            return $this->state;
+        }
+        if ($path = $this->getStateFile()) {
+            return $this->state = file_get_contents($path);
         }
     }
 
