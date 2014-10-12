@@ -80,7 +80,7 @@ class ReleaseList
 
     public function getRemoteReleaseListUrl($branch)
     {
-        return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/releases.json";
+        return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/php-releases.json";
     }
 
     public function fetchRemoteReleaseList($branch = 'master') {
