@@ -35,6 +35,7 @@ class DownloadCommand extends Command
     {
         $opts->add('f|force', 'Force extraction');
         $opts->add('old', 'enable old phps (less than 5.3)');
+        $opts->add('mirror:', 'Use mirror specific site.');
     }
 
     public function execute($version)
@@ -49,6 +50,11 @@ class DownloadCommand extends Command
         }
         $version = $versionInfo['version'];
         $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
+        if ($mirrorSite = $this->options->mirror) {
+            // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
+            $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+        }
+
 
         $prepare = new PrepareDirectoryTask($this->logger);
         $prepare->run();
