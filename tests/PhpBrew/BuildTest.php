@@ -15,11 +15,11 @@ class BuildTest extends PHPUnit_Framework_TestCase
         $build->disableVariant('mysql');
         $build->resolveVariants();
 
-        $this->assertSame( 1 , $build->compareVersion('5.3.0') );
-        $this->assertSame( 1 , $build->compareVersion('5.3') );
-        $this->assertSame( -1 , $build->compareVersion('5.4.0') );
-        $this->assertSame( -1 , $build->compareVersion('5.4') );
-        $this->assertSame('php-5.3.1-debug-icu-dev', $build->getIdentifier());
+        Same( 1 , $build->compareVersion('5.3.0') );
+        Same( 1 , $build->compareVersion('5.3') );
+        Same( -1 , $build->compareVersion('5.4.0') );
+        Same( -1 , $build->compareVersion('5.4') );
+        Same('php-5.3.1-debug-icu-dev', $build->getIdentifier());
     }
 
     public function testNeutralVirtualVariant()
