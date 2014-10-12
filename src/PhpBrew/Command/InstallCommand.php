@@ -60,7 +60,7 @@ class InstallCommand extends Command
 
         $opts->add('alias:', 'The alias of the installation')->valueName('alias');
 
-        $opts->add('clean', 'Run make clean before building.');
+        $opts->add('c|clean', 'Run make clean before building.');
 
         $opts->add('mirror:', 'Use mirror specific site.');
 
