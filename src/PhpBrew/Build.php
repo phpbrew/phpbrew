@@ -48,11 +48,8 @@ class Build implements Serializable
      */
     public function __construct($version, $alias = null, $installPrefix = null)
     {
-        // Canonicalize the versionName to php-{version}
-        $version = Utils::canonicalizeVersionName($version);
-
         $this->version = $version;
-        $this->name = $alias ? $alias : $version;
+        $this->name = $alias ? $alias : Utils::canonicalizeVersionName($version);
         $this->settings = new BuildSettings;
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);
@@ -81,7 +78,7 @@ class Build implements Serializable
 
     public function setVersion($version)
     {
-        $this->version = Utils::canonicalizeVersionName($version);
+        $this->version = preg_replace('#^php-#', '', $version);
     }
 
 
@@ -105,7 +102,7 @@ class Build implements Serializable
 
     public function getSourceDirectory()
     {
-        if (!file_exists($this->sourceDirectory)) {
+        if ($this->sourceDirectory && !file_exists($this->sourceDirectory)) {
             mkdir($this->sourceDirectory, 0755, true);
         }
         return $this->sourceDirectory;
@@ -264,7 +261,7 @@ class Build implements Serializable
      */
     public function getStateFile()
     {
-        if ($dir = $this->getSourceDirectory()) {
+        if ($dir = $this->getInstallPrefix()) {
             return $dir . DIRECTORY_SEPARATOR . 'phpbrew_status';
         }
     }
@@ -281,7 +278,9 @@ class Build implements Serializable
             return $this->state;
         }
         if ($path = $this->getStateFile()) {
-            return $this->state = file_get_contents($path);
+            if (file_exists($path)) {
+                return $this->state = file_get_contents($path);
+            }
         }
     }
 

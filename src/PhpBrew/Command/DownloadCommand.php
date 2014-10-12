@@ -7,6 +7,7 @@ use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\DirectorySwitch;
 use PhpBrew\ReleaseList;
 use PhpBrew\Utils;
+use PhpBrew\Build;
 use CLIFramework\Command;
 
 class DownloadCommand extends Command
@@ -49,14 +50,13 @@ class DownloadCommand extends Command
         $version = $versionInfo['version'];
         $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
 
-
         $prepare = new PrepareDirectoryTask($this->logger);
-        $prepare->prepareForVersion($version);
+        $prepare->run();
 
         $distFileDir = Config::getDistFileDir();
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->download($distUrl, $distFileDir, $this->options);
+        $targetDir = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");

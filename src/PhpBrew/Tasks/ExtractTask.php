@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 use GetOptionKit\OptionResult;
+use PhpBrew\Build;
 
 /**
  * Task to download php distributions.
@@ -11,13 +12,18 @@ class ExtractTask extends BaseTask
     /**
      * @param string $targetFilePath absolute file path
      */
-    public function extract($targetFilePath, $extractDir = NULL)
+    public function extract(Build $build, $targetFilePath, $extractDir = NULL)
     {
-        // unpack the tarball file
+        // Unpack the tarball file
         if (!$extractDir) {
             $extractDir = dirname($targetFilePath);
         }
         $extractedDir = $extractDir . DIRECTORY_SEPARATOR . basename($targetFilePath, '.tar.bz2');
+
+        if ($build->getState() == 'extract') {
+            $this->info("===> Was successfully extracted, skipping...");
+            return $extractedDir;
+        }
 
         // NOTICE: Always extract to prevent incomplete extraction
         $this->info("===> Extracting $targetFilePath to $extractedDir");
@@ -25,6 +31,7 @@ class ExtractTask extends BaseTask
         if ($ret != 0) {
             die('Extract failed.');
         }
+        $build->setState('extract');
         return $extractedDir;
         /*
          * XXX: unless we have a fast way to verify the extraction.

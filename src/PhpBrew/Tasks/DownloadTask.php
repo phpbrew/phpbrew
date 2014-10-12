@@ -3,13 +3,14 @@ namespace PhpBrew\Tasks;
 use GetOptionKit\OptionResult;
 use PhpBrew\Downloader\UrlDownloader;
 use Exception;
+use PhpBrew\Build;
 
 /**
  * Task to download php distributions.
  */
 class DownloadTask extends BaseTask
 {
-    public function download($url, $md5, $dir)
+    public function download($url, $dir, $md5 = NULL)
     {
         if (!is_writable($dir)) {
             throw new Exception("Directory is not writable: $dir");

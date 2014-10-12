@@ -133,12 +133,23 @@ class InstallCommand extends Command
         // Initialize the build object, contains the information to build php.
         $build = new Build($version, $this->options->alias);
 
+
+        $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
+        if (!file_exists($installPrefix)) {
+            mkdir($installPrefix, 0755, true);
+        }
+        $build->setInstallPrefix($installPrefix);
+
+
+
         // find inherited variants
         if ($buildName = $this->options->like) {
             if ($parentBuild = Build::findByName(Utils::canonicalizeVersionName($buildName))) {
                 $build->loadVariantInfo($parentBuild->settings->toArray());
             }
         }
+
+
 
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
@@ -203,13 +214,13 @@ class InstallCommand extends Command
 
         $distFileDir = Config::getDistFileDir();
         $download = new DownloadTask($this->logger, $this->options);
-        $targetFilePath = $download->download($distUrl, $versionInfo['md5'], $distFileDir);
+        $targetFilePath = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
         if (!file_exists($targetFilePath)) {
             throw new Exception("Download failed, $targetFilePath does not exist.");
         }
 
         $extract = new ExtractTask($this->logger, $this->options);
-        $targetDir = $extract->extract($targetFilePath, $buildDir);
+        $targetDir = $extract->extract($build, $targetFilePath, $buildDir);
         if (!file_exists($targetDir)) {
             throw new Exception("Extract failed, $targetDir does not exist.");
         }
@@ -218,11 +229,6 @@ class InstallCommand extends Command
         chdir($targetDir);
 
 
-        $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
-        if (!file_exists($installPrefix)) {
-            mkdir($installPrefix, 0755, true);
-        }
-        $build->setInstallPrefix($installPrefix);
         $build->setSourceDirectory($targetDir);
 
         $this->logger->debug('Build Directory: ' . realpath($targetDir));
