@@ -246,7 +246,7 @@ class InstallCommand extends Command
         $this->logger->debug('Source Directory: ' . realpath($targetDir));
         $build->setSourceDirectory($targetDir);
 
-        if (file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
+        if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile') ) {
             $this->logger->info("Found existing Makefile, running make clean to ensure everything is rebuilt.");
             $clean = new MakeCleanTask($this->logger, $this->options);
             $clean->clean($build);
@@ -277,16 +277,14 @@ class InstallCommand extends Command
 
         {
             $buildTask = new BuildTask($this->logger, $this->options);
-            $buildTask->setLogPath($buildLogFile);
-            $buildTask->build($build);
+            $buildTask->run($build);
             unset($buildTask); // trigger __destruct
         }
 
 
         if ($this->options->{'test'}) {
             $testTask = new TestTask($this->logger, $this->options);
-            $testTask->setLogPath($buildLogFile);
-            $testTask->test($build, $this->options);
+            $testTask->run($build);
             unset($testTask); // trigger __destruct
         }
 

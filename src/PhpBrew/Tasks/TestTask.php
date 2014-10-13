@@ -7,12 +7,7 @@ use PhpBrew\CommandBuilder;
  */
 class TestTask extends BaseTask
 {
-    public function setLogPath($path)
-    {
-        $this->logPath = $path;
-    }
-
-    public function test($nice = null)
+    public function run(Build $build, $nice = null)
     {
         $this->info("Testing...");
         $cmd = new CommandBuilder('make test');
@@ -22,10 +17,7 @@ class TestTask extends BaseTask
         }
 
         $cmd->append = true;
-
-        if ($this->logPath != null) {
-            $cmd->stdout = $this->logPath;
-        }
+        $cmd->stdout = $build->getBuildLogPath();
 
         $this->debug('' .  $cmd);
         $code = $cmd->execute();

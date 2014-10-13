@@ -8,21 +8,18 @@ use PhpBrew\Build;
  */
 class BuildTask extends BaseTask
 {
-    public function setLogPath($path)
-    {
-        $this->logPath = $path;
-    }
-
-    public function build(Build $build)
+    public function run(Build $build, $targets = array())
     {
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
-        $cmd->append = true;
 
-        if ($this->logPath) {
-            $cmd->stdout = $this->logPath;
-        } else {
-            $cmd->stdout = $build->getBuildLogPath();
+        $cmd->append = true;
+        $cmd->stdout = $build->getBuildLogPath();
+
+        if (!empty($targets)) {
+            foreach($targets as $t) {
+                $cmd->addArg($t);
+            }
         }
 
         if ($this->options->nice) {
