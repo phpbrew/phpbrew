@@ -121,8 +121,8 @@ class Builder
 
         if (Utils::support64bit() && version_compare($currentVersion, '5.3', '==')) {
             $this->logger->info("===> Applying patch file for php5.3.x on 64bit machine.");
-            system('sed -i \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
-            system('sed -i \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
+            system('sed -i.bak \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
+            system('sed -i.bak \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
         }
     }
 
