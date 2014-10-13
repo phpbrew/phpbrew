@@ -72,6 +72,13 @@ class InstallCommand extends Command
             ->isa('dir')
             ;
 
+        $opts->add('no-configure', 'Do not run configure script')
+            ;
+
+        $opts->add('no-install', 'Do not install, just run build the target')
+            ;
+
+
         $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority.')
             ->valueName('priority')
             ;
@@ -202,8 +209,15 @@ class InstallCommand extends Command
             $build->enableVariant('xml');
         }
 
-        $prepare = new PrepareDirectoryTask($this->logger, $this->options);
-        $prepare->run($build);
+        $this->logger->debug('Loading and resolving variants...');
+        $removedVariants = $build->loadVariantInfo($variantInfo);
+        $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
+
+
+        {
+            $prepareTask = new PrepareDirectoryTask($this->logger, $this->options);
+            $prepareTask->run($build);
+        }
 
 
         // Move to to build directory, because we are going to download distribution.
@@ -213,29 +227,33 @@ class InstallCommand extends Command
         }
 
         $distFileDir = Config::getDistFileDir();
-        $download = new DownloadTask($this->logger, $this->options);
-        $targetFilePath = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
+
+        $downloadTask = new DownloadTask($this->logger, $this->options);
+        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, $versionInfo['md5']);
         if (!file_exists($targetFilePath)) {
             throw new Exception("Download failed, $targetFilePath does not exist.");
         }
+        unset($downloadTask);
 
-        $extract = new ExtractTask($this->logger, $this->options);
-        $targetDir = $extract->extract($build, $targetFilePath, $buildDir);
+        $extractTask = new ExtractTask($this->logger, $this->options);
+        $targetDir = $extractTask->extract($build, $targetFilePath, $buildDir);
         if (!file_exists($targetDir)) {
             throw new Exception("Extract failed, $targetDir does not exist.");
+        }
+        unset($extractTask);
+
+        // Update build source directory 
+        $this->logger->debug('Source Directory: ' . realpath($targetDir));
+        $build->setSourceDirectory($targetDir);
+
+        if (file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
+            $this->logger->info("Found existing Makefile, running make clean to ensure everything is rebuilt.");
+            $clean = new MakeCleanTask($this->logger, $this->options);
+            $clean->clean($build);
         }
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
-
-
-        $build->setSourceDirectory($targetDir);
-
-        $this->logger->debug('Build Directory: ' . realpath($targetDir));
-
-        $this->logger->debug('Loading and resolving variants...');
-        $removedVariants = $build->loadVariantInfo($variantInfo);
-        $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
 
         // Write variants info.
         $variantInfoFile = $build->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
@@ -244,7 +262,6 @@ class InstallCommand extends Command
             $this->logger->warn("Can't store variant info.");
         }
 
-
         if ($this->options->clean) {
             $clean = new MakeCleanTask($this->logger, $this->options);
             $clean->clean($build);
@@ -252,22 +269,33 @@ class InstallCommand extends Command
 
         $buildLogFile = $build->getBuildLogPath();
 
-        $configure = new ConfigureTask($this->logger, $this->options);
-        $configure->configure($build, $this->options);
-
-        $buildTask = new BuildTask($this->logger, $this->options);
-        $buildTask->setLogPath($buildLogFile);
-        $buildTask->build($build, $this->options);
-
-        if ($this->options->{'test'}) {
-            $test = new TestTask($this->logger, $this->options);
-            $test->setLogPath($buildLogFile);
-            $test->test($build, $this->options);
+        if (!$this->options->{'no-configure'}) {
+            $configureTask = new ConfigureTask($this->logger, $this->options);
+            $configureTask->configure($build, $this->options);
+            unset($configureTask); // trigger __destruct
         }
 
-        $install = new InstallTask($this->logger, $this->options);
-        $install->setLogPath($buildLogFile);
-        $install->install($build, $this->options);
+        {
+            $buildTask = new BuildTask($this->logger, $this->options);
+            $buildTask->setLogPath($buildLogFile);
+            $buildTask->build($build);
+            unset($buildTask); // trigger __destruct
+        }
+
+
+        if ($this->options->{'test'}) {
+            $testTask = new TestTask($this->logger, $this->options);
+            $testTask->setLogPath($buildLogFile);
+            $testTask->test($build, $this->options);
+            unset($testTask); // trigger __destruct
+        }
+
+        if (!$this->options->{'no-install'}) {
+            $installTask = new InstallTask($this->logger, $this->options);
+            $installTask->setLogPath($buildLogFile);
+            $installTask->install($build, $this->options);
+            unset($installTask); // trigger __destruct
+        }
 
         if ($this->options->{'post-clean'}) {
             $clean = new MakeCleanTask($this->logger, $this->options);
@@ -275,8 +303,10 @@ class InstallCommand extends Command
         }
 
         /** POST INSTALLATION **/
-        $dsym = new DSymTask($this->logger, $this->options);
-        $dsym->patch($build, $this->options);
+        {
+            $dsym = new DSymTask($this->logger, $this->options);
+            $dsym->patch($build, $this->options);
+        }
 
         // copy php-fpm config
         $this->logger->info("---> Creating php-fpm.conf");
