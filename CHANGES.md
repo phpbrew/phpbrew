@@ -14,6 +14,7 @@ Version 1.15 - Tue Oct 14 20:23:54 2014
 - Error redirection is now improved.
 - Use JSON meta data for PHP releases.
 - Added `--update` option to `known` command, this can update the release meta data.
+- Improve command help generator.
 
 Development updates:
 
@@ -21,6 +22,9 @@ Development updates:
 - VariantParser is refactored and simplified.
 - Builder class is removed.
 - Install command class is refactored with the `Build` class.
+- Upgraded CLIFramework to 2.0.x
+- Upgraded CurlKit to 1.0
+- Upgraded PEARX 1.0.3 to fix 404 page not found when distribution file does not exist.
 
 Version 1.12 - Wed Dec 11 09:56:22 2013
 
