@@ -9,12 +9,12 @@ class EachCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'iterate and run a given command over all php versions managed by PHPBrew.';
+        return 'Iterate and run a given command over all php versions managed by PHPBrew.';
     }
 
     public function options($options)
     {
-        $options->add('d|debug', 'show debug information');
+        $options->add('d|debug', 'Show debug information');
         $options->add('y|assumeyes', 'now confirmation');
     }
 

@@ -7,10 +7,9 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
     {
         $logger = new CLIFramework\Logger;
         $installer = new PhpBrew\ExtensionInstaller($logger);
-        ok($installer);
 
         $url = $installer->findPeclPackageUrl('APC');
-        ok($url);
+        $this->assertNotEmpty($url);
     }
 
     public function packageNameProvider()
@@ -33,9 +32,11 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         chdir('tmp');
         $logger = new CLIFramework\Logger;
         $installer = new PhpBrew\ExtensionInstaller($logger);
-        ok($installer);
+
+        ob_start();
         $installedPath = $installer->installFromPecl($packageName);
-        chdir('..');
+        ob_end_clean();
+
         path_ok( $installedPath );
     }
 }

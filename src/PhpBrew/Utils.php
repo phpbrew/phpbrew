@@ -4,6 +4,12 @@ use Exception;
 
 class Utils
 {
+    public static function canonicalizeVersionName($version) {
+        if (!preg_match('/^php-/', $version)) {
+            return 'php-' . $version;
+        }
+        return $version;
+    }
 
     public static function support64bit()
     {
@@ -105,7 +111,6 @@ class Utils
         }
         return NULL;
     }
-
 
 
     public static function getLookupPrefixes()

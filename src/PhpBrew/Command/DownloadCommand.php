@@ -1,20 +1,20 @@
 <?php
 namespace PhpBrew\Command;
-
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\PhpSource;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\DirectorySwitch;
-
+use PhpBrew\ReleaseList;
+use PhpBrew\Utils;
+use PhpBrew\Build;
 use CLIFramework\Command;
 
 class DownloadCommand extends Command
 {
     public function brief()
     {
-        return 'download php';
+        return 'Download php';
     }
 
     public function usage()
@@ -35,36 +35,38 @@ class DownloadCommand extends Command
     {
         $opts->add('f|force', 'Force extraction');
         $opts->add('old', 'enable old phps (less than 5.3)');
+        $opts->add('mirror:', 'Use mirror specific site.');
     }
 
     public function execute($version)
     {
-        if (!preg_match('/^php-/', $version)) {
-            $version = 'php-' . $version;
-        }
 
-        $info = PhpSource::getVersionInfo($version, $this->options->old);
-
-        if (!$info) {
+        $version = preg_replace('/^php-/', '', $version);
+        $releaseList = ReleaseList::getReadyInstance();
+        $releases = $releaseList->getReleases();
+        $versionInfo = $releaseList->getVersion($version);
+        if (!$versionInfo) {
             throw new Exception("Version $version not found.");
         }
+        $version = $versionInfo['version'];
+        $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
+        if ($mirrorSite = $this->options->mirror) {
+            // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
+            $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+        }
+
 
         $prepare = new PrepareDirectoryTask($this->logger);
-        $prepare->prepareForVersion($version);
+        $prepare->run();
 
-        $buildDir = Config::getBuildDir();
-
-        $dw = new DirectorySwitch;
-        $dw->cd($buildDir);
+        $distFileDir = Config::getDistFileDir();
 
         $download = new DownloadTask($this->logger);
-        $targetDir = $download->downloadByVersionString($version, $this->options->old, $this->options->force);
+        $targetDir = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
 
         if (!file_exists($targetDir)) {
             throw new Exception("Download failed.");
         }
-
-        $this->logger->info("Done, please look at: $buildDir/$targetDir");
-        $dw->back();
+        $this->logger->info("Done, please look at: $targetDir");
     }
 }

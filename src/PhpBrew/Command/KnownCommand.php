@@ -1,17 +1,19 @@
 <?php
 namespace PhpBrew\Command;
-use PhpBrew\PhpSource;
+use PhpBrew\Config;
+use PhpBrew\ReleaseList;
+use PhpBrew\Tasks\FetchReleaseListTask;
 
 class KnownCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'list known PHP versions';
+        return 'List known PHP versions';
     }
 
     public function init()
     {
-        $this->registerCommand('unstable');
+        // $this->command('unstable');
     }
 
     /**
@@ -19,58 +21,32 @@ class KnownCommand extends \CLIFramework\Command
      */
     public function options($opts)
     {
-        $opts->add('more', 'show more older versions');
-        $opts->add('svn', 'list subversion phps');
-        $opts->add('old', 'list old phps (less than 5.3)');
-        $managers = PhpSource::getReleaseManagers();
-
-        foreach ($managers as $id => $fullName) {
-            $opts->add($id, "list $id phps");
-        }
+        $opts->add('more', 'Show more older versions');
+        $opts->add('old', 'List old phps (less than 5.3)');
+        $opts->add('u|update', 'Update release list');
     }
 
     public function execute()
     {
-        $stableVersions = PhpSource::getStableVersions($this->options->old);
+        $releaseList = new ReleaseList;
 
-        // aggregate by minor versions
-        $stableVersionsByMinorNumber = array();
-        foreach ($stableVersions as $version => $arg) {
-            if (preg_match('#php-(5\.\d+)#',$version, $regs)) {
-                $stableVersionsByMinorNumber[$regs[1]][] = str_replace('php-', '', $version);
-            }
+        $releases = array();
+        if (!$releaseList->foundLocalReleaseList() || $this->options->update) {
+            $releases = $releaseList->fetchRemoteReleaseList('develop');
+        } else {
+            $releases = $releaseList->loadLocalReleaseList();
         }
 
-        echo "Available stable versions:\n";
-        foreach ($stableVersionsByMinorNumber as $minorVersion => $versions) {
-            if (! $this->options->more) {
-                array_splice($versions, 8);
+        foreach($releases as $majorVersion => $versions) {
+            if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
+                continue;
             }
-            echo $this->formatter->format("{$minorVersion}+\t", 'yellow'), join(', ', $versions), "\n";
-        }
-
-        if ($this->options->svn) {
-            $svnVersions = \PhpBrew\PhpSource::getSvnVersions();
-            echo $this->formatter->format("Available svn versions:\n", 'yellow');
-
-            foreach ($svnVersions as $version => $arg) {
-                echo "  " . $version . "\n";
+            $versionList = array_keys($versions);
+            if (!$this->options->more) {
+                array_splice($versionList, 8);
             }
-        }
-
-        $managers = PhpSource::getReleaseManagers();
-        foreach ($managers as $id => $fullName) {
-            if ($this->options->$id) {
-                $versions = \PhpBrew\PhpSource::getReleaseManagerVersions($id);
-                echo $this->formatter->format(
-                    "Available versions from PHP Release Manager: $fullName\n",
-                    'yellow'
-                );
-
-                foreach ($versions as $version => $arg) {
-                    echo "  " . $version . "\n";
-                }
-            }
+            $this->logger->writeln($this->formatter->format("{$majorVersion}:  ", 'yellow'). join(', ', $versionList) 
+                . (!$this->options->more ? ' ...' : ''));
         }
     }
 }

@@ -24,11 +24,11 @@ class PathCommand extends Command
                 echo Config::getCurrentPhpBin();
                 break;
             case 'include':
-                echo Config::getVersionBuildPrefix(Config::getCurrentPhpName()) .
+                echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) .
                     DIRECTORY_SEPARATOR . 'include';
                 break;
             case 'etc':
-                echo Config::getVersionBuildPrefix(Config::getCurrentPhpName()) .
+                echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) .
                     DIRECTORY_SEPARATOR . 'etc';
                 break;
         }

@@ -53,7 +53,11 @@ class Extension implements ExtensionInterface
             $this->logger->debug("Extension path $path");
             $xml = $installer->runInstall($name, $path, $options);
         } else {
-            chdir(dirname($path));
+            $extDir = dirname($path);
+            if (!file_exists($extDir)) {
+                mkdir($extDir, 0755, true);
+            }
+            chdir($extDir);
             $xml = $installer->installFromPecl($name, $version, $options);
         }
 
@@ -67,17 +71,7 @@ class Extension implements ExtensionInterface
         $this->logger->info("===> Creating config file {$ini}");
 
         // create extension config file
-        if (file_exists($ini)) {
-            $lines = file($ini);
-
-            foreach ($lines as &$line) {
-                if (preg_match('#^;\s*((?:zend_)?extension\s*=.*)#', $line, $regs)) {
-                    $line = $regs[1];
-                }
-            }
-
-            file_put_contents($ini, join('', $lines));
-        } else {
+        if (! file_exists($ini)) {
             if ($this->meta->isZend()) {
                 $makefile = file_get_contents("$path/Makefile");
                 preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
@@ -87,7 +81,7 @@ class Extension implements ExtensionInterface
                 $content = "extension=";
             }
 
-            file_put_contents($ini, $content. $this->meta->getSourceFile());
+            file_put_contents($ini, $content .= $this->meta->getSourceFile());
             $this->logger->debug("{$ini} is created.");
         }
 

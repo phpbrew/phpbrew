@@ -1,13 +1,23 @@
 <?php
 namespace PhpBrew\Downloader;
-
+use Exception;
 use RuntimeException;
+use CLIFramework\Logger;
+
+use CurlKit\CurlDownloader;
+use CurlKit\Progress\ProgressBar;
+/*
+return new CurlDownloader(array( 
+    'progress' => new ProgressBar
+));
+ */
+
 
 class UrlDownloader
 {
     public $logger;
 
-    public function __construct($logger)
+    public function __construct(Logger $logger)
     {
         $this->logger = $logger;
     }
@@ -19,31 +29,40 @@ class UrlDownloader
      *
      * @throws \Exception
      */
-    public function download($url)
+    public function download($url, $targetFilePath)
     {
         $this->logger->info("===> Downloading from $url");
-
-        $basename = $this->resolveDownloadFileName($url);
-        if (false === $basename) {
-            throw new RuntimeException("Can not parse url: $url");
-        }
-
-        // check for wget or curl for downloading the php source archive
-        if (exec('command -v wget')) {
-            system('wget --no-check-certificate -c -O ' . $basename . ' ' . $url) !== false or die("Download failed.\n");
-        } elseif (exec('command -v curl')) {
-            system('curl -C - -# -L -o ' . $basename . ' ' . $url) !== false or die("Download failed.\n");
+        if (extension_loaded('curl')) {
+            $this->logger->debug('---> Found curl extension.');
+            $downloader = new CurlDownloader;
+            if ($this->logger->level > 0) {
+                $downloader->setProgressHandler(new ProgressBar);
+                $binary = $downloader->request($url);
+                if (false === file_put_contents($targetFilePath, $binary)) {
+                    throw new RuntimeException("Can't write file $targetFilePath");
+                }
+            }
         } else {
-            die("Download failed - neither wget nor curl was found\n");
+            $this->logger->debug('Curl extension not found, fallback to wget or curl');
+
+            // check for wget or curl for downloading the php source archive
+            // TODO: use findbin
+            if (exec('command -v wget')) {
+                system('wget --no-check-certificate -c -O ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
+            } elseif (exec('command -v curl')) {
+                system('curl -C - -# -L -o ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
+            } else {
+                throw new RuntimeException("Download failed - neither wget nor curl was found");
+            }
         }
 
-        $this->logger->info("===> $basename downloaded.");
 
-        if (!file_exists($basename)) {
-            throw new \Exception("Download failed.");
+        // Verify the downloaded file.
+        if (!file_exists($targetFilePath)) {
+            throw new RuntimeException("Download failed.");
         }
-
-        return $basename; // return the filename
+        $this->logger->info("===> $targetFilePath downloaded.");
+        return $targetFilePath; // return the filename
     }
 
     /**
@@ -52,20 +71,18 @@ class UrlDownloader
      * @return string|boolean the resolved download file name or false it
      *                            the url string can't be parsed
      */
-    protected function resolveDownloadFileName($url)
+    public function resolveDownloadFileName($url)
     {
-        // check if the url is for php source archive
-        if (preg_match('/php-.+\.tar\.bz2/', $url, $parts)) {
+        // Check if the url is for php source archive
+        if (preg_match('/php-.+\.tar\.(bz2|gz|xz)/', $url, $parts)) {
             return $parts[0];
         }
 
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
-
         if (false === $path || false === strpos($path, ".")) {
-            return false;
+            return NULL;
         }
-
         return basename($path);
     }
 }

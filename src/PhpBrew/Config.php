@@ -50,25 +50,36 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
+    public static function getDistFileDir() 
+    {
+        $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'distfiles';
+        if (!file_exists($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        return $dir;
+    }
+
+
+    public static function getPHPReleaseListPath() {
+        // Release list from php.net
+        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
+    }
+
     /**
      * A build prefix is the prefix we specified when we install the PHP.
      *
      * @return string
      */
-    public static function getBuildPrefix()
+    public static function getInstallPrefix()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
-    public static function getVersionBuildPrefix($version)
+    public static function getVersionInstallPrefix($version)
     {
-        return self::getBuildPrefix() . DIRECTORY_SEPARATOR . $version;
+        return self::getInstallPrefix() . DIRECTORY_SEPARATOR . $version;
     }
 
-    public static function getVersionBuildLogPath($version)
-    {
-        return self::getBuildDir() . DIRECTORY_SEPARATOR .  $version . DIRECTORY_SEPARATOR . 'build.log';
-    }
 
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
@@ -79,12 +90,12 @@ class Config
      */
     public static function getVersionEtcPath($version)
     {
-        return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
+        return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
     }
 
     public static function getVersionBinPath($version)
     {
-        return self::getVersionBuildPrefix($version) . DIRECTORY_SEPARATOR . 'bin';
+        return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'bin';
     }
 
     public static function getInstalledPhpVersions()

@@ -1,27 +1,27 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use PhpBrew\Build;
 use PhpBrew\Config;
 
 class PrepareDirectoryTask extends BaseTask
 {
-    public function prepareForVersion($version)
+    public function run(Build $build = NULL)
     {
-        $home = Config::getPhpbrewRoot();
-        $buildDir = Config::getBuildDir();
-        $variantsDir = Config::getVariantsDir();
-        $buildPrefix = Config::getVersionBuildPrefix($version);
-
-        if (!file_exists($variantsDir)) {
-            mkdir($variantsDir, 0755, true);
+        $dirs = array();
+        $dirs[] = Config::getPhpbrewRoot();
+        $dirs[] = Config::getPhpbrewHome();
+        $dirs[] = Config::getBuildDir();
+        $dirs[] = Config::getDistFileDir();
+        $dirs[] = Config::getVariantsDir();
+        if ($build) {
+            $dirs[] = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         }
-
-        if (!file_exists($buildDir)) {
-            mkdir($buildDir, 0755, true);
-        }
-
-        if (!file_exists($buildPrefix)) {
-            mkdir($buildPrefix, 0755, true);
+        foreach($dirs as $dir) {
+            if (!file_exists($dir)) {
+                $this->logger->debug("Creating directory $dir");
+                mkdir($dir, 0755, true);
+            }
         }
     }
 }

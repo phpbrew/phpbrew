@@ -25,27 +25,38 @@ class ExtensionInstaller
         return $url . '.tgz';
     }
 
+    /**
+     * When running this method, we're current in the directory of {build dir}/{version}/ext
+     *
+     * TODO: should not depends on chdir()
+     * TODO: download the file in distfiles dir.
+     */
     public function installFromPecl($packageName, $version = 'stable', $configureOptions = array())
     {
         $url = $this->findPeclPackageUrl($packageName, $version);
+        
         $downloader = new Downloader\UrlDownloader($this->logger);
-        $basename = $downloader->download($url);
+        $basename = $downloader->resolveDownloadFileName($url);
+
+        $distDir = Config::getDistFileDir();
+        $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
+
+        $downloader->download($url, $targetFilePath);
+
         $info = pathinfo($basename);
-        $extension_dir = getcwd() . "/$packageName";
+        $extensionExtractedDir = getcwd() . "/$packageName";
 
         // extract
         $this->logger->info("===> Extracting $basename...");
-        Utils::system("tar xf $basename");
+        Utils::system("tar xf $targetFilePath");
         Utils::system("rm -rf $packageName");
         Utils::system("mv {$info['filename']} $packageName");
         Utils::system("mv package.xml $packageName");
-
-        return $this->runInstall($packageName, $extension_dir, $configureOptions);
+        return $this->runInstall($packageName, $extensionExtractedDir, $configureOptions);
     }
 
     public function runInstall($packageName, $dir, $configureOptions)
     {
-
         $this->logger->info("===> Phpizing...");
 
         $directoryIterator = new \RecursiveDirectoryIterator($dir);
@@ -101,21 +112,18 @@ class ExtensionInstaller
 
         $this->logger->info("===> Configuring...");
 
-        Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log')
-            !== false or die('Configure failed.');
+        Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1') !== false or die('Configure failed.');
 
         $this->logger->info("===> Building...");
-        Utils::system('make >> build.log');
+        Utils::system('make >> build.log 2>&1');
 
         $this->logger->info("===> Installing...");
 
         // This function is disabled when PHP is running in safe mode.
         $output = shell_exec('make install');
-
         if (!$output) {
             throw new \Exception("Extension Install Failed.");
         }
-
         $this->logger->debug($output);
 
         $installedPath = null;

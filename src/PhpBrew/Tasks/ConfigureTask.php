@@ -3,8 +3,9 @@ namespace PhpBrew\Tasks;
 
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
-use PhpBrew\Build;
 use PhpBrew\VariantBuilder;
+use PhpBrew\Build;
+
 
 /**
  * Task to run `make`
@@ -23,7 +24,7 @@ class ConfigureTask extends BaseTask
         $this->optimizationLevel = $optimizationLevel;
     }
 
-    public function configure(Build $build, $options)
+    public function configure(Build $build)
     {
         $root        = Config::getPhpbrewRoot();
         $buildDir    = Config::getBuildDir();
@@ -61,7 +62,7 @@ class ConfigureTask extends BaseTask
         $this->debug('Enabled variants: ' . join(', ', array_keys($build->getVariants())));
         $this->debug('Disabled variants: ' . join(', ', array_keys($build->getDisabledVariants())));
 
-        foreach ((array) $options->patch as $patchPath) {
+        foreach ((array) $this->options->patch as $patchPath) {
             // copy patch file to here
             $this->info("===> Applying patch file from $patchPath ...");
 
@@ -81,10 +82,10 @@ class ConfigureTask extends BaseTask
         // let's apply patch for libphp{php version}.so (apxs)
         if ($build->isEnabledVariant('apxs2')) {
             $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
-            $apxs2Checker->check($build, $options);
+            $apxs2Checker->check($build, $this->options);
 
             $apxs2Patch = new \PhpBrew\Tasks\Apxs2PatchTask($this->logger);
-            $apxs2Patch->patch($build, $options);
+            $apxs2Patch->patch($build, $this->options);
         }
 
         foreach ($extra as $a) {
@@ -94,27 +95,36 @@ class ConfigureTask extends BaseTask
         $cmd = new CommandBuilder('./configure');
         $cmd->args($args);
 
-        $this->info("===> Configuring {$build->version}...");
-        $cmd->append = false;
-        $cmd->stdout = Config::getVersionBuildLogPath($build->name);
+        $buildLogPath = $build->getBuildLogPath();
+        if (file_exists($buildLogPath)) {
+            $newPath = $buildLogPath . '.' . filemtime($buildLogPath);
+            $this->info("Found existing build.log, renaming it to $newPath");
+            rename($buildLogPath,$newPath);
+        }
 
-        echo "\n\n";
-        echo "Use tail command to see what's going on:\n";
-        echo "   $ tail -f {$cmd->stdout}\n\n\n";
+        $this->info("===> Configuring {$build->version}...");
+        $cmd->setAppendLog(true);
+        $cmd->setLogPath($buildLogPath);
+
+        $this->logger->info("\n");
+        $this->logger->info("Use tail command to see what's going on:");
+        $this->logger->info("   $ tail -f {$cmd->stdout}\n\n");
 
         $this->debug($cmd->getCommand());
 
-        if ($options->nice) {
-            $cmd->nice($options->nice);
+        if ($this->options->nice) {
+            $cmd->nice($this->options->nice);
         }
 
-        if (!$options->dryrun) {
+        if (!$this->options->dryrun) {
             $code = $cmd->execute();
             if ($code != 0)
                 die("Configure failed. $code");
         }
 
-        $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $options);
-        $patch64bit->patch($build, $options);
+        $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $this->options);
+        if ($patch64bit->match($build)) {
+            $patch64bit->patch($build);
+        }
     }
 }

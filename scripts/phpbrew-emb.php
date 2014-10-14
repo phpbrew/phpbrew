@@ -1,6 +1,7 @@
 <?php
 $console = new PhpBrew\Console;
-global $argv;
-if (!$console->runWithTry($argv)) {
-    exit(-1);
+if (isset($argv)) {
+    if (!$console->runWithTry($argv)) {
+        exit(-1);
+    }
 }

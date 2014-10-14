@@ -9,7 +9,7 @@ class EnvCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'export environment variables';
+        return 'Export environment variables';
     }
 
     public function execute($version = null)
@@ -24,7 +24,7 @@ class EnvCommand extends \CLIFramework\Command
         $home = Config::getPhpbrewHome();
         $lookup = getenv('PHPBREW_LOOKUP_PREFIX');
 
-        // $versionBuildPrefix = Config::getVersionBuildPrefix($version);
+        // $versionBuildPrefix = Config::getVersionInstallPrefix($version);
         // $versionBinPath     = Config::getVersionBinPath($version);
 
         echo "export PHPBREW_ROOT=$root\n";

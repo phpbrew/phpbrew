@@ -11,12 +11,14 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
                 . ' -- --with-icu-dir /opt/local';
         $args = preg_split('#\s+#',$arg);
         $info = VariantParser::parseCommandArguments($args);
-        ok($info['enabled_variants']);
-        ok($info['enabled_variants']['pdo']);
-        ok($info['enabled_variants']['sqlite']);
-        ok($info['disabled_variants']);
-        ok($info['disabled_variants']['mysql']);
-        ok($info['extra_options']);
+        
+        $this->assertNotEmpty($info['enabled_variants']);
+        $this->assertNotEmpty($info['disabled_variants']);
+
+        $this->assertTrue($info['enabled_variants']['pdo']);
+        $this->assertTrue($info['enabled_variants']['sqlite']);
+        $this->assertTrue($info['disabled_variants']['mysql']);
+        $this->assertEquals($info['extra_options'], array('--with-icu-dir', '/opt/local'));
     }
 
     public function testVariantAll()
@@ -24,10 +26,12 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
         $arg = '+all -apxs2 -mysql';
         $args = preg_split('#\s+#',$arg);
         $info = VariantParser::parseCommandArguments($args);
-        ok($info['enabled_variants']);
-        ok($info['enabled_variants']['all']);
-        ok($info['disabled_variants']);
-        ok($info['disabled_variants']['mysql']);
-        ok($info['disabled_variants']['apxs2']);
+
+        $this->assertNotEmpty($info['enabled_variants']);
+        $this->assertNotEmpty($info['disabled_variants']);
+
+        $this->assertTrue($info['enabled_variants']['all']);
+        $this->assertTrue($info['disabled_variants']['mysql']);
+        $this->assertTrue($info['disabled_variants']['apxs2']);
     }
 }

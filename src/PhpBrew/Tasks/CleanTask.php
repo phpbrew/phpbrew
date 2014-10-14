@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
-
+use PhpBrew\Build;
 use PhpBrew\Config;
 
 /**
@@ -8,37 +8,19 @@ use PhpBrew\Config;
  */
 class CleanTask extends BaseTask
 {
+    public function clean(Build $build) {
+        return $this->_clean($build->getSourceDirectory());
+    }
 
-    public function clean($path)
+
+    public function _clean($path)
     {
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
             return false;
         }
-
-        $this->logger->info('===> Cleaning...');
-        $pwd = getcwd();
-        chdir($path);
-        system('make clean');
-        chdir($pwd);
-
+        $this->logger->info("===> Cleaning");
+        $this->logger->debug("make -C $path clean");
+        system("make -C $path clean");
         return true;
-    }
-
-    public function cleanByVersion($version, $verbose = false)
-    {
-        $home = Config::getPhpbrewRoot();
-        $buildPrefix = Config::getVersionBuildPrefix($version);
-
-        return $this->clean($buildPrefix);
-    }
-
-    /**
-     *
-     * @param string $buildId a build ID is a version string that followed by
-     *                        variants and options.
-     */
-    public function cleanByBuildId($buildId)
-    {
-        // XXX:
     }
 }

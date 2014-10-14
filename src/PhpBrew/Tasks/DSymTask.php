@@ -2,6 +2,7 @@
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Config;
+use PhpBrew\Build;
 
 class DSymTask extends BaseTask
 {
@@ -12,7 +13,7 @@ class DSymTask extends BaseTask
      * @param  \PhpBrew\Build $build
      * @return bool
      */
-    public function check($build)
+    public function check(Build $build)
     {
         $phpbin = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php';
         $dSYM = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php.dSYM';
@@ -20,7 +21,7 @@ class DSymTask extends BaseTask
         return !file_exists($phpbin) && file_exists($dSYM);
     }
 
-    public function patch($build, $options)
+    public function patch(Build $build, $options)
     {
         if ($this->check($build)) {
             $this->logger->info("---> Moving php.dSYM to php ");

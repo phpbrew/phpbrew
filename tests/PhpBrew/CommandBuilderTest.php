@@ -6,8 +6,7 @@ class CommandBuilderTest extends PHPUnit_Framework_TestCase
     {
         ob_start();
         $cmd = new PhpBrew\CommandBuilder('ls');
-        ok($cmd);
-        ok($cmd->execute());
+        $this->assertEquals(0, $cmd->execute());
         ob_end_clean();
     }
 }

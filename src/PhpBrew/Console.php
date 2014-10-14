@@ -11,38 +11,50 @@ class Console extends Application
     public function init()
     {
         parent::init();
-        $this->registerCommand('init');
-        $this->registerCommand('known');
-        $this->registerCommand('install');
-        $this->registerCommand('list');
-        $this->registerCommand('use');
-        $this->registerCommand('switch');
-        $this->registerCommand('each');
+        $this->command('init');
+        $this->command('known');
+        $this->command('install');
+        $this->command('list');
+        $this->command('use');
+        $this->command('switch');
+        $this->command('each');
 
-        $this->registerCommand('config');
-        $this->registerCommand('info');
-        $this->registerCommand('env');
-        $this->registerCommand('ext');
-        $this->registerCommand('variants');
-        $this->registerCommand('path');
-        $this->registerCommand('cd');
-        $this->registerCommand('download');
-        $this->registerCommand('clean');
+        $this->command('config');
+        $this->command('info');
+        $this->command('env');
+        $this->command('ext');
+        $this->command('variants');
+        $this->command('path');
+        $this->command('cd');
+        $this->command('download');
+        $this->command('clean');
 
-        $this->registerCommand('list-ini', 'PhpBrew\Command\ListIniCommand');
+        $this->command('list-ini', 'PhpBrew\Command\ListIniCommand');
 
-        $this->registerCommand('ctags', 'PhpBrew\Command\CtagsCommand');
+        $this->command('ctags', 'PhpBrew\Command\CtagsCommand');
 
-        $this->registerCommand('enable', 'PhpBrew\Command\MigratedCommand');
-        $this->registerCommand('install-ext', 'PhpBrew\Command\MigratedCommand');
+        $this->command('enable', 'PhpBrew\Command\MigratedCommand');
+        $this->command('install-ext', 'PhpBrew\Command\MigratedCommand');
 
-        $this->registerCommand('self-update', 'PhpBrew\Command\SelfUpdateCommand');
+        $this->command('self-update', 'PhpBrew\Command\SelfUpdateCommand');
 
-        $this->registerCommand('remove');
-        $this->registerCommand('purge');
+        $this->command('remove');
+        $this->command('purge');
 
-        $this->registerCommand('off');
-        $this->registerCommand('switch-off', 'PhpBrew\Command\SwitchOffCommand');
+        $this->command('off');
+        $this->command('switch-off', 'PhpBrew\Command\SwitchOffCommand');
+
+        $this->topics(array (
+            'contribution' => 'PhpBrew\\Topic\\ContributionTopic',
+            'cookbook' => 'PhpBrew\\Topic\\CookbookTopic',
+            'home' => 'PhpBrew\\Topic\\HomeTopic',
+            'migrating-from-homebrew-php-to-phpbrew' => 'PhpBrew\\Topic\\MigratingFromHomebrewPhpToPhpbrewTopic',
+            'phpbrew-ja' => 'PhpBrew\\Topic\\PHPBrewJATopic',
+            'release-process' => 'PhpBrew\\Topic\\ReleaseProcessTopic',
+            'requirement' => 'PhpBrew\\Topic\\RequirementTopic',
+            'setting-up-configuration' => 'PhpBrew\\Topic\\SettingUpConfigurationTopic',
+            'troubleshooting' => 'PhpBrew\\Topic\\TroubleshootingTopic',
+        ));
 
         $this->configure();
     }

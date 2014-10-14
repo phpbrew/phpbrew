@@ -12,17 +12,7 @@ class PhpSource
         if ($version1 == $version2) {
             return 0;
         }
-
         return version_compare($version1, $version2, '>') ? -1 : 1;
-    }
-
-    public static function getReleaseManagers()
-    {
-        return array(
-            'stas' => 'Stanislav Malyshev',
-            'dsp' => 'David Soria Parra',
-            'tyrael' => 'Ferenc Kovács'
-        );
     }
 
     public static function readFromUrl($url)
@@ -40,30 +30,7 @@ class PhpSource
         } else {
             $streamContext = null;
         }
-
         return @file_get_contents($url, false, $streamContext);
-    }
-
-    public static function getReleaseManagerVersions($id)
-    {
-        $baseUrl = "http://downloads.php.net/$id/";
-        $html = self::readFromUrl($baseUrl);
-        $dom = new DOMDocument;
-        if(false !== $html) $dom->loadHtml($html);
-        $items = $dom->getElementsByTagName('a');
-        $versions = array();
-
-        foreach ($items as $item) {
-            $href = $item->getAttribute('href');
-
-            if (preg_match('/php-(.*?)\.tar\.bz2$/', $href, $regs)) {
-                $version = $regs[1];
-                $link = $baseUrl . $href;
-                $versions[ 'php-' . $version] = array( 'url' => $link );
-            }
-        }
-
-        return $versions;
     }
 
     public static function getStableVersions($includeOld = false)
@@ -106,60 +73,21 @@ class PhpSource
                 }
             }
         }
-
         uksort($versions, array('self', 'versionCompare'));
-
         return $versions;
-    }
-
-    public static function getSvnVersions()
-    {
-        //    http://www.php.net/svn.php # svn
-        return array(
-            'php-svn-head' => array('svn' => 'https://svn.php.net/repository/php/php-src/trunk'),
-            'php-svn-5.3' => array('svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_3'),
-            'php-svn-5.4' => array('svn' => 'https://svn.php.net/repository/php/php-src/branches/PHP_5_4'),
-        );
     }
 
     public static function getAllVersions($includeOld = false)
     {
-        $unstables = array();
-        foreach(static::getReleaseManagers() as $id => $manager)
-            $unstables = array_merge($unstables, static::getReleaseManagerVersions($id));
-
-        return array_merge(static::getStableVersions($includeOld), $unstables);
-    }
-
-    public static function getSnapshotVersions()
-    {
-        // http://snaps.php.net/php5.3-201202070630.tar.bz2
+        return array_merge(static::getStableVersions($includeOld));
     }
 
     public static function getVersionInfo($version, $includeOld = false)
     {
         $versions = self::getStableVersions($includeOld);
-
         if (isset($versions[$version])) {
             return $versions[$version];
         }
-
-        $versions = self::getSvnVersions();
-
-        if (isset($versions[$version])) {
-            return $versions[$version];
-        }
-
-        $managers = self::getReleaseManagers();
-
-        foreach ($managers as $id => $fullName) {
-            $versions = self::getReleaseManagerVersions($id);
-
-            if (isset($versions[$version])) {
-                return $versions[$version];
-            }
-        }
-
         return null;
     }
 }

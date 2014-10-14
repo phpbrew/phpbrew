@@ -1,52 +1,41 @@
 <?php
 namespace PhpBrew\Tasks;
-
-use PhpBrew\PhpSource;
+use GetOptionKit\OptionResult;
+use PhpBrew\Downloader\UrlDownloader;
+use Exception;
+use PhpBrew\Build;
 
 /**
  * Task to download php distributions.
  */
 class DownloadTask extends BaseTask
 {
-
-    public function downloadByVersionString($version, $old = false, $force = false)
+    public function download($url, $dir, $md5 = NULL)
     {
-        $info = PhpSource::getVersionInfo($version, $old);
-        $targetDir = null;
-
-        if (isset($info['url'])) {
-            $targetDir = $this->downloadByUrl($info['url'], $force);
-        } elseif (isset($info['svn'])) {
-            $targetDir = $this->downloadFromSvn($info['svn']);
+        if (!is_writable($dir)) {
+            throw new Exception("Directory is not writable: $dir");
         }
 
-        return $targetDir;
-    }
+        $downloader = new UrlDownloader($this->getLogger());
+        $basename = $downloader->resolveDownloadFileName($url);
+        if (!$basename) {
+            throw new Exception("Can not parse url: $url");
+        }
+        $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
 
-    public function downloadFromSvn($svnUrl)
-    {
-        $downloader = new \PhpBrew\Downloader\SvnDownloader($this->getLogger());
-        $targetDir = $downloader->download($svnUrl);
-
-        return realpath($targetDir);
-    }
-
-    public function downloadByUrl($url, $forceExtract = false)
-    {
-        $downloader = new \PhpBrew\Downloader\UrlDownloader($this->getLogger());
-        $basename = $downloader->download($url);
-
-        // unpack the tarball file
-        $targetDir = basename($basename, '.tar.bz2');
-
-        // if we need to extract again (?)
-        if ($forceExtract || ! file_exists($targetDir . DIRECTORY_SEPARATOR . 'configure')) {
-            $this->info("===> Extracting $basename...");
-            system("tar xjf $basename") !== false or die('Extract failed.');
+        if (file_exists($targetFilePath)) {
+            $this->logger->info('Checking distribution checksum...');
+            $md5a = md5_file($targetFilePath);
+            if ($md5 && $md5a != $md5) {
+                $this->logger->warn("Checksum mismatch: $md5a != $md5");
+                $this->logger->info("Re-Downloading...");
+                $downloader->download($url, $targetFilePath);
+            } else {
+                $this->logger->info('Checksum matched: ' . $md5);
+            }
         } else {
-            $this->info("Found existing $targetDir, Skip extracting.");
+            $downloader->download($url, $targetFilePath);
         }
-
-        return realpath($targetDir);
+        return $targetFilePath;
     }
 }

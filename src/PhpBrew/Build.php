@@ -1,7 +1,9 @@
 <?php
 namespace PhpBrew;
-
+use PhpBrew\Version;
+use Exception;
 use Serializable;
+use PhpBrew\Utils;
 
 /**
  * A build object contains version information,
@@ -17,17 +19,23 @@ class Build implements Serializable
 
     public $version;
 
-    public $variants = array();
-
-    public $disabledVariants = array();
-
+    /**
+     * The source directory
+     */
     public $sourceDirectory;
 
     public $installPrefix;
 
-    public $extraOptions = array();
-
     public $phpEnvironment = self::ENV_DEVELOPMENT;
+
+    public $settings;
+
+    /**
+     * Build state
+     *
+     * @var string
+     */
+    public $state;
 
     /**
      * Construct a Build object,
@@ -35,38 +43,26 @@ class Build implements Serializable
      * A build object contains the information of all build options, prefix, paths... etc
      *
      * @param string $version build version
-     * @param string $name    build name
+     * @param string $alias   build alias
      * @param string $prefix  install prefix
      */
-    public function __construct($version, $name = null, $prefix = null)
+    public function __construct($version, $alias = null, $installPrefix = null)
     {
         $this->version = $version;
-        $this->name = $name ? $name : $version;
-        if ($prefix) {
-            $this->setInstallPrefix($prefix);
-            // read the build info from $prefix
-            /*
-            $metaFile = $prefix . DIRECTORY_SEPARATOR . 'build.meta';
-            if ( file_exists($metaFile) ) {
-                $meta = unserialize(file_get_contents($metaFile));
-                if ($meta['name']) {
-                    $this->setName($meta['name']);
-                }
-                if ($meta['version']) {
-                    $this->setVersion($meta->version);
-                }
-            }
-            */
-
+        $this->name = $alias ? $alias : Utils::canonicalizeVersionName($version);
+        $this->settings = new BuildSettings;
+        if ($installPrefix) {
+            $this->setInstallPrefix($installPrefix);
             // TODO: in future, we only stores build meta information, and that
             // also contains the variant info,
             // but for backward compatibility, we still need a method to handle
             // the variant info file..
-            $variantFile = $prefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-
+            $variantFile = $installPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
             if (file_exists($variantFile)) {
-                $this->importVariantFromFile($variantFile);
+                $this->settings->loadVariantInfoFile($variantFile);
             }
+        } else {
+            // TODO: find the install prefix automatically
         }
     }
 
@@ -75,10 +71,16 @@ class Build implements Serializable
         $this->name = $name;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function setVersion($version)
     {
         $this->version = preg_replace('#^php-#', '', $version);
     }
+
 
     public function getVersion()
     {
@@ -88,111 +90,6 @@ class Build implements Serializable
     public function compareVersion($version)
     {
         return version_compare($this->version, $version);
-    }
-
-    public function enableVariant($name, $value = null)
-    {
-        $this->variants[$name] = $value ?: true;
-    }
-
-    /**
-     * Disable variant.
-     *
-     * @param string $name The variant name.
-     */
-    public function disableVariant($name)
-    {
-        $this->disabledVariants[$name] = true;
-    }
-
-    public function resolveVariants()
-    {
-        foreach ($this->disabledVariants as $n => $true) {
-            if ($this->hasVariant($n)) {
-                $this->removeVariant($n);
-            }
-        }
-    }
-
-    public function isDisabledVariant($name)
-    {
-        return isset($this->disabledVariants[$name]);
-    }
-
-    public function isEnabledVariant($name)
-    {
-        return isset($this->variants[$name]);
-    }
-
-    public function removeDisabledVariant($name)
-    {
-        unset($this->disabledVariants[$name]);
-    }
-
-    /**
-     * Set enabled variants.
-     *
-     * @param array $variants
-     */
-    public function setVariants($variants)
-    {
-        $this->variants = $variants;
-    }
-
-    /**
-     * Check if we've enabled the variant
-     *
-     * @param  string $name
-     * @return bool
-     */
-    public function hasVariant($name)
-    {
-        return isset($this->variants[$name]);
-    }
-
-    /**
-     * Remove enabled variant.
-     */
-    public function removeVariant($variantName)
-    {
-        unset($this->variants[$variantName]);
-    }
-
-
-    /**
-     * Get enabled variants
-     */
-    public function getVariants()
-    {
-        return $this->variants;
-    }
-
-
-
-    /**
-     * Get all disabled variants
-     */
-    public function getDisabledVariants()
-    {
-        return $this->disabledVariants;
-    }
-
-
-
-    /**
-     * Returns variant user value
-     *
-     * @param string $n variant name
-     *
-     * @return string variant value
-     */
-    public function getVariant($n)
-    {
-        if (isset($this->variants[$n])) {
-            return $this->variants[$n];
-        }
-
-        return null;
     }
 
     /**
@@ -205,9 +102,17 @@ class Build implements Serializable
 
     public function getSourceDirectory()
     {
+        if ($this->sourceDirectory && !file_exists($this->sourceDirectory)) {
+            mkdir($this->sourceDirectory, 0755, true);
+        }
         return $this->sourceDirectory;
     }
 
+    public function getBuildLogPath() 
+    {
+        $dir = $this->getSourceDirectory() . DIRECTORY_SEPARATOR . 'build.log';
+        return $dir;
+    }
 
     public function setInstallPrefix($prefix)
     {
@@ -253,17 +158,6 @@ class Build implements Serializable
     }
 
 
-    public function setExtraOptions($options)
-    {
-        $this->extraOptions = $options;
-    }
-
-    public function getExtraOptions()
-    {
-        return $this->extraOptions;
-    }
-
-
     /**
      * Returns a build identifier.
      */
@@ -273,8 +167,8 @@ class Build implements Serializable
 
         $names[] = $this->version;
 
-        if ($this->variants) {
-            $keys = array_keys($this->variants);
+        if ($variants = $this->getVariants()) {
+            $keys = array_keys($variants);
             sort($keys);
 
             foreach ($keys as $n) {
@@ -306,25 +200,10 @@ class Build implements Serializable
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
 
-    public function importVariantFromFile($variantFile)
-    {
-        // XXX: not implemented yet
-        return;
-
-        if (file_exists($variantFile)) {
-            $info = unserialize(file_get_contents($variantFile));
-            var_dump($info);
-            // echo VariantParser::revealCommandArguments($info);
-            // XXX: handle info
-        }
-    }
-
-
     public function __set_state($data)
     {
         $build = new self($this->version);
         $build->import($data);
-
         return $build;
     }
 
@@ -347,24 +226,11 @@ class Build implements Serializable
      */
     public static function findByName($name)
     {
-        $prefix = Config::getVersionBuildPrefix($name);
-
+        $prefix = Config::getVersionInstallPrefix($name);
         if (file_exists($prefix)) {
             // a installation exists
-            $build = new self($prefix);
-
-            return $build;
+            return new self($name, NULL, $prefix);
         }
-        /*
-        if ( file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants') ) {
-            $info = unserialize(file_get_contents( $versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
-            echo "\n";
-            echo str_repeat(' ',19);
-            echo VariantParser::revealCommandArguments($info);
-        }
-        echo "\n";
-        */
-
         return null;
     }
 
@@ -378,6 +244,43 @@ class Build implements Serializable
     {
         foreach ($data as $key => $value) {
             $this->{$key} = $value;
+        }
+    }
+
+    /**
+     * Where we store the last finished state, currently for:
+     *
+     *  - FALSE or NULL - nothing done yet.
+     *  - "download" - distribution file was downloaded.
+     *  - "extract"  - distribution file was extracted to the build directory.
+     *  - "configure" - configure was done.
+     *  - "make"      - make was done.
+     *  - "install"   - installation was done.
+     *
+     * Not used yet.
+     */
+    public function getStateFile()
+    {
+        if ($dir = $this->getInstallPrefix()) {
+            return $dir . DIRECTORY_SEPARATOR . 'phpbrew_status';
+        }
+    }
+
+    public function setState($state) {
+        $this->state = $state;
+        if ($path = $this->getStateFile()) {
+            file_put_contents($path, $state);
+        }
+    }
+
+    public function getState() {
+        if ($this->state) {
+            return $this->state;
+        }
+        if ($path = $this->getStateFile()) {
+            if (file_exists($path)) {
+                return $this->state = file_get_contents($path);
+            }
         }
     }
 
@@ -395,5 +298,9 @@ class Build implements Serializable
     {
         $serialized = file_get_contents($file);
         $this->unserialize($serialized);
+    }
+
+    public function __call($m, $a) {
+        return call_user_func_array(array($this->settings,$m), $a);
     }
 }

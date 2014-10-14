@@ -2,7 +2,7 @@ PHPBrew
 ==========
 
 [![Build Status][t-badge]][t-link]
-[![Coverage Status][c-badge]][c-link]
+[![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
 
@@ -71,17 +71,10 @@ To list known versions:
 
 ```bash
 $ phpbrew known
-Available stable versions:
-    php-5.3.10
-    php-5.3.9
-    php-5.3.8
-    php-5.3.7
-```
-
-To list known subversion versions:
-
-```bash
-$ phpbrew known --svn
+5.6:  5.6.1, 5.6.0 ...
+5.5:  5.5.17, 5.5.16, 5.5.15, 5.5.14, 5.5.13, 5.5.12, 5.5.11, 5.5.10 ...
+5.4:  5.4.33, 5.4.32, 5.4.31, 5.4.30, 5.4.29, 5.4.28, 5.4.27, 5.4.26 ...
+5.3:  5.3.29, 5.3.28, 5.3.27, 5.3.26, 5.3.25, 5.3.24, 5.3.23, 5.3.22 ...
 ```
 
 To list known older versions (less than 5.3):
@@ -526,7 +519,6 @@ See LICENSE file.
 
 
 [t-link]: https://travis-ci.org/phpbrew/phpbrew "Travis Build"
-[c-link]: https://coveralls.io/r/phpbrew/phpbrew?branch=master "Code Coverage"
 [s-link]: https://scrutinizer-ci.com/g/phpbrew/phpbrew/?branch=master "Code Quality"
 [p-link]: https://packagist.org/packages/marc/phpbrew "Packagist"
 [sl-link]: https://insight.sensiolabs.com/projects/02d1fd01-8a70-4fe4-a550-381a3c0e33f3 "Sensiolabs Insight"
