@@ -122,9 +122,11 @@ class ConfigureTask extends BaseTask
                 die("Configure failed. $code");
         }
 
-        $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $this->options);
-        if ($patch64bit->match($build)) {
-            $patch64bit->patch($build);
+        if (!$this->options->{'no-patch'}) {
+            $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $this->options);
+            if ($patch64bit->match($build)) {
+                $patch64bit->patch($build);
+            }
         }
     }
 }

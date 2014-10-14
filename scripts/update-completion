@@ -1,2 +1,2 @@
 #!/bin/bash
-bin/phpbrew _zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew
+bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew

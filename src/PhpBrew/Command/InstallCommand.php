@@ -60,8 +60,6 @@ class InstallCommand extends Command
 
         $opts->add('alias:', 'The alias of the installation')->valueName('alias');
 
-        $opts->add('c|clean', 'Run make clean before building.');
-
         $opts->add('mirror:', 'Use mirror specific site.');
 
         $opts->add('post-clean', 'Run make clean after building PHP.');
@@ -70,6 +68,12 @@ class InstallCommand extends Command
 
         $opts->add('build-dir:','Specify the build directory')
             ->isa('dir')
+            ;
+
+        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP.')
+            ;
+
+        $opts->add('no-patch', 'Do not apply any patch')
             ;
 
         $opts->add('no-configure', 'Do not run configure script')
@@ -248,6 +252,7 @@ class InstallCommand extends Command
 
         if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile') ) {
             $this->logger->info("Found existing Makefile, running make clean to ensure everything will be rebuilt.");
+            $this->logger->info("You can append --no-clean option after the install command if you don't want to rebuild.");
             $clean = new MakeCleanTask($this->logger, $this->options);
             $clean->clean($build);
         }
@@ -330,27 +335,35 @@ class InstallCommand extends Command
             if (file_exists($targetConfigPath)) {
                 $this->logger->notice("Found existing $targetConfigPath.");
             } else {
-
                 // TODO: Move this to PhpConfigPatchTask
                 // move config file to target location
                 copy($phpConfigPath, $targetConfigPath);
+            }
 
-                // replace current timezone
-                $timezone = ini_get('date.timezone');
-                $pharReadonly = ini_get('phar.readonly');
-                if ($timezone || $pharReadonly) {
-                    // patch default config
-                    $content = file_get_contents($targetConfigPath);
-                    if ($timezone) {
-                        $this->logger->info("---> Found date.timezone, patch config timezone with $timezone");
-                        $content = preg_replace('/^date.timezone\s*=\s*.*/im', "date.timezone = $timezone", $content);
+            if (!$this->options->{'no-patch'}) {
+                $config = parse_ini_file($targetConfigPath, true);
+                $configContent = file_get_contents($targetConfigPath);
+                $patched = false;
+
+                if (!isset($config['date']['timezone'])) {
+                    $this->logger->info('---> Found date.timezone is not set, patching...');
+
+                    // Replace current timezone
+                    if ($timezone = ini_get('date.timezone')) {
+                        $this->logger->info("---> Found date.timezone, patching config timezone with $timezone");
+                        $configContent = preg_replace('/^;?date.timezone\s*=\s*.*/im', "date.timezone = $timezone", $configContent);
                     }
-                    if (! $pharReadonly) {
-                        $this->logger->info("---> Disable phar.readonly option.");
-                        $content = preg_replace('/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0", $content);
-                    }
-                    file_put_contents($targetConfigPath, $content);
+                    $patched = true;
                 }
+                if (!isset($config['phar']['readonly'])) {
+                    $pharReadonly = ini_get('phar.readonly');
+                    // 0 or "" means readonly is disabled manually
+                    if (!$pharReadonly) {
+                        $this->logger->info("---> Disabling phar.readonly option.");
+                        $configContent = preg_replace('/^;?phar.readonly\s*=\s*.*/im', "phar.readonly = 0", $configContent);
+                    }
+                }
+                file_put_contents($targetConfigPath, $configContent);
             }
         }
 

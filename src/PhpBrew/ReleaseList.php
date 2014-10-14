@@ -114,7 +114,7 @@ class ReleaseList
         if ($instance->foundLocalReleaseList()) {
             $instance->loadLocalReleaseList();
         } else {
-            $instance->fetchRemoteReleaseList('develop');
+            $instance->fetchRemoteReleaseList('master');
         }
         return $instance;
     }

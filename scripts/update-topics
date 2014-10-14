@@ -1,2 +1,2 @@
 #!/bin/bash
-php bin/phpbrew _build-github-wiki --dir src phpbrew phpbrew
+php bin/phpbrew github:build-topics --dir src phpbrew phpbrew
