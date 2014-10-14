@@ -83,6 +83,12 @@ To list known older versions (less than 5.3):
 $ phpbrew known --old
 ```
 
+To update the release info:
+
+```bash
+$ phpbrew known --update
+```
+
 ## Build And Install
 
 Simply build and install PHP with default variant:
