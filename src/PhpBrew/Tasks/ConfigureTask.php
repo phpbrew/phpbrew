@@ -95,9 +95,16 @@ class ConfigureTask extends BaseTask
         $cmd = new CommandBuilder('./configure');
         $cmd->args($args);
 
+        $buildLogPath = $build->getBuildLogPath();
+        if (file_exists($buildLogPath)) {
+            $newPath = $buildLogPath . '.' . filemtime($buildLogPath);
+            $this->info("Found existing build.log, renaming it to $newPath");
+            rename($buildLogPath,$newPath);
+        }
+
         $this->info("===> Configuring {$build->version}...");
-        $cmd->append = false;
-        $cmd->stdout = $build->getBuildLogPath();
+        $cmd->setAppendLog(true);
+        $cmd->setLogPath($buildLogPath);
 
         echo "\n\n";
         echo "Use tail command to see what's going on:\n";

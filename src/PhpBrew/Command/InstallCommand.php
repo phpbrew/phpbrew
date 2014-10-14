@@ -290,8 +290,7 @@ class InstallCommand extends Command
 
         if (!$this->options->{'no-install'}) {
             $installTask = new InstallTask($this->logger, $this->options);
-            $installTask->setLogPath($buildLogFile);
-            $installTask->install($build, $this->options);
+            $installTask->install($build);
             unset($installTask); // trigger __destruct
         }
 

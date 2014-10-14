@@ -13,8 +13,8 @@ class BuildTask extends BaseTask
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
 
-        $cmd->append = true;
-        $cmd->stdout = $build->getBuildLogPath();
+        $cmd->setAppendLog(true);
+        $cmd->setLogPath($build->getBuildLogPath());
 
         if (!empty($targets)) {
             foreach($targets as $t) {

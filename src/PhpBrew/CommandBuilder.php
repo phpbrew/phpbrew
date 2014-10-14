@@ -20,6 +20,9 @@ class CommandBuilder
 
     public $append = true;
 
+    public $logPath;
+
+
     public function __construct($script)
     {
         $this->script = $script;
@@ -62,6 +65,16 @@ class CommandBuilder
         return $this->getCommand();
     }
 
+    public function setAppendLog($append = true)
+    {
+        $this->append = $append;
+    }
+
+    public function setLogPath($logPath) 
+    {
+        $this->logPath = $logPath;
+    }
+
     public function getCommand()
     {
         $cmd = array();
@@ -71,7 +84,6 @@ class CommandBuilder
             $cmd[] = '-n';
             $cmd[] = $this->nice;
         }
-
         $cmd[] = $this->script;
 
         if ($this->args) {
@@ -80,15 +92,15 @@ class CommandBuilder
             }
         }
 
-        /* can redirect stderr to stdout */
-        if ($this->stdout) {
-            // redirect stderr to stdout
-            $cmd[] = '>>';
-            $cmd[] = $this->stdout;
+        // redirect stderr to stdout and pipe to the file.
+        if ($this->stdout || $this->logPath) {
+            if ($this->append) {
+                $cmd[] = '>>';
+            } else {
+                $cmd[] = '>';
+            }
+            $cmd[] = $this->stdout ?: $this->logPath;
             $cmd[] = '2>&1';
-        } elseif ($this->stderr) {
-            $cmd[] = '2>';
-            $cmd[] = $this->stderr;
         }
         return join(' ', $cmd);
     }

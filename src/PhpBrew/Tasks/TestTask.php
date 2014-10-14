@@ -16,8 +16,8 @@ class TestTask extends BaseTask
             $cmd->nice($nice);
         }
 
-        $cmd->append = true;
-        $cmd->stdout = $build->getBuildLogPath();
+        $cmd->setAppendLog(true);
+        $cmd->setLogPath($build->getBuildLogPath());
 
         $this->debug('' .  $cmd);
         $code = $cmd->execute();
