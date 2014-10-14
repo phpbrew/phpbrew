@@ -13,8 +13,12 @@ Version 1.15 - Tue Oct 14 20:23:54 2014
 - date.timezone and phar.readonly ini file patch is fixed.
 - Error redirection is now improved.
 - Use JSON meta data for PHP releases.
-- Added `--update` option to `known` command, this can update the release meta data.
+- Added `--update` option to `known` command, this can update the release meta data:
+
+    phpbrew known --update
+
 - Improve command help generator.
+- Since the release meta info is stored in the cache, known command is now faster.
 
 Development updates:
 
