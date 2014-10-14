@@ -4,6 +4,7 @@ onion compile \
     --lib vendor/corneltek/cliframework/src \
     --lib vendor/corneltek/pearx/src \
     --lib vendor/corneltek/getoptionkit/src \
+    --lib vendor/corneltek/curlkit/src \
     --lib vendor/corneltek/universal/src \
     --lib vendor/symfony/process \
     --lib vendor/symfony/yaml \

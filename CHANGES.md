@@ -1,6 +1,27 @@
 CHANGES
 =======
 
+Version 1.15 - Tue Oct 14 20:23:54 2014
+
+- Used CurlKit instead of command line curl or wget to download the distribution files.
+- Added more options to the install command, added options:
+  - `--no-clean`
+  - `--no-install`
+  - `--no-patch`
+  - `--build-dir=DIR`
+- Directory for the downloaded distribution files is now separated.
+- date.timezone and phar.readonly ini file patch is fixed.
+- Error redirection is now improved.
+- Use JSON meta data for PHP releases.
+- Added `--update` option to `known` command, this can update the release meta data.
+
+Development updates:
+
+- Variant info is refactored into BuildSettings class.
+- VariantParser is refactored and simplified.
+- Builder class is removed.
+- Install command class is refactored with the `Build` class.
+
 Version 1.12 - Wed Dec 11 09:56:22 2013
 
 - Install command now run commands below after installations:

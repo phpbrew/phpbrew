@@ -32,7 +32,7 @@ class KnownCommand extends \CLIFramework\Command
 
         $releases = array();
         if (!$releaseList->foundLocalReleaseList() || $this->options->update) {
-            $releases = $releaseList->fetchRemoteReleaseList('develop');
+            $releases = $releaseList->fetchRemoteReleaseList('master');
         } else {
             $releases = $releaseList->loadLocalReleaseList();
         }
