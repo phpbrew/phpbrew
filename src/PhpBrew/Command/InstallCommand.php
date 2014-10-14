@@ -96,7 +96,7 @@ class InstallCommand extends Command
         $opts->add('like:', 'Inherit variants from an existing build')
             ->valueName('version');
 
-        $opts->add('j|make-jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).')
+        $opts->add('j|jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).')
             ->valueName('concurrent job number')
             ;
     }

@@ -136,7 +136,7 @@ local ret=1
               '(-f --force)'{-f,--force}'[force]' \
               '(-d --dryrun)'{-d,--dryrun}'[dryrun]' \
               '--like=[inherit variants from previous build]' \
-              '(-j --make-jobs)'{-j,--make-jobs=}'[Specifies the number of jobs to run simultaneously (make -jN).]' \
+              '(-j --jobs)'{-j,--jobs=}'[Specifies the number of jobs to run simultaneously (make -jN).]' \
               ':version:("5.3" "5.4" "5.5")' \
               '*:variants:{___phpbrew_meta "variants" install arg 1 suggestions}' \
                && ret=0

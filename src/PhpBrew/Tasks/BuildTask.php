@@ -26,7 +26,7 @@ class BuildTask extends BaseTask
             $cmd->nice($this->options->nice);
         }
 
-        if ($makeJobs = $this->options->{'make-jobs'}) {
+        if ($makeJobs = $this->options->{'jobs'}) {
             $cmd->addArg("-j{$makeJobs}");
         }
 
