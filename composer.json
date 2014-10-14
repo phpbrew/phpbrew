@@ -32,6 +32,6 @@
         "psr-0": {
             "PhpBrew": "src"
         }
-    }
+    },
+    "version": "1.15.0"
 }
-
