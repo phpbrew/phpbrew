@@ -170,6 +170,7 @@ class InstallCommand extends Command
 
         // assume +default variant if no build config is given and warn about that
         if (!$variantInfo['enabled_variants']) {
+            // TODO: Move this to DefaultBuildSettings class
             $build->enableVariants(array(
                 'bcmath' => true,
                 'bz2' => true,
