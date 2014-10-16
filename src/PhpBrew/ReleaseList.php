@@ -84,10 +84,15 @@ class ReleaseList
     }
 
     public function fetchRemoteReleaseList($branch = 'master') {
-        $downloader = new CurlDownloader;
-        $downloader->setProgressHandler(new ProgressBar);
+        $json = '';
         $url = $this->getRemoteReleaseListUrl($branch);
-        $json = $downloader->request($url);
+        if (extension_loaded('curl')) {
+            $downloader = new CurlDownloader;
+            $downloader->setProgressHandler(new ProgressBar);
+            $json = $downloader->request($url);
+        } else {
+            $json = file_get_contents($url);
+        }
         $localFilepath = Config::getPHPReleaseListPath();
         if (false === file_put_contents($localFilepath, $json)) {
             throw new Exception("Can't store release json file");
