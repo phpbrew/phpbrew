@@ -54,6 +54,7 @@ class CleanCommand extends Command
             }
         } else {
             $clean = new CleanTask($this->logger);
+            $build = new Build($version);
             if ($clean->clean($build)) {
                 $this->logger->info("Distribution is cleaned up. Woof! ");
             }
