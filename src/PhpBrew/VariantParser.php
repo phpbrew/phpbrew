@@ -40,7 +40,7 @@ class VariantParser
 
             if ($arg[0] === '+' || $arg[0] === '-') {
                 if (substr($arg, 0, 2) === '--') {
-                    throw new InvalidVariantSyntaxException($arg);
+                    throw new InvalidVariantSyntaxException("Invalid variant syntax exception start with '--': " . $arg);
                 }
                 $variantStrings = preg_split('#(?=[+-])#', $arg);
                 $variantStrings = array_filter($variantStrings);
@@ -52,11 +52,11 @@ class VariantParser
                         $a = self::splitVariantValue(substr($str, 1));
                         $disabledVariants = array_merge($disabledVariants, $a);
                     } else {
-                        throw new InvalidVariantSyntaxException($str);
+                        throw new InvalidVariantSyntaxException($str . " is invalid syntax");
                     }
                 }
             } else {
-                throw new InvalidVariantSyntaxException($arg);
+                throw new InvalidVariantSyntaxException("Unsupported variant syntax: $arg");
             }
         }
         return array(
