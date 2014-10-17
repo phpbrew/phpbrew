@@ -49,7 +49,7 @@ class Build implements Serializable
     public function __construct($version, $alias = null, $installPrefix = null)
     {
         $this->version = $version;
-        $this->name = $alias ? $alias : Utils::canonicalizeVersionName($version);
+        $this->name = $alias ? $alias : Utils::canonicalizeBuildName($version);
         $this->settings = new BuildSettings;
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);

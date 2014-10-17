@@ -4,7 +4,7 @@ use Exception;
 
 class Utils
 {
-    public static function canonicalizeVersionName($version) {
+    public static function canonicalizeBuildName($version) {
         if (!preg_match('/^php-/', $version)) {
             return 'php-' . $version;
         }

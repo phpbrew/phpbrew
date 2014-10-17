@@ -51,6 +51,32 @@ class InstallCommand extends Command
         });
     }
 
+    public function parseSemanticOptions(array & $args) {
+        $settings = array();
+
+        $definitions = array(
+            'as' => '*',
+            'like' => '*',
+            'using' => '*+',
+        );
+        // XXX: support 'using'
+        foreach($definitions as $k => $requirement) {
+            if (($idx = array_search($k, $args)) !== NULL) {
+                if ($requirement == '*') {
+                    // Find the value next to the position
+                    list($key, $val) = array_splice($args, $idx, 2);
+                    $settings[$key] = $val;
+                } elseif ($requirement == '*+') {
+                    $values = array_splice($args, $idx, 2);
+                    $key = array_shift($values);
+                    $settings[$key] = $values;
+                }
+            }
+        }
+        return $settings;
+    }
+
+
     /**
      * @param \GetOptionKit\OptionCollection $opts
      */
@@ -58,7 +84,7 @@ class InstallCommand extends Command
     {
         $opts->add('test', 'Run tests after the installation.');
 
-        $opts->add('alias:', 'The alias of the installation')->valueName('alias');
+        $opts->add('alias:', 'The alias of the installation')->valueName('build name');
 
         $opts->add('mirror:', 'Use mirror specific site.');
 
@@ -139,11 +165,16 @@ class InstallCommand extends Command
         // get options and variants for building php
         // and skip the first argument since it's the target version.
         $args = func_get_args();
-        array_shift($args);
+        array_shift($args); // shift the version name
+
+        $semanticOptions = $this->parseSemanticOptions($args);
+        $buildAs =   isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->alias;
+        $buildLike = isset($semanticOptions['like']) ? $semanticOptions['like'] : $this->options->like;
+
+
 
         // Initialize the build object, contains the information to build php.
-        $build = new Build($version, $this->options->alias);
-
+        $build = new Build($version, $buildAs);
 
         $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         if (!file_exists($installPrefix)) {
@@ -152,15 +183,30 @@ class InstallCommand extends Command
         $build->setInstallPrefix($installPrefix);
 
 
-
         // find inherited variants
-        if ($buildName = $this->options->like) {
-            if ($parentBuild = Build::findByName(Utils::canonicalizeVersionName($buildName))) {
+        if ($buildLike) {
+            if ($parentBuild = Build::findByName($buildLike)) {
                 $build->loadVariantInfo($parentBuild->settings->toArray());
             }
         }
 
 
+        $msg = "===> phpbrew will now build {$build->getVersion()}";
+        if ($buildLike) {
+            $msg .= ' using variants from ' . $buildLike;
+        }
+        if (isset($semanticOptions['using'])) {
+            $msg .= ' plus custom variants: ' . join(', ',$semanticOptions['using']);
+            $args = array_merge($args, $semanticOptions['using']);
+        }
+        if ($buildAs) {
+            $msg .= ' as ' . $buildAs;
+        }
+        $this->logger->info($msg);
+
+        if (!empty($args)) {
+            $this->logger->debug("---> Parsing variants from command arguments '" . join(' ', $args) . "'");
+        }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
@@ -214,9 +260,11 @@ class InstallCommand extends Command
             $build->enableVariant('xml');
         }
 
-        $this->logger->debug('Loading and resolving variants...');
+        $this->logger->info('===> Loading and resolving variants...');
         $removedVariants = $build->loadVariantInfo($variantInfo);
-        $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
+        if (!empty($removedVariants)) {
+            $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
+        }
 
 
         {
