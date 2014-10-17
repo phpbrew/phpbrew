@@ -170,6 +170,7 @@ class InstallCommand extends Command
 
         // assume +default variant if no build config is given and warn about that
         if (!$variantInfo['enabled_variants']) {
+            // TODO: Move this to DefaultBuildSettings class
             $build->enableVariants(array(
                 'bcmath' => true,
                 'bz2' => true,
@@ -383,16 +384,18 @@ class InstallCommand extends Command
 
         $this->logger->debug("Source directory: " . $targetDir);
 
-        $this->logger->info("Congratulations! Now you have PHP with $version.");
+        $buildName = $build->getName();
+
+        $this->logger->info("Congratulations! Now you have PHP with $version as $buildName");
 
         echo <<<EOT
 To use the newly built PHP, try the line(s) below:
 
-    $ phpbrew use $version
+    $ phpbrew use $buildName
 
-Or you can use switch command to switch your default php version to $version:
+Or you can use switch command to switch your default php to $buildName:
 
-    $ phpbrew switch $version
+    $ phpbrew switch $buildName
 
 Enjoy!
 

@@ -12,11 +12,11 @@ class EnvCommand extends \CLIFramework\Command
         return 'Export environment variables';
     }
 
-    public function execute($version = null)
+    public function execute($buildName = null)
     {
         // get current version
-        if (!$version) {
-            $version = getenv('PHPBREW_PHP');
+        if (!$buildName) {
+            $buildName = getenv('PHPBREW_PHP');
         }
 
         // $currentVersion;
@@ -24,24 +24,20 @@ class EnvCommand extends \CLIFramework\Command
         $home = Config::getPhpbrewHome();
         $lookup = getenv('PHPBREW_LOOKUP_PREFIX');
 
-        // $versionBuildPrefix = Config::getVersionInstallPrefix($version);
-        // $versionBinPath     = Config::getVersionBinPath($version);
+        $this->logger->writeln("export PHPBREW_ROOT=$root");
+        $this->logger->writeln("export PHPBREW_HOME=$home");
+        $this->logger->writeln("export PHPBREW_LOOKUP_PREFIX=$lookup");
 
-        echo "export PHPBREW_ROOT=$root\n";
-        echo "export PHPBREW_HOME=$home\n";
-        echo "export PHPBREW_LOOKUP_PREFIX=$lookup\n";
-
-        if ($version !== false) {
+        if ($buildName !== false) {
             // checking php version exists
-            $version = Utils::findLatestPhpVersion($version);
-            $targetPhpBinPath = Config::getVersionBinPath($version);
+            $targetPhpBinPath = Config::getVersionBinPath($buildName);
 
             if (!is_dir($targetPhpBinPath)) {
-                throw new Exception("# php version: " . $version . " not exists.");
+                throw new Exception("# php build: " . $buildName . " not exists.");
             }
 
-            echo 'export PHPBREW_PHP=' . $version . "\n";
-            echo 'export PHPBREW_PATH=' . ($version ? Config::getVersionBinPath($version) : '') . "\n";
+            echo 'export PHPBREW_PHP=' . $buildName . "\n";
+            echo 'export PHPBREW_PATH=' . ($buildName ? Config::getVersionBinPath($buildName) : '') . "\n";
         }
 
     }

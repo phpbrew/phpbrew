@@ -198,7 +198,7 @@ local ret=1
         ;;
         (env)
             _arguments -w -S -s \
-              ':version' \
+              ':buildName' \
                && ret=0
         
         ;;

@@ -108,7 +108,7 @@ class ConfigureTask extends BaseTask
 
         $this->logger->info("\n");
         $this->logger->info("Use tail command to see what's going on:");
-        $this->logger->info("   $ tail -f {$cmd->stdout}\n\n");
+        $this->logger->info("   $ tail -f $buildLogPath\n\n");
 
         $this->debug($cmd->getCommand());
 

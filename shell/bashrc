@@ -89,8 +89,8 @@ function phpbrew ()
 
 
     case $1 in
-        use) if [[ -z "$2" ]]
-            then
+        use)
+            if [[ -z "$2" ]] ; then
                 if [[ -z "$PHPBREW_PHP" ]]
                 then
                     echo "Currently using system php"
@@ -98,13 +98,7 @@ function phpbrew ()
                     echo "Currently using $PHPBREW_PHP"
                 fi
             else
-                if [[ $2 =~ ^php- ]]
-                then
-                    _PHP_VERSION=$2
-                else
-                    s_esc="$(echo "$2" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
-                    _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
-                fi
+                _PHP_VERSION=$2
 
                 # checking php version exists?
                 NEW_PHPBREW_PHP_PATH="$PHPBREW_ROOT/php/$_PHP_VERSION"
@@ -204,12 +198,7 @@ function phpbrew ()
             ;;
         fpm)
             if ! [[ -z $3 ]]; then
-              if [[ $3 =~ ^php- ]]; then
-                _PHP_VERSION=$3
-              else
-                s_esc="$(echo "$3" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
-                _PHP_VERSION=$(ls -v ${PHPBREW_ROOT}/php | egrep "php-$s_esc.*" | tail -n 1)
-              fi
+              _PHP_VERSION=$3
             else
               _PHP_VERSION=${PHPBREW_PHP}
             fi
@@ -377,15 +366,10 @@ function __phpbrew_update_config ()
 
 function __phpbrew_reinit () 
 {
-    if [[ -z "$1" ]]
-    then
+    if [[ -z "$1" ]] ; then
         local _PHP_VERSION=""
-    elif [[ $1 =~ ^php- ]]
-    then
-        local _PHP_VERSION=$1
     else
-        s_esc="$(echo "$1" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
-        local _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
+        local _PHP_VERSION=$1
     fi
     if [[ ! -d "$PHPBREW_HOME" ]]
     then
@@ -397,14 +381,7 @@ function __phpbrew_reinit ()
 
 function __phpbrew_remove_purge ()
 {
-    if [[ $1 =~ ^php- ]]
-    then
-        _PHP_VERSION=$1
-    else
-        s_esc="$(echo "$1" | sed 's/[^-A-Za-z0-9_]/\\&/g')"
-        _PHP_VERSION=$(ls -v $PHPBREW_ROOT/php | egrep "php-$s_esc.*" | tail -n 1)
-    fi
-
+    _PHP_VERSION=$1
     if [[ "$_PHP_VERSION" = "$PHPBREW_PHP" ]]
     then
         echo "php version: $_PHP_VERSION is already in used."

@@ -25,6 +25,8 @@ CHANGES
 - Since the release meta info is stored in the cache, known command is now faster.
 - Included the multi-arch libdir fix.
 - Use some of the default variants if `+default` is not set.
+- Fix getoptionkit bug for variant parsing: https://github.com/phpbrew/phpbrew/issues/353
+- Fix use, switch commands for switching to an aliased build.
 
 Development updates:
 
