@@ -16,6 +16,7 @@ use PhpBrew\Tasks\ConfigureTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
+use CLIFramework\ValueCollection;
 use PhpBrew\Build;
 use PhpBrew\Utils;
 use PhpBrew\ReleaseList;
@@ -42,7 +43,16 @@ class InstallCommand extends Command
     }
 
     public function arguments($args) {
-        $args->add('version')->suggestions(array( '5.3', '5.4', '5.5', '5.6' ) );
+        $args->add('version')->suggestions(function() {
+            $releaseList = ReleaseList::getReadyInstance();
+            $releases = $releaseList->getReleases();
+
+            $collection = new ValueCollection;
+            foreach($releases as $major => $versions) {
+                $collection->group($major, "PHP $major", array_keys($versions));
+            }
+            return $collection;
+        });
         $args->add('variants')->multiple()->suggestions(function() {
             $variants = new VariantBuilder;
             $list = $variants->getVariantNames();
