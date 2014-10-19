@@ -32,7 +32,8 @@ class InstallCommand extends Command
         return 'Install php';
     }
 
-    public function aliases() {
+    public function aliases()
+    {
         return array('i','ins');
     }
 
@@ -41,17 +42,26 @@ class InstallCommand extends Command
         return 'phpbrew install [php-version] ([+variant...])';
     }
 
-    public function arguments($args) {
-        $args->add('version')->suggestions(array( '5.3', '5.4', '5.5', '5.6' ) );
-        $args->add('variants')->multiple()->suggestions(function() {
-            $variants = new VariantBuilder;
-            $list = $variants->getVariantNames();
-            sort($list);
-            return array_map(function($n) { return '+' . $n; }, $list);
-        });
+    public function arguments($args)
+    {
+        $args->add('version')->suggestions(array('5.3', '5.4', '5.5', '5.6'));
+        $args->add('variants')->multiple()->suggestions(
+            function () {
+                $variants = new VariantBuilder;
+                $list = $variants->getVariantNames();
+                sort($list);
+                return array_map(
+                    function ($n) {
+                        return '+' . $n;
+                    },
+                    $list
+                );
+            }
+        );
     }
 
-    public function parseSemanticOptions(array & $args) {
+    public function parseSemanticOptions(array &$args)
+    {
         $settings = array();
 
         $definitions = array(
@@ -59,9 +69,12 @@ class InstallCommand extends Command
             'like' => '*',
             'using' => '*+',
         );
+
         // XXX: support 'using'
-        foreach($definitions as $k => $requirement) {
-            if (($idx = array_search($k, $args)) !== NULL) {
+        foreach ($definitions as $k => $requirement) {
+            $idx = array_search($k, $args);
+
+            if ($idx !== false) {
                 if ($requirement == '*') {
                     // Find the value next to the position
                     list($key, $val) = array_splice($args, $idx, 2);
@@ -73,6 +86,7 @@ class InstallCommand extends Command
                 }
             }
         }
+
         return $settings;
     }
 
@@ -92,30 +106,23 @@ class InstallCommand extends Command
 
         $opts->add('production', 'Use production configuration');
 
-        $opts->add('build-dir:','Specify the build directory')
-            ->isa('dir')
-            ;
+        $opts->add('build-dir:', 'Specify the build directory')
+            ->isa('dir');
 
-        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP.')
-            ;
+        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP.');
 
-        $opts->add('no-patch', 'Do not apply any patch')
-            ;
+        $opts->add('no-patch', 'Do not apply any patch');
 
-        $opts->add('no-configure', 'Do not run configure script')
-            ;
+        $opts->add('no-configure', 'Do not run configure script');
 
-        $opts->add('no-install', 'Do not install, just run build the target')
-            ;
+        $opts->add('no-install', 'Do not install, just run build the target');
 
 
         $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority.')
-            ->valueName('priority')
-            ;
+            ->valueName('priority');
 
         $opts->add('patch+:', 'Apply patch before build.')
-            ->isa('file')
-            ;
+            ->isa('file');
 
         $opts->add('old', 'Install phpbrew incompatible phps (< 5.3)');
 
@@ -127,8 +134,7 @@ class InstallCommand extends Command
             ->valueName('version');
 
         $opts->add('j|jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).')
-            ->valueName('concurrent job number')
-            ;
+            ->valueName('concurrent job number');
     }
 
     public function execute($version)
