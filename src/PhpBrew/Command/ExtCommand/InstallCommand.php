@@ -26,15 +26,18 @@ class InstallCommand extends \CLIFramework\Command
         $opts->add('pecl', 'Try to download from pecl even when ext source is bundled with php-src.');
     }
 
-    public function arguments($args) {
+    public function arguments($args)
+    {
         $args->add('extensions')
-            ->suggestions(function() {
+            ->suggestions(function () {
                 $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
-                return array_filter(scandir($extdir), function($d) use ($extdir) {
+                return array_filter(
+                    scandir($extdir),
+                    function ($d) use ($extdir) {
                     return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
-                });
-            })
-            ;
+                    }
+                );
+            });
     }
 
 
