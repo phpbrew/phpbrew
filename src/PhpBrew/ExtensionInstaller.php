@@ -99,7 +99,17 @@ class ExtensionInstaller
             throw new \Exception('Neither config.m4 nor config0.m4 was found');
         }
 
-        Utils::system('phpize > build.log');
+        $phpizeCommand = 'phpize';
+
+        $phpizeForVersion = Config::getCurrentPhpDir()
+            .DIRECTORY_SEPARATOR.'bin'
+            .DIRECTORY_SEPARATOR.$phpizeCommand;
+
+        if (file_exists($phpizeForVersion)) {
+            $phpizeCommand = $phpizeForVersion;
+        }
+
+        Utils::system($phpizeCommand.' > build.log');
 
         // here we don't want to use closure, because
         // 5.2 does not support closure. We haven't decided whether to
@@ -112,6 +122,15 @@ class ExtensionInstaller
 
         $this->logger->info("===> Configuring...");
 
+        $phpConfig = $phpizeForVersion = Config::getCurrentPhpDir()
+            .DIRECTORY_SEPARATOR.'bin'
+            .DIRECTORY_SEPARATOR.'php-config';
+
+
+        if (file_exists($phpConfig)) {
+            $escapeOptions[] = '--with-php-config='.$phpConfig;
+        }
+
         Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1') !== false or die('Configure failed.');
 
         $this->logger->info("===> Building...");
@@ -121,9 +140,11 @@ class ExtensionInstaller
 
         // This function is disabled when PHP is running in safe mode.
         $output = shell_exec('make install');
+
         if (!$output) {
             throw new \Exception("Extension Install Failed.");
         }
+
         $this->logger->debug($output);
 
         $installedPath = null;
