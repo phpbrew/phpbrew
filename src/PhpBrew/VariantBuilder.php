@@ -86,6 +86,7 @@ class VariantBuilder
             'tokenizer',
             'xml',
             'curl',
+            'openssl',
             'zip',
         )
     );
