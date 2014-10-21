@@ -1,5 +1,12 @@
 {
     "5.6": {
+        "5.6.2": {
+            "version": "5.6.2",
+            "filename": "php-5.6.2.tar.bz2",
+            "md5": "97202449bf4f011c477ff860b173a92a",
+            "name": "PHP 5.6.2 (tar.bz2)",
+            "date": "16 Oct 2014"
+        },
         "5.6.1": {
             "version": "5.6.1",
             "filename": "php-5.6.1.tar.bz2",
