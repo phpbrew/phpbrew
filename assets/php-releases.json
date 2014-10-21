@@ -24,6 +24,13 @@
         }
     },
     "5.5": {
+        "5.5.18": {
+            "version": "5.5.18",
+            "filename": "php-5.5.18.tar.bz2",
+            "md5": "6f0d581ed35a2c65188a9513ccc142a0",
+            "name": "PHP 5.5.18 (tar.bz2)",
+            "date": "16 Oct 2014"
+        },
         "5.5.17": {
             "version": "5.5.17",
             "filename": "php-5.5.17.tar.bz2",
@@ -169,6 +176,13 @@
         }
     },
     "5.4": {
+        "5.4.34": {
+            "version": "5.4.34",
+            "date": "16 Oct 2014",
+            "filename": "php-5.4.34.tar.bz2",
+            "md5": "1afe3a10cefec9618acb785ef5064bf9",
+            "name": "PHP 5.4.34 (tar.bz2)"
+        },
         "5.4.33": {
             "version": "5.4.33",
             "date": "18 Sep 2014",
