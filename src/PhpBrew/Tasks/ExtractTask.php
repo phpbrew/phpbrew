@@ -21,7 +21,7 @@ class ExtractTask extends BaseTask
         $extractedDir = $extractDir . DIRECTORY_SEPARATOR . basename($targetFilePath, '.tar.bz2');
 
         if ($build->getState() == 'extract' && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
-            $this->info("===> Was successfully extracted, skipping...");
+            $this->info("===> Distfile was successfully extracted, skipping...");
             return $extractedDir;
         }
 

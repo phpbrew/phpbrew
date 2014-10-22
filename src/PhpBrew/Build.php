@@ -15,6 +15,12 @@ class Build implements Serializable
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
 
+    const STATE_DOWNLOAD  = 0;
+    const STATE_EXTRACT   = 1;
+    const STATE_CONFIGURE = 2;
+    const STATE_BUILD     = 3;
+    const STATE_INSTALL   = 4;
+
     public $name;
 
     public $version;
