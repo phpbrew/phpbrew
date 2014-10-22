@@ -10,6 +10,11 @@ class BuildTask extends BaseTask
 {
     public function run(Build $build, $targets = array())
     {
+        if ($build->getState() >= Build::STATE_BUILD) {
+        $this->info("===> Already built, skipping...");
+            return;
+        }
+
         $this->info("===> Building...");
         $cmd = new CommandBuilder('make');
 
@@ -40,5 +45,6 @@ class BuildTask extends BaseTask
             $buildTime = round((microtime(true) - $startTime) / 60, 1);
             $this->info("Build finished: $buildTime minutes.");
         }
+        $build->setState(Build::STATE_BUILD);
     }
 }

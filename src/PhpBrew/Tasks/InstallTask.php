@@ -20,5 +20,6 @@ class InstallTask extends BaseTask
             if ($code != 0)
                 die('Install failed.');
         }
+        $build->setState(Build::STATE_INSTALL);
     }
 }

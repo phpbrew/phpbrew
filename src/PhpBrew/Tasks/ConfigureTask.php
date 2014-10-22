@@ -128,5 +128,6 @@ class ConfigureTask extends BaseTask
                 $patch64bit->patch($build);
             }
         }
+        $build->setState(Build::STATE_CONFIGURE);
     }
 }

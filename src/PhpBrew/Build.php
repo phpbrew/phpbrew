@@ -15,11 +15,15 @@ class Build implements Serializable
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
 
-    const STATE_DOWNLOAD  = 0;
-    const STATE_EXTRACT   = 1;
-    const STATE_CONFIGURE = 2;
-    const STATE_BUILD     = 3;
-    const STATE_INSTALL   = 4;
+    /**
+     * States that describe finished task.
+     */
+    const STATE_NONE = 0;
+    const STATE_DOWNLOAD  = 1;
+    const STATE_EXTRACT   = 2;
+    const STATE_CONFIGURE = 3;
+    const STATE_BUILD     = 4;
+    const STATE_INSTALL   = 5;
 
     public $name;
 
@@ -285,9 +289,10 @@ class Build implements Serializable
         }
         if ($path = $this->getStateFile()) {
             if (file_exists($path)) {
-                return $this->state = file_get_contents($path);
+                return $this->state = intval(file_get_contents($path)) || self::STATE_NONE;
             }
         }
+        return self::STATE_NONE;
     }
 
     public function export()
