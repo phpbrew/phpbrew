@@ -32,7 +32,7 @@ class ConfigureTask extends BaseTask
         $variantBuilder = new VariantBuilder;
         $extra = $build->getExtraOptions();
 
-        if (!file_exists('configure')) {
+        if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running buildconf script...");
             system('./buildconf') !== false or die('buildconf error');
         }
