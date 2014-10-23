@@ -34,7 +34,9 @@ class ConfigureTask extends BaseTask
 
         if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running buildconf script...");
-            system('./buildconf') !== false or die('buildconf error');
+            $lastline = system('./buildconf');
+            if ($lastline !== false)
+                die("buildconf error: $lastline");
         }
 
         $prefix = $build->getInstallPrefix();
