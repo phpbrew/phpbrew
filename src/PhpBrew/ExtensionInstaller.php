@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew;
 use PEARX;
+use CLIFramework\Logger;
 
 class ExtensionInstaller
 {
@@ -9,7 +10,7 @@ class ExtensionInstaller
 
     public $logger;
 
-    public function __construct($logger)
+    public function __construct(Logger $logger)
     {
         $this->logger = $logger;
     }
@@ -95,7 +96,6 @@ class ExtensionInstaller
             }
 
         } else {
-
             throw new \Exception('Neither config.m4 nor config0.m4 was found');
         }
 
@@ -111,11 +111,13 @@ class ExtensionInstaller
         }
 
         $this->logger->info("===> Configuring...");
-
-        Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1') !== false or die('Configure failed.');
+        // Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1');
+        echo './configure ' . join(' ', $escapeOptions) , "\n";
+        Utils::system('./configure ' . join(' ', $escapeOptions));
 
         $this->logger->info("===> Building...");
-        Utils::system('make >> build.log 2>&1');
+        // $ret = Utils::system('make >> build.log 2>&1');
+        $ret = Utils::system('make');
 
         $this->logger->info("===> Installing...");
 

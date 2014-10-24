@@ -1,7 +1,5 @@
 <?php
-
 namespace PhpBrew;
-
 use CLIFramework\Logger;
 
 class Extension implements ExtensionInterface
@@ -230,7 +228,6 @@ class Extension implements ExtensionInterface
             $this->logger->warning("===> Using polyfill extension meta");
             $meta = new ExtensionMetaPolyfill($name);
         }
-
         return $meta;
     }
 
@@ -238,5 +235,4 @@ class Extension implements ExtensionInterface
     {
         return $this->meta;
     }
-
 }
