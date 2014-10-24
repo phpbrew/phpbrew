@@ -37,9 +37,10 @@ class Extension implements ExtensionInterface
 
     public function install($version = 'stable', array $options = array(), $pecl = false)
     {
+        $originalLevel = $this->logger->getLevel();
         $this->logger->quiet();
         $this->disable();
-        $this->logger->setLevel(4);
+        $this->logger->setLevel($originalLevel);
 
         $installer = new ExtensionInstaller($this->logger);
         $path = $this->meta->getPath();

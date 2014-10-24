@@ -64,7 +64,6 @@ class InstallCommand extends \CLIFramework\Command
 
     public function execute($extName, $version = 'stable')
     {
-        $logger = $this->getLogger();
         $extensions = array();
 
         if (Utils::startsWith($extName, '+')) {
@@ -77,7 +76,7 @@ class InstallCommand extends \CLIFramework\Command
                     $extensions[$extensionName] = $this->getExtData($args);
                 }
             } else {
-                $logger->info('Extension set name not found. Have you configured it at the config.yaml file?');
+                $this->logger->info('Extension set name not found. Have you configured it at the config.yaml file?');
             }
         } else {
             $args = array_slice(func_get_args(), 1);
@@ -90,7 +89,7 @@ class InstallCommand extends \CLIFramework\Command
         }
 
         foreach ($extensions as $extensionName => $extData) {
-            $extension = new Extension($extensionName, $logger);
+            $extension = new Extension($extensionName, $this->logger);
             $extension->install($extData->version, $extData->options, $this->options->{'pecl'});
         }
 

@@ -112,12 +112,20 @@ class ExtensionInstaller
 
         $this->logger->info("===> Configuring...");
         // Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1');
-        echo './configure ' . join(' ', $escapeOptions) , "\n";
-        Utils::system('./configure ' . join(' ', $escapeOptions));
+        $cmd = './configure ' . join(' ', $escapeOptions);
+        if (!$this->logger->isDebug()) {
+            $cmd .= ' >> build.log 2>&1';
+        }
+        $this->logger->debug("Command:" . $cmd);
+        Utils::system($cmd);
 
         $this->logger->info("===> Building...");
-        // $ret = Utils::system('make >> build.log 2>&1');
-        $ret = Utils::system('make');
+        $cmd = 'make';
+        if (!$this->logger->isDebug()) {
+            $cmd .= ' >> build.log 2>&1';
+        }
+        $this->logger->debug("Command:" . $cmd);
+        $ret = Utils::system($cmd);
 
         $this->logger->info("===> Installing...");
 
