@@ -68,19 +68,24 @@ class InstallCommand extends Command
     {
         $opts->add('test', 'Run tests after the installation.');
 
-        $opts->add('alias:', 'The alias of the installation')->valueName('alias');
+        $opts->add('alias:', 'The alias of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify whatever name you want instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`')
+            ->valueName('alias');
 
-        $opts->add('mirror:', 'Use mirror specific site.');
+        $opts->add('mirror:', 'Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*');
 
-        $opts->add('post-clean', 'Run make clean after building PHP.');
+        $opts->add('post-clean', 'Run make clean after the installation.');
 
-        $opts->add('production', 'Use production configuration');
+        $opts->add('production', 'Use production configuration file. this installer will copy the php-production.ini into the etc directory.');
 
-        $opts->add('build-dir:','Specify the build directory')
+        $opts->add('build-dir:','Specify the build directory. '
+            . 'the distribution tarball will be extracted to the directory you specified '
+            . 'instead of $PHPBREW_ROOT/build/{version}.')
             ->isa('dir')
             ;
 
-        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP.')
+        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. ' 
+            . 'By default phpbrew will run `make clean` before runnign the configure script '
+            . 'to ensure everything is cleaned up.')
             ;
 
         $opts->add('no-patch', 'Do not apply any patch')
@@ -107,10 +112,10 @@ class InstallCommand extends Command
 
         $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');
 
-        $opts->add('like:', 'Inherit variants from an existing build')
+        $opts->add('like:', 'Inherit variants from an existing build. This option would require an existing build directory from the {version}.')
             ->valueName('version');
 
-        $opts->add('j|jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).')
+        $opts->add('j|jobs:', 'Specifies the number of jobs to run build simultaneously (make -jN).')
             ->valueName('concurrent job number')
             ;
     }
