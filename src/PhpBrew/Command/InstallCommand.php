@@ -68,8 +68,8 @@ class InstallCommand extends Command
     {
         $opts->add('test', 'Run tests after the installation.');
 
-        $opts->add('alias:', 'The alias of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify whatever name you want instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`')
-            ->valueName('alias');
+        $opts->add('name:', 'The name of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`')
+            ->valueName('name');
 
         $opts->add('mirror:', 'Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*');
 
@@ -157,7 +157,7 @@ class InstallCommand extends Command
         array_shift($args);
 
         // Initialize the build object, contains the information to build php.
-        $build = new Build($version, $this->options->alias);
+        $build = new Build($version, $this->options->name);
 
 
         $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
