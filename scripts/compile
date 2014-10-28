@@ -15,6 +15,7 @@ onion compile \
     --classloader \
     --bootstrap scripts/phpbrew-emb.php \
     --executable \
+    --no-compress \
     --output phpbrew.phar
 mv phpbrew.phar phpbrew
 chmod +x phpbrew
