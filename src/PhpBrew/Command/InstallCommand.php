@@ -16,6 +16,7 @@ use PhpBrew\Tasks\ConfigureTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
+use CLIFramework\ValueCollection;
 use PhpBrew\Build;
 use PhpBrew\Utils;
 use PhpBrew\ReleaseList;
@@ -42,22 +43,23 @@ class InstallCommand extends Command
         return 'phpbrew install [php-version] ([+variant...])';
     }
 
-    public function arguments($args)
-    {
-        $args->add('version')->suggestions(array('5.3', '5.4', '5.5', '5.6'));
-        $args->add('variants')->multiple()->suggestions(
-            function () {
-                $variants = new VariantBuilder;
-                $list = $variants->getVariantNames();
-                sort($list);
-                return array_map(
-                    function ($n) {
-                        return '+' . $n;
-                    },
-                    $list
-                );
+    public function arguments($args) {
+        $args->add('version')->suggestions(function() {
+            $releaseList = ReleaseList::getReadyInstance();
+            $releases = $releaseList->getReleases();
+
+            $collection = new ValueCollection;
+            foreach($releases as $major => $versions) {
+                $collection->group($major, "PHP $major", array_keys($versions));
             }
-        );
+            return $collection;
+        });
+        $args->add('variants')->multiple()->suggestions(function() {
+            $variants = new VariantBuilder;
+            $list = $variants->getVariantNames();
+            sort($list);
+            return array_map(function($n) { return '+' . $n; }, $list);
+        });
     }
 
     public function parseSemanticOptions(array &$args)
@@ -98,18 +100,25 @@ class InstallCommand extends Command
     {
         $opts->add('test', 'Run tests after the installation.');
 
-        $opts->add('alias:', 'The alias of the installation')->valueName('build name');
+        $opts->add('name:', 'The name of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`')
+            ->valueName('name');
 
-        $opts->add('mirror:', 'Use mirror specific site.');
+        $opts->add('mirror:', 'Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*');
 
-        $opts->add('post-clean', 'Run make clean after building PHP.');
+        $opts->add('post-clean', 'Run make clean after the installation.');
 
-        $opts->add('production', 'Use production configuration');
+        $opts->add('production', 'Use production configuration file. this installer will copy the php-production.ini into the etc directory.');
 
-        $opts->add('build-dir:', 'Specify the build directory')
-            ->isa('dir');
+        $opts->add('build-dir:','Specify the build directory. '
+            . 'the distribution tarball will be extracted to the directory you specified '
+            . 'instead of $PHPBREW_ROOT/build/{version}.')
+            ->isa('dir')
+            ;
 
-        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP.');
+        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. ' 
+            . 'By default phpbrew will run `make clean` before runnign the configure script '
+            . 'to ensure everything is cleaned up.')
+            ;
 
         $opts->add('no-patch', 'Do not apply any patch');
 
@@ -130,11 +139,12 @@ class InstallCommand extends Command
 
         $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');
 
-        $opts->add('like:', 'Inherit variants from an existing build')
+        $opts->add('like:', 'Inherit variants from an existing build. This option would require an existing build directory from the {version}.')
             ->valueName('version');
 
-        $opts->add('j|jobs:', 'Specifies the number of jobs to run simultaneously (make -jN).')
-            ->valueName('concurrent job number');
+        $opts->add('j|jobs:', 'Specifies the number of jobs to run build simultaneously (make -jN).')
+            ->valueName('concurrent job number')
+            ;
     }
 
     public function execute($version)
@@ -178,6 +188,8 @@ class InstallCommand extends Command
         $buildLike = isset($semanticOptions['like']) ? $semanticOptions['like'] : $this->options->like;
 
 
+        // Initialize the build object, contains the information to build php.
+        $build = new Build($version, $this->options->name);
 
         // Initialize the build object, contains the information to build php.
         $build = new Build($version, $buildAs);

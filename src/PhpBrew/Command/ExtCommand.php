@@ -24,6 +24,7 @@ class ExtCommand extends Command
         $this->command('install');
         $this->command('disable');
         $this->command('config');
+        $this->command('clean');
     }
 
     /**

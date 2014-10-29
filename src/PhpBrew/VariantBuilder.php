@@ -86,6 +86,7 @@ class VariantBuilder
             'tokenizer',
             'xml',
             'curl',
+            'openssl',
             'zip',
         )
     );
@@ -135,7 +136,21 @@ class VariantBuilder
         $this->variants['soap']     = '--enable-soap';
         $this->variants['gcov']     = '--enable-gcov';
         $this->variants['pcntl']    = '--enable-pcntl';
+
+
+        /*
+        --enable-intl 
+
+         To build the extension you need to install the » ICU library, version 
+         4.0.0 or newer is required.
+         This extension is bundled with PHP as of PHP version 5.3.0. 
+         Alternatively, the PECL version of this extension may be used with all 
+         PHP versions greater than 5.2.0 (5.2.4+ recommended).
+
+         This requires --with-icu-dir=/....
+         */
         $this->variants['intl']     = '--enable-intl';
+
         $this->variants['phar']     = '--enable-phar';
         $this->variants['session']     = '--enable-session';
         $this->variants['tokenizer']     = '--enable-tokenizer';

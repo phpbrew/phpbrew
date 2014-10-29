@@ -17,7 +17,7 @@
         "bin/phpbrew"
     ],
     "require": {
-        "corneltek/cliframework": "~2.0",
+        "corneltek/cliframework": "~2.0@stable",
         "corneltek/pearx": "~1.3@stable",
         "corneltek/curlkit": "~1",
         "symfony/process": "~2.3@stable",
@@ -33,5 +33,5 @@
             "PhpBrew": "src"
         }
     },
-    "version": "1.15.2"
+    "version": "1.15.3"
 }

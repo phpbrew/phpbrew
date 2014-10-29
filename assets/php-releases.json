@@ -9,10 +9,11 @@
         },
         "5.6.1": {
             "version": "5.6.1",
+            "announcement": "http://php.net/releases/5_6_1.php",
+            "date": "02 Oct 2014",
             "filename": "php-5.6.1.tar.bz2",
             "md5": "4d0888413f36416a37865feaaa6704c4",
-            "name": "PHP 5.6.1 (tar.bz2)",
-            "date": "02 Oct 2014"
+            "name": "PHP 5.6.1 (tar.bz2)"
         },
         "5.6.0": {
             "version": "5.6.0",
@@ -33,10 +34,11 @@
         },
         "5.5.17": {
             "version": "5.5.17",
+            "announcement": "http://php.net/releases/5_5_17.php",
+            "date": "18 Sep 2014",
             "filename": "php-5.5.17.tar.bz2",
             "md5": "b36c1eb5c40b872517b35d65bd840316",
-            "name": "PHP 5.5.17 (tar.bz2)",
-            "date": "18 Sep 2014"
+            "name": "PHP 5.5.17 (tar.bz2)"
         },
         "5.5.16": {
             "version": "5.5.16",
@@ -185,9 +187,10 @@
         },
         "5.4.33": {
             "version": "5.4.33",
+            "announcement": "http://php.net/releases/5_4_33.php",
             "date": "18 Sep 2014",
             "filename": "php-5.4.33.tar.bz2",
-            "md5": "c6878bb1cdb46bfc1e1a5cd67a024737",
+            "md5": "0de30057773755c742ef4916c473292c",
             "name": "PHP 5.4.33 (tar.bz2)"
         },
         "5.4.32": {
@@ -799,30 +802,6 @@
             "date": "30 August 2007",
             "filename": "php-5.2.4.tar.bz2",
             "md5": "55c97a671fdabf462cc7a82971a656d2",
-            "name": "Source (tar.bz2)"
-        },
-        "5.2.3": {
-            "version": "5.2.3",
-            "announcement": "http://php.net/releases/5_2_3.php",
-            "date": "31 May 2007",
-            "filename": "php-5.2.3.tar.bz2",
-            "md5": "eb50b751c8e1ced05bd012d5a0e4dec3",
-            "name": "Source (tar.bz2)"
-        },
-        "5.2.2": {
-            "version": "5.2.2",
-            "announcement": "http://php.net/releases/5_2_2.php",
-            "date": "03 May 2007",
-            "filename": "php-5.2.2.tar.bz2",
-            "md5": "d084337867d70b50a10322577be0e44e",
-            "name": "Source (tar.bz2)"
-        },
-        "5.2.1": {
-            "version": "5.2.1",
-            "announcement": "http://php.net/releases/5_2_1.php",
-            "date": "08 Feb 2007",
-            "filename": "php-5.2.1.tar.bz2",
-            "md5": "261218e3569a777dbd87c16a15f05c8d",
             "name": "Source (tar.bz2)"
         }
     }

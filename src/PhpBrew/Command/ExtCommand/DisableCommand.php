@@ -1,10 +1,10 @@
 <?php
-
 namespace PhpBrew\Command\ExtCommand;
-
 use PhpBrew\Extension;
+use PhpBrew\Extension\ExtensionManager;
+use CLIFramework\Command;
 
-class DisableCommand extends \CLIFramework\Command
+class DisableCommand extends Command
 {
     public function usage()
     {
@@ -16,9 +16,9 @@ class DisableCommand extends \CLIFramework\Command
         return 'Disable PHP extension';
     }
 
-    public function execute($extname)
+    public function execute($extensionName)
     {
-        $extension = new Extension($extname, $this->logger);
-        $extension->disable();
+        $manager = new ExtensionManager($this->logger);
+        $manager->disable($extensionName);
     }
 }

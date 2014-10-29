@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew;
-
 use PEARX\Utils as PEARXUtils;
 
 class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMetaInterface
@@ -33,7 +32,6 @@ class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMeta
     public function getRuntimeName()
     {
         $provides = $this->meta->getElementsByTagName('providesextension');
-
         return $provides->length ? $provides->item(0)->nodeValue : $this->getName();
     }
 

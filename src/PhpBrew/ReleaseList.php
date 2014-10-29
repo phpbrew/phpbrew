@@ -3,6 +3,7 @@ namespace PhpBrew;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
+use Exception;
 
 class ReleaseList
 {
@@ -80,6 +81,9 @@ class ReleaseList
 
     public function getRemoteReleaseListUrl($branch)
     {
+        if (!extension_loaded('openssl')) {
+            throw new Exception('openssl extension not found, to download release json file you need openssl.');
+        }
         return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/php-releases.json";
     }
 

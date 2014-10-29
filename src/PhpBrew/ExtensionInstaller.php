@@ -1,59 +1,17 @@
 <?php
 namespace PhpBrew;
 use PEARX;
+use CLIFramework\Logger;
 
 class ExtensionInstaller
 {
-
-    public $pecl = 'pecl.php.net';
-
     public $logger;
 
-    public function __construct($logger)
+    public function __construct(Logger $logger)
     {
         $this->logger = $logger;
     }
 
-    public function findPeclPackageUrl($packageName, $version = 'stable')
-    {
-        $channel = new PEARX\Channel($this->pecl);
-        $xml = $channel->fetchPackageReleaseXml($packageName, $version);
-
-        $g = $xml->getElementsByTagName('g');
-        $url = $g->item(0)->nodeValue;
-        // just use tgz format file.
-        return $url . '.tgz';
-    }
-
-    /**
-     * When running this method, we're current in the directory of {build dir}/{version}/ext
-     *
-     * TODO: should not depends on chdir()
-     * TODO: download the file in distfiles dir.
-     */
-    public function installFromPecl($packageName, $version = 'stable', $configureOptions = array())
-    {
-        $url = $this->findPeclPackageUrl($packageName, $version);
-        
-        $downloader = new Downloader\UrlDownloader($this->logger);
-        $basename = $downloader->resolveDownloadFileName($url);
-
-        $distDir = Config::getDistFileDir();
-        $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
-
-        $downloader->download($url, $targetFilePath);
-
-        $info = pathinfo($basename);
-        $extensionExtractedDir = getcwd() . "/$packageName";
-
-        // extract
-        $this->logger->info("===> Extracting $basename...");
-        Utils::system("tar xf $targetFilePath");
-        Utils::system("rm -rf $packageName");
-        Utils::system("mv {$info['filename']} $packageName");
-        Utils::system("mv package.xml $packageName");
-        return $this->runInstall($packageName, $extensionExtractedDir, $configureOptions);
-    }
 
     public function runInstall($packageName, $dir, $configureOptions)
     {
@@ -95,7 +53,6 @@ class ExtensionInstaller
             }
 
         } else {
-
             throw new \Exception('Neither config.m4 nor config0.m4 was found');
         }
 
@@ -126,15 +83,26 @@ class ExtensionInstaller
             .DIRECTORY_SEPARATOR.'bin'
             .DIRECTORY_SEPARATOR.'php-config';
 
-
         if (file_exists($phpConfig)) {
             $escapeOptions[] = '--with-php-config='.$phpConfig;
         }
 
-        Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1') !== false or die('Configure failed.');
+        // Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1');
+        $cmd = './configure ' . join(' ', $escapeOptions);
+        if (!$this->logger->isDebug()) {
+            $cmd .= ' >> build.log 2>&1';
+        }
+        $this->logger->debug("Running Command:" . $cmd);
+        Utils::system($cmd);
+
 
         $this->logger->info("===> Building...");
-        Utils::system('make >> build.log 2>&1');
+        $cmd = 'make';
+        if (!$this->logger->isDebug()) {
+            $cmd .= ' >> build.log 2>&1';
+        }
+        $this->logger->debug("Running Command:" . $cmd);
+        $ret = Utils::system($cmd);
 
         $this->logger->info("===> Installing...");
 
@@ -159,9 +127,7 @@ class ExtensionInstaller
         // Try to find the installed path by pattern
         // Installing shared extensions: /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
         $sw->back();
-
         $this->logger->info("===> Extension is installed.");
-
         return $dir . '/package.xml';
     }
 }
