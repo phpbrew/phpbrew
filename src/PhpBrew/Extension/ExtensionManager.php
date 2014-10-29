@@ -89,9 +89,8 @@ class ExtensionManager
         $name = $ext->getMeta()->getName();
         $enabled_file = $ext->getMeta()->getIniFile();
         $disabled_file = $enabled_file . '.disabled';
-        if (file_exists($enabled_file) && ($ext->isLoaded() && ! $ext->hasConflicts())) {
+        if (file_exists($enabled_file) && ($ext->isLoaded() && ! $this->hasConflicts($ext))) {
             $this->logger->info("[*] {$name} extension is already enabled.");
-
             return true;
         }
 
@@ -156,9 +155,9 @@ class ExtensionManager
         }
     }
 
-    public function hasConflicts()
+    public function hasConflicts(Extension $ext)
     {
-        return array_key_exists($this->meta->getName(), $this->conflicts);
+        return array_key_exists($ext->getMeta()->getName(), $this->conflicts);
     }
 
 

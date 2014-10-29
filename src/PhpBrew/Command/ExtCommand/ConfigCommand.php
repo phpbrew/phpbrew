@@ -1,8 +1,9 @@
 <?php
 namespace PhpBrew\Command\ExtCommand;
-
 use PhpBrew\Command\AbstractConfigCommand;
 use PhpBrew\Extension;
+use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Extension\ExtensionManager;
 
 class ConfigCommand extends AbstractConfigCommand
 {
@@ -11,10 +12,10 @@ class ConfigCommand extends AbstractConfigCommand
         return 'phpbrew ext config [extension name]';
     }
 
-    public function execute($extname)
+    public function execute($extensionName)
     {
-        $extension = new Extension($extname, $this->logger);
-        $file = $extension->getMeta()->getIniFile();
+        $ext = ExtensionFactory::create($extname);
+        $file = $ext->getMeta()->getIniFile();
         $this->logger->info("Looking for {$file} file...");
         if(! file_exists($file)) {
             $file .= '.disabled'; // try with ini.disabled file
