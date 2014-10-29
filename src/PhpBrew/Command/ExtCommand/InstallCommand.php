@@ -3,6 +3,7 @@ namespace PhpBrew\Command\ExtCommand;
 use PhpBrew\Config;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
+use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Utils;
 
 class InstallCommand extends \CLIFramework\Command
@@ -91,7 +92,7 @@ class InstallCommand extends \CLIFramework\Command
         $manager = new ExtensionManager($this->logger);
 
         foreach ($extensions as $extensionName => $extData) {
-            $ext = new Extension($extensionName, $this->logger);
+            $ext = ExtensionFactory::create($extensionName);
             $manager->install($ext, $extData->version, $extData->options, $this->options->{'pecl'});
         }
         Config::useSystemPhpVersion();

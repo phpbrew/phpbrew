@@ -1,7 +1,8 @@
 <?php
 namespace PhpBrew\Command\ExtCommand;
 use PhpBrew\Extension;
-use PhpBrew\Extension\ExtensionManager;;
+use PhpBrew\Extension\ExtensionManager;
+use PhpBrew\Extension\ExtensionFactory;
 
 class EnableCommand extends \CLIFramework\Command
 {
@@ -15,9 +16,9 @@ class EnableCommand extends \CLIFramework\Command
         return 'Enable PHP extension';
     }
 
-    public function execute($extName)
+    public function execute($extensionName)
     {
-        $ext = new Extension($extName);
+        $ext = ExtensionFactory::create($extensionName);
         $manager = new ExtensionManager($this->logger);
         $manager->enable($ext);
     }
