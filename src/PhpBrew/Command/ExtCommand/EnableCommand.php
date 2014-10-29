@@ -18,8 +18,7 @@ class EnableCommand extends \CLIFramework\Command
 
     public function execute($extensionName)
     {
-        $ext = ExtensionFactory::create($extensionName);
         $manager = new ExtensionManager($this->logger);
-        $manager->enable($ext);
+        $manager->enable($extensionName);
     }
 }

@@ -26,29 +26,31 @@ class ExtensionManager
         $this->logger = $logger;
     }
 
-    public function install(Extension $ext, $version = 'stable', array $options = array(), $pecl = false)
+    public function installExtension(Extension $ext, $version = 'stable', array $options = array(), $pecl = false)
     {
         $originalLevel = $this->logger->getLevel();
         $this->logger->quiet();
-        $this->disable($ext);
+        $this->disableExtension($ext);
         $this->logger->setLevel($originalLevel);
 
-        $installer = new ExtensionInstaller($this->logger);
         $path = $ext->getSourceDirectory();
         $name = $ext->getName();
 
         // Install local extension
         if (file_exists($path) && ! $pecl) {
+            $installer = new ExtensionInstaller($this->logger);
             $this->logger->info("===> Installing {$name} extension...");
             $this->logger->debug("Extension path $path");
-            $xml = $installer->runInstall($name, $path, $options);
+            $installer->runInstall($name, $path, $options);
         } else {
             $extDir = dirname($path);
             if (!file_exists($extDir)) {
                 mkdir($extDir, 0755, true);
             }
             chdir($extDir);
-            $xml = $installer->installFromPecl($name, $version, $options);
+            $peclInstaller = new PeclExtensionInstaller($this->logger);
+            $peclInstaller->install($name, $version, $options);
+            // $xml = $installer->installFromPecl($name, $version, $options);
         }
 
         $ini = $ext->getConfigFilePath() . '.disabled';
@@ -70,16 +72,28 @@ class ExtensionManager
         }
 
         $this->logger->info("===> Enabling extension...");
-        // $this->enable();
+        $this->enableExtension($ext);
         $this->logger->info("Done.");
         return $path;
     }
+
+
+    public function disable($extensionName) {
+        $ext = ExtensionFactory::lookup($extensionName);
+        return $this->disableExtension($ext);
+    }
+    
+    public function enable($extensionName) {
+        $ext = ExtensionFactory::lookup($extensionName);
+        return $this->enableExtension($ext);
+    }
+
 
     /**
      * Enables ini file for current extension
      * @return boolean
      */
-    public function enable(Extension $ext)
+    public function enableExtension(Extension $ext)
     {
         $name = $ext->getName();
         $enabled_file = $ext->getConfigFilePath();
@@ -110,7 +124,7 @@ class ExtensionManager
      * Disables ini file for current extension
      * @return boolean
      */
-    public function disable(Extension $ext)
+    public function disableExtension(Extension $ext)
     {
         $name = $ext->getName();
         $enabled_file = $ext->getConfigFilePath();
@@ -118,14 +132,12 @@ class ExtensionManager
 
         if (file_exists($disabled_file)) {
             $this->logger->info("[ ] {$name} extension is already disabled.");
-
             return true;
         }
 
         if (file_exists($enabled_file)) {
             if (rename($enabled_file, $disabled_file)) {
                 $this->logger->info("[ ] {$name} extension is disabled.");
-
                 return true;
             }
             $this->logger->warning("failed to disable {$name} extension.");
@@ -144,7 +156,7 @@ class ExtensionManager
             $conflicts = $ext->conflicts[$name];
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
             foreach ($conflicts as $extensionName) {
-                $ext = ExtensionFactory::create($extensionName);
+                $ext = ExtensionFactory::lookup($extensionName);
                 $this->disable($ext);
             }
         }

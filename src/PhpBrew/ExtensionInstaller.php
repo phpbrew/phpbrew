@@ -5,9 +5,6 @@ use CLIFramework\Logger;
 
 class ExtensionInstaller
 {
-
-    public $pecl = 'pecl.php.net';
-
     public $logger;
 
     public function __construct(Logger $logger)
@@ -15,46 +12,6 @@ class ExtensionInstaller
         $this->logger = $logger;
     }
 
-    public function findPeclPackageUrl($packageName, $version = 'stable')
-    {
-        $channel = new PEARX\Channel($this->pecl);
-        $xml = $channel->fetchPackageReleaseXml($packageName, $version);
-
-        $g = $xml->getElementsByTagName('g');
-        $url = $g->item(0)->nodeValue;
-        // just use tgz format file.
-        return $url . '.tgz';
-    }
-
-    /**
-     * When running this method, we're current in the directory of {build dir}/{version}/ext
-     *
-     * TODO: should not depends on chdir()
-     * TODO: download the file in distfiles dir.
-     */
-    public function installFromPecl($packageName, $version = 'stable', $configureOptions = array())
-    {
-        $url = $this->findPeclPackageUrl($packageName, $version);
-        
-        $downloader = new Downloader\UrlDownloader($this->logger);
-        $basename = $downloader->resolveDownloadFileName($url);
-
-        $distDir = Config::getDistFileDir();
-        $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
-
-        $downloader->download($url, $targetFilePath);
-
-        $info = pathinfo($basename);
-        $extensionExtractedDir = getcwd() . "/$packageName";
-
-        // extract
-        $this->logger->info("===> Extracting $basename...");
-        Utils::system("tar xf $targetFilePath");
-        Utils::system("rm -rf $packageName");
-        Utils::system("mv {$info['filename']} $packageName");
-        Utils::system("mv package.xml $packageName");
-        return $this->runInstall($packageName, $extensionExtractedDir, $configureOptions);
-    }
 
     public function runInstall($packageName, $dir, $configureOptions)
     {
@@ -148,9 +105,7 @@ class ExtensionInstaller
         // Try to find the installed path by pattern
         // Installing shared extensions: /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
         $sw->back();
-
         $this->logger->info("===> Extension is installed.");
-
         return $dir . '/package.xml';
     }
 }

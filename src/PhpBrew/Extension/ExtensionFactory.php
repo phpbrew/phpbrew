@@ -13,7 +13,9 @@ use PEARX\PackageXml\Parser as PackageXmlParser;
 class ExtensionFactory
 {
 
-    static public function create($packageName, $lookupDirectories = array(), $fallback = true) {
+
+    static public function lookup($packageName, $lookupDirectories = array(), $fallback = true) 
+    {
 
         if ($fallback) {
             // Always push the PHP source directory to the end of the list for the fallback.

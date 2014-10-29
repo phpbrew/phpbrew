@@ -2,7 +2,6 @@
 namespace PhpBrew\Command\ExtCommand;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
-use PhpBrew\Extension\ExtensionFactory;
 use CLIFramework\Command;
 
 class DisableCommand extends Command
@@ -19,8 +18,7 @@ class DisableCommand extends Command
 
     public function execute($extensionName)
     {
-        $ext = ExtensionFactory::create($extensionName);
         $manager = new ExtensionManager($this->logger);
-        $manager->disable($ext);
+        $manager->disable($extensionName);
     }
 }

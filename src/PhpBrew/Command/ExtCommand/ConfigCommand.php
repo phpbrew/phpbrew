@@ -14,8 +14,8 @@ class ConfigCommand extends AbstractConfigCommand
 
     public function execute($extensionName)
     {
-        $ext = ExtensionFactory::create($extname);
-        $file = $ext->getMeta()->getIniFile();
+        $ext = ExtensionFactory::lookup($extname);
+        $file = $ext->getConfigFile();
         $this->logger->info("Looking for {$file} file...");
         if(! file_exists($file)) {
             $file .= '.disabled'; // try with ini.disabled file
