@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew;
-
 use PEARX\Utils as PEARXUtils;
 
 class ExtensionMetaXml extends ExtensionMetaAbstraction implements ExtensionMetaInterface

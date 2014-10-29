@@ -2,7 +2,8 @@
 namespace PhpBrew\Extension;
 use CLIFramework\Logger;
 use PhpBrew\ExtensionInstaller;
-use PhpBrew\Extension;
+// use PhpBrew\Extension;
+use PhpBrew\Extension\Extension;
 use PhpBrew\ExtensionMetaXml;
 
 class ExtensionManager
@@ -33,8 +34,8 @@ class ExtensionManager
         $this->logger->setLevel($originalLevel);
 
         $installer = new ExtensionInstaller($this->logger);
-        $path = $ext->getMeta()->getPath();
-        $name = $ext->getMeta()->getName();
+        $path = $ext->getSourceDirectory();
+        $name = $ext->getName();
 
         // Install local extension
         if (file_exists($path) && ! $pecl) {
@@ -50,18 +51,12 @@ class ExtensionManager
             $xml = $installer->installFromPecl($name, $version, $options);
         }
 
-        // try to rebuild meta from xml, which is more accurate right now
-        if (file_exists($xml)) {
-            $this->logger->warning("===> Switching to xml extension meta");
-            $ext->setMeta(new ExtensionMetaXml($xml));
-        }
-
-        $ini = $ext->getMeta()->getIniFile() . '.disabled';
+        $ini = $ext->getConfigFilePath() . '.disabled';
         $this->logger->info("===> Creating config file {$ini}");
 
         // create extension config file
         if (! file_exists($ini)) {
-            if ($ext->getMeta()->isZend()) {
+            if ($ext->isZend()) {
                 $makefile = file_get_contents("$path/Makefile");
                 preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
 
@@ -70,7 +65,7 @@ class ExtensionManager
                 $content = "extension=";
             }
 
-            file_put_contents($ini, $content .= $ext->getMeta()->getSourceFile());
+            file_put_contents($ini, $content .= $ext->getSharedLibraryName()); // {ext name}.so
             $this->logger->debug("{$ini} is created.");
         }
 
@@ -86,8 +81,8 @@ class ExtensionManager
      */
     public function enable(Extension $ext)
     {
-        $name = $ext->getMeta()->getName();
-        $enabled_file = $ext->getMeta()->getIniFile();
+        $name = $ext->getName();
+        $enabled_file = $ext->getConfigFilePath();
         $disabled_file = $enabled_file . '.disabled';
         if (file_exists($enabled_file) && ($ext->isLoaded() && ! $this->hasConflicts($ext))) {
             $this->logger->info("[*] {$name} extension is already enabled.");
@@ -117,8 +112,8 @@ class ExtensionManager
      */
     public function disable(Extension $ext)
     {
-        $name = $ext->getMeta()->getName();
-        $enabled_file = $ext->getMeta()->getIniFile();
+        $name = $ext->getName();
+        $enabled_file = $ext->getConfigFilePath();
         $disabled_file = $enabled_file . '.disabled';
 
         if (file_exists($disabled_file)) {
@@ -144,7 +139,7 @@ class ExtensionManager
      */
     public function disableAntagonists(Extension $ext)
     {
-        $name = $ext->getMeta()->getName();
+        $name = $ext->getName();
         if (isset($this->conflicts[$name])) {
             $conflicts = $ext->conflicts[$name];
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
@@ -157,7 +152,7 @@ class ExtensionManager
 
     public function hasConflicts(Extension $ext)
     {
-        return array_key_exists($ext->getMeta()->getName(), $this->conflicts);
+        return array_key_exists($ext->getName(), $this->conflicts);
     }
 
 

@@ -1,13 +1,19 @@
 <?php
 namespace PhpBrew\Extension;
+use PhpBrew\Config;
 
 class Extension
 {
 
     /**
-     * The extension name
+     * @var string The extension package name
+     *
+     * The package name does not equal to the extension name.
+     * for example, "APCu" provides "apcu" instead of "APCu"
      */
     protected $name;
+
+    protected $extensionName;
 
     protected $version;
 
@@ -23,6 +29,7 @@ class Extension
     public function __construct($name)
     {
         $this->name = $name;
+        $this->extensionName = strtolower($name);
     }
 
     public function getName() 
@@ -60,9 +67,31 @@ class Extension
         return $this->sharedLibraryName;
     }
 
+    public function setExtensionName($name)
+    {
+        $this->extensionName = $name;
+    }
+
+    public function getExtensionName()
+    {
+        return $this->extensionName;
+    }
+
+
     public function setSourceDirectory($dir)
     {
         $this->sourceDirectory = $dir;
+    }
+
+
+    public function getSourceDirectory()
+    {
+        return $this->sourceDirectory;
+    }
+
+    public function getConfigFilePath()
+    {
+        return Config::getCurrentPhpConfigScanPath() . '/' . $this->getName() . '.ini';
     }
 
 }
