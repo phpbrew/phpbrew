@@ -104,7 +104,7 @@ class InstallCommand extends \CLIFramework\Command
             if (!$ext) {
                 throw new Exception("$extensionName not found.");
             }
-            $manager->installExtension($ext, $extConfig->version, $extConfig->options, $this->options->{'pecl'});
+            $manager->installExtension($ext, $extConfig->options, $this->options->{'pecl'});
         }
         Config::useSystemPhpVersion();
     }

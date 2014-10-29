@@ -93,6 +93,5 @@ class Extension
     {
         return Config::getCurrentPhpConfigScanPath() . '/' . $this->getName() . '.ini';
     }
-
 }
 

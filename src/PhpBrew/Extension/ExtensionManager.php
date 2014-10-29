@@ -5,6 +5,7 @@ use PhpBrew\ExtensionInstaller;
 // use PhpBrew\Extension;
 use PhpBrew\Extension\Extension;
 use PhpBrew\ExtensionMetaXml;
+use PhpBrew\Utils;
 
 class ExtensionManager
 {
@@ -26,31 +27,44 @@ class ExtensionManager
         $this->logger = $logger;
     }
 
-    public function installExtension(Extension $ext, $version = 'stable', array $options = array(), $pecl = false)
+
+
+    public function cleanExtension(Extension $ext)
+    {
+        if ($sourceDir = $ext->getSourceDirectory()) {
+            if (!file_exists($sourceDir)) {
+                $this->logger->error("$sourceDir does not exists.");
+                return false;
+            }
+            // TODO: reuse the MakeTask
+            Utils::system("make -C $sourceDir clean");
+        }
+    }
+
+    /**
+     * Whenever you call this method, you shall have already downloaded the extension
+     * And have set the source directory on the Extension object.
+     */
+    public function installExtension(Extension $ext, array $options = array(), $pecl = false)
     {
         $originalLevel = $this->logger->getLevel();
         $this->logger->quiet();
         $this->disableExtension($ext);
         $this->logger->setLevel($originalLevel);
 
-        $path = $ext->getSourceDirectory();
+        $sourceDir = $ext->getSourceDirectory();
         $name = $ext->getName();
 
+        if (!file_exists($sourceDir)) {
+            throw new Exception("Source directory $sourceDir does not exist.");
+        }
+
         // Install local extension
-        if (file_exists($path) && ! $pecl) {
+        if (! $pecl) {
             $installer = new ExtensionInstaller($this->logger);
             $this->logger->info("===> Installing {$name} extension...");
-            $this->logger->debug("Extension path $path");
-            $installer->runInstall($name, $path, $options);
-        } else {
-            $extDir = dirname($path);
-            if (!file_exists($extDir)) {
-                mkdir($extDir, 0755, true);
-            }
-            chdir($extDir);
-            $peclInstaller = new PeclExtensionInstaller($this->logger);
-            $peclInstaller->install($name, $version, $options);
-            // $xml = $installer->installFromPecl($name, $version, $options);
+            $this->logger->debug("Extension path $sourceDir");
+            $installer->runInstall($name, $sourceDir, $options);
         }
 
         $ini = $ext->getConfigFilePath() . '.disabled';
@@ -59,9 +73,8 @@ class ExtensionManager
         // create extension config file
         if (! file_exists($ini)) {
             if ($ext->isZend()) {
-                $makefile = file_get_contents("$path/Makefile");
+                $makefile = file_get_contents("$sourceDir/Makefile");
                 preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
-
                 $content = "zend_extension={$regs[1]}/";
             } else {
                 $content = "extension=";
@@ -74,7 +87,7 @@ class ExtensionManager
         $this->logger->info("===> Enabling extension...");
         $this->enableExtension($ext);
         $this->logger->info("Done.");
-        return $path;
+        return $sourceDir;
     }
 
 
