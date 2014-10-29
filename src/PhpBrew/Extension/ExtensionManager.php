@@ -27,6 +27,14 @@ class ExtensionManager
         $this->logger = $logger;
     }
 
+    public function purgeExtension(Extension $ext)
+    {
+        if ($sourceDir = $ext->getSourceDirectory()) {
+            if (file_exists($sourceDir)) {
+                Utils::system("rm -rvf $sourceDir");
+            }
+        }
+    }
 
 
     public function cleanExtension(Extension $ext)

@@ -10,7 +10,12 @@ class CleanCommand extends Command
 {
     public function brief()
     {
-        return 'phpbrew ext clean [extension name]';
+        return 'Clean up the compiled objects in the extension source directory.';
+    }
+
+    public function options($opts)
+    {
+        $opts->add('p|purge', 'Remove all the source files.');
     }
 
     public function execute($extensionName)
@@ -18,7 +23,12 @@ class CleanCommand extends Command
         if ($ext = ExtensionFactory::lookup($extensionName)) {
             $this->logger->info("Cleaning $extensionName...");
             $manager = new ExtensionManager($this->logger);
-            $manager->cleanExtension($ext);
+
+            if ($this->options->purge) {
+                $manager->purgeExtension($ext);
+            } else {
+                $manager->cleanExtension($ext);
+            }
             $this->logger->info("Done");
         }
     }
