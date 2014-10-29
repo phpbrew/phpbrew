@@ -53,7 +53,7 @@ class ExtensionManager
      * Whenever you call this method, you shall have already downloaded the extension
      * And have set the source directory on the Extension object.
      */
-    public function installExtension(Extension $ext, array $options = array(), $pecl = false)
+    public function installExtension(Extension $ext, array $options = array())
     {
         $originalLevel = $this->logger->getLevel();
         $this->logger->quiet();
@@ -68,13 +68,20 @@ class ExtensionManager
         }
 
         // Install local extension
-        if (! $pecl) {
-            $installer = new ExtensionInstaller($this->logger);
-            $this->logger->info("===> Installing {$name} extension...");
-            $this->logger->debug("Extension path $sourceDir");
-            $installer->runInstall($name, $sourceDir, $options);
-        }
+        $installer = new ExtensionInstaller($this->logger);
+        $this->logger->info("===> Installing {$name} extension...");
+        $this->logger->debug("Extension path $sourceDir");
+        $installer->runInstall($name, $sourceDir, $options);
 
+        $this->createExtensionConfig($ext);
+        $this->enableExtension($ext);
+        $this->logger->info("Done.");
+        return $sourceDir;
+    }
+
+    public function createExtensionConfig(Extension $ext)
+    {
+        $sourceDir = $ext->getSourceDirectory();
         $ini = $ext->getConfigFilePath() . '.disabled';
         $this->logger->info("===> Creating config file {$ini}");
 
@@ -91,11 +98,6 @@ class ExtensionManager
             file_put_contents($ini, $content .= $ext->getSharedLibraryName()); // {ext name}.so
             $this->logger->debug("{$ini} is created.");
         }
-
-        $this->logger->info("===> Enabling extension...");
-        $this->enableExtension($ext);
-        $this->logger->info("Done.");
-        return $sourceDir;
     }
 
 
@@ -117,6 +119,7 @@ class ExtensionManager
     public function enableExtension(Extension $ext)
     {
         $name = $ext->getName();
+        $this->logger->info("===> Enabling extension $name");
         $enabled_file = $ext->getConfigFilePath();
         $disabled_file = $enabled_file . '.disabled';
         if (file_exists($enabled_file) && ($ext->isLoaded() && ! $this->hasConflicts($ext))) {
