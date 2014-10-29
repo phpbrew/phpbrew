@@ -1,8 +1,7 @@
 <?php
-
 namespace PhpBrew\Command\ExtCommand;
-
 use PhpBrew\Extension;
+use PhpBrew\Extension\ExtensionManager;;
 
 class DisableCommand extends \CLIFramework\Command
 {
@@ -18,7 +17,8 @@ class DisableCommand extends \CLIFramework\Command
 
     public function execute($extname)
     {
-        $extension = new Extension($extname, $this->logger);
-        $extension->disable();
+        $ext = new Extension($extname);
+        $manager = new ExtensionManager($this->logger);
+        $manager->disable($ext);
     }
 }

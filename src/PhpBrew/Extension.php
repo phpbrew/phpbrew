@@ -12,12 +12,6 @@ class Extension implements ExtensionInterface
     protected $meta;
 
     /**
-     * Application logger
-     * @var \CLIFramework\Logger
-     */
-    protected $logger;
-
-    /**
      * Map of extensions that can't be enabled at the same time.
      * This helps phpbrew to unload antagonist extensions before enabling
      * an extension with a known conflict.
@@ -28,128 +22,12 @@ class Extension implements ExtensionInterface
         'jsonc' => array ('json'),    // enabling json disables jsonc
     );
 
-    public function __construct($name, Logger $logger)
+    public function __construct($name)
     {
         Migrations::setupConfigFolder();
-        $this->logger = $logger;
         $this->meta = $this->buildMetaFromName($name);
     }
 
-    public function install($version = 'stable', array $options = array(), $pecl = false)
-    {
-        $originalLevel = $this->logger->getLevel();
-        $this->logger->quiet();
-        $this->disable();
-        $this->logger->setLevel($originalLevel);
-
-        $installer = new ExtensionInstaller($this->logger);
-        $path = $this->meta->getPath();
-        $name = $this->meta->getName();
-
-        // Install local extension
-        if (file_exists($path) && ! $pecl) {
-            $this->logger->info("===> Installing {$name} extension...");
-            $this->logger->debug("Extension path $path");
-            $xml = $installer->runInstall($name, $path, $options);
-        } else {
-            $extDir = dirname($path);
-            if (!file_exists($extDir)) {
-                mkdir($extDir, 0755, true);
-            }
-            chdir($extDir);
-            $xml = $installer->installFromPecl($name, $version, $options);
-        }
-
-        // try to rebuild meta from xml, which is more accurate right now
-        if (file_exists($xml)) {
-            $this->logger->warning("===> Switching to xml extension meta");
-            $this->meta = new ExtensionMetaXml($xml);
-        }
-
-        $ini = $this->meta->getIniFile() . '.disabled';
-        $this->logger->info("===> Creating config file {$ini}");
-
-        // create extension config file
-        if (! file_exists($ini)) {
-            if ($this->meta->isZend()) {
-                $makefile = file_get_contents("$path/Makefile");
-                preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
-
-                $content = "zend_extension={$regs[1]}/";
-            } else {
-                $content = "extension=";
-            }
-
-            file_put_contents($ini, $content .= $this->meta->getSourceFile());
-            $this->logger->debug("{$ini} is created.");
-        }
-
-        $this->logger->info("===> Enabling extension...");
-        $this->enable();
-        $this->logger->info("Done.");
-
-        return $path;
-    }
-
-    /**
-     * Enables ini file for current extension
-     * @return boolean
-     */
-    public function enable()
-    {
-        $name = $this->meta->getName();
-        $enabled_file = $this->meta->getIniFile();
-        $disabled_file = $enabled_file . '.disabled';
-        if (file_exists($enabled_file) && ($this->isLoaded() && ! $this->hasConflicts())) {
-            $this->logger->info("[*] {$name} extension is already enabled.");
-
-            return true;
-        }
-
-        if (file_exists($disabled_file)) {
-            $this->disableAntagonists();
-
-            if (rename($disabled_file, $enabled_file)) {
-                $this->logger->info("[*] {$name} extension is enabled.");
-
-                return true;
-            }
-            $this->logger->warning("failed to enable {$name} extension.");
-        }
-
-        $this->logger->info("{$name} extension is not installed. Suggestions:");
-        $this->logger->info("\t\$ phpbrew ext install {$name}");
-
-        return false;
-    }
-
-    /**
-     * Disables ini file for current extension
-     * @return boolean
-     */
-    public function disable()
-    {
-        $name = $this->meta->getName();
-        $enabled_file = $this->meta->getIniFile();
-        $disabled_file = $enabled_file . '.disabled';
-
-        if (file_exists($disabled_file)) {
-            $this->logger->info("[ ] {$name} extension is already disabled.");
-
-            return true;
-        }
-
-        if (file_exists($enabled_file)) {
-            if (rename($enabled_file, $disabled_file)) {
-                $this->logger->info("[ ] {$name} extension is disabled.");
-
-                return true;
-            }
-            $this->logger->warning("failed to disable {$name} extension.");
-        }
-
-        return false;
-    }
     /**
      * Disable extensions known to conflict with current one
      */
@@ -220,13 +98,13 @@ class Extension implements ExtensionInterface
         $m4 = $path . '/config.m4';
 
         if (file_exists($xml)) {
-            $this->logger->warning("===> Using xml extension meta");
+            // $this->logger->warning("===> Using xml extension meta");
             $meta = new ExtensionMetaXml($xml);
         } elseif (file_exists($m4)) {
-            $this->logger->warning("===> Using m4 extension meta");
+            // $this->logger->warning("===> Using m4 extension meta");
             $meta = new ExtensionMetaM4($m4);
         } else {
-            $this->logger->warning("===> Using polyfill extension meta");
+            // $this->logger->warning("===> Using polyfill extension meta");
             $meta = new ExtensionMetaPolyfill($name);
         }
         return $meta;
@@ -235,5 +113,9 @@ class Extension implements ExtensionInterface
     public function getMeta()
     {
         return $this->meta;
+    }
+
+    public function setMeta($meta) {
+        $this->meta = $meta;
     }
 }
