@@ -49,12 +49,37 @@ class ExtensionFactory
         for ($i = 0 ; $i < 10 ; $i++ ) {
             $configM4Path = $extensionDir . "/config{$i}.m4";
             if (file_exists($configM4Path)) {
-                // $this->logger->warning("===> Using m4 extension meta");
                 return self::createM4Extension($packageName, $configM4Path);
             }
         }
     }
 
+    static public function lookupRecursive($packageName, array $lookupDirs = array() ) {
+        foreach($lookupDirs as $lookupDir) {
+            /**
+            * FOLLOW_SYMLINKS is available from 5.2.11, 5.3.1
+            */
+            $di = new RecursiveDirectoryIterator($lookupDir, 
+                RecursiveDirectoryIterator::FOLLOW_SYMLINKS | 
+                RecursiveDirectoryIterator::SKIP_DOTS 
+            );
+            $it = new RecursiveIteratorIterator($di);
+
+            /**
+            * Search for config.m4 or config0.m4 and use them to determine
+            * the directory of the extension's source, because it's not always
+            * the root directory in the ext archive (example xhprof)
+            */
+            foreach ($it as $fileinfo) {
+                if (!$fileinfo->isDir()) {
+                    continue;
+                }
+                if ($ext = $this->createFromDirectory($packageName, $fileinfo->__toString())) {
+                    return $ext;
+                }
+            }
+        }
+    }
 
     static public function lookup($packageName, $lookupDirectories = array(), $fallback = true) 
     {

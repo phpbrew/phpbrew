@@ -6,7 +6,7 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
     public function testPackageUrl()
     {
         $logger = new CLIFramework\Logger;
-        $installer = new PhpBrew\ExtensionInstaller($logger);
+        $installer = new PhpBrew\Extension\ExtensionInstaller($logger);
 
         $url = $installer->findPeclPackageUrl('APC');
         $this->assertNotEmpty($url);
@@ -31,7 +31,7 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         }
         chdir('tmp');
         $logger = new CLIFramework\Logger;
-        $installer = new PhpBrew\ExtensionInstaller($logger);
+        $installer = new PhpBrew\Extension\ExtensionInstaller($logger);
 
         ob_start();
         $installedPath = $installer->installFromPecl($packageName);

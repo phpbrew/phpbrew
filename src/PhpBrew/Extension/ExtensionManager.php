@@ -1,10 +1,10 @@
 <?php
 namespace PhpBrew\Extension;
 use CLIFramework\Logger;
-use PhpBrew\ExtensionInstaller;
 // use PhpBrew\Extension;
 use PhpBrew\Extension\Extension;
 use PhpBrew\ExtensionMetaXml;
+use PhpBrew\Extension\ExtensionInstaller;
 use PhpBrew\Utils;
 
 class ExtensionManager

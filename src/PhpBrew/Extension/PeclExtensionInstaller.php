@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\Extension;
-use PhpBrew\ExtensionInstaller;
 use PhpBrew\Extension\Extension;
+use PhpBrew\Extension\ExtensionInstaller;
 use PhpBrew\Config;
 use PhpBrew\Downloader;
 use PhpBrew\Utils;

@@ -4,7 +4,7 @@ use CLIFramework\Logger;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\ExtensionMetaInterface;
 
-class Extension implements ExtensionInterface
+class Extension
 {
 
     /**
