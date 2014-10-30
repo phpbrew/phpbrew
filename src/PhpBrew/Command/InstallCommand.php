@@ -148,21 +148,6 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
-        // convert patch to realpath
-        if ($this->options->patch) {
-            $patchPaths = array();
-            foreach ($this->options->patch as $patch) {
-                /** @var \SplFileInfo $patch */
-                $patchPath = realpath($patch);
-                if ($patchPath !== false) {
-                    $patchPaths[(string) $patch] = $patchPath;
-                }
-            }
-            // rewrite patch paths
-            $this->options->keys['patch']->value = $patchPaths;
-        }
-
-
         $version = preg_replace('/^php-/', '', $version);
         $releaseList = ReleaseList::getReadyInstance();
         $versionInfo = $releaseList->getVersion($version);
@@ -182,13 +167,27 @@ class InstallCommand extends Command
         $args = func_get_args();
         array_shift($args); // shift the version name
 
+
         $semanticOptions = $this->parseSemanticOptions($args);
         $buildAs =   isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->alias;
         $buildLike = isset($semanticOptions['like']) ? $semanticOptions['like'] : $this->options->like;
 
+        // convert patch to realpath
+        if ($this->options->patch) {
+            $patchPaths = array();
+            foreach ($this->options->patch as $patch) {
+                /** @var \SplFileInfo $patch */
+                $patchPath = realpath($patch);
+                if ($patchPath !== false) {
+                    $patchPaths[(string) $patch] = $patchPath;
+                }
+            }
+            // rewrite patch paths
+            $this->options->keys['patch']->value = $patchPaths;
+        }
 
-        // Initialize the build object, contains the information to build php.
-        $build = new Build($version, $this->options->name);
+
+
 
         // Initialize the build object, contains the information to build php.
         $build = new Build($version, $buildAs);
