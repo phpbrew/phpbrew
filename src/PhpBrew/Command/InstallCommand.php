@@ -148,18 +148,31 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
-        $version = preg_replace('/^php-/', '', $version);
+        $distUrl = NULL;
+        $versionInfo = array();
         $releaseList = ReleaseList::getReadyInstance();
-        $versionInfo = $releaseList->getVersion($version);
-        if (!$versionInfo) {
-            throw new Exception("Version $version not found.");
-        }
-        $version = $versionInfo['version'];
 
-        $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
-        if ($mirrorSite = $this->options->mirror) {
-            // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
-            $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+        if (preg_match('#https?://#',$version)) {
+            $distUrl = $version;
+            if (preg_match('#(php-(\d.\d+.\d+)\.tar\.(?:gz|bz2))#',$version, $matches)) {
+                $filename = $matches[1];
+                $version = $matches[2];
+            } else {
+                return $this->error("Can not find version name from the given URL: $version");
+            }
+        } else {
+            $version = preg_replace('/^php-/', '', $version);
+            $versionInfo = $releaseList->getVersion($version);
+            if (!$versionInfo) {
+                throw new Exception("Version $version not found.");
+            }
+            $version = $versionInfo['version'];
+
+            $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
+            if ($mirrorSite = $this->options->mirror) {
+                // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
+                $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+            }
         }
 
         // get options and variants for building php
@@ -298,7 +311,7 @@ class InstallCommand extends Command
         $distFileDir = Config::getDistFileDir();
 
         $downloadTask = new DownloadTask($this->logger, $this->options);
-        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, $versionInfo['md5']);
+        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, isset($versionInfo['md5']) ? $versionInfo['md5'] : NULL);
         if (!file_exists($targetFilePath)) {
             throw new Exception("Download failed, $targetFilePath does not exist.");
         }

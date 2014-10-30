@@ -23,7 +23,7 @@ class DownloadTask extends BaseTask
         }
         $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
 
-        if (file_exists($targetFilePath)) {
+        if (!$this->options->force && file_exists($targetFilePath)) {
             $this->logger->info('Checking distribution checksum...');
             $md5a = md5_file($targetFilePath);
             if ($md5 && $md5a != $md5) {

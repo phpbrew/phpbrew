@@ -41,7 +41,7 @@ class PhpSource
             'http://www.php.net/downloads.php',
             'http://www.php.net/releases/'
         );
-        $phpFilePattern = '/php-(.*?)\.tar\.bz2/';
+        $phpFilePattern = '/php-(.*?)\.tar\.(?:gz|bz2)/';
         $versions = array();
 
         foreach ($downloadUrls as $downloadUrl) {
