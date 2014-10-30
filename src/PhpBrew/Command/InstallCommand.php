@@ -126,8 +126,7 @@ class InstallCommand extends Command
 
         $opts->add('no-install', 'Do not install, just run build the target');
 
-
-        $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority.')
+        $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority. The priority can be adjusted over a range of -20 (the highest) to 20 (the lowest).')
             ->valueName('priority');
 
         $opts->add('patch+:', 'Apply patch before build.')
