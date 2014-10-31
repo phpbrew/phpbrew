@@ -8,15 +8,19 @@ use PhpBrew\DirectorySwitch;
 use PhpBrew\Config;
 use PhpBrew\Utils;
 use GetOptionKit\OptionCollection;
+use GetOptionKit\OptionResult;
 use Exception;
 
 class ExtensionInstaller
 {
     public $logger;
 
-    public function __construct(Logger $logger)
+    public $options;
+
+    public function __construct(Logger $logger, OptionResult $options = NULL)
     {
         $this->logger = $logger;
+        $this->options = $options ?: new \GetOptionKit\OptionResult;
     }
 
     public function install(Extension $ext, array $configureOptions = array()) {
@@ -25,16 +29,16 @@ class ExtensionInstaller
 
         chdir($sourceDir);
 
-        $phpizeCommand = 'phpize';
-        $phpizeForVersion = Config::getCurrentPhpDir()
-            .DIRECTORY_SEPARATOR.'bin'
-            .DIRECTORY_SEPARATOR.$phpizeCommand;
+        $phpize = 'phpize';
 
-        if (file_exists($phpizeForVersion)) {
-            $phpizeCommand = $phpizeForVersion;
+        $versionSpecified = $this->options->{"php-version"};
+
+        // If the php version is specified, we should get phpize with the correct version.
+        if ($versionSpecified) {
+            $phpize = Config::getCurrentPhpizeBin();
         }
-
-        Utils::system($phpizeCommand.' > build.log');
+        $this->logger->debug("Using phpize: $phpize");
+        Utils::system("$phpize > build.log", $this->logger);
 
         // here we don't want to use closure, because
         // 5.2 does not support closure. We haven't decided whether to
@@ -43,9 +47,9 @@ class ExtensionInstaller
 
         $this->logger->info("===> Configuring...");
 
-        $phpConfig = $phpizeForVersion = Config::getCurrentPhpConfigBin();
-
-        if (file_exists($phpConfig)) {
+        $phpConfig = Config::getCurrentPhpConfigBin();
+        if ($versionSpecified && file_exists($phpConfig)) {
+            $this->logger->debug("php-version specified, appending argument: --with-php-config=$phpConfig");
             $escapeOptions[] = '--with-php-config='.$phpConfig;
         }
 
@@ -54,23 +58,24 @@ class ExtensionInstaller
         if (!$this->logger->isDebug()) {
             $cmd .= ' >> build.log 2>&1';
         }
-        $this->logger->debug("Running Command:" . $cmd);
-        Utils::system($cmd);
-
+        Utils::system($cmd, $this->logger);
 
         $this->logger->info("===> Building...");
-        $cmd = 'make';
+        $cmd = array("make", "-C", $sourceDir);
         if (!$this->logger->isDebug()) {
-            $cmd .= ' >> build.log 2>&1';
+            $cmd[] = ' >> build.log 2>&1';
         }
-        $this->logger->debug("Running Command:" . $cmd);
-        $ret = Utils::system($cmd);
+        $ret = Utils::system($cmd, $this->logger);
 
         $this->logger->info("===> Installing...");
 
         // TODO: use Make task
         // This function is disabled when PHP is running in safe mode.
-        passthru('make install');
+        if ($this->logger->isDebug()) {
+            passthru('make install');
+        } else {
+            Utils::system('make install', $this->logger);
+        }
 
         // TODO: use getSharedLibraryPath()
         $this->logger->debug("Installed extension library: " . $ext->getSharedLibraryPath());

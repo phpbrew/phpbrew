@@ -206,8 +206,16 @@ class Utils
         return trim($process->getOutput());
     }
 
-    public static function system($command, $msg = 'execute fail')
+    static public function system($command, $logger = NULL)
     {
+        if (is_array($command)) {
+            $command = join(' ', $command);
+        }
+
+        if ($logger) {
+            $logger->debug("Running Command:" . $command);
+        }
+
         $lastLine = system($command, $returnValue);
         if ($returnValue !== 0) {
             throw new Exception("Command failed: " . $lastLine);

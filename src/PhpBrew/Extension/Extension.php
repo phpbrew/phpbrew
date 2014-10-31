@@ -124,9 +124,8 @@ class Extension
 
 
     public function getSharedLibraryPath() {
-        return ini_get('extension_dir') . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
+        return Config::getCurrentExtensionDir() . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
     }
-
 
     public function getConfigFilePath()
     {
