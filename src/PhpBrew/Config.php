@@ -183,15 +183,4 @@ class Config
 
         return array();
     }
-
-    static public function getCurrentExtensionDir() {
-        if (ini_get('safe_mode')) {
-            // XXX: we can't run shell_exec in safe mode.
-            return NULL;
-        }
-        $php = self::getCurrentPhpBin() . DIRECTORY_SEPARATOR . 'php';
-        // shell_exec is disabled when PHP is running in safe mode.
-        // Run php -r 'echo ini_get("extension_dir");'
-        return shell_exec("$php -r 'echo ini_get(\"extension_dir\");'");
-    }
 }

@@ -2,8 +2,6 @@
 namespace PhpBrew\Extension;
 use PhpBrew\Config;
 use PhpBrew\Extension as Extension1;
-use PhpBrew\ExtensionMetaM4;
-use PhpBrew\ExtensionMetaXml;
 use PhpBrew\Extension\PeclExtension;
 use PEARX\PackageXml\Parser as PackageXmlParser;
 
@@ -98,7 +96,6 @@ class ExtensionFactory
     }
 
     static public function createM4Extension($packageName, $m4Path) {
-        // $meta = new ExtensionMetaM4($m4Path);
         $m4 = file_get_contents($m4Path);
 
         // PHP_NEW_EXTENSION(extname, sources [, shared [, sapi_class [, extra-cflags [, cxx [, zend_ext]]]]])
@@ -136,8 +133,6 @@ class ExtensionFactory
         $ext->setPackage($package);
         $ext->setSourceDirectory(dirname($packageXmlPath));
         return $ext;
-        // $meta = new ExtensionMetaXml($packageXmlPath);
-        // return new Extension1($packageName, $meta);
     }
 
 }

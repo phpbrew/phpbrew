@@ -19,41 +19,6 @@ class Extension
         $this->meta = $meta;
     }
 
-    /**
-     * Checks if current extension is loaded
-     *
-     * @return boolean
-     */
-    public function isLoaded()
-    {
-        return extension_loaded($this->meta->getRuntimeName());
-    }
-
-    /**
-     * Checks if extension.so file is in place
-     *
-     * @return boolean
-     */
-    public function isInstalled()
-    {
-        return file_exists(ini_get('extension_dir') . '/' . $this->meta->getSourceFile());
-    }
-
-    /**
-     * Checks if current extension source is available for local install
-     * @return boolean
-     */
-    public function isAvailable()
-    {
-        foreach (glob($this->meta->getPath() . '/*', GLOB_ONLYDIR) as $available_extension) {
-            if (false !== strpos(basename($available_extension), $this->meta->getName())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function purge()
     {
         $ini = $this->meta->getIniFile();

@@ -124,12 +124,32 @@ class Extension
 
 
     public function getSharedLibraryPath() {
-        return Config::getCurrentExtensionDir() . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
+        return ini_get('extension_dir') . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
     }
 
     public function getConfigFilePath()
     {
         return Config::getCurrentPhpConfigScanPath() . '/' . $this->getName() . '.ini';
+    }
+
+    /**
+     * Checks if current extension is loaded
+     *
+     * @return boolean
+     */
+    public function isLoaded()
+    {
+        return extension_loaded($this->extensionName);
+    }
+
+    /**
+     * Checks if extension.so file is in place
+     *
+     * @return boolean
+     */
+    public function isInstalled()
+    {
+        return file_exists($this->getSharedLibraryPath());
     }
 }
 

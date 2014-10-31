@@ -27,18 +27,15 @@ class ExtensionInstaller
         $sourceDir = $ext->getSourceDirectory();
         $pwd = getcwd();
 
+        $buildLogPath = $sourceDir . DIRECTORY_SEPARATOR . 'build.log';
+
+        $this->logger->info("Log stored at: $buildLogPath");
+
         chdir($sourceDir);
 
-        $phpize = 'phpize';
-
-        $versionSpecified = $this->options->{"php-version"};
-
         // If the php version is specified, we should get phpize with the correct version.
-        if ($versionSpecified) {
-            $phpize = Config::getCurrentPhpizeBin();
-        }
-        $this->logger->debug("Using phpize: $phpize");
-        Utils::system("$phpize > build.log", $this->logger);
+        $this->logger->info('===> Phpize...');
+        Utils::system("phpize > $buildLogPath 2>&1", $this->logger);
 
         // here we don't want to use closure, because
         // 5.2 does not support closure. We haven't decided whether to
@@ -48,22 +45,22 @@ class ExtensionInstaller
         $this->logger->info("===> Configuring...");
 
         $phpConfig = Config::getCurrentPhpConfigBin();
-        if ($versionSpecified && file_exists($phpConfig)) {
-            $this->logger->debug("php-version specified, appending argument: --with-php-config=$phpConfig");
+        if (file_exists($phpConfig)) {
+            $this->logger->debug("Appending argument: --with-php-config=$phpConfig");
             $escapeOptions[] = '--with-php-config='.$phpConfig;
         }
 
         // Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1');
         $cmd = './configure ' . join(' ', $escapeOptions);
         if (!$this->logger->isDebug()) {
-            $cmd .= ' >> build.log 2>&1';
+            $cmd .= " >> $buildLogPath 2>&1";
         }
         Utils::system($cmd, $this->logger);
 
         $this->logger->info("===> Building...");
         $cmd = array("make", "-C", $sourceDir);
         if (!$this->logger->isDebug()) {
-            $cmd[] = ' >> build.log 2>&1';
+            $cmd[] = " >> $buildLogPath 2>&1";
         }
         $ret = Utils::system($cmd, $this->logger);
 

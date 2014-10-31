@@ -25,7 +25,6 @@ class InstallCommand extends \CLIFramework\Command
      */
     public function options($opts)
     {
-        $opts->add('pv|php-version:', 'The php version for which we install the module.');
         $opts->add('pecl', 'Try to download from pecl even when ext source is bundled with php-src.');
     }
 
@@ -86,11 +85,6 @@ class InstallCommand extends \CLIFramework\Command
             $extensions[$extName] = $this->getExtConfig($args);
         }
 
-        if ($this->options->{'php-version'} !== null) {
-            $phpVersion = Utils::findLatestPhpVersion($this->options->{'php-version'});
-            Config::setPhpVersion($phpVersion);
-        }
-
         $manager = new ExtensionManager($this->logger);
 
         foreach ($extensions as $extensionName => $extConfig) {
@@ -109,6 +103,5 @@ class InstallCommand extends \CLIFramework\Command
             }
             $manager->installExtension($ext, $extConfig->options, $this->options->{'pecl'});
         }
-        Config::useSystemPhpVersion();
     }
 }
