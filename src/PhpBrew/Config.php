@@ -121,20 +121,25 @@ class Config
         return $versions;
     }
 
+    static public function getCurrentPhpConfigBin() 
+    {
+        return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php-config';
+    }
+
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
      */
-    public static function getCurrentPhpConfigScanPath()
+    static public function getCurrentPhpConfigScanPath()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-    public static function getCurrentPhpDir()
+    static public function getCurrentPhpDir()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
-    public static function useSystemPhpVersion()
+    static public function useSystemPhpVersion()
     {
         self::$currentPhpVersion = null;
     }

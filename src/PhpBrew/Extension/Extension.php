@@ -17,6 +17,12 @@ class Extension
 
     protected $version;
 
+
+    /**
+     * @var string config.m4 filename
+     */
+    protected $configM4File = 'config.m4';
+
     /**
      * The extension so name
      */
@@ -32,7 +38,7 @@ class Extension
         $this->extensionName = strtolower($name);
     }
 
-    public function getName() 
+    public function getName()
     {
         return $this->name;
     }
@@ -64,7 +70,10 @@ class Extension
 
     public function getSharedLibraryName()
     {
-        return $this->sharedLibraryName;
+        if ($this->sharedLibraryName) {
+            return $this->sharedLibraryName;
+        }
+        return strtolower($this->extensionName) . '.so'; // for windows it might be a DLL.
     }
 
     public function setExtensionName($name)
@@ -81,13 +90,43 @@ class Extension
     public function setSourceDirectory($dir)
     {
         $this->sourceDirectory = $dir;
+
+        if ($configM4File = $this->findConfigM4File($dir)) {
+            $this->configM4File = $configM4File;
+        } else {
+            throw new Exception('config[0-9]?.m4 file not found.');
+        }
     }
 
+    public function getConfigM4File() {
+        return $this->configM4File;
+    }
+
+    public function findConfigM4File($dir) {
+        $configM4Path = $dir . DIRECTORY_SEPARATOR . 'config.m4';
+        if (file_exists($configM4Path)) {
+            return 'config.m4';
+        }
+
+        for ($i = 0 ; $i < 10 ; $i++ ) {
+            $filename = "config{$i}.m4";
+            $configM4Path = $dir . DIRECTORY_SEPARATOR . $filename;
+            if (file_exists($configM4Path)) {
+                return $filename;
+            }
+        }
+    }
 
     public function getSourceDirectory()
     {
         return $this->sourceDirectory;
     }
+
+
+    public function getSharedLibraryPath() {
+        return ini_get('extension_dir') . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
+    }
+
 
     public function getConfigFilePath()
     {

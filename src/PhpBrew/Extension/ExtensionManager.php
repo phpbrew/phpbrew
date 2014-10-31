@@ -70,7 +70,8 @@ class ExtensionManager
         $installer = new ExtensionInstaller($this->logger);
         $this->logger->info("===> Installing {$name} extension...");
         $this->logger->debug("Extension path $sourceDir");
-        $installer->runInstall($name, $sourceDir, $options);
+        // $installer->runInstall($name, $sourceDir, $options);
+        $installer->install($ext, $options);
 
         $this->createExtensionConfig($ext);
         $this->enableExtension($ext);
@@ -85,18 +86,18 @@ class ExtensionManager
         $this->logger->info("===> Creating config file {$ini}");
 
         // create extension config file
-        if (! file_exists($ini)) {
-            if ($ext->isZend()) {
-                $makefile = file_get_contents("$sourceDir/Makefile");
-                preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
-                $content = "zend_extension={$regs[1]}/";
-            } else {
-                $content = "extension=";
-            }
-
-            file_put_contents($ini, $content .= $ext->getSharedLibraryName()); // {ext name}.so
-            $this->logger->debug("{$ini} is created.");
+        if (file_exists($ini)) {
+            return;
         }
+        if ($ext->isZend()) {
+            $makefile = file_get_contents("$sourceDir/Makefile");
+            preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
+            $content = "zend_extension=" . $ext->getSharedLibraryPath();
+        } else {
+            $content = "extension=" . $ext->getSharedLibraryName();
+        }
+        file_put_contents($ini, $content);
+        $this->logger->debug("{$ini} is created.");
     }
 
 
