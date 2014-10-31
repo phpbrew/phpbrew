@@ -73,8 +73,7 @@ class ExtensionInstaller
         passthru('make install');
 
         // TODO: use getSharedLibraryPath()
-        $installedPath = $ext->getSharedLibraryPath();
-        $this->logger->debug("Installed extension: " . $installedPath);
+        $this->logger->debug("Installed extension library: " . $ext->getSharedLibraryPath());
 
         // Try to find the installed path by pattern
         // Installing shared extensions: /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/
