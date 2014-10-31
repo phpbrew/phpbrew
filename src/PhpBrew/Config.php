@@ -50,6 +50,11 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
+
+    static public function getCurrentBuildDir() {
+        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+    }
+
     static public function getDistFileDir()
     {
         $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'distfiles';

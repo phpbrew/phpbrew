@@ -4,6 +4,7 @@ namespace PhpBrew\Command;
 use PhpBrew\Config;
 use PhpBrew\Utils;
 use CLIFramework\Command;
+use GetOptionKit\OptionCollection;
 
 class ExtCommand extends Command
 {
@@ -28,7 +29,7 @@ class ExtCommand extends Command
     }
 
     /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
+     * @param GetOptionKit\OptionCollection $opts
      */
     public function options($opts)
     {
@@ -37,24 +38,9 @@ class ExtCommand extends Command
 
     public function execute()
     {
-        if ($this->options->{'php'} !== null) {
-            $php = Utils::findLatestPhpVersion($this->options->{'php'});
-        } else {
-            $php = Config::getCurrentPhpName();
-        }
-
-        $buildDir = Config::getBuildDir();
-        $extDir = $buildDir . DIRECTORY_SEPARATOR . $php . DIRECTORY_SEPARATOR . 'ext';
-
-        // listing all local extensions
-        if (version_compare('php-'. phpversion(), $php, '==')) {
-            $loaded = array_map('strtolower', get_loaded_extensions());
-        } else {
-            $this->logger->info('PHP version is different from current active version.');
-            $this->logger->info('Only available extensions are listed.');
-            $this->logger->info('You will not see which of them are loaded.');
-            $loaded = array();
-        }
+        $buildDir = Config::getCurrentBuildDir();
+        $extDir = $buildDir . DIRECTORY_SEPARATOR . 'ext';
+        $loaded = array_map('strtolower', get_loaded_extensions());
 
         // list for extensions which are not enabled
         $extensions = array();
@@ -80,21 +66,18 @@ class ExtCommand extends Command
 
                     $extensions[] = $n;
                 }
-
                 sort($loaded);
                 sort($extensions);
-
                 closedir($fp);
             }
         }
 
         $this->logger->info('Loaded extensions:');
-
         foreach ($loaded as $ext) {
             $this->logger->info("  [*] $ext");
         }
 
-        $this->logger->info('Available extensions:');
+        $this->logger->info('Available local extensions:');
 
         foreach ($extensions as $ext) {
             $this->logger->info("  [ ] $ext");
