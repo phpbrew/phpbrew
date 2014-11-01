@@ -65,7 +65,7 @@ class ExtensionFactory
         foreach($configM4Paths as $m4path) {
             if (file_exists($m4path)) {
                 try {
-                    return self::createM4Extension($packageName, $configM4Path);
+                    return self::createM4Extension($packageName, $m4path);
                 } catch(Exception $e) {
                     // Can't parse the content, ignore the error and continue the parsing...
                 }
@@ -114,12 +114,23 @@ class ExtensionFactory
     }
 
     static public function createM4Extension($packageName, $m4Path) {
+        if (!file_exists($m4Path)) {
+            return NULL;
+        }
+
         $m4 = file_get_contents($m4Path);
 
         // PHP_NEW_EXTENSION(extname, sources [, shared [, sapi_class [, extra-cflags [, cxx [, zend_ext]]]]])
         if (preg_match('/PHP_NEW_EXTENSION \( \s* 
-                ([^,]+)   # The extension name
-                \s*,\s* ([^,]*)  # Source files
+                \[?
+                    (\w+)   # The extension name
+                \]?
+
+                \s*,\s*
+
+                \[?
+                    ([^,]*)  # Source files
+                \]?
 
                 (?:
                     \s*,\s* ([^,\)]*)  # Ext Shared

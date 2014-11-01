@@ -33,6 +33,11 @@ class ExtensionInstaller
 
         chdir($sourceDir);
 
+        if ($ext->getConfigM4File() !== "config.m4" && ! file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4') ) {
+            symlink( $ext->getConfigM4File(), 'config.m4');
+        }
+
+
         // If the php version is specified, we should get phpize with the correct version.
         $this->logger->info('===> Phpize...');
         Utils::system("phpize > $buildLogPath 2>&1", $this->logger);

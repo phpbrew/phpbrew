@@ -44,29 +44,37 @@ class ExtensionCommand extends Command
      */
     public function options($opts)
     {
-        $opts->add('v|php:', 'The php version for which we install the module.');
+        $opts->add('so|show-options', 'Show extension configure options');
+        $opts->add('sp|show-path', 'Show extension config.m4 path');
     }
 
     public function describeExtension(Extension $ext) 
     {
-        if (extension_loaded($ext->getExtensionName())) {
-            $this->logger->info(' [*] ' . $ext->getExtensionName());
-        } else {
-            $this->logger->info(' [ ] ' . $ext->getExtensionName());
+        $this->logger->write(sprintf(' [%s] %-16s',
+            extension_loaded($ext->getExtensionName()) ? '*' : ' ' ,
+            $ext->getExtensionName(),
+            $ext->getConfigM4Path())
+        );
+
+        if ($this->options->{'show-path'}) {
+            $this->logger->write(sprintf(' from %s', $ext->getConfigM4Path()));
         }
+        $this->logger->newline();
 
-        $padding = '     ';
-        if ($ext instanceof M4Extension) {
-            $this->logger->info($padding . 'Configure file: ' . $ext->getConfigM4Path());
+        // $this->logger->writeln(sprintf('config: %s', $ext->getConfigFilePath()));
 
-            $options = $ext->getConfigureOptions();
-            if (!empty($options)) {
-                $this->logger->info($padding . 'Configure options:');
-                foreach($options as $option) {
-                    $this->logger->info($padding . '  ' 
-                        . sprintf('%-32s %s', 
-                            $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
-                            $option->desc ));
+        if ($this->options->{'show-options'}) {
+            $padding = '     ';
+            if ($ext instanceof M4Extension) {
+                $options = $ext->getConfigureOptions();
+                if (!empty($options)) {
+                    $this->logger->info($padding . 'Configure options:');
+                    foreach($options as $option) {
+                        $this->logger->info($padding . '  ' 
+                            . sprintf('%-32s %s', 
+                                $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
+                                $option->desc ));
+                    }
                 }
             }
         }
