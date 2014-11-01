@@ -16,8 +16,8 @@ class KnownCommand extends \CLIFramework\Command
      */
     public function options($opts)
     {
-        $opts->add('more', 'Show more older versions');
-        $opts->add('old', 'List old phps (less than 5.3)');
+        $opts->add('m|more', 'Show more older versions');
+        $opts->add('o|old', 'List old phps (less than 5.3)');
         $opts->add('u|update', 'Update release list');
     }
 
@@ -40,7 +40,7 @@ class KnownCommand extends \CLIFramework\Command
             if (!$this->options->more) {
                 array_splice($versionList, 8);
             }
-            $this->logger->writeln($this->formatter->format("{$majorVersion}:  ", 'yellow'). join(', ', $versionList) 
+            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ',5))
                 . (!$this->options->more ? ' ...' : ''));
         }
     }
