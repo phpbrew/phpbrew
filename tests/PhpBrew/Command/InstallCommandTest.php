@@ -13,8 +13,8 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testInstallCommand()
     {
-        $this->assertTrue($this->runCommand('phpbrew install -d 5.4.29'));
-        $this->assertTrue($this->runCommand('phpbrew install -d --like 5.4.29 5.5 +soap'));
+        $this->assertTrue($this->runCommand('phpbrew -q install -q 5.4.29'));
+        $this->assertTrue($this->runCommand('phpbrew -q install -q --like 5.4.29 5.5 +soap'));
     }
 }
 
