@@ -3,8 +3,12 @@ namespace PhpBrew\Command;
 
 use PhpBrew\Config;
 use PhpBrew\Utils;
+use PhpBrew\Extension\ExtensionFactory;
 use CLIFramework\Command;
 use GetOptionKit\OptionCollection;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use FilesystemIterator;
 
 class ExtCommand extends Command
 {
@@ -45,30 +49,19 @@ class ExtCommand extends Command
         // list for extensions which are not enabled
         $extensions = array();
 
-        if (is_dir($extDir)) {
-            $fp = opendir($extDir);
 
-            if ($fp !== false) {
-                while ($file = readdir($fp)) {
-                    if ($file === '.' || $file === '..') {
-                        continue;
-                    }
-
-                    if (is_file($extDir . '/' . $file)) {
-                        continue;
-                    }
-
-                    $n = strtolower(preg_replace('#-[\d\.]+$#', '', $file));
-
-                    if (in_array($n, $loaded)) {
-                        continue;
-                    }
-
-                    $extensions[] = $n;
+        if (file_exists($extDir) && is_dir($extDir)) {
+            $this->logger->debug("Scanning $extDir...");
+            foreach( scandir($extDir) as $extName) {
+                if ($extName == "." || $extName == "..") {
+                    continue;
                 }
-                sort($loaded);
-                sort($extensions);
-                closedir($fp);
+                if (ExtensionFactory::configM4Exists($extDir . DIRECTORY_SEPARATOR . $extName)) {
+                    if (in_array($extName, $loaded)) {
+                        continue;
+                    }
+                    $extensions[] = $extName;
+                }
             }
         }
 

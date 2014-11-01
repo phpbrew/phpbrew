@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Extension;
 use PhpBrew\Config;
+use Exception;
 
 class Extension
 {
@@ -94,7 +95,7 @@ class Extension
         if ($configM4File = $this->findConfigM4File($dir)) {
             $this->configM4File = $configM4File;
         } else {
-            throw new Exception('config[0-9]?.m4 file not found.');
+            throw new Exception("config[0-9]?.m4 file not found in $dir");
         }
     }
 

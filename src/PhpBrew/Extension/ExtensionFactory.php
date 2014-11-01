@@ -10,8 +10,23 @@ use PEARX\PackageXml\Parser as PackageXmlParser;
  */
 class ExtensionFactory
 {
+
+    static public function configM4Exists($extensionDir) 
+    {
+        $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . 'config.m4';
+        if (file_exists($configM4Path)) {
+            return $configM4Path;
+        }
+        for ($i = 0 ; $i < 10 ; $i++ ) {
+            $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . "config{$i}.m4";
+            if (file_exists($configM4Path)) {
+                return $configM4Path;
+            }
+        }
+    }
+
     static public function createFromDirectory($packageName, $extensionDir) {
-        $packageXmlPath = $extensionDir . '/package.xml';
+        $packageXmlPath = $extensionDir . DIRECTORY_SEPARATOR . 'package.xml';
 
         // If the package.xml exists, we may get the configureoptions for configuring the Makefile 
         // and use the provided extension name to enable the extension.
@@ -29,12 +44,6 @@ class ExtensionFactory
         // It's basically a fallback for extensions that don't have package.xml.
         // Generlly, The possible extensions using this strategy are usually 
         // PHP's core extensions, which are shipped in the distribution file.
-        $configM4Path = $extensionDir . '/config.m4';
-        if (file_exists($configM4Path)) {
-            // $this->logger->warning("===> Using m4 extension meta");
-            return self::createM4Extension($packageName, $configM4Path);
-        }
-
         // quote:
         //   the 0 there makes sure it gets into another stage of the buildprocess, the
         //   top IIRC, it was added @ 12th May 2001, 12:09am (10 months ago).
@@ -44,11 +53,10 @@ class ExtensionFactory
         // When config[0-9].m4 found, it might be an extension that can't be 
         // installed as a shared extension. We will need to raise a warning 
         // message for users.
-        for ($i = 0 ; $i < 10 ; $i++ ) {
-            $configM4Path = $extensionDir . "/config{$i}.m4";
-            if (file_exists($configM4Path)) {
-                return self::createM4Extension($packageName, $configM4Path);
-            }
+        $configM4Path = self::configM4Exists($extensionDir);
+        if (file_exists($configM4Path)) {
+            // $this->logger->warning("===> Using m4 extension meta");
+            return self::createM4Extension($packageName, $configM4Path);
         }
     }
 
@@ -57,10 +65,7 @@ class ExtensionFactory
             /**
             * FOLLOW_SYMLINKS is available from 5.2.11, 5.3.1
             */
-            $di = new RecursiveDirectoryIterator($lookupDir, 
-                RecursiveDirectoryIterator::FOLLOW_SYMLINKS | 
-                RecursiveDirectoryIterator::SKIP_DOTS 
-            );
+            $di = new RecursiveDirectoryIterator($lookupDir, \FilesystemIterator::SKIP_DOTS);
             $it = new RecursiveIteratorIterator($di);
 
             /**
@@ -72,7 +77,7 @@ class ExtensionFactory
                 if (!$fileinfo->isDir()) {
                     continue;
                 }
-                if ($ext = $this->createFromDirectory($packageName, $fileinfo->__toString())) {
+                if ($ext = self::createFromDirectory($packageName, $fileinfo->__toString())) {
                     return $ext;
                 }
             }
