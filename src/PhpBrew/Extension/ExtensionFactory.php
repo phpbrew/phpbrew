@@ -82,7 +82,6 @@ class ExtensionFactory
         }
 
         foreach($lookupDirs as $lookupDir) {
-            echo $lookupDir, "\n";
             if ($ext = self::createFromDirectory($packageName, $lookupDir)) {
                 return $ext;
             }
@@ -102,7 +101,6 @@ class ExtensionFactory
                 if (!$fileinfo->isDir()) {
                     continue;
                 }
-                echo "Testing ", $fileinfo, "\n";
                 if ($ext = self::createFromDirectory($packageName, $fileinfo->getPathName())) {
                     return $ext;
                 }
@@ -270,7 +268,17 @@ class ExtensionFactory
         $package = $parser->parse($packageXmlPath);
         $ext = new PeclExtension($packageName);
         $ext->setPackage($package);
-        $ext->setSourceDirectory(dirname($packageXmlPath));
+
+        /**
+         * xhprof stores package.xml in the root directory, but putting the 
+         * config.m4 in the extension directory.
+         * the path can be retrieve from the contents part from the package.xml
+         */
+        if ($m4path = $ext->findConfigM4FileFromPackageXml()) {
+            $ext->setSourceDirectory(dirname($packageXmlPath) . DIRECTORY_SEPARATOR . dirname($m4path));
+        } else {
+            $ext->setSourceDirectory(dirname($packageXmlPath));
+        }
         return $ext;
     }
 

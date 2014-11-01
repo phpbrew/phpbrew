@@ -31,6 +31,8 @@ class ExtensionInstaller
 
         $this->logger->info("Log stored at: $buildLogPath");
 
+
+        $this->logger->info("Changing directory to $sourceDir");
         chdir($sourceDir);
 
         if ($ext->getConfigM4File() !== "config.m4" && ! file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4') ) {

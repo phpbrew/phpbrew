@@ -66,8 +66,21 @@ class InstallCommand extends \CLIFramework\Command
 
     public function execute($extName, $version = 'stable')
     {
-        $extensions = array();
+        if (preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName) ) {
+            $pathinfo = pathinfo($extName);
+            $repoUrl = $extName;
+            $extName = $pathinfo['filename'];
+            $extDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . Config::getCurrentPhpName() . DIRECTORY_SEPARATOR . 'ext' . DIRECTORY_SEPARATOR . $extName;
+            if (!file_exists($extDir)) {
+                passthru("git clone $repoUrl $extDir", $ret);
+                if ($ret != 0) {
+                    return $this->logger->error('Clone failed.');
+                }
+            }
+        }
 
+
+        $extensions = array();
         if (Utils::startsWith($extName, '+')) {
             $config = Config::getConfigParam('extensions');
             $extName = ltrim($extName, '+');
@@ -88,7 +101,7 @@ class InstallCommand extends \CLIFramework\Command
         $manager = new ExtensionManager($this->logger);
 
         foreach ($extensions as $extensionName => $extConfig) {
-            $ext = ExtensionFactory::lookup($extensionName);
+            $ext = ExtensionFactory::lookupRecursive($extensionName);
 
             // Extension not found, use pecl to download it.
             if (!$ext) {

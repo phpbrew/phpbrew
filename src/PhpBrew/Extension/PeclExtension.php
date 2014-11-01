@@ -25,7 +25,7 @@ class PeclExtension extends Extension
         return $this->package;
     }
 
-    public function findConfigM4File($dir) {
+    public function findConfigM4FileFromPackageXml() {
         if ($contents = $this->package->getContents()) {
             foreach($contents as $content) {
                 if (preg_match('#config[0-9]*.m4$#',$content->file)) {
@@ -33,9 +33,16 @@ class PeclExtension extends Extension
                     return $content->file;
                 }
             }
-
         }
-        return parent::findConfigM4File($dir);
+    }
+
+    public function findConfigM4File($dir) {
+        if ($file = parent::findConfigM4File($dir)) {
+            return $file;
+        }
+        if ($file = $this->findConfigM4FileFromPackageXml()) {
+            return $file;
+        }
     }
 }
 
