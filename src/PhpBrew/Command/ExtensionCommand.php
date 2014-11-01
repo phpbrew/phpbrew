@@ -51,11 +51,11 @@ class ExtensionCommand extends Command
 
     public function describeExtension(Extension $ext) 
     {
-        $this->logger->write(sprintf(' [%s] %-16s',
+        $this->logger->write(sprintf(' [%s] %-12s %-12s',
             extension_loaded($ext->getExtensionName()) ? '*' : ' ' ,
             $ext->getExtensionName(),
-            $ext->getConfigM4Path())
-        );
+            phpversion($ext->getExtensionName()) 
+        ));
 
         if ($this->options->{'show-path'}) {
             $this->logger->write(sprintf(' from %s', $ext->getConfigM4Path()));
