@@ -69,12 +69,13 @@ local ret=1
     config:'edit your current php.ini in your favorite $EDITOR'
     info:'Show current php information'
     env:'Export environment variables'
-    ext:'List extensions or execute extension subcommands'
+    extension:'List extensions or execute extension subcommands'
     variants:'List php variants'
     path:'Show paths of the current PHP.'
     cd:'Change to directories'
     download:'Download php'
     clean:'Clean up php distribution'
+    update:'Update PHP release source file'
     list-ini:'List loaded ini config files.'
     ctags:'Run ctags at current php source dir for extension development.'
     enable:'This command is migrated'
@@ -133,8 +134,8 @@ local ret=1
         ;;
         (known)
             _arguments -w -S -s \
-              '--more[Show more older versions]' \
-              '--old[List old phps (less than 5.3)]' \
+              '(-m --more)'{-m,--more}'[Show more older versions]' \
+              '(-o --old)'{-o,--old}'[List old phps (less than 5.3)]' \
               '(-u --update)'{-u,--update}'[Update release list]' \
                && ret=0
         
@@ -142,22 +143,22 @@ local ret=1
         (install)
             _arguments -w -S -s \
               '--test[Run tests after the installation.]' \
-              '--alias=[The alias of the installation]' \
-              '--mirror=[Use mirror specific site.]' \
-              '--post-clean[Run make clean after building PHP.]' \
-              '--production[Use production configuration]' \
-              '--build-dir=[Specify the build directory]:dir:_directories' \
-              '--no-clean[Do not clean previously compiled objects before building PHP.]' \
+              '--name=[The name of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`]' \
+              '--mirror=[Use specified mirror site. phpbrew will download the files from \[mirror\]/distributions/*]' \
+              '--post-clean[Run make clean after the installation.]' \
+              '--production[Use production configuration file. this installer will copy the php-production.ini into the etc directory.]' \
+              '--build-dir=[Specify the build directory. the distribution tarball will be extracted to the directory you specified instead of $PHPBREW_ROOT/build/{version}.]:dir:_directories' \
+              '--no-clean[Do not clean previously compiled objects before building PHP. By default phpbrew will run `make clean` before runnign the configure script to ensure everything is cleaned up.]' \
               '--no-patch[Do not apply any patch]' \
               '--no-configure[Do not run configure script]' \
               '--no-install[Do not install, just run build the target]' \
-              '(-n --nice)'{-n,--nice=}'[Runs build processes at an altered scheduling priority.]' \
+              '(-n --nice)'{-n,--nice=}'[Runs build processes at an altered scheduling priority. The priority can be adjusted over a range of -20 (the highest) to 20 (the lowest).]' \
               '--patch=[Apply patch before build.]:file:_files' \
               '--old[Install phpbrew incompatible phps (< 5.3)]' \
               '(-f --force)'{-f,--force}'[Force the installation.]' \
               '(-d --dryrun)'{-d,--dryrun}'[Do not build, but run through all the tasks.]' \
-              '--like=[Inherit variants from an existing build]' \
-              '(-j --jobs)'{-j,--jobs=}'[Specifies the number of jobs to run simultaneously (make -jN).]' \
+              '--like=[Inherit variants from an existing build. This option would require an existing build directory from the {version}.]' \
+              '(-j --jobs)'{-j,--jobs=}'[Specifies the number of jobs to run build simultaneously (make -jN).]' \
               ':version:{___phpbrewmeta "version" install arg 0 suggestions}' \
               '*:variants:{___phpbrewmeta "variants" install arg 1 suggestions}' \
                && ret=0
@@ -202,9 +203,10 @@ local ret=1
                && ret=0
         
         ;;
-        (ext)
+        (extension)
             _arguments -C \
-              '(-v --php)'{-v,--php=}'[The php version for which we install the module.]' \
+              '(-so --show-options)'{-so,--show-options}'[Show extension configure options]' \
+              '(-sp --show-path)'{-sp,--show-path}'[Show extension config.m4 path]' \
               ': :->cmds' \
               '*:: :->option-or-argument' \
                && return
@@ -215,6 +217,8 @@ local ret=1
               install:'Install PHP extension'
               disable:'Disable PHP extension'
               config:'phpbrew ext config [extension name]'
+              clean:'Clean up the compiled objects in the extension source directory.'
+              show:'Show information of a PHP extension'
             )
             _describe -t commands 'command' commands && ret=0
               ;;
@@ -223,27 +227,40 @@ local ret=1
                 case $line[1] in
                   (enable)
                         _arguments -w -S -s \
-                          ':extName' \
+                          ':extensionName' \
                            && ret=0
                   
                   ;;
                   (install)
                         _arguments -w -S -s \
-                          '(-pv --php-version)'{-pv,--php-version=}'[The php version for which we install the module.]' \
                           '--pecl[Try to download from pecl even when ext source is bundled with php-src.]' \
-                          ':extensions:{___phpbrewmeta "extensions" ext.install arg 0 suggestions}' \
+                          ':extensions:{___phpbrewmeta "extensions" extension.install arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
                   (disable)
                         _arguments -w -S -s \
-                          ':extname' \
+                          ':extensionName' \
                            && ret=0
                   
                   ;;
                   (config)
                         _arguments -w -S -s \
-                          ':extname' \
+                          ':extensionName' \
+                           && ret=0
+                  
+                  ;;
+                  (clean)
+                        _arguments -w -S -s \
+                          '(-p --purge)'{-p,--purge}'[Remove all the source files.]' \
+                          ':extensionName' \
+                           && ret=0
+                  
+                  ;;
+                  (show)
+                        _arguments -w -S -s \
+                          '--download[download the extensino source if extension not found.]' \
+                          ':extension:{___phpbrewmeta "extension" extension.show arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
@@ -260,7 +277,7 @@ local ret=1
         ;;
         (path)
             _arguments -w -S -s \
-              ':name' \
+              ':type:("root" "home" "build" "bin" "include" "ext" "config-scan" "dist")' \
                && ret=0
         
         ;;
@@ -283,6 +300,12 @@ local ret=1
             _arguments -w -S -s \
               '(-a --all)'{-a,--all}'[Clean up whole source directory.]' \
               ':installed php:{___phpbrewmeta "installed php" clean arg 0 valid-values}' \
+               && ret=0
+        
+        ;;
+        (update)
+            _arguments -w -S -s \
+              ':branchName' \
                && ret=0
         
         ;;
