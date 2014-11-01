@@ -6,10 +6,9 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
     public function testPackageUrl()
     {
         $logger = new CLIFramework\Logger;
-        $installer = new PhpBrew\Extension\ExtensionInstaller($logger);
-
-        $url = $installer->findPeclPackageUrl('APC');
-        $this->assertNotEmpty($url);
+        $downloader = new PhpBrew\Extension\PeclExtensionDownloader($logger);
+        $extractPath = $downloader->download('APCu');
+        $this->assertNotEmpty($extractPath);
     }
 
     public function packageNameProvider()
