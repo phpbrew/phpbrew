@@ -14,7 +14,6 @@ class KnownCommandTest extends CommandTestCase
     public function testCommand() {
         $this->assertTrue($this->runCommand('phpbrew known'));
     }
-    }
 
     /**
      * @outputBuffering enabled
