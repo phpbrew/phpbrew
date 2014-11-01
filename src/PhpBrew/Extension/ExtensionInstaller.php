@@ -34,7 +34,7 @@ class ExtensionInstaller
         chdir($sourceDir);
 
         if ($ext->getConfigM4File() !== "config.m4" && ! file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4') ) {
-            symlink( $ext->getConfigM4File(), 'config.m4');
+            symlink($ext->getConfigM4File(), $sourceDir . DIRECTORY_SEPARATOR . 'config.m4');
         }
 
 
