@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>quickhash</name>
+ <channel>pecl.php.net</channel>
+ <summary>Provides a set of specific strongly-typed classes for sets and hashing</summary>
+ <description>This extension contains four classes for managing: an integer set, an integer
+hash, integer to string hash and a string to integer hash. The main features
+are low memory consumption and fast serialization and deserialization of
+the sets and hashes.</description>
+ <lead>
+  <name>Derick Rethans</name>
+  <user>derick</user>
+  <email>derick@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-09-02</date>
+ <time>21:45:43</time>
+ <version>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license/3_01.txt">The PHP License</license>
+ <notes>
+Implemented ArrayAccess for QuickHashIntSet
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="54b2ca8dbba9d62f2687ff487d24d529" name="lib/hash-algorithms.c" role="src" />
+   <file md5sum="4ad01eaddbe10a67538104fcbdb74f90" name="lib/hash-algorithms.h" role="src" />
+   <file md5sum="526bd9a4c9daece37c380624a32e5bde" name="lib/iterator.c" role="src" />
+   <file md5sum="c836276692e8688e182e9f298fda4204" name="lib/quickhash.c" role="src" />
+   <file md5sum="b0a315ac30a60b6d2cf02697749e2de8" name="lib/quickhash.h" role="src" />
+   <file md5sum="1b8d6d4cf451c26f160c2df8fa8235c4" name="config.m4" role="src" />
+   <file md5sum="3816d921570419c0c687a3c32c1892b9" name="CREDITS" role="doc" />
+   <file md5sum="7b06d12acb231ac9955cd5f0490073a1" name="LICENSE" role="doc" />
+   <file md5sum="225fc50cbb6e371d5f8c7e300ab4832e" name="php_quickhash.h" role="src" />
+   <file md5sum="f493f7f7cd9edd54f72bcfd464e0d088" name="qh_inthash.c" role="src" />
+   <file md5sum="bbbb085649ba0e96440ca8781e940f88" name="qh_inthash.h" role="src" />
+   <file md5sum="5b6b3ce2b0456beca898a67cab5643bb" name="qh_intset.c" role="src" />
+   <file md5sum="20b2dd9d315037feb4406e3583995247" name="qh_intset.h" role="src" />
+   <file md5sum="2910ee03a773ec032914c6bb68dbd370" name="qh_intstringhash.c" role="src" />
+   <file md5sum="b934ed6554a031a5fe4db07e4d17732f" name="qh_intstringhash.h" role="src" />
+   <file md5sum="b4586f76638cc6e1788fc2bb5176b20a" name="qh_iterator.c" role="src" />
+   <file md5sum="3773623583cbf507e126fad308397943" name="qh_iterator.h" role="src" />
+   <file md5sum="4c57a13842af52e3668f5c14824b2e63" name="qh_stringinthash.c" role="src" />
+   <file md5sum="9054a5a8888d9ade0d82f4d37fac2697" name="qh_stringinthash.h" role="src" />
+   <file md5sum="5d89b53b720c1a35521456ccbdb2fd78" name="quickhash.c" role="src" />
+   <file md5sum="c4b5a3cdf018fc6c3555830e7c120c2b" name="quickhash.h" role="src" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>quickhash</providesextension>
+ <extsrcrelease />
+</package>

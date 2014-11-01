@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0  http://pear.php.net/dtd/tasks-1.0.xsd  http://pear.php.net/dtd/package-2.0  http://pear.php.net/dtd/package-2.0.xsd">
+ <name>yaml</name>
+ <channel>pecl.php.net</channel>
+ <summary>YAML-1.1 parser and emitter</summary>
+ <description>Support for YAML 1.1 (YAML Ain&apos;t Markup Language) serialization using the
+  LibYAML library.</description>
+ <lead>
+  <name>Bryan Davis</name>
+  <user>bd808</user>
+  <email>bd808@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2013-11-19</date>
+ <time>04:37:10</time>
+ <version>
+  <release>1.1.1</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/mit-license.php">MIT</license>
+ <notes>
+New Features:
+- Removed &quot;not yet implemented&quot; warning and deliberate abort from
+  yaml_emit_file()
+Bugs Fixed:
+- #61770 Crash on nonunicode character
+- #61923 Detect_scalar_type() is not aware of base 60 representation
+- #63086 Compiling PHP with YAML as static extension fails
+- #64019 Segmentation fault if yaml anchor ends with a colon
+- #64694 Segfault when array used as mapping key
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="d2084b4cca853d8f1f26783dc35942d6" name="tests/bug_21995.phpt" role="test" />
+   <file md5sum="0c783a2799e542253b55a8ae6762d1cb" name="tests/bug_59860.phpt" role="test" />
+   <file md5sum="70f4fcc49148adf07b5f50af582cb293" name="tests/bug_60628.phpt" role="test" />
+   <file md5sum="286950d00d8fa0a67b609c69cb341b9b" name="tests/bug_61770.phpt" role="test" />
+   <file md5sum="113d35a060327215f94bfef1403c988e" name="tests/bug_61923.phpt" role="test" />
+   <file md5sum="ee5fb1a495438b352f26f0de372c5452" name="tests/bug_64019.phpt" role="test" />
+   <file md5sum="c2dc7215c886fa378948748b7307031d" name="tests/bug_64694.phpt" role="test" />
+   <file md5sum="5b67d5243bb41d116d5832409dbab915" name="tests/yaml_001.phpt" role="test" />
+   <file md5sum="e81a6f111b2845ba8adb3b06cf6ba855" name="tests/yaml_002.phpt" role="test" />
+   <file md5sum="005ed206c63849fc82410ba089b4528f" name="tests/yaml_emit_001.phpt" role="test" />
+   <file md5sum="1e92486fbc059bd60656c755cba857e2" name="tests/yaml_emit_002.phpt" role="test" />
+   <file md5sum="3881b397829cc3aae12acaf32ea1a5f1" name="tests/yaml_emit_003.phpt" role="test" />
+   <file md5sum="00dbfa554bd9571061cb204696e0bcd3" name="tests/yaml_emit_004.phpt" role="test" />
+   <file md5sum="210d10bf74f56836ac64099816657029" name="tests/yaml_emit_005.phpt" role="test" />
+   <file md5sum="4376f2f964054c19b3b6e1204e707d74" name="tests/yaml_emit_006.phpt" role="test" />
+   <file md5sum="d90286799677130825ed49cfd08a0de7" name="tests/yaml_emit_007.phpt" role="test" />
+   <file md5sum="bbeaeb841475f772b97b96d55d98aff7" name="tests/yaml_emit_008.phpt" role="test" />
+   <file md5sum="ed9b0c5551745a485fc3728d79699e9e" name="tests/yaml_emit_009.phpt" role="test" />
+   <file md5sum="55869db30b4bea6373d1b42ffa7a1941" name="tests/yaml_emit_file_basic.phpt" role="test" />
+   <file md5sum="693851ea1ae9da61ff4eaa2fc22858f9" name="tests/yaml_parse_001.phpt" role="test" />
+   <file md5sum="79931ca582f210d52940333fd5634ef6" name="tests/yaml_parse_002.phpt" role="test" />
+   <file md5sum="73bf63f0e2c50eea8ca771fc518277b7" name="tests/yaml_parse_003.phpt" role="test" />
+   <file md5sum="9504bf1a729c4fc49631286ea40635e6" name="tests/yaml_parse_004.phpt" role="test" />
+   <file md5sum="85870bab774b9c38619b1f24cde2056a" name="tests/yaml_parse_005.phpt" role="test" />
+   <file md5sum="4057f347d2aee4c8ff3a1df580779615" name="tests/yaml_parse_006.phpt" role="test" />
+   <file md5sum="2b44e9be406297c5262cabf34155aaf8" name="tests/yaml_parse_007.phpt" role="test" />
+   <file md5sum="5880189756befa5b1e98b97d39c05a24" name="tests/yaml_parse_008.phpt" role="test" />
+   <file md5sum="82e275feca9d4d2df05b2c4b6ab1c9b9" name="tests/yaml_parse_spec_binary.phpt" role="test" />
+   <file md5sum="72c39b3d002bcdfd9b9fb336ff7c32b8" name="tests/yaml_parse_spec_bool.phpt" role="test" />
+   <file md5sum="e8c8b7e2d63bbe16511cfbd8a6eae3ae" name="tests/yaml_parse_spec_float.phpt" role="test" />
+   <file md5sum="049b02c39d028af911aa955e9edf9bc4" name="tests/yaml_parse_spec_int.phpt" role="test" />
+   <file md5sum="26ad74ecf71a45ac049ca5689afd46e0" name="tests/yaml_parse_spec_map.phpt" role="test" />
+   <file md5sum="be0c8a534cfeabc45261eb2ada46f082" name="tests/yaml_parse_spec_merge.phpt" role="test" />
+   <file md5sum="2eddece3ea0e9fffc23d8f65b3195bcb" name="tests/yaml_parse_spec_null.phpt" role="test" />
+   <file md5sum="abedaf855cf905b29b82b6b3ab7c35af" name="tests/yaml_parse_spec_omap.phpt" role="test" />
+   <file md5sum="84a4c5d77a9f92f5829bcc2459abe794" name="tests/yaml_parse_spec_pairs.phpt" role="test" />
+   <file md5sum="82fdbea484bb968c23020febe75ef38e" name="tests/yaml_parse_spec_seq.phpt" role="test" />
+   <file md5sum="beddf347d067eb2581f41fb65f0dc787" name="tests/yaml_parse_spec_set.phpt" role="test" />
+   <file md5sum="f6291a8c5a1d5ae721c23378899d4574" name="tests/yaml_parse_spec_str.phpt" role="test" />
+   <file md5sum="73d546e2f591a133eb17385489f39c7e" name="tests/yaml_parse_spec_timestamp.phpt" role="test" />
+   <file md5sum="0bbaf36cfa5a6ff89542f3339455b445" name="tests/yaml_parse_wiki_YtsBasicTests_001.phpt" role="test" />
+   <file md5sum="5dacb5cbbbe010b73f2fcedcbf65be8e" name="tests/yaml_parse_wiki_YtsBasicTests_002.phpt" role="test" />
+   <file md5sum="0fc6b16a0903e0e5df0cae6bfa7be1f4" name="tests/yaml_parse_wiki_YtsBasicTests_003.phpt" role="test" />
+   <file md5sum="7986bf4a978d53d2db56b31c14a5f8ad" name="tests/yaml_parse_wiki_YtsBasicTests_004.phpt" role="test" />
+   <file md5sum="bd68deefbc5c9ab7c7e3ea3d7c9a7600" name="tests/yaml_parse_wiki_YtsBasicTests_005.phpt" role="test" />
+   <file md5sum="8cdacdd195080c57d4a67d71f5281ab6" name="tests/yaml_parse_wiki_YtsBasicTests_006.phpt" role="test" />
+   <file md5sum="cc03dd9a5524f670d76bec3ce9363799" name="tests/yaml_parse_wiki_YtsBasicTests_007.phpt" role="test" />
+   <file md5sum="590c15685714469f7d68ba9ec25f350a" name="tests/yaml_parse_wiki_YtsBasicTests_008.phpt" role="test" />
+   <file md5sum="537944741291ebfce9e690a49ace1e0b" name="tests/yaml_parse_wiki_YtsBasicTests_009.phpt" role="test" />
+   <file md5sum="539620a7b3253ea23d1999b5d8ac5aac" name="tests/yaml_parse_wiki_YtsBlockMapping_001.phpt" role="test" />
+   <file md5sum="236a9db35e34316959f8e1c82b56a1bc" name="tests/yaml_parse_wiki_YtsBlockMapping_002.phpt" role="test" />
+   <file md5sum="8ade4c9f9d9bf4ab896530373341d8f4" name="tests/yaml_parse_wiki_YtsBlockMapping_003.phpt" role="test" />
+   <file md5sum="e560fe01eb529defaf3d6c9a253b3090" name="tests/yaml_parse_wiki_YtsBlockMapping_004.phpt" role="test" />
+   <file md5sum="b28c2146090bf38ad8f08b7d13d071a0" name="tests/yaml_parse_wiki_YtsMapInSeq_001.phpt" role="test" />
+   <file md5sum="dd15ec6d19fc22122b3407fdc035e770" name="tests/yaml_parse_wiki_YtsMapInSeq_002.phpt" role="test" />
+   <file md5sum="7291b64a3e4b52bc8d6eb493f317cf34" name="tests/yaml_parse_wiki_YtsMapInSeq_003.phpt" role="test" />
+   <file md5sum="62d21b8f4a5066d21a657ad063c9f241" name="tests/yaml_parse_wiki_YtsStrangeKeys_001.phpt" role="test" />
+   <file md5sum="f0b3bff5a7aa01c1a96ee36f3a7f99e0" name="tests/yaml_parse_wiki_YtsStrangeKeys_002.phpt" role="test" />
+   <file md5sum="cf6a3d263595a3a6fc529fad62236b7f" name="CREDITS" role="doc" />
+   <file md5sum="cf40ac5fa27cc3ba0d44c44a455f9b64" name="LICENSE" role="doc" />
+   <file md5sum="1f37a91fe2acc349edf184e9176806cf" name="README" role="doc" />
+   <file md5sum="446085010fd81bd7dea77e29ae0978f0" name="config.m4" role="src" />
+   <file md5sum="3b0829d6cf6d46e20ad62965ab3ffecd" name="config.w32" role="src" />
+   <file md5sum="7a61fb34b9f9f51975af3647e3768e9d" name="detect.c" role="src" />
+   <file md5sum="f4c715b36044a9ab26078758b5f77bb1" name="emit.c" role="src" />
+   <file md5sum="65b987af56db287004b9625eed3c1331" name="parse.c" role="src" />
+   <file md5sum="10f88d497d1e50cd6927ef444e2a6f80" name="php_yaml.h" role="src" />
+   <file md5sum="aab04a8021f07f6a2862fc1cdeaa6a7c" name="php_yaml_int.h" role="src" />
+   <file md5sum="e9bf2656f9f2c720cf092867986bc817" name="yaml.c" role="src" />
+   <file md5sum="b5b4427db7ec557f227ff8b9e992de9b" name="zval_refcount.h" role="src" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+  <optional>
+   <extension>
+    <name>date</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <providesextension>yaml</providesextension>
+ <extsrcrelease>
+  <configureoption default="autodetect" name="with-yaml" prompt="Please provide the prefix of libyaml installation" />
+ </extsrcrelease>
+ <changelog>
+  <release>
+   <date>2011-04-15</date>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <notes>
+Marking 1.1.0 branch as stable. No change from 1.1.0RC2.
+   </notes>
+  </release>
+  <release>
+   <date>2011-03-27</date>
+   <version>
+    <release>1.1.0RC2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <notes>
+Bugs Fixed:
+- #61477 memset sizeof(struct) instead of sizeof(pointer)
+- #61475 config.m4 honors `php-config --prefix`
+   </notes>
+  </release>
+  <release>
+   <date>2011-03-12</date>
+   <version>
+    <release>1.1.0RC1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <notes>
+New Features:
+ - #59860 Callback support when parsing implicit tags
+ - #60711 Callback support when emitting objects
+Bugs Fixed:
+  - #59765 Build process does not honour custom CFLAGS
+  - #60628 Mystery circular references after tag callback
+   </notes>
+  </release>
+  <release>
+   <date>2011-02-20</date>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <notes>
+- Bug #21995: fixed double free bug when a callback mapping is provided
+- corrected string length issue with callback &quot;tag&quot; argument
+- added &quot;tag&quot; and &quot;flags&quot; arguments to sequence and map callbacks
+   </notes>
+  </release>
+  <release>
+   <date>2011-02-20</date>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <notes>
+Marking package as stable after 12 months of daily production usage.
+   </notes>
+  </release>
+  <release>
+   <date>2010-02-09</date>
+   <version>
+    <release>0.6.3</release>
+    <api>0.6.3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <notes>
+Fixed packaging problem that broke install via pecl channel.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.2</release>
+    <api>0.6.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <notes>
+First release from new hosting at svn.php.net via pecl.php.net
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.1</release>
+    <api>0.6.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-01-25</date>
+   <notes>
+Fixed bad pecl package.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.0</release>
+    <api>0.6.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-01-25</date>
+   <notes>
+Support for &apos;&lt;&lt;&apos; (merge) in mappings. Fixed issues with php 5.3 and
+ZTS compilation. Added support for emitting recursive arrays.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.0</release>
+    <api>0.5.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2009-11-24</date>
+   <notes>
+Implemented yaml_emit and yaml_emit_file. Wrote basic phpdoc content. Lots
+and lots of new unit tests.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.4.0</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2009-11-12</date>
+   <notes>
+Initial release of fork from rsky&apos;s 0.3.0 tarball found at
+http://www.opendogs.org/pub/php_yaml-0.3.0.tgz
+   </notes>
+  </release>
+ </changelog>
+</package>
