@@ -1,5 +1,5 @@
 <?php
-namespace PhpBrew;
+namespace PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\PeclExtension;
@@ -10,7 +10,7 @@ use PhpBrew\Extension\Extension;
  *
  * @group group
  */
-class ExtensionMetaTest extends \PHPUnit_Framework_TestCase
+class ExtensionTest extends \PHPUnit_Framework_TestCase
 {
     protected $meta;
 
