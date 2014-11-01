@@ -11,14 +11,31 @@ class PathCommand extends Command
         return 'Show paths of the current PHP.';
     }
 
+    public function arguments($args)
+    {
+        $args->add('type')
+            ->validValues(array(
+                'root', 'home','build','bin','include','ext', 'config-scan', 'dist'
+            ));
+    }
+
     public function execute($name)
     {
         switch ($name) {
-            case 'home':
+            case 'root':
                 echo Config::getPhpbrewRoot();
                 break;
+            case 'home':
+                echo Config::getPhpbrewHome();
+                break;
+            case 'config-scan':
+                echo Config::getCurrentPhpConfigScanPath();
+                break;
+            case 'dist':
+                echo Config::getDistFileDir();
+                break;
             case 'build':
-                echo Config::getBuildDir();
+                echo Config::getCurrentBuildDir();
                 break;
             case 'bin':
                 echo Config::getCurrentPhpBin();
@@ -26,6 +43,9 @@ class PathCommand extends Command
             case 'include':
                 echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) .
                     DIRECTORY_SEPARATOR . 'include';
+                break;
+            case 'ext':
+                echo Config::getCurrentBuildDir() . DIRECTORY_SEPARATOR . 'ext';
                 break;
             case 'etc':
                 echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) .

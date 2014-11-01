@@ -11,11 +11,6 @@ class KnownCommand extends \CLIFramework\Command
         return 'List known PHP versions';
     }
 
-    public function init()
-    {
-        // $this->command('unstable');
-    }
-
     /**
      * @param \GetOptionKit\OptionSpecCollection $opts
      */
