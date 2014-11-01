@@ -1,5 +1,5 @@
 <?php
-namespace PhpBrew\Command\ExtCommand;
+namespace PhpBrew\Command\ExtensionCommand;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
 use CLIFramework\Command;

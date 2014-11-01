@@ -14,8 +14,11 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
 
-class ExtCommand extends Command
+class ExtensionCommand extends Command
 {
+    public function aliases() {
+        return array('ext');
+    }
 
     public function usage()
     {

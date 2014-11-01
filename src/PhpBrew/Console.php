@@ -22,7 +22,7 @@ class Console extends Application
         $this->command('config');
         $this->command('info');
         $this->command('env');
-        $this->command('ext');
+        $this->command('extension');
         $this->command('variants');
         $this->command('path');
         $this->command('cd');

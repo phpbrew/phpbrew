@@ -1,5 +1,5 @@
 <?php
-namespace PhpBrew\Command\ExtCommand;
+namespace PhpBrew\Command\ExtensionCommand;
 use PhpBrew\Command\AbstractConfigCommand;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
@@ -14,8 +14,11 @@ class ConfigCommand extends AbstractConfigCommand
 
     public function execute($extensionName)
     {
-        $ext = ExtensionFactory::lookup($extname);
-        $file = $ext->getConfigFile();
+        $ext = ExtensionFactory::lookup($extensionName);
+        if (!$ext) {
+            return $this->error("Extension $extensionName not found.");
+        }
+        $file = $ext->getConfigFilePath();
         $this->logger->info("Looking for {$file} file...");
         if(! file_exists($file)) {
             $file .= '.disabled'; // try with ini.disabled file
