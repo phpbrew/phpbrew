@@ -28,6 +28,7 @@ class Console extends Application
         $this->command('cd');
         $this->command('download');
         $this->command('clean');
+        $this->command('update');
 
         $this->command('list-ini', 'PhpBrew\Command\ListIniCommand');
 
