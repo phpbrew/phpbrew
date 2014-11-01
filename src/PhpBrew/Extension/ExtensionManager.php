@@ -102,8 +102,9 @@ class ExtensionManager
 
 
     public function disable($extensionName) {
-        $ext = ExtensionFactory::lookup($extensionName);
-        return $this->disableExtension($ext);
+        if ($ext = ExtensionFactory::lookup($extensionName)) {
+            return $this->disableExtension($ext);
+        }
     }
     
     public function enable($extensionName) {
@@ -118,7 +119,7 @@ class ExtensionManager
      */
     public function enableExtension(Extension $ext)
     {
-        $name = $ext->getName();
+        $name = $ext->getExtensionName();
         $this->logger->info("===> Enabling extension $name");
         $enabled_file = $ext->getConfigFilePath();
         $disabled_file = $enabled_file . '.disabled';
@@ -150,7 +151,7 @@ class ExtensionManager
      */
     public function disableExtension(Extension $ext)
     {
-        $name = $ext->getName();
+        $name = $ext->getExtensionName();
         $enabled_file = $ext->getConfigFilePath();
         $disabled_file = $enabled_file . '.disabled';
 
