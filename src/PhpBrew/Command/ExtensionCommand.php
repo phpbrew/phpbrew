@@ -37,6 +37,7 @@ class ExtensionCommand extends Command
         $this->command('disable');
         $this->command('config');
         $this->command('clean');
+        $this->command('show');
     }
 
     /**

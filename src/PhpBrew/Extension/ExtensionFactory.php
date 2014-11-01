@@ -149,10 +149,11 @@ class ExtensionFactory
                     )?
                 )?
                 /x', $m4, $matches)) {
-
+                    
+            $fullmatched = array_shift($matches);
             $ext = new M4Extension($packageName);
-            $ext->setExtensionName($matches[1]);
-            $ext->setSharedLibraryName($matches[1] . '.so');
+            $ext->setExtensionName($matches[0]);
+            $ext->setSharedLibraryName($matches[0] . '.so');
             if (isset($matches[6]) && strpos($matches[6], 'yes') !== false) {
                 $ext->setZend(true);
             }
