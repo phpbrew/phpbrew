@@ -4,6 +4,7 @@ use PhpBrew\Config;
 use PhpBrew\Extension as Extension1;
 use PhpBrew\Extension\PeclExtension;
 use PEARX\PackageXml\Parser as PackageXmlParser;
+use Exception;
 
 /**
  * This factory class handles the extension information
@@ -55,7 +56,6 @@ class ExtensionFactory
         // message for users.
         $configM4Path = self::configM4Exists($extensionDir);
         if (file_exists($configM4Path)) {
-            // $this->logger->warning("===> Using m4 extension meta");
             return self::createM4Extension($packageName, $configM4Path);
         }
     }
@@ -104,16 +104,25 @@ class ExtensionFactory
         $m4 = file_get_contents($m4Path);
 
         // PHP_NEW_EXTENSION(extname, sources [, shared [, sapi_class [, extra-cflags [, cxx [, zend_ext]]]]])
-        if (preg_match('/PHP_NEW_EXTENSION\( \s* 
+        if (preg_match('/PHP_NEW_EXTENSION \( \s* 
                 ([^,]+)   # The extension name
                 \s*,\s* ([^,]*)  # Source files
-                \s*,\s* ([^,)]*)  # Ext Shared
 
                 (?:
-                    \s*,\s* ([^,)]*)  # SAPI class
-                    \s*,\s* ([^,)]*)  # Extra cflags
-                    \s*,\s* ([^,)]*)  # CXX
-                    \s*,\s* ([^,)]*)  # zend extension
+                    \s*,\s* ([^,)]*)  # Ext Shared
+
+                    (?:
+                        \s*,\s* ([^,)]*)  # SAPI class
+
+                        (?:
+                            \s*,\s* ([^,)]*)  # Extra cflags
+
+                            (?:
+                                \s*,\s* ([^,)]*)  # CXX
+                                \s*,\s* ([^,)]*)  # zend extension
+                            )?
+                        )?
+                    )?
                 )?
                 /x', $m4, $matches)) {
 
@@ -127,7 +136,7 @@ class ExtensionFactory
             return $ext;
 
         } else {
-            throw new Exception("Can not parse config m4 $m4Path");
+            throw new Exception("Can not parse config.m4: $m4Path");
         }
     }
 

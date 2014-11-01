@@ -4,6 +4,9 @@ namespace PhpBrew\Command;
 use PhpBrew\Config;
 use PhpBrew\Utils;
 use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Extension\PeclExtension;
+use PhpBrew\Extension\M4Extension;
+use PhpBrew\Extension\Extension;
 use CLIFramework\Command;
 use GetOptionKit\OptionCollection;
 use RecursiveDirectoryIterator;
@@ -40,15 +43,30 @@ class ExtCommand extends Command
         $opts->add('v|php:', 'The php version for which we install the module.');
     }
 
+    public function describeOptions(Extension $ext) 
+    {
+        if ($ext instanceof PeclExtension) {
+            if ($package = $ext->getPackage()) {
+                $options = $package->getConfigureOptions();
+                if (!empty($options)) {
+                    $this->logger->info('     Configure options:');
+                    foreach($options as $option) {
+                        $this->logger->info('      --' . $option->name . '=' . $option->default);
+                        $this->logger->info('        ' . wordwrap($option->prompt, 80,"\n        "));
+                    }
+                }
+            }
+        }
+    }
+
     public function execute()
     {
         $buildDir = Config::getCurrentBuildDir();
         $extDir = $buildDir . DIRECTORY_SEPARATOR . 'ext';
-        $loaded = array_map('strtolower', get_loaded_extensions());
 
         // list for extensions which are not enabled
         $extensions = array();
-
+        $extensionNames = array();
 
         if (file_exists($extDir) && is_dir($extDir)) {
             $this->logger->debug("Scanning $extDir...");
@@ -56,24 +74,33 @@ class ExtCommand extends Command
                 if ($extName == "." || $extName == "..") {
                     continue;
                 }
-                if (ExtensionFactory::configM4Exists($extDir . DIRECTORY_SEPARATOR . $extName)) {
-                    if (in_array($extName, $loaded)) {
-                        continue;
-                    }
-                    $extensions[] = $extName;
+                $dir = $extDir . DIRECTORY_SEPARATOR . $extName;
+                if ($m4file = ExtensionFactory::configM4Exists($dir)) {
+                    $this->logger->debug("Loading extension information $extName from $dir");
+                    // $ext = ExtensionFactory::createM4Extension($extName, $m4file);
+                    $ext = ExtensionFactory::createFromDirectory($extName, $dir);
+                    $extensions[$ext->getName()] = $ext;
+                    $extensionNames[] = $extName;
                 }
             }
         }
 
         $this->logger->info('Loaded extensions:');
-        foreach ($loaded as $ext) {
-            $this->logger->info("  [*] $ext");
+        foreach ($extensions as $extName => $ext) {
+            if (extension_loaded($extName)) {
+                $this->logger->info(" [*] $extName");
+                $this->describeOptions($ext);
+            }
         }
 
         $this->logger->info('Available local extensions:');
+        foreach ($extensions as $extName => $ext) {
+            if (extension_loaded($extName)) {
+                continue;
+            }
 
-        foreach ($extensions as $ext) {
-            $this->logger->info("  [ ] $ext");
+            $this->logger->info(" [ ] $extName");
+            $this->describeOptions($ext);
         }
     }
 }
