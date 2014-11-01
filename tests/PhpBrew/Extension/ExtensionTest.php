@@ -6,7 +6,7 @@ use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\Extension;
 
 /**
- * ExtensionMetaTest
+ * ExtensionTest
  *
  * @group group
  */

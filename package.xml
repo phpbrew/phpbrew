@@ -10,8 +10,8 @@
     <email>cornelius.howl@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2014-10-11</date>
-  <time>19:53:50</time>
+  <date>2014-11-01</date>
+  <time>19:06:03</time>
   <version>
     <release>1.9.2</release>
     <api>1.9.2</api>
@@ -24,27 +24,29 @@
   <notes>-</notes>
   <contents>
     <dir name="/">
-      <file name="src/PhpBrew/Build.php" role="php" md5sum="512c6bd4bccd2a648cdcf82d78f9f301"/>
+      <file name="src/PhpBrew/Build.php" role="php" md5sum="612e3380ed21a5463151429f2829757a"/>
       <file name="src/PhpBrew/BuildRegister.php" role="php" md5sum="0de3bb9b7882f6dd747cef60af6a93b3"/>
       <file name="src/PhpBrew/BuildSettings.php" role="php" md5sum="c070e2d16e0e8dbd04928922e7fa5c1f"/>
       <file name="src/PhpBrew/Command/AbstractConfigCommand.php" role="php" md5sum="2dae6350f867002c7211db72d6c292f4"/>
       <file name="src/PhpBrew/Command/CdCommand.php" role="php" md5sum="9b9b8872a96fc92d068014905983f4e2"/>
-      <file name="src/PhpBrew/Command/CleanCommand.php" role="php" md5sum="86b503bdc1146bbeb0cdb9465a4a56b7"/>
+      <file name="src/PhpBrew/Command/CleanCommand.php" role="php" md5sum="faa76adb2e7438de44005e4992b31163"/>
       <file name="src/PhpBrew/Command/ConfigCommand.php" role="php" md5sum="425e47cc377e71a2d0c46a6b19eb1f6f"/>
       <file name="src/PhpBrew/Command/CtagsCommand.php" role="php" md5sum="ec39555ae3d479b276685c171aa0ba8c"/>
-      <file name="src/PhpBrew/Command/DownloadCommand.php" role="php" md5sum="decc3b902aae2368d7d9f0b8b6c367b2"/>
+      <file name="src/PhpBrew/Command/DownloadCommand.php" role="php" md5sum="074b68fcefcfe29de13ce4ea48260bd6"/>
       <file name="src/PhpBrew/Command/EachCommand.php" role="php" md5sum="2b6b251f6a243c0ad2e0a908e98e8c8c"/>
-      <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="b1873acb7862fc3c830c46220876c036"/>
-      <file name="src/PhpBrew/Command/ExtCommand/ConfigCommand.php" role="php" md5sum="bbd67dea2531afc7651f959119d207f4"/>
-      <file name="src/PhpBrew/Command/ExtCommand/DisableCommand.php" role="php" md5sum="27eb96cc4058df645e10628bb477273c"/>
-      <file name="src/PhpBrew/Command/ExtCommand/EnableCommand.php" role="php" md5sum="398c2c0ebd7ed4795becd5639250360a"/>
-      <file name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" role="php" md5sum="67ca2bcc65fa5bd6ab9160054964bdbb"/>
-      <file name="src/PhpBrew/Command/ExtCommand.php" role="php" md5sum="95eaf315d990d1545a45ff7f3be416e9"/>
+      <file name="src/PhpBrew/Command/EnvCommand.php" role="php" md5sum="b55a308e33650618f93200f7c8b05f49"/>
+      <file name="src/PhpBrew/Command/ExtensionCommand/CleanCommand.php" role="php" md5sum="dea9a2f01705379e49540285f959aa7b"/>
+      <file name="src/PhpBrew/Command/ExtensionCommand/ConfigCommand.php" role="php" md5sum="d2740d20330e9e5517f3790700f0e6f9"/>
+      <file name="src/PhpBrew/Command/ExtensionCommand/DisableCommand.php" role="php" md5sum="aa728e35bcf34707e11a23cc50ebba67"/>
+      <file name="src/PhpBrew/Command/ExtensionCommand/EnableCommand.php" role="php" md5sum="43066d20d459c2ae38a399f27395ac2a"/>
+      <file name="src/PhpBrew/Command/ExtensionCommand/InstallCommand.php" role="php" md5sum="c9ccf85de82114d8acce570150fb67a0"/>
+      <file name="src/PhpBrew/Command/ExtensionCommand/ShowCommand.php" role="php" md5sum="2359910af44ba073dc996becf177c82e"/>
+      <file name="src/PhpBrew/Command/ExtensionCommand.php" role="php" md5sum="90bee1001a97ada774bc9583625bb6ea"/>
       <file name="src/PhpBrew/Command/InfoCommand.php" role="php" md5sum="9fe86aa9ef33bb05f828fbb2ebddb265"/>
-      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="9d9e00fa731c8b498224051e897b9e8d"/>
-      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="96c65c120cadd8ae81fddf2debe4f958"/>
+      <file name="src/PhpBrew/Command/InitCommand.php" role="php" md5sum="fed74684f9b4438f95d23e958f4556ac"/>
+      <file name="src/PhpBrew/Command/InstallCommand.php" role="php" md5sum="62efff795e3d12dc8bd91fbdb2740881"/>
       <file name="src/PhpBrew/Command/KnownCommand/UnstableCommand.php" role="php" md5sum="b03f5a8ac1827e038b8bd2e07bd27ac0"/>
-      <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="8f7ff474e34b4839d5e35c0edb5e31ca"/>
+      <file name="src/PhpBrew/Command/KnownCommand.php" role="php" md5sum="f3b24d7be62057b83f996adb03c6fb10"/>
       <file name="src/PhpBrew/Command/ListCommand.php" role="php" md5sum="124904a73e30514b709e2511cafb9657"/>
       <file name="src/PhpBrew/Command/ListIniCommand.php" role="php" md5sum="34dde98e2a31e8ac1dd9b34a6d781875"/>
       <file name="src/PhpBrew/Command/MigratedCommand.php" role="php" md5sum="6d0bcb830833b4fed28e47bf40b7bd71"/>
@@ -58,46 +60,49 @@
       <file name="src/PhpBrew/Command/UseCommand.php" role="php" md5sum="f9b470b0128af51f39d37a8d6316fab1"/>
       <file name="src/PhpBrew/Command/VariantsCommand.php" role="php" md5sum="fc0cf19521af850bf33a0089371c3f7f"/>
       <file name="src/PhpBrew/Command/VirtualCommand.php" role="php" md5sum="61e3bd0062fb40f138fcb982810341b3"/>
-      <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="77d549b6028f4088e9c9f9ebc9a25708"/>
-      <file name="src/PhpBrew/Config.php" role="php" md5sum="11553195e3939d916520e638f8c3ffb8"/>
-      <file name="src/PhpBrew/Console.php" role="php" md5sum="0f76c09c30dd5f005fb29c7dfc7f88de"/>
+      <file name="src/PhpBrew/CommandBuilder.php" role="php" md5sum="311b08d5d24e7bf38d0a23e38b99f642"/>
+      <file name="src/PhpBrew/Config.php" role="php" md5sum="89c4a9d3813c494214ec0f3bdc05d672"/>
+      <file name="src/PhpBrew/Console.php" role="php" md5sum="1b872e9202ee7bf2319bfecde587323a"/>
       <file name="src/PhpBrew/DirectorySwitch.php" role="php" md5sum="fae1847a1c1636f505dcef511e9bfc10"/>
-      <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="4b84f2bb4563029bf9033a0fa4828ac4"/>
+      <file name="src/PhpBrew/Downloader/UrlDownloader.php" role="php" md5sum="57c1893e4f27219a5c9e4e59c2e59c67"/>
       <file name="src/PhpBrew/Exception/OopsException.php" role="php" md5sum="4da40913f3714a73343c59d5e077f9b0"/>
       <file name="src/PhpBrew/Exception/SystemCommandException.php" role="php" md5sum="2327f65bd13aaa4db96b19033f89f51d"/>
       <file name="src/PhpBrew/Exception/TaskFailureException.php" role="php" md5sum="cb516a841f97a64dd695856a5c3a117a"/>
-      <file name="src/PhpBrew/Extension.php" role="php" md5sum="f70dbd562b7e19771c1c69e7d3392eed"/>
-      <file name="src/PhpBrew/ExtensionInstaller.php" role="php" md5sum="a8dfc6678b9c191d63762c9353e6d900"/>
-      <file name="src/PhpBrew/ExtensionInterface.php" role="php" md5sum="337c3298e28b26660aba62c202f06c84"/>
-      <file name="src/PhpBrew/ExtensionMetaAbstraction.php" role="php" md5sum="8af65c79b9fb6cb092b6a5c86e3d9482"/>
-      <file name="src/PhpBrew/ExtensionMetaInterface.php" role="php" md5sum="596a2ea645cdb247504bfacb4fba4de2"/>
-      <file name="src/PhpBrew/ExtensionMetaM4.php" role="php" md5sum="35fbb92c61b1b054653de1bc9e5c072e"/>
-      <file name="src/PhpBrew/ExtensionMetaPolyfill.php" role="php" md5sum="c35f0e7db6c7640846230a0e313d55de"/>
-      <file name="src/PhpBrew/ExtensionMetaXml.php" role="php" md5sum="594b966fa27560bdc2723f11243acbe9"/>
+      <file name="src/PhpBrew/Extension/ConfigureOption.php" role="php" md5sum="f7496c7856ffad3db871626d5343fbd4"/>
+      <file name="src/PhpBrew/Extension/Extension.php" role="php" md5sum="176dfd481106bd478dc62cdca00ab182"/>
+      <file name="src/PhpBrew/Extension/ExtensionFactory.php" role="php" md5sum="61e8498019ce03dc869c11f4f2e02518"/>
+      <file name="src/PhpBrew/Extension/ExtensionInstaller.php" role="php" md5sum="35615ef8de7bbe22f0b9685b76bcf82e"/>
+      <file name="src/PhpBrew/Extension/ExtensionManager.php" role="php" md5sum="4b929ac88d69be93f144a22b41476d75"/>
+      <file name="src/PhpBrew/Extension/M4Extension.php" role="php" md5sum="db4a8d3e73a2cbcfefd0e9c67d5e8b93"/>
+      <file name="src/PhpBrew/Extension/PeclExtension.php" role="php" md5sum="47619fe0856b8fe290f112c276584eaa"/>
+      <file name="src/PhpBrew/Extension/PeclExtensionDownloader.php" role="php" md5sum="7f464f17449b4a93e712f86a2b30fe68"/>
+      <file name="src/PhpBrew/Extension/PeclExtensionInstaller.php" role="php" md5sum="f82c7674cde27d4c0f16264e0a206e47"/>
       <file name="src/PhpBrew/Migrations.php" role="php" md5sum="461abb62f1768b6c8fd59c6d46bf1cd8"/>
       <file name="src/PhpBrew/PatchPHP.php" role="php" md5sum="638a774ea7544d3d4bacd113bc160676"/>
+      <file name="src/PhpBrew/PatchUtils.php" role="php" md5sum="98d0cc0feb9e8ff8746da9210c565c40"/>
       <file name="src/PhpBrew/Paths.php" role="php" md5sum="a9c995f8328987ddb3a67e577fc2bb1d"/>
       <file name="src/PhpBrew/PhpBrew.php" role="php" md5sum="92034d613935567a9ef714c67945c4ad"/>
-      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="1041728fd6010ee26d68a74e6f0939c2"/>
+      <file name="src/PhpBrew/PhpSource.php" role="php" md5sum="26ed9f20e45275a1c04f7ba69815fdaf"/>
       <file name="src/PhpBrew/Process.php" role="php" md5sum="bc0897d85a892f464dd0849b50cbc864"/>
-      <file name="src/PhpBrew/ReleaseList.php" role="php" md5sum="29f498ccf7157a719539e87caff18d2a"/>
+      <file name="src/PhpBrew/ReleaseList.php" role="php" md5sum="7bd90877390ad166a9861d36db632d52"/>
       <file name="src/PhpBrew/Tasks/Apxs2CheckTask.php" role="php" md5sum="19ca8816dfeab576a811beaa27f74fc5"/>
       <file name="src/PhpBrew/Tasks/Apxs2PatchTask.php" role="php" md5sum="73c9380e61aa1d74f4a251396cc9a084"/>
-      <file name="src/PhpBrew/Tasks/BaseTask.php" role="php" md5sum="a28b666888131e26a8f32307959a4825"/>
-      <file name="src/PhpBrew/Tasks/BuildTask.php" role="php" md5sum="b3b04d6730f09b954ce779014cb3cd63"/>
-      <file name="src/PhpBrew/Tasks/CleanTask.php" role="php" md5sum="61cf41441f83534cdac11cdc15117a8a"/>
-      <file name="src/PhpBrew/Tasks/ConfigureTask.php" role="php" md5sum="0b5fe38d0e10f972f31b71213ca7746d"/>
+      <file name="src/PhpBrew/Tasks/BaseTask.php" role="php" md5sum="f9c25d41274e471c061baedcd6101de7"/>
+      <file name="src/PhpBrew/Tasks/BuildTask.php" role="php" md5sum="d4c6d8fbf799787985dc2a6051d3fdcb"/>
+      <file name="src/PhpBrew/Tasks/CleanTask.php" role="php" md5sum="ce893a53b1f0ca6bfd479c6b60129248"/>
+      <file name="src/PhpBrew/Tasks/ConfigureTask.php" role="php" md5sum="0d7fce05e59c2d7a0725b3ef3de4cae0"/>
       <file name="src/PhpBrew/Tasks/DefaultConfigTask.php" role="php" md5sum="678ef28c5cb2f5a0652e577c1071c3eb"/>
-      <file name="src/PhpBrew/Tasks/DownloadTask.php" role="php" md5sum="c22157cfa34ed69b597e510254be7b17"/>
+      <file name="src/PhpBrew/Tasks/DownloadTask.php" role="php" md5sum="f83d585be7c0299e0d2aca93408d716c"/>
       <file name="src/PhpBrew/Tasks/DSymTask.php" role="php" md5sum="b3b51d6bcee0123be3833258a38609a1"/>
-      <file name="src/PhpBrew/Tasks/ExtractTask.php" role="php" md5sum="10a8ade075ad74d9549ee76382c1dffa"/>
+      <file name="src/PhpBrew/Tasks/ExtractTask.php" role="php" md5sum="5df4c70010856a2c772a9e1f860509c2"/>
       <file name="src/PhpBrew/Tasks/FetchReleaseListTask.php" role="php" md5sum="21ff75f0f8db1c7f7a995376149005e4"/>
-      <file name="src/PhpBrew/Tasks/InstallTask.php" role="php" md5sum="6bf7068853d8594e1501727aab2e6ac8"/>
+      <file name="src/PhpBrew/Tasks/InstallTask.php" role="php" md5sum="2efc3440d8fb2824f46a9582ae022b45"/>
       <file name="src/PhpBrew/Tasks/MakeCleanTask.php" role="php" md5sum="4e3d902897a27745d46dfdced9b4b9e5"/>
-      <file name="src/PhpBrew/Tasks/Patch64BitSupportTask.php" role="php" md5sum="bf81c7998b752c8249d52aed8be38553"/>
-      <file name="src/PhpBrew/Tasks/PrepareDirectoryTask.php" role="php" md5sum="1e34d6572d8c7800d69b9a1f3ea3c4c3"/>
+      <file name="src/PhpBrew/Tasks/MakeTask.php" role="php" md5sum="f2a03455ef3c602c4792a9ecafee3684"/>
+      <file name="src/PhpBrew/Tasks/Patch64BitSupportTask.php" role="php" md5sum="914a8db635f647d13cca555d880ef397"/>
+      <file name="src/PhpBrew/Tasks/PrepareDirectoryTask.php" role="php" md5sum="9793291eadad091d1b2db3d05cfacbe7"/>
       <file name="src/PhpBrew/Tasks/RemoveTask.php" role="php" md5sum="a53aacd684140a87d4e1c3a56fa6e9cf"/>
-      <file name="src/PhpBrew/Tasks/TestTask.php" role="php" md5sum="4bbd1b31f62d92450c4cc98843b97ec0"/>
+      <file name="src/PhpBrew/Tasks/TestTask.php" role="php" md5sum="44ade4c6b0c44d649a99b5aa03eb59f4"/>
       <file name="src/PhpBrew/Topic/ContributionTopic.php" role="php" md5sum="aef8789e419711720f118cc7739cf453"/>
       <file name="src/PhpBrew/Topic/CookbookTopic.php" role="php" md5sum="efd30bb416fdc9f5b3a8bf6b21dae1eb"/>
       <file name="src/PhpBrew/Topic/HomeTopic.php" role="php" md5sum="404417915318495df9ae8afdc008754c"/>
@@ -107,12 +112,12 @@
       <file name="src/PhpBrew/Topic/RequirementTopic.php" role="php" md5sum="4064d869e41c7659ea5a6c35a7c7c80a"/>
       <file name="src/PhpBrew/Topic/SettingUpConfigurationTopic.php" role="php" md5sum="87476dbc72d25a0fca8f3e14a3413a0a"/>
       <file name="src/PhpBrew/Topic/TroubleshootingTopic.php" role="php" md5sum="f813ed36ecc6f802061bb1e5fa3b1c7a"/>
-      <file name="src/PhpBrew/Utils.php" role="php" md5sum="5eb36cc0207a9c11bb8f7ac11160c735"/>
-      <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="ba37f96dd2f9cbf1ac0268c702523d61"/>
+      <file name="src/PhpBrew/Utils.php" role="php" md5sum="e430faf93141a4e99186512d89173dea"/>
+      <file name="src/PhpBrew/VariantBuilder.php" role="php" md5sum="573c5f7fef8bb019f900bbb841fc2156"/>
       <file name="src/PhpBrew/VariantFinder.php" role="php" md5sum="14cf126eb951cbc3269d29c8e66fe162"/>
-      <file name="src/PhpBrew/VariantParser.php" role="php" md5sum="3a6e301d7335c0a54f1ee8fc1ec3b216"/>
+      <file name="src/PhpBrew/VariantParser.php" role="php" md5sum="7de1629597d83fb08434afa6f0dc4237"/>
       <file name="src/PhpBrew/Version.php" role="php" md5sum="ca67853ba4968c6adb6b365f49ca7fa1"/>
-      <file name="bin/phpbrew" role="script" md5sum="0b4c0aa0676ac361bd49c878cf76c935"/>
+      <file name="bin/phpbrew" role="script" md5sum="aa822464e6cc969b0869a3dbd02a7846"/>
     </dir>
   </contents>
   <dependencies>
@@ -153,11 +158,13 @@
       <install name="src/PhpBrew/Command/DownloadCommand.php" as="PhpBrew/Command/DownloadCommand.php"/>
       <install name="src/PhpBrew/Command/EachCommand.php" as="PhpBrew/Command/EachCommand.php"/>
       <install name="src/PhpBrew/Command/EnvCommand.php" as="PhpBrew/Command/EnvCommand.php"/>
-      <install name="src/PhpBrew/Command/ExtCommand/ConfigCommand.php" as="PhpBrew/Command/ExtCommand/ConfigCommand.php"/>
-      <install name="src/PhpBrew/Command/ExtCommand/DisableCommand.php" as="PhpBrew/Command/ExtCommand/DisableCommand.php"/>
-      <install name="src/PhpBrew/Command/ExtCommand/EnableCommand.php" as="PhpBrew/Command/ExtCommand/EnableCommand.php"/>
-      <install name="src/PhpBrew/Command/ExtCommand/InstallCommand.php" as="PhpBrew/Command/ExtCommand/InstallCommand.php"/>
-      <install name="src/PhpBrew/Command/ExtCommand.php" as="PhpBrew/Command/ExtCommand.php"/>
+      <install name="src/PhpBrew/Command/ExtensionCommand/CleanCommand.php" as="PhpBrew/Command/ExtensionCommand/CleanCommand.php"/>
+      <install name="src/PhpBrew/Command/ExtensionCommand/ConfigCommand.php" as="PhpBrew/Command/ExtensionCommand/ConfigCommand.php"/>
+      <install name="src/PhpBrew/Command/ExtensionCommand/DisableCommand.php" as="PhpBrew/Command/ExtensionCommand/DisableCommand.php"/>
+      <install name="src/PhpBrew/Command/ExtensionCommand/EnableCommand.php" as="PhpBrew/Command/ExtensionCommand/EnableCommand.php"/>
+      <install name="src/PhpBrew/Command/ExtensionCommand/InstallCommand.php" as="PhpBrew/Command/ExtensionCommand/InstallCommand.php"/>
+      <install name="src/PhpBrew/Command/ExtensionCommand/ShowCommand.php" as="PhpBrew/Command/ExtensionCommand/ShowCommand.php"/>
+      <install name="src/PhpBrew/Command/ExtensionCommand.php" as="PhpBrew/Command/ExtensionCommand.php"/>
       <install name="src/PhpBrew/Command/InfoCommand.php" as="PhpBrew/Command/InfoCommand.php"/>
       <install name="src/PhpBrew/Command/InitCommand.php" as="PhpBrew/Command/InitCommand.php"/>
       <install name="src/PhpBrew/Command/InstallCommand.php" as="PhpBrew/Command/InstallCommand.php"/>
@@ -184,16 +191,18 @@
       <install name="src/PhpBrew/Exception/OopsException.php" as="PhpBrew/Exception/OopsException.php"/>
       <install name="src/PhpBrew/Exception/SystemCommandException.php" as="PhpBrew/Exception/SystemCommandException.php"/>
       <install name="src/PhpBrew/Exception/TaskFailureException.php" as="PhpBrew/Exception/TaskFailureException.php"/>
-      <install name="src/PhpBrew/Extension.php" as="PhpBrew/Extension.php"/>
-      <install name="src/PhpBrew/ExtensionInstaller.php" as="PhpBrew/ExtensionInstaller.php"/>
-      <install name="src/PhpBrew/ExtensionInterface.php" as="PhpBrew/ExtensionInterface.php"/>
-      <install name="src/PhpBrew/ExtensionMetaAbstraction.php" as="PhpBrew/ExtensionMetaAbstraction.php"/>
-      <install name="src/PhpBrew/ExtensionMetaInterface.php" as="PhpBrew/ExtensionMetaInterface.php"/>
-      <install name="src/PhpBrew/ExtensionMetaM4.php" as="PhpBrew/ExtensionMetaM4.php"/>
-      <install name="src/PhpBrew/ExtensionMetaPolyfill.php" as="PhpBrew/ExtensionMetaPolyfill.php"/>
-      <install name="src/PhpBrew/ExtensionMetaXml.php" as="PhpBrew/ExtensionMetaXml.php"/>
+      <install name="src/PhpBrew/Extension/ConfigureOption.php" as="PhpBrew/Extension/ConfigureOption.php"/>
+      <install name="src/PhpBrew/Extension/Extension.php" as="PhpBrew/Extension/Extension.php"/>
+      <install name="src/PhpBrew/Extension/ExtensionFactory.php" as="PhpBrew/Extension/ExtensionFactory.php"/>
+      <install name="src/PhpBrew/Extension/ExtensionInstaller.php" as="PhpBrew/Extension/ExtensionInstaller.php"/>
+      <install name="src/PhpBrew/Extension/ExtensionManager.php" as="PhpBrew/Extension/ExtensionManager.php"/>
+      <install name="src/PhpBrew/Extension/M4Extension.php" as="PhpBrew/Extension/M4Extension.php"/>
+      <install name="src/PhpBrew/Extension/PeclExtension.php" as="PhpBrew/Extension/PeclExtension.php"/>
+      <install name="src/PhpBrew/Extension/PeclExtensionDownloader.php" as="PhpBrew/Extension/PeclExtensionDownloader.php"/>
+      <install name="src/PhpBrew/Extension/PeclExtensionInstaller.php" as="PhpBrew/Extension/PeclExtensionInstaller.php"/>
       <install name="src/PhpBrew/Migrations.php" as="PhpBrew/Migrations.php"/>
       <install name="src/PhpBrew/PatchPHP.php" as="PhpBrew/PatchPHP.php"/>
+      <install name="src/PhpBrew/PatchUtils.php" as="PhpBrew/PatchUtils.php"/>
       <install name="src/PhpBrew/Paths.php" as="PhpBrew/Paths.php"/>
       <install name="src/PhpBrew/PhpBrew.php" as="PhpBrew/PhpBrew.php"/>
       <install name="src/PhpBrew/PhpSource.php" as="PhpBrew/PhpSource.php"/>
@@ -212,6 +221,7 @@
       <install name="src/PhpBrew/Tasks/FetchReleaseListTask.php" as="PhpBrew/Tasks/FetchReleaseListTask.php"/>
       <install name="src/PhpBrew/Tasks/InstallTask.php" as="PhpBrew/Tasks/InstallTask.php"/>
       <install name="src/PhpBrew/Tasks/MakeCleanTask.php" as="PhpBrew/Tasks/MakeCleanTask.php"/>
+      <install name="src/PhpBrew/Tasks/MakeTask.php" as="PhpBrew/Tasks/MakeTask.php"/>
       <install name="src/PhpBrew/Tasks/Patch64BitSupportTask.php" as="PhpBrew/Tasks/Patch64BitSupportTask.php"/>
       <install name="src/PhpBrew/Tasks/PrepareDirectoryTask.php" as="PhpBrew/Tasks/PrepareDirectoryTask.php"/>
       <install name="src/PhpBrew/Tasks/RemoveTask.php" as="PhpBrew/Tasks/RemoveTask.php"/>
