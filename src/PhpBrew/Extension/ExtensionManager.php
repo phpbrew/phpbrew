@@ -54,10 +54,7 @@ class ExtensionManager
      */
     public function installExtension(Extension $ext, array $options = array())
     {
-        $originalLevel = $this->logger->getLevel();
-        $this->logger->quiet();
         $this->disableExtension($ext);
-        $this->logger->setLevel($originalLevel);
 
         $sourceDir = $ext->getSourceDirectory();
         $name = $ext->getName();

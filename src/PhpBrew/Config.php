@@ -188,4 +188,22 @@ class Config
 
         return array();
     }
+
+    static public function initDirectories($buildName = NULL) {
+        $dirs[] = self::getPhpbrewHome();
+        $dirs[] = self::getPhpbrewRoot();
+        $dirs[] = self::getVariantsDir();
+        $dirs[] = self::getBuildDir();
+        $dirs[] = self::getDistFileDir();
+        if ($buildName) {
+            $dirs[] = self::getCurrentBuildDir($buildName);
+            $dirs[] = self::getCurrentBuildDir($buildName) . DIRECTORY_SEPARATOR . 'ext';
+            $dirs[] = self::getInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+        }
+        foreach($dirs as $dir) {
+            if (!file_exists($dir)) {
+                mkdir($dir, 0755, true);
+            }
+        }
+    }
 }

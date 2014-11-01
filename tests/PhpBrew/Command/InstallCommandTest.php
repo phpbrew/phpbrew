@@ -5,7 +5,9 @@ class InstallCommandTest extends CommandTestCase
 {
 
     public function setupApplication() {
-        return new PhpBrew\Console;
+        $console = new PhpBrew\Console;
+        $console->getLogger()->setQuiet();
+        return $console;
     }
 
     /**
@@ -13,8 +15,8 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testInstallCommand()
     {
-        $this->assertTrue($this->runCommand('phpbrew -q install -q 5.4.29'));
-        $this->assertTrue($this->runCommand('phpbrew -q install -q --like 5.4.29 5.5 +soap'));
+        $this->assertTrue($this->runCommand('phpbrew --quiet install 5.4.29'));
+        $this->assertTrue($this->runCommand('phpbrew --quiet install --like 5.4.29 5.5 +soap'));
     }
 }
 

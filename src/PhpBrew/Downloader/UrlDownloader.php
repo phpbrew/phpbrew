@@ -3,15 +3,8 @@ namespace PhpBrew\Downloader;
 use Exception;
 use RuntimeException;
 use CLIFramework\Logger;
-
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
-/*
-return new CurlDownloader(array( 
-    'progress' => new ProgressBar
-));
- */
-
 
 class UrlDownloader
 {
@@ -35,7 +28,7 @@ class UrlDownloader
         if (extension_loaded('curl')) {
             $this->logger->debug('---> Found curl extension.');
             $downloader = new CurlDownloader;
-            if (!$this->logger->isQuiet()) {
+            if ($this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
             $binary = $downloader->request($url);

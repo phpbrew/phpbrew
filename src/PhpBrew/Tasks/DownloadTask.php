@@ -16,7 +16,7 @@ class DownloadTask extends BaseTask
             throw new Exception("Directory is not writable: $dir");
         }
 
-        $downloader = new UrlDownloader($this->getLogger());
+        $downloader = new UrlDownloader($this->logger);
         $basename = $downloader->resolveDownloadFileName($url);
         if (!$basename) {
             throw new Exception("Can not parse url: $url");
