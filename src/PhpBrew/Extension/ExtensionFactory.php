@@ -6,6 +6,8 @@ use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\ConfigureOption;
 use PEARX\PackageXml\Parser as PackageXmlParser;
 use Exception;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 /**
  * This factory class handles the extension information
@@ -73,13 +75,23 @@ class ExtensionFactory
         }
     }
 
-    static public function lookupRecursive($packageName, array $lookupDirs = array() ) {
+    static public function lookupRecursive($packageName, array $lookupDirs = array(), $fallback = true) {
+        if ($fallback) {
+            // Always push the PHP source directory to the end of the list for the fallback.
+            $lookupDirs[] = Config::getBuildDir() . DIRECTORY_SEPARATOR . Config::getCurrentPhpName() . DIRECTORY_SEPARATOR . 'ext' . DIRECTORY_SEPARATOR . $packageName;
+        }
+
         foreach($lookupDirs as $lookupDir) {
+            echo $lookupDir, "\n";
+            if ($ext = self::createFromDirectory($packageName, $lookupDir)) {
+                return $ext;
+            }
+
             /**
             * FOLLOW_SYMLINKS is available from 5.2.11, 5.3.1
             */
-            $di = new RecursiveDirectoryIterator($lookupDir, \FilesystemIterator::SKIP_DOTS);
-            $it = new RecursiveIteratorIterator($di);
+            $di = new RecursiveDirectoryIterator($lookupDir, RecursiveDirectoryIterator::SKIP_DOTS);
+            $it = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 
             /**
             * Search for config.m4 or config0.m4 and use them to determine
@@ -90,7 +102,8 @@ class ExtensionFactory
                 if (!$fileinfo->isDir()) {
                     continue;
                 }
-                if ($ext = self::createFromDirectory($packageName, $fileinfo->__toString())) {
+                echo "Testing ", $fileinfo, "\n";
+                if ($ext = self::createFromDirectory($packageName, $fileinfo->getPathName())) {
                     return $ext;
                 }
             }

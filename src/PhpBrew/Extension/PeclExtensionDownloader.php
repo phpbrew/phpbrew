@@ -54,7 +54,7 @@ class PeclExtensionDownloader
 
         $cmds = array(
             "tar -C $currentPhpExtensionDirectory -xf $targetFilePath",
-            "rm -rf $packageName",
+            "rm -rf $currentPhpExtensionDirectory/$packageName",
 
             // Move "memcached-2.2.7" to "memcached"
             "mv $currentPhpExtensionDirectory/{$info['filename']} $currentPhpExtensionDirectory/$packageName",

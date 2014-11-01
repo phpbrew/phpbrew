@@ -8,6 +8,7 @@ use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\Utils;
+use Exception;
 
 class ShowCommand extends \CLIFramework\Command
 {
@@ -19,6 +20,10 @@ class ShowCommand extends \CLIFramework\Command
     public function brief()
     {
         return 'Show information of a PHP extension';
+    }
+
+    public function options($opts) {
+        $opts->add('download', 'download the extensino source if extension not found.');
     }
 
     public function arguments($args)
@@ -40,11 +45,14 @@ class ShowCommand extends \CLIFramework\Command
 
         $info = array(
             'Name' => $ext->getExtensionName(),
+            'Source Directory' => $ext->getSourceDirectory(),
             'Config' => $ext->getConfigM4Path(),
             'INI File' => $ext->getConfigFilePath(),
-            'Extension Type'    => ($ext instanceof PeclExtension) ? 'Pecl extension' : 'Core extension',
+            'Extension'    => ($ext instanceof PeclExtension) ? 'Pecl' : 'Core',
             'Zend'              => $ext->isZend() ? 'yes' : 'no',
-            'Loaded' => (extension_loaded($ext->getExtensionName()) ? 'yes' : 'no'),
+            'Loaded' => (extension_loaded($ext->getExtensionName()) 
+                ? $this->formatter->format('yes','green')
+                : $this->formatter->format('no', 'red')),
         );
 
         foreach($info as $label => $val) {
@@ -67,23 +75,20 @@ class ShowCommand extends \CLIFramework\Command
         }
     }
 
-
     public function execute($extensionName)
     {
         $manager = new ExtensionManager($this->logger);
-        $ext = ExtensionFactory::lookup($extensionName);
+        $ext = ExtensionFactory::lookupRecursive($extensionName);
 
         // Extension not found, use pecl to download it.
-        if (!$ext) {
-            /*
+        if (!$ext && $this->options->{'download'}) {
             $peclDownloader = new PeclExtensionDownloader($this->logger);
-            $peclDownloader->download($extensionName, $extConfig->version);
+            $extDir = $peclDownloader->download($extensionName, 'latest');
             // Reload the extension
-            $ext = ExtensionFactory::lookup($extensionName);
-            */
+            $ext = ExtensionFactory::lookupRecursive($extensionName, array($extDir));
         }
         if (!$ext) {
-            throw new Exception("$extensionName not found.");
+            throw new Exception("$extensionName extension not found.");
         }
         $this->describeExtension($ext);
     }

@@ -24,6 +24,19 @@ class PeclExtension extends Extension
     {
         return $this->package;
     }
+
+    public function findConfigM4File($dir) {
+        if ($contents = $this->package->getContents()) {
+            foreach($contents as $content) {
+                if (preg_match('#config[0-9]*.m4$#',$content->file)) {
+                    // TODO: make sure the file exists
+                    return $content->file;
+                }
+            }
+
+        }
+        return parent::findConfigM4File($dir);
+    }
 }
 
 
