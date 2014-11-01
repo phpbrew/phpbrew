@@ -104,7 +104,7 @@ class ExtensionCommand extends Command
                         try {
                             $ext = ExtensionFactory::createM4Extension($extName, $m4file);
                             // $ext = ExtensionFactory::createFromDirectory($extName, $dir);
-                            $extensions[$ext->getName()] = $ext;
+                            $extensions[$ext->getExtensionName()] = $ext;
                             $extensionNames[] = $extName;
                             break;
                         } catch(Exception $e) {
