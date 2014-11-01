@@ -8,6 +8,12 @@ class ExtensionCommandTest extends CommandTestCase
         return new PhpBrew\Console;
     }
 
+    public function setUp() {
+        parent::setUp();
+        putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
+        putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
+    }
+
     /**
      * @outputBuffering enabled
      */
@@ -19,7 +25,7 @@ class ExtensionCommandTest extends CommandTestCase
 
     public function extensionNameProvider() {
         return array(
-            array('APCu')
+            array('APCu', 'latest')
         );
     }
 
@@ -27,9 +33,9 @@ class ExtensionCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @dataProvider extensionNameProvider
      */
-    public function testInstallCommand($extensionName) {
+    public function testInstallCommand($extensionName, $extensionVersion) {
         ob_start();
-        $this->assertTrue($this->runCommand("phpbrew -q ext install $extensionName"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet ext install $extensionName $extensionVersion"));
         ob_end_clean();
     }
 

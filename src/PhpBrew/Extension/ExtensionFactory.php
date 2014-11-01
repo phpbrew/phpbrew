@@ -82,6 +82,10 @@ class ExtensionFactory
         }
 
         foreach($lookupDirs as $lookupDir) {
+            if (!file_exists($lookupDir)) {
+                continue;
+            }
+
             if ($ext = self::createFromDirectory($packageName, $lookupDir)) {
                 return $ext;
             }
@@ -117,6 +121,10 @@ class ExtensionFactory
         }
 
         foreach($lookupDirectories as $lookupDir) {
+            if (!file_exists($lookupDir)) {
+                continue;
+            }
+
             $extensionDir = $lookupDir . DIRECTORY_SEPARATOR . $packageName;
             if ($ext = self::createFromDirectory($packageName, $extensionDir)) {
                 return $ext;

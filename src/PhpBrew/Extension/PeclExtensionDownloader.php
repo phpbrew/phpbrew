@@ -49,6 +49,9 @@ class PeclExtensionDownloader
 
         // tar -C ~/.phpbrew/build/php-5.5.8/ext -xvf ~/.phpbrew/distfiles/memcache-2.2.7.tgz
         $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $packageName;
+        if (!file_exists($extensionDir)) {
+            mkdir($extensionDir, 0755, true);
+        }
 
         $this->logger->info("===> Extracting to $currentPhpExtensionDirectory...");
 

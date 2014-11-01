@@ -85,6 +85,10 @@ class ExtensionManager
         $ini = $ext->getConfigFilePath() . '.disabled';
         $this->logger->info("===> Creating config file {$ini}");
 
+        if (!file_exists(dirname($ini))) {
+            mkdir(dirname($ini),0755, true);
+        }
+
         // create extension config file
         if (file_exists($ini)) {
             return;

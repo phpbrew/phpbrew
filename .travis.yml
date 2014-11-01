@@ -11,6 +11,11 @@ before_script:
   - composer self-update
   - composer require satooshi/php-coveralls:dev-master --no-update --dev
   - composer install --dev --prefer-source
+  - mkdir -p -v .phpbrew/build
+  - mkdir -p -v .phpbrew/distfiles
+  - mkdir -p -v .phpbrew/php
+  - cp -v shell/bashrc .phpbrew/
+
 
 env:
   - TEST_SUITE=Core
