@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>libevent</name>
+ <channel>pecl.php.net</channel>
+ <summary>Libevent - event notification</summary>
+ <description>This extension is a wrapper for libevent - event notification library.</description>
+ <lead>
+  <name>Antony Dovgal</name>
+  <user>tony2001</user>
+  <email>tony2001@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Arnaud Le Blanc</name>
+  <user>lbarnaud</user>
+  <email>lbarnaud@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2013-05-22</date>
+ <time>11:19:33</time>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP</license>
+ <notes>
+- Added event_base_reinit(). (Ivan Shalganov, Andy Skelton)
+- Added config.w32. (bruno at chalopin dot fr)
+- Fixed windows compilation with libevent 2.x. (Anatol Belski)
+- Fixed bug #61673 (callback function args are wrong for signal handler).
+- Fixed bug #61653 (Segfault on event_free()).
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="9253f7283255a335ff4ffb950a06b686" name="config.m4" role="src" />
+   <file md5sum="b5430ba9ae84940f3cd9c6eab5099bad" name="CREDITS" role="doc" />
+   <file md5sum="d4d8e2009751e8ba4c6d3b5f7d1bbd45" name="libevent.c" role="src" />
+   <file md5sum="97c1e470f2b9f2e6e045bb865050d0e8" name="libevent.php" role="doc" />
+   <file md5sum="051ad38c53dd1b1e882ff16b6553eb6e" name="php_libevent.h" role="src" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+    <max>6.0.0</max>
+    <exclude>6.0.0</exclude>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>libevent</providesextension>
+ <extsrcrelease>
+  <configureoption default="autodetect" name="with-libevent" prompt="Please provide the prefix of libevent installation" />
+ </extsrcrelease>
+ <changelog>
+  <release>
+   <date>2012-04-02</date>
+   <time>19:00:00</time>
+   <version>
+    <release>0.0.5</release>
+    <api>0.0.5</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+- Fixed build with museum PHP versions.
+- Fixed PECL bug #22705 (event_set() resets event base to NULL).
+- Changed event_set(), event_buffer_new() and event_buffer_set_fd() to
+accept numerical file descriptors.
+- Added event_priority_set() (patch by Ruslan Osmanov).
+- Fixed build with 5_4.
+   </notes>
+  </release>
+  <release>
+   <date>2010-06-23</date>
+   <time>14:00:00</time>
+   <version>
+    <release>0.0.4</release>
+    <api>0.0.4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP</license>
+   <notes>
+- Added signal support to event_set().
+- Added add event_buffer_set_callback().
+- Fixed possible segfault in event_del().
+   </notes>
+  </release>
+  <release>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <version>
+    <release>0.0.3</release>
+    <api>0.0.3</api>
+   </version>
+   <date>2009-08-29</date>
+   <notes>
+- Added support for sockets created with socket_create() (requires PHP 5.3.1+).
+   </notes>
+  </release>
+  <release>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <version>
+    <release>0.0.2</release>
+    <api>0.0.2</api>
+   </version>
+   <date>2009-08-29</date>
+   <notes>
+Initial release (after a long testing period).
+   </notes>
+  </release>
+ </changelog>
+</package>

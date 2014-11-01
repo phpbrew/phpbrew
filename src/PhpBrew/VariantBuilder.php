@@ -111,7 +111,7 @@ class VariantBuilder
         $this->variants['ftp']      = '--enable-ftp';
         $this->variants['filter']   = '--enable-filter';
         $this->variants['gcov']     = '--enable-gcov';
-        $this->variants['maintainer'] = '--enable-maintainer-zts';
+        $this->variants['zts']      = '--enable-maintainer-zts';
 
         $this->variants['json']     = '--enable-json';
         $this->variants['hash']     = '--enable-hash';

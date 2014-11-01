@@ -15,6 +15,16 @@ class Build implements Serializable
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
 
+    /**
+     * States that describe finished task.
+     */
+    const STATE_NONE = 0;
+    const STATE_DOWNLOAD  = 1;
+    const STATE_EXTRACT   = 2;
+    const STATE_CONFIGURE = 3;
+    const STATE_BUILD     = 4;
+    const STATE_INSTALL   = 5;
+
     public $name;
 
     public $version;
@@ -49,7 +59,7 @@ class Build implements Serializable
     public function __construct($version, $alias = null, $installPrefix = null)
     {
         $this->version = $version;
-        $this->name = $alias ? $alias : Utils::canonicalizeVersionName($version);
+        $this->name = $alias ? $alias : Utils::canonicalizeBuildName($version);
         $this->settings = new BuildSettings;
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);
@@ -279,9 +289,10 @@ class Build implements Serializable
         }
         if ($path = $this->getStateFile()) {
             if (file_exists($path)) {
-                return $this->state = file_get_contents($path);
+                return $this->state = intval(file_get_contents($path)) || self::STATE_NONE;
             }
         }
+        return self::STATE_NONE;
     }
 
     public function export()

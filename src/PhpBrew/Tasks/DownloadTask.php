@@ -16,14 +16,14 @@ class DownloadTask extends BaseTask
             throw new Exception("Directory is not writable: $dir");
         }
 
-        $downloader = new UrlDownloader($this->getLogger());
+        $downloader = new UrlDownloader($this->logger);
         $basename = $downloader->resolveDownloadFileName($url);
         if (!$basename) {
             throw new Exception("Can not parse url: $url");
         }
         $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
 
-        if (file_exists($targetFilePath)) {
+        if (!$this->options->force && file_exists($targetFilePath)) {
             $this->logger->info('Checking distribution checksum...');
             $md5a = md5_file($targetFilePath);
             if ($md5 && $md5a != $md5) {

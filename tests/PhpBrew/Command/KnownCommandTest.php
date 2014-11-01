@@ -11,13 +11,32 @@ class KnownCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      */
-    public function testKnownCommand()
+    public function testCommand() {
+        $this->assertTrue($this->runCommand('phpbrew known'));
+    }
+
+    /**
+     * @outputBuffering enabled
+     */
+    public function testMoreOption() {
+        $this->assertTrue($this->runCommand('phpbrew known --more'));
+    }
+
+    /**
+     * @outputBuffering enabled
+     */
+    public function testOldMoreOption() {
+        $this->assertTrue($this->runCommand('phpbrew known --old --more'));
+    }
+
+
+    /**
+     * @outputBuffering enabled
+     */
+    public function testKnownUpdateCommand()
     {
         $this->assertTrue($this->runCommand('phpbrew known --update'));
         $this->assertTrue($this->runCommand('phpbrew known -u'));
-        $this->assertTrue($this->runCommand('phpbrew known'));
-        $this->assertTrue($this->runCommand('phpbrew known --more'));
-        $this->assertTrue($this->runCommand('phpbrew known --old --more'));
     }
 }
 

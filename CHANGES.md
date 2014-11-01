@@ -9,6 +9,10 @@ CHANGES
   - `--no-install`
   - `--no-patch`
   - `--build-dir=DIR`
+  - `--make-jobs=N` is now renamed to `--jobs=N`
+
+  Please run `phpbrew help install` to see the details of the command options.
+
 - Directory for the downloaded distribution files is now separated.
 - date.timezone and phar.readonly ini file patch is fixed.
 - Error redirection is now improved.

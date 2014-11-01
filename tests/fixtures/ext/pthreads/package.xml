@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>pthreads</name>
+ <channel>pecl.php.net</channel>
+ <summary>Threading API</summary>
+ <description>A compatible Threading API for PHP5.3+</description>
+ <lead>
+  <name>Joe Watkins</name>
+  <user>krakjoe</user>
+  <email>pthreads@pthreads.org</email>
+  <active>yes</active>
+ </lead>
+ <date>2014-10-01</date>
+ <time>06:24:45</time>
+ <version>
+  <release>2.0.10</release>
+  <api>2.0.10</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+fix crash when sending SIGINT, clashed with ::kill
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="25b50f191a39cd3a9fd911826f56b378" name="examples/Benchmark.php" role="doc" />
+   <file md5sum="a7e62cf0a253d7dd3e314771d7844545" name="examples/CallAnyFunction.php" role="doc" />
+   <file md5sum="ba13d9803690f8f29235c363d31cf86a" name="examples/Fetch.php" role="doc" />
+   <file md5sum="df4dd4a541e911fc464ef20682671701" name="examples/KeepAliveSession.php" role="doc" />
+   <file md5sum="750fa2e11b9fb55a94bdec0d9b0fcc6e" name="examples/Mutexes.php" role="doc" />
+   <file md5sum="909442833c7925f5b893c928e4e3718c" name="examples/MySQLi.php" role="doc" />
+   <file md5sum="eff7ecf7967f469993f954bbd9c5c9c1" name="examples/NewSynchronization.php" role="doc" />
+   <file md5sum="5b8fd306a33477321872f925453b33af" name="examples/Notifications.php" role="doc" />
+   <file md5sum="8c551b58a520352ce4a7971f52e38895" name="examples/ObjectsAsParameters.php" role="doc" />
+   <file md5sum="be69d9a56c7eb8cb61aaadff7dd224e1" name="examples/Objects.php" role="doc" />
+   <file md5sum="86a70ada252b4ac9408a1ac76b9f4871" name="examples/Pooling.php" role="doc" />
+   <file md5sum="b7db5cd67a43633fdb94f409e897fb1e" name="examples/Scope.php" role="doc" />
+   <file md5sum="eb2441fc5eb05c9893da8c5d3aa10039" name="examples/SelectiveInheritance.php" role="doc" />
+   <file md5sum="a4d967b1458a9cd69655d8fc7e6bd534" name="examples/SharingResources.php" role="doc" />
+   <file md5sum="65cea61b4e5eff8db6550e1667b17967" name="examples/SimpleWebRequest.php" role="doc" />
+   <file md5sum="580f80df90cf9f919419ea5ba1be52bb" name="examples/Singleton.php" role="doc" />
+   <file md5sum="ec2faf7cbc3264bcc05f3517773034be" name="examples/SocketServer.php" role="doc" />
+   <file md5sum="23c7526e43a7d2f2090c5060caef99f9" name="examples/SQLWorker.php" role="doc" />
+   <file md5sum="b128d2f88a9cdadef6533650ef7b06a8" name="examples/StackableArray.php" role="doc" />
+   <file md5sum="097a504ae0a445e874e5c723c946919c" name="examples/Stacking.php" role="doc" />
+   <file md5sum="334e0925201d423fee43856bcdbbc92f" name="examples/stub.php" role="doc" />
+   <file md5sum="b847798bdd07afbc51934d60f3303945" name="tests/binding.phpt" role="test" />
+   <file md5sum="19eb01f241b1296a8fd1159ce3460566" name="tests/callstatic-etc.phpt" role="test" />
+   <file md5sum="3e89560a295a668d43b10f723ae05c5d" name="tests/chunk.phpt" role="test" />
+   <file md5sum="bc88ddf8cd2e0d5b1e7978e148e4e2f9" name="tests/class-defaults.phpt" role="test" />
+   <file md5sum="81974cd4c14e24badc1c559f6d35b08d" name="tests/closures-as-members.phpt" role="test" />
+   <file md5sum="d56499bdb84228a6f5065dfd5ef1d672" name="tests/complex-statics.phpt" role="test" />
+   <file md5sum="eeb096e43391183967a76cc7de4666b7" name="tests/complex-statics-set-null.phpt" role="test" />
+   <file md5sum="96b5e22ea5b41802f94dedd68746fde6" name="tests/conditions.phpt" role="test" />
+   <file md5sum="ea021981722b4f4df567bfc01264f2e8" name="tests/constants.phpt" role="test" />
+   <file md5sum="daf7492c32f4853d32b92628e1293c3e" name="tests/corrupted-resources.phpt" role="test" />
+   <file md5sum="38a8070f58d78bf30bf66ae6d7255fa8" name="tests/counting-members.phpt" role="test" />
+   <file md5sum="3bdae1b98c36cdfd4eed3ed3dadb4ad7" name="tests/detach.phpt" role="test" />
+   <file md5sum="086fdfbb327ada3fcae8dc015d86c093" name="tests/doc-comments.phpt" role="test" />
+   <file md5sum="6644ce5487768e507e417b8fa9ed5756" name="tests/exception-handler.phpt" role="test" />
+   <file md5sum="6a07922e68ed43191620922429a9c1c4" name="tests/foreign-private-members.phpt" role="test" />
+   <file md5sum="e91e8254408b81603b9b6b51fe59084e" name="tests/functions.phpt" role="test" />
+   <file md5sum="0d377d99d431b96b5dcf6918186456f1" name="tests/global-constants.phpt" role="test" />
+   <file md5sum="1298b9da97ca1950f7c7fdaae6a03c0b" name="tests/globals.phpt" role="test" />
+   <file md5sum="c493786dbe5ae948d7fe2cda02a4f091" name="tests/global-voodoo.phpt" role="test" />
+   <file md5sum="aa78b650e2c741ace4a4fc26b1b3ed5f" name="tests/gone.phpt" role="test" />
+   <file md5sum="0ad9d0b0e9bb598cb39e2ab6f7aef4e2" name="tests/graceful-fatalities.phpt" role="test" />
+   <file md5sum="7f63dddd2fede4e73e039d282f052862" name="tests/included-files.phpt" role="test" />
+   <file md5sum="131786bae63d463048e122aaab5c4ab8" name="tests/includeme.inc" role="test" />
+   <file md5sum="05a37976dab9a8f093a280560039fd36" name="tests/ini.phpt" role="test" />
+   <file md5sum="e49404c4831f3fd304b04b0e3e026e17" name="tests/interface.phpt" role="test" />
+   <file md5sum="656d595fd165860340e895f2b6f0e381" name="tests/interfaces.phpt" role="test" />
+   <file md5sum="9f5fcf2ec8ba7371fb3ba0dc8be38ba3" name="tests/isset-empty-compat.phpt" role="test" />
+   <file md5sum="8305d0a901713b2506c11a334f20e159" name="tests/isset-unset.phpt" role="test" />
+   <file md5sum="5f8b4a6288babafbc9dc604f3b26b445" name="tests/killed-info.phpt" role="test" />
+   <file md5sum="6ab8082b4395c1c3187afbf50676f316" name="tests/legacy-ctor.phpt" role="test" />
+   <file md5sum="b2d056a74af67938ad2e63593017239c" name="tests/merging-members.phpt" role="test" />
+   <file md5sum="8c1de313daad34bd0d94ada7897479fb" name="tests/merging-range.phpt" role="test" />
+   <file md5sum="315f5b57e2ffb57a33c67000d985ac88" name="tests/mutex.phpt" role="test" />
+   <file md5sum="fe3752313d14854376300229d735e3d7" name="tests/norefs.phpt" role="test" />
+   <file md5sum="7f11c2fb529175629b93640c270b04f5" name="tests/normalize-members.phpt" role="test" />
+   <file md5sum="639e311fd3caf524e940d7a07c1b6cd6" name="tests/normal-reads.phpt" role="test" />
+   <file md5sum="06bbf37eb0071aecc7769e07c9af0c45" name="tests/null-member-crash.phpt" role="test" />
+   <file md5sum="855a10817ad48f6c8c9001a9ee4d9e50" name="tests/oomethods.phpt" role="test" />
+   <file md5sum="58267af3a5d4d506c9e7d028200b2d53" name="tests/objects-from-closures.phpt" role="test" />
+   <file md5sum="04dc9db8bbb172bf29e56e7662c27a57" name="tests/pools-default.phpt" role="test" />
+   <file md5sum="4cf0234e1bc392655b950deda587463a" name="tests/pools.phpt" role="test" />
+   <file md5sum="fc3bb115d079c6f5e71200f6375aa416" name="tests/runtime-inheritance.phpt" role="test" />
+   <file md5sum="d675988948434d2544cc2a311f6fbaeb" name="tests/selective-inheritance.phpt" role="test" />
+   <file md5sum="ff9dc13c21a66b47b0e79e8bea3bbea3" name="tests/shift-pop.phpt" role="test" />
+   <file md5sum="087bddf0123c4560ae065914a07778b9" name="tests/shutdown-handler.phpt" role="test" />
+   <file md5sum="25ed02c84302817ca7dc70138f4ea727" name="tests/stack-by-reference-pass.phpt" role="test" />
+   <file md5sum="026784da22d48b698048324cf6d783ad" name="tests/stack-by-reference.phpt" role="test" />
+   <file md5sum="c2b658e499898ed2f3fb25b81ecd39be" name="tests/stateful-fatalities.phpt" role="test" />
+   <file md5sum="1be17a7059989b1733f3f973b4226e5e" name="tests/staticmethods.phpt" role="test" />
+   <file md5sum="ca07a53ea3b641fdcb1fd7752c80bdb1" name="tests/static-resolution.phpt" role="test" />
+   <file md5sum="ec3736b83949f639871be934d1080e34" name="tests/statics.phpt" role="test" />
+   <file md5sum="9072917b6f7c82282956868107a76d00" name="tests/statics-thorn-in-other-side.phpt" role="test" />
+   <file md5sum="4b989cff4410f8a84099fdf94d8abd38" name="tests/synchronization.phpt" role="test" />
+   <file md5sum="f1bce95eab7b65efe3ab0c0b989e7667" name="tests/thorn-in-side.phpt" role="test" />
+   <file md5sum="d583f8a779f2262fe9dfdf75d41a57fc" name="tests/thread.phpt" role="test" />
+   <file md5sum="476dba33ce3711e9b120c964c98dcb2b" name="tests/trait-aliases.phpt" role="test" />
+   <file md5sum="f15d8c5ae8cb642e31ef7dacc2d17f6f" name="tests/unset-defaults.phpt" role="test" />
+   <file md5sum="9d166a5f5ab2b08789359ed0b7b33e9a" name="tests/waiting-timeouts.phpt" role="test" />
+   <file md5sum="4b6cb705a0300ee0257af0d53f917d5a" name="tests/wait.phpt" role="test" />
+   <file md5sum="d17f473c151eca14d539e8245ed6ea68" name="src/pthreads.h" role="src" />
+   <file md5sum="6e42e34f974c9a75f83ff21be09dbf83" name="src/copy.h" role="src" />
+   <file md5sum="7a895207422b6e73d93f33e6ec88b676" name="src/globals.c" role="src" />
+   <file md5sum="802695bb4e20972c8330e8f6ed577666" name="src/globals.h" role="src" />
+   <file md5sum="aece77399be81db0459eb1ab1be70867" name="src/handlers.c" role="src" />
+   <file md5sum="205572162cf3c876d558b8e34eac4498" name="src/handlers.h" role="src" />
+   <file md5sum="a396acd18fe26567216e28c1bbddba00" name="src/lock.c" role="src" />
+   <file md5sum="d763557c63cabe7174216b259f410b45" name="src/lock.h" role="src" />
+   <file md5sum="71e323c45d5fa92f9db19471a659c513" name="src/modifiers.c" role="src" />
+   <file md5sum="dfe5606f561cf9d6747f1991f7f2fddb" name="src/modifiers.h" role="src" />
+   <file md5sum="892537be78d0baebf07af76ba458949b" name="src/object.c" role="src" />
+   <file md5sum="96e1560a45dade4fc8453f7b45d9ed74" name="src/object.h" role="src" />
+   <file md5sum="3f894ab0d8a2259dd7245f1b313c137f" name="src/prepare.c" role="src" />
+   <file md5sum="173d8bff229cc629b573cda3e16e99b9" name="src/prepare.h" role="src" />
+   <file md5sum="73b9ed0e338b1bca3701f0e2d6a1eb8a" name="src/resources.c" role="src" />
+   <file md5sum="e28c5eba52f3563af8f739546c6d8e46" name="src/resources.h" role="src" />
+   <file md5sum="b46d0cd3bea26670736cbebb95b32e42" name="src/store.c" role="src" />
+   <file md5sum="3a6bc04e21b13c8dbca6c2d2a5e9152c" name="src/store.h" role="src" />
+   <file md5sum="51ee5768860c75a1d5b804507e1ff088" name="src/state.c" role="src" />
+   <file md5sum="b1f9001ebe9776192cd1e155211c1c7a" name="src/state.h" role="src" />
+   <file md5sum="5f657876b14740dae57099ab7b7d4ac2" name="src/synchro.c" role="src" />
+   <file md5sum="b31dbfa8ad0f433c394c7a505e8584e2" name="src/synchro.h" role="src" />
+   <file md5sum="dc0453eeb15accfcb961822290a6185e" name="src/thread.h" role="src" />
+   <file md5sum="3ddafcf4631e5ef1639f3d88b958d48d" name="classes/threaded.h" role="src" />
+   <file md5sum="d7ac54c8bcb8336e3ba20bb1f282dcd6" name="classes/thread.h" role="src" />
+   <file md5sum="ea892ada441b491665db48365a413682" name="classes/worker.h" role="src" />
+   <file md5sum="ad36003281669f713237cef0b1088598" name="classes/mutex.h" role="src" />
+   <file md5sum="00be147abded1b10131aaf045a880c10" name="classes/cond.h" role="src" />
+   <file md5sum="cc2f7b8a0b15ecf720d4574be643902e" name="classes/collectable.h" role="src" />
+   <file md5sum="58b093b4d1ce929288316d97d0aa2568" name="classes/pool.h" role="src" />
+   <file md5sum="dba1d85dff38b94e15cb5a461bd1de15" name="iterators/iterator.h" role="src" />
+   <file md5sum="a0ca55789f2a9d820e73e7061ac10e6d" name="iterators/default.h" role="src" />
+   <file md5sum="d85a8610f3913dcd5638bf4f32855673" name="config.m4" role="src" />
+   <file md5sum="416aa874b11389f84c6eba8728b8a847" name="config.w32" role="src" />
+   <file md5sum="51e58269662201ed9eb7c19566e2ea81" name="LICENSE" role="doc" />
+   <file md5sum="fee87684d8665b07f0e0958f9ebfa731" name="php_pthreads.c" role="src" />
+   <file md5sum="d308f6baa6ff5680462ebaf543e767e0" name="php_pthreads.h" role="src" />
+   <file md5sum="d809446f098a0458771c6478b3ac6059" name="README.md" role="doc" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>pthreads</providesextension>
+ <extsrcrelease />
+</package>

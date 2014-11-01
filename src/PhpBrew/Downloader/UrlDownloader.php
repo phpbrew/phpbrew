@@ -3,15 +3,8 @@ namespace PhpBrew\Downloader;
 use Exception;
 use RuntimeException;
 use CLIFramework\Logger;
-
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
-/*
-return new CurlDownloader(array( 
-    'progress' => new ProgressBar
-));
- */
-
 
 class UrlDownloader
 {
@@ -35,12 +28,12 @@ class UrlDownloader
         if (extension_loaded('curl')) {
             $this->logger->debug('---> Found curl extension.');
             $downloader = new CurlDownloader;
-            if ($this->logger->level > 0) {
+            if ($this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
-                $binary = $downloader->request($url);
-                if (false === file_put_contents($targetFilePath, $binary)) {
-                    throw new RuntimeException("Can't write file $targetFilePath");
-                }
+            }
+            $binary = $downloader->request($url);
+            if (false === file_put_contents($targetFilePath, $binary)) {
+                throw new RuntimeException("Can't write file $targetFilePath");
             }
         } else {
             $this->logger->debug('Curl extension not found, fallback to wget or curl');
@@ -50,7 +43,7 @@ class UrlDownloader
             if (exec('command -v wget')) {
                 system('wget --no-check-certificate -c -O ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
             } elseif (exec('command -v curl')) {
-                system('curl -C - -# -L -o ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
+                system('curl -C - -L -o ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
             } else {
                 throw new RuntimeException("Download failed - neither wget nor curl was found");
             }

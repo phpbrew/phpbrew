@@ -22,12 +22,13 @@ class Console extends Application
         $this->command('config');
         $this->command('info');
         $this->command('env');
-        $this->command('ext');
+        $this->command('extension');
         $this->command('variants');
         $this->command('path');
         $this->command('cd');
         $this->command('download');
         $this->command('clean');
+        $this->command('update');
 
         $this->command('list-ini', 'PhpBrew\Command\ListIniCommand');
 

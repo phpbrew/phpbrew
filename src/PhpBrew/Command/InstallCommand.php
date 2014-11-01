@@ -33,7 +33,8 @@ class InstallCommand extends Command
         return 'Install php';
     }
 
-    public function aliases() {
+    public function aliases()
+    {
         return array('i','ins');
     }
 
@@ -60,6 +61,37 @@ class InstallCommand extends Command
             return array_map(function($n) { return '+' . $n; }, $list);
         });
     }
+
+    public function parseSemanticOptions(array &$args)
+    {
+        $settings = array();
+
+        $definitions = array(
+            'as' => '*',
+            'like' => '*',
+            'using' => '*+',
+        );
+
+        // XXX: support 'using'
+        foreach ($definitions as $k => $requirement) {
+            $idx = array_search($k, $args);
+
+            if ($idx !== false) {
+                if ($requirement == '*') {
+                    // Find the value next to the position
+                    list($key, $val) = array_splice($args, $idx, 2);
+                    $settings[$key] = $val;
+                } elseif ($requirement == '*+') {
+                    $values = array_splice($args, $idx, 2);
+                    $key = array_shift($values);
+                    $settings[$key] = $values;
+                }
+            }
+        }
+
+        return $settings;
+    }
+
 
     /**
      * @param \GetOptionKit\OptionCollection $opts
@@ -88,23 +120,17 @@ class InstallCommand extends Command
             . 'to ensure everything is cleaned up.')
             ;
 
-        $opts->add('no-patch', 'Do not apply any patch')
-            ;
+        $opts->add('no-patch', 'Do not apply any patch');
 
-        $opts->add('no-configure', 'Do not run configure script')
-            ;
+        $opts->add('no-configure', 'Do not run configure script');
 
-        $opts->add('no-install', 'Do not install, just run build the target')
-            ;
+        $opts->add('no-install', 'Do not install, just run build the target');
 
-
-        $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority.')
-            ->valueName('priority')
-            ;
+        $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority. The priority can be adjusted over a range of -20 (the highest) to 20 (the lowest).')
+            ->valueName('priority');
 
         $opts->add('patch+:', 'Apply patch before build.')
-            ->isa('file')
-            ;
+            ->isa('file');
 
         $opts->add('old', 'Install phpbrew incompatible phps (< 5.3)');
 
@@ -122,6 +148,43 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
+        $distUrl = NULL;
+        $versionInfo = array();
+        $releaseList = ReleaseList::getReadyInstance();
+
+        if (preg_match('#https?://#',$version)) {
+            $distUrl = $version;
+            if (preg_match('#(php-(\d.\d+.\d+)\.tar\.(?:gz|bz2))#',$version, $matches)) {
+                $filename = $matches[1];
+                $version = $matches[2];
+            } else {
+                return $this->error("Can not find version name from the given URL: $version");
+            }
+        } else {
+            $version = preg_replace('/^php-/', '', $version);
+            $versionInfo = $releaseList->getVersion($version);
+            if (!$versionInfo) {
+                throw new Exception("Version $version not found.");
+            }
+            $version = $versionInfo['version'];
+
+            $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
+            if ($mirrorSite = $this->options->mirror) {
+                // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
+                $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+            }
+        }
+
+        // get options and variants for building php
+        // and skip the first argument since it's the target version.
+        $args = func_get_args();
+        array_shift($args); // shift the version name
+
+
+        $semanticOptions = $this->parseSemanticOptions($args);
+        $buildAs =   isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->alias;
+        $buildLike = isset($semanticOptions['like']) ? $semanticOptions['like'] : $this->options->like;
+
         // convert patch to realpath
         if ($this->options->patch) {
             $patchPaths = array();
@@ -137,28 +200,10 @@ class InstallCommand extends Command
         }
 
 
-        $version = preg_replace('/^php-/', '', $version);
-        $releaseList = ReleaseList::getReadyInstance();
-        $versionInfo = $releaseList->getVersion($version);
-        if (!$versionInfo) {
-            throw new Exception("Version $version not found.");
-        }
-        $version = $versionInfo['version'];
 
-        $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
-        if ($mirrorSite = $this->options->mirror) {
-            // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
-            $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
-        }
-
-        // get options and variants for building php
-        // and skip the first argument since it's the target version.
-        $args = func_get_args();
-        array_shift($args);
 
         // Initialize the build object, contains the information to build php.
-        $build = new Build($version, $this->options->name);
-
+        $build = new Build($version, $buildAs);
 
         $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         if (!file_exists($installPrefix)) {
@@ -167,15 +212,30 @@ class InstallCommand extends Command
         $build->setInstallPrefix($installPrefix);
 
 
-
         // find inherited variants
-        if ($buildName = $this->options->like) {
-            if ($parentBuild = Build::findByName(Utils::canonicalizeVersionName($buildName))) {
+        if ($buildLike) {
+            if ($parentBuild = Build::findByName($buildLike)) {
                 $build->loadVariantInfo($parentBuild->settings->toArray());
             }
         }
 
 
+        $msg = "===> phpbrew will now build {$build->getVersion()}";
+        if ($buildLike) {
+            $msg .= ' using variants from ' . $buildLike;
+        }
+        if (isset($semanticOptions['using'])) {
+            $msg .= ' plus custom variants: ' . join(', ',$semanticOptions['using']);
+            $args = array_merge($args, $semanticOptions['using']);
+        }
+        if ($buildAs) {
+            $msg .= ' as ' . $buildAs;
+        }
+        $this->logger->info($msg);
+
+        if (!empty($args)) {
+            $this->logger->debug("---> Parsing variants from command arguments '" . join(' ', $args) . "'");
+        }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
@@ -229,9 +289,11 @@ class InstallCommand extends Command
             $build->enableVariant('xml');
         }
 
-        $this->logger->debug('Loading and resolving variants...');
+        $this->logger->info('===> Loading and resolving variants...');
         $removedVariants = $build->loadVariantInfo($variantInfo);
-        $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
+        if (!empty($removedVariants)) {
+            $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
+        }
 
 
         {
@@ -249,7 +311,7 @@ class InstallCommand extends Command
         $distFileDir = Config::getDistFileDir();
 
         $downloadTask = new DownloadTask($this->logger, $this->options);
-        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, $versionInfo['md5']);
+        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, isset($versionInfo['md5']) ? $versionInfo['md5'] : NULL);
         if (!file_exists($targetFilePath)) {
             throw new Exception("Download failed, $targetFilePath does not exist.");
         }

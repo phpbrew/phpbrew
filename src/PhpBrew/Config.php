@@ -37,7 +37,7 @@ class Config
     /**
      * Variants is private, so we use HOME path.
      */
-    public static function getVariantsDir()
+    static public function getVariantsDir()
     {
         return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'variants';
     }
@@ -45,12 +45,17 @@ class Config
     /**
      * php(s) could be global, so we use ROOT path.
      */
-    public static function getBuildDir()
+    static public function getBuildDir()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
-    public static function getDistFileDir() 
+
+    static public function getCurrentBuildDir() {
+        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+    }
+
+    static public function getDistFileDir()
     {
         $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'distfiles';
         if (!file_exists($dir)) {
@@ -60,7 +65,8 @@ class Config
     }
 
 
-    public static function getPHPReleaseListPath() {
+    static public function getPHPReleaseListPath()
+    {
         // Release list from php.net
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
     }
@@ -70,12 +76,12 @@ class Config
      *
      * @return string
      */
-    public static function getInstallPrefix()
+    static public function getInstallPrefix()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
-    public static function getVersionInstallPrefix($version)
+    static public function getVersionInstallPrefix($version)
     {
         return self::getInstallPrefix() . DIRECTORY_SEPARATOR . $version;
     }
@@ -88,17 +94,17 @@ class Config
      *
      * @return string
      */
-    public static function getVersionEtcPath($version)
+    static public function getVersionEtcPath($version)
     {
         return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
     }
 
-    public static function getVersionBinPath($version)
+    static public function getVersionBinPath($version)
     {
         return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'bin';
     }
 
-    public static function getInstalledPhpVersions()
+    static public function getInstalledPhpVersions()
     {
         $versions = array();
         $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
@@ -120,30 +126,40 @@ class Config
         return $versions;
     }
 
+    static public function getCurrentPhpConfigBin() 
+    {
+        return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php-config';
+    }
+
+    static public function getCurrentPhpizeBin() 
+    {
+        return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phpize';
+    }
+
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
      */
-    public static function getCurrentPhpConfigScanPath()
+    static public function getCurrentPhpConfigScanPath()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-    public static function getCurrentPhpDir()
+    static public function getCurrentPhpDir()
     {
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
-    public static function useSystemPhpVersion()
+    static public function useSystemPhpVersion()
     {
         self::$currentPhpVersion = null;
     }
 
-    public static function setPhpVersion($phpVersion)
+    static public function setPhpVersion($phpVersion)
     {
         self::$currentPhpVersion = 'php-'.$phpVersion;
     }
 
-    public static function getCurrentPhpName()
+    static public function getCurrentPhpName()
     {
         if (self::$currentPhpVersion !== null) {
             return self::$currentPhpVersion;
@@ -152,12 +168,12 @@ class Config
         return getenv('PHPBREW_PHP');
     }
 
-    public static function getCurrentPhpBin()
+    static public function getCurrentPhpBin()
     {
         return getenv('PHPBREW_PATH');
     }
 
-    public static function getConfigParam($param = null)
+    static public function getConfigParam($param = null)
     {
         $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
         $yaml = Yaml::parse($configFile);
@@ -171,5 +187,23 @@ class Config
         }
 
         return array();
+    }
+
+    static public function initDirectories($buildName = NULL) {
+        $dirs[] = self::getPhpbrewHome();
+        $dirs[] = self::getPhpbrewRoot();
+        $dirs[] = self::getVariantsDir();
+        $dirs[] = self::getBuildDir();
+        $dirs[] = self::getDistFileDir();
+        if ($buildName) {
+            $dirs[] = self::getCurrentBuildDir($buildName);
+            $dirs[] = self::getCurrentBuildDir($buildName) . DIRECTORY_SEPARATOR . 'ext';
+            $dirs[] = self::getInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+        }
+        foreach($dirs as $dir) {
+            if (!file_exists($dir)) {
+                mkdir($dir, 0755, true);
+            }
+        }
     }
 }

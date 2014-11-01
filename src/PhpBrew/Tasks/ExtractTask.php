@@ -18,10 +18,11 @@ class ExtractTask extends BaseTask
         if (!$extractDir) {
             $extractDir = dirname($targetFilePath);
         }
-        $extractedDir = $extractDir . DIRECTORY_SEPARATOR . basename($targetFilePath, '.tar.bz2');
 
-        if ($build->getState() == 'extract' && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
-            $this->info("===> Was successfully extracted, skipping...");
+        $extractedDir = $extractDir . DIRECTORY_SEPARATOR . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
+
+        if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
+            $this->info("===> Distribution file was successfully extracted, skipping...");
             return $extractedDir;
         }
 
@@ -31,7 +32,7 @@ class ExtractTask extends BaseTask
         if ($ret != 0) {
             die('Extract failed.');
         }
-        $build->setState('extract');
+        $build->setState(Build::STATE_EXTRACT);
         return $extractedDir;
         /*
          * XXX: unless we have a fast way to verify the extraction.
