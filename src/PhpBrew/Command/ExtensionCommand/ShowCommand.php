@@ -59,18 +59,16 @@ class ShowCommand extends \CLIFramework\Command
             $this->logger->writeln(sprintf('%20s: %s', $label, $val));
         }
 
-        if ($ext instanceof M4Extension) {
-            $options = $ext->getConfigureOptions();
-            if (!empty($options)) {
+        $options = $ext->getConfigureOptions();
+        if (!empty($options)) {
+            $this->logger->newline();
+            $this->logger->writeln(sprintf('%20s: ', 'Configure Options'));
+            $this->logger->newline();
+            foreach($options as $option) {
+                $this->logger->writeln(sprintf('        %-32s %s', 
+                        $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
+                        $option->desc));
                 $this->logger->newline();
-                $this->logger->writeln(sprintf('%20s: ', 'Configure Options'));
-                $this->logger->newline();
-                foreach($options as $option) {
-                    $this->logger->writeln(sprintf('        %-32s %s', 
-                            $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
-                            $option->desc));
-                    $this->logger->newline();
-                }
             }
         }
     }
@@ -78,7 +76,11 @@ class ShowCommand extends \CLIFramework\Command
     public function execute($extensionName)
     {
         $manager = new ExtensionManager($this->logger);
-        $ext = ExtensionFactory::lookupRecursive($extensionName);
+        $ext = ExtensionFactory::lookup($extensionName);
+
+        if (!$ext) {
+            $ext = ExtensionFactory::lookupRecursive($extensionName);
+        }
 
         // Extension not found, use pecl to download it.
         if (!$ext && $this->options->{'download'}) {

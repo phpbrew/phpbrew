@@ -38,6 +38,7 @@ class ExtensionFactory
     static public function createFromDirectory($packageName, $extensionDir) {
         $packageXmlPath = $extensionDir . DIRECTORY_SEPARATOR . 'package.xml';
 
+
         // If the package.xml exists, we may get the configureoptions for configuring the Makefile 
         // and use the provided extension name to enable the extension.
         //
@@ -45,7 +46,10 @@ class ExtensionFactory
         // best strategy to install the extension.
         if (file_exists($packageXmlPath)) {
             // $this->logger->warning("===> Using xml extension meta");
-            return self::createPeclExtension($packageName, $packageXmlPath);
+            if ($ext = self::createPeclExtension($packageName, $packageXmlPath)) {
+                return $ext;
+            }
+
         }
 
         // If the config.m4 or config0.m4 exists, it requires us to run `phpize` to 
@@ -67,7 +71,10 @@ class ExtensionFactory
         foreach($configM4Paths as $m4path) {
             if (file_exists($m4path)) {
                 try {
-                    return self::createM4Extension($packageName, $m4path);
+                    $ext = self::createM4Extension($packageName, $m4path);
+                    if ($ext) {
+                        return $ext;
+                    }
                 } catch(Exception $e) {
                     // Can't parse the content, ignore the error and continue the parsing...
                 }
@@ -229,7 +236,10 @@ class ExtensionFactory
                 PHP_ARG_WITH\(
                     \s*([^,]*)
                     (?:
-                        \s*,\s*([^,\)]*)
+                        \s*,\s*
+                        \[?
+                            ([^,\)]*)
+                        \]?
                         (?:
                             \s*,\s* 
 
@@ -283,7 +293,12 @@ class ExtensionFactory
          * the path can be retrieve from the contents part from the package.xml
          */
         if ($m4path = $ext->findConfigM4FileFromPackageXml()) {
-            $ext->setSourceDirectory(dirname($packageXmlPath) . DIRECTORY_SEPARATOR . dirname($m4path));
+            $sourceDirectory = dirname($packageXmlPath);
+            $m4dir = dirname($m4path);
+            if ($m4dir != '.') {
+                $sourceDirectory .= DIRECTORY_SEPARATOR . $m4dir;
+            }
+            $ext->setSourceDirectory($sourceDirectory);
         } else {
             $ext->setSourceDirectory(dirname($packageXmlPath));
         }
