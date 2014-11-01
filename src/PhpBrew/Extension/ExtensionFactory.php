@@ -21,7 +21,7 @@ class ExtensionFactory
      */
     static public function configM4Exists($extensionDir) 
     {
-        $files = [];
+        $files = array();
         $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . 'config.m4';
         if (file_exists($configM4Path)) {
             $files[] = $configM4Path;
