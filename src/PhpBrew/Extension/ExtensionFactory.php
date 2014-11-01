@@ -152,15 +152,25 @@ class ExtensionFactory
             PHP_ARG_ENABLE(calendar,whether to enable calendar conversion support,
             [  --enable-calendar       Enable support for calendar conversion])
             */
-            if (preg_match('#
+            if (preg_match('/
                 PHP_ARG_ENABLE\(
                     \s*([^,]*)
                     (?:
-                        \s*,\s*([^,\)]*)
+                        \s*,\s*
+                        (
+                            [^,\)]*
+                        )
                         (?:
-                            \s*,\s*\[ \s* ([^\s]+) \s+ ([^,\)]*) \s* \]
+                            \s*,\s*
+                            \[ 
+                                \s* 
+                                ([^\s]+)
+                                \s+ 
+                                ([^,\)]*)
+                                \s* 
+                            \]
                         )?
-                    )?#x', $m4, $matches)) {
+                    )?/x', $m4, $matches)) {
 
                 // shift the first match
                 array_shift($matches);
