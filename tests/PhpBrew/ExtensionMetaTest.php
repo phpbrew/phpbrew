@@ -1,6 +1,9 @@
 <?php
-
 namespace PhpBrew;
+use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Extension\M4Extension;
+use PhpBrew\Extension\PeclExtension;
+use PhpBrew\Extension\Extension;
 
 /**
  * ExtensionMetaTest
@@ -18,84 +21,49 @@ class ExtensionMetaTest extends \PHPUnit_Framework_TestCase
         $this->path = __DIR__ . '/../fixtures/ext';
     }
 
-    public function testMetaPolyfill()
+    public function testXdebug()
     {
-        $name = 'ext';
-
-        $this->meta = new ExtensionMetaPolyfill($name);
-        $this->assertEquals($name, $this->meta->getName());
-        $this->assertEquals($name, $this->meta->getRuntimeName());
-        $this->assertEquals($name . '.so', $this->meta->getSourceFile());
-        $this->assertNull($this->meta->getVersion());
-        $this->assertFalse($this->meta->isZend());
-
-        $this->assertPaths();
+        $ext = ExtensionFactory::lookup('xdebug', array($this->path));
+        $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
+        $this->assertInstanceOf('PhpBrew\Extension\PeclExtension', $ext);
+        $this->assertEquals('xdebug', $ext->getName());
+        $this->assertEquals('xdebug', $ext->getExtensionName());
+        $this->assertEquals('xdebug.so', $ext->getSharedLibraryName());
+        $this->assertTrue($ext->isZend());
     }
 
-    public function testMetaXml()
+    public function testOpcache()
     {
-        $this->meta = new ExtensionMetaXml($this->path . '/jsonc.package.xml');
-        $this->assertEquals('jsonc', $this->meta->getName());
-        $this->assertEquals('json', $this->meta->getRuntimeName());
-        $this->assertEquals('json' . '.so', $this->meta->getSourceFile());
-        $this->assertEquals('1.3.5', $this->meta->getVersion());
-        $this->assertFalse($this->meta->isZend());
-
-        $this->assertPaths();
+        $ext = ExtensionFactory::lookup('opcache', array($this->path));
+        $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
+        $this->assertInstanceOf('PhpBrew\Extension\M4Extension', $ext);
+        $this->assertEquals('opcache', $ext->getName());
+        $this->assertEquals('opcache', $ext->getExtensionName());
+        $this->assertEquals('opcache.so', $ext->getSharedLibraryName());
+        $this->assertTrue($ext->isZend());
     }
 
-    public function testMetaXmlZend()
+    public function testOpenSSL()
     {
-        $this->meta = new ExtensionMetaXml($this->path . '/xdebug.package.xml');
-        $this->assertEquals('xdebug', $this->meta->getName());
-        $this->assertEquals('xdebug', $this->meta->getRuntimeName());
-        $this->assertEquals('xdebug' . '.so', $this->meta->getSourceFile());
-        $this->assertEquals('2.2.5', $this->meta->getVersion());
-        $this->assertTrue($this->meta->isZend());
-
-        $this->assertPaths();
+        $ext = ExtensionFactory::lookup('openssl', array($this->path));
+        $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
+        $this->assertInstanceOf('PhpBrew\Extension\M4Extension', $ext);
+        $this->assertEquals('openssl', $ext->getName());
+        $this->assertEquals('openssl', $ext->getExtensionName());
+        $this->assertEquals('openssl.so', $ext->getSharedLibraryName());
+        $this->assertFalse($ext->isZend());
     }
 
-    public function testMetaM4()
+    public function testSoap()
     {
-        $this->meta = new ExtensionMetaM4($this->path . '/openssl.config.m4');
-        $this->assertEquals('openssl', $this->meta->getName());
-        $this->assertEquals('openssl', $this->meta->getRuntimeName());
-        $this->assertEquals('openssl' . '.so', $this->meta->getSourceFile());
-        $this->assertNull($this->meta->getVersion());
-        $this->assertFalse($this->meta->isZend());
-
-        $this->assertPaths();
+        $ext = ExtensionFactory::lookup('soap', array($this->path));
+        $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
+        $this->assertInstanceOf('PhpBrew\Extension\PeclExtension', $ext);
+        $this->assertEquals('soap', $ext->getName());
+        $this->assertEquals('soap', $ext->getExtensionName());
+        $this->assertEquals('soap.so', $ext->getSharedLibraryName());
+        $this->assertFalse($ext->isZend());
     }
 
-    public function testMetaM4Zend()
-    {
-        $this->meta = new ExtensionMetaM4($this->path . '/opcache.config.m4');
-        $this->assertEquals('opcache', $this->meta->getName());
-        $this->assertEquals('opcache', $this->meta->getRuntimeName());
-        $this->assertEquals('opcache' . '.so', $this->meta->getSourceFile());
-        $this->assertNull($this->meta->getVersion());
-        $this->assertTrue($this->meta->isZend());
 
-        $this->assertPaths();
-    }
-
-    protected function assertPaths()
-    {
-        $this->assertStringEndsWith('/ext/' . $this->meta->getName(), $this->meta->getPath());
-        $this->assertStringEndsWith($this->meta->getName() . '.ini', $this->meta->getIniFile());
-    }
-
-    /**
-     * Test for issue #277
-     * 
-     * @link github.com/phpbrew/phpbrew/issues/277
-     */
-    public function testIssue277()
-    {
-        $this->meta = new ExtensionMetaXml('data://,<?xml version="1.0" encoding="ISO-8859-1" ?><package><name>ext_foo</name></package>');
-        $this->assertEquals('foo', $this->meta->getName());
-        $this->meta = new ExtensionMetaXml('data://,<?xml version="1.0" encoding="ISO-8859-1" ?><package><name>extfoo</name></package>');
-        $this->assertEquals('extfoo', $this->meta->getName());
-    }
 }

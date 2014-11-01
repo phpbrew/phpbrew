@@ -97,7 +97,7 @@ class ExtensionFactory
         }
     }
 
-    static public function lookup($packageName, $lookupDirectories = array(), $fallback = true) 
+    static public function lookup($packageName, array $lookupDirectories = array(), $fallback = true) 
     {
 
         if ($fallback) {

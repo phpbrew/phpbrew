@@ -31,7 +31,7 @@ class Extension
 
     protected $sourceDirectory;
 
-    protected $isZend;
+    protected $isZend = false;
 
     /**
      * @var ConfigureOption[] 
