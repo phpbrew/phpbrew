@@ -99,7 +99,6 @@ class InstallCommand extends \CLIFramework\Command
         }
 
         $manager = new ExtensionManager($this->logger);
-
         foreach ($extensions as $extensionName => $extConfig) {
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
