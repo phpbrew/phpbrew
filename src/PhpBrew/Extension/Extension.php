@@ -33,6 +33,13 @@ class Extension
 
     protected $isZend;
 
+    /**
+     * @var ConfigureOption[] 
+     *
+     * Contains [($name, $desc), .... ] pairs
+     */
+    protected $configureOptions = array();
+
     public function __construct($name)
     {
         $this->name = $name;
@@ -103,6 +110,10 @@ class Extension
         return $this->configM4File;
     }
 
+    public function getConfigM4Path() {
+        return $this->sourceDirectory . DIRECTORY_SEPARATOR . $this->configM4File;
+    }
+
     public function findConfigM4File($dir) {
         $configM4Path = $dir . DIRECTORY_SEPARATOR . 'config.m4';
         if (file_exists($configM4Path)) {
@@ -151,6 +162,14 @@ class Extension
     public function isInstalled()
     {
         return file_exists($this->getSharedLibraryPath());
+    }
+
+    public function addConfigureOption(ConfigureOption $opt) {
+        $this->configureOptions[] = $opt;
+    }
+
+    public function getConfigureOptions() {
+        return $this->configureOptions;
     }
 }
 

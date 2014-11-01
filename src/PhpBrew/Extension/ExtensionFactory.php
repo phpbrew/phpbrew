@@ -1,8 +1,9 @@
 <?php
 namespace PhpBrew\Extension;
 use PhpBrew\Config;
-use PhpBrew\Extension as Extension1;
 use PhpBrew\Extension\PeclExtension;
+use PhpBrew\Extension\M4Extension;
+use PhpBrew\Extension\ConfigureOption;
 use PEARX\PackageXml\Parser as PackageXmlParser;
 use Exception;
 
@@ -12,18 +13,24 @@ use Exception;
 class ExtensionFactory
 {
 
+    /**
+     * One extension directory might contains multiple config*.m4 file, like 
+     * memcache extension.
+     */
     static public function configM4Exists($extensionDir) 
     {
+        $files = [];
         $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . 'config.m4';
         if (file_exists($configM4Path)) {
-            return $configM4Path;
+            $files[] = $configM4Path;
         }
         for ($i = 0 ; $i < 10 ; $i++ ) {
             $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . "config{$i}.m4";
             if (file_exists($configM4Path)) {
-                return $configM4Path;
+                $files[] = $configM4Path;
             }
         }
+        return $files;
     }
 
     static public function createFromDirectory($packageName, $extensionDir) {
@@ -54,9 +61,15 @@ class ExtensionFactory
         // When config[0-9].m4 found, it might be an extension that can't be 
         // installed as a shared extension. We will need to raise a warning 
         // message for users.
-        $configM4Path = self::configM4Exists($extensionDir);
-        if (file_exists($configM4Path)) {
-            return self::createM4Extension($packageName, $configM4Path);
+        $configM4Paths = self::configM4Exists($extensionDir);
+        foreach($configM4Paths as $m4path) {
+            if (file_exists($m4path)) {
+                try {
+                    return self::createM4Extension($packageName, $configM4Path);
+                } catch(Exception $e) {
+                    // Can't parse the content, ignore the error and continue the parsing...
+                }
+            }
         }
     }
 
@@ -109,17 +122,17 @@ class ExtensionFactory
                 \s*,\s* ([^,]*)  # Source files
 
                 (?:
-                    \s*,\s* ([^,)]*)  # Ext Shared
+                    \s*,\s* ([^,\)]*)  # Ext Shared
 
                     (?:
-                        \s*,\s* ([^,)]*)  # SAPI class
+                        \s*,\s* ([^,\)]*)  # SAPI class
 
                         (?:
-                            \s*,\s* ([^,)]*)  # Extra cflags
+                            \s*,\s* ([^,\)]*)  # Extra cflags
 
                             (?:
-                                \s*,\s* ([^,)]*)  # CXX
-                                \s*,\s* ([^,)]*)  # zend extension
+                                \s*,\s* ([^,\)]*)  # CXX
+                                \s*,\s* ([^,\)]*)  # zend extension
                             )?
                         )?
                     )?
@@ -127,14 +140,91 @@ class ExtensionFactory
                 /x', $m4, $matches)) {
 
             $ext = new M4Extension($packageName);
-            $ext->setExtensionName($matches[0]);
-            $ext->setSharedLibraryName($matches[0] . '.so');
+            $ext->setExtensionName($matches[1]);
+            $ext->setSharedLibraryName($matches[1] . '.so');
             if (isset($matches[6]) && strpos($matches[6], 'yes') !== false) {
                 $ext->setZend(true);
             }
             $ext->setSourceDirectory(dirname($m4Path));
-            return $ext;
 
+
+            /*
+            PHP_ARG_ENABLE(calendar,whether to enable calendar conversion support,
+            [  --enable-calendar       Enable support for calendar conversion])
+            */
+            if (preg_match('#
+                PHP_ARG_ENABLE\(
+                    \s*([^,]*)
+                    (?:
+                        \s*,\s*([^,\)]*)
+                        (?:
+                            \s*,\s*\[ \s* ([^\s]+) \s+ ([^,\)]*) \s* \]
+                        )?
+                    )?#x', $m4, $matches)) {
+
+                // shift the first match
+                array_shift($matches);
+                $name = array_shift($matches);
+                $desc = array_shift($matches);
+                $option = array_shift($matches);
+                $optionDesc = array_shift($matches);
+                $ext->addConfigureOption(new ConfigureOption($option ?: '--enable-' . $name, $desc ?: $optionDesc));
+            }
+
+            /*
+            PHP_ARG_WITH(gd, for GD support,
+            [  --with-gd[=DIR]   Include GD support.  DIR is the GD library base
+                                    install directory [BUNDLED]])
+
+
+            Possible option formats:
+
+                --with-libxml-dir=DIR
+                --with-recode[=DIR]
+                --with-yaml[[=DIR]]
+                --with-mysql-sock[=SOCKPATH]
+            */
+            if (preg_match('/
+                PHP_ARG_WITH\(
+                    \s*([^,]*)
+                    (?:
+                        \s*,\s*([^,\)]*)
+                        (?:
+                            \s*,\s* 
+
+                            \[ 
+                                \s*
+
+                                # simple match (\S+)
+
+                                ([a-zA-Z0-9-]+)  # option
+                                (?:
+                                    =?
+
+                                    \[?
+                                        =?([^\s\]]*?) 
+                                    \]?
+                                )?                 # option value hint
+
+                                \s+
+
+                                ([^,\)]*)        # option description
+                                \s*                 
+                            \]
+                        )?
+                    )?/x', $m4, $matches)) {
+
+                // shift the first match
+                array_shift($matches);
+                $name = array_shift($matches);
+                $desc = array_shift($matches);
+                $option = array_shift($matches);
+                $optionValueHint = array_shift($matches);
+                $optionDesc      = array_shift($matches);
+                $ext->addConfigureOption(new ConfigureOption(( $option ?: '--with-' . $name), ($desc ?: $optionDesc), $optionValueHint));
+            }
+
+            return $ext;
         } else {
             throw new Exception("Can not parse config.m4: $m4Path");
         }

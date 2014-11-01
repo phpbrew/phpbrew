@@ -9,9 +9,10 @@ use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\Extension;
 use CLIFramework\Command;
 use GetOptionKit\OptionCollection;
+use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use FilesystemIterator;
+use Exception;
 
 class ExtCommand extends Command
 {
@@ -43,17 +44,26 @@ class ExtCommand extends Command
         $opts->add('v|php:', 'The php version for which we install the module.');
     }
 
-    public function describeOptions(Extension $ext) 
+    public function describeExtension(Extension $ext) 
     {
-        if ($ext instanceof PeclExtension) {
-            if ($package = $ext->getPackage()) {
-                $options = $package->getConfigureOptions();
-                if (!empty($options)) {
-                    $this->logger->info('     Configure options:');
-                    foreach($options as $option) {
-                        $this->logger->info('      --' . $option->name . '=' . $option->default);
-                        $this->logger->info('        ' . wordwrap($option->prompt, 80,"\n        "));
-                    }
+        if (extension_loaded($ext->getExtensionName())) {
+            $this->logger->info(' [*] ' . $ext->getExtensionName());
+        } else {
+            $this->logger->info(' [ ] ' . $ext->getExtensionName());
+        }
+
+        $padding = '     ';
+        if ($ext instanceof M4Extension) {
+            $this->logger->info($padding . 'Configure file: ' . $ext->getConfigM4Path());
+
+            $options = $ext->getConfigureOptions();
+            if (!empty($options)) {
+                $this->logger->info($padding . 'Configure options:');
+                foreach($options as $option) {
+                    $this->logger->info($padding . '  ' 
+                        . sprintf('%-32s %s', 
+                            $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
+                            $option->desc ));
                 }
             }
         }
@@ -75,12 +85,20 @@ class ExtCommand extends Command
                     continue;
                 }
                 $dir = $extDir . DIRECTORY_SEPARATOR . $extName;
-                if ($m4file = ExtensionFactory::configM4Exists($dir)) {
+                if ($m4files = ExtensionFactory::configM4Exists($dir)) {
                     $this->logger->debug("Loading extension information $extName from $dir");
-                    // $ext = ExtensionFactory::createM4Extension($extName, $m4file);
-                    $ext = ExtensionFactory::createFromDirectory($extName, $dir);
-                    $extensions[$ext->getName()] = $ext;
-                    $extensionNames[] = $extName;
+
+                    foreach ($m4files as $m4file) {
+                        try {
+                            $ext = ExtensionFactory::createM4Extension($extName, $m4file);
+                            // $ext = ExtensionFactory::createFromDirectory($extName, $dir);
+                            $extensions[$ext->getName()] = $ext;
+                            $extensionNames[] = $extName;
+                            break;
+                        } catch(Exception $e) {
+
+                        }
+                    }
                 }
             }
         }
@@ -88,8 +106,7 @@ class ExtCommand extends Command
         $this->logger->info('Loaded extensions:');
         foreach ($extensions as $extName => $ext) {
             if (extension_loaded($extName)) {
-                $this->logger->info(" [*] $extName");
-                $this->describeOptions($ext);
+                $this->describeExtension($ext);
             }
         }
 
@@ -98,9 +115,7 @@ class ExtCommand extends Command
             if (extension_loaded($extName)) {
                 continue;
             }
-
-            $this->logger->info(" [ ] $extName");
-            $this->describeOptions($ext);
+            $this->describeExtension($ext);
         }
     }
 }
