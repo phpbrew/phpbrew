@@ -22,6 +22,16 @@ class InstallCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @depends testInstallCommand
      */
+    public function testListCommand()
+    {
+        $this->assertTrue($this->runCommand("phpbrew list -v -d"));
+        $this->assertTrue($this->runCommand("phpbrew list --dir --variants"));
+    }
+
+    /**
+     * @outputBuffering enabled
+     * @depends testInstallCommand
+     */
     public function testCleanCommand()
     {
         $this->assertTrue($this->runCommand("phpbrew --quiet clean 5.4.29"));
