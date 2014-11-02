@@ -12,19 +12,26 @@ class CtagsCommand extends \CLIFramework\Command
         return 'Run ctags at current php source dir for extension development.';
     }
 
-    public function execute()
+
+    public function execute($versionName = NULL)
     {
         $args = func_get_args();
+        array_shift($args);
+
 
         // $currentVersion;
         $root = Config::getPhpbrewRoot();
         $home = Config::getPhpbrewHome();
-        $buildDir = Config::getBuildDir();
-        $version = getenv('PHPBREW_PHP');
 
         // XXX: get source dir from current build information
-        $sourceDir = $buildDir . DIRECTORY_SEPARATOR . $version;
-        $this->logger->info($sourceDir);
+        $sourceDir = Config::getCurrentBuildDir();
+        if (!$versionName) {
+            $sourceDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $versionName;
+        }
+        if (!file_exists($sourceDir)) {
+            return $this->logger->error("$sourceDir does not exist.");
+        }
+        $this->logger->info("Scanning " . $sourceDir);
 
         $cmd = new CommandBuilder('ctags');
         $cmd->arg('--recurse');
@@ -40,7 +47,7 @@ class CtagsCommand extends \CLIFramework\Command
             $cmd->arg($a);
         }
 
-        $this->logger->info($cmd->__toString());
+        $this->logger->debug($cmd->__toString());
         $cmd->execute();
 
         $this->logger->info("Done");
