@@ -31,8 +31,7 @@
         </testsuite>
 
         <testsuite name="Extension">
-            <file>tests/PhpBrew/ExtensionInstallerTest.php</file>
-            <file>tests/PhpBrew/ExtensionMetaTest.php</file>
+            <directory suffix="Test.php">tests/PhpBrew/Extension</directory>
         </testsuite>
     </testsuites>
 
