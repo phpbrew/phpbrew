@@ -1,19 +1,8 @@
 <?php
-use CLIFramework\Testing\CommandTestCase;
+use PhpBrew\Testing\CommandTestCase;
 
 class PathCommandTest extends CommandTestCase
 {
-
-    public function setupApplication() {
-        return new PhpBrew\Console;
-    }
-
-    public function setUp() {
-        parent::setUp();
-        putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
-        putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
-    }
-
     public function argumentsProvider() {
 
         return array( 
@@ -37,6 +26,4 @@ class PathCommandTest extends CommandTestCase
         $this->assertTrue($this->runCommand("phpbrew path $arg"));
         ob_end_clean();
     }
-
-
 }

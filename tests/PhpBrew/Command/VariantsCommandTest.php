@@ -1,19 +1,8 @@
 <?php
-use CLIFramework\Testing\CommandTestCase;
+use PhpBrew\Testing\CommandTestCase;
 
 class VariantsCommandTest extends CommandTestCase
 {
-
-    public function setupApplication() {
-        return new PhpBrew\Console;
-    }
-
-    public function setUp() {
-        parent::setUp();
-        putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
-        putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
-    }
-
     /**
      * @outputBuffering enabled
      */

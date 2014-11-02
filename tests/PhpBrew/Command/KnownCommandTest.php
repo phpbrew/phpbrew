@@ -1,13 +1,8 @@
 <?php
-use CLIFramework\Testing\CommandTestCase;
+use PhpBrew\Testing\CommandTestCase;
 
 class KnownCommandTest extends CommandTestCase
 {
-
-    public function setupApplication() {
-        return new PhpBrew\Console;
-    }
-
     /**
      * @outputBuffering enabled
      */
