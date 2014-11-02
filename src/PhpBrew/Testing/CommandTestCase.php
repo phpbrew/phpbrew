@@ -1,12 +1,13 @@
 <?php
 namespace PhpBrew\Testing;
 use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
+use PhpBrew\Console;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
 
     public function setupApplication() {
-        return new PhpBrew\Console;
+        return new Console;
     }
 
     public function setUp() {
