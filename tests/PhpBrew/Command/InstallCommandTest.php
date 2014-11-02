@@ -41,6 +41,16 @@ class InstallCommandTest extends CommandTestCase
 
     /**
      * @outputBuffering enabled
+     * @depends testListCommand
+     * @depends testInstallCommand
+     */
+    public function testCtagsCommand()
+    {
+        $this->assertTrue($this->runCommand("phpbrew ctags 5.4.29"));
+    }
+
+    /**
+     * @outputBuffering enabled
      * @depends testInstallCommand
      */
     public function testInstallLikeCommand() {
