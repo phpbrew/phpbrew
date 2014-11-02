@@ -12,11 +12,14 @@ class InstallCommandTest extends CommandTestCase
 
     /**
      * @outputBuffering enabled
+     * @depends testInstallCommandLatestMinorVersion
      */
     public function testInstallCommand()
     {
         $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.29 +sqlite +intl +icu"));
     }
+
+
 
     /**
      * @outputBuffering enabled
@@ -45,8 +48,6 @@ class InstallCommandTest extends CommandTestCase
     public function testInstallLikeCommand() {
         $this->assertTrue($this->runCommand("phpbrew --quiet install -d --like 5.4.29 5.5.18 +soap"));
     }
-
-
 
 
 }
