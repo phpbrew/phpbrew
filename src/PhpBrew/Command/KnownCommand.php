@@ -27,7 +27,8 @@ class KnownCommand extends \CLIFramework\Command
 
         $releases = array();
         if (!$releaseList->foundLocalReleaseList() || $this->options->update) {
-            $releases = $releaseList->fetchRemoteReleaseList('master');
+            $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
+            $releases = $fetchTask->fetch('master');
         } else {
             $releases = $releaseList->loadLocalReleaseList();
         }

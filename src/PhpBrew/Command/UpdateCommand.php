@@ -14,9 +14,8 @@ class UpdateCommand extends \CLIFramework\Command
     public function execute($branchName = 'master')
     {
         $releaseList = new ReleaseList;
-
-        $this->logger->info('===> Fetching release list...');
-        $releases = $releaseList->fetchRemoteReleaseList($branchName);
+        $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
+        $releases = $fetchTask->fetch($branchName);
         foreach($releases as $majorVersion => $versions) {
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
                 continue;
