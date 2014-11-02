@@ -1,15 +1,11 @@
 <?php
-use CLIFramework\Testing\CommandTestCase;
+use PhpBrew\Testing\CommandTestCase;
 
 class InstallCommandTest extends CommandTestCase
 {
-
-    public function setupApplication() {
-        $console = new PhpBrew\Console;
-        $console->getLogger()->setQuiet();
-        return $console;
-    }
-
+    /**
+     * @outputBuffering enabled
+     */
     public function testInstallCommandLatestMinorVersion() {
         $this->assertTrue($this->runCommand('phpbrew --quiet install -d 5.4'));
     }

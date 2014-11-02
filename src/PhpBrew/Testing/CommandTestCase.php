@@ -7,7 +7,9 @@ abstract class CommandTestCase extends BaseCommandTestCase
 {
 
     public function setupApplication() {
-        return new Console;
+        $console = new Console;
+        $console->getLogger()->setQuiet();
+        return $console;
     }
 
     public function setUp() {
