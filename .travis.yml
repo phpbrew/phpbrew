@@ -16,7 +16,6 @@ before_script:
   - mkdir -p -v .phpbrew/php
   - cp -v shell/bashrc .phpbrew/
 
-
 script:
   - source shell/bashrc
   # - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
