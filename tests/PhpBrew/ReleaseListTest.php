@@ -31,9 +31,9 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
     public function versionDataProvider() {
         return array(
             array("5.3", "5.3.29"),
-            array("5.4", "5.4.33"),
-            array("5.5", "5.5.17"),
-            array("5.6", "5.6.1"),
+            array("5.4", "5.4.34"),
+            array("5.5", "5.5.18"),
+            array("5.6", "5.6.2"),
         );
     }
 
