@@ -27,3 +27,4 @@ after_script:
 
 cache:
   - vendor
+  - .phpbrew/distfiles
