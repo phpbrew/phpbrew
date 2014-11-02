@@ -3,3 +3,4 @@ vendor/
 build/
 .onion
 composer.lock
+.phpbrew
