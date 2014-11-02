@@ -14,6 +14,8 @@ class UpdateCommand extends \CLIFramework\Command
     public function execute($branchName = 'master')
     {
         $releaseList = new ReleaseList;
+
+        $this->logger->info('===> Fetching release list...');
         $releases = $releaseList->fetchRemoteReleaseList($branchName);
         foreach($releases as $majorVersion => $versions) {
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
@@ -23,5 +25,6 @@ class UpdateCommand extends \CLIFramework\Command
             $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') 
                 . count($versionList) . ' releases');
         }
+        $this->logger->info('===> Done');
     }
 }
