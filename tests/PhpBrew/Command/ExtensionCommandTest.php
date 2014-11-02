@@ -3,15 +3,6 @@ use PhpBrew\Testing\CommandTestCase;
 
 class ExtensionCommandTest extends CommandTestCase
 {
-    /**
-     * @outputBuffering enabled
-     */
-    public function testListCommand() {
-        ob_start();
-        $this->assertTrue($this->runCommand('phpbrew ext'));
-        ob_end_clean();
-    }
-
     public function extensionNameProvider() {
         return array(
             array('APCu', 'latest')
@@ -22,11 +13,43 @@ class ExtensionCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @dataProvider extensionNameProvider
      */
-    public function testInstallCommand($extensionName, $extensionVersion) {
+    public function testExtInstallCommand($extensionName, $extensionVersion) {
         ob_start();
         $this->assertTrue($this->runCommand("phpbrew --quiet ext install $extensionName $extensionVersion"));
+        ob_end_clean();
+    }
+
+    /**
+     * @outputBuffering enabled
+     * @dataProvider extensionNameProvider
+     * @depends testExtInstallCommand
+     */
+    public function testExtShowCommand($extensionName, $extensionVersion) {
+        ob_start();
         $this->assertTrue($this->runCommand("phpbrew --quiet ext show $extensionName"));
+        ob_end_clean();
+    }
+
+
+
+    /**
+     * @outputBuffering enabled
+     * @dataProvider extensionNameProvider
+     * @depends testExtInstallCommand
+     */
+    public function testExtCleanCommand($extensionName, $extensionVersion) {
+        ob_start();
         $this->assertTrue($this->runCommand("phpbrew --quiet ext clean $extensionName"));
+        ob_end_clean();
+    }
+
+    /**
+     * @outputBuffering enabled
+     * @depends testExtInstallCommand
+     */
+    public function testExtListCommand() {
+        ob_start();
+        $this->assertTrue($this->runCommand('phpbrew ext --show-path --show-options'));
         ob_end_clean();
     }
 
