@@ -27,9 +27,15 @@ class InfoCommand extends \CLIFramework\Command
         $this->header('Constants');
         $constants = get_defined_constants();
 
-        echo "PHP Prefix: ", $constants['PHP_PREFIX'], "\n";
-        echo "PHP Binary: ", $constants['PHP_BINARY'], "\n";
-        echo "PHP Default Include path: ", $constants['DEFAULT_INCLUDE_PATH'], "\n";
+        if (isset($constants['PHP_PREFIX'])) {
+            echo "PHP Prefix: ", $constants['PHP_PREFIX'], "\n";
+        }
+        if (isset($constants['PHP_BINARY'])) {
+            echo "PHP Binary: ", $constants['PHP_BINARY'], "\n";
+        }
+        if (isset($constants['DEFAULT_INCLUDE_PATH'])) {
+            echo "PHP Default Include path: ", $constants['DEFAULT_INCLUDE_PATH'], "\n";
+        }
         echo "PHP Include path: ", get_include_path(), "\n";
         echo "\n";
 
