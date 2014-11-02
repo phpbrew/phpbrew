@@ -13,6 +13,7 @@ class DownloadCommandTest extends CommandTestCase
 
     /**
      * @outputBuffering enabled
+     * @dataProvider versionDataProvider
      */
     public function testDownloadCommand($versionName) {
         ob_start();

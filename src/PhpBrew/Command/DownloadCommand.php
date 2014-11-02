@@ -56,12 +56,12 @@ class DownloadCommand extends Command
         }
 
 
-        $prepare = new PrepareDirectoryTask($this->logger);
+        $prepare = new PrepareDirectoryTask($this->logger, $this->options);
         $prepare->run();
 
         $distFileDir = Config::getDistFileDir();
 
-        $download = new DownloadTask($this->logger);
+        $download = new DownloadTask($this->logger, $this->options);
         $targetDir = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
 
         if (!file_exists($targetDir)) {
