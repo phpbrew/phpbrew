@@ -36,7 +36,10 @@ class ExtensionCommandTest extends CommandTestCase
     public function testInstallCommand($extensionName, $extensionVersion) {
         ob_start();
         $this->assertTrue($this->runCommand("phpbrew --quiet ext install $extensionName $extensionVersion"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet ext show $extensionName"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet ext clean $extensionName"));
         ob_end_clean();
     }
+
 
 }

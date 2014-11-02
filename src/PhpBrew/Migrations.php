@@ -15,7 +15,6 @@ class Migrations
     public static function setupConfigFolder()
     {
         $path = Config::getCurrentPhpConfigScanPath();
-
         if (!file_exists($path)) {
             mkdir($path, 0755, true);
         }
