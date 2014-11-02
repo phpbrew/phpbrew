@@ -16,26 +16,15 @@ before_script:
   - mkdir -p -v .phpbrew/php
   - cp -v shell/bashrc .phpbrew/
 
-# env:
-#   - TEST_SUITE=Core
-#   - TEST_SUITE=Commands
-#   - TEST_SUITE=Extension
 
 script:
   - source shell/bashrc
-  # - ./scripts/compile && phpunit --testsuite $TEST_SUITE --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit --testsuite
+  # - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
+  - phpunit
 
 after_script:
   - php vendor/bin/coveralls -v
 
-# matrix:
-#   allow_failures:
-#     - php: 5.3
-#   exclude:
-#     - php: 5.5
-#     - php: 5.6
-#   fast_finish: true
 
 cache:
   - vendor
