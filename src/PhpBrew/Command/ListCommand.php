@@ -23,10 +23,10 @@ class ListCommand extends \CLIFramework\Command
         $currentVersion = Config::getCurrentPhpName();
 
         // var_dump( $versions );
-        echo "Installed versions:\n";
+        $this->logger->writeln("Installed versions:");
 
         if ($currentVersion === false or !in_array($currentVersion, $versions)) {
-            echo "* (system)\n";
+            $this->logger->writeln("* (system)");
         }
 
         foreach ($versions as $version) {
