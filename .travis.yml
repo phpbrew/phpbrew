@@ -7,6 +7,7 @@ php:
 
 before_script:
   - phpenv rehash
+  - apt-get install -y ctags
   - cd /usr/local/bin && sudo curl -LO https://github.com/phpbrew/Onion/raw/master/onion && sudo chmod +x onion && cd -
   - composer self-update
   - composer require satooshi/php-coveralls:dev-master --no-update --dev
