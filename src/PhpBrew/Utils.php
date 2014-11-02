@@ -317,4 +317,13 @@ class Utils
 
         return $foundVersion;
     }
+
+
+    static public function editor($file)
+    {
+        $tty  = exec("tty");
+        $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
+        exec("{$editor} {$file} > {$tty}");
+    }
+
 }

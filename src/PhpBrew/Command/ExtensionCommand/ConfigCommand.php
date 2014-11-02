@@ -1,11 +1,12 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
-use PhpBrew\Command\AbstractConfigCommand;
+use CLIFramework\Command;
 use PhpBrew\Extension;
+use PhpBrew\Utils;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
 
-class ConfigCommand extends AbstractConfigCommand
+class ConfigCommand extends Command
 {
     public function brief()
     {
@@ -28,6 +29,6 @@ class ConfigCommand extends AbstractConfigCommand
                 return;
             }
         }
-        $this->editor($file);
+        Utils::editor($file);
     }
 }

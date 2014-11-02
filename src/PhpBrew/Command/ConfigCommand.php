@@ -1,13 +1,14 @@
 <?php
 namespace PhpBrew\Command;
-
+use CLIFramework\Command;
+use PhpBrew\Utils;
 use PhpBrew\Config;
 
-class ConfigCommand extends AbstractConfigCommand
+class ConfigCommand extends Command
 {
     public function brief()
     {
-        return 'edit your current php.ini in your favorite $EDITOR';
+        return 'Edit your current php.ini in your favorite $EDITOR';
     }
 
     public function execute()
@@ -15,6 +16,6 @@ class ConfigCommand extends AbstractConfigCommand
         $root = Config::getPhpbrewRoot();
         $php  = Config::getCurrentPhpName();
         $file = "{$root}/php/{$php}/etc/php.ini";
-        $this->editor($file);
+        Utils::editor($file);
     }
 }

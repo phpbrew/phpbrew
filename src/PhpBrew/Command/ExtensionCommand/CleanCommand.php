@@ -1,7 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
 use CLIFramework\Command;
-use PhpBrew\Command\AbstractConfigCommand;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
