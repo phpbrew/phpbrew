@@ -12,7 +12,7 @@ class EnvCommand extends \CLIFramework\Command
         return 'Export environment variables';
     }
 
-    public function execute($buildName = null)
+    public function execute($buildName = NULL)
     {
         // get current version
         if (!$buildName) {
@@ -29,15 +29,12 @@ class EnvCommand extends \CLIFramework\Command
         $this->logger->writeln("export PHPBREW_LOOKUP_PREFIX=$lookup");
 
         if ($buildName !== false) {
-            // checking php version exists
+            // checking php version existence
             $targetPhpBinPath = Config::getVersionBinPath($buildName);
-
-            if (!is_dir($targetPhpBinPath)) {
-                throw new Exception("# php build: " . $buildName . " not exists.");
+            if (is_dir($targetPhpBinPath)) {
+                echo 'export PHPBREW_PHP=' . $buildName . "\n";
+                echo 'export PHPBREW_PATH=' . ($buildName ? Config::getVersionBinPath($buildName) : '') . "\n";
             }
-
-            echo 'export PHPBREW_PHP=' . $buildName . "\n";
-            echo 'export PHPBREW_PATH=' . ($buildName ? Config::getVersionBinPath($buildName) : '') . "\n";
         }
 
     }

@@ -32,7 +32,7 @@ class PathCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @dataProvider argumentsProvider
      */
-    public function testInstallCommand($arg) {
+    public function testPathCommand($arg) {
         ob_start();
         $this->assertTrue($this->runCommand("phpbrew path $arg"));
         ob_end_clean();
