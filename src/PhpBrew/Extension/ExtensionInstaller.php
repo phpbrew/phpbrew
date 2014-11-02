@@ -4,7 +4,6 @@ use PEARX;
 use CLIFramework\Logger;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
-use PhpBrew\DirectorySwitch;
 use PhpBrew\Config;
 use PhpBrew\Utils;
 use GetOptionKit\OptionCollection;

@@ -4,7 +4,6 @@ use Exception;
 use PhpBrew\Config;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
-use PhpBrew\DirectorySwitch;
 use PhpBrew\ReleaseList;
 use PhpBrew\Utils;
 use PhpBrew\Build;
