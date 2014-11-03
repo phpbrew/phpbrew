@@ -30,6 +30,8 @@ class Console extends Application
         $this->command('clean');
         $this->command('update');
 
+        $this->command('help');
+
         $this->command('list-ini', 'PhpBrew\Command\ListIniCommand');
 
         $this->command('ctags', 'PhpBrew\Command\CtagsCommand');
