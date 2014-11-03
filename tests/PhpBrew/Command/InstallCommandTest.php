@@ -1,6 +1,9 @@
 <?php
 use PhpBrew\Testing\CommandTestCase;
 
+/**
+ * @large
+ */
 class InstallCommandTest extends CommandTestCase
 {
     /**

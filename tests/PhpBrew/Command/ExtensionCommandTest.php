@@ -1,11 +1,15 @@
 <?php
 use PhpBrew\Testing\CommandTestCase;
 
+/**
+ * @large
+ */
 class ExtensionCommandTest extends CommandTestCase
 {
     public function extensionNameProvider() {
         return array(
-            array('APCu', 'latest')
+            array('APCu', 'latest'),
+            array('xdebug', 'latest'),
         );
     }
 
