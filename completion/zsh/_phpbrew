@@ -66,7 +66,7 @@ local ret=1
     use:'Use php, switch version temporarily'
     switch:'Switch default php version.'
     each:'Iterate and run a given command over all php versions managed by PHPBrew.'
-    config:'edit your current php.ini in your favorite $EDITOR'
+    config:'Edit your current php.ini in your favorite $EDITOR'
     info:'Show current php information'
     env:'Export environment variables'
     extension:'List extensions or execute extension subcommands'
@@ -155,6 +155,8 @@ local ret=1
               '(-n --nice)'{-n,--nice=}'[Runs build processes at an altered scheduling priority. The priority can be adjusted over a range of -20 (the highest) to 20 (the lowest).]' \
               '--patch=[Apply patch before build.]:file:_files' \
               '--old[Install phpbrew incompatible phps (< 5.3)]' \
+              '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
+              '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               '(-f --force)'{-f,--force}'[Force the installation.]' \
               '(-d --dryrun)'{-d,--dryrun}'[Do not build, but run through all the tasks.]' \
               '--like=[Inherit variants from an existing build. This option would require an existing build directory from the {version}.]' \
@@ -313,6 +315,9 @@ local ret=1
         
         ;;
         (ctags)
+            _arguments -w -S -s \
+              ':versionName' \
+               && ret=0
         
         ;;
         (enable)
