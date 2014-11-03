@@ -39,7 +39,8 @@ class UrlDownloader
             if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
                 $downloader->setProxyAuth($proxyAuth);
             }
-            if ($this->logger->getLevel() > 2) {
+
+            if (! $this->options->{'no-progress'} && $this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
             $binary = $downloader->request($url);

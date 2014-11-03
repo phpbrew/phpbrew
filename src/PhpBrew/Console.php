@@ -8,6 +8,11 @@ class Console extends Application
     const NAME = 'phpbrew';
     const VERSION = "1.16.3";
 
+    public function options($opts) {
+        parent::options($opts);
+        $opts->add('no-progress', 'Do not display progress bar.');
+    }
+
     public function init()
     {
         parent::init();
