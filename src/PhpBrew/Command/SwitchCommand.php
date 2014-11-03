@@ -1,6 +1,10 @@
 <?php
 namespace PhpBrew\Command;
 
+/**
+ * @codeCoverageIgnore
+ */
+
 class SwitchCommand extends VirtualCommand
 {
 

@@ -1,5 +1,8 @@
 <?php
 namespace PhpBrew\Command;
+/**
+ * @codeCoverageIgnore
+ */
 
 use CLIFramework\Command;
 
