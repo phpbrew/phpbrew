@@ -7,6 +7,7 @@ use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\Utils;
+use GetOptionKit\OptionResult;
 
 class InstallCommand extends \CLIFramework\Command
 {
@@ -104,7 +105,7 @@ class InstallCommand extends \CLIFramework\Command
 
             // Extension not found, use pecl to download it.
             if (!$ext) {
-                $peclDownloader = new PeclExtensionDownloader($this->logger);
+                $peclDownloader = new PeclExtensionDownloader($this->logger, $this->options);
                 $peclDownloader->download($extensionName, $extConfig->version);
 
                 // Reload the extension

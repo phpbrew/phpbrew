@@ -5,14 +5,18 @@ use RuntimeException;
 use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
+use GetOptionKit\OptionResult;
 
 class UrlDownloader
 {
     public $logger;
 
-    public function __construct(Logger $logger)
+    public $options;
+
+    public function __construct(Logger $logger, OptionResult $options)
     {
         $this->logger = $logger;
+        $this->options = $options;
     }
 
     /**
@@ -26,8 +30,15 @@ class UrlDownloader
     {
         $this->logger->info("===> Downloading from $url");
         if (extension_loaded('curl')) {
-            $this->logger->debug('---> Found curl extension.');
+            $this->logger->debug('---> Found curl extension, using CurlDownloader');
             $downloader = new CurlDownloader;
+
+            if ($proxy = $this->options->{'http-proxy'}) {
+                $downloader->setProxy($proxy);
+            }
+            if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
+                $downloader->setProxyAuth($proxyAuth);
+            }
             if ($this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
             }

@@ -8,6 +8,7 @@ use PhpBrew\Utils;
 use PEARX;
 use PEARX\Channel as PeclChannel;
 use CLIFramework\Logger;
+use GetOptionKit\OptionResult;
 
 class PeclExtensionDownloader
 {
@@ -15,9 +16,12 @@ class PeclExtensionDownloader
 
     public $logger;
 
-    public function __construct(Logger $logger)
+    public $options;
+
+    public function __construct(Logger $logger, OptionResult $options)
     {
         $this->logger = $logger;
+        $this->options = $options;
     }
 
     public function setPeclSite($site)
@@ -38,7 +42,7 @@ class PeclExtensionDownloader
     public function download($packageName, $version = 'stable')
     {
         $url = $this->findPeclPackageUrl($packageName, $version);
-        $downloader = new Downloader\UrlDownloader($this->logger);
+        $downloader = new Downloader\UrlDownloader($this->logger, $this->options);
         $basename = $downloader->resolveDownloadFileName($url);
         $distDir = Config::getDistFileDir();
         $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;

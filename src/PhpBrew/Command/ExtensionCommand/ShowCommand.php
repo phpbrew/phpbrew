@@ -9,6 +9,7 @@ use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\Utils;
 use Exception;
+use GetOptionKit\OptionResult;
 
 class ShowCommand extends \CLIFramework\Command
 {
@@ -84,7 +85,7 @@ class ShowCommand extends \CLIFramework\Command
 
         // Extension not found, use pecl to download it.
         if (!$ext && $this->options->{'download'}) {
-            $peclDownloader = new PeclExtensionDownloader($this->logger);
+            $peclDownloader = new PeclExtensionDownloader($this->logger, $this->options);
             $extDir = $peclDownloader->download($extensionName, 'latest');
             // Reload the extension
             $ext = ExtensionFactory::lookupRecursive($extensionName, array($extDir));

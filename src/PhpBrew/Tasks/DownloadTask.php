@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
-use GetOptionKit\OptionResult;
 use PhpBrew\Downloader\UrlDownloader;
+use GetOptionKit\OptionResult;
 use Exception;
 use PhpBrew\Build;
 
@@ -16,7 +16,7 @@ class DownloadTask extends BaseTask
             throw new Exception("Directory is not writable: $dir");
         }
 
-        $downloader = new UrlDownloader($this->logger);
+        $downloader = new UrlDownloader($this->logger, $this->options);
         $basename = $downloader->resolveDownloadFileName($url);
         if (!$basename) {
             throw new Exception("Can not parse url: $url");

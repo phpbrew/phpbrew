@@ -134,6 +134,14 @@ class InstallCommand extends Command
 
         $opts->add('old', 'Install phpbrew incompatible phps (< 5.3)');
 
+        $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
+            ->valueName('proxy host')
+            ;
+
+        $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
+            ->valueName('user:pass')
+            ;
+
         $opts->add('f|force', 'Force the installation.');
 
         $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');
