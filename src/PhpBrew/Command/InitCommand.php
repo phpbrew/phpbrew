@@ -30,24 +30,33 @@ class InitCommand extends \CLIFramework\Command
             mkdir($root, 0755, true);
         }
 
-        touch( $root . DIRECTORY_SEPARATOR . '.metadata_never_index' ); // prevent spotlight index here
-        if ($root != $home) {
-            touch( $home . DIRECTORY_SEPARATOR . '.metadata_never_index' );
+        $paths = array();
+        $paths[] = $home;
+        $paths[] = $root;
+        $paths[] = $buildDir;
+        $paths[] = $buildPrefix;
+        foreach($paths as $p) {
+            $this->logger->info("Checking directory $p");
+            if (!file_exists($p)) {
+                $this->logger->info("Creating directory $p");
+                mkdir($p, 0755, true);
+            }
         }
 
-        if ($this->options->{'config'} !== null) {
-            copy($this->options->{'config'}, $root . DIRECTORY_SEPARATOR . 'config.yaml');
+        $this->logger->info('Creating .metadata_never_index to prevent SpotLight indexing');
+        touch($root . DIRECTORY_SEPARATOR . '.metadata_never_index'); // prevent spotlight index here
+        touch($home . DIRECTORY_SEPARATOR . '.metadata_never_index' );
+
+        if ($configFile = $this->options->{'config'}) {
+            if (!file_exists($configFile)) {
+                return $this->logger->error("$configFile does not exist.");
+            }
+            $this->logger->debug("Using yaml config from $configFile");
+            copy($configFile, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
-        if (!file_exists($home)) {
-            mkdir($home, 0755, true);
-        }
-        if (!file_exists($buildPrefix)) {
-            mkdir($buildPrefix, 0755, true);
-        }
-        if (!file_exists($buildDir)) {
-            mkdir($buildDir, 0755, true);
-        }
+        $this->logger->writeln( $this->formatter->format("Initialization successfully finished!",'strong_green') );
+        $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
 
         // write bashrc script to phpbrew home
         file_put_contents($home . '/bashrc' , $this->getBashScript());
@@ -71,8 +80,9 @@ For further instructions, simply run `phpbrew` to see the help message.
 
 Enjoy phpbrew at \$HOME!!
 
-EOS;
 
+EOS;
+        $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
     }
 
     public function getBashScript()
