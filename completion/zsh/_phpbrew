@@ -49,6 +49,7 @@ local ret=1
     '--version[Show version.]' \
     '(-p --profile)'{-p,--profile}'[Display timing and memory usage information.]' \
     '--no-interact[Do not ask any interactive question.]' \
+    '--no-progress[Do not display progress bar.]' \
     ': :->cmds' \
     '*:: :->option-or-argument' \
      && return
@@ -62,7 +63,7 @@ local ret=1
     init:'Initialize phpbrew config file.'
     known:'List known PHP versions'
     install:'Install php'
-    list:'List installed PHP versions'
+    list:'List installed PHPs'
     use:'Use php, switch version temporarily'
     switch:'Switch default php version.'
     each:'Iterate and run a given command over all php versions managed by PHPBrew.'
