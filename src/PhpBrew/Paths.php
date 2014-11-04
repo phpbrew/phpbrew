@@ -22,5 +22,4 @@ class Paths
     {
         return "/usr/local";
     }
-
 }

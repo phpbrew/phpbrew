@@ -30,7 +30,6 @@ class ExtensionInstaller
 
         $this->logger->info("Log stored at: $buildLogPath");
 
-
         $this->logger->info("Changing directory to $sourceDir");
         chdir($sourceDir);
 

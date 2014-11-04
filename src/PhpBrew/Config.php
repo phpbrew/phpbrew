@@ -168,6 +168,11 @@ class Config
         return getenv('PHPBREW_PHP');
     }
 
+    static public function getLookupPrefix()
+    {
+        return getenv('PHPBREW_LOOKUP_PREFIX');
+    }
+
     static public function getCurrentPhpBin()
     {
         return getenv('PHPBREW_PATH');
