@@ -33,19 +33,24 @@ class ListCommand extends \CLIFramework\Command
             $versionPrefix = Config::getVersionInstallPrefix($version);
 
             if ($currentVersion == $version) {
-                printf('* %-15s', $version);
+                $this->logger->writeln(
+                    $this->formatter->format(sprintf('* %-15s', $version), 'strong_white') 
+                );
             } else {
-                printf('  %-15s', $version);
+                $this->logger->writeln(
+                    $this->formatter->format(sprintf('  %-15s', $version), 'strong_white')
+                );
             }
 
             if ($this->options->dir) {
-                printf("\n    %s", $versionPrefix);
+                $this->logger->writeln(sprintf("    Prefix:   %s", $versionPrefix));
             }
 
+            // TODO: use Build class to get the variants
             if ($this->options->variants && file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants')) {
                 $info = unserialize(file_get_contents($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
-                echo "\n    ";
-                echo wordwrap(VariantParser::revealCommandArguments($info), 75, " \\\n    ");
+                echo "    Variants: ";
+                echo wordwrap(VariantParser::revealCommandArguments($info), 75, " \\\n              ");
             }
 
             echo "\n";
