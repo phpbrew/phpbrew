@@ -34,16 +34,10 @@ class Console extends Application
         $this->command('download');
         $this->command('clean');
         $this->command('update');
-
+        $this->command('ctags');
         $this->command('help');
 
         $this->command('list-ini', 'PhpBrew\Command\ListIniCommand');
-
-        $this->command('ctags', 'PhpBrew\Command\CtagsCommand');
-
-        $this->command('enable', 'PhpBrew\Command\MigratedCommand');
-        $this->command('install-ext', 'PhpBrew\Command\MigratedCommand');
-
         $this->command('self-update', 'PhpBrew\Command\SelfUpdateCommand');
 
         $this->command('remove');
