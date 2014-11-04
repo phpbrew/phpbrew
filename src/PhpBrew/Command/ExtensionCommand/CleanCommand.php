@@ -4,8 +4,9 @@ use CLIFramework\Command;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
+use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
-class CleanCommand extends Command
+class CleanCommand extends BaseCommand
 {
     public function brief()
     {

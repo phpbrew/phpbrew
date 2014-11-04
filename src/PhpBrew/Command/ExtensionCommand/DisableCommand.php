@@ -3,8 +3,10 @@ namespace PhpBrew\Command\ExtensionCommand;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
 use CLIFramework\Command;
+use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
-class DisableCommand extends Command
+
+class DisableCommand extends BaseCommand
 {
     public function usage()
     {

@@ -10,8 +10,9 @@ use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\Utils;
 use Exception;
 use GetOptionKit\OptionResult;
+use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
-class ShowCommand extends \CLIFramework\Command
+class ShowCommand extends BaseCommand
 {
     public function usage()
     {
