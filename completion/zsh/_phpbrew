@@ -77,10 +77,8 @@ local ret=1
     download:'Download php'
     clean:'Clean up php distribution'
     update:'Update PHP release source file'
-    list-ini:'List loaded ini config files.'
     ctags:'Run ctags at current php source dir for extension development.'
-    enable:'This command is migrated'
-    install-ext:'This command is migrated'
+    list-ini:'List loaded ini config files.'
     self-update:'Self-update, default to master version'
     remove:'Remove installed php version.'
     purge:'Remove installed php version and config files.'
@@ -312,19 +310,13 @@ local ret=1
                && ret=0
         
         ;;
-        (list-ini)
-        
-        ;;
         (ctags)
             _arguments -w -S -s \
               ':versionName' \
                && ret=0
         
         ;;
-        (enable)
-        
-        ;;
-        (install-ext)
+        (list-ini)
         
         ;;
         (self-update)
