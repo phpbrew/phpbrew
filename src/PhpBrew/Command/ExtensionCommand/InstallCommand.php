@@ -1,7 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
 use PhpBrew\Config;
-use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
@@ -9,7 +8,7 @@ use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\Utils;
 use GetOptionKit\OptionResult;
 
-class InstallCommand extends \CLIFramework\Command
+class InstallCommand extends BaseCommand
 {
     public function usage()
     {

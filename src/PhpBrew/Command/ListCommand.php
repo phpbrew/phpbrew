@@ -8,7 +8,7 @@ class ListCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'List installed PHP versions';
+        return 'List installed PHPs';
     }
 
     public function options($opts) 
@@ -22,8 +22,9 @@ class ListCommand extends \CLIFramework\Command
         $versions = Config::getInstalledPhpVersions();
         $currentVersion = Config::getCurrentPhpName();
 
-        // var_dump( $versions );
-        $this->logger->writeln("Installed versions:");
+        if (empty($versions)) {
+            return $this->logger->notice("Please install at least one PHP with your prefered version.");
+        }
 
         if ($currentVersion === false or !in_array($currentVersion, $versions)) {
             $this->logger->writeln("* (system)");
@@ -33,22 +34,26 @@ class ListCommand extends \CLIFramework\Command
             $versionPrefix = Config::getVersionInstallPrefix($version);
 
             if ($currentVersion == $version) {
-                printf('* %-15s', $version);
+                $this->logger->writeln(
+                    $this->formatter->format(sprintf('* %-15s', $version), 'strong_white') 
+                );
             } else {
-                printf('  %-15s', $version);
+                $this->logger->writeln(
+                    $this->formatter->format(sprintf('  %-15s', $version), 'strong_white')
+                );
             }
 
             if ($this->options->dir) {
-                printf("\n    %s", $versionPrefix);
+                $this->logger->writeln(sprintf("    Prefix:   %s", $versionPrefix));
             }
 
+            // TODO: use Build class to get the variants
             if ($this->options->variants && file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants')) {
                 $info = unserialize(file_get_contents($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
-                echo "\n    ";
-                echo wordwrap(VariantParser::revealCommandArguments($info), 75, " \\\n    ");
+                echo "    Variants: ";
+                echo wordwrap(VariantParser::revealCommandArguments($info), 75, " \\\n              ");
+                echo "\n";
             }
-
-            echo "\n";
         }
     }
 }

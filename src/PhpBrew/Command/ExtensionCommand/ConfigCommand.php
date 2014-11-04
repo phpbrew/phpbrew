@@ -5,8 +5,10 @@ use PhpBrew\Extension;
 use PhpBrew\Utils;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
+use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
-class ConfigCommand extends Command
+
+class ConfigCommand extends BaseCommand
 {
     public function brief()
     {

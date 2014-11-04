@@ -3,8 +3,9 @@ namespace PhpBrew\Command\ExtensionCommand;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
-class EnableCommand extends \CLIFramework\Command
+class EnableCommand extends BaseCommand
 {
     public function usage()
     {

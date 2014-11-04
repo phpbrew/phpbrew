@@ -15,6 +15,18 @@ class ConfigureOption
         $this->desc = $desc;
         $this->valueHint = $valueHint;
     }
+
+    public function getOption() {
+        return $this->option;
+    }
+
+    public function getDescription() {
+        return $this->desc;
+    }
+
+    public function getValueHint() {
+        return $this->valueHint;
+    }
 }
 
 
