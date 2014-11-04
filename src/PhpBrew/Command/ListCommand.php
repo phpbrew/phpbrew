@@ -8,7 +8,7 @@ class ListCommand extends \CLIFramework\Command
 {
     public function brief()
     {
-        return 'List installed PHP versions';
+        return 'List installed PHPs';
     }
 
     public function options($opts) 
