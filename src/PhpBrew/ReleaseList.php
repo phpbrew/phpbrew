@@ -4,6 +4,7 @@ use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
 use Exception;
+use RuntimeException;
 
 class ReleaseList
 {
@@ -34,9 +35,15 @@ class ReleaseList
 
     public function loadJson($json)
     {
-        $releases = json_decode($json, true);
-        $this->setReleases($releases);
-        return $releases;
+        if (!$json) {
+            throw new RuntimeException("Can't load releases. Empty JSON given.");
+        }
+        if ($releases = json_decode($json, true)) {
+            $this->setReleases($releases);
+            return $releases;
+        } else {
+            throw new RuntimeException("Can't decode release json, invalid JSON string: " . $json);
+        }
     }
 
     public function loadJsonFile($file) 
