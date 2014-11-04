@@ -22,8 +22,9 @@ class ListCommand extends \CLIFramework\Command
         $versions = Config::getInstalledPhpVersions();
         $currentVersion = Config::getCurrentPhpName();
 
-        // var_dump( $versions );
-        $this->logger->writeln("Installed versions:");
+        if (empty($versions)) {
+            return $this->logger->notice("Please install at least one PHP with your prefered version.");
+        }
 
         if ($currentVersion === false or !in_array($currentVersion, $versions)) {
             $this->logger->writeln("* (system)");
