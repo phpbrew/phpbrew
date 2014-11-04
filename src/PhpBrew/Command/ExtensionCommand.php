@@ -13,8 +13,9 @@ use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
+use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
-class ExtensionCommand extends Command
+class ExtensionCommand extends BaseCommand
 {
     public function aliases() {
         return array('ext');

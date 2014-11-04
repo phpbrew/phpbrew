@@ -149,11 +149,13 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
+    // XXX: needs to be removed.
     static public function useSystemPhpVersion()
     {
         self::$currentPhpVersion = null;
     }
 
+    // XXX: needs to be removed.
     static public function setPhpVersion($phpVersion)
     {
         self::$currentPhpVersion = 'php-'.$phpVersion;
@@ -164,7 +166,6 @@ class Config
         if (self::$currentPhpVersion !== null) {
             return self::$currentPhpVersion;
         }
-
         return getenv('PHPBREW_PHP');
     }
 
