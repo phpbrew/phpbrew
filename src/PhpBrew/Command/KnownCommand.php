@@ -44,5 +44,6 @@ class KnownCommand extends \CLIFramework\Command
             $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ',5))
                 . (!$this->options->more ? ' ...' : ''));
         }
+        $this->logger->info("You can run `phpbrew update` to get a newer release list.");
     }
 }
