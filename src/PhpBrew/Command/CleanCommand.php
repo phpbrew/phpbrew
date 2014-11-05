@@ -36,7 +36,6 @@ class CleanCommand extends Command
     {
         if ($this->options->all) {
             $buildDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $version;
-
             if (!file_exists($buildDir)) {
                 $this->logger->info("Source directory " . $buildDir . " does not exist.");
             } else {

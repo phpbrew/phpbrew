@@ -325,12 +325,17 @@ class Utils
         $directoryIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
         $it = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($it as $file) {
-            $this->logger->debug("Deleting " . $file->getPathname());
+            $logger->debug("Deleting " . $file->getPathname());
             if ($file->isDir()) {
                 rmdir($file->getPathname());
             } else {
                 unlink($file->getPathname());
             }
+        }
+        if (is_dir($path)) {
+            rmdir($path);
+        } elseif (is_file($path)) {
+            unlink($path);
         }
     }
 
