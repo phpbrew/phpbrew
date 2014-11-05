@@ -59,7 +59,12 @@ function __phpbrew_set_lookup_prefix ()
             if [[ -e $1 ]] ; then
                 echo $1
             else
-                echo /usr
+                for dir in /opt/local /usr/local/Cellar /usr/local /usr ; do
+                    if [[ -e $dir ]] ; then
+                        echo $dir
+                        return
+                    fi
+                done
             fi
         ;;
     esac
