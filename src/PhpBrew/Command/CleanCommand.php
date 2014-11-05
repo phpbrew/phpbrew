@@ -13,17 +13,17 @@ class CleanCommand extends Command
 {
     public function brief()
     {
-        return 'Clean up php distribution';
+        return 'Clean up the source directory of a PHP distribution';
     }
 
     public function usage()
     {
-        return 'phpbrew clean [php-version]';
+        return 'phpbrew clean [-a|--all] [php-version]';
     }
 
     public function options($opts)
     {
-        $opts->add('a|all','Clean up whole source directory.');
+        $opts->add('a|all', 'Remove all the files in the source directory of the PHP distribution.');
     }
 
     public function arguments($args) {
