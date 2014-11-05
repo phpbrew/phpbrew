@@ -37,20 +37,11 @@ class CleanCommand extends Command
         if ($this->options->all) {
             $buildDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $version;
 
-            if (file_exists($buildDir)) {
-                $this->logger->info("Source directory " . $buildDir . " found, deleting...");
-                $directoryIterator = new RecursiveDirectoryIterator($buildDir, RecursiveDirectoryIterator::SKIP_DOTS);
-                $it = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
-                foreach ($it as $file) {
-                    $this->logger->debug($file->getPathname());
-                    if ($file->isDir()) {
-                        rmdir($file->getPathname());
-                    } else {
-                        unlink($file->getPathname());
-                    }
-                }
+            if (!file_exists($buildDir)) {
+                $this->logger->info("Source directory " . $buildDir . " does not exist.");
             } else {
-                $this->logger->info("Source directory " . $buildDir . " not found.");
+                $this->logger->info("Source directory " . $buildDir . " found, deleting...");
+                Utils::recursive_unlink($buildDir, $this->logger);
             }
         } else {
             $clean = new CleanTask($this->logger);

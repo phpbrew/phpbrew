@@ -1,6 +1,9 @@
 <?php
 namespace PhpBrew;
 use Exception;
+use CLIFramework\Logger;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class Utils
 {
@@ -318,6 +321,18 @@ class Utils
         return $foundVersion;
     }
 
+    static public function recursive_unlink($path, Logger $logger) {
+        $directoryIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
+        $it = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($it as $file) {
+            $this->logger->debug("Deleting " . $file->getPathname());
+            if ($file->isDir()) {
+                rmdir($file->getPathname());
+            } else {
+                unlink($file->getPathname());
+            }
+        }
+    }
 
     static public function editor($file)
     {
