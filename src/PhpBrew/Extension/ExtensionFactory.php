@@ -190,7 +190,7 @@ class ExtensionFactory
             PHP_ARG_ENABLE(calendar,whether to enable calendar conversion support,
             [  --enable-calendar       Enable support for calendar conversion])
             */
-            if (preg_match('/
+            if (preg_match_all('/
                 PHP_ARG_ENABLE\(
                     \s*([^,]*)
                     (?:
@@ -208,15 +208,15 @@ class ExtensionFactory
                                 \s* 
                             \]
                         )?
-                    )?/x', $m4, $matches)) {
-
-                // shift the first match
-                array_shift($matches);
-                $name = array_shift($matches);
-                $desc = array_shift($matches);
-                $option = array_shift($matches);
-                $optionDesc = array_shift($matches);
-                $ext->addConfigureOption(new ConfigureOption($option ?: '--enable-' . $name, $desc ?: $optionDesc));
+                    )?/x', $m4, $allMatches)) 
+            {
+                for( $i = 0; $i < count($allMatches[0]) ; $i++ ) {
+                    $name = $allMatches[1][$i];
+                    $desc = $allMatches[2][$i];
+                    $option = $allMatches[3][$i];
+                    $optionDesc      = $allMatches[4][$i];
+                    $ext->addConfigureOption(new ConfigureOption($option ?: '--enable-' . $name, $desc ?: $optionDesc));
+                }
             }
 
             /*
@@ -232,14 +232,18 @@ class ExtensionFactory
                 --with-yaml[[=DIR]]
                 --with-mysql-sock[=SOCKPATH]
             */
-            if (preg_match('/
+            if (preg_match_all('/
                 PHP_ARG_WITH\(
-                    \s*([^,]*)
+                    \s*
+
+                    ([^,]*)
+
                     (?:
                         \s*,\s*
                         \[?
                             ([^,\)]*)
                         \]?
+
                         (?:
                             \s*,\s* 
 
@@ -262,17 +266,39 @@ class ExtensionFactory
                                 ([^,\)]*)        # option description
                                 \s*                 
                             \]
-                        )?
-                    )?/x', $m4, $matches)) {
 
-                // shift the first match
-                array_shift($matches);
-                $name = array_shift($matches);
-                $desc = array_shift($matches);
-                $option = array_shift($matches);
-                $optionValueHint = array_shift($matches);
-                $optionDesc      = array_shift($matches);
-                $ext->addConfigureOption(new ConfigureOption(( $option ?: '--with-' . $name), ($desc ?: $optionDesc), $optionValueHint));
+                            (?:
+                                \s*,\s* 
+                                ([^,\)]*)
+
+                                (?:
+                                    \s*,\s* 
+                                    ([^,\)]*)
+                                )?
+                            )?
+                        )?
+                    )?/x', $m4, $allMatches)) 
+            {
+                // Parsing the M4 statement:
+                //
+                //   dnl PHP_ARG_WITH(arg-name, check message, help text[, default-val[, extension-or-not]])
+                //
+                for( $i = 0; $i < count($allMatches[0]) ; $i++ ) {
+                    $name = $allMatches[1][$i];
+                    $desc = $allMatches[2][$i];
+
+                    $option = $allMatches[3][$i];
+                    $optionValueHint = $allMatches[4][$i];
+                    $optionDesc      = $allMatches[5][$i];
+
+                    $defaultValue = $allMatches[6][$i];
+
+                    $opt = new ConfigureOption(( $option ?: '--with-' . $name), ($desc ?: $optionDesc), $optionValueHint);
+                    if ($defaultValue) {
+                        $opt->setDefaultValue($opt);
+                    }
+                    $ext->addConfigureOption($opt);
+                }
             }
 
             return $ext;
