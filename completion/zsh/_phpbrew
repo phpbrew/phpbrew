@@ -306,6 +306,8 @@ local ret=1
         ;;
         (update)
             _arguments -w -S -s \
+              '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
+              '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               ':branchName' \
                && ret=0
         
