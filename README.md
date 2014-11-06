@@ -147,7 +147,7 @@ Variants:
   exif, fileinfo, filter, fpm, ftp, gcov, gd, gettext, hash, iconv, icu,
   imap, intl, ipc, ipv6, json, kerberos, mbregex, mbstring, mcrypt, mhash,
   mysql, openssl, pcntl, pcre, pdo, pgsql, phar, posix, readline, session,
-  soap, sockets, sqlite, tidy, tokenizer, xml_all, xmlrpc, zip, zlib
+  soap, sockets, sqlite, tidy, tokenizer, xml_all, xmlrpc, zip, zlib, gmp
 
 
 Virtual variants:
