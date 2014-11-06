@@ -469,6 +469,18 @@ class VariantBuilder
             );
         };
 
+        $this->variants['gmp'] = function (Build $build, $prefix = null) {
+            if ($prefix) {
+                return "--with-gmp=$prefix";
+            }
+
+            if ($prefix = Utils::findIncludePrefix('gmp.h')) {
+                return "--with-gmp=$prefix";
+            }
+
+            return "--with-gmp"; // let autotool to find it.
+        };
+
         // merge virtual variants with config file
         $customVirtualVariants = Config::getConfigParam('variants');
         $customVirtualVariantsToAdd = array();
