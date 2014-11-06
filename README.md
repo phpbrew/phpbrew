@@ -11,6 +11,7 @@ version whenever you need.
 
 What phpbrew can do for you:
 
+- Configure options are simplified into variants,  no worries about the path anymore!
 - Build php with different variants like PDO, mysql, sqlite, debug ...etc.
 - Compile apache php module and separate them by different versions.
 - Build and install php(s) in your home directory, so you don't need root permission.
@@ -18,6 +19,7 @@ What phpbrew can do for you:
 - Automatic feature detection.
 - Install & enable php extensions into current environment with ease.
 - Install multiple php into system-wide environment.
+- Path detection optimization for HomeBrew and MacPorts. 
 
 <img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
 
