@@ -42,7 +42,7 @@ class ReleaseList
             $this->setReleases($releases);
             return $releases;
         } else {
-            throw new RuntimeException("Can't decode release json, invalid JSON string: " . $json);
+            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json,0, 125) );
         }
     }
 
@@ -101,7 +101,7 @@ class ReleaseList
             $downloader = new CurlDownloader;
             $downloader->setProgressHandler(new ProgressBar);
 
-            if (! $options || (! $options->{'no-progress'} && $this->logger->getLevel() > 2) ) {
+            if (! $options || ($options && ! $options->{'no-progress'}) ) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
 
