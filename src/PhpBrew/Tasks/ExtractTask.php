@@ -19,7 +19,7 @@ class ExtractTask extends BaseTask
             $extractDir = dirname($targetFilePath);
         }
 
-        $extractedDir = $extractDir . DIRECTORY_SEPARATOR . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
+        $extractedDir = $extractDir . DIRECTORY_SEPARATOR . $build->getName();
 
         if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
             $this->info("===> Distribution file was successfully extracted, skipping...");
