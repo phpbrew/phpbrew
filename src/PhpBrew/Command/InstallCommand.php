@@ -190,7 +190,7 @@ class InstallCommand extends Command
 
 
         $semanticOptions = $this->parseSemanticOptions($args);
-        $buildAs =   isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->alias;
+        $buildAs =   isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->name;
         $buildLike = isset($semanticOptions['like']) ? $semanticOptions['like'] : $this->options->like;
 
         // convert patch to realpath
