@@ -473,7 +473,8 @@ function _phpbrewrc_load ()
                 fi
                 break
             fi
-            cd ..
+
+            cd .. 2> /dev/null || break
         done
 
         cd $curr_dir
