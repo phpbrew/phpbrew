@@ -13,12 +13,17 @@
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
-if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
+function __phpbrew_load_user_config()
+{
     # load user-defined config
     if [[ -f $PHPBREW_HOME/init ]]; then
         . $PHPBREW_HOME/init
         export PATH=$PHPBREW_PATH:$PATH
     fi
+}
+
+if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
+    __phpbrew_load_user_config
 fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
@@ -435,4 +440,51 @@ function phpbrew_current_php_version() {
 
 if [[ -n "$PHPBREW_SET_PROMPT" && "$PHPBREW_SET_PROMPT" == "1" ]]; then
     export PS1="\w > \u@\h [$(phpbrew_current_php_version)]\n\\$ "
+fi
+
+function _phpbrewrc_load ()
+{
+    # check if working dir has changed
+    if [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
+        local curr_dir="$PWD"
+        local prev_dir="$OLDPWD"
+        local found=0
+
+        while :
+        do
+            # check if top level directory is reached,
+            # or we may want to search until partition boundary
+            # df -P . | tail -1 | sed 's/\s\s*/ /g' | cut -d' ' -f6
+            if [[ "$PWD" == '/' ]]; then
+                echo ".phpbrewrc not found, restoring defaults"
+                unset PHPBREW_LAST_RC_DIR
+                __phpbrew_load_user_config
+                break
+            fi
+
+            # check if .phpbrewrc present
+            if [[ -r .phpbrewrc ]]; then
+                found=1
+                # check if it's not the same .phpbrewrc which was previously loaded
+                if [[ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]]; then
+                    PHPBREW_LAST_RC_DIR="$PWD"
+                    echo "Found .phpbrewrc file. Now sourcing..."
+                    source .phpbrewrc
+                else
+                    echo "Same .phpbrewrc file is already loaded"
+                fi
+                break
+            fi
+            cd ..
+        done
+
+        cd $curr_dir
+        OLDPWD=$prev_dir
+    fi
+
+    PHPBREW_LAST_DIR="$PWD"
+}
+
+if [[ -n "$BASH_VERSION" ]]; then
+    trap "_phpbrewrc_load" DEBUG
 fi
