@@ -448,7 +448,6 @@ function _phpbrewrc_load ()
     if [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
         local curr_dir="$PWD"
         local prev_dir="$OLDPWD"
-        local found=0
 
         while :
         do
@@ -464,7 +463,6 @@ function _phpbrewrc_load ()
 
             # check if .phpbrewrc present
             if [[ -r .phpbrewrc ]]; then
-                found=1
                 # check if it's not the same .phpbrewrc which was previously loaded
                 if [[ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]]; then
                     PHPBREW_LAST_RC_DIR="$PWD"
