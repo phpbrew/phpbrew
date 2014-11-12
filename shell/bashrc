@@ -320,14 +320,6 @@ function phpbrew ()
             __phpbrew_reinit
             echo "phpbrew is switched off."
             ;;
-        remove)
-            if [[ -z "$2" ]]
-            then
-                command $BIN help
-            else
-              __phpbrew_remove_purge $2
-            fi
-            ;;
         rehash)
             echo "Rehashing..."
             . ~/.phpbrew/bashrc
