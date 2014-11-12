@@ -483,6 +483,6 @@ function _phpbrewrc_load ()
     PHPBREW_LAST_DIR="$PWD"
 }
 
-if [[ -n "$BASH_VERSION" ]]; then
+if [[ -n "$BASH_VERSION" && -z "$PHPBREW_RC_DISABLE" ]]; then
     trap "_phpbrewrc_load" DEBUG
 fi
