@@ -448,13 +448,16 @@ function _phpbrewrc_load ()
     if [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
         local curr_dir="$PWD"
         local prev_dir="$OLDPWD"
+        local curr_fs=0
+        local prev_fs=0
 
         while :
         do
-            # check if top level directory is reached,
-            # or we may want to search until partition boundary
-            # df -P . | tail -1 | sed 's/\s\s*/ /g' | cut -d' ' -f6
-            if [[ "$PWD" == '/' ]]; then
+            prev_fs=$curr_fs
+            curr_fs=$(stat -c %d .)
+
+            # check if top level directory or filesystem boundary is reached
+            if [ "$PWD" == '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
                 unset PHPBREW_LAST_RC_DIR
                 __phpbrew_load_user_config
                 break
