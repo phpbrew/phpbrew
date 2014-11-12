@@ -455,7 +455,6 @@ function _phpbrewrc_load ()
             # or we may want to search until partition boundary
             # df -P . | tail -1 | sed 's/\s\s*/ /g' | cut -d' ' -f6
             if [[ "$PWD" == '/' ]]; then
-                echo ".phpbrewrc not found, restoring defaults"
                 unset PHPBREW_LAST_RC_DIR
                 __phpbrew_load_user_config
                 break
@@ -466,10 +465,7 @@ function _phpbrewrc_load ()
                 # check if it's not the same .phpbrewrc which was previously loaded
                 if [[ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]]; then
                     PHPBREW_LAST_RC_DIR="$PWD"
-                    echo "Found .phpbrewrc file. Now sourcing..."
                     source .phpbrewrc
-                else
-                    echo "Same .phpbrewrc file is already loaded"
                 fi
                 break
             fi
