@@ -121,8 +121,11 @@ class Utils
         $prefixes = array(
             '/opt',
             '/opt/local',
+            '/opt/local/lib',
             '/usr',
+            '/usr/lib',
             '/usr/local',
+            '/usr/local/lib'
         );
 
         if ($pathStr = getenv('PHPBREW_LOOKUP_PREFIX')) {
@@ -139,6 +142,7 @@ class Utils
                 $prefixes[] = "$prefix/$arch";
             }
         }
+
         return array_reverse($prefixes);
     }
 
@@ -173,8 +177,7 @@ class Utils
 
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $p = $prefix . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . $file;
-
+                $p = $prefix . DIRECTORY_SEPARATOR . $file;
                 if (file_exists($p)) {
                     return $prefix;
                 }
