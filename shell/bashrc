@@ -477,8 +477,8 @@ function _phpbrewrc_load ()
             cd .. 2> /dev/null || break
         done
 
-        cd $curr_dir
-        OLDPWD=$prev_dir
+        cd "$curr_dir"
+        OLDPWD="$prev_dir"
     fi
 
     PHPBREW_LAST_DIR="$PWD"
