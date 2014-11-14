@@ -37,8 +37,22 @@ class ExtractTask extends BaseTask
             die('Extract failed.');
         }
 
+        if(!is_dir($extractedDirTemp)){
+            die("Unable to find $extractedDirTemp");
+        }
+
+        if(is_dir($extractedDir)){
+            $this->info("===> Removing $extractedDir");
+            system("rm -rf $extractedDir", $ret);
+            if ($ret != 0) {
+                die("Unable to remove $extractedDir.");
+            }
+        }
+
         $this->info("===> Moving $extractedDirTemp to $extractedDir");
-        rename ($extractedDirTemp, $extractedDir);
+        if(!rename($extractedDirTemp, $extractedDir)){
+            die("Unable to move $extractedDirTemp to $extractedDir");
+        }
 
         $build->setState(Build::STATE_EXTRACT);
         return $extractedDir;
