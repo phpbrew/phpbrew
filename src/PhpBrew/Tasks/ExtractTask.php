@@ -10,16 +10,19 @@ class ExtractTask extends BaseTask
 {
 
     /**
+     * Unpacks the source tarball file.
+     *
      * @param string $targetFilePath absolute file path
      */
     public function extract(Build $build, $targetFilePath, $extractDir = NULL)
     {
-        // Unpack the tarball file
+        $extractDirTemp = Config::getTempFileDir();
         if (!$extractDir) {
             $extractDir = dirname($targetFilePath);
         }
 
-        $extractedDir = $extractDir . DIRECTORY_SEPARATOR . $build->getName();
+        $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
+        $extractedDir     = $extractDir . DIRECTORY_SEPARATOR . $build->getName();
 
         if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
             $this->info("===> Distribution file was successfully extracted, skipping...");
@@ -27,11 +30,15 @@ class ExtractTask extends BaseTask
         }
 
         // NOTICE: Always extract to prevent incomplete extraction
-        $this->info("===> Extracting $targetFilePath to $extractedDir");
-        system("tar -C $extractDir -xjf $targetFilePath", $ret);
+        $this->info("===> Extracting $targetFilePath to $extractedDirTemp");
+        system("tar -C $extractDirTemp -xjf $targetFilePath", $ret);
         if ($ret != 0) {
             die('Extract failed.');
         }
+
+        $this->info("===> Moving $extractedDirTemp to $extractedDir");
+        rename ($extractedDirTemp, $extractedDir);
+
         $build->setState(Build::STATE_EXTRACT);
         return $extractedDir;
         /*
