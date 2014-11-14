@@ -64,6 +64,14 @@ class Config
         return $dir;
     }
 
+    static public function getTempFileDir()
+    {
+        $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'tmp';
+        if (!file_exists($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        return $dir;
+    }
 
     static public function getPHPReleaseListPath()
     {
