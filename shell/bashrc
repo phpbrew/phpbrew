@@ -467,6 +467,7 @@ function _phpbrewrc_load ()
             if [[ -r .phpbrewrc ]]; then
                 # check if it's not the same .phpbrewrc which was previously loaded
                 if [[ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]]; then
+                    __phpbrew_load_user_config
                     PHPBREW_LAST_RC_DIR="$PWD"
                     source .phpbrewrc
                 fi
