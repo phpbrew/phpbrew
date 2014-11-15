@@ -13,12 +13,17 @@
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
-if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
+function __phpbrew_load_user_config()
+{
     # load user-defined config
     if [[ -f $PHPBREW_HOME/init ]]; then
         . $PHPBREW_HOME/init
         export PATH=$PHPBREW_PATH:$PATH
     fi
+}
+
+if [[ -z "$PHPBREW_SKIP_INIT" ]]; then
+    __phpbrew_load_user_config
 fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
@@ -446,4 +451,50 @@ function phpbrew_current_php_version() {
 
 if [[ -n "$PHPBREW_SET_PROMPT" && "$PHPBREW_SET_PROMPT" == "1" ]]; then
     export PS1="\w > \u@\h [$(phpbrew_current_php_version)]\n\\$ "
+fi
+
+function _phpbrewrc_load ()
+{
+    # check if working dir has changed
+    if [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
+        local curr_dir="$PWD"
+        local prev_dir="$OLDPWD"
+        local curr_fs=0
+        local prev_fs=0
+
+        while :
+        do
+            prev_fs=$curr_fs
+            curr_fs=$(stat -c %d .)
+
+            # check if top level directory or filesystem boundary is reached
+            if [ "$PWD" == '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
+                unset PHPBREW_LAST_RC_DIR
+                __phpbrew_load_user_config
+                break
+            fi
+
+            # check if .phpbrewrc present
+            if [[ -r .phpbrewrc ]]; then
+                # check if it's not the same .phpbrewrc which was previously loaded
+                if [[ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]]; then
+                    __phpbrew_load_user_config
+                    PHPBREW_LAST_RC_DIR="$PWD"
+                    source .phpbrewrc
+                fi
+                break
+            fi
+
+            cd .. 2> /dev/null || break
+        done
+
+        cd "$curr_dir"
+        OLDPWD="$prev_dir"
+    fi
+
+    PHPBREW_LAST_DIR="$PWD"
+}
+
+if [[ -n "$BASH_VERSION" && -z "$PHPBREW_RC_DISABLE" ]]; then
+    trap "_phpbrewrc_load" DEBUG
 fi
