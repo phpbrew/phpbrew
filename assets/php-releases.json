@@ -1,11 +1,19 @@
 {
     "5.6": {
+        "5.6.3": {
+            "version": "5.6.3",
+            "filename": "php-5.6.3.tar.bz2",
+            "md5": "13fb79d464b08392703e311778dd7ec0",
+            "name": "PHP 5.6.3 (tar.bz2)",
+            "date": "13 Nov 2014"
+        },
         "5.6.2": {
             "version": "5.6.2",
+            "announcement": "http://php.net/releases/5_6_2.php",
+            "date": "16 Oct 2014",
             "filename": "php-5.6.2.tar.bz2",
             "md5": "97202449bf4f011c477ff860b173a92a",
-            "name": "PHP 5.6.2 (tar.bz2)",
-            "date": "16 Oct 2014"
+            "name": "PHP 5.6.2 (tar.bz2)"
         },
         "5.6.1": {
             "version": "5.6.1",
@@ -25,12 +33,20 @@
         }
     },
     "5.5": {
+        "5.5.19": {
+            "version": "5.5.19",
+            "filename": "php-5.5.19.tar.bz2",
+            "md5": "20464e44bf843ff786abf147567127ef",
+            "name": "PHP 5.5.19 (tar.bz2)",
+            "date": "13 Nov 2014"
+        },
         "5.5.18": {
             "version": "5.5.18",
+            "announcement": "http://php.net/releases/5_5_18.php",
+            "date": "16 Oct 2014",
             "filename": "php-5.5.18.tar.bz2",
             "md5": "6f0d581ed35a2c65188a9513ccc142a0",
-            "name": "PHP 5.5.18 (tar.bz2)",
-            "date": "16 Oct 2014"
+            "name": "PHP 5.5.18 (tar.bz2)"
         },
         "5.5.17": {
             "version": "5.5.17",
@@ -178,8 +194,16 @@
         }
     },
     "5.4": {
+        "5.4.35": {
+            "version": "5.4.35",
+            "date": "13 Nov 2014",
+            "filename": "php-5.4.35.tar.bz2",
+            "md5": "489cc8336488fb2e722ffa3c08f9c864",
+            "name": "PHP 5.4.35 (tar.bz2)"
+        },
         "5.4.34": {
             "version": "5.4.34",
+            "announcement": "http://php.net/releases/5_4_34.php",
             "date": "16 Oct 2014",
             "filename": "php-5.4.34.tar.bz2",
             "md5": "1afe3a10cefec9618acb785ef5064bf9",
@@ -461,6 +485,7 @@
     "5.3": {
         "5.3.29": {
             "version": "5.3.29",
+            "announcement": "http://php.net/releases/5_3_29.php",
             "date": "14 Aug 2014",
             "filename": "php-5.3.29.tar.bz2",
             "md5": "9469e240cbe6ac865aeaec89b253dd30",
@@ -771,38 +796,6 @@
             "filename": "php-5.2.9.tar.bz2",
             "md5": "280d6cda7f72a4fc6de42fda21ac2db7",
             "name": "PHP 5.2.9 (tar.bz2)"
-        },
-        "5.2.8": {
-            "version": "5.2.8",
-            "announcement": "http://php.net/releases/5_2_8.php",
-            "date": "08 December 2008",
-            "filename": "php-5.2.8.tar.bz2",
-            "md5": "8760a833cf10433d3e72271ab0d0eccf",
-            "name": "PHP 5.2.8 (tar.bz2)"
-        },
-        "5.2.6": {
-            "version": "5.2.6",
-            "announcement": "http://php.net/releases/5_2_6.php",
-            "date": "01 May 2008",
-            "filename": "php-5.2.6.tar.bz2",
-            "md5": "7380ffecebd95c6edb317ef861229ebd",
-            "name": "PHP 5.2.6 (tar.bz2)"
-        },
-        "5.2.5": {
-            "version": "5.2.5",
-            "announcement": "http://php.net/releases/5_2_5.php",
-            "date": "08 November 2007",
-            "filename": "php-5.2.5.tar.bz2",
-            "md5": "1fe14ca892460b09f06729941a1bb605",
-            "name": "Source (tar.bz2)"
-        },
-        "5.2.4": {
-            "version": "5.2.4",
-            "announcement": "http://php.net/releases/5_2_4.php",
-            "date": "30 August 2007",
-            "filename": "php-5.2.4.tar.bz2",
-            "md5": "55c97a671fdabf462cc7a82971a656d2",
-            "name": "Source (tar.bz2)"
         }
     }
 }
