@@ -11,7 +11,7 @@ class FetchReleaseListTask extends BaseTask
     public function fetch($branch = 'master') {
         $this->logger->info('===> Fetching release list...');
         $releaseList = new ReleaseList;
-        return $releaseList->fetchRemoteReleaseList($branch);
+        return $releaseList->fetchRemoteReleaseList($branch, $this->options);
     }
 }
 

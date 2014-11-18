@@ -42,7 +42,7 @@ class ReleaseList
             $this->setReleases($releases);
             return $releases;
         } else {
-            throw new RuntimeException("Can't decode release json, invalid JSON string: " . $json);
+            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json,0, 125) );
         }
     }
 
@@ -94,12 +94,25 @@ class ReleaseList
         return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/php-releases.json";
     }
 
-    public function fetchRemoteReleaseList($branch = 'master') {
+    public function fetchRemoteReleaseList($branch = 'master', $options = NULL) {
         $json = '';
         $url = $this->getRemoteReleaseListUrl($branch);
         if (extension_loaded('curl')) {
             $downloader = new CurlDownloader;
             $downloader->setProgressHandler(new ProgressBar);
+
+            if (! $options || ($options && ! $options->{'no-progress'}) ) {
+                $downloader->setProgressHandler(new ProgressBar);
+            }
+
+            if ($options) {
+                if ($proxy = $options->{'http-proxy'}) {
+                    $downloader->setProxy($proxy);
+                }
+                if ($proxyAuth = $options->{'http-proxy-auth'}) {
+                    $downloader->setProxyAuth($proxyAuth);
+                }
+            }
             $json = $downloader->request($url);
         } else {
             $json = file_get_contents($url);
@@ -121,7 +134,7 @@ class ReleaseList
         return $this->releases;
     }
 
-    static public function getReadyInstance() {
+    static public function getReadyInstance($branch = 'master', $logger = NULL) {
         static $instance;
         if ($instance) {
             return $instance;
@@ -130,7 +143,7 @@ class ReleaseList
         if ($instance->foundLocalReleaseList()) {
             $instance->loadLocalReleaseList();
         } else {
-            $instance->fetchRemoteReleaseList('master');
+            $instance->fetchRemoteReleaseList($branch, $logger);
         }
         return $instance;
     }

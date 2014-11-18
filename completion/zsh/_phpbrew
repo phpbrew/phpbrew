@@ -75,12 +75,12 @@ local ret=1
     path:'Show paths of the current PHP.'
     cd:'Change to directories'
     download:'Download php'
-    clean:'Clean up php distribution'
+    clean:'Clean up the source directory of a PHP distribution'
     update:'Update PHP release source file'
     ctags:'Run ctags at current php source dir for extension development.'
     list-ini:'List loaded ini config files.'
     self-update:'Self-update, default to master version'
-    remove:'Remove installed php version.'
+    remove:'Remove installed php build.'
     purge:'Remove installed php version and config files.'
     off:'Temporarily go back to the system php'
     switch-off:'Definitely go back to the system php'
@@ -299,13 +299,15 @@ local ret=1
         ;;
         (clean)
             _arguments -w -S -s \
-              '(-a --all)'{-a,--all}'[Clean up whole source directory.]' \
+              '(-a --all)'{-a,--all}'[Remove all the files in the source directory of the PHP distribution.]' \
               ':installed php:{___phpbrewmeta "installed php" clean arg 0 valid-values}' \
                && ret=0
         
         ;;
         (update)
             _arguments -w -S -s \
+              '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
+              '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               ':branchName' \
                && ret=0
         

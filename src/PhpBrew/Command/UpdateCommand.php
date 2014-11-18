@@ -11,6 +11,17 @@ class UpdateCommand extends \CLIFramework\Command
         return 'Update PHP release source file';
     }
 
+    public function options($opts)
+    {
+        $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
+            ->valueName('proxy host')
+            ;
+
+        $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
+            ->valueName('user:pass')
+            ;
+    }
+
     public function execute($branchName = 'master')
     {
         $releaseList = new ReleaseList;
