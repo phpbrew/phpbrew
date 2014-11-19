@@ -111,7 +111,7 @@ class InstallCommand extends Command
 
         $opts->add('build-dir:','Specify the build directory. '
             . 'the distribution tarball will be extracted to the directory you specified '
-            . 'instead of $PHPBREW_ROOT/build/{version}.')
+            . 'instead of $PHPBREW_ROOT/build/{name}.')
             ->isa('dir')
             ;
 
