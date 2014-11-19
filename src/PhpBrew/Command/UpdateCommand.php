@@ -1,7 +1,9 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
+use PhpBrew\GithubExtensionList;
 use PhpBrew\ReleaseList;
+use PhpBrew\Tasks\FetchGithubExtensionListTask;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
 class UpdateCommand extends \CLIFramework\Command
@@ -36,5 +38,15 @@ class UpdateCommand extends \CLIFramework\Command
                 . count($versionList) . ' releases');
         }
         $this->logger->info('===> Done');
+
+        // process github extension list update
+        $this->logger->info("\n");
+        $extensionList = new GithubExtensionList;
+        $fetchGithubTask = new FetchGithubExtensionListTask($this->logger, $this->options);
+        $githubExtensions = $fetchGithubTask->fetch($branchName);
+
+        $this->logger->writeln(count($extensionList) . ' github extensions');
+        $this->logger->info('===> Done');
+
     }
 }

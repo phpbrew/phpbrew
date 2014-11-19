@@ -220,6 +220,7 @@ local ret=1
               config:'phpbrew ext config [extension name]'
               clean:'Clean up the compiled objects in the extension source directory.'
               show:'Show information of a PHP extension'
+              known:'List known versions'
             )
             _describe -t commands 'command' commands && ret=0
               ;;
@@ -235,6 +236,9 @@ local ret=1
                   (install)
                         _arguments -w -S -s \
                           '--pecl[Try to download from pecl even when ext source is bundled with php-src.]' \
+                          '--github[Try to download from github repository.]' \
+                          '--user[github user.]' \
+                          '--repos[github repos.]' \
                           ':extensions:{___phpbrewmeta "extensions" extension.install arg 0 suggestions}' \
                            && ret=0
                   
@@ -262,6 +266,12 @@ local ret=1
                         _arguments -w -S -s \
                           '--download[download the extensino source if extension not found.]' \
                           ':extension:{___phpbrewmeta "extension" extension.show arg 0 suggestions}' \
+                           && ret=0
+                  
+                  ;;
+                  (known)
+                        _arguments -w -S -s \
+                          ':extensionName' \
                            && ret=0
                   
                   ;;
