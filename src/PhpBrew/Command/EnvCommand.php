@@ -2,7 +2,6 @@
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
-use Exception;
 use PhpBrew\Utils;
 
 class EnvCommand extends \CLIFramework\Command
