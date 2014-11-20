@@ -1,6 +1,8 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\CommandBuilder;
+use RuntimeException;
 
 /**
  * Task to run `make test`
@@ -22,6 +24,6 @@ class TestTask extends BaseTask
         $this->debug('' .  $cmd);
         $code = $cmd->execute();
         if ($code != 0)
-            die('Test failed.');
+           throw new RuntimeException('Test failed.');
     }
 }
