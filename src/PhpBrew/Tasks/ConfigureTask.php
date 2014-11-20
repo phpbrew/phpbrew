@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use RuntimeException;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\VariantBuilder;
@@ -35,8 +36,9 @@ class ConfigureTask extends BaseTask
         if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running buildconf script...");
             $lastline = system('./buildconf');
-            if ($lastline !== false)
-                die("buildconf error: $lastline");
+            if ($lastline !== false) {
+                throw new RuntimeException("buildconf error: $lastline", 1);
+            }
         }
 
         $prefix = $build->getInstallPrefix();
@@ -121,7 +123,8 @@ class ConfigureTask extends BaseTask
         if (!$this->options->dryrun) {
             $code = $cmd->execute();
             if ($code != 0)
-                die("Configure failed. $code");
+                throw new RuntimeException("Configure failed. $code", 1);
+                
         }
 
         if (!$this->options->{'no-patch'}) {
