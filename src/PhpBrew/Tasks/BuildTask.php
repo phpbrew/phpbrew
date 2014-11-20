@@ -1,5 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
+
+use RuntimeException;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Build;
 
@@ -40,8 +42,9 @@ class BuildTask extends BaseTask
         if (!$this->options->dryrun) {
             $startTime = microtime(true);
             $code = $cmd->execute();
-            if ($code != 0 )
-                die('Make failed.');
+            if ($code != 0 ){
+                throw new RuntimeException('Make failed.');
+            }
             $buildTime = round((microtime(true) - $startTime) / 60, 1);
             $this->info("Build finished: $buildTime minutes.");
         }
