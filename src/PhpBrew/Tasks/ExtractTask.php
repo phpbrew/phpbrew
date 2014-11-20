@@ -1,5 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
+
+use RuntimeException;
 use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use PhpBrew\Build;
@@ -34,7 +36,7 @@ class ExtractTask extends BaseTask
         $this->info("===> Extracting $targetFilePath to $extractedDirTemp");
         system("tar -C $extractDirTemp -xjf $targetFilePath", $ret);
         if ($ret != 0) {
-            die('Extract failed.');
+            throw new RuntimeException('Extract failed.');
         }
 
         if(!is_dir($extractedDirTemp)){
