@@ -2,7 +2,6 @@
 namespace PhpBrew\Tasks;
 
 use RuntimeException;
-use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use PhpBrew\Build;
 
