@@ -74,7 +74,6 @@ class ShowCommand extends BaseCommand
 
     public function execute($extensionName)
     {
-        $manager = new ExtensionManager($this->logger);
         $ext = ExtensionFactory::lookup($extensionName);
 
         if (!$ext) {
