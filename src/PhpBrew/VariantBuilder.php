@@ -290,7 +290,10 @@ class VariantBuilder
             if ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
                 return '--with-icu-dir=' . $prefix;
             }
-            die("libicu not found, please install libicu-dev or libicu library/development files.");
+
+            throw new RuntimeException(
+                "libicu not found, please install libicu-dev or libicu library/development files."
+            );
         };
 
 
