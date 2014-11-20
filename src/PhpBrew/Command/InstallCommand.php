@@ -3,13 +3,11 @@ namespace PhpBrew\Command;
 
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\Builder;
 use PhpBrew\VariantParser;
 use PhpBrew\VariantBuilder;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\MakeCleanTask;
-use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\ExtractTask;
 use PhpBrew\Tasks\ConfigureTask;
@@ -18,7 +16,6 @@ use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
 use CLIFramework\ValueCollection;
 use PhpBrew\Build;
-use PhpBrew\Utils;
 use PhpBrew\ReleaseList;
 use CLIFramework\Command;
 
