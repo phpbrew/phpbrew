@@ -5,10 +5,8 @@ use Exception;
 use PhpBrew\Config;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\Utils;
-use GetOptionKit\OptionResult;
 
 class InstallCommand extends BaseCommand
 {
