@@ -1,11 +1,9 @@
 <?php
 namespace PhpBrew\Command;
+
 use PhpBrew\Tasks\CleanTask;
 use PhpBrew\Build;
 use PhpBrew\Config;
-use Exception;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 
 use CLIFramework\Command;
 
