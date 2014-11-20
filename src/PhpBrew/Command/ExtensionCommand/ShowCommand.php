@@ -2,15 +2,11 @@
 namespace PhpBrew\Command\ExtensionCommand;
 use PhpBrew\Config;
 use PhpBrew\Extension\Extension;
-use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\PeclExtensionDownloader;
-use PhpBrew\Utils;
 use Exception;
-use GetOptionKit\OptionResult;
 use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
 class ShowCommand extends BaseCommand
