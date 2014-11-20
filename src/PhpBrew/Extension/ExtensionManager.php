@@ -1,7 +1,8 @@
 <?php
 namespace PhpBrew\Extension;
+
+use Exception;
 use CLIFramework\Logger;
-// use PhpBrew\Extension;
 use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\ExtensionInstaller;
 use PhpBrew\Utils;
