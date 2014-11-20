@@ -1,5 +1,7 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+
+use Exception;
 use PhpBrew\Config;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
