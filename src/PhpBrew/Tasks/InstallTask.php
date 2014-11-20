@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use RuntimeException;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Build;
 
@@ -17,8 +18,10 @@ class InstallTask extends BaseTask
         $cmd->setLogPath($build->getBuildLogPath());
         if (!$this->options->dryrun) {
             $code = $cmd->execute();
-            if ($code != 0)
-                die('Install failed.');
+            if ($code != 0) {
+                throw new RuntimeException('Install failed.', 1);
+            }
+                
         }
         $build->setState(Build::STATE_INSTALL);
     }
