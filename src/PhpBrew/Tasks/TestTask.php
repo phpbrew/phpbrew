@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use PhpBrew\Build;
 use PhpBrew\CommandBuilder;
 use RuntimeException;
 
