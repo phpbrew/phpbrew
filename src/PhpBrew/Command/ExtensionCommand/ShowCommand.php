@@ -3,6 +3,7 @@ namespace PhpBrew\Command\ExtensionCommand;
 use PhpBrew\Config;
 use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\M4Extension;
+use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
