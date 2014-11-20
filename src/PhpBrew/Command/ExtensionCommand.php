@@ -2,16 +2,9 @@
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
-use PhpBrew\Utils;
 use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\Extension;
-use CLIFramework\Command;
-use GetOptionKit\OptionCollection;
-use FilesystemIterator;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use Exception;
 use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
