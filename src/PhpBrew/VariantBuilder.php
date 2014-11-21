@@ -93,8 +93,6 @@ class VariantBuilder
 
     public function __construct()
     {
-        $self = $this;
-
         // init variant builders
         $this->variants['all']      = '--enable-all';
         $this->variants['dba']      = '--enable-dba';
@@ -237,7 +235,7 @@ class VariantBuilder
             return '--with-readline';
         };
 
-        $this->variants['gd'] = function (Build $build, $prefix = null) use ($self) {
+        $this->variants['gd'] = function (Build $build, $prefix = null) {
             $opts = array();
 
             // it looks like gd won't be compiled without "shared"
@@ -277,7 +275,7 @@ class VariantBuilder
         /**
          * with icu
          */
-        $this->variants['icu'] = function (Build $build, $val = null) use ($self) {
+        $this->variants['icu'] = function (Build $build, $val = null) {
             if ($val) {
                 return '--with-icu-dir=' . $val;
             }
@@ -305,7 +303,7 @@ class VariantBuilder
          *
          * On ubuntu you need to install libssl-dev
          */
-        $this->variants['openssl'] = function (Build $build, $val = null) use ($self) {
+        $this->variants['openssl'] = function (Build $build, $val = null) {
             if ($val) {
                 return "--with-openssl=$val";
             }
@@ -336,7 +334,7 @@ class VariantBuilder
 
         --with-mysql         // deprecated
         */
-        $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') use ($self) {
+        $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') {
             $opts = array(
                 "--with-mysql=$prefix",
                 "--with-mysqli=$prefix"
@@ -350,7 +348,7 @@ class VariantBuilder
         };
 
 
-        $this->variants['sqlite'] = function (Build $build, $prefix = null) use ($self) {
+        $this->variants['sqlite'] = function (Build $build, $prefix = null) {
             $opts = array(
                 '--with-sqlite3' . ($prefix ? "=$prefix" : '')
             );
@@ -362,7 +360,7 @@ class VariantBuilder
             return $opts;
         };
 
-        $this->variants['pgsql'] = function (Build $build, $prefix = null) use ($self) {
+        $this->variants['pgsql'] = function (Build $build, $prefix = null) {
             $opts = array();
             $possibleNames = array('psql90','psql91','psql92','psql93','psql');
             while (!$prefix && ! empty($possibleNames)) {
@@ -402,7 +400,7 @@ class VariantBuilder
         };
         $this->variants['xml_all'] = $this->variants['xml'];
 
-        $this->variants['apxs2'] = function (Build $build, $prefix = null) use ($self) {
+        $this->variants['apxs2'] = function (Build $build, $prefix = null) {
             $a = '--with-apxs2';
             if ($prefix) {
                 return '--with-apxs2=' . $prefix;
