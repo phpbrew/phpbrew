@@ -179,7 +179,7 @@ class ExtensionManager
     {
         $name = $ext->getName();
         if (isset($this->conflicts[$name])) {
-            $conflicts = $ext->conflicts[$name];
+            $conflicts = $this->conflicts[$name];
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
             foreach ($conflicts as $extensionName) {
                 $ext = ExtensionFactory::lookup($extensionName);
