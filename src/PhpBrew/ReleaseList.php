@@ -1,7 +1,9 @@
 <?php
 namespace PhpBrew;
+use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
+use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use Exception;
 use RuntimeException;
@@ -94,7 +96,7 @@ class ReleaseList
         return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/php-releases.json";
     }
 
-    public function fetchRemoteReleaseList($branch = 'master', $options = NULL) {
+    public function fetchRemoteReleaseList($branch = 'master', OptionResult $options = NULL) {
         $json = '';
         $url = $this->getRemoteReleaseListUrl($branch);
         if (extension_loaded('curl')) {
@@ -134,7 +136,7 @@ class ReleaseList
         return $this->releases;
     }
 
-    static public function getReadyInstance($branch = 'master', $logger = NULL) {
+    static public function getReadyInstance($branch = 'master', Logger $logger = NULL) {
         static $instance;
         if ($instance) {
             return $instance;

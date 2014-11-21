@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\Extension;
-use PhpBrew\Extension\Extension;
-use PhpBrew\Extension\ExtensionInstaller;
+use CurlKit\CurlDownloader;
+use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
 use PhpBrew\Downloader;
 use PhpBrew\Utils;
@@ -73,5 +73,45 @@ class PeclExtensionDownloader
             Utils::system($cmd);
         }
         return $extensionDir;
+    }
+
+    public function knownReleases($packageName)
+    {
+        $url = sprintf("http://pecl.php.net/rest/r/%s/allreleases.xml", $packageName);
+
+        if (extension_loaded('curl')) {
+            $curlVersionInfo = curl_version();
+            $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. $curlVersionInfo['version']);
+            $downloader = new CurlDownloader;
+            $downloader->setProgressHandler(new ProgressBar);
+
+            if (! $this->options || ($this->options && ! $this->options->{'no-progress'}) ) {
+                $downloader->setProgressHandler(new ProgressBar);
+            }
+
+            if ($this->options) {
+                if ($proxy = $this->options->{'http-proxy'}) {
+                    $downloader->setProxy($proxy);
+                }
+                if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
+                    $downloader->setProxyAuth($proxyAuth);
+                }
+            }
+            $info = $downloader->request($url, array(), $curlOptions);
+        } else {
+            $info = file_get_contents($url);
+        }
+
+        // convert xml to array
+        $xml = simplexml_load_string($info);
+        $json = json_encode($xml);
+        $info2 = json_decode($json, TRUE);
+
+        $versionList = array_map(function($version) {
+            return $version['v'];
+        }, $info2['r']);
+
+        return $versionList;
+
     }
 }

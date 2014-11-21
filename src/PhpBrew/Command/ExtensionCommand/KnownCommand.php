@@ -1,18 +1,12 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+use PhpBrew\Extension\GithubExtensionDownloader;
+use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\GithubExtensionList;
 use PhpBrew\Tasks\FetchGithubExtensionListTask;
-use RuntimeException;
-use PhpBrew\Config;
-use PhpBrew\Utils;
-use CurlKit\CurlDownloader;
-use CurlKit\Progress\ProgressBar;
-use GetOptionKit\OptionResult;
 
 class KnownCommand extends \CLIFramework\Command
 {
-
-    public $extensionHosting = array();
 
     public function usage()
     {
@@ -31,64 +25,6 @@ class KnownCommand extends \CLIFramework\Command
     {
     }
 
-    public function fetchRemoteExtensionInfo($options = NULL)
-    {
-
-        if ($this->extensionHosting['site'] == 'github') {
-            $url = sprintf("https://api.github.com/repos/%s/%s/tags", $this->extensionHosting['owner'], $this->extensionHosting['repository']);
-        } else {
-            $url = sprintf("http://pecl.php.net/rest/r/%s/allreleases.xml", $this->extensionHosting['repository']);
-        }
-
-        $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. curl_version()['version']);
-        if (extension_loaded('curl')) {
-            $downloader = new CurlDownloader;
-            $downloader->setProgressHandler(new ProgressBar);
-
-            if (! $options || ($options && ! $options->{'no-progress'}) ) {
-                $downloader->setProgressHandler(new ProgressBar);
-            }
-
-            if ($options) {
-                if ($proxy = $options->{'http-proxy'}) {
-                    $downloader->setProxy($proxy);
-                }
-                if ($proxyAuth = $options->{'http-proxy-auth'}) {
-                    $downloader->setProxyAuth($proxyAuth);
-                }
-            }
-            $info = $downloader->request($url, array(), $curlOptions);
-        } else {
-            $info = file_get_contents($url);
-        }
-        return $info;
-
-    }
-
-    public function processeExtensionVersionList($info, $options = NULL)
-    {
-
-        $versionList = array();
-
-        if ($this->extensionHosting['site'] == 'github') {
-            $info2 = json_decode($info, TRUE);
-            $versionList = array_map(function($version) {
-                return $version['name'];
-            }, $info2);
-        } else {
-            // convert xml to array
-            $xml = simplexml_load_string($info);
-            $json = json_encode($xml);
-            $info2 = json_decode($json, TRUE);
-
-            $versionList = array_map(function($version) {
-                return $version['v'];
-            }, $info2['r']);
-        }
-
-        return $versionList;
-    }
-
     public function execute($extensionName)
     {
 
@@ -100,25 +36,13 @@ class KnownCommand extends \CLIFramework\Command
             $fetchTask->fetch('master');
         }
 
-        $githubExtension = $extensionList->checkGithubExtension($extensionName);
+        $githubExtension = $extensionList->exists($extensionName);
         if ($githubExtension) {
-            $this->extensionHosting = array(
-                'site' => 'github',
-                'owner' => $githubExtension['owner'],
-                'repository' => $githubExtension['repository']
-            );
+            $githubExtensionDownloader = new GithubExtensionDownloader($this->logger, $this->options);
+            $versionList = $githubExtensionDownloader->knownReleases($githubExtension['owner'], $githubExtension['repository']);
         } else {
-            $this->extensionHosting = array(
-                'site' => 'pecl',
-                'repository' => $extensionName
-            );
-        }
-
-        $extensionInfo = $this->fetchRemoteExtensionInfo($this->options);
-
-        $versionList = "";
-        if (!empty($extensionInfo)) {
-            $versionList = $this->processeExtensionVersionList($extensionInfo);
+            $peclExtensionDownloader = new PeclExtensionDownloader($this->logger, $this->options);
+            $versionList = $peclExtensionDownloader->knownReleases($extensionName);
         }
 
         $this->logger->info("\n");

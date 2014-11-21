@@ -16,7 +16,7 @@ class ExtensionCommand extends BaseCommand
 
     public function usage()
     {
-        return 'phpbrew ext [install|enable|disable|config|install-phalcon|known-phalcon]';
+        return 'phpbrew ext [install|enable|disable|config|known]';
     }
 
     public function brief()

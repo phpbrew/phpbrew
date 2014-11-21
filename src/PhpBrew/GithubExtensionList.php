@@ -1,7 +1,9 @@
 <?php
 namespace PhpBrew;
+use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
+use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use Exception;
 use PhpBrew\Tasks\FetchGithubExtensionListTask;
@@ -59,11 +61,12 @@ class GithubExtensionList
         return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/github-extensions.json";
     }
 
-    public function fetchRemoteExtensionList($branch = 'master', $options = NULL) {
-        $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. curl_version()['version']);
+    public function fetchRemoteExtensionList($branch = 'master', OptionResult $options = NULL) {
         $json = '';
         $url = $this->getRemoteExtensionListUrl($branch);
         if (extension_loaded('curl')) {
+            $curlVersionInfo = curl_version();
+            $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. $curlVersionInfo['version']);
             $downloader = new CurlDownloader;
             $downloader->setProgressHandler(new ProgressBar);
 
@@ -100,7 +103,7 @@ class GithubExtensionList
         return $this->extensions;
     }
 
-    static public function getReadyInstance($branch = 'master', $logger = NULL) {
+    static public function getReadyInstance($branch = 'master', Logger $logger = NULL) {
         static $instance;
         if ($instance) {
             return $instance;
@@ -114,7 +117,7 @@ class GithubExtensionList
         return $instance;
     }
 
-    public function checkGithubExtension($extensionName)
+    public function exists($extensionName)
     {
 
         $githubExtensions = array();
@@ -144,7 +147,7 @@ class GithubExtensionList
         }
 
     }
-
+    
 }
 
 

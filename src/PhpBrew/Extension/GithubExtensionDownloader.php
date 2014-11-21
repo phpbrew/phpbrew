@@ -1,12 +1,11 @@
 <?php
 namespace PhpBrew\Extension;
-use PhpBrew\Extension\Extension;
-use PhpBrew\Extension\ExtensionInstaller;
+use CurlKit\CurlDownloader;
+use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
 use PhpBrew\Downloader;
 use PhpBrew\Utils;
 use PEARX;
-use PEARX\Channel as PeclChannel;
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 
@@ -29,7 +28,7 @@ class GithubExtensionDownloader
         $this->githubSite = $site;
     }
 
-    public function getGithubTarballUrl($owner, $repos, $version='stable')
+    public function buildGithubTarballUrl($owner, $repos, $version='stable')
     {
         if (empty($owner) || empty($repos)) {
             throw new Exception("Username or Repository invalid.");
@@ -39,7 +38,7 @@ class GithubExtensionDownloader
 
     public function download($owner, $repos, $packageName, $version = 'stable', $isExtSubdir = false)
     {
-        $url = $this->getGithubTarballUrl($owner, $repos, $version);
+        $url = $this->buildGithubTarballUrl($owner, $repos, $version);
         $downloader = new Downloader\UrlDownloader($this->logger, $this->options);
         $basename = sprintf("%s-%s-%s.tar.gz", $owner, $repos, $version);
         $distDir = Config::getDistFileDir();
@@ -69,4 +68,41 @@ class GithubExtensionDownloader
         }
         return $extensionDir;
     }
+
+    public function knownReleases($owner, $repo)
+    {
+        $url = sprintf("https://api.github.com/repos/%s/%s/tags", $owner, $repo);
+
+        if (extension_loaded('curl')) {
+            $curlVersionInfo = curl_version();
+            $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. $curlVersionInfo['version']);
+            $downloader = new CurlDownloader;
+            $downloader->setProgressHandler(new ProgressBar);
+
+            if (! $this->options || ($this->options && ! $this->options->{'no-progress'}) ) {
+                $downloader->setProgressHandler(new ProgressBar);
+            }
+
+            if ($this->options) {
+                if ($proxy = $this->options->{'http-proxy'}) {
+                    $downloader->setProxy($proxy);
+                }
+                if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
+                    $downloader->setProxyAuth($proxyAuth);
+                }
+            }
+            $info = $downloader->request($url, array(), $curlOptions);
+        } else {
+            $info = file_get_contents($url);
+        }
+
+        $info2 = json_decode($info, TRUE);
+        $versionList = array_map(function($version) {
+            return $version['name'];
+        }, $info2);
+
+        return $versionList;
+
+    }
+
 }

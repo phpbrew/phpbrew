@@ -14,8 +14,6 @@ use PhpBrew\Utils;
 class InstallCommand extends BaseCommand
 {
 
-    public $extensionsHosting = array();
-
     public function usage()
     {
         return 'phpbrew [-dv, -r] ext install [extension name] [-- [options....]]';
@@ -32,9 +30,6 @@ class InstallCommand extends BaseCommand
     public function options($opts)
     {
         $opts->add('pecl', 'Try to download from pecl even when ext source is bundled with php-src.');
-        $opts->add('github', 'Try to download from github repository.');
-        $opts->add('user', 'github user.');
-        $opts->add('repos', 'github repos.');
     }
 
     public function arguments($args)
@@ -104,52 +99,47 @@ class InstallCommand extends BaseCommand
             }
         } else {
             $args = array_slice(func_get_args(), 1);
-
-            /*
-             * Check if extName is github project
-             */
-            $extensionList = new GithubExtensionList;
-
-            // initial local list
-            if (!$extensionList->foundLocalExtensionList() || $this->options->update) {
-                $fetchTask = new FetchGithubExtensionListTask($this->logger, $this->options);
-                $fetchTask->fetch('master');
-            }
-            $githubExtension = $extensionList->checkGithubExtension($extName);
-            if ($githubExtension) {
-                $this->extensionsHosting[$githubExtension['name']] = array(
-                    'site' => 'github',
-                    'owner' => $githubExtension['owner'],
-                    'repository' => $githubExtension['repository']
-                );
-                $extName = $githubExtension['name'];
-            } else {
-                $this->extensionsHosting[$extName] = array(
-                    'site' => 'pecl',
-                    'repository' => $extName
-                );
-            }
-
             $extensions[$extName] = $this->getExtConfig($args);
+        }
+
+        // initial local list
+        $extensionList = new GithubExtensionList;
+
+        if (!$extensionList->foundLocalExtensionList() || $this->options->update) {
+            $fetchTask = new FetchGithubExtensionListTask($this->logger, $this->options);
+            $fetchTask->fetch('master');
         }
 
         $manager = new ExtensionManager($this->logger);
         foreach ($extensions as $extensionName => $extConfig) {
+
+            $githubExtension = $extensionList->exists($extensionName);
+
+            if ($githubExtension) $extensionName = $githubExtension['name'];
+
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
             // Extension not found, use pecl to download it.
             if (!$ext) {
 
-                if ($this->extensionsHosting[$extensionName]['site'] == 'github') {
+                if ($githubExtension) {
+
+                    // not every github project has stable branch, using master as default version
+                    $args = array_slice(func_get_args(), 1);
+                    if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = 'master';
                     $githubDownloader = new GithubExtensionDownloader($this->logger, $this->options);
-                    $githubDownloader->download($this->extensionsHosting[$extensionName]['owner'], $this->extensionsHosting[$extensionName]['repository'], $extensionName, $extConfig->version);
-                }else {
+                    $githubDownloader->download($githubExtension['owner'], $githubExtension['repository'], $extensionName, $extConfig->version);
+
+                    // Reload the extension
+                    $ext = ExtensionFactory::lookupRecursive($extensionName);
+                } else {
                     $peclDownloader = new PeclExtensionDownloader($this->logger, $this->options);
                     $peclDownloader->download($extensionName, $extConfig->version);
+
+                    // Reload the extension
+                    $ext = ExtensionFactory::lookup($extensionName);
                 }
 
-                // Reload the extension
-                $ext = ExtensionFactory::lookupRecursive($extensionName);
             }
             if (!$ext) {
                 throw new Exception("$extensionName not found.");

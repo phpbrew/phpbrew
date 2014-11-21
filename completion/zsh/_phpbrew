@@ -236,9 +236,6 @@ local ret=1
                   (install)
                         _arguments -w -S -s \
                           '--pecl[Try to download from pecl even when ext source is bundled with php-src.]' \
-                          '--github[Try to download from github repository.]' \
-                          '--user[github user.]' \
-                          '--repos[github repos.]' \
                           ':extensions:{___phpbrewmeta "extensions" extension.install arg 0 suggestions}' \
                            && ret=0
                   
