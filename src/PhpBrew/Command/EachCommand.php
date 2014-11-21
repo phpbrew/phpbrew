@@ -48,9 +48,13 @@ class EachCommand extends \CLIFramework\Command
         $phpbrew = new PhpBrew;
         foreach($this->getVersions() as $version) {
             $this->logger->info("Running `{$command}` for php-{$version}");
-            $phpbrew->run(preg_split('#\s+#', $command), $version, ! $this->options->debug);
+            exec("phpbrew use $version && phpbrew $command", $out);
+            if($this->options->debug) {
+                $this->logger->info(str_repeat('-', 42));
+                $this->logger->info(implode("\n", array_slice($out, 2)));
+                $this->logger->info(str_repeat('-', 42));
+            }
         }
-        $this->logger->success("Done!");
     }
 
     protected function getVersions()
