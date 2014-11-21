@@ -6,13 +6,12 @@ use PhpBrew\Config;
 use PhpBrew\Downloader;
 use PhpBrew\Utils;
 use PEARX;
-use PEARX\Channel as PeclChannel;
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 
-class PeclExtensionDownloader
+class GithubExtensionDownloader
 {
-    public $peclSite = 'pecl.php.net';
+    public $githubSite = 'github.com';
 
     public $logger;
 
@@ -24,26 +23,24 @@ class PeclExtensionDownloader
         $this->options = $options;
     }
 
-    public function setPeclSite($site)
+    public function setGithubSite($site)
     {
-        $this->peclSite = $site;
+        $this->githubSite = $site;
     }
 
-    public function findPeclPackageUrl($packageName, $version = 'stable')
+    public function buildGithubTarballUrl($owner, $repos, $version='stable')
     {
-        $channel = new PeclChannel($this->peclSite);
-        $xml = $channel->fetchPackageReleaseXml($packageName, $version);
-        $g = $xml->getElementsByTagName('g');
-        $url = $g->item(0)->nodeValue;
-        // just use tgz format file.
-        return $url . '.tgz';
+        if (empty($owner) || empty($repos)) {
+            throw new Exception("Username or Repository invalid.");
+        }
+        return sprintf('https://%s/%s/%s/tarball/%s', $this->githubSite, $owner, $repos, $version);
     }
 
-    public function download($packageName, $version = 'stable')
+    public function download($owner, $repos, $packageName, $version = 'stable', $isExtSubdir = false)
     {
-        $url = $this->findPeclPackageUrl($packageName, $version);
+        $url = $this->buildGithubTarballUrl($owner, $repos, $version);
         $downloader = new Downloader\UrlDownloader($this->logger, $this->options);
-        $basename = $downloader->resolveDownloadFileName($url);
+        $basename = sprintf("%s-%s-%s.tar.gz", $owner, $repos, $version);
         $distDir = Config::getDistFileDir();
         $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
         $downloader->download($url, $targetFilePath);
@@ -60,14 +57,11 @@ class PeclExtensionDownloader
         $this->logger->info("===> Extracting to $currentPhpExtensionDirectory...");
 
         $cmds = array(
-            "tar -C $currentPhpExtensionDirectory -xf $targetFilePath",
+            "tar -C $currentPhpExtensionDirectory -xzf $targetFilePath",
             "rm -rf $currentPhpExtensionDirectory/$packageName",
-
-            // Move "memcached-2.2.7" to "memcached"
-            "mv $currentPhpExtensionDirectory/{$info['filename']} $currentPhpExtensionDirectory/$packageName",
-            // Move "ext/package.xml" to "memcached/package.xml"
-            "mv $currentPhpExtensionDirectory/package.xml $currentPhpExtensionDirectory/$packageName/package.xml",
+            "mv $currentPhpExtensionDirectory/{$owner}-{$repos}-* $currentPhpExtensionDirectory/$packageName"
         );
+
         foreach($cmds as $cmd) {
             $this->logger->debug($cmd);
             Utils::system($cmd);
@@ -75,9 +69,9 @@ class PeclExtensionDownloader
         return $extensionDir;
     }
 
-    public function knownReleases($packageName)
+    public function knownReleases($owner, $repo)
     {
-        $url = sprintf("http://pecl.php.net/rest/r/%s/allreleases.xml", $packageName);
+        $url = sprintf("https://api.github.com/repos/%s/%s/tags", $owner, $repo);
 
         if (extension_loaded('curl')) {
             $curlVersionInfo = curl_version();
@@ -102,16 +96,13 @@ class PeclExtensionDownloader
             $info = file_get_contents($url);
         }
 
-        // convert xml to array
-        $xml = simplexml_load_string($info);
-        $json = json_encode($xml);
-        $info2 = json_decode($json, TRUE);
-
+        $info2 = json_decode($info, TRUE);
         $versionList = array_map(function($version) {
-            return $version['v'];
-        }, $info2['r']);
+            return $version['name'];
+        }, $info2);
 
         return $versionList;
 
     }
+
 }
