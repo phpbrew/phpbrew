@@ -1,9 +1,9 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
-use PhpBrew\GithubExtensionList;
+use PhpBrew\ExtensionList;
 use PhpBrew\ReleaseList;
-use PhpBrew\Tasks\FetchGithubExtensionListTask;
+use PhpBrew\Tasks\FetchExtensionListTask;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
 class UpdateCommand extends \CLIFramework\Command
@@ -39,14 +39,18 @@ class UpdateCommand extends \CLIFramework\Command
         }
         $this->logger->info('===> Done');
 
-        // process github extension list update
-        // $this->logger->info("\n");
-        // $extensionList = new GithubExtensionList;
-        // $fetchGithubTask = new FetchGithubExtensionListTask($this->logger, $this->options);
-        // $githubExtensions = $fetchGithubTask->fetch($branchName);
+        // process extension list update
+        $this->logger->info("\n");
+        $extensionList = new ExtensionList;
 
-        // $this->logger->writeln(count($extensionList) . ' github extensions');
-        // $this->logger->info('===> Done');
+        $hostings = Config::getSupportedHostings();
+        foreach ($hostings as $hosting) {
+            $fetchTask = new FetchExtensionListTask($this->logger, $this->options);
+            $extensions = $fetchTask->fetch($hosting, $branchName);
+
+            $this->logger->writeln(count($extensions) .' '. $hosting->getName().' extensions');
+        }
+        $this->logger->info('===> Done');
 
     }
 }

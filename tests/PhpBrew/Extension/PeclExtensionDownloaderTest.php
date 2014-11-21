@@ -5,7 +5,7 @@ use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
-use PhpBrew\Extension\PeclExtensionDownloader;
+use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Utils;
 use PHPUnit_Framework_TestCase;
 use CLIFramework\Logger;;
@@ -21,8 +21,10 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
     {
         $logger = new Logger;
         $logger->setQuiet();
-        $downloader = new PeclExtensionDownloader($logger, new OptionResult);
-        $extractPath = $downloader->download('APCu', 'latest');
+        $peclHosting = new Extension\Hosting\Pecl;
+        $downloader = new ExtensionDownloader($logger, new OptionResult);
+        $peclHosting->setPackageName('APCu');
+        $extractPath = $downloader->download($peclHosting, 'latest');
         path_ok($extractPath);
     }
 
@@ -43,8 +45,10 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         $logger = new Logger;
         $logger->setQuiet();
         $manager = new ExtensionManager($logger);
-        $peclDownloader = new PeclExtensionDownloader($logger, new OptionResult);
-        $peclDownloader->download($extensionName, 'latest');
+        $peclHosting = new Extension\Hosting\Pecl;
+        $downloader = new ExtensionDownloader($logger, new OptionResult);
+        $peclHosting->setPackageName($extensionName);
+        $downloader->download($peclHosting, 'latest');
         $ext = ExtensionFactory::lookup($extensionName);
         $manager->installExtension($ext, array());
     }

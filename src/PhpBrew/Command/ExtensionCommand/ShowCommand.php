@@ -5,7 +5,6 @@ use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\PeclExtensionDownloader;
 use Exception;
 use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
@@ -82,8 +81,15 @@ class ShowCommand extends BaseCommand
 
         // Extension not found, use pecl to download it.
         if (!$ext && $this->options->{'download'}) {
-            $peclDownloader = new PeclExtensionDownloader($this->logger, $this->options);
-            $extDir = $peclDownloader->download($extensionName, 'latest');
+
+            $extensionList = new ExtensionList;
+            // initial local list
+            $extensionList->initLocalExtensionList($this->logger, $this->options);
+
+            $hosting = $extensionList->exists($extensionName);
+
+            $downloader = new ExtensionDownloader($this->logger, $this->options);
+            $extDir = $downloader->download($hosting, 'latest');
             // Reload the extension
             $ext = ExtensionFactory::lookupRecursive($extensionName, array($extDir));
         }
