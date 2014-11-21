@@ -27,9 +27,6 @@ class ConfigureTask extends BaseTask
 
     public function configure(Build $build)
     {
-        $root        = Config::getPhpbrewRoot();
-        $buildDir    = Config::getBuildDir();
-
         $variantBuilder = new VariantBuilder;
         $extra = $build->getExtraOptions();
 
