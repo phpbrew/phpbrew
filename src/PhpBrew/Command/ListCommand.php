@@ -35,11 +35,11 @@ class ListCommand extends \CLIFramework\Command
 
             if ($currentVersion == $version) {
                 $this->logger->writeln(
-                    $this->formatter->format(sprintf('* %-15s', $version), 'strong_white') 
+                    $this->formatter->format(sprintf('* %-15s', $version), 'bold') 
                 );
             } else {
                 $this->logger->writeln(
-                    $this->formatter->format(sprintf('  %-15s', $version), 'strong_white')
+                    $this->formatter->format(sprintf('  %-15s', $version), 'bold')
                 );
             }
 

@@ -71,6 +71,8 @@ class Console extends Application
         date_default_timezone_set(
             is_readable($tz = '/etc/timezone') ? trim(file_get_contents($tz)) : 'America/Los_Angeles'
         );
+        // fix bold output so it looks good on light and dark terminals
+        $this->getFormatter()->addStyle('bold', array('bold' => 1));
     }
 
     public function brief()
