@@ -183,7 +183,7 @@ class ExtensionManager
             $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
             foreach ($conflicts as $extensionName) {
                 $ext = ExtensionFactory::lookup($extensionName);
-                $this->disable($ext);
+                $this->disableExtension($ext);
             }
         }
     }
