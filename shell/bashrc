@@ -108,7 +108,7 @@ function phpbrew ()
                     echo "Currently using $PHPBREW_PHP"
                 fi
             else
-                if [[ $2 =~ ^([[:digit:]]+\.){2}[[:digit:]]+$ ]]
+                if [[ $2 =~ "^([[:digit:]]+\.){2}[[:digit:]]+$" ]]
                 then
                     _PHP_VERSION="php-$2"
                 else
@@ -366,7 +366,7 @@ function __phpbrew_set_path ()
 function __phpbrew_update_config ()
 {
     local VERSION
-    if [[ $1 =~ ^([[:digit:]]+\.){2}[[:digit:]]+$ ]]
+    if [[ $1 =~ "^([[:digit:]]+\.){2}[[:digit:]]+$" ]]
     then
         VERSION="php-$1"
     else
