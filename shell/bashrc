@@ -28,12 +28,12 @@ fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
+[[ -z "$PHPBREW_VERSION_REGEX" ]] && export PHPBREW_VERSION_REGEX="^([[:digit:]]+\.){2}[[:digit:]]+$"
 
 [[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
 [[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
 
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
-
 
 
 function __wget_as ()
@@ -108,7 +108,7 @@ function phpbrew ()
                     echo "Currently using $PHPBREW_PHP"
                 fi
             else
-                if [[ $2 =~ ^([[:digit:]]+\.){2}[[:digit:]]+$ ]]
+                if [[ $2 =~ $PHPBREW_VERSION_REGEX ]]
                 then
                     _PHP_VERSION="php-$2"
                 else
@@ -366,7 +366,7 @@ function __phpbrew_set_path ()
 function __phpbrew_update_config ()
 {
     local VERSION
-    if [[ $1 =~ ^([[:digit:]]+\.){2}[[:digit:]]+$ ]]
+    if [[ $1 =~ $PHPBREW_VERSION_REGEX ]]
     then
         VERSION="php-$1"
     else
