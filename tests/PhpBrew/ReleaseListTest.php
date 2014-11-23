@@ -1,6 +1,9 @@
 <?php
 use PhpBrew\ReleaseList;
 
+/**
+ * @small
+ */
 class ReleaseListTest extends PHPUnit_Framework_TestCase
 {
     public $releaseList;
@@ -8,7 +11,7 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->releaseList = new ReleaseList;
-        $this->releaseList->loadJsonFile('assets/php-releases.json');
+        $this->releaseList->loadJsonFile('tests/fixtures/php-releases.json');
     }
 
     public function testGetVersions()
@@ -31,9 +34,9 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
     public function versionDataProvider() {
         return array(
             array("5.3", "5.3.29"),
-            array("5.4", "5.4.34"),
-            array("5.5", "5.5.18"),
-            array("5.6", "5.6.2"),
+            array("5.4", "5.4.35"),
+            array("5.5", "5.5.19"),
+            array("5.6", "5.6.3"),
         );
     }
 
@@ -48,4 +51,3 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
     }
 
 }
-
