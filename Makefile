@@ -45,6 +45,9 @@ test:
 test/quick:
 		$(TEST) --group small
 
+test/extension:
+		$(TEST) --group extension
+
 test/extension-installer:
 	php bin/phpbrew --debug ext install openssl
 	php bin/phpbrew --debug ext install opcache
