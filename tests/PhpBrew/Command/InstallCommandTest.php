@@ -10,42 +10,34 @@ class InstallCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      */
-    public function testInstallCommandLatestMinorVersion() {
-        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4")); // we will likely get 5.4.34 - 2014-11-02
+    public function testKnownCommand()
+    {
+        $this->assertTrue($this->runCommand("phpbrew init"));
+        $this->assertTrue($this->runCommand("phpbrew known --update"));
     }
 
     /**
      * @outputBuffering enabled
-     * @depends testInstallCommandLatestMinorVersion
+     * @depends testKnownCommand
      */
     public function testInstallCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.29 +sqlite +intl +icu"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.29 +default +intl"));
+        $this->assertListContains("5.4.29");
     }
 
     /**
      * @outputBuffering enabled
-     * @depends testInstallCommand
-     */
-    public function testListCommand()
-    {
-        $this->assertTrue($this->runCommand("phpbrew list -v -d"));
-        $this->assertTrue($this->runCommand("phpbrew list --dir --variants"));
-    }
-
-    /**
-     * @outputBuffering enabled
-     * @depends testListCommand
      * @depends testInstallCommand
      */
     public function testUseCommand()
     {
         $this->assertTrue($this->runCommand("phpbrew use 5.4.29"));
+        $this->assertListContains("*\t5.4.29", $output);
     }
 
     /**
      * @outputBuffering enabled
-     * @depends testListCommand
      * @depends testInstallCommand
      */
     public function testCtagsCommand()
@@ -58,9 +50,9 @@ class InstallCommandTest extends CommandTestCase
      * @depends testInstallCommand
      */
     public function testInstallLikeCommand() {
-        $this->assertTrue($this->runCommand("phpbrew --quiet install -d --like 5.4.29 5.5.18 +soap"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet install -d --like myPHP 5.5.18 +soap"));
+        $this->assertListContains("myPHP", $output);
     }
-
 
     /**
      * @outputBuffering enabled
@@ -72,6 +64,10 @@ class InstallCommandTest extends CommandTestCase
         $this->assertTrue($this->runCommand("phpbrew --quiet clean 5.4.29"));
     }
 
-
-
+    protected function assertListContains($string){
+        ob_start();
+        $this->runCommandWithStdout("phpbrew list --dir --variants");
+        $output = ob_get_clean();
+        $this->assertContains($string, $output);
+    }
 }

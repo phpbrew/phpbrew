@@ -39,20 +39,20 @@ class ExtractTask extends BaseTask
         }
 
         if(!is_dir($extractedDirTemp)){
-            die("Unable to find $extractedDirTemp");
+            throw new RuntimeException("Unable to find $extractedDirTemp");
         }
 
         if(is_dir($extractedDir)){
             $this->info("===> Removing $extractedDir");
             system("rm -rf $extractedDir", $ret);
             if ($ret != 0) {
-                die("Unable to remove $extractedDir.");
+                throw new RuntimeException("Unable to remove $extractedDir.");
             }
         }
 
         $this->info("===> Moving $extractedDirTemp to $extractedDir");
         if(!rename($extractedDirTemp, $extractedDir)){
-            die("Unable to move $extractedDirTemp to $extractedDir");
+            throw new RuntimeException("Unable to move $extractedDirTemp to $extractedDir");
         }
 
         $build->setState(Build::STATE_EXTRACT);
