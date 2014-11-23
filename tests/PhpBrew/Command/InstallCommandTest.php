@@ -22,8 +22,8 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testInstallCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.29 +default +intl"));
-        $this->assertListContains("5.4.29");
+        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.35 +default +intl"));
+        $this->assertListContains("5.4.35");
     }
 
     /**
@@ -32,8 +32,7 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testUseCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew use 5.4.29"));
-        $this->assertListContains("*\t5.4.29", $output);
+        $this->assertTrue($this->runCommand("phpbrew use 5.4.35"));
     }
 
     /**
@@ -42,7 +41,7 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testCtagsCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew ctags 5.4.29"));
+        $this->assertTrue($this->runCommand("phpbrew ctags 5.4.35"));
     }
 
     /**
@@ -50,18 +49,17 @@ class InstallCommandTest extends CommandTestCase
      * @depends testInstallCommand
      */
     public function testInstallLikeCommand() {
-        $this->assertTrue($this->runCommand("phpbrew --quiet install -d --like myPHP 5.5.18 +soap"));
-        $this->assertListContains("myPHP", $output);
+        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.35 as myphp +soap"));
+        $this->assertListContains("myphp");
     }
 
     /**
      * @outputBuffering enabled
      * @depends testInstallCommand
-     * @depends testUseCommand
      */
     public function testCleanCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew --quiet clean 5.4.29"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet clean 5.4.35"));
     }
 
     protected function assertListContains($string){
