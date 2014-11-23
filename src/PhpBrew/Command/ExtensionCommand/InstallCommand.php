@@ -9,6 +9,7 @@ use PhpBrew\Extension\GithubExtensionDownloader;
 use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\GithubExtensionList;
+use PhpBrew\Tasks\FetchGithubExtensionListTask;
 use PhpBrew\Utils;
 
 class InstallCommand extends BaseCommand

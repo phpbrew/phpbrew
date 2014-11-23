@@ -55,4 +55,4 @@ test/see-coverage:
 		xdg-open build/logs/coverage/index.html
 
 clean:
-		rm $(TARGET) $(OUTPUT)
+		git checkout -- $(TARGET)
