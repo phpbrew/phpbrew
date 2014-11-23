@@ -14,8 +14,8 @@ abstract class CommandTestCase extends BaseCommandTestCase
 
     public function setUp() {
         parent::setUp();
-        putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
-        putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
+        putenv('PHPBREW_ROOT=' . getcwd() . '/tests/.phpbrew');
+        putenv('PHPBREW_HOME=' . getcwd() . '/tests/.phpbrew');
     }
 
 }
