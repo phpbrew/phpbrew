@@ -45,6 +45,12 @@ test:
 test/quick:
 		$(TEST) --group small
 
+test/extension-installer:
+	php bin/phpbrew --debug ext install openssl
+	php bin/phpbrew --debug ext install opcache
+	php bin/phpbrew --debug ext install xdebug
+	php bin/phpbrew --debug ext install soap
+
 test/see-coverage:
 		xdg-open build/logs/coverage/index.html
 
