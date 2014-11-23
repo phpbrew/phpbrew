@@ -1,6 +1,9 @@
 <?php
 use PhpBrew\PatchUtils;
 
+/**
+ * @small
+ */
 class PatchUtilsTest extends PHPUnit_Framework_TestCase
 {
     public function test()
@@ -18,4 +21,3 @@ PATCH;
         unlink('tests/a.txt');
     }
 }
-

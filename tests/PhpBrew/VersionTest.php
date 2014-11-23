@@ -1,6 +1,9 @@
 <?php
 use PhpBrew\Version;
 
+/**
+ * @small
+ */
 class VersionTest extends PHPUnit_Framework_TestCase
 {
     public function testVersionConstructor()

@@ -2,6 +2,9 @@
 use PhpBrew\Build;
 use PhpBrew\BuildRegister;
 
+/**
+ * @small
+ */
 class BuildRegisterTest extends PHPUnit_Framework_TestCase
 {
     public function testBuildRegister()
@@ -16,4 +19,3 @@ class BuildRegisterTest extends PHPUnit_Framework_TestCase
         $pool->deregister($b);
     }
 }
-

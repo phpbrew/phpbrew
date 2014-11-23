@@ -3,6 +3,7 @@ use PhpBrew\Testing\CommandTestCase;
 
 /**
  * @large
+ * @group command
  */
 class ExtensionCommandTest extends CommandTestCase
 {

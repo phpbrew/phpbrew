@@ -2,6 +2,9 @@
 use PhpBrew\Utils;
 use PhpBrew\Config;
 
+/**
+ * @small
+ */
 class UtilsTest extends PHPUnit_Framework_TestCase
 {
     public function test()

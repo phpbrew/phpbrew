@@ -11,6 +11,10 @@ use PHPUnit_Framework_TestCase;
 use CLIFramework\Logger;;
 use GetOptionKit\OptionResult;
 
+/**
+ * @large
+ * @group extension
+ */
 class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
 {
     public function testPackageUrl()

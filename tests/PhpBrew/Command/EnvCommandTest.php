@@ -1,6 +1,10 @@
 <?php
 use CLIFramework\Testing\CommandTestCase;
 
+/**
+ * @large
+ * @group command
+ */
 class EnvCommandTest extends CommandTestCase
 {
 

@@ -8,7 +8,8 @@ use PhpBrew\Extension\Extension;
 /**
  * ExtensionTest
  *
- * @group group
+ * @large
+ * @group extension
  */
 class ExtensionTest extends \PHPUnit_Framework_TestCase
 {

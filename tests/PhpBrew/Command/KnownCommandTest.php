@@ -1,6 +1,10 @@
 <?php
 use PhpBrew\Testing\CommandTestCase;
 
+/**
+ * @large
+ * @group command
+ */
 class KnownCommandTest extends CommandTestCase
 {
     /**
@@ -34,4 +38,3 @@ class KnownCommandTest extends CommandTestCase
         $this->assertTrue($this->runCommand('phpbrew known -u'));
     }
 }
-

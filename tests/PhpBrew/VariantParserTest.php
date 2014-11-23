@@ -1,6 +1,9 @@
 <?php
 use PhpBrew\VariantParser;
 
+/**
+ * @small
+ */
 class VariantParserTest extends PHPUnit_Framework_TestCase
 {
     public function test()
@@ -11,7 +14,7 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
                 . ' -- --with-icu-dir /opt/local';
         $args = preg_split('#\s+#',$arg);
         $info = VariantParser::parseCommandArguments($args);
-        
+
         $this->assertNotEmpty($info['enabled_variants']);
         $this->assertNotEmpty($info['disabled_variants']);
 
