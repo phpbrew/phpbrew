@@ -32,11 +32,11 @@ class KnownCommand extends \CLIFramework\Command
         // initial local list
         $extensionList->initLocalExtensionList($this->logger, $this->options);
 
-        $hosting = $extensionList->exists($extensionName);
+        $provider = $extensionList->exists($extensionName);
 
-        if ($hosting) {
+        if ($provider) {
             $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
-            $versionList = $extensionDownloader->knownReleases($hosting);
+            $versionList = $extensionDownloader->knownReleases($provider);
             $this->logger->info("\n");
             $this->logger->writeln(wordwrap(join(', ', $versionList), 80, "\n" ));
         } else {

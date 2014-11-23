@@ -108,26 +108,26 @@ class InstallCommand extends BaseCommand
         $manager = new ExtensionManager($this->logger);
         foreach ($extensions as $extensionName => $extConfig) {
 
-            $hosting = $extensionList->exists($extensionName);
+            $provider = $extensionList->exists($extensionName);
 
-            if ($hosting) $extensionName = $hosting->getPackageName();
+            if ($provider) $extensionName = $provider->getPackageName();
 
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
             // Extension not found, use pecl to download it.
             if (!$ext) {
 
-                if ($hosting) {
+                if ($provider) {
 
                     // not every project has stable branch, using master as default version
                     $args = array_slice(func_get_args(), 1);
-                    if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = $hosting->getDefaultVersion();
+                    if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = $provider->getDefaultVersion();
 
                     $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
-                    $extensionDownloader->download($hosting, $extConfig->version);
+                    $extensionDownloader->download($provider, $extConfig->version);
 
                     // Reload the extension
-                    if ($hosting->shouldLookupRecursive()) {
+                    if ($provider->shouldLookupRecursive()) {
                         $ext = ExtensionFactory::lookupRecursive($extensionName);
                     } else {
                         $ext = ExtensionFactory::lookup($extensionName);
