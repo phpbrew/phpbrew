@@ -1,29 +1,19 @@
 <?php
 
-namespace PhpBrew\Extension\Hosting;
+namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
-use PhpBrew\Extension\Hosting;
 
-class Bitbucket implements Hosting {
+class BitbucketProvider implements Provider {
 
     public $site = 'bitbucket.org';
     public $owner = NULL;
     public $repository = NULL;
     public $packageName = NULL;
+    public $defaultVersion = 'master';
 
-    public function getName() {
+    public static function getName() {
         return 'bitbucket';
-    }
-
-    public function getExtensionListPath()
-    {
-        return NULL;
-    }
-
-    public function getRemoteExtensionListUrl($branch)
-    {
-        return NULL;
     }
 
     public function buildPackageDownloadUrl($version='stable')
@@ -102,7 +92,12 @@ class Bitbucket implements Hosting {
 
     public function getDefaultVersion()
     {
-        return 'master';
+        return $this->defaultVersion;
+    }
+
+    public function setDefaultVersion($version)
+    {
+        $this->defaultVersion = $version;
     }
 
     public function shouldLookupRecursive()

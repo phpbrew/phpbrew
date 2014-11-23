@@ -221,16 +221,4 @@ class Config
         }
     }
 
-    static public function getSupportedHostings() {
-        static $hostings;
-        if ($hostings) {
-            return $hostings;
-        }
-        $hostings =array(
-            new Extension\Hosting\Github,
-            new Extension\Hosting\Bitbucket,
-            new Extension\Hosting\Pecl
-        );
-        return $hostings;
-    }
 }

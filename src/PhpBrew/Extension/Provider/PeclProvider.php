@@ -1,30 +1,20 @@
 <?php
 
-namespace PhpBrew\Extension\Hosting;
+namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
-use PhpBrew\Extension\Hosting;
 use PEARX\Channel as PeclChannel;
 
-class Pecl implements Hosting {
+class PeclProvider implements Provider {
 
     public $site = 'pecl.php.net';
     public $owner = NULL;
     public $repository = NULL;
     public $packageName = NULL;
+    public $defaultVersion = 'stable';
 
-    public function getName() {
+    public static function getName() {
         return 'pecl';
-    }
-
-    public function getExtensionListPath()
-    {
-        return NULL;
-    }
-
-    public function getRemoteExtensionListUrl($branch)
-    {
-        return NULL;
     }
 
     public function buildPackageDownloadUrl($version='stable')
@@ -99,7 +89,12 @@ class Pecl implements Hosting {
 
     public function getDefaultVersion()
     {
-        return 'stable';
+        return $this->defaultVersion;
+    }
+
+    public function setDefaultVersion($version)
+    {
+        $this->defaultVersion = $version;
     }
 
     public function shouldLookupRecursive()

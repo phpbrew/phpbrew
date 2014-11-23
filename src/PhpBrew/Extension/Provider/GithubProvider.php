@@ -1,33 +1,19 @@
 <?php
 
-namespace PhpBrew\Extension\Hosting;
+namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
-use PhpBrew\Extension\Hosting;
 
-class Github implements Hosting {
+class GithubProvider implements Provider {
 
     public $site = 'github.com';
     public $owner = NULL;
     public $repository = NULL;
     public $packageName = NULL;
+    public $defaultVersion = 'master';
 
-    public function getName() {
+    public static function getName() {
         return 'github';
-    }
-
-    public function getExtensionListPath()
-    {
-        // Release list from github
-        return Config::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'github-extensions.json';
-    }
-
-    public function getRemoteExtensionListUrl($branch)
-    {
-        if (!extension_loaded('openssl')) {
-            throw new Exception('openssl extension not found, to download release json file you need openssl.');
-        }
-        return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/github-extensions.json";
     }
 
     public function buildPackageDownloadUrl($version='stable')
@@ -108,7 +94,12 @@ class Github implements Hosting {
 
     public function getDefaultVersion()
     {
-        return 'master';
+        return $this->defaultVersion;
+    }
+
+    public function setDefaultVersion($version)
+    {
+        $this->defaultVersion = $version;
     }
 
     public function shouldLookupRecursive()

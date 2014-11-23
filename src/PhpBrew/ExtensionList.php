@@ -6,7 +6,7 @@ use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use Exception;
-use PhpBrew\Extension\Hosting;
+use PhpBrew\Extension\Provider;
 use PhpBrew\Tasks\FetchExtensionListTask;
 use RuntimeException;
 
@@ -16,6 +16,42 @@ class ExtensionList
 
     public function __construct()
     { 
+    }
+
+    public static function getProviders()
+    {
+        static $providers;
+        if ($providers) {
+            return $providers;
+        }
+        $providers = array(
+            new Extension\Provider\GithubProvider,
+            new Extension\Provider\BitbucketProvider,
+            new Extension\Provider\PeclProvider
+        );
+        return $providers;
+    }
+
+    public static function getProviderByName($providerName)
+    {
+        $providers = self::getProviders();
+
+        foreach ($providers as $provider) {
+            if ($provider::getName() == $providerName) return $provider;
+        }
+    }
+
+    public function getExtensionListPath()
+    {
+        return Config::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'extensions.json';
+    }
+
+    public function getRemoteExtensionListUrl($branch)
+    {
+        if (!extension_loaded('openssl')) {
+            throw new Exception('openssl extension not found, to download release json file you need openssl.');
+        }
+        return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/extensions.json";
     }
 
     public function loadJson($json)
@@ -35,17 +71,16 @@ class ExtensionList
         $this->loadJson(file_get_contents($file));
     }
 
-    public function loadLocalExtensionList(Hosting &$hosting) {
-        $extensionListFile = $hosting->getExtensionListPath();
-        if (is_null($extensionListFile)) return array();
+    public function loadLocalExtensionList() {
+        $extensionListFile = $this->getExtensionListPath();
         if ($json = file_get_contents($extensionListFile)) {
             return $this->loadJson($json);
         }
-        return false;
+        return array();
     }
 
-    public function fetchRemoteExtensionList(Hosting &$hosting, $branch = 'master', OptionResult $options = NULL) {
-        $url = $hosting->getRemoteExtensionListUrl($branch);
+    public function fetchRemoteExtensionList($branch = 'master', OptionResult $options = NULL) {
+        $url = $this->getRemoteExtensionListUrl($branch);
         if (is_null($url)) return array();
 
         if (extension_loaded('curl')) {
@@ -70,28 +105,25 @@ class ExtensionList
         } else {
             $json = file_get_contents($url);
         }
-        $localFilepath = $hosting->getExtensionListPath();
+        $localFilepath = $this->getExtensionListPath();
         if (false === file_put_contents($localFilepath, $json)) {
             throw new Exception("Can't store release json file");
         }
         return $this->loadJson($json);
     }
 
-    public function foundLocalExtensionList(Hosting &$hosting) {
-            $extensionListFile = $hosting->getExtensionListPath();
-            if (is_null($extensionListFile)) return true;
+    public function foundLocalExtensionList() {
+            $extensionListFile = $this->getExtensionListPath();
             return file_exists($extensionListFile);
     }
 
     public function initLocalExtensionList(Logger $logger, OptionResult $options)
     {
-        $hostings = Config::getSupportedHostings();
-        foreach ($hostings as $hosting) {
-            if (!$this->foundLocalExtensionList($hosting) || $options->update) {
-                $fetchTask = new FetchExtensionListTask($logger, $options);
-                $fetchTask->fetch($hosting, 'master');
-            }
+        if (!$this->foundLocalExtensionList() || $options->update) {
+            $fetchTask = new FetchExtensionListTask($logger, $options);
+            return $fetchTask->fetch($hosting, 'master');
         }
+        return array();
     }
 
     static public function getReadyInstance($branch = 'master', Logger $logger = NULL) {
@@ -101,14 +133,12 @@ class ExtensionList
         }
         $instance = new self;
 
-        $hostings = Config::getSupportedHostings();
-        foreach ($hostings as $hosting) {
-            if ($instance->foundLocalExtensionList($hosting)) {
-                $instance->loadLocalExtensionList($hosting);
-            } else {
-                $instance->fetchRemoteExtensionList($branch, $logger);
-            }
+        if ($instance->foundLocalExtensionList()) {
+            $instance->loadLocalExtensionList();
+        } else {
+            $instance->fetchRemoteExtensionList($branch, $logger);
         }
+
         return $instance;
     }
 
@@ -116,24 +146,26 @@ class ExtensionList
     {
 
         $packageName = NULL;
-        $hostings = Config::getSupportedHostings();
-        foreach ($hostings as $hosting) {
-            $extensions = array();
-            if ($this->foundLocalExtensionList($hosting)) {
-                $extensions = $this->loadLocalExtensionList($hosting);
-            }
-
-            if (isset($extensions[$extensionName])) {
-                $extensionUrl = $extensions[$extensionName]['url'];
-                $packageName = $extensionName;
-            } else {
-                $extensionUrl = $extensionName;
-            }
-
-            $isExists = $hosting->exists($extensionUrl, $packageName);
-            if ($isExists) return $hosting;
-
+        $extensions = array();
+        if ($this->foundLocalExtensionList()) {
+            $extensions = $this->loadLocalExtensionList();
         }
+
+        if (isset($extensions[$extensionName])) {
+            $providerName = $extensions[$extensionName]['provider'];
+            $provider = self::getProviderByName($providerName);
+
+            if($provider->exists($extensions[$extensionName]['url'], $packageName)) return $provider;
+
+        } else {
+
+            // determine which provider support this extension
+            $providers = self::getProviders();
+            foreach ($providers as $provider) {
+                if($provider->exists($extensionName)) return $provider;
+            }
+        }
+
         return false;
 
     }

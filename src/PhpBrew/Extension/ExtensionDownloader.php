@@ -4,6 +4,7 @@ use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
 use PhpBrew\Downloader;
+use PhpBrew\Extension\Provider\Provider;
 use PhpBrew\Utils;
 use PEARX;
 use CLIFramework\Logger;
@@ -31,11 +32,11 @@ class ExtensionDownloader
         return sprintf('https://%s/%s/%s/tarball/%s', $this->githubSite, $owner, $repos, $version);
     }
 
-    public function download(Hosting &$hosting, $version = 'stable')
+    public function download(Provider &$provider, $version = 'stable')
     {
-        $url = $hosting->buildPackageDownloadUrl($version);
+        $url = $provider->buildPackageDownloadUrl($version);
         $downloader = new Downloader\UrlDownloader($this->logger, $this->options);
-        $basename = $hosting->resolveDownloadFileName($version);
+        $basename = $provider->resolveDownloadFileName($version);
         $distDir = Config::getDistFileDir();
         $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
         $downloader->download($url, $targetFilePath);
@@ -44,15 +45,15 @@ class ExtensionDownloader
         $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
 
         // tar -C ~/.phpbrew/build/php-5.5.8/ext -xvf ~/.phpbrew/distfiles/memcache-2.2.7.tgz
-        $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $hosting->getPackageName();
+        $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $provider->getPackageName();
         if (!file_exists($extensionDir)) {
             mkdir($extensionDir, 0755, true);
         }
 
         $this->logger->info("===> Extracting to $currentPhpExtensionDirectory...");
 
-        $cmds = array_merge($hosting->extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath),
-            $hosting->postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath));
+        $cmds = array_merge($provider->extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath),
+            $provider->postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath));
 
         foreach($cmds as $cmd) {
             $this->logger->debug($cmd);
@@ -61,9 +62,9 @@ class ExtensionDownloader
         return $extensionDir;
     }
 
-    public function knownReleases(Hosting &$hosting)
+    public function knownReleases(Provider &$provider)
     {
-        $url = $hosting->buildKnownReleasesUrl();
+        $url = $provider->buildKnownReleasesUrl();
 
         if (extension_loaded('curl')) {
             $curlVersionInfo = curl_version();
@@ -88,7 +89,7 @@ class ExtensionDownloader
             $info = file_get_contents($url);
         }
 
-        return $hosting->parseKnownReleasesResponse($info);
+        return $provider->parseKnownReleasesResponse($info);
 
     }
 

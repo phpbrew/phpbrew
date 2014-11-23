@@ -43,7 +43,7 @@ class UpdateCommand extends \CLIFramework\Command
         $this->logger->info("\n");
         $extensionList = new ExtensionList;
 
-        $hostings = Config::getSupportedHostings();
+        $hostings = ExtensionList::getProviders();
         foreach ($hostings as $hosting) {
             $fetchTask = new FetchExtensionListTask($this->logger, $this->options);
             $extensions = $fetchTask->fetch($hosting, $branchName);
