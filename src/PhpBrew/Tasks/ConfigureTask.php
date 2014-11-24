@@ -71,7 +71,7 @@ class ConfigureTask extends BaseTask
             for ($i = 0; $i <= 16; $i++) {
                 ob_start();
                 system("patch -p$i --dry-run < $patchPath", $return);
-                ob_clean();
+                ob_end_clean();
 
                 if ($return === 0) {
                     system("patch -p$i < $patchPath");
