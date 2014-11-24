@@ -19,9 +19,8 @@ class ExtensionCommandTest extends CommandTestCase
      * @dataProvider extensionNameProvider
      */
     public function testExtInstallCommand($extensionName, $extensionVersion) {
-        ob_start();
-        $this->assertTrue($this->runCommand("phpbrew --quiet ext install $extensionName $extensionVersion"));
-        ob_end_clean();
+        $this->markTestSkipped("This test can not be run with (system) php");
+        $this->assertTrue($this->runCommandWithStdout("phpbrew ext install $extensionName $extensionVersion"));
     }
 
     /**
@@ -30,9 +29,7 @@ class ExtensionCommandTest extends CommandTestCase
      * @depends testExtInstallCommand
      */
     public function testExtShowCommand($extensionName, $extensionVersion) {
-        ob_start();
-        $this->assertTrue($this->runCommand("phpbrew --quiet ext show $extensionName"));
-        ob_end_clean();
+        $this->assertTrue($this->runCommandWithStdout("phpbrew ext show $extensionName"));
     }
 
 
@@ -43,9 +40,7 @@ class ExtensionCommandTest extends CommandTestCase
      * @depends testExtInstallCommand
      */
     public function testExtCleanCommand($extensionName, $extensionVersion) {
-        ob_start();
-        $this->assertTrue($this->runCommand("phpbrew --quiet ext clean $extensionName"));
-        ob_end_clean();
+        $this->assertTrue($this->runCommandWithStdout("phpbrew ext clean $extensionName"));
     }
 
     /**
@@ -53,9 +48,7 @@ class ExtensionCommandTest extends CommandTestCase
      * @depends testExtInstallCommand
      */
     public function testExtListCommand() {
-        ob_start();
-        $this->assertTrue($this->runCommand('phpbrew ext --show-path --show-options'));
-        ob_end_clean();
+        $this->assertTrue($this->runCommandWithStdout('phpbrew ext --show-path --show-options'));
     }
 
 
