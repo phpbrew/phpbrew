@@ -131,6 +131,10 @@ class InstallCommand extends BaseCommand
                         $ext = ExtensionFactory::lookup($extensionName);
                     }
 
+                    if ($ext) {
+                        $extensionDownloader->renameSourceDirectory($ext);
+                    }
+
                 }
 
             }

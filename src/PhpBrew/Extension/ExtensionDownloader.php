@@ -93,4 +93,34 @@ class ExtensionDownloader
 
     }
 
+    public function renameSourceDirectory (Extension &$ext)
+    {
+
+        $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+        $sourceDir = $ext->getSourceDirectory();
+        $extName = $ext->getExtensionName();
+        $name = $ext->getName();
+        $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $extName;
+
+        if ($name != $extName) {
+            $this->logger->info("===> Rename source directory to $extensionDir...");
+
+            $cmds = array(
+                "rm -rf $extensionDir",
+                "mv $sourceDir $extensionDir"
+            );
+
+            foreach($cmds as $cmd) {
+                $this->logger->debug($cmd);
+                Utils::system($cmd);
+            }
+
+            $ext->setSourceDirectory($extensionDir);
+            $ext->setName($extName);
+
+        }
+
+
+    }
+
 }
