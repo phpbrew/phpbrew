@@ -10,14 +10,13 @@ class PathCommandTest extends CommandTestCase
     public function argumentsProvider() {
 
         return array( 
-            array("build"),
-            array("ext-src"),
-            array("ext"),
-            array("include"),
-            array("etc"),
-            array("dist"),
-            array("root"),
-            array("home"),
+            array("build",   "#\.phpbrew/build/.+#"),
+            array("ext-src", "#\.phpbrew/build/.+/ext$#"),
+            array("include", "#\.phpbrew/php/.+/include$#"),
+            array("etc",     "#\.phpbrew/php/.+/etc$#"),
+            array("dist",    "#\.phpbrew/distfiles$#"),
+            array("root",    "#\.phpbrew$#"),
+            array("home",    "#\.phpbrew$#"),
         );
     }
 
@@ -25,9 +24,10 @@ class PathCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @dataProvider argumentsProvider
      */
-    public function testPathCommand($arg) {
+    public function testPathCommand($arg, $pattern) {
         ob_start();
-        $this->assertTrue($this->runCommand("phpbrew path $arg"));
-        ob_end_clean();
+        $this->runCommandWithStdout("phpbrew path $arg");
+        $path = ob_get_clean();
+        $this->assertRegExp($pattern, $path);
     }
 }
