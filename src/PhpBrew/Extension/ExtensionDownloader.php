@@ -32,7 +32,7 @@ class ExtensionDownloader
         return sprintf('https://%s/%s/%s/tarball/%s', $this->githubSite, $owner, $repos, $version);
     }
 
-    public function download(Provider &$provider, $version = 'stable')
+    public function download(Provider $provider, $version = 'stable')
     {
         $url = $provider->buildPackageDownloadUrl($version);
         $downloader = new Downloader\UrlDownloader($this->logger, $this->options);
@@ -62,7 +62,7 @@ class ExtensionDownloader
         return $extensionDir;
     }
 
-    public function knownReleases(Provider &$provider)
+    public function knownReleases(Provider $provider)
     {
         $url = $provider->buildKnownReleasesUrl();
 
@@ -93,7 +93,7 @@ class ExtensionDownloader
 
     }
 
-    public function renameSourceDirectory (Extension &$ext)
+    public function renameSourceDirectory (Extension $ext)
     {
 
         $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
