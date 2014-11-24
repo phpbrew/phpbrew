@@ -29,8 +29,6 @@ class KnownCommand extends \CLIFramework\Command
     {
 
         $extensionList = new ExtensionList;
-        // initial local list
-        $extensionList->initLocalExtensionList($this->logger, $this->options);
 
         $provider = $extensionList->exists($extensionName);
 

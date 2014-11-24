@@ -102,8 +102,6 @@ class InstallCommand extends BaseCommand
         }
 
         $extensionList = new ExtensionList;
-        // initial local list
-        $extensionList->initLocalExtensionList($this->logger, $this->options);
 
         $manager = new ExtensionManager($this->logger);
         foreach ($extensions as $extensionName => $extConfig) {

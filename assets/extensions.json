@@ -1,7 +1,0 @@
-{
-    "phalcon": {
-        "provider": "github",
-        "desc": "Phalcon is a web framework implemented as a C extension",
-        "url": "https://github.com/phalcon/cphalcon"
-    }
-}

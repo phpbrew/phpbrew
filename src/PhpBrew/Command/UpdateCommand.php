@@ -39,18 +39,5 @@ class UpdateCommand extends \CLIFramework\Command
         }
         $this->logger->info('===> Done');
 
-        // process extension list update
-        $this->logger->info("\n");
-        $extensionList = new ExtensionList;
-
-        $hostings = ExtensionList::getProviders();
-        foreach ($hostings as $hosting) {
-            $fetchTask = new FetchExtensionListTask($this->logger, $this->options);
-            $extensions = $fetchTask->fetch($hosting, $branchName);
-
-            $this->logger->writeln(count($extensions) .' '. $hosting->getName().' extensions');
-        }
-        $this->logger->info('===> Done');
-
     }
 }
