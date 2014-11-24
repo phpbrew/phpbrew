@@ -40,13 +40,13 @@ class UpdateCommand extends \CLIFramework\Command
         $this->logger->info('===> Done');
 
         // process github extension list update
-        $this->logger->info("\n");
-        $extensionList = new GithubExtensionList;
-        $fetchGithubTask = new FetchGithubExtensionListTask($this->logger, $this->options);
-        $githubExtensions = $fetchGithubTask->fetch($branchName);
+        // $this->logger->info("\n");
+        // $extensionList = new GithubExtensionList;
+        // $fetchGithubTask = new FetchGithubExtensionListTask($this->logger, $this->options);
+        // $githubExtensions = $fetchGithubTask->fetch($branchName);
 
-        $this->logger->writeln(count($extensionList) . ' github extensions');
-        $this->logger->info('===> Done');
+        // $this->logger->writeln(count($extensionList) . ' github extensions');
+        // $this->logger->info('===> Done');
 
     }
 }

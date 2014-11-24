@@ -19,7 +19,7 @@ class ExtensionCommandTest extends CommandTestCase
      * @dataProvider extensionNameProvider
      */
     public function testExtInstallCommand($extensionName, $extensionVersion) {
-        $this->markTestSkipped("This test can not be run with (system) php");
+        $this->markTestSkipped("This test can not be run against system php");
         $this->assertTrue($this->runCommandWithStdout("phpbrew ext install $extensionName $extensionVersion"));
     }
 
