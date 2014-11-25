@@ -59,17 +59,17 @@ class BitbucketProvider implements Provider {
         $matches = array();
 
         // check url scheme is bitbucket:owner/repos or bitbucket@owner/repos and convert to https
-        if (preg_match("#bitbucket[@:]([0-9a-zA-Z-.]*)/([0-9a-zA-Z-.]*)#", $url, $matches)) {
+        if (preg_match("#bitbucket:([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*)#", $url, $matches)) {
             $url = sprintf("https://bitbucket.org/%s/%s", $matches[1], $matches[2]);
         }
 
         // check url scheme is git@github.com and convert to https
-        if (preg_match("#git@bitbucket.org:([0-9a-zA-Z-.]*)/([0-9a-zA-Z-.]*).git#", $url, $matches)) {
+        if (preg_match("#git@bitbucket.org:([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*).git#", $url, $matches)) {
             $url = sprintf("https://bitbucket.org/%s/%s", $matches[1], $matches[2]);
         }
 
         // parse owner and repository
-        if (preg_match("#https://bitbucket.org/([0-9a-zA-Z-.]*)/([0-9a-zA-Z-.]*)#", $url, $matches)) {
+        if (preg_match("#https://bitbucket.org/([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*)#", $url, $matches)) {
             $this->setOwner($matches[1]);
             $this->setRepository($matches[2]);
             if ($packageName == NULL) $packageName = $matches[2];
