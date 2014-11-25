@@ -58,7 +58,7 @@ class BitbucketProvider implements Provider {
     {
         $matches = array();
 
-        // check url scheme is bitbucket:owner/repos or bitbucket@owner/repos and convert to https
+        // check url scheme is bitbucket:owner/repos and convert to https
         if (preg_match("#bitbucket:([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*)#", $url, $matches)) {
             $url = sprintf("https://bitbucket.org/%s/%s", $matches[1], $matches[2]);
         }

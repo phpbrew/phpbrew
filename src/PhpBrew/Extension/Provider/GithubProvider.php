@@ -58,7 +58,7 @@ class GithubProvider implements Provider {
     {
         $matches = array();
 
-        // check url scheme is github:owner/repos or github@owner/repos and convert to https
+        // check url scheme is github:owner/repos and convert to https
         if (preg_match("#github:([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*)#", $url, $matches)) {
             $url = sprintf("https://github.com/%s/%s", $matches[1], $matches[2]);
         }
