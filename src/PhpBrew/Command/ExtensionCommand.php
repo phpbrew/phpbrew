@@ -86,7 +86,7 @@ class ExtensionCommand extends BaseCommand
         $extensionNames = array();
 
         // some extension source not in root directory
-        $lookupDirectories = array('', 'ext/', 'extension/');
+        $lookupDirectories = array('', 'ext', 'extension');
 
         if (file_exists($extDir) && is_dir($extDir)) {
             $this->logger->debug("Scanning $extDir...");
@@ -95,19 +95,24 @@ class ExtensionCommand extends BaseCommand
                     continue;
                 }
                 $dir = $extDir . DIRECTORY_SEPARATOR . $extName;
-                if ($m4files = ExtensionFactory::configM4Exists($dir, $lookupDirectories)) {
-                    $this->logger->debug("Loading extension information $extName from $dir");
+                foreach ($lookupDirectories as $lookupDirectory) {
+                    $extensionDir = $dir . (empty($lookupDirectory) ? '' : DIRECTORY_SEPARATOR.$lookupDirectory);
+                    if ($m4files = ExtensionFactory::configM4Exists($extensionDir)) {
+                        $this->logger->debug("Loading extension information $extName from $extensionDir");
 
-                    foreach ($m4files as $m4file) {
-                        try {
-                            $ext = ExtensionFactory::createM4Extension($extName, $m4file);
-                            // $ext = ExtensionFactory::createFromDirectory($extName, $dir);
-                            $extensions[$ext->getExtensionName()] = $ext;
-                            $extensionNames[] = $extName;
-                            break;
-                        } catch(Exception $e) {
+                        foreach ($m4files as $m4file) {
+                            try {
+                                $ext = ExtensionFactory::createM4Extension($extName, $m4file);
+                                // $ext = ExtensionFactory::createFromDirectory($extName, $dir);
+                                $extensions[$ext->getExtensionName()] = $ext;
+                                $extensionNames[] = $extName;
+                                break;
+                            } catch(Exception $e) {
 
+                            }
                         }
+                        
+                        break;
                     }
                 }
             }

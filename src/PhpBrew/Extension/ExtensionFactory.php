@@ -19,24 +19,19 @@ class ExtensionFactory
      * One extension directory might contains multiple config*.m4 file, like 
      * memcache extension.
      */
-    static public function configM4Exists($extensionDir, $lookupDirectories = array(''))
+    static public function configM4Exists($extensionDir) 
     {
         $files = array();
-
-        foreach ($lookupDirectories as $subDir) {
-
-            $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . $subDir . 'config.m4';
+        $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . 'config.m4';
+        if (file_exists($configM4Path)) {
+            $files[] = $configM4Path;
+        }
+        for ($i = 0 ; $i < 10 ; $i++ ) {
+            $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . "config{$i}.m4";
             if (file_exists($configM4Path)) {
                 $files[] = $configM4Path;
             }
-            for ($i = 0 ; $i < 10 ; $i++ ) {
-                $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . $subDir . "config{$i}.m4";
-                if (file_exists($configM4Path)) {
-                    $files[] = $configM4Path;
-                }
-            }
         }
-
         return $files;
     }
 
