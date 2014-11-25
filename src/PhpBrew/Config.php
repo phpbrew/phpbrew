@@ -79,12 +79,6 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
     }
 
-    static public function getGithubExtensionListPath()
-    {
-        // Release list from github
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'github-extensions.json';
-    }
-
     /**
      * A build prefix is the prefix we specified when we install the PHP.
      *
@@ -226,4 +220,5 @@ class Config
             }
         }
     }
+
 }

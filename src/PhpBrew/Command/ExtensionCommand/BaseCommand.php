@@ -5,7 +5,6 @@ use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
-use PhpBrew\Extension\PeclExtensionDownloader;
 use PhpBrew\Utils;
 use GetOptionKit\OptionResult;
 

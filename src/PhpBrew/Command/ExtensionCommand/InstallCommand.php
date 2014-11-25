@@ -3,13 +3,11 @@ namespace PhpBrew\Command\ExtensionCommand;
 
 use Exception;
 use PhpBrew\Config;
+use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\GithubExtensionDownloader;
 use PhpBrew\Extension\PeclExtensionInstaller;
-use PhpBrew\Extension\PeclExtensionDownloader;
-use PhpBrew\GithubExtensionList;
-use PhpBrew\Tasks\FetchGithubExtensionListTask;
+use PhpBrew\ExtensionList;
 use PhpBrew\Utils;
 
 class InstallCommand extends BaseCommand
@@ -103,42 +101,40 @@ class InstallCommand extends BaseCommand
             $extensions[$extName] = $this->getExtConfig($args);
         }
 
-        // initial local list
-        $extensionList = new GithubExtensionList;
-
-        if (!$extensionList->foundLocalExtensionList() || $this->options->update) {
-            $fetchTask = new FetchGithubExtensionListTask($this->logger, $this->options);
-            $fetchTask->fetch('master');
-        }
+        $extensionList = new ExtensionList;
 
         $manager = new ExtensionManager($this->logger);
         foreach ($extensions as $extensionName => $extConfig) {
 
-            $githubExtension = $extensionList->exists($extensionName);
+            $provider = $extensionList->exists($extensionName);
 
-            if ($githubExtension) $extensionName = $githubExtension['name'];
+            if ($provider) $extensionName = $provider->getPackageName();
 
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
             // Extension not found, use pecl to download it.
             if (!$ext) {
 
-                if ($githubExtension) {
+                if ($provider) {
 
-                    // not every github project has stable branch, using master as default version
+                    // not every project has stable branch, using master as default version
                     $args = array_slice(func_get_args(), 1);
-                    if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = 'master';
-                    $githubDownloader = new GithubExtensionDownloader($this->logger, $this->options);
-                    $githubDownloader->download($githubExtension['owner'], $githubExtension['repository'], $extensionName, $extConfig->version);
+                    if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = $provider->getDefaultVersion();
+
+                    $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
+                    $extensionDownloader->download($provider, $extConfig->version);
 
                     // Reload the extension
-                    $ext = ExtensionFactory::lookupRecursive($extensionName);
-                } else {
-                    $peclDownloader = new PeclExtensionDownloader($this->logger, $this->options);
-                    $peclDownloader->download($extensionName, $extConfig->version);
+                    if ($provider->shouldLookupRecursive()) {
+                        $ext = ExtensionFactory::lookupRecursive($extensionName);
+                    } else {
+                        $ext = ExtensionFactory::lookup($extensionName);
+                    }
 
-                    // Reload the extension
-                    $ext = ExtensionFactory::lookup($extensionName);
+                    if ($ext) {
+                        $extensionDownloader->renameSourceDirectory($ext);
+                    }
+
                 }
 
             }
