@@ -97,17 +97,17 @@ class ExtensionDownloader
     {
 
         $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
-        $sourceDir = $ext->getSourceDirectory();
         $extName = $ext->getExtensionName();
         $name = $ext->getName();
         $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $extName;
+        $extensionExtractDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $name;
 
         if ($name != $extName) {
             $this->logger->info("===> Rename source directory to $extensionDir...");
 
             $cmds = array(
                 "rm -rf $extensionDir",
-                "mv $sourceDir $extensionDir"
+                "mv $extensionExtractDir $extensionDir"
             );
 
             foreach($cmds as $cmd) {
@@ -115,11 +115,12 @@ class ExtensionDownloader
                 Utils::system($cmd);
             }
 
-            $ext->setSourceDirectory($extensionDir);
+            // replace source directory to new source directory
+            $sourceDir = str_replace($extensionExtractDir, $extensionDir, $ext->getSourceDirectory());
+            $ext->setSourceDirectory($sourceDir);
             $ext->setName($extName);
 
         }
-
 
     }
 
