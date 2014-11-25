@@ -85,6 +85,9 @@ class ExtensionCommand extends BaseCommand
         $extensions = array();
         $extensionNames = array();
 
+        // some extension source not in root directory
+        $lookupDirectories = array('', 'ext/', 'extension/');
+
         if (file_exists($extDir) && is_dir($extDir)) {
             $this->logger->debug("Scanning $extDir...");
             foreach( scandir($extDir) as $extName) {
@@ -92,7 +95,7 @@ class ExtensionCommand extends BaseCommand
                     continue;
                 }
                 $dir = $extDir . DIRECTORY_SEPARATOR . $extName;
-                if ($m4files = ExtensionFactory::configM4Exists($dir)) {
+                if ($m4files = ExtensionFactory::configM4Exists($dir, $lookupDirectories)) {
                     $this->logger->debug("Loading extension information $extName from $dir");
 
                     foreach ($m4files as $m4file) {
