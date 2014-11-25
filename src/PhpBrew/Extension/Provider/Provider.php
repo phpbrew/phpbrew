@@ -24,4 +24,4 @@ interface Provider {
 
     public function extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath);
     public function postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath);
-} 
+}

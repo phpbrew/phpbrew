@@ -119,4 +119,4 @@ class BitbucketProvider implements Provider {
         return $cmds;
     }
 
-} 
+}
