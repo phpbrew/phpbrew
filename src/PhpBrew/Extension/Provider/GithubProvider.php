@@ -54,33 +54,16 @@ class GithubProvider implements Provider {
         $this->packageName = $packageName;
     }
 
-    public function exists($url, $packageName = NULL)
+    public function exists($dsl, $packageName = NULL)
     {
-        $matches = array();
+        $dslparser = new RepositoryDslParser();
+        $info = $dslparser->parse($dsl);
 
-        // check url scheme is github:owner/repos and convert to https
-        if (preg_match("#github:([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*)#", $url, $matches)) {
-            $url = sprintf("https://github.com/%s/%s", $matches[1], $matches[2]);
-        }
+        $this->setOwner($info['owner']);
+        $this->setRepository($info['package']);
+        $this->setPackageName($packageName ?: $info['package']);
 
-        // check url scheme is git@github.com and convert to https
-        if (preg_match("#git@github.com:([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*).git#", $url, $matches)) {
-            $url = sprintf("https://github.com/%s/%s", $matches[1], $matches[2]);
-        }
-
-        // parse owner and repository
-        if (preg_match("#https://github.com/([0-9a-zA-Z-._]*)/([0-9a-zA-Z-._]*)#", $url, $matches)) {
-            $this->setOwner($matches[1]);
-            $this->setRepository($matches[2]);
-            if ($packageName == NULL) $packageName = $matches[2];
-            $this->setPackageName($packageName);
-            return true;
-        }else {
-            $this->setOwner(NULL);
-            $this->setRepository(NULL);
-            $this->setPackageName(NULL);
-            return false;
-        }
+        return $info['repository'] == 'github';
     }
 
     public function buildKnownReleasesUrl()
