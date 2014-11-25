@@ -12,7 +12,7 @@ class PhpBrew
         $console = new Console;
         array_unshift($args, 'phpbrew');
         $console->run($args);
-        if($buffer) return ob_end_clean();
+        if($buffer) return ob_get_clean();
     }
 
     public static function getCleanPath()
