@@ -465,7 +465,10 @@ function _phpbrewrc_load ()
         while :
         do
             prev_fs=$curr_fs
-            curr_fs=$(stat -c %d .)
+            curr_fs=$(stat -c %d . 2>/dev/null)  # GNU version
+            if [ $? -ne 0 ]; then
+                curr_fs=$(stat -f %d . 2>/dev/null)  # BSD version
+            fi
 
             # check if top level directory or filesystem boundary is reached
             if [ "$PWD" == '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
