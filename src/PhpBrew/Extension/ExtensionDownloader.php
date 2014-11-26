@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Extension;
+use PhpBrew\Console;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
@@ -72,7 +73,8 @@ class ExtensionDownloader
             $downloader = new CurlDownloader;
             $downloader->setProgressHandler(new ProgressBar);
 
-            if (! $this->options || ($this->options && ! $this->options->{'no-progress'}) ) {
+            $console = Console::getInstance();
+            if (! $console->options->{'no-progress'}) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
 
