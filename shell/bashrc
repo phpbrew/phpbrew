@@ -351,7 +351,7 @@ function __phpbrew_set_path ()
     [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
     if [[ -n $PHPBREW_ROOT ]] ; then
-        export PATH_WITHOUT_PHPBREW=$(perl -e 'print join ":", grep { index($_,$ENV{PHPBREW_ROOT}) } split/:/,$ENV{PATH};')
+        export PATH_WITHOUT_PHPBREW=$(php -r 'echo implode(":", array_filter(explode(":", getenv("PATH")), function($p){ return (strpos($p, getenv("PHPBREW_ROOT"))===false); }));')
     fi
 
     if [[ -z "$PHPBREW_PATH" ]]
