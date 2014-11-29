@@ -103,7 +103,8 @@ class ReleaseList
             $downloader = new CurlDownloader;
             $downloader->setProgressHandler(new ProgressBar);
 
-            if (! $options || ($options && ! $options->{'no-progress'}) ) {
+            $console = Console::getInstance();
+            if (! $console->options->{'no-progress'}) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
 

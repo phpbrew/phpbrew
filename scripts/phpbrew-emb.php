@@ -1,5 +1,5 @@
 <?php
-$console = new PhpBrew\Console;
+$console = PhpBrew\Console::getInstance();
 if (isset($argv)) {
     if (!$console->runWithTry($argv)) {
         exit(-1);

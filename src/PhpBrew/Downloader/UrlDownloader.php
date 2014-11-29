@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Downloader;
+use PhpBrew\Console;
 use RuntimeException;
 use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
@@ -39,7 +40,8 @@ class UrlDownloader
                 $downloader->setProxyAuth($proxyAuth);
             }
 
-            if (! $this->options->{'no-progress'} && $this->logger->getLevel() > 2) {
+            $console = Console::getInstance();
+            if (! $console->options->{'no-progress'} && $this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
             $binary = $downloader->request($url);
