@@ -11,6 +11,29 @@
 # PHPBREW_PHP:  the current php version.
 # PHPBREW_PATH: the bin path of the current php.
 
+
+# export alias for bourne shell compatibility.
+# From PR https://github.com/fish-shell/fish-shell/pull/1833
+if not functions --query export
+  function export --description 'Set global variable. Alias for set -g, made for bash compatibility'
+          if test -z "$argv"
+             set
+             return 0
+          end
+          for arg in $argv
+              set -l v (echo $arg|tr '=' \n)
+              set -l c (count $v)
+              switch $c
+                      case 1
+                              set -gx $v $$v
+                      case 2
+                              set -gx $v[1] $v[2]
+              end
+          end
+  end
+end
+
+
 [ -z "$PHPBREW_HOME" ]; and set -gx PHPBREW_HOME "$HOME/.phpbrew"
 
 function __phpbrew_load_user_config
@@ -111,7 +134,7 @@ function phpbrew
                     if [ -z "$code" ]
                         set exit_status 1
                     else
-                        eval (echo "$code" | sed 's/export/\;setenv/g' | sed 's/=/ /g')
+                        eval $code
                         __phpbrew_set_path
                     end
                 else
@@ -283,14 +306,14 @@ function phpbrew
         case off
             set -e PHPBREW_PHP
             set -e PHPBREW_PATH
-            eval (eval $BIN env | sed 's/export/\;setenv/g' | sed 's/=/ /g')
+            eval (eval $BIN env)
             __phpbrew_set_path
             echo "phpbrew is turned off."
 
         case switch-off
             set -e PHPBREW_PHP
             set -e PHPBREW_PATH
-            eval (eval $BIN env | sed 's/export/\;setenv/g' | sed 's/=/ /g')
+            eval (eval $BIN env)
             __phpbrew_set_path
             __phpbrew_reinit
             echo "phpbrew is switched off."
