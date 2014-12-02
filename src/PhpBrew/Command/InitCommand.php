@@ -60,12 +60,18 @@ class InitCommand extends \CLIFramework\Command
 
         // write bashrc script to phpbrew home
         file_put_contents($home . '/bashrc' , $this->getBashScript());
+        // write phpbrew.fish script to phpbrew home
+        file_put_contents($home . '/phpbrew.fish' , $this->getFishScript());
 
-        echo <<<EOS
-Phpbrew environment is initialized, required directories are created under
+        if (strpos(getenv("SHELL"), "fish") !== false)  {
+            $initConfig = <<<EOS
+Paste the following line(s) to the end of your ~/.config/fish/config.fish and start a
+new shell, phpbrew should be up and fully functional from there:
 
-    $home
-
+    source $home/phpbrew.fish
+EOS;
+        }else {
+            $initConfig = <<<EOS
 Paste the following line(s) to the end of your ~/.bashrc and start a
 new shell, phpbrew should be up and fully functional from there:
 
@@ -75,6 +81,15 @@ To enable PHP version info in your shell prompt, please set PHPBREW_SET_PROMPT=1
 in your `~/.bashrc` before you source `~/.phpbrew/bashrc`
 
     export PHPBREW_SET_PROMPT=1
+EOS;
+        }
+
+        echo <<<EOS
+Phpbrew environment is initialized, required directories are created under
+
+    $home
+
+$initConfig
 
 For further instructions, simply run `phpbrew` to see the help message.
 
@@ -89,5 +104,11 @@ EOS;
     {
         $path = Phar::running() ?: __DIR__ . '/../../../shell';
         return file_get_contents($path . '/bashrc');
+    }
+
+    public function getFishScript()
+    {
+        $path = Phar::running() ?: __DIR__ . '/../../../shell';
+        return file_get_contents($path . '/phpbrew.fish');
     }
 }
