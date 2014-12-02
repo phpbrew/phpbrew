@@ -517,11 +517,20 @@ function __fish_phpbrew_using_command
 end
 
 function __fish_phpbrew_known_version
- phpbrew known | grep -v 'You can run' | sed 's/ //g'| sed 's/\.\.\.//g'| cut -d ':' -f 2| tr ',' \n
+    if [ -e bin/phpbrew ]
+       command bin/phpbrew known | grep -v 'You can run' | sed 's/ //g'| sed 's/\.\.\.//g'| cut -d ':' -f 2| tr ',' \n
+    else
+       command phpbrew known | grep -v 'You can run' | sed 's/ //g'| sed 's/\.\.\.//g'| cut -d ':' -f 2| tr ',' \n
+    end
 end
 
 function __fish_phpbrew_installed_version
-    phpbrew list | cut -d '-' -f 2 | sed 's/ //g'
+    if [ -e bin/phpbrew ]
+        command bin/phpbrew list | cut -d '-' -f 2 | sed 's/ //g'
+    else
+        command phpbrew list | cut -d '-' -f 2 | sed 's/ //g'
+    end
+
 end
 
 
