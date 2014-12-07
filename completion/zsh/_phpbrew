@@ -146,7 +146,7 @@ local ret=1
               '--mirror=[Use specified mirror site. phpbrew will download the files from \[mirror\]/distributions/*]' \
               '--post-clean[Run make clean after the installation.]' \
               '--production[Use production configuration file. this installer will copy the php-production.ini into the etc directory.]' \
-              '--build-dir=[Specify the build directory. the distribution tarball will be extracted to the directory you specified instead of $PHPBREW_ROOT/build/{version}.]:dir:_directories' \
+              '--build-dir=[Specify the build directory. the distribution tarball will be extracted to the directory you specified instead of $PHPBREW_ROOT/build/{name}.]:dir:_directories' \
               '--no-clean[Do not clean previously compiled objects before building PHP. By default phpbrew will run `make clean` before runnign the configure script to ensure everything is cleaned up.]' \
               '--no-patch[Do not apply any patch]' \
               '--no-configure[Do not run configure script]' \
