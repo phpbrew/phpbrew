@@ -8,7 +8,8 @@ use PhpBrew\Extension\Extension;
 /**
  * ExtensionTest
  *
- * @group group
+ * @large
+ * @group extension
  */
 class ExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -92,7 +93,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider extensionNameProvider
      */
     public function testGenericExtensionMetaInformation($extName) {
-        $ext = ExtensionFactory::lookup('xhprof', array(self::EXTENSION_DIR));
+        $ext = ExtensionFactory::lookup($extName, array(self::EXTENSION_DIR));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertNotEmpty($ext->getName());
     }

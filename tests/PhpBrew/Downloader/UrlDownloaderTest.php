@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @group slow
+ * @large
  */
 class UrlDownloaderTest extends PHPUnit_Framework_TestCase
 {

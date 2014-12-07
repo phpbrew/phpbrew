@@ -1,7 +1,9 @@
 <?php
 namespace PhpBrew\Command;
 use PhpBrew\Config;
+use PhpBrew\ExtensionList;
 use PhpBrew\ReleaseList;
+use PhpBrew\Tasks\FetchExtensionListTask;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
 class UpdateCommand extends \CLIFramework\Command
@@ -36,5 +38,6 @@ class UpdateCommand extends \CLIFramework\Command
                 . count($versionList) . ' releases');
         }
         $this->logger->info('===> Done');
+
     }
 }

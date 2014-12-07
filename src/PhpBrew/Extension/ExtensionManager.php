@@ -1,10 +1,12 @@
 <?php
 namespace PhpBrew\Extension;
+
+use Exception;
 use CLIFramework\Logger;
-// use PhpBrew\Extension;
 use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\ExtensionInstaller;
 use PhpBrew\Utils;
+use PhpBrew\Config;
 
 class ExtensionManager
 {
@@ -29,8 +31,11 @@ class ExtensionManager
     public function purgeExtension(Extension $ext)
     {
         if ($sourceDir = $ext->getSourceDirectory()) {
-            if (file_exists($sourceDir)) {
-                Utils::system("rm -rvf $sourceDir");
+            $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+            $extName = $ext->getExtensionName();
+            $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $extName;
+            if (file_exists($extensionDir)) {
+                Utils::system("rm -rvf $extensionDir");
             }
         }
     }
@@ -103,14 +108,27 @@ class ExtensionManager
 
 
     public function disable($extensionName) {
-        if ($ext = ExtensionFactory::lookup($extensionName)) {
+        $ext = ExtensionFactory::lookup($extensionName);
+        if (!$ext) {
+            $ext = ExtensionFactory::lookupRecursive($extensionName);
+        }
+        if ($ext) {
             return $this->disableExtension($ext);
+        } else {
+            $this->logger->info("{$extensionName} extension is not installed. ");
         }
     }
     
     public function enable($extensionName) {
         $ext = ExtensionFactory::lookup($extensionName);
-        return $this->enableExtension($ext);
+        if (!$ext) {
+            $ext = ExtensionFactory::lookupRecursive($extensionName);
+        }
+        if ($ext) {
+            return $this->enableExtension($ext);
+        } else {
+            $this->logger->info("{$extensionName} extension is not installed. ");
+        }
     }
 
 

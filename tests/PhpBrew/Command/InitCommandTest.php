@@ -1,6 +1,10 @@
 <?php
 use PhpBrew\Testing\CommandTestCase;
 
+/**
+ * @large
+ * @group command
+ */
 class InitCommandTest extends CommandTestCase
 {
     /**

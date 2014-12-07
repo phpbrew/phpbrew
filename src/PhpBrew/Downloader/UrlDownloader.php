@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Downloader;
-use Exception;
+use PhpBrew\Console;
 use RuntimeException;
 use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
@@ -24,7 +24,7 @@ class UrlDownloader
      *
      * @return bool|string
      *
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function download($url, $targetFilePath)
     {
@@ -40,7 +40,8 @@ class UrlDownloader
                 $downloader->setProxyAuth($proxyAuth);
             }
 
-            if (! $this->options->{'no-progress'} && $this->logger->getLevel() > 2) {
+            $console = Console::getInstance();
+            if (! $console->options->{'no-progress'} && $this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
             $binary = $downloader->request($url);
@@ -53,9 +54,13 @@ class UrlDownloader
             // check for wget or curl for downloading the php source archive
             // TODO: use findbin
             if (exec('command -v wget')) {
-                system('wget --no-check-certificate -c -O ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
+                if(system('wget --no-check-certificate -c -O ' . $targetFilePath . ' ' . $url) !== false){
+                    throw new RuntimeException("Download failed.\n");
+                }
             } elseif (exec('command -v curl')) {
-                system('curl -C - -L -o ' . $targetFilePath . ' ' . $url) !== false or die("Download failed.\n");
+                if(system('curl -C - -L -o ' . $targetFilePath . ' ' . $url) !== false){
+                    throw new RuntimeException("Download failed.\n");
+                }
             } else {
                 throw new RuntimeException("Download failed - neither wget nor curl was found");
             }

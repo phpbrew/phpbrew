@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use RuntimeException;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\VariantBuilder;
@@ -26,17 +27,15 @@ class ConfigureTask extends BaseTask
 
     public function configure(Build $build)
     {
-        $root        = Config::getPhpbrewRoot();
-        $buildDir    = Config::getBuildDir();
-
         $variantBuilder = new VariantBuilder;
         $extra = $build->getExtraOptions();
 
         if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running buildconf script...");
             $lastline = system('./buildconf');
-            if ($lastline !== false)
-                die("buildconf error: $lastline");
+            if ($lastline !== false) {
+                throw new RuntimeException("buildconf error: $lastline", 1);
+            }
         }
 
         $prefix = $build->getInstallPrefix();
@@ -72,7 +71,7 @@ class ConfigureTask extends BaseTask
             for ($i = 0; $i <= 16; $i++) {
                 ob_start();
                 system("patch -p$i --dry-run < $patchPath", $return);
-                ob_clean();
+                ob_end_clean();
 
                 if ($return === 0) {
                     system("patch -p$i < $patchPath");
@@ -121,7 +120,8 @@ class ConfigureTask extends BaseTask
         if (!$this->options->dryrun) {
             $code = $cmd->execute();
             if ($code != 0)
-                die("Configure failed. $code");
+                throw new RuntimeException("Configure failed. $code", 1);
+                
         }
 
         if (!$this->options->{'no-patch'}) {

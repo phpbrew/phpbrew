@@ -5,8 +5,6 @@ use PhpBrew\Config;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\ReleaseList;
-use PhpBrew\Utils;
-use PhpBrew\Build;
 use CLIFramework\Command;
 
 class DownloadCommand extends Command

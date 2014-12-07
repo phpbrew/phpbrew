@@ -1,14 +1,9 @@
 <?php
 namespace PhpBrew\Extension;
-use PEARX;
 use CLIFramework\Logger;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
 use PhpBrew\Config;
 use PhpBrew\Utils;
-use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionResult;
-use Exception;
 
 class ExtensionInstaller
 {

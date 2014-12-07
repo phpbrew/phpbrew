@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 use Exception;
+use RuntimeException;
 use CLIFramework\Command;
 
 class SelfUpdateCommand extends Command
@@ -27,7 +28,10 @@ class SelfUpdateCommand extends Command
         // fetch new version phpbrew
         $this->logger->info("Updating phpbrew $script from $branch...");
         $url = "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/phpbrew";
-        system("curl -# -L $url > $script") == 0 or die('Update failed.');
+        $code = system("curl -# -L $url > $script");
+        if(! $code == 0) {
+            throw new RuntimeException("Update Failed", 1);
+        }
 
         $this->logger->info("Version updated.");
         system($script . ' init');

@@ -2,7 +2,6 @@
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
-use PhpBrew\Build;
 use PhpBrew\CommandBuilder;
 
 class CtagsCommand extends \CLIFramework\Command

@@ -1,15 +1,18 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+
+use Exception;
 use PhpBrew\Config;
+use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
-use PhpBrew\Extension\PeclExtensionDownloader;
+use PhpBrew\ExtensionList;
 use PhpBrew\Utils;
-use GetOptionKit\OptionResult;
 
 class InstallCommand extends BaseCommand
 {
+
     public function usage()
     {
         return 'phpbrew [-dv, -r] ext install [extension name] [-- [options....]]';
@@ -66,7 +69,7 @@ class InstallCommand extends BaseCommand
 
     public function execute($extName, $version = 'stable')
     {
-        if (preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName) ) {
+        if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github.com#", $extName) ) {
             $pathinfo = pathinfo($extName);
             $repoUrl = $extName;
             $extName = $pathinfo['filename'];
@@ -98,17 +101,42 @@ class InstallCommand extends BaseCommand
             $extensions[$extName] = $this->getExtConfig($args);
         }
 
+        $extensionList = new ExtensionList;
+
         $manager = new ExtensionManager($this->logger);
         foreach ($extensions as $extensionName => $extConfig) {
+
+            $provider = $extensionList->exists($extensionName);
+
+            if ($provider) $extensionName = $provider->getPackageName();
+
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
             // Extension not found, use pecl to download it.
             if (!$ext) {
-                $peclDownloader = new PeclExtensionDownloader($this->logger, $this->options);
-                $peclDownloader->download($extensionName, $extConfig->version);
 
-                // Reload the extension
-                $ext = ExtensionFactory::lookup($extensionName);
+                if ($provider) {
+
+                    // not every project has stable branch, using master as default version
+                    $args = array_slice(func_get_args(), 1);
+                    if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = $provider->getDefaultVersion();
+
+                    $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
+                    $extensionDownloader->download($provider, $extConfig->version);
+
+                    // Reload the extension
+                    if ($provider->shouldLookupRecursive()) {
+                        $ext = ExtensionFactory::lookupRecursive($extensionName);
+                    } else {
+                        $ext = ExtensionFactory::lookup($extensionName);
+                    }
+
+                    if ($ext) {
+                        $extensionDownloader->renameSourceDirectory($ext);
+                    }
+
+                }
+
             }
             if (!$ext) {
                 throw new Exception("$extensionName not found.");

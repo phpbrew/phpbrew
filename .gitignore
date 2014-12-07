@@ -4,3 +4,4 @@ build/
 .onion
 composer.lock
 .phpbrew
+tags

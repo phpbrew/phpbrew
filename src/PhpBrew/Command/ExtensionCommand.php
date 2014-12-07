@@ -2,16 +2,9 @@
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
-use PhpBrew\Utils;
 use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\Extension;
-use CLIFramework\Command;
-use GetOptionKit\OptionCollection;
-use FilesystemIterator;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use Exception;
 use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
@@ -23,7 +16,7 @@ class ExtensionCommand extends BaseCommand
 
     public function usage()
     {
-        return 'phpbrew ext [install|enable|disable|config]';
+        return 'phpbrew ext [install|enable|disable|config|known]';
     }
 
     public function brief()
@@ -39,6 +32,7 @@ class ExtensionCommand extends BaseCommand
         $this->command('config');
         $this->command('clean');
         $this->command('show');
+        $this->command('known');
     }
 
     /**
@@ -91,6 +85,9 @@ class ExtensionCommand extends BaseCommand
         $extensions = array();
         $extensionNames = array();
 
+        // some extension source not in root directory
+        $lookupDirectories = array('', 'ext', 'extension');
+
         if (file_exists($extDir) && is_dir($extDir)) {
             $this->logger->debug("Scanning $extDir...");
             foreach( scandir($extDir) as $extName) {
@@ -98,19 +95,24 @@ class ExtensionCommand extends BaseCommand
                     continue;
                 }
                 $dir = $extDir . DIRECTORY_SEPARATOR . $extName;
-                if ($m4files = ExtensionFactory::configM4Exists($dir)) {
-                    $this->logger->debug("Loading extension information $extName from $dir");
+                foreach ($lookupDirectories as $lookupDirectory) {
+                    $extensionDir = $dir . (empty($lookupDirectory) ? '' : DIRECTORY_SEPARATOR.$lookupDirectory);
+                    if ($m4files = ExtensionFactory::configM4Exists($extensionDir)) {
+                        $this->logger->debug("Loading extension information $extName from $extensionDir");
 
-                    foreach ($m4files as $m4file) {
-                        try {
-                            $ext = ExtensionFactory::createM4Extension($extName, $m4file);
-                            // $ext = ExtensionFactory::createFromDirectory($extName, $dir);
-                            $extensions[$ext->getExtensionName()] = $ext;
-                            $extensionNames[] = $extName;
-                            break;
-                        } catch(Exception $e) {
+                        foreach ($m4files as $m4file) {
+                            try {
+                                $ext = ExtensionFactory::createM4Extension($extName, $m4file);
+                                // $ext = ExtensionFactory::createFromDirectory($extName, $dir);
+                                $extensions[$ext->getExtensionName()] = $ext;
+                                $extensionNames[] = $extName;
+                                break;
+                            } catch(Exception $e) {
 
+                            }
                         }
+                        
+                        break;
                     }
                 }
             }

@@ -46,6 +46,11 @@ class Extension
         $this->extensionName = strtolower($name);
     }
 
+    public function setName($name)
+    {
+        return $this->name = $name;
+    }
+
     public function getName()
     {
         return $this->name;
@@ -101,8 +106,6 @@ class Extension
 
         if ($configM4File = $this->findConfigM4File($dir)) {
             $this->configM4File = $configM4File;
-        } else {
-            throw new Exception("config[0-9]?.m4 file not found in $dir");
         }
     }
 

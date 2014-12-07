@@ -28,12 +28,12 @@ fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
+[[ -z "$PHPBREW_VERSION_REGEX" ]] && export PHPBREW_VERSION_REGEX="^([[:digit:]]+\.){2}[[:digit:]]+$"
 
 [[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
 [[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
 
 [[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
-
 
 
 function __wget_as ()
@@ -108,7 +108,7 @@ function phpbrew ()
                     echo "Currently using $PHPBREW_PHP"
                 fi
             else
-                if [[ $2 =~ ^([[:digit:]]+\.){2}[[:digit:]]+$ ]]
+                if [[ ! -d "$PHPBREW_ROOT/php/$2" && $2 =~ $PHPBREW_VERSION_REGEX ]]
                 then
                     _PHP_VERSION="php-$2"
                 else
@@ -351,7 +351,8 @@ function __phpbrew_set_path ()
     [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
     if [[ -n $PHPBREW_ROOT ]] ; then
-        export PATH_WITHOUT_PHPBREW=$(perl -e 'print join ":", grep { index($_,$ENV{PHPBREW_ROOT}) } split/:/,$ENV{PATH};')
+        export PATH_WITHOUT_PHPBREW=$(IFS=":"; AR=(); for i in $PATH ; do [[ `expr "$i" : "$PHPBREW_ROOT"` -eq 0 ]] && AR+=($i); done; echo "${AR[*]}";)
+
     fi
 
     if [[ -z "$PHPBREW_PATH" ]]
@@ -366,7 +367,7 @@ function __phpbrew_set_path ()
 function __phpbrew_update_config ()
 {
     local VERSION
-    if [[ $2 =~ ^([[:digit:]]+\.){2}[[:digit:]]+$ ]]
+    if [[ ! -d "$PHPBREW_ROOT/php/$1" && $1 =~ $PHPBREW_VERSION_REGEX ]]
     then
         VERSION="php-$1"
     else
@@ -465,7 +466,10 @@ function _phpbrewrc_load ()
         while :
         do
             prev_fs=$curr_fs
-            curr_fs=$(stat -c %d .)
+            curr_fs=$(stat -c %d . 2>/dev/null)  # GNU version
+            if [ $? -ne 0 ]; then
+                curr_fs=$(stat -f %d . 2>/dev/null)  # BSD version
+            fi
 
             # check if top level directory or filesystem boundary is reached
             if [ "$PWD" == '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
