@@ -17,15 +17,14 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPhpbrewHomeWhenHOMEIsNotDefined()
     {
-        $env = array('PHPBREW_HOME' => null, 'HOME' => null);
-        $this->withEnv($env, function() {
+        $this->withEnv(array(), function() {
             PhpBrew\Config::getPhpbrewHome();
         });
     }
 
     public function testGetPhpbrewHomeWhenHOMEIsDefined()
     {
-        $env = array('PHPBREW_HOME' => null, 'HOME' => '/home/phpbrew');
+        $env = array('HOME' => '/home/phpbrew');
         $this->withEnv($env, function() {
             is('/home/phpbrew/.phpbrew', PhpBrew\Config::getPhpbrewHome());
         });
@@ -49,7 +48,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetPhpbrewRootWhenHOMEIsDefined()
     {
-        $env = array('PHPBREW_ROOT' => null, 'HOME' => '/home/phpbrew');
+        $env = array('HOME' => '/home/phpbrew');
         $this->withEnv($env, function() {
             is('/home/phpbrew/.phpbrew', PhpBrew\Config::getPhpbrewRoot());
         });
@@ -57,7 +56,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetVariants()
     {
-        $env = array('PHPBREW_HOME' => '/home/phpbrew/home', 'PHPBREW_ROOT' => '/home/phpbrew/root');
+        $env = array(
+            'PHPBREW_HOME' => '/home/phpbrew/home',
+            'PHPBREW_ROOT' => '/home/phpbrew/root'
+        );
         $this->withEnv($env, function() {
             is('/home/phpbrew/home/variants', PhpBrew\Config::getVariantsDir());
         });
@@ -65,7 +67,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetBuildDir()
     {
-        $env = array('PHPBREW_HOME' => '/home/phpbrew/home', 'PHPBREW_ROOT' => '/home/phpbrew/root');
+        $env = array(
+            'PHPBREW_HOME' => '/home/phpbrew/home',
+            'PHPBREW_ROOT' => '/home/phpbrew/root'
+        );
         $this->withEnv($env, function() {
             is('/home/phpbrew/root/build', PhpBrew\Config::getBuildDir());
         });
@@ -144,9 +149,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     {
         $env = array(
             'PHPBREW_ROOT' => '/home/phpbrew/root',
+            'PHPBREW_PHP'  => '5.5.1'
         );
         $this->withEnv($env, function() {
-            is('/home/phpbrew/root/php//bin/php-config', PhpBrew\Config::getCurrentPhpConfigBin());
+            is('/home/phpbrew/root/php/5.5.1/bin/php-config', PhpBrew\Config::getCurrentPhpConfigBin());
         });
     }
 
@@ -154,9 +160,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     {
         $env = array(
             'PHPBREW_ROOT' => '/home/phpbrew/root',
+            'PHPBREW_PHP'  => '5.5.1'
         );
         $this->withEnv($env, function() {
-            is('/home/phpbrew/root/php//bin/phpize', PhpBrew\Config::getCurrentPhpizeBin());
+            is('/home/phpbrew/root/php/5.5.1/bin/phpize', PhpBrew\Config::getCurrentPhpizeBin());
         });
     }
 
@@ -164,9 +171,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     {
         $env = array(
             'PHPBREW_ROOT' => '/home/phpbrew/root',
+            'PHPBREW_PHP'  => '5.5.1'
         );
         $this->withEnv($env, function() {
-            is('/home/phpbrew/root/php/', PhpBrew\Config::getCurrentPhpDir());
+            is('/home/phpbrew/root/php/5.5.1', PhpBrew\Config::getCurrentPhpDir());
         });
     }
 
@@ -192,28 +200,41 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function withEnv($newEnv, $callback)
     {
-        $oldEnv = array();
-        foreach ($newEnv as $key => $value) {
-            $oldEnv[$key] = getenv($key);
-            if (is_null($value)) {
-                ok(putenv($key));
-            } else {
-                ok(putenv("$key=$value"));
-            }
-        }
-
-        $cleanup = function() use($oldEnv) {
-            foreach ($oldEnv as $key => $value) {
-                ok(putenv("$key=$value"));
-            }
-        };
+        // reset environment variables
+        $oldEnv = $this->resetEnv($newEnv + array(
+            'HOME'                  => null,
+            'PHPBREW_HOME'          => null,
+            'PHPBREW_PATH'          => null,
+            'PHPBREW_PHP'           => null,
+            'PHPBREW_ROOT'          => null,
+            'PHPBREW_LOOKUP_PREFIX' => null
+        ));
 
         try {
             $callback();
-            $cleanup();
+            $this->resetEnv($oldEnv);
         } catch (\Exception $e) {
-            $cleanup();
+            $this->resetEnv($oldEnv);
             throw $e;
+        }
+    }
+
+    public function resetEnv($env)
+    {
+        $oldEnv = array();
+        foreach ($env as $key => $value) {
+            $oldEnv[$key] = getenv($key);
+            $this->putEnv($key, $value);
+        }
+        return $oldEnv;
+    }
+
+    public function putEnv($key, $value)
+    {
+        if (is_null($value)) {
+            ok(putenv($key));
+        } else {
+            ok(putenv("$key=$value"));
         }
     }
 }
