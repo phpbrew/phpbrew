@@ -460,13 +460,12 @@ export PHPBREW_SET_PROMPT=1
 ```
 
 To embed version info in your prompt, you can use
-`current_php_version` shell function, which is defined in `.phpbrew/bashrc`.
+`phpbrew_current_php_version` shell function, which is defined in `.phpbrew/bashrc`.
 and you can set the version info in your `PS1` var.
 e.g.
 
 ```bash
-PHP_VERSION=$(current_php_version)
-PS1=" $PHP_VERSION \$ "
+PS1=" \$(phpbrew_current_php_version) \$ "
 ```
 
 Known Issues
