@@ -3,6 +3,7 @@ namespace PhpBrew\Extension;
 use CLIFramework\Logger;
 use PhpBrew\Config;
 use PhpBrew\Utils;
+use PhpBrew\Tasks\MakeTask;
 use GetOptionKit\OptionResult;
 
 class ExtensionInstaller
@@ -11,22 +12,32 @@ class ExtensionInstaller
 
     public $options;
 
+    private $clean;
+
     public function __construct(Logger $logger, OptionResult $options = NULL)
     {
         $this->logger = $logger;
         $this->options = $options ?: new \GetOptionKit\OptionResult;
+        $this->clean = new MakeTask($this->logger, $this->options);
+        $this->clean->setQuiet();
     }
 
     public function install(Extension $ext, array $configureOptions = array()) {
         $sourceDir = $ext->getSourceDirectory();
         $pwd = getcwd();
-
         $buildLogPath = $sourceDir . DIRECTORY_SEPARATOR . 'build.log';
+        $make = new MakeTask($this->logger, $this->options);
+
+        $make->setBuildLogPath($buildLogPath);
 
         $this->logger->info("Log stored at: $buildLogPath");
 
         $this->logger->info("Changing directory to $sourceDir");
         chdir($sourceDir);
+
+        if (!$this->options->{'no-clean'}) {
+            $this->clean->clean($ext);
+        }
 
         if ($ext->getConfigM4File() !== "config.m4" && ! file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4') ) {
             symlink($ext->getConfigM4File(), $sourceDir . DIRECTORY_SEPARATOR . 'config.m4');
@@ -58,20 +69,20 @@ class ExtensionInstaller
         Utils::system($cmd, $this->logger);
 
         $this->logger->info("===> Building...");
-        $cmd = array("make", "-C", $sourceDir);
-        if (!$this->logger->isDebug()) {
-            $cmd[] = " >> $buildLogPath 2>&1";
+
+        if ($this->logger->isDebug()) {
+            passthru('make');
+        } else {
+            $make->run($ext);
         }
-        $ret = Utils::system($cmd, $this->logger);
 
         $this->logger->info("===> Installing...");
 
-        // TODO: use Make task
         // This function is disabled when PHP is running in safe mode.
         if ($this->logger->isDebug()) {
             passthru('make install');
         } else {
-            Utils::system('make install', $this->logger);
+            $make->install($ext);
         }
 
         // TODO: use getSharedLibraryPath()
