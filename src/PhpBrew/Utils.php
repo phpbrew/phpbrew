@@ -257,7 +257,7 @@ class Utils
 
     public static function pipeExecute($command)
     {
-        proc_open(
+        $proc = proc_open(
             $command,
             array(
                 array("pipe","r"), // stdin
