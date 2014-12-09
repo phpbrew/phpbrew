@@ -28,4 +28,17 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         ok(Utils::findBin('ls'));
         ok(Utils::findBin('psql'));
     }
+
+    public function testSystemReturnValueWhenSuccess()
+    {
+        $this->assertSame(0, Utils::system('true'));
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testSystemShouldThrowAnException()
+    {
+        Utils::system('false');
+    }
 }
