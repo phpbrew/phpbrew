@@ -12,16 +12,19 @@ class Apxs2CheckTask extends BaseTask
     {
         $apxs = $build->getVariant('apxs2');
 
-        if (!$apxs) {
+        // trying to find apxs binary in case it wasn't explicitly specified (+apxs variant without path)
+        if ($apxs === true) {
             $apxs = Utils::findbin('apxs');
+            $this->logger->debug("Found apxs2 binary: $apxs");
         }
 
-        $this->logger->debug("Found apxs2 sbin: $apxs");
+        if (!is_executable($apxs)) {
+            throw new Exception("apxs binary is not executable: $apxs");
+        }
 
         // use apxs to check module dir permission
         if ($apxs && $libdir = trim(Utils::pipeExecute("$apxs -q LIBEXECDIR"))) {
             if (false === is_writable($libdir)) {
-                $msg = array();
                 throw new Exception("Apache module dir $libdir is not writable.\nPlease consider using chmod or sudo.");
             }
         }
