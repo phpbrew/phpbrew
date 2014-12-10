@@ -12,13 +12,14 @@ class Apxs2CheckTask extends BaseTask
     {
         $apxs = $build->getVariant('apxs2');
 
+        // trying to find apxs binary in case it wasn't explicitly specified (+apxs variant without path)
         if ($apxs === true) {
             $apxs = Utils::findbin('apxs');
             $this->logger->debug("Found apxs2 binary: $apxs");
         }
 
         if (!is_executable($apxs)) {
-            throw new Exception("apxs binary is not executable");
+            throw new Exception("apxs binary is not executable: $apxs");
         }
 
         // use apxs to check module dir permission
