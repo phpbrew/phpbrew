@@ -19,14 +19,15 @@ class Apxs2PatchTask extends BaseTask
 perl -i.bak -pe 's#
 libphp\$\(PHP_MAJOR_VERSION\)\.#libphp\$\(PHP_VERSION\)\.#gx' configure Makefile.global
 EOS;
-        if(Utils::system($patch) !== false) $this->fail();
+
+        if(Utils::system($patch) !== 0) $this->fail();
 
         $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libs/libphp\$PHP_MAJOR_VERSION\.
 #libs/libphp\$PHP_VERSION\.#gx' configure Makefile.global
 EOS;
-        if(Utils::system($patch) !== false) $this->fail();
+        if(Utils::system($patch) !== 0) $this->fail();
 
         // replace .so files
         $patch=<<<'EOS'
@@ -34,7 +35,7 @@ perl -i.bak -pe 's#
 libs/libphp5.so
 #libs/libphp\$PHP_VERSION\.so#gx' configure Makefile.global
 EOS;
-        if(Utils::system($patch) !== false) $this->fail();
+        if(Utils::system($patch) !== 0) $this->fail();
 
         // patch for OVERALL_TARGET=libphp$PHP_MAJOR_VERSION.la
         // libphp$(PHP_VERSION).la:
@@ -44,13 +45,13 @@ perl -i.bak -pe 's#
 libs/libphp5.la
 #libs/libphp\$PHP_VERSION\.la#gx' configure Makefile.global
 EOS;
-        if(Utils::system($patch) !== false) $this->fail();
+        if(Utils::system($patch) !== 0) $this->fail();
 
         $patch=<<<'EOS'
 perl -i.bak -pe 's#
 libphp\$PHP_MAJOR_VERSION\.#libphp\$PHP_VERSION\.#gx' configure Makefile.global
 EOS;
-        if(Utils::system($patch) !== false) $this->fail();
+        if(Utils::system($patch) !== 0) $this->fail();
     }
 
     public function fail()
