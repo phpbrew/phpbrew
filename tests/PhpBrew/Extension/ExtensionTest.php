@@ -13,16 +13,13 @@ use PhpBrew\Extension\Extension;
  */
 class ExtensionTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
-     * We use constant because in data provider method the path member is not 
-     * setup yet.
+     * We use getenv to get the path of extension directory because in data provider method
+     * the path member is not setup yet.
      */
-    const EXTENSION_DIR = 'tests/fixtures/ext';
-
     public function testXdebug()
     {
-        $ext = ExtensionFactory::lookup('xdebug', array(self::EXTENSION_DIR));
+        $ext = ExtensionFactory::lookup('xdebug', array(getenv('PHPBREW_EXTENSION_DIR')));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertInstanceOf('PhpBrew\Extension\PeclExtension', $ext);
         $this->assertEquals('xdebug', $ext->getName());
@@ -33,7 +30,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOpcache()
     {
-        $ext = ExtensionFactory::lookup('opcache', array(self::EXTENSION_DIR));
+        $ext = ExtensionFactory::lookup('opcache', array(getenv('PHPBREW_EXTENSION_DIR')));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertInstanceOf('PhpBrew\Extension\M4Extension', $ext);
         $this->assertEquals('opcache', $ext->getName());
@@ -44,7 +41,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOpenSSL()
     {
-        $ext = ExtensionFactory::lookup('openssl', array(self::EXTENSION_DIR));
+        $ext = ExtensionFactory::lookup('openssl', array(getenv('PHPBREW_EXTENSION_DIR')));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertInstanceOf('PhpBrew\Extension\M4Extension', $ext);
         $this->assertEquals('openssl', $ext->getName());
@@ -55,7 +52,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testSoap()
     {
-        $ext = ExtensionFactory::lookup('soap', array(self::EXTENSION_DIR));
+        $ext = ExtensionFactory::lookup('soap', array(getenv('PHPBREW_EXTENSION_DIR')));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertInstanceOf('PhpBrew\Extension\PeclExtension', $ext);
         $this->assertEquals('soap', $ext->getName());
@@ -66,7 +63,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testXhprof()
     {
-        $ext = ExtensionFactory::lookup('xhprof', array(self::EXTENSION_DIR));
+        $ext = ExtensionFactory::lookup('xhprof', array(getenv('PHPBREW_EXTENSION_DIR')));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertInstanceOf('PhpBrew\Extension\PeclExtension', $ext);
         $this->assertEquals('xhprof', $ext->getName());
@@ -76,7 +73,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     public function extensionNameProvider() {
-        $extNames = scandir(self::EXTENSION_DIR);
+        $extNames = scandir(getenv('PHPBREW_EXTENSION_DIR'));
         $data = array();
 
         foreach( $extNames as $extName) {
@@ -93,7 +90,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider extensionNameProvider
      */
     public function testGenericExtensionMetaInformation($extName) {
-        $ext = ExtensionFactory::lookup($extName, array(self::EXTENSION_DIR));
+        $ext = ExtensionFactory::lookup($extName, array(getenv('PHPBREW_EXTENSION_DIR')));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertNotEmpty($ext->getName());
     }

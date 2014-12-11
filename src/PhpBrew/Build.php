@@ -4,13 +4,14 @@ use PhpBrew\Version;
 use Exception;
 use Serializable;
 use PhpBrew\Utils;
+use PhpBrew\Buildable;
 
 /**
  * A build object contains version information,
  * variant configuration,
  * paths and an build identifier (BuildId)
  */
-class Build implements Serializable
+class Build implements Serializable, Buildable
 {
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;

@@ -8,6 +8,7 @@
     <php>
         <env name="PHPBREW_ROOT" value=".phpbrew"/>
         <env name="PHPBREW_HOME" value=".phpbrew"/>
+        <env name="PHPBREW_EXTENSION_DIR" value="tests/fixtures/ext"/>
     </php>
 
     <testsuites>

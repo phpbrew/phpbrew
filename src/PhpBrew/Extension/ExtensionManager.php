@@ -7,6 +7,7 @@ use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\ExtensionInstaller;
 use PhpBrew\Utils;
 use PhpBrew\Config;
+use PhpBrew\Tasks\MakeTask;
 
 class ExtensionManager
 {
@@ -48,9 +49,12 @@ class ExtensionManager
                 $this->logger->error("$sourceDir does not exists.");
                 return false;
             }
-            // TODO: reuse the MakeTask
-            Utils::system("make -C $sourceDir clean");
+            $make = new MakeTask($this->logger);
+            $make->setQuiet();
+            return $make->clean($ext);
         }
+        $this->logger->error("$sourceDir is not defined.");
+        return false;
     }
 
     /**
