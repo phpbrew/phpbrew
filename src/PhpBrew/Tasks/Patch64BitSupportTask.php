@@ -3,6 +3,7 @@ namespace PhpBrew\Tasks;
 
 use PhpBrew\Build;
 use PhpBrew\Utils;
+use PhpBrew\Patch\PatchCollection;
 
 class Patch64BitSupportTask extends BaseTask
 {
@@ -23,11 +24,11 @@ class Patch64BitSupportTask extends BaseTask
             $this->info("===> Applying patch file for php5.3.x on 64bit machine.");
 
             if (!$this->options->dryrun) {
-                $this->logger->debug('sed -i.bak \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
-                system('sed -i.bak \'/^BUILD_/ s/\$(CC)/\$(CXX)/g\' Makefile');
-
-                $this->logger->debug('sed -i.bak \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
-                system('sed -i.bak \'/EXTRA_LIBS = /s|$| -lstdc++|\' Makefile');
+                $patches = PatchCollection::createPatchesFor64BitSupport($this->logger, $build);
+                foreach ($patches as $patch) {
+                    $patch->enableBackup();
+                    $patch->apply();
+                }
             }
         }
     }

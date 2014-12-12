@@ -24,3 +24,4 @@ Sort alphabatically:
 * rado-h
 * shelling
 * ujihisa
+* Shinya Yamaoka
