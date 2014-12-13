@@ -7,7 +7,7 @@ use PhpBrew\VariantParser;
 use PhpBrew\VariantBuilder;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
-use PhpBrew\Tasks\MakeCleanTask;
+use PhpBrew\Tasks\MakeTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\ExtractTask;
 use PhpBrew\Tasks\ConfigureTask;
@@ -156,6 +156,8 @@ class InstallCommand extends Command
         $distUrl = NULL;
         $versionInfo = array();
         $releaseList = ReleaseList::getReadyInstance();
+        $clean = new MakeTask($this->logger, $this->options);
+        $clean->setQuiet();
 
         if (preg_match('#https?://#',$version)) {
             $distUrl = $version;
@@ -336,7 +338,6 @@ class InstallCommand extends Command
         if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile') ) {
             $this->logger->info("Found existing Makefile, running make clean to ensure everything will be rebuilt.");
             $this->logger->info("You can append --no-clean option after the install command if you don't want to rebuild.");
-            $clean = new MakeCleanTask($this->logger, $this->options);
             $clean->clean($build);
         }
 
@@ -348,11 +349,6 @@ class InstallCommand extends Command
         $this->logger->debug("Writing variant info to $variantInfoFile");
         if ( false === $build->writeVariantInfoFile($variantInfoFile)) {
             $this->logger->warn("Can't store variant info.");
-        }
-
-        if ($this->options->clean) {
-            $clean = new MakeCleanTask($this->logger, $this->options);
-            $clean->clean($build);
         }
 
         $buildLogFile = $build->getBuildLogPath();
@@ -383,7 +379,6 @@ class InstallCommand extends Command
         }
 
         if ($this->options->{'post-clean'}) {
-            $clean = new MakeCleanTask($this->logger, $this->options);
             $clean->clean($build);
         }
 

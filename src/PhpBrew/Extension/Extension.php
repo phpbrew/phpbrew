@@ -1,9 +1,10 @@
 <?php
 namespace PhpBrew\Extension;
 use PhpBrew\Config;
+use PhpBrew\Buildable;
 use Exception;
 
-class Extension
+class Extension implements Buildable
 {
 
     /**

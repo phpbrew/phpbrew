@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\Command;
 
-use PhpBrew\Tasks\CleanTask;
+use PhpBrew\Tasks\MakeTask;
 use PhpBrew\Build;
 use PhpBrew\Config;
 
@@ -41,9 +41,10 @@ class CleanCommand extends Command
                 Utils::recursive_unlink($buildDir, $this->logger);
             }
         } else {
-            $clean = new CleanTask($this->logger);
+            $make = new MakeTask($this->logger);
+            $make->setQuiet();
             $build = new Build($version);
-            if ($clean->clean($build)) {
+            if ($make->clean($build)) {
                 $this->logger->info("Distribution is cleaned up. Woof! ");
             }
         }
