@@ -1,5 +1,6 @@
 <?php
 use PhpBrew\Testing\CommandTestCase;
+use PhpBrew\Machine;
 
 /**
  * @large
@@ -22,7 +23,9 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testInstallCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.35 +default +intl"));
+        $processorNumber = Machine::getInstance()->detectProcessorNumber();
+        $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
+        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs 5.4.35 +default +intl"));
         $this->assertListContains("5.4.35");
     }
 
@@ -49,7 +52,9 @@ class InstallCommandTest extends CommandTestCase
      * @depends testInstallCommand
      */
     public function testInstallLikeCommand() {
-        $this->assertTrue($this->runCommand("phpbrew --quiet install 5.4.35 as myphp +soap"));
+        $processorNumber = Machine::getInstance()->detectProcessorNumber();
+        $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
+        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs 5.4.35 as myphp +soap"));
         $this->assertListContains("myphp");
     }
 
