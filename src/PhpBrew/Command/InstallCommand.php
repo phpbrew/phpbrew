@@ -149,6 +149,7 @@ class InstallCommand extends Command
         $opts->add('j|jobs:', 'Specifies the number of jobs to run build simultaneously (make -jN).')
             ->valueName('concurrent job number')
             ;
+        $opts->add('stdout', 'Outputs install logs to stdout.');
     }
 
     public function execute($version)

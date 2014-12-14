@@ -22,6 +22,7 @@ class BuildTask extends BaseTask
 
         $cmd->setAppendLog(true);
         $cmd->setLogPath($build->getBuildLogPath());
+        $cmd->setStdout($this->options->{'stdout'});
 
         if (!empty($targets)) {
             foreach($targets as $t) {
