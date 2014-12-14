@@ -5,6 +5,7 @@ use Exception;
 use Serializable;
 use PhpBrew\Utils;
 use PhpBrew\Buildable;
+use PhpBrew\BuildSettings\BuildSettings;
 
 /**
  * A build object contains version information,
@@ -61,20 +62,12 @@ class Build implements Serializable, Buildable
     {
         $this->version = $version;
         $this->name = $name ? $name : Utils::canonicalizeBuildName($version);
-        $this->settings = new BuildSettings;
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);
-            // TODO: in future, we only stores build meta information, and that
-            // also contains the variant info,
-            // but for backward compatibility, we still need a method to handle
-            // the variant info file..
-            $variantFile = $installPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants';
-            if (file_exists($variantFile)) {
-                $this->settings->loadVariantInfoFile($variantFile);
-            }
         } else {
             // TODO: find the install prefix automatically
         }
+        $this->setBuildSettings(new BuildSettings());
     }
 
     public function setName($name)
@@ -209,6 +202,22 @@ class Build implements Serializable, Buildable
     public function getSourceExtensionDirectory()
     {
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
+    }
+
+    public function setBuildSettings(BuildSettings $settings)
+    {
+        $this->settings = $settings;
+        if (!$this->getInstallPrefix()) {
+            return;
+        }
+        // TODO: in future, we only stores build meta information, and that
+        // also contains the variant info,
+        // but for backward compatibility, we still need a method to handle
+        // the variant info file..
+        $variantFile = $this->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        if (file_exists($variantFile)) {
+            $this->settings->loadVariantInfoFile($variantFile);
+        }
     }
 
     public function __set_state($data)
