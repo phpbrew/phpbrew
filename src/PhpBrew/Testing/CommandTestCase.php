@@ -5,18 +5,30 @@ use PhpBrew\Console;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
+    private $previousPhpBrewRoot;
+    private $previousPhpBrewHome;
 
-    public function setupApplication() {
+    public function setupApplication()
+    {
         $console = Console::getInstance();
         $console->getLogger()->setQuiet();
         $console->getFormatter()->preferRawOutput();
         return $console;
     }
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
+        $this->previousPhpBrewRoot = getenv('PHPBREW_ROOT');
+        $this->previousPhpBrewHome = getenv('PHPBREW_HOME');
         putenv('PHPBREW_ROOT=' . getcwd() . '/tests/.phpbrew');
         putenv('PHPBREW_HOME=' . getcwd() . '/tests/.phpbrew');
+    }
+
+    public function tearDown()
+    {
+        putenv('PHPBREW_ROOT=' . $this->previousPhpBrewRoot);
+        putenv('PHPBREW_HOME=' . $this->previousPhpBrewHome);
     }
 
     public function runCommand($args)
