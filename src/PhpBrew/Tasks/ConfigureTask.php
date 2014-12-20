@@ -106,6 +106,7 @@ class ConfigureTask extends BaseTask
         $this->info("===> Configuring {$build->version}...");
         $cmd->setAppendLog(true);
         $cmd->setLogPath($buildLogPath);
+        $cmd->setStdout($this->options->{'stdout'});
 
         $this->logger->info("\n");
         $this->logger->info("Use tail command to see what's going on:");

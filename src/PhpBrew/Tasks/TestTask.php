@@ -21,6 +21,7 @@ class TestTask extends BaseTask
 
         $cmd->setAppendLog(true);
         $cmd->setLogPath($build->getBuildLogPath());
+        $cmd->setStdout($this->options->{'stdout'});
 
         $this->debug('' .  $cmd);
         $code = $cmd->execute();

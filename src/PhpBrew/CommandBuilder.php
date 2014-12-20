@@ -65,6 +65,11 @@ class CommandBuilder
         return $this->getCommand();
     }
 
+    public function setStdout($stdout = true)
+    {
+        $this->stdout = $stdout;
+    }
+
     public function setAppendLog($append = true)
     {
         $this->append = $append;
@@ -93,13 +98,16 @@ class CommandBuilder
         }
 
         // redirect stderr to stdout and pipe to the file.
-        if ($this->stdout || $this->logPath) {
+        if ($this->stdout && $this->logPath) {
+            $cmd[] = '| tee';
             if ($this->append) {
-                $cmd[] = '>>';
-            } else {
-                $cmd[] = '>';
+                $cmd[] = '--append';
             }
-            $cmd[] = $this->stdout ?: $this->logPath;
+            $cmd[] = $this->logPath;
+            $cmd[] = '2>&1';
+        } elseif ($this->logPath) {
+            $cmd[] = $this->append ? '>>' : '>';
+            $cmd[] = $this->logPath;
             $cmd[] = '2>&1';
         }
         return join(' ', $cmd);

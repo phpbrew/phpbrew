@@ -16,6 +16,7 @@ class InstallTask extends BaseTask
         $cmd = new CommandBuilder('make install');
         $cmd->setAppendLog(true);
         $cmd->setLogPath($build->getBuildLogPath());
+        $cmd->setStdout($this->options->{'stdout'});
         if (!$this->options->dryrun) {
             $code = $cmd->execute();
             if ($code != 0) {
