@@ -151,6 +151,44 @@ class ReleaseList
         return $instance;
     }
 
+    static public function fetchFromOfficialSite() {
+        $raw = file_get_contents('http://php.net/releases/index.php?serialize=1&version=5&max=100');
+        $obj = unserialize($raw);
+        $releaseVersions = array();
+        foreach($obj as $k => $v) {
+            if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
+                list($o, $major, $minor) = $matches;
+                $release = array( 'version' => $k );
+                if (isset($v['announcement']['English'])) {
+                    $release['announcement'] = 'http://php.net' . $v['announcement']['English'];
+                }
+
+                if (isset($v['date'])) {
+                    $release['date'] = $v['date'];
+                }
+                foreach ($v['source'] as $source) {
+                    if (isset($source['filename']) && preg_match('/\.tar\.bz2$/', $source['filename'])) {
+                        $release['filename'] = $source['filename'];
+                        $release['md5']      = $source['md5'];
+                        $release['name']     = $source['name'];
+                        if (isset($source['date'])) {
+                            $release['date']     = $source['date'];
+                        }
+                    }
+                }
+                $releaseVersions["$major.$minor"][$k] = $release;
+            }
+        }
+
+
+        foreach($releaseVersions as $key => & $versions) {
+            uksort($releaseVersions[$key],function($a, $b) {
+                return version_compare($b, $a);
+            });
+        }
+        return $releaseVersions;
+    }
+
 }
 
 
