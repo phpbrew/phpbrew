@@ -8,6 +8,8 @@ use PhpBrew\Config;
 use Exception;
 use RuntimeException;
 
+defined('JSON_UNESCAPED_SLASHES') || define('JSON_UNESCAPED_SLASHES', 0);
+
 class ReleaseList
 {
 
@@ -127,6 +129,14 @@ class ReleaseList
         return $this->loadJson($json);
     }
 
+    public function save() {
+        $localFilepath = Config::getPHPReleaseListPath();
+        $json = json_encode($this->releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        if (false === file_put_contents($localFilepath, $json)) {
+            throw new Exception("Can't store release json file");
+        }
+    }
+
     public function foundLocalReleaseList() {
         $releaseListFile = Config::getPHPReleaseListPath();
         return file_exists($releaseListFile);
@@ -137,12 +147,21 @@ class ReleaseList
         return $this->releases;
     }
 
-    static public function getReadyInstance($branch = 'master', Logger $logger = NULL) {
+    static public function getReadyInstance($branch = 'master', Logger $logger = NULL, $offical = false) {
         static $instance;
+
         if ($instance) {
             return $instance;
         }
+
         $instance = new self;
+
+        if ($offical) {
+            $releases = self::buildReleaseListFromOfficialSite();
+            $instance->setReleases($releases);
+            return $instance;
+        }
+
         if ($instance->foundLocalReleaseList()) {
             $instance->loadLocalReleaseList();
         } else {
@@ -151,7 +170,7 @@ class ReleaseList
         return $instance;
     }
 
-    static public function fetchFromOfficialSite() {
+    static public function buildReleaseListFromOfficialSite() {
         $raw = file_get_contents('http://php.net/releases/index.php?serialize=1&version=5&max=100');
         $obj = unserialize($raw);
         $releaseVersions = array();
