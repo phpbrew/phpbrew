@@ -101,8 +101,8 @@ class Utils
         $multiArchs = array(
             'lib/lib64',
             'lib/lib32',
-            'lib', // CentOS
             'lib64', // Linux Fedora
+            'lib', // CentOS
             'lib/ia64-linux-gnu', // Linux IA-64
             'lib/x86_64-linux-gnu', // Linux x86_64
             'lib/x86_64-kfreebsd-gnu', // FreeBSD
