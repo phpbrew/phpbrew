@@ -8,6 +8,8 @@ use PhpBrew\Config;
 use Exception;
 use RuntimeException;
 
+defined('JSON_UNESCAPED_SLASHES') || define('JSON_UNESCAPED_SLASHES', 0);
+
 class ReleaseList
 {
 
@@ -127,6 +129,14 @@ class ReleaseList
         return $this->loadJson($json);
     }
 
+    public function save() {
+        $localFilepath = Config::getPHPReleaseListPath();
+        $json = json_encode($this->releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        if (false === file_put_contents($localFilepath, $json)) {
+            throw new Exception("Can't store release json file");
+        }
+    }
+
     public function foundLocalReleaseList() {
         $releaseListFile = Config::getPHPReleaseListPath();
         return file_exists($releaseListFile);
@@ -137,18 +147,65 @@ class ReleaseList
         return $this->releases;
     }
 
-    static public function getReadyInstance($branch = 'master', Logger $logger = NULL) {
+    static public function getReadyInstance($branch = 'master', Logger $logger = NULL, $offical = false) {
         static $instance;
+
         if ($instance) {
             return $instance;
         }
+
         $instance = new self;
+
+        if ($offical) {
+            $releases = self::buildReleaseListFromOfficialSite();
+            $instance->setReleases($releases);
+            return $instance;
+        }
+
         if ($instance->foundLocalReleaseList()) {
             $instance->loadLocalReleaseList();
         } else {
             $instance->fetchRemoteReleaseList($branch, $logger);
         }
         return $instance;
+    }
+
+    static public function buildReleaseListFromOfficialSite() {
+        $raw = file_get_contents('http://php.net/releases/index.php?serialize=1&version=5&max=100');
+        $obj = unserialize($raw);
+        $releaseVersions = array();
+        foreach($obj as $k => $v) {
+            if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
+                list($o, $major, $minor) = $matches;
+                $release = array( 'version' => $k );
+                if (isset($v['announcement']['English'])) {
+                    $release['announcement'] = 'http://php.net' . $v['announcement']['English'];
+                }
+
+                if (isset($v['date'])) {
+                    $release['date'] = $v['date'];
+                }
+                foreach ($v['source'] as $source) {
+                    if (isset($source['filename']) && preg_match('/\.tar\.bz2$/', $source['filename'])) {
+                        $release['filename'] = $source['filename'];
+                        $release['md5']      = $source['md5'];
+                        $release['name']     = $source['name'];
+                        if (isset($source['date'])) {
+                            $release['date']     = $source['date'];
+                        }
+                    }
+                }
+                $releaseVersions["$major.$minor"][$k] = $release;
+            }
+        }
+
+
+        foreach($releaseVersions as $key => & $versions) {
+            uksort($releaseVersions[$key],function($a, $b) {
+                return version_compare($b, $a);
+            });
+        }
+        return $releaseVersions;
     }
 
 }

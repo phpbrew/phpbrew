@@ -1,7 +1,7 @@
 PHPBrew
 ==========
 
-[![Build Status][t-badge]][t-link]
+[![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
@@ -460,13 +460,12 @@ export PHPBREW_SET_PROMPT=1
 ```
 
 To embed version info in your prompt, you can use
-`current_php_version` shell function, which is defined in `.phpbrew/bashrc`.
+`phpbrew_current_php_version` shell function, which is defined in `.phpbrew/bashrc`.
 and you can set the version info in your `PS1` var.
 e.g.
 
 ```bash
-PHP_VERSION=$(current_php_version)
-PS1=" $PHP_VERSION \$ "
+PS1=" \$(phpbrew_current_php_version) \$ "
 ```
 
 Known Issues
@@ -530,5 +529,4 @@ See LICENSE file.
 [s-link]: https://scrutinizer-ci.com/g/phpbrew/phpbrew/?branch=master "Code Quality"
 [p-link]: https://packagist.org/packages/marc/phpbrew "Packagist"
 [sl-link]: https://insight.sensiolabs.com/projects/02d1fd01-8a70-4fe4-a550-381a3c0e33f3 "Sensiolabs Insight"
-[t-badge]: https://travis-ci.org/phpbrew/phpbrew.png?branch=master
 [c-badge]: https://coveralls.io/repos/phpbrew/phpbrew/badge.png?branch=master

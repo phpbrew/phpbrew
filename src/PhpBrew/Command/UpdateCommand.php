@@ -22,13 +22,23 @@ class UpdateCommand extends \CLIFramework\Command
         $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
             ->valueName('user:pass')
             ;
+
+        $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
     }
 
     public function execute($branchName = 'master')
     {
         $releaseList = new ReleaseList;
-        $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
-        $releases = $fetchTask->fetch($branchName);
+        $releases = array();
+
+        if ($this->options->official) {
+            $releases = ReleaseList::buildReleaseListFromOfficialSite();
+            $releaseList->setReleases($releases);
+            $releaseList->save();
+        } else {
+            $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
+            $releases = $fetchTask->fetch($branchName);
+        }
         foreach($releases as $majorVersion => $versions) {
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
                 continue;
