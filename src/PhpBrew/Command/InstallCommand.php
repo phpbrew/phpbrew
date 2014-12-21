@@ -17,6 +17,7 @@ use PhpBrew\Tasks\TestTask;
 use CLIFramework\ValueCollection;
 use PhpBrew\Build;
 use PhpBrew\ReleaseList;
+use PhpBrew\BuildSettings\DefaultBuildSettings;
 use CLIFramework\Command;
 
 /*
@@ -253,34 +254,7 @@ class InstallCommand extends Command
 
         // assume +default variant if no build config is given and warn about that
         if (!$variantInfo['enabled_variants']) {
-            // TODO: Move this to DefaultBuildSettings class
-            $build->enableVariants(array(
-                'bcmath' => true,
-                'bz2' => true,
-                'calendar' => true,
-                'cli' => true,
-                'ctype' => true,
-                'dom' => true,
-                'fileinfo' => true,
-                'filter' => true,
-                'ipc' => true,
-                'json' => true,
-                'mbregex' => true,
-                'mbstring' => true,
-                'mhash' => true,
-                'pcntl' => true,
-                'pcre' => true,
-                'pdo' => true,
-                'phar' => true,
-                'posix' => true,
-                'readline' => true,
-                'sockets' => true,
-                'tokenizer' => true,
-                'xml' => true,
-                'curl' => true,
-                'zip' => true,
-                'openssl' => 'yes',
-            ));
+            $build->setBuildSettings(new DefaultBuildSettings());
             $this->logger->notice("You haven't set any variant. A default set of extensions will be installed for the minimum requirement:");
             $this->logger->notice('[' . implode(', ', array_keys($build->getVariants())) . ']');
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");

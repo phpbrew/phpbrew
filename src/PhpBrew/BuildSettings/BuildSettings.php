@@ -1,5 +1,5 @@
 <?php
-namespace PhpBrew;
+namespace PhpBrew\BuildSettings;
 
 class BuildSettings
 {
