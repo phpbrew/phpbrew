@@ -89,7 +89,7 @@ class Utils
 
     public static function detectArch($prefix) {
         /*
-         * Follow the FHS compliant
+            Prioritizes the FHS compliant
             /usr/lib/i386-linux-gnu/
             /usr/include/i386-linux-gnu/
             /usr/lib/x86_64-linux-gnu/
@@ -101,6 +101,7 @@ class Utils
         $multiArchs = array(
             'lib/lib64',
             'lib/lib32',
+            'lib', // CentOS
             'lib64', // Linux Fedora
             'lib/ia64-linux-gnu', // Linux IA-64
             'lib/x86_64-linux-gnu', // Linux x86_64
