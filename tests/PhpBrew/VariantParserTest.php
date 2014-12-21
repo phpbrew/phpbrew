@@ -37,4 +37,25 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($info['disabled_variants']['mysql']);
         $this->assertTrue($info['disabled_variants']['apxs2']);
     }
+
+    public function variantGroupOverloadProvider()
+    {
+        return array(
+            array('+default +openssl=/usr', array('openssl' => '/usr')), // overrides default variant value
+            array('+openssl=/usr +default', array('openssl' => '/usr')), // order must be irrelevant
+            array('+default -openssl', array()), // negative variant
+            array('-openssl +default', array()), // negative variant precedence
+            array('+default -openssl=/usr', array()), // negative variant with an overridden value
+        );
+    }
+
+    /**
+     * @dataProvider variantGroupOverloadProvider
+     */
+    public function testVariantGroupOverload($arg, array $variant)
+    {
+        $args = preg_split('#\s+#',$arg);
+        $info = VariantParser::parseCommandArguments($args);
+        $this->assertArraySubset($variant, $info['enabled_variants']);
+    }
 }
