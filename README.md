@@ -508,15 +508,11 @@ Documentation
 Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
 
 
-Community
----------
-
-Join us on #php-tw on irc.freenode.net
-
 Author
 ------
 
-Yo-An Lin (c9s)  <cornelius.howl _at_ gmail.com>
+- Yo-An Lin (c9s)  <cornelius.howl _at_ gmail.com>
+
 
 License
 --------
