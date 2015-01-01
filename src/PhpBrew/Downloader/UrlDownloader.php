@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Downloader;
 use PhpBrew\Console;
+use PhpBrew\Utils;
 use RuntimeException;
 use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
@@ -29,7 +30,7 @@ class UrlDownloader
     public function download($url, $targetFilePath)
     {
         $this->logger->info("===> Downloading from $url");
-        if (extension_loaded('curl')) {
+        if ($this->isCurlExtensionAvailable()) {
             $this->logger->debug('---> Found curl extension, using CurlDownloader');
             $downloader = new CurlDownloader;
 
@@ -52,13 +53,14 @@ class UrlDownloader
             $this->logger->debug('Curl extension not found, fallback to wget or curl');
 
             // check for wget or curl for downloading the php source archive
-            // TODO: use findbin
-            if (exec('command -v wget')) {
-                if(system('wget --no-check-certificate -c -O ' . $targetFilePath . ' ' . $url) !== false){
+            if ($this->isWgetCommandAvailable()) {
+                $quiet = $this->logger->isQuiet() ? '--quiet' : '';
+                if (Utils::system("wget --no-check-certificate -c $quiet -O" . $targetFilePath . ' ' . $url)) {
                     throw new RuntimeException("Download failed.\n");
                 }
-            } elseif (exec('command -v curl')) {
-                if(system('curl -C - -L -o ' . $targetFilePath . ' ' . $url) !== false){
+            } elseif ($this->isCurlCommandAvailable()) {
+                $silent = $this->logger->isQuiet() ? '--silent ' : '';
+                if (Utils::system("curl -C - -L $silent -o" . $targetFilePath . ' ' . $url)) {
                     throw new RuntimeException("Download failed.\n");
                 }
             } else {
@@ -94,5 +96,20 @@ class UrlDownloader
             return NULL;
         }
         return basename($path);
+    }
+
+    protected function isCurlExtensionAvailable()
+    {
+        return extension_loaded('curl');
+    }
+
+    protected function isWgetCommandAvailable()
+    {
+        return Utils::findbin('wget');
+    }
+
+    protected function isCurlCommandAvailable()
+    {
+        return Utils::findbin('curl');
     }
 }
