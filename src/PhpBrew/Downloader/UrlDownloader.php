@@ -55,14 +55,10 @@ class UrlDownloader
             // check for wget or curl for downloading the php source archive
             if ($this->isWgetCommandAvailable()) {
                 $quiet = $this->logger->isQuiet() ? '--quiet' : '';
-                if (Utils::system("wget --no-check-certificate -c $quiet -O" . $targetFilePath . ' ' . $url)) {
-                    throw new RuntimeException("Download failed.\n");
-                }
+                Utils::system("wget --no-check-certificate -c $quiet -O" . $targetFilePath . ' ' . $url);
             } elseif ($this->isCurlCommandAvailable()) {
                 $silent = $this->logger->isQuiet() ? '--silent ' : '';
-                if (Utils::system("curl -C - -L $silent -o" . $targetFilePath . ' ' . $url)) {
-                    throw new RuntimeException("Download failed.\n");
-                }
+                Utils::system("curl -C - -L $silent -o" . $targetFilePath . ' ' . $url);
             } else {
                 throw new RuntimeException("Download failed - neither wget nor curl was found");
             }
