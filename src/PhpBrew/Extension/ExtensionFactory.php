@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Extension;
 use PhpBrew\Config;
+use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\ConfigureOption;
@@ -137,6 +138,8 @@ class ExtensionFactory
                 return $ext;
             }
         }
+
+        return new Extension($packageName);
     }
 
     static public function createM4Extension($packageName, $m4Path) {
