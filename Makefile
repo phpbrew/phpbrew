@@ -1,7 +1,7 @@
 OUTPUT        = phpbrew.phar
 TARGET        = phpbrew
 MOVE          = mv
-SUDOMOVE      = sudo mv
+SUDOCP        = sudo cp
 INSTALL_PATH  = /usr/local/bin
 PERMISSION    = chmod +x
 TEST          = phpunit
@@ -29,7 +29,7 @@ default:
 		$(PERMISSION) $(TARGET)
 
 install:
-		$(SUDOMOVE) $(TARGET) $(INSTALL_PATH)
+		$(SUDOCP) $(TARGET) $(INSTALL_PATH)
 
 update:
 		composer update
