@@ -521,7 +521,7 @@ Yo-An Lin (c9s)  <cornelius.howl _at_ gmail.com>
 License
 --------
 
-See LICENSE file.
+See [LICENSE](LICENSE) file.
 
 
 
