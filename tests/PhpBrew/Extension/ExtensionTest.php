@@ -61,6 +61,17 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($ext->isZend());
     }
 
+    public function testSplTypes()
+    {
+        $ext = ExtensionFactory::lookup('SPL_Types', array(getenv('PHPBREW_EXTENSION_DIR')));
+        $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
+        $this->assertInstanceOf('PhpBrew\Extension\PeclExtension', $ext);
+        $this->assertEquals('SPL_Types', $ext->getName());
+        $this->assertEquals('spl_types', $ext->getExtensionName());
+        $this->assertEquals('spl_types.so', $ext->getSharedLibraryName());
+        $this->assertFalse($ext->isZend());
+    }
+
     public function testXhprof()
     {
         $ext = ExtensionFactory::lookup('xhprof', array(getenv('PHPBREW_EXTENSION_DIR')));

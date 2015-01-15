@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>SPL_Types</name>
+ <channel>pecl.php.net</channel>
+ <summary>Standard PHP Library, Types Addon</summary>
+ <description>SPL Types is a collection of special typehandling classes.</description>
+ <lead>
+  <name>Marcus Boerger</name>
+  <user>helly</user>
+  <email>helly@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>David Coallier</name>
+  <user>davidc</user>
+  <email>davidc@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-06-12</date>
+ <time>14:54:14</time>
+ <version>
+  <release>0.4.0</release>
+  <api>1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license>PHP</license>
+ <notes>
+- Support for PHP 5.4+
+- Fixed memory leak when assigning an object
+- Fixed crash when using SplBool::getConstList() on PHP 5.3+
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="4a46b399a6d25ab091966391f97bc2ea" name="tests/001.phpt" role="test" />
+   <file md5sum="b4df1dd392c0620efa92db9c18e63310" name="tests/002.phpt" role="test" />
+   <file md5sum="0c33398ba7c771dccb06a80e1171f584" name="tests/003.phpt" role="test" />
+   <file md5sum="91ea237837f26da04e8ec45510fee7df" name="tests/004.phpt" role="test" />
+   <file md5sum="6fb5a84f264727e245657947b1fb9f04" name="tests/005.phpt" role="test" />
+   <file md5sum="4e9fc9e4b2bfa86997222fda1c7f373d" name="tests/006.phpt" role="test" />
+   <file md5sum="566e1a18d5ff195e61a0ce557c983352" name="config.m4" role="src" />
+   <file md5sum="b8af90db99971af4dc63380cfe6c9467" name="config.w32" role="src" />
+   <file md5sum="9da1a0a48469f8b828537306a80d2db3" name="php_spl_types.c" role="src" />
+   <file md5sum="eb69a3bd355ae488956cfb00cf1d9fd3" name="php_spl_types.h" role="src" />
+   <file md5sum="bf5088326432bb0db259d72b4cbd9d6e" name="spl_type.c" role="src" />
+   <file md5sum="070d84824f0804f51eed17423bc886ba" name="spl_type.h" role="src" />
+   <file md5sum="d460fd33fde950ed0333a3f153563ec2" name="CREDITS" role="doc" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>SPL_Types</providesextension>
+ <extsrcrelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-01-13</date>
+   <license>PHP</license>
+   <notes>
+- Support for 5.3
+- Added new type (SplFloat)
+- Support for OSX
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-05-25</date>
+   <license>PHP</license>
+   <notes>
+- Initial version
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-05-25</date>
+   <license>PHP</license>
+   <notes>
+- Initial version
+   </notes>
+  </release>
+ </changelog>
+</package>
