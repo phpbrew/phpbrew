@@ -14,7 +14,7 @@ class PeclExtension extends Extension
             $this->setZend(true);
         }
 
-        if ($n = $pkg->getProvidesExtension()) {
+        if ($n = strtolower($pkg->getProvidesExtension())) {
             $this->setExtensionName($n);
             $this->setSharedLibraryName($n . '.so');
         }
