@@ -34,6 +34,77 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         ok( in_array('--disable-all',$options) );
     }
 
+    public function testEverything()
+    {
+        $variants = new PhpBrew\VariantBuilder;
+        ok($variants);
+
+        $build = new PhpBrew\Build('5.6.0');
+        $build->enableVariant('everything');
+        $build->enableVariant('opcache');
+        $build->disableVariant('openssl');
+        $build->resolveVariants();
+        $this->assertArraySubset(
+            array(
+                '--disable-all',
+                '--enable-phar',
+                '--enable-session',
+                '--enable-short-tags',
+                '--enable-tokenizer',
+                '--with-pcre-regex',
+                '--with-zlib=/usr',
+                '--enable-opcache',
+                '--with-sqlite3',
+                '--with-pdo-sqlite',
+                '--with-mysql=mysqlnd',
+                '--with-mysqli=mysqlnd',
+                '--with-pdo-mysql=mysqlnd',
+                '--with-pgsql=/usr/bin/psql',
+                '--with-pdo-pgsql=/usr/bin/psql',
+                '--enable-pdo',
+                '--enable-mbstring',
+                '--enable-mbregex',
+                '--enable-bcmath',
+                '--with-bz2=/usr',
+                '--enable-calendar',
+                '--enable-cli',
+                '--enable-ctype',
+                '--enable-dom',
+                '--enable-fileinfo',
+                '--enable-filter',
+                '--enable-shmop',
+                '--enable-sysvsem',
+                '--enable-sysvshm',
+                '--enable-sysvmsg',
+                '--enable-json',
+                '--with-mhash',
+                '--with-mcrypt=/usr',
+                '--enable-pcntl',
+                '--with-pcre-regex',
+                '--with-pcre-dir=/usr',
+                '--enable-phar',
+                '--enable-posix',
+                '--with-readline=/usr',
+                '--with-libedit=/usr',
+                '--enable-sockets',
+                '--enable-tokenizer',
+                '--enable-dom',
+                '--enable-libxml',
+                '--enable-simplexml',
+                '--enable-xml',
+                '--enable-xmlreader',
+                '--enable-xmlwriter',
+                '--with-xsl',
+                '--with-libxml-dir=/usr',
+                '--with-curl=/usr',
+                '--enable-zip',
+                '--without-openssl',
+            ),
+            $variants->build($build)
+        );
+    }
+
+
     public function testMysqlPdoVariant()
     {
         $variants = new PhpBrew\VariantBuilder;
