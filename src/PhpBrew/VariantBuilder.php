@@ -491,6 +491,12 @@ class VariantBuilder
         }
 
         $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);
+
+        // create +everything variant
+        $this->virtualVariants['everything'] = array_diff(
+            array_reduce($this->virtualVariants, 'array_merge', array()),
+            array('neutral') // except neutral!
+        );
     }
 
     private function getConflict(Build $build, $feature)
