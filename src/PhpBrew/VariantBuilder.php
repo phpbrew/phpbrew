@@ -494,8 +494,8 @@ class VariantBuilder
 
         // create +everything variant
         $this->virtualVariants['everything'] = array_diff(
-            array_reduce($this->virtualVariants, 'array_merge', array()),
-            array('neutral') // except neutral!
+            array_keys($this->variants),
+            array('apxs2', 'all') // <- except these ones
         );
     }
 
