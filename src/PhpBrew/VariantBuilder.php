@@ -2,6 +2,7 @@
 namespace PhpBrew;
 
 use Exception;
+use RuntimeException;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\Build;
 
