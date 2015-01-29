@@ -47,7 +47,6 @@ class MakeTask extends BaseTask
             $this->logger->error("Makefile not found");
             return false;
         }
-        $this->logger->info("===> Make $target");
         $cmd = array(
             "make",
             "-C", $path,
@@ -57,6 +56,8 @@ class MakeTask extends BaseTask
         if (!$this->logger->isDebug() && $this->buildLogPath) {
             $cmd[] = " >> $this->buildLogPath 2>&1";
         }
+
+        $this->logger->info("===> Running make $target: " . join(' ', $cmd));
         $ret = Utils::system($cmd, $this->logger);
         return $ret == 0;
     }

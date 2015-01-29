@@ -37,6 +37,11 @@ class ReleaseList
         }
     }
 
+    public function getReleases()
+    {
+        return $this->releases;
+    }
+
     public function loadJson($json)
     {
         if (!$json) {
@@ -142,10 +147,6 @@ class ReleaseList
         return file_exists($releaseListFile);
     }
 
-    public function getReleases()
-    {
-        return $this->releases;
-    }
 
     static public function getReadyInstance($branch = 'master', Logger $logger = NULL, $offical = false) {
         static $instance;
