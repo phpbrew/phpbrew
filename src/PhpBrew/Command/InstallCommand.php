@@ -155,11 +155,26 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
+
+
+
         $distUrl = NULL;
         $versionInfo = array();
         $releaseList = ReleaseList::getReadyInstance();
         $clean = new MakeTask($this->logger, $this->options);
         $clean->setQuiet();
+
+
+        if ("latest" === strtolower($version)) {
+            $releases = $releaseList->getReleases();
+            $latestMajor = array_shift($releases);
+            $latest = array_shift($latestMajor);
+            if (!$latest) {
+                throw new Exception("Latest major version not found.");
+            }
+            $version = $latest['version'];
+        }
+
 
         if (preg_match('#https?://#',$version)) {
             $distUrl = $version;

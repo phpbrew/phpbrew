@@ -6,7 +6,7 @@ use CLIFramework\Application;
 class Console extends Application
 {
     const NAME = 'phpbrew';
-    const VERSION = "1.18.3";
+    const VERSION = "1.18.4";
 
     public function options($opts) {
         parent::options($opts);

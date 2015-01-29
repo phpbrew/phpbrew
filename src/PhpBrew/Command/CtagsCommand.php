@@ -11,6 +11,11 @@ class CtagsCommand extends \CLIFramework\Command
         return 'Run ctags at current php source dir for extension development.';
     }
 
+    public function arguments($args) {
+        $args->add('installed versions')
+            ->validValues(function() { return \PhpBrew\Config::getInstalledPhpVersions(); })
+            ;
+    }
 
     public function execute($versionName = NULL)
     {
@@ -28,7 +33,7 @@ class CtagsCommand extends \CLIFramework\Command
             if (!getenv('PHPBREW_PHP')) {
                 $this->logger->error("Error: PHPBREW_PHP environment variable is not defined.");
                 $this->logger->error("  This command requires you specify a PHP version from your build list.");
-                $this->logger->error("  And it looks like you have't switched to a version from the builds that were built with PHPBrew.");
+                $this->logger->error("  And it looks like you haven't switched to a version from the builds that were built with PHPBrew.");
                 $this->logger->error("Suggestion: Please install at least one PHP with your prefered version and switch to it.");
                 return false;
             }
