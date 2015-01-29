@@ -165,6 +165,7 @@ class InstallCommand extends Command
         $clean->setQuiet();
 
 
+        // TODO: Move this to ReleaseList::getLatestVersion()
         if ("latest" === strtolower($version)) {
             $releases = $releaseList->getReleases();
             $latestMajor = array_shift($releases);
