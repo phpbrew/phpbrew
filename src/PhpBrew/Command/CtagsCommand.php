@@ -11,6 +11,11 @@ class CtagsCommand extends \CLIFramework\Command
         return 'Run ctags at current php source dir for extension development.';
     }
 
+    public function arguments($args) {
+        $args->add('installed versions')
+            ->validValues(function() { return \PhpBrew\Config::getInstalledPhpVersions(); })
+            ;
+    }
 
     public function execute($versionName = NULL)
     {
