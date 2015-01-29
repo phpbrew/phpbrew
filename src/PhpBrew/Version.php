@@ -17,7 +17,17 @@ use InvalidArgumentException;
  */
 class Version
 {
+
+    /**
+     * @var string version string
+     */
     public $version;
+
+    protected $majorVersion;
+
+    protected $minorVersion;
+
+    protected $patchVersion;
 
     public $dist = 'php'; // can be hhvm
 
@@ -26,25 +36,38 @@ class Version
         // XXX: support stability flag.
         if (preg_match('/^(\w+)-(.*?)$/',$a, $regs)) {
             $this->dist = $dist ?: $regs[1];
-            $this->version = $regs[2];
+            $this->setVersion($regs[2]);
         } else {
-            $this->version = $a;
+            $this->setVersion($a);
             $this->dist = $dist ?: 'php'; // default dist name to PHP
         }
     }
 
-    public function getMinorVersion() {
-        if (preg_match('/(\d+)\.(\d+)\.(\d+)/', $this->version, $regs)) {
-            return $regs[2];
+    public function setVersion($version)
+    {
+        preg_replace('#^php-#', '', $version);
+        $p = explode('.', $version);
+
+        $this->majorVersion = intval($p[0]);
+        if (isset($p[1])) {
+            $this->minorVersion = intval($p[1]);
         }
-        throw new InvalidArgumentException('Incorrect version string: ' . $this->version);
+
+        if (isset($p[2])) {
+            $this->patchVersion = intval($p[2]);
+        }
+        $this->version = $version;
+    }
+
+
+
+
+    public function getMinorVersion() {
+        return $this->minorVersion;
     }
 
     public function getMajorVersion() {
-        if (preg_match('/(\d+)\.(\d+)\.(\d+)/', $this->version, $regs)) {
-            return $regs[1];
-        }
-        throw new InvalidArgumentException('Incorrect version string: ' . $this->version);
+        return $this->majorVersion;
     }
 
     public function getVersion() {
@@ -58,7 +81,6 @@ class Version
     public function compare($b) {
         return version_compare($a->getVersion(), $b->getVersion());
     }
-
 
     public function upgradePatchVersion(array $availableVersions) {
         $this->version = self::findLatestPatchVersion($this->getVersion(), $availableVersions);
