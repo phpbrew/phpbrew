@@ -44,7 +44,7 @@ class MakeTask extends BaseTask
     private function make($path, $target = 'all')
     {
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
-            $this->logger->error("Makefile not found");
+            $this->logger->error("Makefile not found in path $path");
             return false;
         }
         $cmd = array(

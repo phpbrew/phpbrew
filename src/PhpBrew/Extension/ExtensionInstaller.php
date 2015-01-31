@@ -12,14 +12,10 @@ class ExtensionInstaller
 
     public $options;
 
-    private $clean;
-
     public function __construct(Logger $logger, OptionResult $options = NULL)
     {
         $this->logger = $logger;
         $this->options = $options ?: new \GetOptionKit\OptionResult;
-        $this->clean = new MakeTask($this->logger, $this->options);
-        $this->clean->setQuiet();
     }
 
     public function install(Extension $ext, array $configureOptions = array()) {
@@ -35,8 +31,10 @@ class ExtensionInstaller
         $this->logger->info("Changing directory to $sourceDir");
         chdir($sourceDir);
 
-        if (!$this->options->{'no-clean'}) {
-            $this->clean->clean($ext);
+        if (!$this->options->{'no-clean'} && $ext->isBuildable()) {
+            $clean = new MakeTask($this->logger, $this->options);
+            $clean->setQuiet();
+            $clean->clean($ext);
         }
 
         if ($ext->getConfigM4File() !== "config.m4" && ! file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4') ) {

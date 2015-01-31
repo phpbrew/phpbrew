@@ -112,6 +112,11 @@ class Build implements Serializable, Buildable
         return $this->sourceDirectory;
     }
 
+    public function isBuildable()
+    {
+        return file_exists($this->sourceDirectory . DIRECTORY_SEPARATOR . 'Makefile');
+    }
+
     public function getBuildLogPath() 
     {
         $dir = $this->getSourceDirectory() . DIRECTORY_SEPARATOR . 'build.log';

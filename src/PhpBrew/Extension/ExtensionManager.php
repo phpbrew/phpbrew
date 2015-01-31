@@ -49,9 +49,12 @@ class ExtensionManager
                 $this->logger->error("$sourceDir does not exists.");
                 return false;
             }
-            $make = new MakeTask($this->logger);
-            $make->setQuiet();
-            return $make->clean($ext);
+            if ($ext->isBuildable()) {
+                $make = new MakeTask($this->logger);
+                $make->setQuiet();
+                return $make->clean($ext);
+            }
+            return false;
         }
         $this->logger->error("$sourceDir is not defined.");
         return false;

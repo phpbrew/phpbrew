@@ -133,6 +133,11 @@ class Extension implements Buildable
         }
     }
 
+    public function isBuildable()
+    {
+        return file_exists($this->sourceDirectory . DIRECTORY_SEPARATOR . 'Makefile');
+    }
+
     public function getSourceDirectory()
     {
         return $this->sourceDirectory;
