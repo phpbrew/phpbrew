@@ -28,7 +28,8 @@ script:
 after_script:
   - php vendor/bin/coveralls -v
 
-
 cache:
-  - vendor
-  - .phpbrew/distfiles
+  apt: true
+  directories:
+    - vendor
+    - .phpbrew/distfiles
