@@ -19,6 +19,10 @@ class KnownCommand extends \CLIFramework\Command
         $opts->add('m|more', 'Show more older versions');
         $opts->add('o|old', 'List old phps (less than 5.3)');
         $opts->add('u|update', 'Update release list');
+        $opts->add('downloader-connect-timeout:', 'The number of seconds for '
+                . 'CURLOPT_CONNECTTIMEOUT option')
+            ->valueName('seconds')
+            ;
     }
 
     public function execute()

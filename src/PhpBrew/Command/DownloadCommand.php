@@ -33,6 +33,11 @@ class DownloadCommand extends Command
         $opts->add('f|force', 'Force extraction');
         $opts->add('old', 'enable old phps (less than 5.3)');
         $opts->add('mirror:', 'Use mirror specific site.');
+        
+        $opts->add('downloader-connect-timeout:', 'The number of seconds for '
+                . 'CURLOPT_CONNECTTIMEOUT option')
+            ->valueName('seconds')
+            ;
     }
 
     public function execute($version)

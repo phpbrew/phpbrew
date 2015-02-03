@@ -24,6 +24,11 @@ class UpdateCommand extends \CLIFramework\Command
             ;
 
         $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
+        
+        $opts->add('downloader-connect-timeout:', 'The number of seconds for '
+                . 'CURLOPT_CONNECTTIMEOUT option')
+            ->valueName('seconds')
+            ;
     }
 
     public function execute($branchName = 'master')

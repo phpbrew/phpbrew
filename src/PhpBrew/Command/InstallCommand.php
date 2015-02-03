@@ -140,6 +140,11 @@ class InstallCommand extends Command
             ->valueName('user:pass')
             ;
 
+        $opts->add('downloader-connect-timeout:', 'The number of seconds for '
+                . 'CURLOPT_CONNECTTIMEOUT option')
+            ->valueName('seconds')
+            ;
+        
         $opts->add('f|force', 'Force the installation.');
 
         $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');
