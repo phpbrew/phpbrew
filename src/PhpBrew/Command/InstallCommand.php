@@ -140,6 +140,12 @@ class InstallCommand extends Command
             ->valueName('user:pass')
             ;
 
+        $opts->add('connect-timeout:', 'The system aborts the command if downloading '
+                . 'of a php version not starts during this limit. This option '
+                . 'overrides a value of CONNECT_TIMEOUT environment variable.')
+            ->valueName('seconds')
+            ;
+        
         $opts->add('f|force', 'Force the installation.');
 
         $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');

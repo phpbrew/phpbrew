@@ -24,6 +24,12 @@ class UpdateCommand extends \CLIFramework\Command
             ;
 
         $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
+        
+        $opts->add('connect-timeout:', 'The system aborts the command if downloading '
+                . 'of the versions list not starts during this limit. This option '
+                . 'overrides a value of CONNECT_TIMEOUT environment variable.')
+            ->valueName('seconds')
+            ;
     }
 
     public function execute($branchName = 'master')

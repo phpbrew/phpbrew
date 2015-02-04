@@ -116,6 +116,10 @@ class ReleaseList
             }
 
             if ($options) {
+                $seconds = $options->{'connect-timeout'};
+                if ($seconds || $seconds = getenv('CONNECT_TIMEOUT')) {
+                    $downloader->setConnectionTimeout($seconds);
+                }
                 if ($proxy = $options->{'http-proxy'}) {
                     $downloader->setProxy($proxy);
                 }
