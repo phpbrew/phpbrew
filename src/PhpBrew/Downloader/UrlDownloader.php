@@ -34,7 +34,8 @@ class UrlDownloader
             $this->logger->debug('---> Found curl extension, using CurlDownloader');
             $downloader = new CurlDownloader;
 
-            if ($seconds = $this->options->{'downloader-connect-timeout'}){
+            $seconds = $this->options->{'downloader-connect-timeout'};
+            if ($seconds || $seconds = getenv('DOWNLOADER_CONNECT_TIMEOUT')) {
                 $downloader->setConnectionTimeout($seconds);
             }
             if ($proxy = $this->options->{'http-proxy'}) {
