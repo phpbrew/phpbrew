@@ -34,8 +34,9 @@ class DownloadCommand extends Command
         $opts->add('old', 'enable old phps (less than 5.3)');
         $opts->add('mirror:', 'Use mirror specific site.');
         
-        $opts->add('downloader-connect-timeout:', 'The number of seconds for '
-                . 'CURLOPT_CONNECTTIMEOUT option')
+        $opts->add('connect-timeout:', 'The system aborts the command if downloading '
+                . 'of a php version not starts during this limit. This option '
+                . 'overrides a value of CONNECT_TIMEOUT environment variable.')
             ->valueName('seconds')
             ;
     }
