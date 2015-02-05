@@ -67,6 +67,11 @@ class MakeTaskTestBuild implements Buildable
     {
         return __DIR__ . '/../../fixtures/make/';
     }
+    
+    public function isBuildable()
+    {
+        return true;
+    }
 }
 
 class MakeTaskTestNoSuchFileBuild implements Buildable
@@ -74,5 +79,10 @@ class MakeTaskTestNoSuchFileBuild implements Buildable
     public function getSourceDirectory()
     {
         return __DIR__ . '/../../fixtures/make/dummy';
+    }
+    
+    public function isBuildable()
+    {
+        return false;
     }
 }

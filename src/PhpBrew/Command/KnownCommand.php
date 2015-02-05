@@ -19,6 +19,11 @@ class KnownCommand extends \CLIFramework\Command
         $opts->add('m|more', 'Show more older versions');
         $opts->add('o|old', 'List old phps (less than 5.3)');
         $opts->add('u|update', 'Update release list');
+        $opts->add('connect-timeout:', 'The system aborts the command if downloading '
+                . 'of the versions list not starts during this limit. This option '
+                . 'overrides a value of CONNECT_TIMEOUT environment variable.')
+            ->valueName('seconds')
+            ;
     }
 
     public function execute()
