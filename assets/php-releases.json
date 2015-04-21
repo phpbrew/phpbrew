@@ -1,5 +1,12 @@
 {
     "5.6": {
+        "5.6.8": {
+            "version": "5.6.8",
+            "filename": "php-5.6.8.tar.bz2",
+            "md5": "a5a6df33aade0cb5425e4374e3832f0b",
+            "name": "PHP 5.6.8 (tar.bz2)",
+            "date": "16 Apr 2015"
+        },
         "5.6.7": {
             "version": "5.6.7",
             "filename": "php-5.6.7.tar.bz2",
@@ -62,6 +69,20 @@
         }
     },
     "5.5": {
+        "5.5.24": {
+            "version": "5.5.24",
+            "filename": "php-5.5.24.tar.bz2",
+            "md5": "f9a8f3e4bb88b33b087bd63732b1402a",
+            "name": "PHP 5.5.24 (tar.bz2)",
+            "date": "16 Apr 2015"
+        },
+        "5.5.23": {
+            "version": "5.5.23",
+            "filename": "php-5.5.23.tar.bz2",
+            "md5": "9a8fa2ac24ba40f6a837a7e1b436ce60",
+            "name": "PHP 5.5.23 (tar.bz2)",
+            "date": "20 Feb 2015"
+        },
         "5.5.22": {
             "version": "5.5.22",
             "filename": "php-5.5.22.tar.bz2",
@@ -238,6 +259,20 @@
         }
     },
     "5.4": {
+        "5.4.40": {
+            "version": "5.4.40",
+            "date": "16 Apr 2015",
+            "filename": "php-5.4.40.tar.bz2",
+            "md5": "19dafb2b9fc31517cf5c3309fb8a9923",
+            "name": "PHP 5.4.40 (tar.bz2)"
+        },
+        "5.4.39": {
+            "version": "5.4.39",
+            "date": "19 Mar 2015",
+            "filename": "php-5.4.39.tar.bz2",
+            "md5": "017f7ba7484e738c88bf19eec4369d78",
+            "name": "PHP 5.4.39 (tar.bz2)"
+        },
         "5.4.38": {
             "version": "5.4.38",
             "date": "19 Feb 2015",
