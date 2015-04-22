@@ -25,7 +25,6 @@ class ExtensionInstallerTest extends CommandTestCase
         $this->runCommand("phpbrew use latest");
     }
 
-
     public function testPackageUrl()
     {
         $logger = new Logger;

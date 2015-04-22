@@ -9,6 +9,8 @@ abstract class CommandTestCase extends BaseCommandTestCase
     private $previousPhpBrewRoot;
     private $previousPhpBrewHome;
 
+
+
     public function setupApplication()
     {
         $console = Console::getInstance();
