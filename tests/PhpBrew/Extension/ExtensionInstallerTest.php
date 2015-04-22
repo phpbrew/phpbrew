@@ -36,7 +36,7 @@ class ExtensionInstallerTest extends CommandTestCase
         $downloader = new ExtensionDownloader($logger, new OptionResult);
         $peclProvider->setPackageName('APCu');
         $extractPath = $downloader->download($peclProvider, 'latest');
-        path_ok($extractPath);
+        $this->assertFileExists($extractPath);
     }
 
     public function packageNameProvider()
