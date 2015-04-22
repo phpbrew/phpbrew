@@ -9,7 +9,7 @@ use PhpBrew\Machine;
 class InstallCommandTest extends CommandTestCase
 {
 
-    public $primaryVersion = '5.5.21';
+    public $primaryVersion = '5.5.22';
 
     /**
      * @outputBuffering enabled
