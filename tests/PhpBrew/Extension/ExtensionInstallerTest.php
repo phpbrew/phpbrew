@@ -43,8 +43,8 @@ class ExtensionInstallerTest extends CommandTestCase
     {
         return array(
             array('xdebug', '2.3.2'),
-            // array('APCu'),
-            // array('yaml'),
+            array('APCu'),
+            array('yaml'),
         );
     }
 
