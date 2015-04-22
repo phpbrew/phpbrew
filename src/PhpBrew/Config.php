@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew;
-
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
@@ -98,20 +97,77 @@ class Config
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
      *
-     * @param string $version
+     * @param string $buildName
      *
      * @return string
      */
-    static public function getVersionEtcPath($version)
+    static public function getVersionEtcPath($buildName)
     {
-        return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'etc';
+        return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'etc';
     }
 
-    static public function getVersionBinPath($version)
+    static public function getVersionBinPath($buildName)
     {
-        return self::getVersionInstallPrefix($version) . DIRECTORY_SEPARATOR . 'bin';
+        return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'bin';
     }
 
+    static public function getInstalledBuilds($stripPrefix = true)
+    {
+        $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+        if (!file_exists($path)) {
+            throw new Exception($path . ' does not exist.');
+        }
+        $names = scandir($path);
+        $names = array_filter($names, function($name) use ($path) {
+            return $name != '.' && $name != '..' && file_exists($path . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php');
+        });
+
+        if ($names == null || empty($names)) {
+            return array();
+        }
+
+        if ($stripPrefix) {
+            $names = array_map(function($name)  { return preg_replace('/^php-/','', $name); }, $names);
+        }
+        uasort($names, 'version_compare'); // ordering version name ascending... 5.5.17, 5.5.12
+        return array_reverse($names);  // make it descending... since there is no sort function for user-define in reverse order.
+    }
+
+    static public function findMatchedBuilds($buildNameRE, $stripPrefix = true)
+    {
+        $builds = self::getInstalledBuilds($stripPrefix);
+        return array_filter($builds, function($build) use ($buildNameRE) {
+            return preg_match("/^$buildNameRE/i", $build);
+        });
+    }
+
+    static public function findFirstMatchedBuild($buildNameRE, $stripPrefix = true)
+    {
+        $builds = self::getInstalledBuilds();
+        foreach ($builds as $build) {
+            if (preg_match("/$buildNameRE/i", $build)) {
+                return $build;
+            }
+        }
+    }
+
+    static public function putPathEnvFor($buildName) {
+        $root = Config::getPhpbrewRoot();
+        $buildDir = $root . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $buildName;
+
+        // re-build path
+        $paths = explode(':',getenv('PATH'));
+        $paths = array_filter($paths, function($p) use ($root) {
+            return (strpos($p, $root) === False);
+        });
+        array_unshift($paths, $buildDir . DIRECTORY_SEPARATOR . 'bin');
+        putenv('PATH=' . join(':', $paths));
+    }
+
+
+    /**
+     * XXX: This method is now deprecated. use findMatchedBuilds insteads.
+     */
     static public function getInstalledPhpVersions()
     {
         $versions = array();
@@ -134,7 +190,7 @@ class Config
         return $versions;
     }
 
-    static public function getCurrentPhpConfigBin() 
+    static public function getCurrentPhpConfigBin()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php-config';
     }
