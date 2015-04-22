@@ -20,6 +20,16 @@ class Config
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
 
+    public static function setPhpbrewHome($home)
+    {
+        putenv('PHPBREW_HOME='.  $home);
+    }
+
+    public static function setPhpbrewRoot($root)
+    {
+        putenv('PHPBREW_ROOT='.  $root);
+    }
+
     public static function getPhpbrewRoot()
     {
         if ($root = getenv('PHPBREW_ROOT')) {
