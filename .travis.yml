@@ -18,7 +18,7 @@ before_script:
   - mkdir -p -v .phpbrew/build
   - mkdir -p -v .phpbrew/distfiles
   - mkdir -p -v .phpbrew/php
-  - cp -v shell/bashrc tests/.phpbrew/
+  - cp -v shell/bashrc .phpbrew/
   - source shell/bashrc
 
 script:
