@@ -6,8 +6,14 @@ CHANGES
 - Always make sure phpbrew root/home exists for issue #475
 - Added options to speicfy phpbrew root/home for install command.
 - Fixed `use` command argument validation for supporting 'latest'
-- Merge pull request #466 from vasiliy-pdk/error_during_tests_fix
+- Merged pull request #466 from vasiliy-pdk/error_during_tests_fix
 - CONNECT_TIMEOUT env variable and --connect_timeout option was added. Fatal Error during tests fixed
+- Added more variants to `+everything` #457
+- Use log tail hint with "tail -F" instead of "tail -f"
+- added support for SPL_Types extension install #456
+- Use cp insteaad of mv on Makefile install task
+- Removed redundant if statements in UrlDownloader.
+- Merged pull request #444 from shinnya/fix/download_always_fai
 
 ### Version 1.15 - Tue Oct 14 20:23:54 2014
 
