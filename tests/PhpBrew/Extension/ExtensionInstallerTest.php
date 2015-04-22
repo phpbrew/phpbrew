@@ -14,6 +14,9 @@ use GetOptionKit\OptionResult;
 use PhpBrew\Extension\Provider\PeclProvider;
 
 /**
+ * NOTE: This depends on an existing installed php build. we need to ensure
+ * that the installer test runs before this test.
+ *
  * @large
  * @group extension
  */
