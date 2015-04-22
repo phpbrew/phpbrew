@@ -2,6 +2,9 @@
 
 <phpunit bootstrap="tests/bootstrap.php"
          backupGlobals="false"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         convertErrorsToExceptions="true"
          colors="true"
          verbose="true">
 
