@@ -32,7 +32,7 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
     public function packageNameProvider()
     {
         return array(
-            array('xdebug', '2.2.7'),
+            array('xdebug', '2.3.2'),
             // array('APCu'),
             // array('yaml'),
         );
@@ -51,6 +51,7 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         $peclProvider->setPackageName($extensionName);
         $downloader->download($peclProvider, $extensionVersion);
         $ext = ExtensionFactory::lookup($extensionName);
+        $this->assertNotNull($ext);
         $manager->installExtension($ext, array());
     }
 }
