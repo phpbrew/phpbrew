@@ -27,7 +27,7 @@ class PathCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      * @dataProvider argumentsProvider
-     * @depends testInstallOnePHP
+     * @depends testUseLatestPHP
      */
     public function testPathCommand($arg, $pattern) {
         ob_start();
