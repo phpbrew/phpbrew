@@ -4,6 +4,7 @@ use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\Extension;
+use PHPUnit_Framework_TestCase;
 
 /**
  * ExtensionTest
@@ -11,7 +12,7 @@ use PhpBrew\Extension\Extension;
  * @large
  * @group extension
  */
-class ExtensionTest extends \PHPUnit_Framework_TestCase
+class ExtensionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * We use getenv to get the path of extension directory because in data provider method
