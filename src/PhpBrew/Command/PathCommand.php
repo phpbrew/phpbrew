@@ -15,7 +15,7 @@ class PathCommand extends Command
     {
         $args->add('type')
             ->validValues(array(
-                'root', 'home','build','bin','include','ext', 'config-scan', 'dist'
+                'root', 'home','build','bin','include', 'etc', 'ext', 'ext-src', 'extension-src', 'extension-dir', 'config-scan', 'dist'
             ));
     }
 
