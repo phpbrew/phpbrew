@@ -21,12 +21,18 @@ class UseCommand extends Command
     public function execute($buildName) {
         $root = Config::getPhpbrewRoot();
         $home = Config::getPhpbrewHome();
-        $buildDir = $root . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $buildName;
 
-        $foundBuildName = Config::findFirstMatchedBuild($buildName);
+        $foundBuildName = null;
+        if (strtolower(trim($buildName)) == 'latest') {
+            $foundBuildName = Config::findLatestBuild(false);
+        } else {
+            $foundBuildName = Config::findFirstMatchedBuild($buildName, false);
+        }
+
+        $phpDir = $root . DIRECTORY_SEPARATOR . 'php';
         if (!$foundBuildName) {
             // TODO: list possible build names here...
-            throw new Exception("$buildName does not exist in $buildDir directory.");
+            throw new Exception("$buildName does not exist in $phpDir directory.");
         }
 
         $this->logger->info("Found $foundBuildName, setting environment variables...");

@@ -9,7 +9,7 @@ class PathCommandTest extends CommandTestCase
 {
     public function argumentsProvider() {
 
-        return array( 
+        return array(
             array("build",   "#\.phpbrew/build/.+#"),
             array("ext-src", "#\.phpbrew/build/.+/ext$#"),
             array("include", "#\.phpbrew/php/.+/include$#"),
@@ -20,9 +20,14 @@ class PathCommandTest extends CommandTestCase
         );
     }
 
+    public function testUseLatestPHP() {
+        $this->runCommand("phpbrew use latest");
+    }
+
     /**
      * @outputBuffering enabled
      * @dataProvider argumentsProvider
+     * @depends testInstallOnePHP
      */
     public function testPathCommand($arg, $pattern) {
         ob_start();
