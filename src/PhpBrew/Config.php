@@ -111,7 +111,7 @@ class Config
         return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'bin';
     }
 
-    static public function getInstalledBuilds($stripPrefix = true)
+    static public function findInstalledBuilds($stripPrefix = true)
     {
         $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
         if (!file_exists($path)) {
@@ -135,7 +135,7 @@ class Config
 
     static public function findMatchedBuilds($buildNameRE, $stripPrefix = true)
     {
-        $builds = self::getInstalledBuilds($stripPrefix);
+        $builds = self::findInstalledBuilds($stripPrefix);
         return array_filter($builds, function($build) use ($buildNameRE) {
             return preg_match("/^$buildNameRE/i", $build);
         });
@@ -143,11 +143,18 @@ class Config
 
     static public function findFirstMatchedBuild($buildNameRE, $stripPrefix = true)
     {
-        $builds = self::getInstalledBuilds();
+        $builds = self::findInstalledBuilds($stripPrefix);
         foreach ($builds as $build) {
             if (preg_match("/$buildNameRE/i", $build)) {
                 return $build;
             }
+        }
+    }
+
+    static public function findLatestBuild($stripPrefix = true) {
+        $builds = Config::findInstalledBuilds($stripPrefix);
+        if (!empty($builds)) {
+            return $builds[0]; // latest
         }
     }
 
