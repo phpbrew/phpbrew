@@ -25,9 +25,12 @@ abstract class CommandTestCase extends BaseCommandTestCase
         $this->previousPhpBrewRoot = getenv('PHPBREW_ROOT');
         $this->previousPhpBrewHome = getenv('PHPBREW_HOME');
 
-        // XXX: already setup in phpunit.xml
-        // putenv('PHPBREW_ROOT=' . getcwd() . '/tests/.phpbrew');
-        // putenv('PHPBREW_HOME=' . getcwd() . '/tests/.phpbrew');
+        // <env name="PHPBREW_ROOT" value=".phpbrew"/>
+        // <env name="PHPBREW_HOME" value=".phpbrew"/>
+
+        // already setup in phpunit.xml, but it seems don't work.
+        putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
+        putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
     }
 
     /*
