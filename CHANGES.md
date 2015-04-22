@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+### Version 1.19.1 - Wed Apr 22 22:28:47 2015
+
+- Always make sure phpbrew root/home exists for issue #475
+- Added options to speicfy phpbrew root/home for install command.
+- Fixed `use` command argument validation for supporting 'latest'
+- Merge pull request #466 from vasiliy-pdk/error_during_tests_fix
+- CONNECT_TIMEOUT env variable and --connect_timeout option was added. Fatal Error during tests fixed
+
 ### Version 1.15 - Tue Oct 14 20:23:54 2014
 
 - Used CurlKit instead of command line curl or wget to download the distribution files.
