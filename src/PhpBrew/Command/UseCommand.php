@@ -9,7 +9,9 @@ class UseCommand extends Command
 
     public function arguments($args) {
         $args->add('php version')
-            ->validValues(function() { return \PhpBrew\Config::getInstalledPhpVersions(); })
+            ->validValues(function() {
+                return array_merge(\PhpBrew\Config::getInstalledPhpVersions(), array('latest')); 
+            })
             ;
     }
 
