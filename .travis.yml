@@ -24,7 +24,7 @@ before_script:
 script:
   - source shell/bashrc
   # - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit
+  - phpunit --debug
 
 after_script:
   - php vendor/bin/coveralls -v
