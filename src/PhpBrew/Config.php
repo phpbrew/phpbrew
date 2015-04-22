@@ -10,13 +10,14 @@ class Config
     public static function getPhpbrewHome()
     {
         if ($custom = getenv('PHPBREW_HOME')) {
+            if (!file_exists($custom)) {
+                mkdir($custom, 0755, true);
+            }
             return $custom;
         }
-
         if ($home = getenv('HOME')) {
             return $home . DIRECTORY_SEPARATOR . '.phpbrew';
         }
-
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
 
@@ -33,13 +34,14 @@ class Config
     public static function getPhpbrewRoot()
     {
         if ($root = getenv('PHPBREW_ROOT')) {
+            if (!file_exists($root)) {
+                mkdir($root, 0755, true);
+            }
             return $root;
         }
-
         if ($home = getenv('HOME')) {
             return $home . DIRECTORY_SEPARATOR . '.phpbrew';
         }
-
         throw new Exception('Environment variable PHPBREW_ROOT is required');
     }
 
