@@ -34,8 +34,10 @@ abstract class CommandTestCase extends BaseCommandTestCase
     }
 
     /*
-     * XXX: we don't have to restore it back. the parent environment variables
-     *      won't change if the they are changed inside a process.
+     * we don't have to restore it back. the parent environment variables
+     * won't change if the they are changed inside a process.
+     * but we might want to change it back if there is a test changed the environment variable.
+     */
     public function tearDown()
     {
         if ($this->previousPhpBrewRoot !== null) {
@@ -45,7 +47,6 @@ abstract class CommandTestCase extends BaseCommandTestCase
             putenv('PHPBREW_HOME=' . $this->previousPhpBrewHome);
         }
     }
-     */
 
     public function runCommand($args)
     {
