@@ -6,8 +6,8 @@
          verbose="true">
 
     <php>
-        <env name="PHPBREW_ROOT" value=".phpbrew"/>
-        <env name="PHPBREW_HOME" value=".phpbrew"/>
+        <env name="PHPBREW_ROOT" value="tests/.phpbrew"/>
+        <env name="PHPBREW_HOME" value="tests/.phpbrew"/>
         <env name="PHPBREW_EXTENSION_DIR" value="tests/fixtures/ext"/>
         <env name="PHPBREW_FIXTURES_PHP_DIR" value="tests/fixtures/php"/>
         <env name="PHPBREW_EXPECTED_PHP_DIR" value="tests/expected/php"/>
