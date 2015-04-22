@@ -6,6 +6,7 @@ use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\ExtensionDownloader;
+use PhpBrew\Testing\CommandTestCase;
 use PhpBrew\Utils;
 use PHPUnit_Framework_TestCase;
 use CLIFramework\Logger;;
@@ -16,8 +17,15 @@ use PhpBrew\Extension\Provider\PeclProvider;
  * @large
  * @group extension
  */
-class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
+class ExtensionInstallerTest extends CommandTestCase
 {
+
+    public function setUp() {
+        parent::setUp();
+        $this->runCommand("phpbrew use latest");
+    }
+
+
     public function testPackageUrl()
     {
         $logger = new Logger;
