@@ -34,9 +34,12 @@ install:
 update:
 		composer update
 
-update/assets:
-		bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew
+update/topics:
 		php bin/phpbrew github:build-topics --dir src phpbrew phpbrew
+
+update/completion:
+		bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew
+		bin/phpbrew bash --bind phpbrew --program phpbrew > completion/bash/_phpbrew
 
 test:
 		$(TEST)
