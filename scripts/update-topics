@@ -1,2 +1,0 @@
-#!/bin/bash
-php bin/phpbrew github:build-topics --dir src phpbrew phpbrew
