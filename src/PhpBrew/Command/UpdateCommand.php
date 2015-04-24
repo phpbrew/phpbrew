@@ -32,19 +32,11 @@ class UpdateCommand extends \CLIFramework\Command
             ;
     }
 
-    public function execute($branchName = 'master')
+    public function execute()
     {
-        $releaseList = new ReleaseList;
-        $releases = array();
+        $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
+        $releases = $fetchTask->fetch();
 
-        if ($this->options->official) {
-            $releases = ReleaseList::buildReleaseListFromOfficialSite();
-            $releaseList->setReleases($releases);
-            $releaseList->save();
-        } else {
-            $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
-            $releases = $fetchTask->fetch($branchName);
-        }
         foreach($releases as $majorVersion => $versions) {
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
                 continue;

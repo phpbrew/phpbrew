@@ -24,7 +24,7 @@ class ReleaseList
 
     public function __construct($releases = array())
     { 
-        $this->releases = $releases;
+        $this->setReleases($releases);
     }
 
     public function setReleases(array $releases)
@@ -88,7 +88,7 @@ class ReleaseList
         } elseif (isset($this->versions[$version])) {
             return $this->versions[$version];
         }
-        return FALSE;
+        return false;
     }
 
     /**
@@ -101,31 +101,61 @@ class ReleaseList
         }
     }
 
+    public function foundLocalReleaseList() {
+        $releasesFile = Config::getPHPReleaseListPath();
+        return file_exists($releasesFile);
+    }
+
     public function loadLocalReleaseList() {
-        $releaseListFile = Config::getPHPReleaseListPath();
-        if ($json = file_get_contents($releaseListFile)) {
-            return $this->loadJson($json);
+        if ($this->foundLocalReleaseList()) {
+            $this->loadJsonFile(Config::getPHPReleaseListPath());
+            return $this->releases;
         }
-        return false;
     }
 
-    public function getRemoteReleaseListUrl($branch)
-    {
+    public function save() {
+        $localFilepath = Config::getPHPReleaseListPath();
+        $json = json_encode($this->releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        if (false === file_put_contents($localFilepath, $json)) {
+            throw new Exception("Can't store release json file");
+        }
+    }
+
+    public function fetchRemoteReleaseList(OptionResult $options = null) {
+        $releases = self::buildReleaseListFromOfficialSite($options);
+        $this->setReleases($releases);
+        $this->save();
+    }
+
+    static public function getReadyInstance(OptionResult $options = null) {
+        static $instance;
+
+        if ($instance) { return $instance; }
+        
+        $instance = new self;
+
+        if ($instance->foundLocalReleaseList()) {
+            $instance->setReleases($instance->loadLocalReleaseList());
+        } else {
+            $instance->fetchRemoteReleaseList();
+        }
+
+        return $instance;
+    }
+
+    static public function buildReleaseListFromOfficialSite(OptionResult $options = null) {
         if (!extension_loaded('openssl')) {
-            throw new Exception('openssl extension not found, to download release json file you need openssl.');
+            throw new Exception(
+                'openssl extension not found, to download releases file you need openssl.');
         }
-        return "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/assets/php-releases.json";
-    }
 
-    public function fetchRemoteReleaseList($branch = 'master', OptionResult $options = NULL) {
-        $json = '';
-        $url = $this->getRemoteReleaseListUrl($branch);
+        $url = 'https://php.net/releases/index.php?json&version=5&max=100';
+
         if (extension_loaded('curl')) {
             $downloader = new CurlDownloader;
             $downloader->setProgressHandler(new ProgressBar);
 
-            $console = Console::getInstance();
-            if (! $console->options->{'no-progress'}) {
+            if (! Console::getInstance()->options->{'no-progress'}) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
 
@@ -141,57 +171,13 @@ class ReleaseList
                     $downloader->setProxyAuth($proxyAuth);
                 }
             }
+
             $json = $downloader->request($url);
         } else {
             $json = file_get_contents($url);
         }
-        $localFilepath = Config::getPHPReleaseListPath();
-        if (false === file_put_contents($localFilepath, $json)) {
-            throw new Exception("Can't store release json file");
-        }
-        return $this->loadJson($json);
-    }
 
-    public function save() {
-        $localFilepath = Config::getPHPReleaseListPath();
-        $json = json_encode($this->releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        if (false === file_put_contents($localFilepath, $json)) {
-            throw new Exception("Can't store release json file");
-        }
-    }
-
-    public function foundLocalReleaseList() {
-        $releaseListFile = Config::getPHPReleaseListPath();
-        return file_exists($releaseListFile);
-    }
-
-
-    static public function getReadyInstance($branch = 'master', Logger $logger = NULL, $offical = false) {
-        static $instance;
-
-        if ($instance) {
-            return $instance;
-        }
-
-        $instance = new self;
-
-        if ($offical) {
-            $releases = self::buildReleaseListFromOfficialSite();
-            $instance->setReleases($releases);
-            return $instance;
-        }
-
-        if ($instance->foundLocalReleaseList()) {
-            $instance->loadLocalReleaseList();
-        } else {
-            $instance->fetchRemoteReleaseList($branch, $logger);
-        }
-        return $instance;
-    }
-
-    static public function buildReleaseListFromOfficialSite() {
-        $raw = file_get_contents('http://php.net/releases/index.php?serialize=1&version=5&max=100');
-        $obj = unserialize($raw);
+        $obj = json_decode($json, true);
         $releaseVersions = array();
         foreach($obj as $k => $v) {
             if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
@@ -218,16 +204,13 @@ class ReleaseList
             }
         }
 
-
         foreach($releaseVersions as $key => & $versions) {
             uksort($releaseVersions[$key],function($a, $b) {
                 return version_compare($b, $a);
             });
         }
+
         return $releaseVersions;
     }
 
 }
-
-
-
