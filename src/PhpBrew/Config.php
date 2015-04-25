@@ -206,6 +206,8 @@ class Config
             closedir($fp);
         }
 
+        rsort($versions);
+
         return $versions;
     }
 
