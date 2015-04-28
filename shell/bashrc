@@ -32,9 +32,7 @@ fi
 
 [[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
 [[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
-
-[[ ! -e $PHPBREW_BIN ]] && mkdir -p $PHPBREW_BIN
-
+[[ -e "$PHPBREW_BIN"  ]] || mkdir -p $PHPBREW_BIN
 
 function __wget_as ()
 {
@@ -83,7 +81,7 @@ function phpbrew ()
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
     else
-        BIN='phpbrew'
+        BIN=$(whereis -b phpbrew | cut -d' ' -f 2-2)
     fi
 
     local exit_status
@@ -338,7 +336,7 @@ function phpbrew ()
             fi
             ;;
         *)
-            command $BIN $short_option "$@"
+            command $PHPBREW_OVERRIDE_PHP $BIN $short_option "$@"
             exit_status=$?
             ;;
     esac
