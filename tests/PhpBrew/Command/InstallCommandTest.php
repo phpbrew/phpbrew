@@ -8,6 +8,9 @@ use PhpBrew\Machine;
  */
 class InstallCommandTest extends CommandTestCase
 {
+
+    public $primaryVersion = '5.5.22';
+
     /**
      * @outputBuffering enabled
      */
@@ -25,8 +28,8 @@ class InstallCommandTest extends CommandTestCase
     {
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs 5.4.35 +default +intl"));
-        $this->assertListContains("5.4.35");
+        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs {$this->primaryVersion} +default +intl"));
+        $this->assertListContains($this->primaryVersion);
     }
 
     /**
@@ -35,7 +38,7 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testUseCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew use 5.4.35"));
+        $this->assertTrue($this->runCommand("phpbrew use {$this->primaryVersion}"));
     }
 
     /**
@@ -44,17 +47,17 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testCtagsCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew ctags 5.4.35"));
+        $this->assertTrue($this->runCommand("phpbrew ctags {$this->primaryVersion}"));
     }
 
     /**
      * @outputBuffering enabled
      * @depends testInstallCommand
      */
-    public function testInstallLikeCommand() {
+    public function testInstallAsCommand() {
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs 5.4.35 as myphp +soap"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs {$this->primaryVersion} as myphp +soap"));
         $this->assertListContains("myphp");
     }
 
@@ -64,7 +67,7 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testCleanCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew --quiet clean 5.4.35"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet clean {$this->primaryVersion}"));
     }
 
     protected function assertListContains($string){

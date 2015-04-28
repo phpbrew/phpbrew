@@ -113,6 +113,10 @@ class InstallCommand extends Command
             ->isa('dir')
             ;
 
+        $opts->add('root','specify phpbrew root instead of PHPBREW_ROOT');
+
+        $opts->add('home','specify phpbrew home instead of PHPBREW_HOME');
+
         $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. ' 
             . 'By default phpbrew will run `make clean` before runnign the configure script '
             . 'to ensure everything is cleaned up.')
@@ -161,14 +165,20 @@ class InstallCommand extends Command
 
     public function execute($version)
     {
-
-
-
         $distUrl = NULL;
         $versionInfo = array();
         $releaseList = ReleaseList::getReadyInstance();
         $clean = new MakeTask($this->logger, $this->options);
         $clean->setQuiet();
+
+
+        if ($root = $this->options->root) {
+            Config::setPhpbrewRoot($root);
+        }
+        if ($home = $this->options->home) {
+            Config::setPhpbrewHome($home);
+        }
+
 
 
         // TODO: Move this to ReleaseList::getLatestVersion()

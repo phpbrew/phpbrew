@@ -2,6 +2,9 @@
 
 <phpunit bootstrap="tests/bootstrap.php"
          backupGlobals="false"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         convertErrorsToExceptions="true"
          colors="true"
          verbose="true">
 
@@ -15,6 +18,8 @@
 
     <testsuites>
         <testsuite name="All">
+            <file>tests/PhpBrew/Command/KnownCommandTest.php</file>
+            <file>tests/PhpBrew/Command/InstallCommandTest.php</file>
             <directory suffix="Test.php">tests</directory>
         </testsuite>
 

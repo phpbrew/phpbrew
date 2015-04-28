@@ -6,6 +6,7 @@ use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\ExtensionDownloader;
+use PhpBrew\Testing\CommandTestCase;
 use PhpBrew\Utils;
 use PHPUnit_Framework_TestCase;
 use CLIFramework\Logger;;
@@ -13,11 +14,20 @@ use GetOptionKit\OptionResult;
 use PhpBrew\Extension\Provider\PeclProvider;
 
 /**
+ * NOTE: This depends on an existing installed php build. we need to ensure
+ * that the installer test runs before this test.
+ *
  * @large
  * @group extension
  */
-class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
+class ExtensionInstallerTest extends CommandTestCase
 {
+
+    public function setUp() {
+        parent::setUp();
+        $this->runCommand("phpbrew use latest");
+    }
+
     public function testPackageUrl()
     {
         $logger = new Logger;
@@ -26,15 +36,15 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         $downloader = new ExtensionDownloader($logger, new OptionResult);
         $peclProvider->setPackageName('APCu');
         $extractPath = $downloader->download($peclProvider, 'latest');
-        path_ok($extractPath);
+        $this->assertFileExists($extractPath);
     }
 
     public function packageNameProvider()
     {
         return array(
-            array('xdebug'),
-            // array('APCu'),
-            // array('yaml'),
+            array('xdebug', '2.3.2'),
+            array('APCu'),
+            array('yaml'),
         );
     }
 
@@ -49,8 +59,9 @@ class ExtensionInstallerTest extends PHPUnit_Framework_TestCase
         $peclProvider = new PeclProvider;
         $downloader = new ExtensionDownloader($logger, new OptionResult);
         $peclProvider->setPackageName($extensionName);
-        $downloader->download($peclProvider, 'latest');
+        $downloader->download($peclProvider, $extensionVersion);
         $ext = ExtensionFactory::lookup($extensionName);
+        $this->assertNotNull($ext);
         $manager->installExtension($ext, array());
     }
 }

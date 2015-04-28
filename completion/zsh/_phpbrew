@@ -136,6 +136,7 @@ local ret=1
               '(-m --more)'{-m,--more}'[Show more older versions]' \
               '(-o --old)'{-o,--old}'[List old phps (less than 5.3)]' \
               '(-u --update)'{-u,--update}'[Update release list]' \
+              '--connect-timeout=[The system aborts the command if downloading of the versions list not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
                && ret=0
         
         ;;
@@ -147,6 +148,8 @@ local ret=1
               '--post-clean[Run make clean after the installation.]' \
               '--production[Use production configuration file. this installer will copy the php-production.ini into the etc directory.]' \
               '--build-dir=[Specify the build directory. the distribution tarball will be extracted to the directory you specified instead of $PHPBREW_ROOT/build/{name}.]:dir:_directories' \
+              '--root[specify phpbrew root instead of PHPBREW_ROOT]' \
+              '--home[specify phpbrew home instead of PHPBREW_HOME]' \
               '--no-clean[Do not clean previously compiled objects before building PHP. By default phpbrew will run `make clean` before runnign the configure script to ensure everything is cleaned up.]' \
               '--no-patch[Do not apply any patch]' \
               '--no-configure[Do not run configure script]' \
@@ -156,6 +159,7 @@ local ret=1
               '--old[Install phpbrew incompatible phps (< 5.3)]' \
               '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
               '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
+              '--connect-timeout=[The system aborts the command if downloading of a php version not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
               '(-f --force)'{-f,--force}'[Force the installation.]' \
               '(-d --dryrun)'{-d,--dryrun}'[Do not build, but run through all the tasks.]' \
               '--like=[Inherit variants from an existing build. This option would require an existing build directory from the {version}.]' \
@@ -175,7 +179,7 @@ local ret=1
         ;;
         (use)
             _arguments -w -S -s \
-              ':installed php:{___phpbrewmeta "installed php" use arg 0 valid-values}' \
+              ':php version:{___phpbrewmeta "php version" use arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -286,7 +290,7 @@ local ret=1
         ;;
         (path)
             _arguments -w -S -s \
-              ':type:("root" "home" "build" "bin" "include" "ext" "config-scan" "dist")' \
+              ':type:("root" "home" "build" "bin" "include" "etc" "ext" "ext-src" "extension-src" "extension-dir" "config-scan" "dist")' \
                && ret=0
         
         ;;
@@ -301,6 +305,7 @@ local ret=1
               '(-f --force)'{-f,--force}'[Force extraction]' \
               '--old[enable old phps (less than 5.3)]' \
               '--mirror=[Use mirror specific site.]' \
+              '--connect-timeout=[The system aborts the command if downloading of a php version not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
               ':php version:("5.3" "5.4" "5.5")' \
                && ret=0
         
@@ -317,13 +322,14 @@ local ret=1
               '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
               '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               '--official[Unserialize release information from official site (using `unserialize` function).]' \
+              '--connect-timeout=[The system aborts the command if downloading of the versions list not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
               ':branchName' \
                && ret=0
         
         ;;
         (ctags)
             _arguments -w -S -s \
-              ':versionName' \
+              ':installed versions:{___phpbrewmeta "installed versions" ctags arg 0 valid-values}' \
                && ret=0
         
         ;;
