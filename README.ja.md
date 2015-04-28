@@ -127,6 +127,12 @@ $ phpbrew install php-5.4.0 +default
 
 こちらでは`default` VARIANTセットをお薦めします。デフォルトセットは常用のVARIANTクラスを収録しています。最小限インストールの場合、`default` VARIANTセットを削除してください。
 
+`-j` または `--jobs` オプションを指定すると、並行ビルドを有効にすることができます。
+以下に例を挙げます：
+
+```bash
+$ phpbrew install -j $(nproc) 5.4.0 +default
+```
 
 テスト：
 
