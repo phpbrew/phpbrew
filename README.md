@@ -102,6 +102,12 @@ $ phpbrew install 5.4.0 +default
 Here we suggest `default` variant set, which includes most commonly used
 variants, if you need a minimum install, just remove the `default` variant set.
 
+You can enable parallel compilation by passing `-j` or `--jobs` option and
+the following is an example:
+
+```bash
+$ phpbrew install -j $(nproc) 5.4.0 +default
+```
 
 With tests:
 
