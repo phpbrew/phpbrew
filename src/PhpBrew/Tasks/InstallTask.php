@@ -22,7 +22,7 @@ class InstallTask extends BaseTask
             if ($code != 0) {
                 throw new RuntimeException('Install failed.', 1);
             }
-                
+
         }
         $build->setState(Build::STATE_INSTALL);
     }

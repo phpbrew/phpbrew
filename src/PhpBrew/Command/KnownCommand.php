@@ -1,6 +1,5 @@
 <?php
 namespace PhpBrew\Command;
-use PhpBrew\Config;
 use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
@@ -38,7 +37,7 @@ class KnownCommand extends \CLIFramework\Command
             $releases = $releaseList->loadLocalReleaseList();
         }
 
-        foreach($releases as $majorVersion => $versions) {
+        foreach ($releases as $majorVersion => $versions) {
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
                 continue;
             }

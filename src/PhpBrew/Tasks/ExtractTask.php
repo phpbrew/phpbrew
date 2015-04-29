@@ -28,6 +28,7 @@ class ExtractTask extends BaseTask
 
         if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
             $this->info("===> Distribution file was successfully extracted, skipping...");
+
             return $extractedDir;
         }
 
@@ -38,11 +39,11 @@ class ExtractTask extends BaseTask
             throw new RuntimeException('Extract failed.');
         }
 
-        if(!is_dir($extractedDirTemp)){
+        if (!is_dir($extractedDirTemp)) {
             throw new RuntimeException("Unable to find $extractedDirTemp");
         }
 
-        if(is_dir($extractedDir)){
+        if (is_dir($extractedDir)) {
             $this->info("===> Removing $extractedDir");
             system("rm -rf $extractedDir", $ret);
             if ($ret != 0) {
@@ -51,11 +52,12 @@ class ExtractTask extends BaseTask
         }
 
         $this->info("===> Moving $extractedDirTemp to $extractedDir");
-        if(!rename($extractedDirTemp, $extractedDir)){
+        if (!rename($extractedDirTemp, $extractedDir)) {
             throw new RuntimeException("Unable to move $extractedDirTemp to $extractedDir");
         }
 
         $build->setState(Build::STATE_EXTRACT);
+
         return $extractedDir;
         /*
          * XXX: unless we have a fast way to verify the extraction.

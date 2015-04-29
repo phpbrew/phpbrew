@@ -1,7 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
 use PhpBrew\Buildable;
-use PhpBrew\Config;
 use PhpBrew\Utils;
 
 /**
@@ -12,7 +11,8 @@ class MakeTask extends BaseTask
     private $buildLogPath;
     private $isQuiet = false;
 
-    public function run(Buildable $build) {
+    public function run(Buildable $build)
+    {
         return $this->make($build->getSourceDirectory(), 'all');
     }
 
@@ -45,6 +45,7 @@ class MakeTask extends BaseTask
     {
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->error("Makefile not found in path $path");
+
             return false;
         }
         $cmd = array(
@@ -59,6 +60,7 @@ class MakeTask extends BaseTask
 
         $this->logger->info("===> Running make $target: " . join(' ', $cmd));
         $ret = Utils::system($cmd, $this->logger);
+
         return $ret == 0;
     }
 }

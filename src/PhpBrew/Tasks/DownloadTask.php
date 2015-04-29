@@ -1,9 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 use PhpBrew\Downloader\UrlDownloader;
-use GetOptionKit\OptionResult;
 use Exception;
-use PhpBrew\Build;
 
 /**
  * Task to download php distributions.
@@ -36,6 +34,7 @@ class DownloadTask extends BaseTask
         } else {
             $downloader->download($url, $targetFilePath);
         }
+
         return $targetFilePath;
     }
 }

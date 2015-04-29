@@ -14,6 +14,7 @@ class BuildTask extends BaseTask
     {
         if ($build->getState() >= Build::STATE_BUILD) {
         $this->info("===> Already built, skipping...");
+
             return;
         }
 
@@ -25,7 +26,7 @@ class BuildTask extends BaseTask
         $cmd->setStdout($this->options->{'stdout'});
 
         if (!empty($targets)) {
-            foreach($targets as $t) {
+            foreach ($targets as $t) {
                 $cmd->addArg($t);
             }
         }
@@ -43,7 +44,7 @@ class BuildTask extends BaseTask
         if (!$this->options->dryrun) {
             $startTime = microtime(true);
             $code = $cmd->execute();
-            if ($code != 0 ){
+            if ($code != 0) {
                 throw new RuntimeException('Make failed.');
             }
             $buildTime = round((microtime(true) - $startTime) / 60, 1);

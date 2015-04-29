@@ -17,7 +17,7 @@ class PrepareDirectoryTask extends BaseTask
         if ($build) {
             $dirs[] = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         }
-        foreach($dirs as $dir) {
+        foreach ($dirs as $dir) {
             if (!file_exists($dir)) {
                 $this->logger->debug("Creating directory $dir");
                 mkdir($dir, 0755, true);

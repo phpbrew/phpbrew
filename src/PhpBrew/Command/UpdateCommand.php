@@ -1,9 +1,5 @@
 <?php
 namespace PhpBrew\Command;
-use PhpBrew\Config;
-use PhpBrew\ExtensionList;
-use PhpBrew\ReleaseList;
-use PhpBrew\Tasks\FetchExtensionListTask;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
 class UpdateCommand extends \CLIFramework\Command
@@ -24,7 +20,7 @@ class UpdateCommand extends \CLIFramework\Command
             ;
 
         $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
-        
+
         $opts->add('connect-timeout:', 'The system aborts the command if downloading '
                 . 'of the versions list not starts during this limit. This option '
                 . 'overrides a value of CONNECT_TIMEOUT environment variable.')
@@ -37,12 +33,12 @@ class UpdateCommand extends \CLIFramework\Command
         $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
         $releases = $fetchTask->fetch();
 
-        foreach($releases as $majorVersion => $versions) {
+        foreach ($releases as $majorVersion => $versions) {
             if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
                 continue;
             }
             $versionList = array_keys($versions);
-            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') 
+            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow')
                 . count($versionList) . ' releases');
         }
         $this->logger->info('===> Done');

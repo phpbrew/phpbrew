@@ -7,7 +7,6 @@ use PhpBrew\Config;
 use PhpBrew\VariantBuilder;
 use PhpBrew\Build;
 
-
 /**
  * Task to run `make`
  */
@@ -122,7 +121,7 @@ class ConfigureTask extends BaseTask
             $code = $cmd->execute();
             if ($code != 0)
                 throw new RuntimeException("Configure failed. $code", 1);
-                
+
         }
 
         if (!$this->options->{'no-patch'}) {

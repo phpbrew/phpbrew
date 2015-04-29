@@ -1,10 +1,8 @@
 <?php
 namespace PhpBrew;
-use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
-use PhpBrew\Config;
 use Exception;
 use RuntimeException;
 
@@ -23,15 +21,15 @@ class ReleaseList
     public $versions = array();
 
     public function __construct($releases = array())
-    { 
+    {
         $this->setReleases($releases);
     }
 
     public function setReleases(array $releases)
     {
         $this->releases = $releases;
-        foreach($this->releases as $major => $versionReleases) {
-            foreach($versionReleases as $version => $release) {
+        foreach ($this->releases as $major => $versionReleases) {
+            foreach ($versionReleases as $version => $release) {
                 $this->versions[ $version ] = $release;
             }
         }
@@ -49,13 +47,14 @@ class ReleaseList
         }
         if ($releases = json_decode($json, true)) {
             $this->setReleases($releases);
+
             return $releases;
         } else {
             throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json,0, 125) );
         }
     }
 
-    public function loadJsonFile($file) 
+    public function loadJsonFile($file)
     {
         $this->loadJson(file_get_contents($file));
     }
@@ -71,12 +70,15 @@ class ReleaseList
         if (!$latest) {
             throw new Exception("Latest major version not found.");
         }
+
         return $latest['version'];
     }
 
-    public function getLatestPatchVersion($version) {
+    public function getLatestPatchVersion($version)
+    {
         if (isset($this->releases[$version])) {
             reset($this->releases[$version]);
+
             return current($this->releases[$version]);
         }
     }
@@ -88,6 +90,7 @@ class ReleaseList
         } elseif (isset($this->versions[$version])) {
             return $this->versions[$version];
         }
+
         return false;
     }
 
@@ -101,19 +104,24 @@ class ReleaseList
         }
     }
 
-    public function foundLocalReleaseList() {
+    public function foundLocalReleaseList()
+    {
         $releasesFile = Config::getPHPReleaseListPath();
+
         return file_exists($releasesFile);
     }
 
-    public function loadLocalReleaseList() {
+    public function loadLocalReleaseList()
+    {
         if ($this->foundLocalReleaseList()) {
             $this->loadJsonFile(Config::getPHPReleaseListPath());
+
             return $this->releases;
         }
     }
 
-    public function save() {
+    public function save()
+    {
         $localFilepath = Config::getPHPReleaseListPath();
         $json = json_encode($this->releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         if (false === file_put_contents($localFilepath, $json)) {
@@ -121,17 +129,19 @@ class ReleaseList
         }
     }
 
-    public function fetchRemoteReleaseList(OptionResult $options = null) {
+    public function fetchRemoteReleaseList(OptionResult $options = null)
+    {
         $releases = self::buildReleaseListFromOfficialSite($options);
         $this->setReleases($releases);
         $this->save();
     }
 
-    static public function getReadyInstance(OptionResult $options = null) {
+    public static function getReadyInstance(OptionResult $options = null)
+    {
         static $instance;
 
         if ($instance) { return $instance; }
-        
+
         $instance = new self;
 
         if ($instance->foundLocalReleaseList()) {
@@ -143,7 +153,8 @@ class ReleaseList
         return $instance;
     }
 
-    static public function buildReleaseListFromOfficialSite(OptionResult $options = null) {
+    public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
+    {
         if (!extension_loaded('openssl')) {
             throw new Exception(
                 'openssl extension not found, to download releases file you need openssl.');
@@ -179,7 +190,7 @@ class ReleaseList
 
         $obj = json_decode($json, true);
         $releaseVersions = array();
-        foreach($obj as $k => $v) {
+        foreach ($obj as $k => $v) {
             if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
                 list($o, $major, $minor) = $matches;
                 $release = array( 'version' => $k );
@@ -204,8 +215,8 @@ class ReleaseList
             }
         }
 
-        foreach($releaseVersions as $key => & $versions) {
-            uksort($releaseVersions[$key],function($a, $b) {
+        foreach ($releaseVersions as $key => & $versions) {
+            uksort($releaseVersions[$key],function ($a, $b) {
                 return version_compare($b, $a);
             });
         }

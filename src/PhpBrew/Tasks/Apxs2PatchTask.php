@@ -1,8 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
 
-use RuntimeException;
-use PhpBrew\Utils;
 use PhpBrew\Patch\PatchCollection;
 
 class Apxs2PatchTask extends BaseTask
