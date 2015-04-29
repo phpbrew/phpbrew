@@ -1,6 +1,8 @@
 PHPBrew
 ==========
 
+*他の言語でもお読み頂けます: [English](README.md), [日本語](README.ja.md).*
+
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 
