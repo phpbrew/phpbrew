@@ -1,7 +1,0 @@
-#!/usr/bin/env php
-<?php
-require 'vendor/autoload.php';
-use PhpBrew\ReleaseList;
-$releaseVersions = ReleaseList::buildReleaseListFromOfficialSite();
-$json = json_encode($releaseVersions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-file_put_contents('assets/php-releases.json', $json);
