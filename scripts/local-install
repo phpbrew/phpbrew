@@ -1,4 +1,0 @@
-#!/bin/bash
-scripts/compile
-onion build
-sudo pear install -f package.xml
