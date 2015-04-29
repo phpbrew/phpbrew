@@ -1,10 +1,6 @@
 <?php
 namespace PhpBrew;
-use PhpBrew\Version;
-use Exception;
 use Serializable;
-use PhpBrew\Utils;
-use PhpBrew\Buildable;
 use PhpBrew\BuildSettings\BuildSettings;
 
 /**
@@ -85,7 +81,6 @@ class Build implements Serializable, Buildable
         $this->version = preg_replace('#^php-#', '', $version);
     }
 
-
     public function getVersion()
     {
         return $this->version;
@@ -109,6 +104,7 @@ class Build implements Serializable, Buildable
         if ($this->sourceDirectory && !file_exists($this->sourceDirectory)) {
             mkdir($this->sourceDirectory, 0755, true);
         }
+
         return $this->sourceDirectory;
     }
 
@@ -117,9 +113,10 @@ class Build implements Serializable, Buildable
         return file_exists($this->sourceDirectory . DIRECTORY_SEPARATOR . 'Makefile');
     }
 
-    public function getBuildLogPath() 
+    public function getBuildLogPath()
     {
         $dir = $this->getSourceDirectory() . DIRECTORY_SEPARATOR . 'build.log';
+
         return $dir;
     }
 
@@ -166,7 +163,6 @@ class Build implements Serializable, Buildable
         return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
     }
 
-
     /**
      * Returns a build identifier.
      */
@@ -203,7 +199,6 @@ class Build implements Serializable, Buildable
         return join('-', $names);
     }
 
-
     public function getSourceExtensionDirectory()
     {
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
@@ -229,9 +224,9 @@ class Build implements Serializable, Buildable
     {
         $build = new self($this->version);
         $build->import($data);
+
         return $build;
     }
-
 
     /**
      * XXX: Make sure Serializable interface works for php 5.3
@@ -256,6 +251,7 @@ class Build implements Serializable, Buildable
             // a installation exists
             return new self($name, NULL, $prefix);
         }
+
         return null;
     }
 
@@ -291,14 +287,16 @@ class Build implements Serializable, Buildable
         }
     }
 
-    public function setState($state) {
+    public function setState($state)
+    {
         $this->state = $state;
         if ($path = $this->getStateFile()) {
             file_put_contents($path, $state);
         }
     }
 
-    public function getState() {
+    public function getState()
+    {
         if ($this->state) {
             return $this->state;
         }
@@ -307,6 +305,7 @@ class Build implements Serializable, Buildable
                 return $this->state = intval(file_get_contents($path)) || self::STATE_NONE;
             }
         }
+
         return self::STATE_NONE;
     }
 
@@ -326,7 +325,8 @@ class Build implements Serializable, Buildable
         $this->unserialize($serialized);
     }
 
-    public function __call($m, $a) {
+    public function __call($m, $a)
+    {
         return call_user_func_array(array($this->settings,$m), $a);
     }
 }
