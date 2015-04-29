@@ -60,6 +60,20 @@ class ReleaseList
         $this->loadJson(file_get_contents($file));
     }
 
+    /**
+     * Returns the latest PHP version.
+     */
+    public function getLatestVersion()
+    {
+        $releases = $this->getReleases();
+        $latestMajor = array_shift($releases);
+        $latest = array_shift($latestMajor);
+        if (!$latest) {
+            throw new Exception("Latest major version not found.");
+        }
+        return $latest['version'];
+    }
+
     public function getLatestPatchVersion($version) {
         if (isset($this->releases[$version])) {
             reset($this->releases[$version]);

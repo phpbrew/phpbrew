@@ -179,19 +179,9 @@ class InstallCommand extends Command
             Config::setPhpbrewHome($home);
         }
 
-
-
-        // TODO: Move this to ReleaseList::getLatestVersion()
         if ("latest" === strtolower($version)) {
-            $releases = $releaseList->getReleases();
-            $latestMajor = array_shift($releases);
-            $latest = array_shift($latestMajor);
-            if (!$latest) {
-                throw new Exception("Latest major version not found.");
-            }
-            $version = $latest['version'];
+            $version = $releaseList->getLatestVersion();
         }
-
 
         if (preg_match('#https?://#',$version)) {
             $distUrl = $version;

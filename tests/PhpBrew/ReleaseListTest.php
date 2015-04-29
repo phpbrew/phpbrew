@@ -30,7 +30,6 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
         );
     }
 
-
     public function versionDataProvider() {
         return array(
             array("5.3", "5.3.29"),
@@ -50,4 +49,19 @@ class ReleaseListTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($version['version'], $minor);
     }
 
+    /**
+     * @dataProvider versionDataProvider
+     */
+    public function testGetLatestVersion($major, $minor)
+    {
+        $latestVersion = $this->releaseList->getLatestVersion();
+
+        $this->assertNotNull($latestVersion);
+
+        $versions = $this->releaseList->getVersions($major);
+
+        foreach ($versions as $versionInfo) {
+            $this->assertTrue($latestVersion >= $versionInfo['version']);
+        }
+    }
 }
