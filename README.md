@@ -350,7 +350,7 @@ $ phpbrew self-update
 
 ## The Installed PHP(s)
 
-The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.0RC7 is located at:
+The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.20 is located at:
 
     ~/.phpbrew/php/5.4.20/bin/php
 
