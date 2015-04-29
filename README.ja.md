@@ -130,7 +130,7 @@ $ phpbrew clean
 
 ## バリアント（variants）
 
-PHPBrewは `configure` スクリプトのオプションをあなたの代わりに管理してくれます。
+PHPBrew は `configure` スクリプトのオプションをあなたの代わりに管理してくれます。
 シンプルにバリアント名を指定してください。そうすると、PHPBrew が include パスとビルドオプションを検知してくれます。
 
 PHPBrew は default variants といくつかの virtual variants を提供します。
@@ -165,13 +165,12 @@ Using variants to build PHP:
   phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
 ```
 
-To enable one variant, simply add a prefix `+` before the variant name, eg
-ある variant を有効化するには、`+` を variant 名の最初にプレフィックスとして付けます。
+variant を有効化するには、`+` を variant 名の最初にプレフィックスとして付けます。
 例えば、
 
     +mysql
 
-ある variant を無効化するには、`-` を variant 名の最初にプレフィックスとして付けます。
+variant を無効化するには、`-` を variant 名の最初にプレフィックスとして付けます。
 例えば、
 
     -debug
@@ -473,12 +472,9 @@ PS1=" \$(phpbrew_current_php_version) \$ "
 FAQ
 -------------------------
 
-Q: How do I have the same version with different compile option?
 Q: 異なるコンパイルオプションを指定した、同一バージョンの PHP はどうすれば実現可能ですか？
 
-A: Currently, you can install php5.x.x and rename the /Users/phpbrew/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3
-A: 今のところ、php5.x.x をインストールして /Users/phpbrew/.phpbrew/php/php-5.x.x フォルダを新しい名前にリネームすることで実現可能です。
-   例えば、php-5.x.x-super にリネームして別の php-5.3.3 をインストールする、といったように。
+A: 今のところ、php5.x.x をインストールして /Users/phpbrew/.phpbrew/php/php-5.x.x フォルダを新しい名前にリネームすることで実現可能です。例えば、php-5.x.x-super にリネームして別の php-5.3.3 をインストールする、といったように。
 
 
 コントリビュート
