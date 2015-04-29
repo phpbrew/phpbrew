@@ -258,6 +258,14 @@ Turn Off:
 $ phpbrew off
 ```
 
+If you enable apache PHP modules, remember to comment out or remove the settings.
+
+```bash
+$ sudo vim /etc/httpd/conf/httpd.conf
+# LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.21.so
+# LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.20.so
+```
+
 ## List installed PHP
 
 ```bash

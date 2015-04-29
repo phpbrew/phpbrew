@@ -250,6 +250,14 @@ phpbrew を使用するのをやめる:
 $ phpbrew off
 ```
 
+apache モジュールを有効にしている場合、忘れずにその設定もコメントアウトするか削除するかしてください。
+
+```bash
+$ sudo vim /etc/httpd/conf/httpd.conf
+# LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.21.so
+# LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.20.so
+```
+
 ## インストールされたPHPを一覧表示する
 
 ```bash
