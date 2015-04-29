@@ -60,7 +60,9 @@ class Version
     }
 
 
-
+    public function getPatchVersion() {
+        return $this->patchVersion;
+    }
 
     public function getMinorVersion() {
         return $this->minorVersion;

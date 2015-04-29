@@ -27,4 +27,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Version::hasPatchVersion('5.5.2'));
         $this->assertFalse(Version::hasPatchVersion('5.5'));
     }
+
+    public function testGetPatchVersion() {
+        $version = new Version('php-5.4.22');
+        $this->assertSame(22, $version->getPatchVersion());
+    }
 }

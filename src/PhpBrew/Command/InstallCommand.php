@@ -18,6 +18,7 @@ use CLIFramework\ValueCollection;
 use PhpBrew\Build;
 use PhpBrew\ReleaseList;
 use PhpBrew\BuildSettings\DefaultBuildSettings;
+use PhpBrew\Distribution\DistributionUrlPolicy;
 use CLIFramework\Command;
 
 /*
@@ -199,11 +200,11 @@ class InstallCommand extends Command
             }
             $version = $versionInfo['version'];
 
-            $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
-            if ($mirrorSite = $this->options->mirror) {
-                // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
-                $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+            $distUrlPolicy = new DistributionUrlPolicy();
+            if ($this->options->mirror) {
+                $distUrlPolicy->setMirrorSite($this->options->mirror);
             }
+            $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename']);
         }
 
         // get options and variants for building php
