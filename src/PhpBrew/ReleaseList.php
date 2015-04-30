@@ -7,6 +7,7 @@ use Exception;
 use RuntimeException;
 
 defined('JSON_UNESCAPED_SLASHES') || define('JSON_UNESCAPED_SLASHES', 0);
+defined('JSON_PRETTY_PRINT') || define('JSON_PRETTY_PRINT', 128);
 
 class ReleaseList
 {
