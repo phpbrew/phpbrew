@@ -6,14 +6,17 @@ use PhpBrew\VariantParser;
  */
 class VariantParserTest extends PHPUnit_Framework_TestCase
 {
+    public function makeArgs($arg)
+    {
+        return VariantParser::parseCommandArguments(preg_split('#\s+#', $arg));
+    }
+
     public function test()
     {
-        $arg = '+pdo+sqlite+debug'
+        $info = $this->makeArgs('+pdo+sqlite+debug'
                 . '+apxs=/opt/local/apache2/bin/apxs+calendar'
                 . '-mysql'
-                . ' -- --with-icu-dir /opt/local';
-        $args = preg_split('#\s+#',$arg);
-        $info = VariantParser::parseCommandArguments($args);
+                . ' -- --with-icu-dir /opt/local');
 
         $this->assertNotEmpty($info['enabled_variants']);
         $this->assertNotEmpty($info['disabled_variants']);
@@ -26,9 +29,7 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
 
     public function testVariantAll()
     {
-        $arg = '+all -apxs2 -mysql';
-        $args = preg_split('#\s+#',$arg);
-        $info = VariantParser::parseCommandArguments($args);
+        $info = $this->makeArgs('+all -apxs2 -mysql');
 
         $this->assertNotEmpty($info['enabled_variants']);
         $this->assertNotEmpty($info['disabled_variants']);
@@ -54,8 +55,22 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
      */
     public function testVariantGroupOverload($arg, array $variant)
     {
-        $args = preg_split('#\s+#',$arg);
-        $info = VariantParser::parseCommandArguments($args);
+        $info = $this->makeArgs($arg);
         $this->assertArraySubset($variant, $info['enabled_variants']);
+    }
+
+    /**
+     * @link https://github.com/phpbrew/phpbrew/issues/495
+     */
+    public function testBug495()
+    {
+        $variants = $this->makeArgs('+gmp=/path/x86_64-linux-gnu -openssl-xdebug');
+        $expected = array(
+            'enabled_variants' => array(
+                'gmp' => '/path/x86_64-linux-gnu'
+            ),
+            'disabled_variants' => array('openssl' => true)
+        );
+        $this->assertArraySubset($expected, $variants);
     }
 }

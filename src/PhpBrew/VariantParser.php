@@ -21,7 +21,6 @@ class VariantParser
     public static function parseCommandArguments(array $args)
     {
         $extra = array();
-
         $enabledVariants = array();
         $disabledVariants = array();
 
@@ -42,17 +41,20 @@ class VariantParser
                 if (substr($arg, 0, 2) === '--') {
                     throw new InvalidVariantSyntaxException("Invalid variant syntax exception start with '--': " . $arg);
                 }
-                $variantStrings = preg_split('#(?=[+-])#', $arg);
-                $variantStrings = array_filter($variantStrings);
-                foreach ($variantStrings as $str) {
-                    if ($str[0] == '+') {
-                        $a = self::splitVariantValue(substr($str, 1));
-                        $enabledVariants = array_merge($enabledVariants, $a);
-                    } elseif ($str[0] == '-') {
-                        $a = self::splitVariantValue(substr($str, 1));
-                        $disabledVariants = array_merge($disabledVariants, $a);
-                    } else {
-                        throw new InvalidVariantSyntaxException($str . " is invalid syntax");
+                preg_match_all('#[+-][\w_]+(=[\"\'\/\w_-]+)?#', $arg, $variantStrings);
+
+                if(isset($variantStrings[0])) {
+                    $variantStrings = array_filter($variantStrings[0]);
+                    foreach ($variantStrings as $str) {
+                        if ($str[0] == '+') {
+                            $a = self::splitVariantValue(substr($str, 1));
+                            $enabledVariants = array_merge($enabledVariants, $a);
+                        } elseif ($str[0] == '-') {
+                            $a = self::splitVariantValue(substr($str, 1));
+                            $disabledVariants = array_merge($disabledVariants, $a);
+                        } else {
+                            throw new InvalidVariantSyntaxException($str . " is invalid syntax");
+                        }
                     }
                 }
             } else {
