@@ -58,6 +58,7 @@ local ret=1
   local commands; commands=(
     help:'Show help message of a command'
     zsh:'This function generate a zsh-completion script automatically'
+    bash:'This command generate a bash completion script automatically'
     meta:'Return the meta data of a commands.'
     github:build-topics:'Build topic classes from the wiki of a GitHub Project.'
     init:'Initialize phpbrew config file.'
@@ -103,8 +104,16 @@ local ret=1
                && ret=0
         
         ;;
+        (bash)
+            _arguments -w -S -s \
+              '--bind=[bind complete to command]' \
+              '--program=[programe name]' \
+               && ret=0
+        
+        ;;
         (meta)
             _arguments -w -S -s \
+              '--flat[flat list format. work for both zsh and bash.]' \
               '--zsh[output for zsh]' \
               '--bash[output for bash]' \
               '--json[output in JSON format (un-implemented)]' \
