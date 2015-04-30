@@ -36,7 +36,6 @@ update:
 
 update/assets:
 		bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew
-		./scripts/update-releases-json
 		php bin/phpbrew github:build-topics --dir src phpbrew phpbrew
 
 test:
