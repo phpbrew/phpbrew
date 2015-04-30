@@ -69,7 +69,7 @@ class VariantParserTest extends PHPUnit_Framework_TestCase
             'enabled_variants' => array(
                 'gmp' => '/path/x86_64-linux-gnu'
             ),
-            'disabled_variants' => array('openssl' => true)
+            'disabled_variants' => array('openssl' => true, 'xdebug' => true)
         );
         $this->assertArraySubset($expected, $variants);
     }
