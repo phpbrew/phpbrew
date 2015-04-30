@@ -323,7 +323,6 @@ local ret=1
               '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               '--official[Unserialize release information from official site (using `unserialize` function).]' \
               '--connect-timeout=[The system aborts the command if downloading of the versions list not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
-              ':branchName' \
                && ret=0
         
         ;;
