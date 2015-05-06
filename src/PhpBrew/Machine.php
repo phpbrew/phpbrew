@@ -3,6 +3,10 @@ namespace PhpBrew;
 
 use PhpBrew\Utils;
 
+/**
+ * TODO
+ * merge this class into PhpBrew\Platform\Hardware
+ */
 class Machine
 {
     private static $instance;
