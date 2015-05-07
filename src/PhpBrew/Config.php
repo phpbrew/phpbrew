@@ -168,6 +168,7 @@ class Config
         if (!empty($builds)) {
             return $builds[0]; // latest
         }
+        throw new Exception("Could not guess latest installed version.");
     }
 
     static public function putPathEnvFor($buildName) {
