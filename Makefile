@@ -10,6 +10,7 @@ default:
 		 onion compile \
 			--lib src \
 			--lib vendor/corneltek/cliframework/src \
+			--lib vendor/pimple/pimple/src \
 			--lib vendor/corneltek/pearx/src \
 			--lib vendor/corneltek/getoptionkit/src \
 			--lib vendor/corneltek/curlkit/src \
