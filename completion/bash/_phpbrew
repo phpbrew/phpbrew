@@ -1446,7 +1446,11 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
-      __complete_meta "$command_signature" "arg" 0 "valid-values"
+      COMPREPLY=( $(compgen -W "7.0.0
+5.6.8
+5.5.24
+5.4.40
+5.3.29" -- $cur) )
       return
       ;;
   esac
@@ -1582,7 +1586,11 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
-      __complete_meta "$command_signature" "arg" 0 "valid-values"
+      COMPREPLY=( $(compgen -W "7.0.0
+5.6.8
+5.5.24
+5.4.40
+5.3.29" -- $cur) )
       return
       ;;
   esac
@@ -3726,7 +3734,11 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
-      __complete_meta "$command_signature" "arg" 0 "valid-values"
+      COMPREPLY=( $(compgen -W "php-7.0.0
+php-5.6.8
+php-5.5.24
+php-5.4.40
+php-5.3.29" -- $cur) )
       return
       ;;
   esac
