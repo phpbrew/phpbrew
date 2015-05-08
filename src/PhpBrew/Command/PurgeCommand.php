@@ -12,7 +12,7 @@ class PurgeCommand extends \CLIFramework\Command
 
     public function arguments($args) {
         $args->add('installed php')
-            ->validValues('PhpBrew\\Config::getInstalledPhpVersions')
+            ->validValues(\PhpBrew\Config::getInstalledPhpVersions())
             ;
     }
 
