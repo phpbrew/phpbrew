@@ -28,11 +28,10 @@ class ConfigureTask extends BaseTask
     {
         $variantBuilder = new VariantBuilder;
         $extra = $build->getExtraOptions();
-
         if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running buildconf script...");
-            $lastline = system('./buildconf');
-            if ($lastline !== false) {
+            $lastline = system('./buildconf', $status);
+            if ($status !== 0) {
                 throw new RuntimeException("buildconf error: $lastline", 1);
             }
         }
