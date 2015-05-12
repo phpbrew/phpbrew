@@ -86,7 +86,7 @@ class UrlDownloader
     public function resolveDownloadFileName($url)
     {
         // Check if the url is for php source archive
-        if (preg_match('/php-.+\.tar\.(bz2|gz|xz)/', $url, $parts)) {
+        if (preg_match('/php-\d.+\.tar\.(bz2|gz|xz)/', $url, $parts)) {
             return $parts[0];
         }
 
