@@ -55,7 +55,7 @@ class CommandBuilder
         $line = system($command, $ret);
         if ($ret != 0) {
             // XXX: improve this later.
-            echo substr($line,0, 78) . "\n";
+            echo substr($line,0, 78) , "\n";
         }
         return $ret;
     }

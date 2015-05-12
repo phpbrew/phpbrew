@@ -530,7 +530,7 @@ class VariantBuilder
                     $build->disableVariant($c);
                 }
 
-                echo join("\n", $msgs) . "\n";
+                echo join("\n", $msgs) , "\n";
             }
         }
 

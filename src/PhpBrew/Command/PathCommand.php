@@ -41,20 +41,20 @@ class PathCommand extends Command
                 echo Config::getCurrentPhpBin();
                 break;
             case 'include':
-                echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) .
-                    DIRECTORY_SEPARATOR . 'include';
+                echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) ,
+                    DIRECTORY_SEPARATOR , 'include';
                 break;
             case 'extension-src':
             case 'ext-src':
-                echo Config::getCurrentBuildDir() . DIRECTORY_SEPARATOR . 'ext';
+                echo Config::getCurrentBuildDir() , DIRECTORY_SEPARATOR , 'ext';
                 break;
             case 'extension-dir':
             case 'ext-dir':
                 echo ini_get('extension_dir');
                 break;
             case 'etc':
-                echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) .
-                    DIRECTORY_SEPARATOR . 'etc';
+                echo Config::getVersionInstallPrefix(Config::getCurrentPhpName()) ,
+                    DIRECTORY_SEPARATOR , 'etc';
                 break;
         }
     }

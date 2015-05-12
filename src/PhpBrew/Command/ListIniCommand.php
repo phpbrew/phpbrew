@@ -16,7 +16,7 @@ class ListIniCommand extends Command
             if (strlen($filelist) > 0) {
                 $files = explode(',', $filelist);
                 foreach ($files as $file) {
-                    echo " - " . trim($file) . "\n";
+                    echo " - " , trim($file) , "\n";
                 }
             }
         }
