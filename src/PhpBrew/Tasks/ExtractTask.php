@@ -34,13 +34,17 @@ class ExtractTask extends BaseTask
 
         // NOTICE: Always extract to prevent incomplete extraction
         $this->info("===> Extracting $targetFilePath to $extractedDirTemp");
-        system("tar -C $extractDirTemp -xjf $targetFilePath", $ret);
+        system("tar -C $extractDirTemp -xf $targetFilePath", $ret);
         if ($ret != 0) {
             throw new RuntimeException('Extract failed.');
         }
-
+        clearstatcache(true);
         if (!is_dir($extractedDirTemp)) {
-            throw new RuntimeException("Unable to find $extractedDirTemp");
+            // retry with github extracted dir path
+            $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . 'php-src-' . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
+            if(! is_dir($extractedDirTemp)) {
+                throw new RuntimeException("Unable to find $extractedDirTemp");
+            }
         }
 
         if (is_dir($extractedDir)) {

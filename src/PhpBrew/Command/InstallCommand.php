@@ -21,10 +21,6 @@ use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Distribution\DistributionUrlPolicy;
 use CLIFramework\Command;
 
-/*
- * TODO: refactor tasks to Task class.
- */
-
 class InstallCommand extends Command
 {
     public function brief()
@@ -184,14 +180,18 @@ class InstallCommand extends Command
             $version = $releaseList->getLatestVersion();
         }
 
-        if (preg_match('#https?://#',$version)) {
+        if (preg_match('#^https?://#',$version)) {
             $distUrl = $version;
             if (preg_match('#(php-(\d.\d+.\d+)\.tar\.(?:gz|bz2))#',$version, $matches)) {
                 $filename = $matches[1];
                 $version = $matches[2];
             } else {
-                return $this->error("Can not find version name from the given URL: $version");
+                throw new Exception("Can not find version name from the given URL: $version");
             }
+        } else if(preg_match('#^next(:.+)?#',$version)) {
+            $branch = str_replace(['next', ':'], '', $version) ?: 'master';
+            $version = "php-7.0.0-{$branch}";
+            $distUrl = "https://github.com/php/php-src/archive/{$branch}.tar.gz";
         } else {
             $version = preg_replace('/^php-/', '', $version);
             $versionInfo = $releaseList->getVersion($version);
