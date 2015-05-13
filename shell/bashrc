@@ -13,12 +13,28 @@
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 
+function __phpbrew_set_path()
+{
+    [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
+
+    if [[ -n $PHPBREW_ROOT ]] ; then
+        export PATH_WITHOUT_PHPBREW=$(AR=(); for i in `echo $PATH|tr ':' ' '` ; do [[ `expr "$i" : "$PHPBREW_ROOT" 2>/dev/null` -eq 0 ]] && AR+=($i); done; echo "${AR[*]}"|tr ' ' ':';)
+    fi
+
+    if [[ -z "$PHPBREW_PATH" ]]
+    then
+        export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+    else
+        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+    fi
+}
+
 function __phpbrew_load_user_config()
 {
     # load user-defined config
     if [[ -f $PHPBREW_HOME/init ]]; then
         . $PHPBREW_HOME/init
-        export PATH=$PHPBREW_PATH:$PATH
+        __phpbrew_set_path
     fi
 }
 
@@ -344,24 +360,6 @@ function phpbrew ()
     esac
     hash -r
     return ${exit_status:-0}
-}
-
-function __phpbrew_set_path ()
-{
-    [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
-
-    if [[ -n $PHPBREW_ROOT ]] ; then
-        export PATH_WITHOUT_PHPBREW=$(AR=(); for i in `echo $PATH|tr ':' ' '` ; do [[ `expr "$i" : "$PHPBREW_ROOT" 2>/dev/null` -eq 0 ]] && AR+=($i); done; echo "${AR[*]}"|tr ' ' ':';)
-
-    fi
-
-    if [[ -z "$PHPBREW_PATH" ]]
-    then
-        export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
-    else
-        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
-    fi
-    # echo "PATH => $PATH"
 }
 
 function __phpbrew_update_config ()
