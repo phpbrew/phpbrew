@@ -494,7 +494,7 @@ function _phpbrewrc_load ()
         OLDPWD="$prev_dir"
     fi
 
-    PHPBREW_LAST_DIR="$PWD"
+    export PHPBREW_LAST_DIR="$PWD"
 }
 
 if [[ -n "$BASH_VERSION" && -z "$PHPBREW_RC_DISABLE" ]]; then
