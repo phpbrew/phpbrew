@@ -21,7 +21,7 @@ class PathCommandTest extends CommandTestCase
     }
 
     public function testUseLatestPHP() {
-        $this->runCommand("phpbrew use latest");
+        $this->runCommand("phpbrew use " . PHP_VERSION);
     }
 
     /**

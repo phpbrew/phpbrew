@@ -2,6 +2,7 @@
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;
+use PhpBrew\Config;
 
 /**
  * @codeCoverageIgnore
@@ -12,7 +13,7 @@ class UseCommand extends Command
     public function arguments($args) {
         $args->add('php version')
             ->validValues(function(){
-                \PhpBrew\Config::findMatchedBuilds();
+                return Config::findMatchedBuilds();
             })
             ;
     }

@@ -1,6 +1,8 @@
 <?php
 namespace PhpBrew\Command;
 
+use PhpBrew\Config;
+
 /**
  * @codeCoverageIgnore
  */
@@ -10,7 +12,7 @@ class SwitchCommand extends VirtualCommand
     public function arguments($args) {
         $args->add('installed php')
             ->validValues(function() {
-                return \PhpBrew\Config::findMatchedBuilds();
+                return Config::findMatchedBuilds();
             })
             ;
     }
