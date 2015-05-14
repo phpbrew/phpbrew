@@ -25,7 +25,7 @@ class ExtensionInstallerTest extends CommandTestCase
 
     public function setUp() {
         parent::setUp();
-        $this->runCommand("phpbrew use latest");
+        $this->runCommand("phpbrew use {$this->primaryVersion}");
     }
 
     public function testPackageUrl()
@@ -42,7 +42,7 @@ class ExtensionInstallerTest extends CommandTestCase
     public function packageNameProvider()
     {
         return array(
-            array('xdebug', '2.3.2'),
+            array('xdebug'),
             array('APCu'),
             array('yaml'),
         );
@@ -54,7 +54,7 @@ class ExtensionInstallerTest extends CommandTestCase
     public function testInstallPackages($extensionName, $extensionVersion = 'latest')
     {
         $logger = new Logger;
-        $logger->setQuiet();
+        $logger->setDebug();
         $manager = new ExtensionManager($logger);
         $peclProvider = new PeclProvider;
         $downloader = new ExtensionDownloader($logger, new OptionResult);

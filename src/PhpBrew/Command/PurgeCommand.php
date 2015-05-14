@@ -10,7 +10,6 @@ use Exception;
  */
 class PurgeCommand extends Command
 {
-
     public function arguments($args) {
         $args->add('installed php')
             ->validValues(function(){

@@ -9,7 +9,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
     private $previousPhpBrewRoot;
     private $previousPhpBrewHome;
 
-
+    public $primaryVersion = '5.5.22';
 
     public function setupApplication()
     {

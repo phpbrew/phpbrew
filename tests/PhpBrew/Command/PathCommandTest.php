@@ -7,6 +7,7 @@ use PhpBrew\Testing\CommandTestCase;
  */
 class PathCommandTest extends CommandTestCase
 {
+
     public function argumentsProvider() {
 
         return array(
@@ -21,7 +22,7 @@ class PathCommandTest extends CommandTestCase
     }
 
     public function testUseLatestPHP() {
-        $this->runCommand("phpbrew use " . PHP_VERSION);
+        $this->runCommand("phpbrew use {$this->primaryVersion}");
     }
 
     /**
