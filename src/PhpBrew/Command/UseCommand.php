@@ -1,15 +1,20 @@
 <?php
 namespace PhpBrew\Command;
-use CLIFramework\Command;
-use PhpBrew\Config;
-use Exception;
 
+use CLIFramework\Command;
+
+/**
+ * @codeCoverageIgnore
+ */
 class UseCommand extends Command
 {
 
     public function arguments($args) {
         $args->add('php version')
-            ->validValues(\PhpBrew\Config::findMatchedBuilds('', true));
+            ->validValues(function(){
+                \PhpBrew\Config::findMatchedBuilds('', true);
+            })
+            ;
     }
 
     public function brief()

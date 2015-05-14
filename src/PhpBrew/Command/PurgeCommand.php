@@ -1,18 +1,20 @@
 <?php
 namespace PhpBrew\Command;
-/**
- * @codeCoverageIgnore
- */
 
 use PhpBrew\Config;
 use Exception;
 
+/**
+ * @codeCoverageIgnore
+ */
 class PurgeCommand extends \CLIFramework\Command
 {
 
     public function arguments($args) {
         $args->add('installed php')
-            ->validValues(\PhpBrew\Config::getInstalledPhpVersions())
+            ->validValues(function(){
+                return \PhpBrew\Config::getInstalledPhpVersions();
+            })
             ;
     }
 
