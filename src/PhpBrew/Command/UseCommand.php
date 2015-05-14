@@ -12,7 +12,7 @@ class UseCommand extends Command
     public function arguments($args) {
         $args->add('php version')
             ->validValues(function(){
-                \PhpBrew\Config::findMatchedBuilds('', true);
+                \PhpBrew\Config::findMatchedBuilds();
             })
             ;
     }

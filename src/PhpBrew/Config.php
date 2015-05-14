@@ -145,7 +145,7 @@ class Config
         return array_reverse($names);  // make it descending... since there is no sort function for user-define in reverse order.
     }
 
-    static public function findMatchedBuilds($buildNameRE, $stripPrefix = true)
+    static public function findMatchedBuilds($buildNameRE = '', $stripPrefix = true)
     {
         $builds = self::findInstalledBuilds($stripPrefix);
         return array_filter($builds, function($build) use ($buildNameRE) {
@@ -153,7 +153,7 @@ class Config
         });
     }
 
-    static public function findFirstMatchedBuild($buildNameRE, $stripPrefix = true)
+    static public function findFirstMatchedBuild($buildNameRE = '', $stripPrefix = true)
     {
         $builds = self::findInstalledBuilds($stripPrefix);
         foreach ($builds as $build) {
