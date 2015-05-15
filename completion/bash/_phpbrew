@@ -2374,6 +2374,8 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
+      __complete_meta "$command_signature" "arg" 0 "suggestions"
+      return
       ;;
   esac
   fi
@@ -2644,6 +2646,8 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
+      __complete_meta "$command_signature" "arg" 0 "suggestions"
+      return
       ;;
   esac
   fi
@@ -2778,6 +2782,8 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
+      __complete_meta "$command_signature" "arg" 0 "suggestions"
+      return
       ;;
   esac
   fi
@@ -2912,6 +2918,8 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
+      __complete_meta "$command_signature" "arg" 0 "suggestions"
+      return
       ;;
   esac
   fi
@@ -3182,6 +3190,8 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
+      __complete_meta "$command_signature" "arg" 0 "suggestions"
+      return
       ;;
   esac
   fi

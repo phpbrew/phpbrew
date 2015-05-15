@@ -1,5 +1,7 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+
+use PhpBrew\Config;
 use CLIFramework\Command;
 use PhpBrew\Extension;
 use PhpBrew\Utils;
@@ -13,6 +15,16 @@ class ConfigCommand extends BaseCommand
     public function brief()
     {
         return 'phpbrew ext config [extension name]';
+    }
+
+    public function arguments($args)
+    {
+        $args->add('extensions')
+            ->suggestions(function () {
+                return array_map(function($path){
+                    return basename(basename($path, '.disabled'), '.ini');
+                }, glob(Config::getCurrentPhpDir() . '/var/db/*.{ini,disabled}', GLOB_BRACE));
+            });
     }
 
     public function execute($extensionName)

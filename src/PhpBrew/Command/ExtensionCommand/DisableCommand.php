@@ -1,8 +1,8 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
-use PhpBrew\Extension;
+
+use PhpBrew\Config;
 use PhpBrew\Extension\ExtensionManager;
-use CLIFramework\Command;
 use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
 
@@ -16,6 +16,17 @@ class DisableCommand extends BaseCommand
     public function brief()
     {
         return 'Disable PHP extension';
+    }
+
+    public function arguments($args)
+    {
+        $args->add('extensions')
+            ->suggestions(function () {
+                $extension = '.ini';
+                return array_map(function($path) use ($extension){
+                    return basename($path, $extension);
+                }, glob(Config::getCurrentPhpDir() . "/var/db/*{$extension}"));
+            });
     }
 
     public function execute($extensionName)

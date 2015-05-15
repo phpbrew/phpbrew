@@ -258,7 +258,7 @@ local ret=1
                 case $line[1] in
                   (enable)
                         _arguments -w -S -s \
-                          ':extensionName' \
+                          ':extensions:{___phpbrewmeta "extensions" extension.enable arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
@@ -271,20 +271,20 @@ local ret=1
                   ;;
                   (disable)
                         _arguments -w -S -s \
-                          ':extensionName' \
+                          ':extensions:{___phpbrewmeta "extensions" extension.disable arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
                   (config)
                         _arguments -w -S -s \
-                          ':extensionName' \
+                          ':extensions:{___phpbrewmeta "extensions" extension.config arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
                   (clean)
                         _arguments -w -S -s \
                           '(-p --purge)'{-p,--purge}'[Remove all the source files.]' \
-                          ':extensionName' \
+                          ':extensions:{___phpbrewmeta "extensions" extension.clean arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
@@ -297,7 +297,7 @@ local ret=1
                   ;;
                   (known)
                         _arguments -w -S -s \
-                          ':extensionName' \
+                          ':extensions:{___phpbrewmeta "extensions" extension.known arg 0 suggestions}' \
                            && ret=0
                   
                   ;;

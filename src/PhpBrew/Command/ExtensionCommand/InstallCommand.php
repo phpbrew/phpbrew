@@ -39,12 +39,11 @@ class InstallCommand extends BaseCommand
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                    return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
+                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
                     }
                 );
             });
     }
-
 
     protected function getExtConfig($args)
     {

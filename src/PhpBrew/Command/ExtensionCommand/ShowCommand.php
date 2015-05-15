@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+
 use PhpBrew\Config;
 use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\PeclExtension;

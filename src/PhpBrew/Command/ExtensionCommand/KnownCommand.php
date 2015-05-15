@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+
 use PhpBrew\Config;
 use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\ExtensionList;
@@ -23,6 +24,20 @@ class KnownCommand extends \CLIFramework\Command
      */
     public function options($opts)
     {
+    }
+
+    public function arguments($args)
+    {
+        $args->add('extensions')
+            ->suggestions(function () {
+                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+                return array_filter(
+                    scandir($extdir),
+                    function ($d) use ($extdir) {
+                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
+                    }
+                );
+            });
     }
 
     public function execute($extensionName)

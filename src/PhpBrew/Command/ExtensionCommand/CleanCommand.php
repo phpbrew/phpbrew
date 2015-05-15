@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+
 use CLIFramework\Command;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
@@ -16,6 +17,20 @@ class CleanCommand extends BaseCommand
     public function options($opts)
     {
         $opts->add('p|purge', 'Remove all the source files.');
+    }
+
+    public function arguments($args)
+    {
+        $args->add('extensions')
+            ->suggestions(function () {
+                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+                return array_filter(
+                    scandir($extdir),
+                    function ($d) use ($extdir) {
+                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
+                    }
+                );
+            });
     }
 
     public function execute($extensionName)
