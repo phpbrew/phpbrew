@@ -189,7 +189,7 @@ class InstallCommand extends Command
                 throw new Exception("Can not find version name from the given URL: $version");
             }
         } else if(preg_match('#^next(:.+)?#',$version)) {
-            $branch = str_replace(['next', ':'], '', $version) ?: 'master';
+            $branch = str_replace(array('next', ':'), '', $version) ?: 'master';
             $version = "php-7.0.0-{$branch}";
             $distUrl = "https://github.com/php/php-src/archive/{$branch}.tar.gz";
         } else {
