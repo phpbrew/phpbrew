@@ -50,7 +50,7 @@ class ExtractTask extends BaseTask
         if (is_dir($extractedDir)) {
             $this->info("===> Removing $extractedDir");
             system("rm -rf $extractedDir", $ret);
-            if ($ret != 0) {
+            if ($ret !== 0) {
                 throw new RuntimeException("Unable to remove $extractedDir.");
             }
         }
