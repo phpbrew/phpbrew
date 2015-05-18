@@ -17,6 +17,7 @@ use PhpBrew\Tasks\TestTask;
 use CLIFramework\ValueCollection;
 use PhpBrew\Build;
 use PhpBrew\ReleaseList;
+use PhpBrew\VersionDslParser;
 use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Distribution\DistributionUrlPolicy;
 use CLIFramework\Command;
@@ -47,6 +48,9 @@ class InstallCommand extends Command
             foreach($releases as $major => $versions) {
                 $collection->group($major, "PHP $major", array_keys($versions));
             }
+
+            $collection->group('pseudo', 'pseudo', array('latest', 'next'));
+
             return $collection;
         });
         $args->add('variants')->multiple()->suggestions(function() {
@@ -165,6 +169,7 @@ class InstallCommand extends Command
         $distUrl = NULL;
         $versionInfo = array();
         $releaseList = ReleaseList::getReadyInstance();
+        $versionDslParser = new VersionDslParser();
         $clean = new MakeTask($this->logger, $this->options);
         $clean->setQuiet();
 
@@ -176,23 +181,20 @@ class InstallCommand extends Command
             Config::setPhpbrewHome($home);
         }
 
-        if ("latest" === strtolower($version)) {
+        if ('latest' === strtolower($version)) {
             $version = $releaseList->getLatestVersion();
         }
 
-        if (preg_match('#^https?://#',$version)) {
-            $distUrl = $version;
-            if (preg_match('#(php-(\d.\d+.\d+)\.tar\.(?:gz|bz2))#',$version, $matches)) {
-                $filename = $matches[1];
-                $version = $matches[2];
-            } else {
-                throw new Exception("Can not find version name from the given URL: $version");
-            }
-        } else if(preg_match('#^next(:.+)?#',$version)) {
-            $branch = str_replace(array('next', ':'), '', $version) ?: 'master';
-            $version = "php-7.0.0-{$branch}";
-            $distUrl = "https://github.com/php/php-src/archive/{$branch}.tar.gz";
+        // this should point to master or the latest version branch yet to be released
+        if ('next' === strtolower($version)) {
+            $version = "github.com/php/php-src:master";
+        }
+
+        if ($info = $versionDslParser->parse($version)) {
+            $version = $info['version'];
+            $distUrl = $info['url'];
         } else {
+            // ↓ clean later ↓ d.d.d versions should be part of the DSL too
             $version = preg_replace('/^php-/', '', $version);
             $versionInfo = $releaseList->getVersion($version);
             if (!$versionInfo) {
@@ -212,7 +214,6 @@ class InstallCommand extends Command
         $args = func_get_args();
         array_shift($args); // shift the version name
 
-
         $semanticOptions = $this->parseSemanticOptions($args);
         $buildAs =   isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->name;
         $buildLike = isset($semanticOptions['like']) ? $semanticOptions['like'] : $this->options->like;
@@ -230,8 +231,6 @@ class InstallCommand extends Command
             // rewrite patch paths
             $this->options->keys['patch']->value = $patchPaths;
         }
-
-
 
 
         // Initialize the build object, contains the information to build php.

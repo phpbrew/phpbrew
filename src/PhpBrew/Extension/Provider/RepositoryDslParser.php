@@ -4,7 +4,7 @@ namespace PhpBrew\Extension\Provider;
 
 class RepositoryDslParser
 {
-    protected $macros = array(
+    protected static $macros = array(
         'https://bitbucket.org/' => array(
             'git@bitbucket.org:',
             'bitbucket:'
@@ -38,7 +38,7 @@ class RepositoryDslParser
     protected function toUrl($dsl)
     {
         $url = $dsl;
-        foreach ($this->macros as $target => $sources)
+        foreach (self::$macros as $target => $sources)
             $url = str_replace($sources, $target, $url);
 
         return $url;
