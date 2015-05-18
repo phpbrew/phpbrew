@@ -8,12 +8,19 @@ class SelfUpdateCommand extends Command
 {
     public function usage()
     {
-        return 'phpbrew self-update [branch name]';
+        return 'phpbrew self-update [branch-name]';
     }
 
     public function brief()
     {
         return 'Self-update, default to master version';
+    }
+
+    public function arguments($args) {
+        $args->add('branch')->suggestions(function() {
+            /** TODO: maybe fetch tags and remote branches from github? */
+            return array('master', 'develop');
+        });
     }
 
     public function execute($branch = 'master')

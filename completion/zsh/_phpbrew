@@ -361,7 +361,7 @@ local ret=1
         ;;
         (self-update)
             _arguments -w -S -s \
-              ':branch' \
+              ':branch:{___phpbrewmeta "branch" self-update arg 0 suggestions}' \
                && ret=0
         
         ;;
