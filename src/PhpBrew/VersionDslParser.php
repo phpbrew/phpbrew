@@ -19,7 +19,7 @@ class VersionDslParser
         $url = str_replace(self::$schemes, 'https://github.com/', $dsl);
 
         // parse github fork owner and branch
-        if (preg_match("#https?://(www\.)?github\.com/([0-9a-zA-Z-._]+)/php-src(:([0-9a-zA-Z-._]+))?#", $url, $matches)) {
+        if (preg_match("#https?://(www\.)?github\.com/([0-9a-zA-Z-._]+)/php-src(@([0-9a-zA-Z-._]+))?#", $url, $matches)) {
             $owner = $matches[2];
             $branch = isset($matches[4]) ? $matches[4] : 'master';
             $result = array(
