@@ -1,6 +1,19 @@
 CHANGES
 =======
 
+### Version 1.18.5 - Mon May 18 21:17:13 2015
+
+- PHP7 (next unstable version) install support
+- Updadted completion scripts thanks to awesome CliFramework
+- Fixed false failure of ./buildconf step
+- Fixed PHP 5.3 error with JSON_PRETTY_PRINT
+- Fixed phpbrew prepends $PATH on every cd command #487
+- Deprecated php-releases.json use php.net json endpoint from now on
+- Fix bug in variant parser #495
+- List installed php versions in decrescent order
+- Improved URL policy to locate older minor releases whenever URLs are altered
+- Allow overriding PHP when runnning phpbrew #94
+
 ### Version 1.18.5 - Wed Apr 22 22:28:47 2015
 
 - Always make sure phpbrew root/home exists for issue #475

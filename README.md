@@ -90,7 +90,7 @@ $ phpbrew known --old
 To update the release info:
 
 ```bash
-$ phpbrew known --update
+$ phpbrew update
 ```
 
 ## Build And Install
@@ -127,6 +127,12 @@ To install older versions (less than 5.3):
 
 ```bash
 $ phpbrew install --old 5.2.13
+```
+
+To install the next (unstable) version:
+
+```bash
+$ phpbrew install next as php-7.0.0
 ```
 
 ## Clean up build
