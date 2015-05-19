@@ -1,7 +1,7 @@
 CHANGES
 =======
 
-### Version 1.19.1 - Wed Apr 22 22:28:47 2015
+### Version 1.18.5 - Wed Apr 22 22:28:47 2015
 
 - Always make sure phpbrew root/home exists for issue #475
 - Added options to speicfy phpbrew root/home for install command.
