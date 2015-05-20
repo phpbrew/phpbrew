@@ -1,7 +1,11 @@
 CHANGES
 =======
 
-### Version 1.18.5 - Mon May 18 21:17:13 2015
+### Version 1.19.1 - Tue May 19 23:05:20 2015
+
+- fix OS X compatibility regarding `whereis -b` #503
+
+### Version 1.19.0 - Mon May 18 21:17:13 2015
 
 - PHP7 (next unstable version) install support
 - Updadted completion scripts thanks to awesome CliFramework
