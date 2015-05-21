@@ -97,7 +97,7 @@ function phpbrew ()
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
     else
-        BIN=$(command which phpbrew)
+        BIN=$(command -p which phpbrew 2> /dev/null || command which phpbrew)
     fi
 
     local exit_status
