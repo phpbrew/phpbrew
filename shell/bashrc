@@ -102,7 +102,6 @@ function phpbrew ()
 
     local exit_status
     local short_option
-    export SHELL
     if [[ `echo $1 | awk 'BEGIN{FS=""}{print $1}'` = '-' ]]
     then
         short_option=$1
