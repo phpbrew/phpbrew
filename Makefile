@@ -7,7 +7,7 @@ PERMISSION    = chmod +x
 TEST          = phpunit
 
 default:
-		 onion compile \
+	php bin/phpbrew compile \
 			--lib src \
 			--lib vendor/corneltek/cliframework/src \
 			--lib vendor/pimple/pimple/src \
