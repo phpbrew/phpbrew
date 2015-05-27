@@ -2,6 +2,8 @@
 
 namespace PhpBrew;
 
+use Exception;
+
 class VersionDslParser
 {
     protected static $schemes = array(
