@@ -23,9 +23,9 @@ function __phpbrew_set_path()
 
     if [[ -z "$PHPBREW_PATH" ]]
     then
-        export PATH=$PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+        export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
     else
-        export PATH=$PATH:$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
     fi
 }
 
