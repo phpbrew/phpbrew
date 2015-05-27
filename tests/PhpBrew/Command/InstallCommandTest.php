@@ -67,6 +67,10 @@ class InstallCommandTest extends CommandTestCase
         $this->assertTrue($this->runCommand("phpbrew --quiet clean {$this->primaryVersion}"));
     }
 
+    /**
+     * @outputBuffering enabled
+     * @depends testInstallCommand
+     */
     protected function assertListContains($string){
         ob_start();
         $this->runCommandWithStdout("phpbrew list --dir --variants");
