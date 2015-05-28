@@ -1,6 +1,7 @@
 <?php
 use PhpBrew\Testing\CommandTestCase;
 use PhpBrew\Machine;
+use PhpBrew\Config;
 
 /**
  * @large
@@ -26,7 +27,7 @@ class InstallCommandTest extends CommandTestCase
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
         $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs {$this->primaryVersion} +default +intl"));
-        $this->assertListContains($this->primaryVersion);
+        $this->assertListContains("php-{$this->primaryVersion}");
     }
 
     /**
@@ -68,9 +69,6 @@ class InstallCommandTest extends CommandTestCase
     }
 
     protected function assertListContains($string) {
-        ob_start();
-        $this->runCommandWithStdout("phpbrew list --dir --variants");
-        $output = ob_get_clean();
-        $this->assertContains($string, $output);
+        $this->assertContains($string, Config::getInstalledPhpVersions());
     }
 }
