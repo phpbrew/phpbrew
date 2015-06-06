@@ -2,6 +2,8 @@
 namespace PhpBrew\Command\ExtensionCommand;
 
 use CLIFramework\Command;
+
+use PhpBrew\Config;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
