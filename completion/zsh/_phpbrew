@@ -265,6 +265,7 @@ local ret=1
                   (install)
                         _arguments -w -S -s \
                           '--pecl[Try to download from pecl even when ext source is bundled with php-src.]' \
+                          '--redownload[Force to redownload extension source even if it's already available.]' \
                           ':extensions:{___phpbrewmeta "extensions" extension.install arg 0 suggestions}' \
                            && ret=0
                   

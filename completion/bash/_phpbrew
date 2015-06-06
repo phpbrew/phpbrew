@@ -2435,7 +2435,7 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["--pecl"]="1" )
+options=(["--pecl"]="1" ["--redownload"]="1" )
 options_require_value=()
 local argument_min_length=1
 
