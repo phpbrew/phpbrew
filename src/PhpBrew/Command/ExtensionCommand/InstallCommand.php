@@ -29,6 +29,7 @@ class InstallCommand extends BaseCommand
     public function options($opts)
     {
         $opts->add('pecl', 'Try to download from pecl even when ext source is bundled with php-src.');
+        $opts->add('redownload', 'Force to redownload extension source even if it\'s already available.');
     }
 
     public function arguments($args)
@@ -112,7 +113,7 @@ class InstallCommand extends BaseCommand
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
             // Extension not found, use pecl to download it.
-            if (!$ext) {
+            if (! $ext || $this->options->{'redownload'} || $this->options->{'pecl'}) {
 
                 if ($provider) {
 
@@ -140,7 +141,7 @@ class InstallCommand extends BaseCommand
             if (!$ext) {
                 throw new Exception("$extensionName not found.");
             }
-            $manager->installExtension($ext, $extConfig->options, $this->options->{'pecl'});
+            $manager->installExtension($ext, $extConfig->options);
         }
     }
 }
