@@ -41,6 +41,6 @@ class RepositoryDslParser
         foreach (self::$macros as $target => $sources)
             $url = str_replace($sources, $target, $url);
 
-        return $url;
+        return preg_replace('#\.git$#', '', $url);
     }
 }
