@@ -69,7 +69,7 @@ class InstallCommand extends BaseCommand
 
     public function execute($extName, $version = 'stable')
     {
-        if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github.com#", $extName) ) {
+        if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName) ) {
             $pathinfo = pathinfo($extName);
             $repoUrl = $extName;
             $extName = $pathinfo['filename'];

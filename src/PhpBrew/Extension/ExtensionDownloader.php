@@ -30,7 +30,7 @@ class ExtensionDownloader
         if (empty($owner) || empty($repos)) {
             throw new Exception("Username or Repository invalid.");
         }
-        return sprintf('https://%s/%s/%s/tarball/%s', $this->githubSite, $owner, $repos, $version);
+        return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->githubSite, $owner, $repos, $version);
     }
 
     public function download(Provider $provider, $version = 'stable')

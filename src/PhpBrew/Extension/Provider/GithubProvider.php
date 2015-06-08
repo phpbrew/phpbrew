@@ -21,7 +21,7 @@ class GithubProvider implements Provider {
         if (($this->getOwner() == NULL) || ($this->getRepository() == NULL)) {
             throw new Exception("Username or Repository invalid.");
         }
-        return sprintf('https://%s/%s/%s/tarball/%s', $this->site, $this->getOwner(), $this->getRepository(), $version);
+        return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
     }
 
     public function getOwner()
@@ -98,7 +98,7 @@ class GithubProvider implements Provider {
 
     public function resolveDownloadFileName($version)
     {
-        return sprintf("%s-%s-%s.tar.gz", $this->getOwner(), $this->getRepository(), $version);
+        return sprintf("%s-%s.tar.gz", $this->getRepository(), $version);
     }
 
     public function extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
@@ -112,7 +112,7 @@ class GithubProvider implements Provider {
     public function postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
         $targetPkgDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getPackageName();
-        $extractDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getOwner() . '-' . $this->getRepository() . '-*';
+        $extractDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getRepository() . '-*';
 
         $cmds = array(
             "rm -rf $targetPkgDir",
