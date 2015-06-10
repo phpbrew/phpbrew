@@ -68,6 +68,24 @@ class PeclProvider implements Provider {
         return true;
     }
 
+    public function isBundled($name)
+    {
+        return in_array(strtolower($name), array(
+            'bcmath', 'bz2', 'calendar', 'com_dotnet', 'ctype', 'curl', 'date',
+            'dba', 'dom', 'enchant', 'exif', 'fileinfo', 'filter', 'ftp', 'gd',
+            'gettext', 'gmp', 'hash', 'iconv', 'imap', 'interbase', 'intl',
+            'json', 'ldap', 'libxml', 'mbstring', 'mcrypt', 'mysqli', 'mysqlnd',
+            'oci8', 'odbc', 'opcache', 'openssl', 'pcntl', 'pcre', 'pdo',
+            'pdo_dblib', 'pdo_firebird', 'pdo_mysql', 'pdo_oci', 'pdo_odbc',
+            'pdo_pgsql', 'pdo_sqlite', 'pgsql', 'phar', 'posix', 'pspell',
+            'readline', 'recode', 'reflection', 'session', 'shmop', 'simplexml',
+            'skeleton', 'snmp', 'soap', 'sockets', 'spl', 'sqlite3', 'standard',
+            'sysvmsg', 'sysvsem', 'sysvshm', 'tidy', 'tokenizer', 'wddx', 'xml',
+            'xmlreader', 'xmlrpc', 'xmlwriter', 'xsl', 'zip', 'zlib', 'ext_skel',
+            'ext_skel_win32',
+        ));
+    }
+
     public function buildKnownReleasesUrl()
     {
         return sprintf("http://pecl.php.net/rest/r/%s/allreleases.xml", $this->getPackageName());

@@ -66,6 +66,11 @@ class BitbucketProvider implements Provider {
         return $info['repository'] == 'bitbucket';
     }
 
+    public function isBundled($name)
+    {
+        return false;
+    }
+
     public function buildKnownReleasesUrl()
     {
         return sprintf("https://bitbucket.org/api/1.0/repositories/%s/%s/tags/", $this->getOwner(), $this->getRepository());

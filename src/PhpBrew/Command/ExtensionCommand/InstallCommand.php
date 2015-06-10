@@ -82,7 +82,6 @@ class InstallCommand extends BaseCommand
             }
         }
 
-
         $extensions = array();
         if (Utils::startsWith($extName, '+')) {
             $config = Config::getConfigParam('extensions');
@@ -108,33 +107,35 @@ class InstallCommand extends BaseCommand
 
             $provider = $extensionList->exists($extensionName);
 
-            if ($provider) $extensionName = $provider->getPackageName();
+            if(! $provider)
+                throw new Exception("Could not find provider for $extensionName.");
 
+            $extensionName = $provider->getPackageName();
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
+            $always_redownload =
+                $this->options->{'pecl'} || $this->options->{'redownload'} || (! $provider->isBundled($extensionName));
+
             // Extension not found, use pecl to download it.
-            if (! $ext || $this->options->{'redownload'} || $this->options->{'pecl'}) {
+            if (! $ext || $always_redownload) {
 
-                if ($provider) {
+                // not every project has stable branch, using master as default version
+                $args = array_slice(func_get_args(), 1);
+                if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = $provider->getDefaultVersion();
 
-                    // not every project has stable branch, using master as default version
-                    $args = array_slice(func_get_args(), 1);
-                    if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = $provider->getDefaultVersion();
+                $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
 
-                    $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
-                    $extensionDownloader->download($provider, $extConfig->version);
+                $extensionDownloader->download($provider, $extConfig->version);
 
-                    // Reload the extension
-                    if ($provider->shouldLookupRecursive()) {
-                        $ext = ExtensionFactory::lookupRecursive($extensionName);
-                    } else {
-                        $ext = ExtensionFactory::lookup($extensionName);
-                    }
+                // Reload the extension
+                if ($provider->shouldLookupRecursive()) {
+                    $ext = ExtensionFactory::lookupRecursive($extensionName);
+                } else {
+                    $ext = ExtensionFactory::lookup($extensionName);
+                }
 
-                    if ($ext) {
-                        $extensionDownloader->renameSourceDirectory($ext);
-                    }
-
+                if ($ext) {
+                    $extensionDownloader->renameSourceDirectory($ext);
                 }
 
             }

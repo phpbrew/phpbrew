@@ -66,6 +66,11 @@ class GithubProvider implements Provider {
         return $info['repository'] == 'github';
     }
 
+    public function isBundled($name)
+    {
+        return false;
+    }
+
     public function buildKnownReleasesUrl()
     {
         return sprintf("https://api.github.com/repos/%s/%s/tags", $this->getOwner(), $this->getRepository());
