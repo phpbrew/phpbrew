@@ -151,7 +151,9 @@ class InstallCommand extends Command
             ->valueName('seconds')
             ;
         
-        $opts->add('f|force', 'Force the installation.');
+        $opts->add('f|force', 'Force the installation (redownloads source).')
+            ->defaultValue(false)
+            ;
 
         $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');
 
@@ -193,8 +195,11 @@ class InstallCommand extends Command
         if ($info = $versionDslParser->parse($version)) {
             $version = $info['version'];
             $distUrl = $info['url'];
+            // always redownload when installing from github master
+            // beware to keep this behavior after clean up the TODO below
+            $this->options['force']->setValue(true);
         } else {
-            // ↓ clean later ↓ d.d.d versions should be part of the DSL too
+            // TODO ↓ clean later ↓ d.d.d versions should be part of the DSL too
             $version = preg_replace('/^php-/', '', $version);
             $versionInfo = $releaseList->getVersion($version);
             if (!$versionInfo) {
