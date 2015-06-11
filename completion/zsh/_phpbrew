@@ -184,7 +184,7 @@ local ret=1
               '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
               '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               '--connect-timeout=[The system aborts the command if downloading of a php version not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
-              '(-f --force)'{-f,--force}'[Force the installation.]' \
+              '(-f --force)'{-f,--force}'[Force the installation (redownloads source).]' \
               '(-d --dryrun)'{-d,--dryrun}'[Do not build, but run through all the tasks.]' \
               '--like=[Inherit variants from an existing build. This option would require an existing build directory from the {version}.]' \
               '(-j --jobs)'{-j,--jobs=}'[Specifies the number of jobs to run build simultaneously (make -jN).]' \
