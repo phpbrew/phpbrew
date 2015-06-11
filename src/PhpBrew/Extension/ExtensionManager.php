@@ -56,7 +56,7 @@ class ExtensionManager
             }
             return false;
         }
-        $this->logger->error("$sourceDir is not defined.");
+        $this->logger->error("Could not find extension source.");
         return false;
     }
 
