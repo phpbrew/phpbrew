@@ -35,9 +35,25 @@ class SelfUpdateCommand extends Command
         // fetch new version phpbrew
         $this->logger->info("Updating phpbrew $script from $branch...");
         $url = "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/phpbrew";
-        $code = system("curl -# -L $url > $script");
+        //download to a tmp file first
+        $tempFile = tempnam(sys_get_temp_dir(), 'phpbrew_');
+        if($tempFile === false) {
+            throw new RuntimeException("Fail to create temp file", 2);
+        }
+        chmod($tempFile, 0755);
+        $code = system("curl -# -L $url > $tempFile");
         if(! $code == 0) {
             throw new RuntimeException("Update Failed", 1);
+        }
+        //todo we can check the hash here in order to make sure we have download the phar successfully
+
+        //move the tmp file to executable path
+        $code = rename($tempFile, $script);
+        if($code === false) { //fallback to system move
+            $code = system("mv -f $tempFile, $script");
+            if(! $code == 0) {
+                throw new RuntimeException("Update Failed", 3);
+            }
         }
 
         $this->logger->info("Version updated.");
