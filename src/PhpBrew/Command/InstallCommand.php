@@ -14,12 +14,12 @@ use PhpBrew\Tasks\ConfigureTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
-use CLIFramework\ValueCollection;
 use PhpBrew\Build;
 use PhpBrew\ReleaseList;
 use PhpBrew\VersionDslParser;
 use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Distribution\DistributionUrlPolicy;
+use CLIFramework\ValueCollection;
 use CLIFramework\Command;
 
 class InstallCommand extends Command

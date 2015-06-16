@@ -6,6 +6,7 @@ use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\ReleaseList;
 use CLIFramework\Command;
+use CLIFramework\ValueCollection;
 
 class DownloadCommand extends Command
 {
@@ -20,9 +21,19 @@ class DownloadCommand extends Command
     }
 
     public function arguments($args) {
-        $args->add('php version')
-            ->validValues(array('5.3','5.4','5.5'))
-            ;
+        $args->add('version')->suggestions(function() {
+            $releaseList = ReleaseList::getReadyInstance();
+            $releases = $releaseList->getReleases();
+
+            $collection = new ValueCollection;
+            foreach($releases as $major => $versions) {
+                $collection->group($major, "PHP $major", array_keys($versions));
+            }
+
+            $collection->group('pseudo', 'pseudo', array('latest', 'next'));
+
+            return $collection;
+        });
     }
 
     /**
