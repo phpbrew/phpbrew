@@ -19,11 +19,11 @@ class UpdateCommand extends \CLIFramework\Command
             ->valueName('user:pass')
             ;
 
+        $opts->add('o|old', 'List old phps (less than 5.3)');
+
         $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
 
-        $opts->add('connect-timeout:', 'The system aborts the command if downloading '
-                . 'of the versions list not starts during this limit. This option '
-                . 'overrides a value of CONNECT_TIMEOUT environment variable.')
+        $opts->add('connect-timeout:', 'Overrides the CONNECT_TIMEOUT env variable and aborts if download takes longer than specified.')
             ->valueName('seconds')
             ;
     }

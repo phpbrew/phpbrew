@@ -161,7 +161,8 @@ class ReleaseList
                 'openssl extension not found, to download releases file you need openssl.');
         }
 
-        $url = 'https://php.net/releases/index.php?json&version=5&max=100';
+        $max = ($options && $options->old) ? 1000 : 100;
+        $url = "https://php.net/releases/index.php?json&version=5&max={$max}";
 
         if (extension_loaded('curl')) {
             $downloader = new CurlDownloader;
@@ -205,10 +206,12 @@ class ReleaseList
                 foreach ($v['source'] as $source) {
                     if (isset($source['filename']) && preg_match('/\.tar\.bz2$/', $source['filename'])) {
                         $release['filename'] = $source['filename'];
-                        $release['md5']      = $source['md5'];
                         $release['name']     = $source['name'];
+                        if (isset($source['md5'])) {
+                            $release['md5'] = $source['md5'];
+                        }
                         if (isset($source['date'])) {
-                            $release['date']     = $source['date'];
+                            $release['date'] = $source['date'];
                         }
                     }
                 }
