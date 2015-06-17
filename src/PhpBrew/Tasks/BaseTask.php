@@ -3,7 +3,7 @@ namespace PhpBrew\Tasks;
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 
-class BaseTask
+abstract class BaseTask
 {
     public $logger;
 

@@ -4,7 +4,6 @@ namespace PhpBrew\Tasks;
 use RuntimeException;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
-use PhpBrew\VariantBuilder;
 use PhpBrew\Build;
 
 /**
@@ -24,9 +23,8 @@ class ConfigureTask extends BaseTask
         $this->optimizationLevel = $optimizationLevel;
     }
 
-    public function configure(Build $build)
+    public function run(Build $build, $variantOptions)
     {
-        $variantBuilder = new VariantBuilder;
         $extra = $build->getExtraOptions();
         if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running buildconf script...");
@@ -35,7 +33,6 @@ class ConfigureTask extends BaseTask
                 throw new RuntimeException("buildconf error: $lastline", 1);
             }
         }
-
         $prefix = $build->getInstallPrefix();
 
         // append cflags
@@ -51,8 +48,6 @@ class ConfigureTask extends BaseTask
         $args[] = "--with-config-file-path={$prefix}/etc";
         $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
         $args[] = "--with-pear={$prefix}/lib/php";
-
-        $variantOptions = $variantBuilder->build($build);
 
         if ($variantOptions) {
             $args = array_merge($args, $variantOptions);

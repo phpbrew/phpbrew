@@ -317,6 +317,9 @@ class InstallCommand extends Command
             mkdir($buildDir, 0755, true);
         }
 
+        $variantBuilder = new VariantBuilder;
+        $variants = $variantBuilder->build($build);
+
         $distFileDir = Config::getDistFileDir();
 
         $downloadTask = new DownloadTask($this->logger, $this->options);
@@ -345,7 +348,6 @@ class InstallCommand extends Command
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
-
         // Write variants info.
         $variantInfoFile = $build->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
@@ -357,7 +359,7 @@ class InstallCommand extends Command
 
         if (!$this->options->{'no-configure'}) {
             $configureTask = new ConfigureTask($this->logger, $this->options);
-            $configureTask->configure($build, $this->options);
+            $configureTask->run($build, $variants);
             unset($configureTask); // trigger __destruct
         }
 
