@@ -67,6 +67,21 @@ class InstallCommand extends BaseCommand
         );
     }
 
+    public function prepare() {
+        parent::prepare();
+
+        $buildDir = Config::getCurrentBuildDir();
+        $extDir = $buildDir . DIRECTORY_SEPARATOR . 'ext';
+        if (! is_dir($extDir)) {
+            $this->logger->error("Error: The ext directory '$extDir' does not exist.");
+            $this->logger->error("It looks like you don't have the PHP source in $buildDir or you didn't extract the tarball.");
+            $this->logger->error("Suggestion: Please install at least one PHP with your prefered version and switch to it.");
+            return false;
+        }
+        return true;
+    }
+
+
     public function execute($extName, $version = 'stable')
     {
         if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName) ) {
