@@ -4002,9 +4002,7 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
-      COMPREPLY=( $(compgen -W "5.3
-5.4
-5.5" -- $cur) )
+      __complete_meta "$command_signature" "arg" 0 "suggestions"
       return
       ;;
   esac
@@ -4201,7 +4199,7 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--official"]="1" ["--connect-timeout"]="1" )
+options=(["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["-o"]="1" ["--old"]="1" ["--official"]="1" ["--connect-timeout"]="1" )
 options_require_value=(["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=0
 
