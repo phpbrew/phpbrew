@@ -44,20 +44,16 @@ class ExtensionManager
 
     public function cleanExtension(Extension $ext)
     {
-        if ($sourceDir = $ext->getSourceDirectory()) {
-            if (!file_exists($sourceDir)) {
-                $this->logger->error("$sourceDir does not exists.");
-                return false;
-            }
-            if ($ext->isBuildable()) {
-                $make = new MakeTask($this->logger);
-                $make->setQuiet();
-                return $make->clean($ext);
-            }
-            return false;
-        }
-        $this->logger->error("Could not find extension source.");
-        return false;
+        $make = new MakeTask($this->logger);
+        $make->setQuiet();
+        $code = ! is_dir($sourceDir = $ext->getSourceDirectory()) ||
+                ! $ext->isBuildable() ||
+                ! $make->clean($ext);
+
+        if ($code != 0)
+            $this->logger->error("Could not clean extension: {$ext->getName()}.");
+
+        return $code == 0;
     }
 
     /**
@@ -125,7 +121,7 @@ class ExtensionManager
             $this->logger->info("{$extensionName} extension is not installed. ");
         }
     }
-    
+
     public function enable($extensionName) {
         $ext = ExtensionFactory::lookup($extensionName);
         if (!$ext) {
@@ -220,6 +216,3 @@ class ExtensionManager
 
 
 }
-
-
-
