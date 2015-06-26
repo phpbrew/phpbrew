@@ -1107,8 +1107,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["-m"]="1" ["--more"]="1" ["-o"]="1" ["--old"]="1" ["-u"]="1" ["--update"]="1" ["--connect-timeout"]="1" )
-options_require_value=(["--connect-timeout"]="1" )
+options=(["-m"]="1" ["--more"]="1" ["-o"]="1" ["--old"]="1" ["-u"]="1" ["--update"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
