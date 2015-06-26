@@ -160,6 +160,8 @@ local ret=1
               '(-m --more)'{-m,--more}'[Show more older versions]' \
               '(-o --old)'{-o,--old}'[List old phps (less than 5.3)]' \
               '(-u --update)'{-u,--update}'[Update release list]' \
+              '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
+              '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               '--connect-timeout=[The system aborts the command if downloading of the versions list not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
                && ret=0
         
