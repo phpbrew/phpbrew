@@ -13,6 +13,8 @@ class AppStore
             'behat-3.5' => array('url' => 'https://github.com/Behat/Behat/releases/download/v3.0.15/behat.phar', 'as' => 'behat'),
             'sami'      => array('url' => 'http://get.sensiolabs.org/sami.phar', 'as' => 'sami'),
             'phpcs'     => array('url' => 'https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar', 'as' => 'phpcs'),
+            'onion'     => array('url' => 'https://raw.githubusercontent.com/phpbrew/Onion/master/onion', 'as' => 'onion'),
+            
         );
         $phpunitapps = explode(' ','phpunit phpcov phpcpd phpdcd phptok phploc');
         foreach ($phpunitapps as $phpunitapp) {
