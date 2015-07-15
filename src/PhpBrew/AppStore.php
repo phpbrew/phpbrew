@@ -11,6 +11,7 @@ class AppStore
             'phpmd'     => array('url' => 'http://static.phpmd.org/php/latest/phpmd.phar', 'as'                      => 'phpmd'),
             'behat-2.5' => array('url' => 'https://github.com/Behat/Behat/releases/download/v2.5.5/behat.phar', 'as' => 'behat'),
             'behat-3.5' => array('url' => 'https://github.com/Behat/Behat/releases/download/v3.0.15/behat.phar', 'as' => 'behat'),
+            'sami'      => array('url' => 'http://get.sensiolabs.org/sami.phar', 'as' => 'sami'),
         );
         $phpunitapps = explode(' ','phpunit phpcov phpcpd phpdcd phptok phploc');
         foreach ($phpunitapps as $phpunitapp) {
