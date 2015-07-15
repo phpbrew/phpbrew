@@ -1,9 +1,32 @@
 CHANGES
 =======
 
+### Version 1.20.0 - Thu Jul 16 00:11:58 2015
+
+- Added php app store.
+
+### Version 1.19.7 - Fri Jun 26 16:50:20 2015 -0300
+
+- dries `ext clean` + gives status in all failure cases
+- update completion
+- fixes --old flag for known and update commands closes #526 improves
+  description of --connect-timeout
+- command download: update argument completion
+- fix zsh completion: avoid single quote
+
+Merged pull requests:
+
+- Commit 060c6e0: Merge pull request #531 from jhdxr/fix/530
+
+   update doc for known command, add --http-proxy and --http-proxy-auth
+
+- Commit ae15d68: Merge pull request #525 from jhdxr/fix/524
+
+   self-update download to a tmp file first instead of overwrite the exi…
+
 ### Version 1.19.1 - Tue May 19 23:05:20 2015
 
-- fix OS X compatibility regarding `whereis -b` #503
+- Fixed OS X compatibility regarding `whereis -b` #503
 
 ### Version 1.19.0 - Mon May 18 21:17:13 2015
 
