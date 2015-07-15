@@ -17,7 +17,7 @@ class ListCommand extends Command
     {
         $apps = AppStore::all();
         foreach ($apps as $name => $opt) {
-            $this->logger->writeln($name);
+            $this->logger->writeln(sprintf('% -8s - %s', $name , $opt['url']));
         }
     }
 }
