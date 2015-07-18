@@ -62,6 +62,7 @@ local ret=1
     meta:'Return the meta data of a commands.'
     compile:'compile current source into Phar format library file.'
     github:build-topics:'Build topic classes from the wiki of a GitHub Project.'
+    app:'php app store'
     init:'Initialize phpbrew config file.'
     known:'List known PHP versions'
     install:'Install php'
@@ -147,6 +148,38 @@ local ret=1
               ':user' \
               ':repo' \
                && ret=0
+        
+        ;;
+        (app)
+            _arguments -C \
+              '(-l --list)'{-l,--list}'[Show app list.]' \
+              ': :->cmds' \
+              '*:: :->option-or-argument' \
+               && return
+            case $state in
+              (cmds)
+            local commands; commands=(
+              get:'get php app'
+              list:'list php apps'
+            )
+            _describe -t commands 'command' commands && ret=0
+              ;;
+              (option-or-argument)
+                curcontext=${curcontext%:*}-$line[1]:
+                case $line[1] in
+                  (get)
+                        _arguments -w -S -s \
+                          '--chmod=[]' \
+                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.5" "sami" "phpcs" "onion" "box-2.5" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
+                           && ret=0
+                  
+                  ;;
+                  (list)
+                  
+                  ;;
+                esac
+                ;;
+              esac
         
         ;;
         (init)
