@@ -41,7 +41,7 @@ class Build implements Serializable, Buildable
     /**
      * @var string the directory that contains php.ini file.
      */
-    public $configDirectory;
+    protected $configDirectory;
 
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
@@ -80,10 +80,7 @@ class Build implements Serializable, Buildable
         $this->setBuildSettings(new BuildSettings());
     }
 
-    public function setConfigDirectory($directory)
-    {
-        $this->configDirectory = $directory;
-    }
+
 
     public function setName($name)
     {
@@ -110,8 +107,21 @@ class Build implements Serializable, Buildable
         return version_compare($this->version, $version);
     }
 
+    public function setConfigDirectory($directory)
+    {
+        $this->configDirectory = $directory;
+    }
+
+    public function getConfigDirectory()
+    {
+        return $this->configDirectory;
+    }
+
+
     /**
      * PHP Source directory, this method returns value only when source directory is set.
+     *
+     * TODO: use ExistingDirectory class
      */
     public function setSourceDirectory($dir)
     {

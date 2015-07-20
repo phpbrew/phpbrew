@@ -45,8 +45,17 @@ class ConfigureTask extends BaseTask
 
         $args = array();
         $args[] = "--prefix=" . $prefix;
-        $args[] = "--with-config-file-path={$prefix}/etc";
-        $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
+
+
+        if ($this->options->{'user-config'}) {
+
+            $args[] = "--with-config-file-path={$prefix}/etc";
+            $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
+
+        } else {
+            $args[] = "--with-config-file-path={$prefix}/etc";
+            $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
+        }
         $args[] = "--with-pear={$prefix}/lib/php";
 
         if ($variantOptions) {
