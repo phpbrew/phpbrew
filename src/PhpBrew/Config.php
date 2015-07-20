@@ -98,6 +98,10 @@ class Config
     /**
      * A build prefix is the prefix we specified when we install the PHP.
      *
+     * when PHPBREW_ROOT is pointing to /home/user/.phpbrew
+     *
+     * php(s) will be installed into /home/user/.phpbrew/php/php-{version}
+     *
      * @return string
      */
     static public function getInstallPrefix()
