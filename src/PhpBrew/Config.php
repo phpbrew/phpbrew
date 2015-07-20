@@ -234,10 +234,15 @@ class Config
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-    static public function getCurrentPhpDir()
+    static public function getCurrentPhpDir($home = false)
     {
+        if ($home) {
+            return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+        }
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
+
+
 
     // XXX: needs to be removed.
     static public function useSystemPhpVersion()
