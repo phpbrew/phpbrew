@@ -40,6 +40,8 @@ class InitCommand extends \CLIFramework\Command
             if (!file_exists($p)) {
                 $this->logger->info("Creating directory $p");
                 mkdir($p, 0755, true);
+            } else {
+                $this->logger->info("Directory $p is already created.");
             }
         }
 
