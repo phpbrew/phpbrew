@@ -229,9 +229,9 @@ class Config
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
      */
-    static public function getCurrentPhpConfigScanPath()
+    static public function getCurrentPhpConfigScanPath($home = false)
     {
-        return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+        return self::getCurrentPhpDir($home) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
     static public function getCurrentPhpDir($home = false)
@@ -256,6 +256,13 @@ class Config
         self::$currentPhpVersion = 'php-'.$phpVersion;
     }
 
+
+    /**
+     * getCurrentPhpName return the current php version from
+     * self::$currentPhpVersion or from environment variable `PHPBREW_PHP`
+     *
+     * @return string
+     */
     static public function getCurrentPhpName()
     {
         if (self::$currentPhpVersion !== null) {
