@@ -533,8 +533,8 @@ Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
 Author
 ------
 
-- Yo-An Lin (c9s)  <cornelius.howl _at_ gmail.com>
-
+- Yo-An Lin (c9s)  <yoanlin93 _at_ gmail.com>
+- Márcio Almad <marcio3w _at_ gmail.com>
 
 License
 --------
