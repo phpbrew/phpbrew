@@ -44,14 +44,21 @@ class InitCommand extends \CLIFramework\Command
         }
 
         $this->logger->info('Creating .metadata_never_index to prevent SpotLight indexing');
-        touch($root . DIRECTORY_SEPARATOR . '.metadata_never_index'); // prevent spotlight index here
-        touch($home . DIRECTORY_SEPARATOR . '.metadata_never_index' );
+        $indexFiles = array(
+            $root . DIRECTORY_SEPARATOR . '.metadata_never_index',
+            $home . DIRECTORY_SEPARATOR . '.metadata_never_index',
+        );
+        foreach ($indexFiles as $indexFile) {
+            if (!file_exists($indexFile)) {
+                touch($indexFile); // prevent spotlight index here
+            }
+        }
 
         if ($configFile = $this->options->{'config'}) {
             if (!file_exists($configFile)) {
-                return $this->logger->error("$configFile does not exist.");
+                return $this->logger->error("config file '$configFile' does not exist.");
             }
-            $this->logger->debug("Using yaml config from $configFile");
+            $this->logger->debug("Using yaml config from '$configFile'");
             copy($configFile, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
