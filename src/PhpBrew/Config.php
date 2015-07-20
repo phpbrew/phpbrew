@@ -3,6 +3,11 @@ namespace PhpBrew;
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
+
+/**
+ * This config class provides settings based on the current environment
+ * variables like PHPBREW_ROOT or PHPBREW_HOME.
+ */
 class Config
 {
     protected static $currentPhpVersion = null;
@@ -100,11 +105,11 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
+
     static public function getVersionInstallPrefix($version)
     {
         return self::getInstallPrefix() . DIRECTORY_SEPARATOR . $version;
     }
-
 
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
@@ -267,8 +272,12 @@ class Config
     static public function getConfigParam($param = null)
     {
         $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
-        $yaml = Yaml::parse($configFile);
 
+        if (!file_exists($configFile)) {
+            return array();
+        }
+
+        $yaml = Yaml::parse($configFile);
         if (is_array($yaml)) {
             if ($param === null) {
                 return $yaml;
