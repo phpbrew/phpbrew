@@ -5,16 +5,16 @@ php:
 #  - 5.5
   - 5.6
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y ctags
+install:
+- sudo apt-get update -qq
+- sudo apt-get install -y ctags
+- travis_retry composer self-update
+- travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
+- travis_retry composer install --prefer-source
 
 before_script:
   - phpenv rehash
   - cd /usr/local/bin && sudo curl -LO https://github.com/phpbrew/Onion/raw/master/onion && sudo chmod +x onion && cd -
-  - composer self-update
-  - composer require satooshi/php-coveralls:dev-master --no-update --dev
-  - composer install --dev --prefer-source
   - mkdir -p -v .phpbrew/build
   - mkdir -p -v .phpbrew/distfiles
   - mkdir -p -v .phpbrew/php
