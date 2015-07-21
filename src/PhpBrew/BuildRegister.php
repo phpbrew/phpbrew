@@ -9,12 +9,10 @@ class BuildRegister
 
     public $baseDir;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->root = Config::getPhpbrewRoot();
         $this->baseDir = $this->root . DIRECTORY_SEPARATOR . 'register';
-        if (!file_exists($this->baseDir)) {
-            mkdir($this->baseDir, 0755, true);
-        }
     }
 
     public function register(Build $build) {
