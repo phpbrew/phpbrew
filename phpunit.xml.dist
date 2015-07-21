@@ -48,11 +48,22 @@
     </filter>
 
     <logging>
+
         <log type="tap" target="build/logs/report.tap" />
-        <log type="junit" target="build/logs/report.junit.xml" />
-        <log type="coverage-html" target="build/logs/coverage" charset="UTF-8" yui="true" highlight="true" />
-        <log type="coverage-text" target="build/logs/coverage.txt" />
+
+        <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
+
+        <log type="coverage-html" 
+            target="build/coverage" 
+            charset="UTF-8" 
+            yui="true" 
+            highlight="true"
+            lowUpperBound="35" 
+            highLowerBound="70"/>
+
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
         <log type="coverage-clover" target="build/logs/clover.xml" />
+        <log type="coverage-crap4j" target="build/logs/crap4j.xml"/>
     </logging>
 
 </phpunit>

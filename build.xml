@@ -222,15 +222,11 @@
                  <arg value="--debug"/>
                  <arg value="--configuration"/>
                  <arg path="${basedir}/phpunit.xml.dist"/>
-                 <arg value="--exclude-group"/>
-                 <arg value="lazyrecord"/>
              </exec>
          </then>
          <else>
              <exec executable="phpunit" failonerror="true">
                  <arg value="--debug"/>
-                 <arg value="--exclude-group"/>
-                 <arg value="lazyrecord"/>
              </exec>
          </else>
      </if>
