@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpdox xmlns="http://phpdox.de/config" silent="false">
-    <project name="PHPBrew" source="src" workdir="build/phpdox">
+<phpdox xmlns="http://xml.phpdox.net/config" silent="false">
+    <project name="ActionKit" source="src" workdir="build/phpdox">
         <collector publiconly="false">
             <include mask="*.php" />
-            <exclude mask="*Autoload.php" />
         </collector>
-
         <generator output="build">
-            <build engine="html" enabled="true" output="api"/>
-            <build engine="graph" enabled="true" output="graph">
-                <dot executable="/usr/bin/dot" render="true" format="png" />
+            <build engine="html" enabled="true" output="api">
+              <file extension="html"/>
             </build>
         </generator>
     </project>

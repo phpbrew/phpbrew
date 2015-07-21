@@ -1,301 +1,249 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
 <project name="PHPBrew" default="build">
+    <!--
+    composer
+    phpinfo
+    -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
- <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+    <target name="build"
+        depends="phpinfo,prepare,composer,phpunit,lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpcb,doc"/>
 
- <target name="build"
-   depends="version,prepare,bundle,doxygen,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb,test,install"/>
+    <target name="doc" depends="phpdox"/>
 
- <target name="build-parallel"
-   depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
+    <target name="build-parallel"
+        depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
 
- <target name="tools-parallel" description="Run tools in parallel">
-  <parallel threadCount="2">
-   <sequential>
-    <antcall target="pdepend"/>
-    <antcall target="phpmd-ci"/>
-   </sequential>
-   <antcall target="phpcpd"/>
-   <antcall target="phpcs-ci"/>
-   <antcall target="phploc"/>
-   <antcall target="phpdox"/>
-  </parallel>
+    <target name="tools-parallel" description="Run tools in parallel">
+        <parallel threadCount="2">
+            <sequential>
+                <antcall target="pdepend"/>
+                <antcall target="phpmd-ci"/>
+            </sequential>
+            <antcall target="phpcpd"/>
+            <antcall target="phpcs-ci"/>
+            <antcall target="phploc"/>
+            <antcall target="phpdox"/>
+        </parallel>
+    </target>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/api"/>
+        <delete dir="${basedir}/build/code-browser"/>
+        <delete dir="${basedir}/build/coverage"/>
+        <delete dir="${basedir}/build/logs"/>
+        <delete dir="${basedir}/build/pdepend"/>
+        <delete file="${basedir}/.lazy.yml"/>
+        <delete file="${basedir}/.lazy.php"/>
+        <!-- <delete>
+            <fileset dir="${basedir}/cache"/>
+        </delete> -->
  </target>
 
- <target name="clean" description="Cleanup build artifacts">
-  <delete dir="${basedir}/build/api"/>
-  <delete dir="${basedir}/build/code-browser"/>
-  <delete dir="${basedir}/build/coverage"/>
-  <delete dir="${basedir}/build/logs"/>
-  <delete dir="${basedir}/build/pdepend"/>
-  <delete dir="${basedir}/build/wiki"/>
-  <delete dir="${basedir}/build/doxygen"/>
+ <target name="phpinfo" description="Show PHP Information">
+     <exec executable="php"> <arg value="--version"/> </exec>
+     <exec executable="phpunit"> <arg value="--version"/> </exec>
  </target>
 
  <target name="prepare" depends="clean" description="Prepare for build">
-  <mkdir dir="${basedir}/build/api"/>
-  <mkdir dir="${basedir}/build/wiki"/>
-  <mkdir dir="${basedir}/build/code-browser"/>
-  <mkdir dir="${basedir}/build/coverage"/>
-  <mkdir dir="${basedir}/build/logs"/>
-  <mkdir dir="${basedir}/build/pdepend"/>
-  <mkdir dir="${basedir}/build/phpdox"/>
-  <mkdir dir="${basedir}/build/doxygen"/>
+     <mkdir dir="${basedir}/build/api"/>
+     <mkdir dir="${basedir}/build/code-browser"/>
+     <mkdir dir="${basedir}/build/coverage"/>
+     <mkdir dir="${basedir}/build/logs"/>
+     <mkdir dir="${basedir}/build/pdepend"/>
+     <mkdir dir="${basedir}/build/phpdox"/>
+ </target>
+
+ <target name="lint" description="Perform syntax check of sourcecode files">
+     <exec executable="bash">
+         <arg value="-c" />
+         <arg value="find -L ${basedir}/src -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l"/>
+     </exec>
+
+     <exec executable="bash">
+         <arg value="-c" />
+         <arg value="find -L ${basedir}/plugins -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l"/>
+     </exec>
+
+     <exec executable="bash">
+         <arg value="-c" />
+         <arg value="find -L ${basedir}/tests -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l"/>
+     </exec>
+
+     <!--
+        <parallel threadCount="2">
+        <apply executable="php" failonerror="true" parallel="true">
+            <arg value="-l" />
+            <fileset dir="${basedir}/applications">
+                <include name="**/*.php" /> 
+                <exclude name="**/ckeditor/**"/>
+                <modified/>
+            </fileset>
+            <fileset dir="${basedir}/src">
+                <include name="**/*.php"/>
+                <modified/>
+            </fileset>
+            <fileset dir="${basedir}/plugins">
+                <include name="**/*.php"/> 
+                <modified/>
+            </fileset>
+            <fileset dir="${basedir}/tests">
+                <include name="**/*.php"/> 
+                <exclude name="**/_old/**"/>
+                <modified/>
+            </fileset>
+        </apply>
+        <apply executable="php" failonerror="true">
+            <fileset dir="${basedir}/libraries">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+        </parallel>
+    -->
+ </target>
+
+ <target name="phploc" description="Measure project size using PHPLOC">
+     <exec executable="phploc">
+         <arg value="--count-tests"/>
+         <arg path="${basedir}/src"/>
+         <arg path="${basedir}/tests"/>
+     </exec>
+ </target>
+
+ <target name="phploc-ci" depends="prepare" description="Measure project size using PHPLOC and log result in CSV and XML format">
+    <exec executable="phploc" taskname="phploc">
+        <arg value="--count-tests" />
+        <arg value="--log-csv" />
+        <arg path="${basedir}/build/logs/phploc.csv" />
+        <arg value="--log-xml" />
+        <arg path="${basedir}/build/logs/phploc.xml" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+ </target>
+
+ <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+     <exec executable="pdepend">
+         <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+         <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+         <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+         <arg path="${basedir}/src" />
+     </exec>
+ </target>
+
+ <target name="phpmd"
+     description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+     <exec executable="phpmd">
+         <arg path="${basedir}/src" />
+         <arg value="text" />
+         <arg value="${basedir}/phpmd.xml" />
+     </exec>
+ </target>
+
+ <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+     <exec executable="phpmd">
+         <arg path="${basedir}/src" />
+         <arg value="xml" />
+         <arg value="${basedir}/phpmd.xml" />
+         <arg value="--reportfile" />
+         <arg value="${basedir}/build/logs/pmd.xml" />
+     </exec>
+ </target>
+
+ <target name="phpcs"
+     description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+     <exec executable="phpcs">
+         <arg value="--standard=${basedir}/build/phpcs.xml" />
+         <arg path="${basedir}/src" />
+     </exec>
+ </target>
+
+ <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+     <exec executable="phpcs" output="/dev/null">
+         <arg value="--report=checkstyle" />
+         <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+         <arg value="--standard=${basedir}/build/phpcs.xml" />
+         <arg path="${basedir}/src" />
+     </exec>
+ </target>
+
+ <target name="phpcpd" description="Find duplicate code using PHPCPD">
+     <exec executable="phpcpd">
+         <arg value="--log-pmd" />
+         <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+         <arg path="${basedir}/src" />
+     </exec>
+ </target>
+
+ <target name="phpdox" description="Generate API documentation using phpDox">
+     <if>
+        <available file="${basedir}/phpdox.xml"/>
+        <then>
+            <exec executable="phpdox">
+                <arg value="--file" />
+                <arg value="${basedir}/phpdox.xml"/>
+            </exec>
+        </then>
+    </if>
  </target>
 
  <target name="doxygen">
      <if>
-        <available file="Doxyfile"/>
-        <then>
-            <exec executable="doxygen" failonerror="true">
-                <arg value="Doxyfile"/>
-            </exec>
-        </then>
-     </if>
- </target>
-
- <target name="lint" description="Perform syntax check of sourcecode files">
-  <apply executable="php" failonerror="true">
-   <arg value="-l" />
-
-   <fileset dir="${basedir}/src">
-    <include name="**/*.php" />
-    <modified />
-   </fileset>
-
-   <fileset dir="${basedir}/tests">
-    <include name="**/*.php" />
-    <modified />
-   </fileset>
-  </apply>
- </target>
-
- <target name="test" depends="test-cli,test-phar-cli,test-build">
-
- </target>
-
- <target name="test-build">
-     <exec executable="bin/phpbrew">
-    <arg value="-d"/>
-    <arg value="install"/>
-    <arg value="-n"/>
-    <arg value="20"/> <!-- nice value 20, low priority -->
-    <arg value="php-5.4.4"/>
-    <arg value="+mysql"/>
-    <arg value="+pgsql"/>
-    <arg value="+posix"/>
-    <arg value="+pcntl"/>
-  </exec>
-
-  <exec executable="bin/phpbrew">
-    <arg value="-d"/>
-    <arg value="install"/>
-    <arg value="-n"/>
-    <arg value="20"/> <!-- nice value 20, low priority -->
-    <arg value="php-5.3.14"/>
-    <arg value="+mysql"/>
-    <arg value="+pgsql"/>
-    <arg value="+posix"/>
-    <arg value="+pcntl"/>
-  </exec>
- </target>
-
- <target name="test-phar-cli">
-
-    <exec executable="bin/phpbrew">
-    </exec>
-
-    <exec executable="bin/phpbrew">
-        <arg value="init"/>
-    </exec>
-
-    <exec executable="bin/phpbrew">
-        <arg value="list"/>
-    </exec>
-
-    <exec executable="bin/phpbrew">
-        <arg value="known"/>
-    </exec>
- </target>
-
- <target name="test-sh" description="Test phpbrew.sh">
-     <exec executable="bash">
-         <arg value="bash phpbrew.sh"/>
-     </exec>
- </target>
-
- <target name="test-cli" description="Test phpbrew CLI">
-
-  <exec executable="php">
-    <arg value="bin/phpbrew" />
-    <arg value="init"/>
-  </exec>
-
-  <exec executable="php">
-    <arg value="bin/phpbrew" />
-    <arg value="list"/>
-  </exec>
-
-  <exec executable="php">
-    <arg value="bin/phpbrew" />
-    <arg value="known"/>
-  </exec>
-
-  <exec executable="php">
-    <arg value="bin/phpbrew" />
-    <arg value="variants"/>
-  </exec>
-
-
- </target>
-
- <target name="phploc" description="Measure project size using PHPLOC">
-  <exec executable="phploc">
-   <arg value="--log-csv" />
-   <arg value="${basedir}/build/logs/phploc.csv" />
-   <arg path="${basedir}/src" />
-  </exec>
- </target>
-
- <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-  <exec executable="pdepend">
-   <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
-   <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
-   <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-   <arg path="${basedir}/src" />
-  </exec>
- </target>
-
- <target name="phpmd"
-         description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
-  <exec executable="phpmd">
-   <arg path="${basedir}/src" />
-   <arg value="text" />
-   <arg value="${basedir}/build/phpmd.xml" />
-  </exec>
- </target>
-
- <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
-  <exec executable="phpmd">
-   <arg path="${basedir}/src" />
-   <arg value="xml" />
-   <arg value="${basedir}/build/phpmd.xml" />
-   <arg value="--reportfile" />
-   <arg value="${basedir}/build/logs/pmd.xml" />
-  </exec>
- </target>
-
- <target name="phpcs"
-         description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-  <exec executable="phpcs">
-   <arg value="--standard=${basedir}/build/phpcs.xml" />
-   <arg path="${basedir}/src" />
-  </exec>
- </target>
-
- <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-  <exec executable="phpcs" output="/dev/null">
-   <arg value="--report=checkstyle" />
-   <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-   <arg value="--standard=${basedir}/build/phpcs.xml" />
-   <arg path="${basedir}/src" />
-  </exec>
- </target>
-
- <target name="phpcpd" description="Find duplicate code using PHPCPD">
-  <exec executable="phpcpd">
-   <arg value="--log-pmd" />
-   <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-   <arg path="${basedir}/src" />
-  </exec>
- </target>
-
- <target name="phpdox" description="Generate API documentation using phpDox">
-    <exec executable="phpdox"/>
- </target>
-
- <target name="bundle">
-     <if>
-        <available file="package.ini"/>
-        <then>
-            <exec executable="onion" failonerror="true">
-                <arg value="-q"/>
-                <arg value="install"/>
-            </exec>
-        </then>
-     </if>
- </target>
-
- <target name="package">
-     <if>
-         <available file="scripts/compile.sh"/>
+         <available file="${basedir}/build/Doxyfile"/>
          <then>
-            <exec executable="bash" failonerror="true">
-                <arg value="scripts/compile.sh"/>
-            </exec>
+             <exec executable="doxygen" failonerror="true">
+                 <arg path="${basedir}/build/Doxyfile"/>
+             </exec>
          </then>
      </if>
+ </target>
+
+ <target name="composer">
      <if>
-         <available file="package.ini"/>
-        <then>
-            <exec executable="onion" failonerror="true">
-                <arg value="-d"/>
-                <arg value="build"/>
-            </exec>
-        </then>
+         <available file="composer.json"/>
+         <then>
+             <exec executable="composer" failonerror="true">
+                 <arg value="--no-interaction"/>
+                 <arg value="--no-ansi"/>
+                 <arg value="--quiet"/>
+                 <arg value="install"/>
+             </exec>
+         </then>
      </if>
  </target>
 
  <!-- may we have a simple condition for phpunit.xml and phpunit-ci.xml ? -->
  <target name="phpunit" description="Run unit tests with PHPUnit">
-
-    <if>
-        <available file="phpunit-ci.xml"/>
-        <then>
-            <exec executable="phpunit" failonerror="true">
-                <arg value="--configuration"/>
-                <arg value="${basedir}/phpunit-ci.xml"/>
-            </exec>
-        </then>
-        <else>
-            <exec executable="phpunit" failonerror="true"/>
-        </else>
-    </if>
-
+     <if>
+         <available file="${basedir}/phpunit.xml.dist"/>
+         <then>
+             <exec executable="phpunit" failonerror="true">
+                 <arg value="--debug"/>
+                 <arg value="--configuration"/>
+                 <arg path="${basedir}/phpunit.xml.dist"/>
+                 <arg value="--exclude-group"/>
+                 <arg value="lazyrecord"/>
+             </exec>
+         </then>
+         <else>
+             <exec executable="phpunit" failonerror="true">
+                 <arg value="--debug"/>
+                 <arg value="--exclude-group"/>
+                 <arg value="lazyrecord"/>
+             </exec>
+         </else>
+     </if>
  </target>
 
  <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
-  <exec executable="phpcb">
-   <arg value="--log" />
-   <arg path="${basedir}/build/logs" />
-   <arg value="--source" />
-   <arg path="${basedir}/src" />
-   <arg value="--output" />
-   <arg path="${basedir}/build/code-browser" />
-  </exec>
- </target>
-
- <target name="compile">
-     <exec executable="scripts/compile.sh"/>
- </target>
-
- <target name="install" depends="compile,package">
-     <copy file="phpbrew" todir="/usr/bin"/>
-     <exec executable="pear">
-        <arg value="install"/>
-        <arg value="package.xml"/>
+     <exec executable="phpcb">
+         <arg value="--log" />
+         <arg path="${basedir}/build/logs" />
+         <arg value="--source" />
+         <arg path="${basedir}/src" />
+         <arg value="--output" />
+         <arg path="${basedir}/build/code-browser" />
      </exec>
  </target>
-
- <target name="version">
-     <exec executable="php">
-         <arg value="--version"/>
-     </exec>
-     <exec executable="bin/phpbrew">
-         <arg value="--version"/>
-     </exec>
- </target>
-
 </project>
