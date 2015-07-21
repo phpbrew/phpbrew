@@ -45,6 +45,7 @@ class UrlDownloader
                 $downloader->setProxyAuth($proxyAuth);
             }
 
+            // TODO: Get current instance instead of singleton to improve testing output
             $console = Console::getInstance();
             if (! $console->options->{'no-progress'} && $this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
