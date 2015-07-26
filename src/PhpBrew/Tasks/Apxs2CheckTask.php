@@ -25,17 +25,20 @@ class Apxs2CheckTask extends BaseTask
         // use apxs to check module dir permission
         if ($apxs && $libdir = trim(Utils::pipeExecute("$apxs -q LIBEXECDIR"))) {
             if (false === is_writable($libdir)) {
-                throw new Exception("Apache module dir $libdir is not writable.\nPlease consider using chmod or sudo.");
+                $this->logger->error("Apache module dir $libdir is not writable.\nPlease consider using chmod to change the folder permission:");
+                $this->logger->error("    \$ sudo chmod -R oga+rw $libdir");
+                $this->logger->error("Warnings: the command above is not safe for public systems. please use with discretion.");
+                throw new Exception;
             }
         }
 
         if ($apxs && $confdir = trim(Utils::pipeExecute("$apxs -q SYSCONFDIR"))) {
             if (false === is_writable($confdir)) {
-                $msg = array();
-                $msg[] = "Apache conf dir $confdir is not writable for phpbrew.";
-                $msg[] = "Please consider using chmod or sudo: ";
-                $msg[] = "    \$ sudo chmod -R og+rw $confdir";
-                throw new Exception(join("\n", $msg));
+                $this->logger->error("Apache conf dir $confdir is not writable for phpbrew.");
+                $this->logger->error("Please consider using chmod to change the folder permission: ");
+                $this->logger->error("    \$ sudo chmod -R oga+rw $confdir");
+                $this->logger->error("Warnings: the command above is not safe for public systems. please use with discretion.");
+                throw new Exception;
             }
         }
     }
