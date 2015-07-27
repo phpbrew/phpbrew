@@ -59,7 +59,7 @@ class UrlDownloader
             // check for wget or curl for downloading the php source archive
             if ($this->isWgetCommandAvailable()) {
                 $quiet = $this->logger->isQuiet() ? '--quiet' : '';
-                Utils::system("wget --no-check-certificate -c $quiet -O" . $targetFilePath . ' ' . $url);
+                Utils::system("wget --no-check-certificate -c $quiet -N -O " . $targetFilePath . ' ' . $url);
             } elseif ($this->isCurlCommandAvailable()) {
                 $silent = $this->logger->isQuiet() ? '--silent ' : '';
                 Utils::system("curl -C - -L $silent -o" . $targetFilePath . ' ' . $url);
