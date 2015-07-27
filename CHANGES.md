@@ -1,7 +1,7 @@
 CHANGES
 =======
 
-## Version 1.20.1 - [unreleased]
+## Version 1.20.1 - Thu Jul 27 16:30:27 2015
 
 - sensibly forces redownload when using wget #554
 - adds MSSQL extension to php src bundled extensions list #551
