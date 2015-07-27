@@ -19,6 +19,8 @@ abstract class BaseTask
         $this->logger = $logger;
         if ($options) {
             $this->options = $options;
+        } else {
+            $this->options = new OptionResult;
         }
     }
 

@@ -2,6 +2,7 @@
 namespace PhpBrew;
 use Serializable;
 use PhpBrew\BuildSettings\BuildSettings;
+use PhpBrew\Types\ExistingDirectory;
 
 /**
  * A build object contains version information,
@@ -28,14 +29,27 @@ class Build implements Serializable, Buildable
     public $version;
 
     /**
-     * The source directory
+     * @var string The source directory
      */
     public $sourceDirectory;
 
+    /**
+     * @var string the directory that contains bin/php, var/..., includes/
+     */
     public $installPrefix;
+
+    /**
+     * @var string the directory that contains php.ini file.
+     */
+    protected $configDirectory;
+
 
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
+
+    /**
+     * @var PhpBrew\BuildSettings
+     */
     public $settings;
 
     /**
@@ -66,6 +80,8 @@ class Build implements Serializable, Buildable
         $this->setBuildSettings(new BuildSettings());
     }
 
+
+
     public function setName($name)
     {
         $this->name = $name;
@@ -91,8 +107,21 @@ class Build implements Serializable, Buildable
         return version_compare($this->version, $version);
     }
 
+    public function setConfigDirectory($directory)
+    {
+        $this->configDirectory = $directory;
+    }
+
+    public function getConfigDirectory()
+    {
+        return $this->configDirectory;
+    }
+
+
     /**
      * PHP Source directory, this method returns value only when source directory is set.
+     *
+     * TODO: use ExistingDirectory class
      */
     public function setSourceDirectory($dir)
     {

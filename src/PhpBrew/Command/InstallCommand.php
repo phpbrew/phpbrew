@@ -145,6 +145,8 @@ class InstallCommand extends Command
             ->valueName('user:pass')
             ;
 
+        $opts->add('user-config','Allow users create their own config file (php.ini or extension config init files)');
+
         $opts->add('connect-timeout:', 'The system aborts the command if downloading '
                 . 'of a php version not starts during this limit. This option '
                 . 'overrides a value of CONNECT_TIMEOUT environment variable.')

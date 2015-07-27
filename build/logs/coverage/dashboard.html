@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/marcio/P/phpbrew/src/PhpBrew</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/nv.d3.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.min.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+  <header>
+   <div class="container">
+    <div class="row">
+     <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="index.html">/home/marcio/P/phpbrew/src/PhpBrew</a></li>
+        <li class="active">(Dashboard)</li>
+
+      </ol>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Paths.php.html#4">Paths</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchPHP.php.html#24">PatchPHP</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migrations.php.html#7">Migrations</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PhpBrew.php.html#7">PhpBrew</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/Apxs2CheckTask.php.html#8">Apxs2CheckTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/ConfigureTask.php.html#13">ConfigureTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/BuildTask.php.html#11">BuildTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/Apxs2PatchTask.php.html#6">Apxs2PatchTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Machine.php.html#10">Machine</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ExtensionList.php.html#13">ExtensionList</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#16">ExtensionFactory</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#14">ExtensionDownloader</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#7">Extension</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionInstaller.php.html#9">ExtensionInstaller</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#12">ExtensionManager</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#7">GithubProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#7">BitbucketProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#5">PeclExtension</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/DSymTask.php.html#6">DSymTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/DefaultConfigTask.php.html#9">DefaultConfigTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#10">MigratingFromHomebrewPhpToPhpbrewTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/HomeTopic.php.html#10">HomeTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/CookbookTopic.php.html#10">CookbookTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/PHPBrewJATopic.php.html#10">PHPBrewJATopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ReleaseProcessTopic.php.html#10">ReleaseProcessTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/TroubleshootingTopic.php.html#10">TroubleshootingTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/SettingUpConfigurationTopic.php.html#10">SettingUpConfigurationTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/RequirementTopic.php.html#10">RequirementTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ContributionTopic.php.html#10">ContributionTopic</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#7">CommandTestCase</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/FetchReleaseListTask.php.html#6">FetchReleaseListTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/ExtractTask.php.html#11">ExtractTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/DownloadTask.php.html#9">DownloadTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/InstallTask.php.html#11">InstallTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/PrepareDirectoryTask.php.html#7">PrepareDirectoryTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/TestTask.php.html#11">TestTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/RemoveTask.php.html#6">RemoveTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ConfigureOption.php.html#4">ConfigureOption</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#8">PeclProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#10">CleanCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#11">ExtensionCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/MigratedCommand.php.html#6">MigratedCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#10">DownloadCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CdCommand.php.html#9">CdCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/BaseCommand.php.html#11">BaseCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/DefaultBuildSettings.php.html#4">DefaultBuildSettings</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ListIniCommand.php.html#5">ListIniCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/TaskFailureException.php.html#6">TaskFailureException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#12">ShowCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/KnownCommand.php.html#6">KnownCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#25">InstallCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/HelpCommand.php.html#5">HelpCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#4">InfoCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ListCommand.php.html#7">ListCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#7">InitCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/EnableCommand.php.html#8">EnableCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/OffCommand.php.html#4">OffCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CtagsCommand.php.html#7">CtagsCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/VirtualCommand.php.html#9">VirtualCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#6">VariantsCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#8">EachCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Console.php.html#6">Console</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/OopsException.php.html#5">OopsException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#11">UrlDownloader</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/DisableCommand.php.html#9">DisableCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/UpdateCommand.php.html#5">UpdateCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RemoveCommand.php.html#11">RemoveCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ConfigCommand.php.html#13">ConfigCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EnvCommand.php.html#7">EnvCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/SelfUpdateCommand.php.html#7">SelfUpdateCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/SwitchOffCommand.php.html#9">SwitchOffCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/PathCommand.php.html#7">PathCommand</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#12">ReleaseList</a></td><td class="text-right">22%</td></tr>
+       <tr><td><a href="Patch/PatchCollection.php.html#10">PatchCollection</a></td><td class="text-right">29%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#4">BuildSettings</a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="PatchUtils.php.html#5">PatchUtils</a></td><td class="text-right">35%</td></tr>
+       <tr><td><a href="Build.php.html#11">Build</a></td><td class="text-right">42%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#4">PlatformInfo</a></td><td class="text-right">42%</td></tr>
+       <tr><td><a href="Config.php.html#6">Config</a></td><td class="text-right">44%</td></tr>
+       <tr><td><a href="Utils.php.html#8">Utils</a></td><td class="text-right">48%</td></tr>
+       <tr><td><a href="Process.php.html#21">Process</a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#5">CommandBuilder</a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="Tasks/BaseTask.php.html#6">BaseTask</a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="VersionDslParser.php.html#5">VersionDslParser</a></td><td class="text-right">64%</td></tr>
+       <tr><td><a href="Platform/Linux/Debian.php.html#4">Debian</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Platform/Linux/CentOS.php.html#4">CentOS</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Platform/UnixLikeHardware.php.html#6">UnixLikeHardware</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="VariantParser.php.html#7">VariantParser</a></td><td class="text-right">67%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#26">VariantBuilder</a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="BuildRegister.php.html#6">BuildRegister</a></td><td class="text-right">78%</td></tr>
+       <tr><td><a href="Tasks/MakeTask.php.html#9">MakeTask</a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Testing/TemporaryFileFixture.php.html#6">TemporaryFileFixture</a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="Version.php.html#18">Version</a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="Platform/Mac.php.html#6">Mac</a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#13">RegexpPatch</a></td><td class="text-right">89%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Command/InstallCommand.php.html#25">InstallCommand</a></td><td class="text-right">3540</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#16">ExtensionFactory</a></td><td class="text-right">1722</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#12">ExtensionManager</a></td><td class="text-right">1190</td></tr>
+       <tr><td><a href="ReleaseList.php.html#12">ReleaseList</a></td><td class="text-right">1019</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#7">Extension</a></td><td class="text-right">812</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#11">ExtensionCommand</a></td><td class="text-right">812</td></tr>
+       <tr><td><a href="Config.php.html#6">Config</a></td><td class="text-right">733</td></tr>
+       <tr><td><a href="Utils.php.html#8">Utils</a></td><td class="text-right">705</td></tr>
+       <tr><td><a href="Build.php.html#11">Build</a></td><td class="text-right">568</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#11">UrlDownloader</a></td><td class="text-right">506</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#12">ShowCommand</a></td><td class="text-right">506</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#8">PeclProvider</a></td><td class="text-right">506</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#4">BuildSettings</a></td><td class="text-right">473</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#7">GithubProvider</a></td><td class="text-right">462</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#7">BitbucketProvider</a></td><td class="text-right">420</td></tr>
+       <tr><td><a href="Tasks/ConfigureTask.php.html#13">ConfigureTask</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="Process.php.html#21">Process</a></td><td class="text-right">341</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#14">ExtensionDownloader</a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="Command/PathCommand.php.html#7">PathCommand</a></td><td class="text-right">240</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#26">VariantBuilder</a></td><td class="text-right">205</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#5">PeclExtension</a></td><td class="text-right">182</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#7">InitCommand</a></td><td class="text-right">182</td></tr>
+       <tr><td><a href="Machine.php.html#10">Machine</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#8">EachCommand</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="ExtensionList.php.html#13">ExtensionList</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#10">CleanCommand</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Extension/ExtensionInstaller.php.html#9">ExtensionInstaller</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Command/ListCommand.php.html#7">ListCommand</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Tasks/DefaultConfigTask.php.html#9">DefaultConfigTask</a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Command/KnownCommand.php.html#6">KnownCommand</a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Tasks/ExtractTask.php.html#11">ExtractTask</a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Tasks/Apxs2CheckTask.php.html#8">Apxs2CheckTask</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#4">InfoCommand</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#6">VariantsCommand</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Command/CtagsCommand.php.html#7">CtagsCommand</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Tasks/BuildTask.php.html#11">BuildTask</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#10">DownloadCommand</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Tasks/DownloadTask.php.html#9">DownloadTask</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Command/SelfUpdateCommand.php.html#7">SelfUpdateCommand</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ConfigCommand.php.html#13">ConfigCommand</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#7">CommandTestCase</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#4">PlatformInfo</a></td><td class="text-right">50</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#5">CommandBuilder</a></td><td class="text-right">43</td></tr>
+       <tr><td><a href="Command/EnvCommand.php.html#7">EnvCommand</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Command/UpdateCommand.php.html#5">UpdateCommand</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Tasks/RemoveTask.php.html#6">RemoveTask</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="PatchPHP.php.html#24">PatchPHP</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Command/ListIniCommand.php.html#5">ListIniCommand</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Command/RemoveCommand.php.html#11">RemoveCommand</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Tasks/DSymTask.php.html#6">DSymTask</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Console.php.html#6">Console</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="PhpBrew.php.html#7">PhpBrew</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="VariantParser.php.html#7">VariantParser</a></td><td class="text-right">28</td></tr>
+       <tr><td><a href="Version.php.html#18">Version</a></td><td class="text-right">24</td></tr>
+       <tr><td><a href="Tasks/PrepareDirectoryTask.php.html#7">PrepareDirectoryTask</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="PatchUtils.php.html#5">PatchUtils</a></td><td class="text-right">15</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#13">RegexpPatch</a></td><td class="text-right">13</td></tr>
+       <tr><td><a href="Tasks/BaseTask.php.html#6">BaseTask</a></td><td class="text-right">13</td></tr>
+       <tr><td><a href="Tasks/TestTask.php.html#11">TestTask</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tasks/InstallTask.php.html#11">InstallTask</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/BaseCommand.php.html#11">BaseCommand</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tasks/Apxs2PatchTask.php.html#6">Apxs2PatchTask</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tasks/MakeTask.php.html#9">MakeTask</a></td><td class="text-right">11</td></tr>
+       <tr><td><a href="VersionDslParser.php.html#5">VersionDslParser</a></td><td class="text-right">9</td></tr>
+       <tr><td><a href="Migrations.php.html#7">Migrations</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/HelpCommand.php.html#5">HelpCommand</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BuildRegister.php.html#6">BuildRegister</a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Testing/TemporaryFileFixture.php.html#6">TemporaryFileFixture</a></td><td class="text-right">5</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#76"><abbr title="PeclProvider::parseKnownReleasesResponse">parseKnownReleasesResponse</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#83"><abbr title="PeclProvider::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#71"><abbr title="PeclProvider::buildKnownReleasesUrl">buildKnownReleasesUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#63"><abbr title="PeclProvider::exists">exists</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#58"><abbr title="PeclProvider::setPackageName">setPackageName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#90"><abbr title="PeclProvider::getDefaultVersion">getDefaultVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#95"><abbr title="PeclProvider::setDefaultVersion">setDefaultVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#129"><abbr title="PeclProvider::postExtractPackageCommands">postExtractPackageCommands</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ExtensionList.php.html#17"><abbr title="ExtensionList::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#121"><abbr title="PeclProvider::extractPackageCommands">extractPackageCommands</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#105"><abbr title="PeclProvider::resolveDownloadFileName">resolveDownloadFileName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#100"><abbr title="PeclProvider::shouldLookupRecursive">shouldLookupRecursive</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#53"><abbr title="PeclProvider::getPackageName">getPackageName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#48"><abbr title="PeclProvider::setRepository">setRepository</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#99"><abbr title="GithubProvider::resolveDownloadFileName">resolveDownloadFileName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#104"><abbr title="GithubProvider::extractPackageCommands">extractPackageCommands</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#94"><abbr title="GithubProvider::shouldLookupRecursive">shouldLookupRecursive</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#89"><abbr title="GithubProvider::setDefaultVersion">setDefaultVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#84"><abbr title="GithubProvider::getDefaultVersion">getDefaultVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#112"><abbr title="GithubProvider::postExtractPackageCommands">postExtractPackageCommands</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#16"><abbr title="PeclProvider::getName">getName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#43"><abbr title="PeclProvider::getRepository">getRepository</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#38"><abbr title="PeclProvider::setOwner">setOwner</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#33"><abbr title="PeclProvider::getOwner">getOwner</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#20"><abbr title="PeclProvider::buildPackageDownloadUrl">buildPackageDownloadUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ExtensionList.php.html#21"><abbr title="ExtensionList::getProviders">getProviders</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ExtensionList.php.html#35"><abbr title="ExtensionList::getProviderByName">getProviderByName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Paths.php.html#6"><abbr title="Paths::getMacportsPrefix">getMacportsPrefix</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Paths.php.html#11"><abbr title="Paths::getHomebrewPrefix">getHomebrewPrefix</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchUtils.php.html#46"><abbr title="PatchUtils::reinplace">reinplace</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchUtils.php.html#12"><abbr title="PatchUtils::applyStdin">applyStdin</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchUtils.php.html#7"><abbr title="PatchUtils::apply">apply</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Paths.php.html#16"><abbr title="Paths::getDebianPrefix">getDebianPrefix</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Paths.php.html#21"><abbr title="Paths::getRedhatPrefix">getRedhatPrefix</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/Linux/CentOS.php.html#9"><abbr title="CentOS::getVersion">getVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PhpBrew.php.html#24"><abbr title="PhpBrew::runUse">runUse</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PhpBrew.php.html#18"><abbr title="PhpBrew::getCleanPath">getCleanPath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PhpBrew.php.html#9"><abbr title="PhpBrew::run">run</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchPHP.php.html#53"><abbr title="PatchPHP::patch">patch</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchPHP.php.html#45"><abbr title="PatchPHP::fetchDiff">fetchDiff</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Machine.php.html#19"><abbr title="Machine::getInstance">getInstance</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Machine.php.html#28"><abbr title="Machine::detectProcessorNumber">detectProcessorNumber</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Machine.php.html#15"><abbr title="Machine::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ExtensionList.php.html#54"><abbr title="ExtensionList::exists">exists</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ExtensionList.php.html#44"><abbr title="ExtensionList::getReadyInstance">getReadyInstance</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Machine.php.html#45"><abbr title="Machine::detectProcessorNumberByNproc">detectProcessorNumberByNproc</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Machine.php.html#57"><abbr title="Machine::detectProcessorNumberByGrep">detectProcessorNumberByGrep</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchPHP.php.html#35"><abbr title="PatchPHP::getPatchFilename">getPatchFilename</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PatchPHP.php.html#29"><abbr title="PatchPHP::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Patch/PatchCollection.php.html#27"><abbr title="PatchCollection::createPatchesForApxs2">createPatchesForApxs2</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Migrations.php.html#15"><abbr title="Migrations::setupConfigFolder">setupConfigFolder</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#77"><abbr title="GithubProvider::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#74"><abbr title="GithubProvider::parseKnownReleasesResponse">parseKnownReleasesResponse</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#178"><abbr title="ExtensionManager::disableExtension">disableExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#203"><abbr title="ExtensionManager::disableAntagonists">disableAntagonists</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#146"><abbr title="ExtensionManager::enableExtension">enableExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#129"><abbr title="ExtensionManager::enable">enable</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#117"><abbr title="ExtensionManager::disable">disable</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#216"><abbr title="ExtensionManager::hasConflicts">hasConflicts</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#9"><abbr title="PeclExtension::setPackage">setPackage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#15"><abbr title="BitbucketProvider::getName">getName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#46"><abbr title="PeclExtension::findConfigM4File">findConfigM4File</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#35"><abbr title="PeclExtension::findConfigM4FileFromPackageXml">findConfigM4FileFromPackageXml</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#30"><abbr title="PeclExtension::getPackage">getPackage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#91"><abbr title="ExtensionManager::createExtensionConfig">createExtensionConfig</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#67"><abbr title="ExtensionManager::installExtension">installExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#86"><abbr title="ExtensionFactory::lookupRecursive">lookupRecursive</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#123"><abbr title="ExtensionFactory::lookup">lookup</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#39"><abbr title="ExtensionFactory::createFromDirectory">createFromDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#23"><abbr title="ExtensionFactory::configM4Exists">configM4Exists</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#98"><abbr title="ExtensionDownloader::renameSourceDirectory">renameSourceDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#145"><abbr title="ExtensionFactory::createM4Extension">createM4Extension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#313"><abbr title="ExtensionFactory::createPeclExtension">createPeclExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#32"><abbr title="ExtensionManager::purgeExtension">purgeExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#27"><abbr title="ExtensionManager::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionInstaller.php.html#21"><abbr title="ExtensionInstaller::install">install</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionInstaller.php.html#15"><abbr title="ExtensionInstaller::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#19"><abbr title="BitbucketProvider::buildPackageDownloadUrl">buildPackageDownloadUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#27"><abbr title="BitbucketProvider::getOwner">getOwner</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#27"><abbr title="GithubProvider::getOwner">getOwner</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#32"><abbr title="GithubProvider::setOwner">setOwner</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#19"><abbr title="GithubProvider::buildPackageDownloadUrl">buildPackageDownloadUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#15"><abbr title="GithubProvider::getName">getName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#110"><abbr title="BitbucketProvider::postExtractPackageCommands">postExtractPackageCommands</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#37"><abbr title="GithubProvider::getRepository">getRepository</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#42"><abbr title="GithubProvider::setRepository">setRepository</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#69"><abbr title="GithubProvider::buildKnownReleasesUrl">buildKnownReleasesUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#57"><abbr title="GithubProvider::exists">exists</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#52"><abbr title="GithubProvider::setPackageName">setPackageName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#47"><abbr title="GithubProvider::getPackageName">getPackageName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#102"><abbr title="BitbucketProvider::extractPackageCommands">extractPackageCommands</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#97"><abbr title="BitbucketProvider::resolveDownloadFileName">resolveDownloadFileName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#47"><abbr title="BitbucketProvider::getPackageName">getPackageName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#52"><abbr title="BitbucketProvider::setPackageName">setPackageName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#42"><abbr title="BitbucketProvider::setRepository">setRepository</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#37"><abbr title="BitbucketProvider::getRepository">getRepository</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#32"><abbr title="BitbucketProvider::setOwner">setOwner</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#57"><abbr title="BitbucketProvider::exists">exists</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#69"><abbr title="BitbucketProvider::buildKnownReleasesUrl">buildKnownReleasesUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#92"><abbr title="BitbucketProvider::shouldLookupRecursive">shouldLookupRecursive</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#87"><abbr title="BitbucketProvider::setDefaultVersion">setDefaultVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#82"><abbr title="BitbucketProvider::getDefaultVersion">getDefaultVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#74"><abbr title="BitbucketProvider::parseKnownReleasesResponse">parseKnownReleasesResponse</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/Linux/Debian.php.html#9"><abbr title="Debian::getVersion">getVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/Mac.php.html#15"><abbr title="Mac::getOSVersion">getOSVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/HomeTopic.php.html#18"><abbr title="HomeTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/HomeTopic.php.html#22"><abbr title="HomeTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/CookbookTopic.php.html#26"><abbr title="CookbookTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/CookbookTopic.php.html#22"><abbr title="CookbookTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/CookbookTopic.php.html#18"><abbr title="CookbookTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/HomeTopic.php.html#26"><abbr title="HomeTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#18"><abbr title="MigratingFromHomebrewPhpToPhpbrewTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/PHPBrewJATopic.php.html#22"><abbr title="PHPBrewJATopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/PHPBrewJATopic.php.html#26"><abbr title="PHPBrewJATopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/PHPBrewJATopic.php.html#18"><abbr title="PHPBrewJATopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#26"><abbr title="MigratingFromHomebrewPhpToPhpbrewTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#22"><abbr title="MigratingFromHomebrewPhpToPhpbrewTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ContributionTopic.php.html#26"><abbr title="ContributionTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ContributionTopic.php.html#22"><abbr title="ContributionTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/RemoveTask.php.html#32"><abbr title="RemoveTask::removeByBuildId">removeByBuildId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/TestTask.php.html#13"><abbr title="TestTask::run">run</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/RemoveTask.php.html#20"><abbr title="RemoveTask::removeByVersion">removeByVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/RemoveTask.php.html#8"><abbr title="RemoveTask::remove">remove</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/PrepareDirectoryTask.php.html#9"><abbr title="PrepareDirectoryTask::run">run</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#14"><abbr title="CommandTestCase::setupApplication">setupApplication</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#22"><abbr title="CommandTestCase::setUp">setUp</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ContributionTopic.php.html#18"><abbr title="ContributionTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#59"><abbr title="CommandTestCase::runCommandWithStdout">runCommandWithStdout</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#51"><abbr title="CommandTestCase::runCommand">runCommand</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#41"><abbr title="CommandTestCase::tearDown">tearDown</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ReleaseProcessTopic.php.html#18"><abbr title="ReleaseProcessTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ReleaseProcessTopic.php.html#22"><abbr title="ReleaseProcessTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#328"><abbr title="Utils::recursive_unlink">recursive_unlink</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#346"><abbr title="Utils::editor">editor</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#284"><abbr title="Utils::findLatestPhpVersion">findLatestPhpVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#279"><abbr title="Utils::endsWith">endsWith</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#274"><abbr title="Utils::startsWith">startsWith</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#540"><abbr title="VariantBuilder::checkPkgPrefix">checkPkgPrefix</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#547"><abbr title="VariantBuilder::getVariantNames">getVariantNames</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Version.php.html#87"><abbr title="Version::upgradePatchVersion">upgradePatchVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Version.php.html#83"><abbr title="Version::compare">compare</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Version.php.html#79"><abbr title="Version::getDist">getDist</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VariantParser.php.html#75"><abbr title="VariantParser::revealCommandArguments">revealCommandArguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#259"><abbr title="Utils::pipeExecute">pipeExecute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#155"><abbr title="Utils::findIncludePath">findIncludePath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/RequirementTopic.php.html#26"><abbr title="RequirementTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/SettingUpConfigurationTopic.php.html#18"><abbr title="SettingUpConfigurationTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/RequirementTopic.php.html#22"><abbr title="RequirementTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/RequirementTopic.php.html#18"><abbr title="RequirementTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/ReleaseProcessTopic.php.html#26"><abbr title="ReleaseProcessTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/SettingUpConfigurationTopic.php.html#22"><abbr title="SettingUpConfigurationTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/SettingUpConfigurationTopic.php.html#26"><abbr title="SettingUpConfigurationTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utils.php.html#62"><abbr title="Utils::findLibDir">findLibDir</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/TroubleshootingTopic.php.html#26"><abbr title="TroubleshootingTopic::getContent">getContent</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/TroubleshootingTopic.php.html#22"><abbr title="TroubleshootingTopic::getId">getId</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Topic/TroubleshootingTopic.php.html#18"><abbr title="TroubleshootingTopic::getRemoteUrl">getRemoteUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/MakeTask.php.html#29"><abbr title="MakeTask::setBuildLogPath">setBuildLogPath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/InstallTask.php.html#13"><abbr title="InstallTask::install">install</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#333"><abbr title="Process::setCommandLine">setCommandLine</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#338"><abbr title="Process::getTimeout">getTimeout</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#328"><abbr title="Process::getCommandLine">getCommandLine</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#323"><abbr title="Process::addErrorOutput">addErrorOutput</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#313"><abbr title="Process::getStopSignal">getStopSignal</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#343"><abbr title="Process::setTimeout">setTimeout</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#348"><abbr title="Process::getWorkingDirectory">getWorkingDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#368"><abbr title="Process::getStdin">getStdin</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#363"><abbr title="Process::setEnv">setEnv</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#358"><abbr title="Process::getEnv">getEnv</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#353"><abbr title="Process::setWorkingDirectory">setWorkingDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#299"><abbr title="Process::hasBeenStopped">hasBeenStopped</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#285"><abbr title="Process::getTermSignal">getTermSignal</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#27"><abbr title="PlatformInfo::isDebian">isDebian</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#32"><abbr title="PlatformInfo::isCentOS">isCentOS</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#22"><abbr title="PlatformInfo::isLinux">isLinux</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#17"><abbr title="PlatformInfo::isMac">isMac</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#8"><abbr title="PlatformInfo::getInstance">getInstance</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#37"><abbr title="PlatformInfo::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Platform/UnixLikeHardware.php.html#18"><abbr title="UnixLikeHardware::detectBitness">detectBitness</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#271"><abbr title="Process::hasBeenSignaled">hasBeenSignaled</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#257"><abbr title="Process::isSuccessful">isSuccessful</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#245"><abbr title="Process::getExitCode">getExitCode</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#233"><abbr title="Process::getErrorOutput">getErrorOutput</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#373"><abbr title="Process::setStdin">setStdin</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#378"><abbr title="Process::getOptions">getOptions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/ConfigureTask.php.html#22"><abbr title="ConfigureTask::setOptimizationLevel">setOptimizationLevel</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/ConfigureTask.php.html#27"><abbr title="ConfigureTask::configure">configure</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/ConfigureTask.php.html#17"><abbr title="ConfigureTask::setLogPath">setLogPath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/BuildTask.php.html#13"><abbr title="BuildTask::run">run</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/BaseTask.php.html#42"><abbr title="BaseTask::debug">debug</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/DSymTask.php.html#15"><abbr title="DSymTask::check">check</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/DSymTask.php.html#23"><abbr title="DSymTask::patch">patch</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/FetchReleaseListTask.php.html#8"><abbr title="FetchReleaseListTask::fetch">fetch</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/ExtractTask.php.html#19"><abbr title="ExtractTask::extract">extract</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/DownloadTask.php.html#11"><abbr title="DownloadTask::download">download</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/DefaultConfigTask.php.html#11"><abbr title="DefaultConfigTask::setup">setup</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/BaseTask.php.html#30"><abbr title="BaseTask::getLogger">getLogger</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/BaseTask.php.html#25"><abbr title="BaseTask::setLogger">setLogger</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#115"><abbr title="ReleaseList::loadLocalReleaseList">loadLocalReleaseList</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#124"><abbr title="ReleaseList::save">save</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#108"><abbr title="ReleaseList::foundLocalReleaseList">foundLocalReleaseList</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#87"><abbr title="ReleaseList::getVersion">getVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Process.php.html#383"><abbr title="Process::setOptions">setOptions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#133"><abbr title="ReleaseList::fetchRemoteReleaseList">fetchRemoteReleaseList</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#140"><abbr title="ReleaseList::getReadyInstance">getReadyInstance</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/Apxs2PatchTask.php.html#8"><abbr title="Apxs2PatchTask::patch">patch</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tasks/Apxs2CheckTask.php.html#11"><abbr title="Apxs2CheckTask::check">check</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#220"><abbr title="ReleaseList::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#157"><abbr title="ReleaseList::buildReleaseListFromOfficialSite">buildReleaseListFromOfficialSite</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#66"><abbr title="ExtensionDownloader::knownReleases">knownReleases</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#45"><abbr title="ExtensionManager::cleanExtension">cleanExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/DisableCommand.php.html#21"><abbr title="DisableCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/DisableCommand.php.html#26"><abbr title="DisableCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/DisableCommand.php.html#16"><abbr title="DisableCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/DisableCommand.php.html#11"><abbr title="DisableCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/BaseCommand.php.html#14"><abbr title="BaseCommand::prepare">prepare</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/DisableCommand.php.html#32"><abbr title="DisableCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/EnableCommand.php.html#10"><abbr title="EnableCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/EnableCommand.php.html#31"><abbr title="EnableCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/EnableCommand.php.html#25"><abbr title="EnableCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/EnableCommand.php.html#20"><abbr title="EnableCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/EnableCommand.php.html#15"><abbr title="EnableCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#79"><abbr title="ExtensionCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#47"><abbr title="ExtensionCommand::describeExtension">describeExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#60"><abbr title="EachCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EnvCommand.php.html#9"><abbr title="EnvCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#56"><abbr title="EachCommand::getVersions">getVersions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#46"><abbr title="EachCommand::runCommandRecursive">runCommandRecursive</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#30"><abbr title="EachCommand::prompt">prompt</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EnvCommand.php.html#14"><abbr title="EnvCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#13"><abbr title="ExtensionCommand::aliases">aliases</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#41"><abbr title="ExtensionCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#27"><abbr title="ExtensionCommand::init">init</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#22"><abbr title="ExtensionCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#17"><abbr title="ExtensionCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#27"><abbr title="InstallCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#32"><abbr title="InstallCommand::aliases">aliases</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/HelpCommand.php.html#8"><abbr title="HelpCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#6"><abbr title="InfoCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#75"><abbr title="ShowCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#42"><abbr title="ShowCommand::describeExtension">describeExtension</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#123"><abbr title="Build::setInstallPrefix">setInstallPrefix</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#11"><abbr title="InfoCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#16"><abbr title="InfoCommand::header">header</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#9"><abbr title="InitCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#62"><abbr title="InfoCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#22"><abbr title="InfoCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#111"><abbr title="Build::isBuildable">isBuildable</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#28"><abbr title="ShowCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#24"><abbr title="ShowCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#98"><abbr title="InstallCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#167"><abbr title="InstallCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#64"><abbr title="InstallCommand::parseSemanticOptions">parseSemanticOptions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#42"><abbr title="InstallCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#37"><abbr title="InstallCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/KnownCommand.php.html#8"><abbr title="KnownCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/KnownCommand.php.html#16"><abbr title="KnownCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#36"><abbr title="ExtensionDownloader::download">download</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#19"><abbr title="ShowCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#14"><abbr title="ShowCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/KnownCommand.php.html#28"><abbr title="KnownCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#21"><abbr title="EachCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#15"><abbr title="EachCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#29"><abbr title="BuildSettings::toArray">toArray</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#37"><abbr title="BuildSettings::enableVariants">enableVariants</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#322"><abbr title="Build::loadFile">loadFile</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#298"><abbr title="Build::getState">getState</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#290"><abbr title="Build::setState">setState</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#49"><abbr title="BuildSettings::disableVariants">disableVariants</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#83"><abbr title="BuildSettings::isDisabledVariant">isDisabledVariant</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#167"><abbr title="BuildSettings::appendExtraOptions">appendExtraOptions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#162"><abbr title="BuildSettings::setExtraOptions">setExtraOptions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#103"><abbr title="BuildSettings::setVariants">setVariants</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#93"><abbr title="BuildSettings::removeDisabledVariant">removeDisabledVariant</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#283"><abbr title="Build::getStateFile">getStateFile</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#264"><abbr title="Build::import">import</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#138"><abbr title="Build::getVarDirectory">getVarDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#143"><abbr title="Build::getVarConfigDirectory">getVarConfigDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#133"><abbr title="Build::getEtcDirectory">getEtcDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#128"><abbr title="Build::getBinDirectory">getBinDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#116"><abbr title="Build::getBuildLogPath">getBuildLogPath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#156"><abbr title="Build::getCurrentConfigScanPath">getCurrentConfigScanPath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#161"><abbr title="Build::getPath">getPath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#258"><abbr title="Build::unserialize">unserialize</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#247"><abbr title="Build::findByName">findByName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#223"><abbr title="Build::__set_state">__set_state</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#202"><abbr title="Build::getSourceExtensionDirectory">getSourceExtensionDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#172"><abbr title="BuildSettings::getExtraOptions">getExtraOptions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#180"><abbr title="BuildSettings::loadVariantInfoFile">loadVariantInfoFile</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CtagsCommand.php.html#14"><abbr title="CtagsCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CtagsCommand.php.html#20"><abbr title="CtagsCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CtagsCommand.php.html#9"><abbr title="CtagsCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ConfigCommand.php.html#30"><abbr title="ConfigCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ConfigCommand.php.html#24"><abbr title="ConfigCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#12"><abbr title="DownloadCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#17"><abbr title="DownloadCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#10"><abbr title="EachCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#44"><abbr title="DownloadCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#31"><abbr title="DownloadCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#22"><abbr title="DownloadCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ConfigCommand.php.html#20"><abbr title="ConfigCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ConfigCommand.php.html#15"><abbr title="ConfigCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CdCommand.php.html#11"><abbr title="CdCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CdCommand.php.html#16"><abbr title="CdCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/DefaultBuildSettings.php.html#6"><abbr title="DefaultBuildSettings::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#203"><abbr title="BuildSettings::loadVariantInfo">loadVariantInfo</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#192"><abbr title="BuildSettings::writeVariantInfoFile">writeVariantInfoFile</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/CdCommand.php.html#23"><abbr title="CdCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#12"><abbr title="CleanCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#36"><abbr title="CleanCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#29"><abbr title="CleanCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#22"><abbr title="CleanCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#17"><abbr title="CleanCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#14"><abbr title="InitCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#35"><abbr title="ShowCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#106"><abbr title="UrlDownloader::isWgetCommandAvailable">isWgetCommandAvailable</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#111"><abbr title="UrlDownloader::isCurlCommandAvailable">isCurlCommandAvailable</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#101"><abbr title="UrlDownloader::isCurlExtensionAvailable">isCurlExtensionAvailable</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#86"><abbr title="UrlDownloader::resolveDownloadFileName">resolveDownloadFileName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#30"><abbr title="UrlDownloader::download">download</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/OopsException.php.html#7"><abbr title="OopsException::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/TaskFailureException.php.html#10"><abbr title="TaskFailureException::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ConfigureOption.php.html#26"><abbr title="ConfigureOption::getDescription">getDescription</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ConfigureOption.php.html#31"><abbr title="ConfigureOption::getValueHint">getValueHint</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ConfigureOption.php.html#21"><abbr title="ConfigureOption::getOption">getOption</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ConfigureOption.php.html#14"><abbr title="ConfigureOption::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/TaskFailureException.php.html#15"><abbr title="TaskFailureException::getTask">getTask</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#17"><abbr title="UrlDownloader::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Console.php.html#78"><abbr title="Console::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#173"><abbr title="Config::putPathEnvFor">putPathEnvFor</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#238"><abbr title="Config::useSystemPhpVersion">useSystemPhpVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#166"><abbr title="Config::findLatestBuild">findLatestBuild</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#156"><abbr title="Config::findFirstMatchedBuild">findFirstMatchedBuild</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#148"><abbr title="Config::findMatchedBuilds">findMatchedBuilds</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#244"><abbr title="Config::setPhpVersion">setPhpVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Build.php.html#69"><abbr title="Build::setName">setName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Console.php.html#64"><abbr title="Console::configure">configure</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Console.php.html#16"><abbr title="Console::init">init</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Console.php.html#11"><abbr title="Console::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#19"><abbr title="InitCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ConfigureOption.php.html#36"><abbr title="ConfigureOption::setDefaultValue">setDefaultValue</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#44"><abbr title="Extension::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#147"><abbr title="Extension::getSharedLibraryPath">getSharedLibraryPath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#151"><abbr title="Extension::getConfigFilePath">getConfigFilePath</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#141"><abbr title="Extension::getSourceDirectory">getSourceDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#136"><abbr title="Extension::isBuildable">isBuildable</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#121"><abbr title="Extension::findConfigM4File">findConfigM4File</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#161"><abbr title="Extension::isLoaded">isLoaded</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#171"><abbr title="Extension::isInstalled">isInstalled</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#28"><abbr title="ExtensionDownloader::buildGithubTarballUrl">buildGithubTarballUrl</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#21"><abbr title="ExtensionDownloader::__construct">__construct</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#180"><abbr title="Extension::getConfigureOptions">getConfigureOptions</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#176"><abbr title="Extension::addConfigureOption">addConfigureOption</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#117"><abbr title="Extension::getConfigM4Path">getConfigM4Path</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#113"><abbr title="Extension::getConfigM4File">getConfigM4File</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#65"><abbr title="Extension::getVersion">getVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#70"><abbr title="Extension::setZend">setZend</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#60"><abbr title="Extension::setVersion">setVersion</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#55"><abbr title="Extension::getName">getName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#50"><abbr title="Extension::setName">setName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#75"><abbr title="Extension::isZend">isZend</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#80"><abbr title="Extension::setSharedLibraryName">setSharedLibraryName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#104"><abbr title="Extension::setSourceDirectory">setSourceDirectory</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#98"><abbr title="Extension::getExtensionName">getExtensionName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#93"><abbr title="Extension::setExtensionName">setExtensionName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#85"><abbr title="Extension::getSharedLibraryName">getSharedLibraryName</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#179"><abbr title="Config::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#283"><abbr title="Config::initDirectories">initDirectories</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/SelfUpdateCommand.php.html#9"><abbr title="SelfUpdateCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/SelfUpdateCommand.php.html#14"><abbr title="SelfUpdateCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#126"><abbr title="Config::findInstalledBuilds">findInstalledBuilds</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RemoveCommand.php.html#18"><abbr title="RemoveCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RemoveCommand.php.html#13"><abbr title="RemoveCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/SelfUpdateCommand.php.html#20"><abbr title="SelfUpdateCommand::anonymous function">anonymous function</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/SelfUpdateCommand.php.html#26"><abbr title="SelfUpdateCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/UpdateCommand.php.html#31"><abbr title="UpdateCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/UpdateCommand.php.html#12"><abbr title="UpdateCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/UpdateCommand.php.html#7"><abbr title="UpdateCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/SwitchOffCommand.php.html#11"><abbr title="SwitchOffCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/PathCommand.php.html#22"><abbr title="PathCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/PathCommand.php.html#14"><abbr title="PathCommand::arguments">arguments</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ListCommand.php.html#14"><abbr title="ListCommand::options">options</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ListCommand.php.html#20"><abbr title="ListCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ListCommand.php.html#9"><abbr title="ListCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#109"><abbr title="InitCommand::getFishScript">getFishScript</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#103"><abbr title="InitCommand::getBashScript">getBashScript</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ListIniCommand.php.html#7"><abbr title="ListIniCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/ListIniCommand.php.html#12"><abbr title="ListIniCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/PathCommand.php.html#9"><abbr title="PathCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/OffCommand.php.html#6"><abbr title="OffCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/MigratedCommand.php.html#13"><abbr title="MigratedCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/MigratedCommand.php.html#8"><abbr title="MigratedCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#9"><abbr title="VariantsCommand::brief">brief</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/RemoveCommand.php.html#24"><abbr title="RemoveCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#63"><abbr title="CommandBuilder::__toString">__toString</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#14"><abbr title="VariantsCommand::usage">usage</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#46"><abbr title="CommandBuilder::nice">nice</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#41"><abbr title="CommandBuilder::arg">arg</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#29"><abbr title="Config::setPhpbrewRoot">setPhpbrewRoot</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#36"><abbr title="CommandBuilder::addArg">addArg</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#19"><abbr title="VariantsCommand::wrapLine">wrapLine</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Config.php.html#24"><abbr title="Config::setPhpbrewHome">setPhpbrewHome</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#37"><abbr title="VariantsCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Command/VirtualCommand.php.html#11"><abbr title="VirtualCommand::execute">execute</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#31"><abbr title="CommandBuilder::args">args</a></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#520"><abbr title="VariantBuilder::checkConflicts">checkConflicts</a></a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="Build.php.html#207"><abbr title="Build::setBuildSettings">setBuildSettings</a></a></td><td class="text-right">37%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#16"><abbr title="BuildSettings::__construct">__construct</a></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="Utils.php.html#17"><abbr title="Utils::support64bit">support64bit</a></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="Config.php.html#78"><abbr title="Config::getTempFileDir">getTempFileDir</a></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#474"><abbr title="VariantBuilder::anonymous function">anonymous function</a></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Config.php.html#69"><abbr title="Config::getDistFileDir">getDistFileDir</a></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Process.php.html#51"><abbr title="Process::__construct">__construct</a></a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="Config.php.html#34"><abbr title="Config::getPhpbrewRoot">getPhpbrewRoot</a></a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="Process.php.html#111"><abbr title="Process::anonymous function">anonymous function</a></a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="VersionDslParser.php.html#14"><abbr title="VersionDslParser::parse">parse</a></a></td><td class="text-right">64%</td></tr>
+       <tr><td><a href="Config.php.html#249"><abbr title="Config::getCurrentPhpName">getCurrentPhpName</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#153"><abbr title="BuildSettings::getVariant">getVariant</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#44"><abbr title="ReleaseList::loadJson">loadJson</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Utils.php.html#10"><abbr title="Utils::canonicalizeBuildName">canonicalizeBuildName</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#90"><abbr title="RegexpPatch::write">write</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#101"><abbr title="ReleaseList::getVersions">getVersions</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#503"><abbr title="VariantBuilder::getConflict">getConflict</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="BuildRegister.php.html#12"><abbr title="BuildRegister::__construct">__construct</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#75"><abbr title="RegexpPatch::backup">backup</a></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#83"><abbr title="CommandBuilder::getCommand">getCommand</a></a></td><td class="text-right">68%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#564"><abbr title="VariantBuilder::buildVariant">buildVariant</a></a></td><td class="text-right">68%</td></tr>
+       <tr><td><a href="Build.php.html#57"><abbr title="Build::__construct">__construct</a></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#51"><abbr title="CommandBuilder::execute">execute</a></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="Utils.php.html#239"><abbr title="Utils::findBin">findBin</a></a></td><td class="text-right">72%</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#64"><abbr title="RegexpPatch::read">read</a></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#78"><abbr title="ReleaseList::getLatestPatchVersion">getLatestPatchVersion</a></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Config.php.html#10"><abbr title="Config::getPhpbrewHome">getPhpbrewHome</a></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Testing/TemporaryFileFixture.php.html#56"><abbr title="TemporaryFileFixture::withFile">withFile</a></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="BuildRegister.php.html#25"><abbr title="BuildRegister::deregister">deregister</a></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#95"><abbr title="VariantBuilder::__construct">__construct</a></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Build.php.html#169"><abbr title="Build::getIdentifier">getIdentifier</a></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#596"><abbr title="VariantBuilder::buildDisableVariant">buildDisableVariant</a></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#661"><abbr title="VariantBuilder::build">build</a></a></td><td class="text-right">82%</td></tr>
+       <tr><td><a href="ReleaseList.php.html#66"><abbr title="ReleaseList::getLatestVersion">getLatestVersion</a></a></td><td class="text-right">83%</td></tr>
+       <tr><td><a href="Tasks/MakeTask.php.html#44"><abbr title="MakeTask::make">make</a></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#42"><abbr title="PlatformInfo::createPlatform">createPlatform</a></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#639"><abbr title="VariantBuilder::addOptions">addOptions</a></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Distribution/DistributionUrlPolicy.php.html#33"><abbr title="DistributionUrlPolicy::isDistributedAtMuseum">isDistributedAtMuseum</a></a></td><td class="text-right">87%</td></tr>
+       <tr><td><a href="Platform/Linux.php.html#14"><abbr title="Linux::__construct">__construct</a></a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="Config.php.html#267"><abbr title="Config::getConfigParam">getConfigParam</a></a></td><td class="text-right">88%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Command/InstallCommand.php.html#167"><abbr title="InstallCommand::execute">execute</abbr></a></td><td class="text-right">2256</td></tr>
+       <tr><td><a href="ReleaseList.php.html#157"><abbr title="ReleaseList::buildReleaseListFromOfficialSite">buildReleaseListFromOfficialSite</abbr></a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="Tasks/ConfigureTask.php.html#27"><abbr title="ConfigureTask::configure">configure</abbr></a></td><td class="text-right">272</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#79"><abbr title="ExtensionCommand::execute">execute</abbr></a></td><td class="text-right">240</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#145"><abbr title="ExtensionFactory::createM4Extension">createM4Extension</abbr></a></td><td class="text-right">210</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#30"><abbr title="UrlDownloader::download">download</abbr></a></td><td class="text-right">210</td></tr>
+       <tr><td><a href="Utils.php.html#284"><abbr title="Utils::findLatestPhpVersion">findLatestPhpVersion</abbr></a></td><td class="text-right">182</td></tr>
+       <tr><td><a href="Command/PathCommand.php.html#22"><abbr title="PathCommand::execute">execute</abbr></a></td><td class="text-right">182</td></tr>
+       <tr><td><a href="Tasks/DefaultConfigTask.php.html#11"><abbr title="DefaultConfigTask::setup">setup</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Tasks/ExtractTask.php.html#19"><abbr title="ExtractTask::extract">extract</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Tasks/Apxs2CheckTask.php.html#11"><abbr title="Apxs2CheckTask::check">check</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Command/ListCommand.php.html#20"><abbr title="ListCommand::execute">execute</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Extension/ExtensionInstaller.php.html#21"><abbr title="ExtensionInstaller::install">install</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Tasks/BuildTask.php.html#13"><abbr title="BuildTask::run">run</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Command/KnownCommand.php.html#28"><abbr title="KnownCommand::execute">execute</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Command/ExtensionCommand.php.html#47"><abbr title="ExtensionCommand::describeExtension">describeExtension</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#42"><abbr title="ShowCommand::describeExtension">describeExtension</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#86"><abbr title="ExtensionFactory::lookupRecursive">lookupRecursive</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#95"><abbr title="VariantBuilder::__construct">__construct</abbr></a></td><td class="text-right">62</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#19"><abbr title="InitCommand::execute">execute</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Tasks/DownloadTask.php.html#11"><abbr title="DownloadTask::download">download</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Config.php.html#126"><abbr title="Config::findInstalledBuilds">findInstalledBuilds</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#39"><abbr title="ExtensionFactory::createFromDirectory">createFromDirectory</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#66"><abbr title="ExtensionDownloader::knownReleases">knownReleases</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#146"><abbr title="ExtensionManager::enableExtension">enableExtension</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Command/InfoCommand.php.html#22"><abbr title="InfoCommand::execute">execute</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#75"><abbr title="ShowCommand::execute">execute</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#123"><abbr title="ExtensionFactory::lookup">lookup</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="VariantParser.php.html#75"><abbr title="VariantParser::revealCommandArguments">revealCommandArguments</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#9"><abbr title="PeclExtension::setPackage">setPackage</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#19"><abbr title="VariantsCommand::wrapLine">wrapLine</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Utils.php.html#62"><abbr title="Utils::findLibDir">findLibDir</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#203"><abbr title="BuildSettings::loadVariantInfo">loadVariantInfo</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Utils.php.html#328"><abbr title="Utils::recursive_unlink">recursive_unlink</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Build.php.html#298"><abbr title="Build::getState">getState</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Command/EnvCommand.php.html#14"><abbr title="EnvCommand::execute">execute</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Command/CtagsCommand.php.html#20"><abbr title="CtagsCommand::execute">execute</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#64"><abbr title="InstallCommand::parseSemanticOptions">parseSemanticOptions</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Tasks/PrepareDirectoryTask.php.html#9"><abbr title="PrepareDirectoryTask::run">run</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Tasks/RemoveTask.php.html#8"><abbr title="RemoveTask::remove">remove</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Machine.php.html#28"><abbr title="Machine::detectProcessorNumber">detectProcessorNumber</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#45"><abbr title="ExtensionManager::cleanExtension">cleanExtension</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Config.php.html#283"><abbr title="Config::initDirectories">initDirectories</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ConfigCommand.php.html#30"><abbr title="ConfigCommand::execute">execute</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Command/DownloadCommand.php.html#44"><abbr title="DownloadCommand::execute">execute</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Command/UpdateCommand.php.html#31"><abbr title="UpdateCommand::execute">execute</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#91"><abbr title="ExtensionManager::createExtensionConfig">createExtensionConfig</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#178"><abbr title="ExtensionManager::disableExtension">disableExtension</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#121"><abbr title="Extension::findConfigM4File">findConfigM4File</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Utils.php.html#155"><abbr title="Utils::findIncludePath">findIncludePath</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#105"><abbr title="PeclProvider::resolveDownloadFileName">resolveDownloadFileName</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Command/ListIniCommand.php.html#12"><abbr title="ListIniCommand::execute">execute</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#35"><abbr title="PeclExtension::findConfigM4FileFromPackageXml">findConfigM4FileFromPackageXml</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#23"><abbr title="ExtensionFactory::configM4Exists">configM4Exists</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Downloader/UrlDownloader.php.html#86"><abbr title="UrlDownloader::resolveDownloadFileName">resolveDownloadFileName</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#661"><abbr title="VariantBuilder::build">build</abbr></a></td><td class="text-right">18</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#520"><abbr title="VariantBuilder::checkConflicts">checkConflicts</abbr></a></td><td class="text-right">13</td></tr>
+       <tr><td><a href="Machine.php.html#57"><abbr title="Machine::detectProcessorNumberByGrep">detectProcessorNumberByGrep</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionFactory.php.html#313"><abbr title="ExtensionFactory::createPeclExtension">createPeclExtension</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="PhpBrew.php.html#9"><abbr title="PhpBrew::run">run</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#117"><abbr title="ExtensionManager::disable">disable</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#19"><abbr title="GithubProvider::buildPackageDownloadUrl">buildPackageDownloadUrl</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ReleaseList.php.html#140"><abbr title="ReleaseList::getReadyInstance">getReadyInstance</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#19"><abbr title="BitbucketProvider::buildPackageDownloadUrl">buildPackageDownloadUrl</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/PeclExtension.php.html#46"><abbr title="PeclExtension::findConfigM4File">findConfigM4File</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#98"><abbr title="ExtensionDownloader::renameSourceDirectory">renameSourceDirectory</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#203"><abbr title="ExtensionManager::disableAntagonists">disableAntagonists</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#32"><abbr title="ExtensionManager::purgeExtension">purgeExtension</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#129"><abbr title="ExtensionManager::enable">enable</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ExtensionList.php.html#35"><abbr title="ExtensionList::getProviderByName">getProviderByName</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ReleaseList.php.html#87"><abbr title="ReleaseList::getVersion">getVersion</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ExtensionList.php.html#54"><abbr title="ExtensionList::exists">exists</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tasks/DSymTask.php.html#23"><abbr title="DSymTask::patch">patch</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#35"><abbr title="ShowCommand::anonymous function">anonymous function</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/ShowCommand.php.html#28"><abbr title="ShowCommand::arguments">arguments</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#36"><abbr title="ExtensionDownloader::download">download</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/RemoveCommand.php.html#24"><abbr title="RemoveCommand::execute">execute</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/SelfUpdateCommand.php.html#26"><abbr title="SelfUpdateCommand::execute">execute</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/BaseCommand.php.html#14"><abbr title="BaseCommand::prepare">prepare</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#46"><abbr title="EachCommand::runCommandRecursive">runCommandRecursive</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#22"><abbr title="CleanCommand::arguments">arguments</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#29"><abbr title="CleanCommand::anonymous function">anonymous function</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/ExtensionCommand/CleanCommand.php.html#36"><abbr title="CleanCommand::execute">execute</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#30"><abbr title="EachCommand::prompt">prompt</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tasks/TestTask.php.html#13"><abbr title="TestTask::run">run</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Testing/CommandTestCase.php.html#41"><abbr title="CommandTestCase::tearDown">tearDown</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Extension/ExtensionDownloader.php.html#28"><abbr title="ExtensionDownloader::buildGithubTarballUrl">buildGithubTarballUrl</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tasks/Apxs2PatchTask.php.html#8"><abbr title="Apxs2PatchTask::patch">patch</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Config.php.html#156"><abbr title="Config::findFirstMatchedBuild">findFirstMatchedBuild</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Tasks/InstallTask.php.html#13"><abbr title="InstallTask::install">install</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#83"><abbr title="CommandBuilder::getCommand">getCommand</abbr></a></td><td class="text-right">11</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#564"><abbr title="VariantBuilder::buildVariant">buildVariant</abbr></a></td><td class="text-right">9</td></tr>
+       <tr><td><a href="VersionDslParser.php.html#14"><abbr title="VersionDslParser::parse">parse</abbr></a></td><td class="text-right">9</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#16"><abbr title="BuildSettings::__construct">__construct</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#596"><abbr title="VariantBuilder::buildDisableVariant">buildDisableVariant</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="Process.php.html#51"><abbr title="Process::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Build.php.html#169"><abbr title="Build::getIdentifier">getIdentifier</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#8"><abbr title="PlatformInfo::getInstance">getInstance</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PatchUtils.php.html#12"><abbr title="PatchUtils::applyStdin">applyStdin</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PatchPHP.php.html#53"><abbr title="PatchPHP::patch">patch</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tasks/BaseTask.php.html#42"><abbr title="BaseTask::debug">debug</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Utils.php.html#346"><abbr title="Utils::editor">editor</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReleaseList.php.html#115"><abbr title="ReleaseList::loadLocalReleaseList">loadLocalReleaseList</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Utils.php.html#274"><abbr title="Utils::startsWith">startsWith</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PatchPHP.php.html#35"><abbr title="PatchPHP::getPatchFilename">getPatchFilename</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#540"><abbr title="VariantBuilder::checkPkgPrefix">checkPkgPrefix</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReleaseList.php.html#124"><abbr title="ReleaseList::save">save</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Tasks/DSymTask.php.html#15"><abbr title="DSymTask::check">check</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Utils.php.html#279"><abbr title="Utils::endsWith">endsWith</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Extension/ExtensionManager.php.html#67"><abbr title="ExtensionManager::installExtension">installExtension</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Build.php.html#283"><abbr title="Build::getStateFile">getStateFile</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Config.php.html#166"><abbr title="Config::findLatestBuild">findLatestBuild</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Build.php.html#290"><abbr title="Build::setState">setState</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Console.php.html#64"><abbr title="Console::configure">configure</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#180"><abbr title="BuildSettings::loadVariantInfoFile">loadVariantInfoFile</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Extension/ExtensionInstaller.php.html#15"><abbr title="ExtensionInstaller::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#104"><abbr title="Extension::setSourceDirectory">setSourceDirectory</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/VariantsCommand.php.html#37"><abbr title="VariantsCommand::execute">execute</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#109"><abbr title="InitCommand::getFishScript">getFishScript</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/InstallCommand.php.html#42"><abbr title="InstallCommand::arguments">arguments</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/EachCommand.php.html#21"><abbr title="EachCommand::execute">execute</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/HelpCommand.php.html#8"><abbr title="HelpCommand::execute">execute</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Command/InitCommand.php.html#103"><abbr title="InitCommand::getBashScript">getBashScript</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#37"><abbr title="BuildSettings::enableVariants">enableVariants</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#49"><abbr title="BuildSettings::disableVariants">disableVariants</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Extension/Provider/BitbucketProvider.php.html#57"><abbr title="BitbucketProvider::exists">exists</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Extension/Extension.php.html#85"><abbr title="Extension::getSharedLibraryName">getSharedLibraryName</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Build.php.html#264"><abbr title="Build::import">import</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Build.php.html#247"><abbr title="Build::findByName">findByName</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Machine.php.html#19"><abbr title="Machine::getInstance">getInstance</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ExtensionList.php.html#44"><abbr title="ExtensionList::getReadyInstance">getReadyInstance</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Extension/Provider/GithubProvider.php.html#57"><abbr title="GithubProvider::exists">exists</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Machine.php.html#45"><abbr title="Machine::detectProcessorNumberByNproc">detectProcessorNumberByNproc</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Extension/Provider/PeclProvider.php.html#20"><abbr title="PeclProvider::buildPackageDownloadUrl">buildPackageDownloadUrl</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ExtensionList.php.html#21"><abbr title="ExtensionList::getProviders">getProviders</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Migrations.php.html#15"><abbr title="Migrations::setupConfigFolder">setupConfigFolder</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Build.php.html#207"><abbr title="Build::setBuildSettings">setBuildSettings</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Tasks/MakeTask.php.html#44"><abbr title="MakeTask::make">make</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Config.php.html#267"><abbr title="Config::getConfigParam">getConfigParam</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Config.php.html#34"><abbr title="Config::getPhpbrewRoot">getPhpbrewRoot</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#503"><abbr title="VariantBuilder::getConflict">getConflict</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Utils.php.html#239"><abbr title="Utils::findBin">findBin</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Config.php.html#10"><abbr title="Config::getPhpbrewHome">getPhpbrewHome</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Platform/PlatformInfo.php.html#42"><abbr title="PlatformInfo::createPlatform">createPlatform</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Distribution/DistributionUrlPolicy.php.html#33"><abbr title="DistributionUrlPolicy::isDistributedAtMuseum">isDistributedAtMuseum</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Utils.php.html#17"><abbr title="Utils::support64bit">support64bit</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#474"><abbr title="VariantBuilder::anonymous function">anonymous function</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Process.php.html#111"><abbr title="Process::anonymous function">anonymous function</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="ReleaseList.php.html#44"><abbr title="ReleaseList::loadJson">loadJson</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#75"><abbr title="RegexpPatch::backup">backup</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Build.php.html#57"><abbr title="Build::__construct">__construct</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="VariantBuilder.php.html#639"><abbr title="VariantBuilder::addOptions">addOptions</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Platform/Linux.php.html#14"><abbr title="Linux::__construct">__construct</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Config.php.html#69"><abbr title="Config::getDistFileDir">getDistFileDir</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Config.php.html#78"><abbr title="Config::getTempFileDir">getTempFileDir</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Config.php.html#249"><abbr title="Config::getCurrentPhpName">getCurrentPhpName</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="ReleaseList.php.html#101"><abbr title="ReleaseList::getVersions">getVersions</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="BuildSettings/BuildSettings.php.html#153"><abbr title="BuildSettings::getVariant">getVariant</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="BuildRegister.php.html#12"><abbr title="BuildRegister::__construct">__construct</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#90"><abbr title="RegexpPatch::write">write</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Utils.php.html#10"><abbr title="Utils::canonicalizeBuildName">canonicalizeBuildName</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="CommandBuilder.php.html#51"><abbr title="CommandBuilder::execute">execute</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="ReleaseList.php.html#78"><abbr title="ReleaseList::getLatestPatchVersion">getLatestPatchVersion</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Patch/RegexpPatch.php.html#64"><abbr title="RegexpPatch::read">read</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Testing/TemporaryFileFixture.php.html#56"><abbr title="TemporaryFileFixture::withFile">withFile</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="BuildRegister.php.html#25"><abbr title="BuildRegister::deregister">deregister</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="ReleaseList.php.html#66"><abbr title="ReleaseList::getLatestVersion">getLatestVersion</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 2.0.16</a> using <a href="http://php.net/" target="_top">PHP 5.6.8</a> and <a href="http://phpunit.de/">PHPUnit 4.6.6</a> at Mon May 18 21:38:02 BRT 2015.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="js/holder.js" type="text/javascript"></script>
+  <script src="js/d3.min.js" type="text/javascript"></script>
+  <script src="js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([72,0,0,2,2,4,1,7,2,5,2,11], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([404,0,0,0,2,1,1,18,6,13,5,138], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.scatter.onlyCircles(false);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[42.424242424242,52,"<a href=\"Build.php.html#11\">Build<\/a>"],[78.571428571429,5,"<a href=\"BuildRegister.php.html#6\">BuildRegister<\/a>"],[30.379746835443,36,"<a href=\"BuildSettings\/BuildSettings.php.html#4\">BuildSettings<\/a>"],[0,1,"<a href=\"BuildSettings\/DefaultBuildSettings.php.html#4\">DefaultBuildSettings<\/a>"],[0,3,"<a href=\"Command\/CdCommand.php.html#9\">CdCommand<\/a>"],[0,11,"<a href=\"Command\/ExtensionCommand\/CleanCommand.php.html#10\">CleanCommand<\/a>"],[0,7,"<a href=\"Command\/ExtensionCommand\/ConfigCommand.php.html#13\">ConfigCommand<\/a>"],[0,8,"<a href=\"Command\/CtagsCommand.php.html#7\">CtagsCommand<\/a>"],[0,8,"<a href=\"Command\/DownloadCommand.php.html#10\">DownloadCommand<\/a>"],[0,12,"<a href=\"Command\/EachCommand.php.html#8\">EachCommand<\/a>"],[0,6,"<a href=\"Command\/EnvCommand.php.html#7\">EnvCommand<\/a>"],[0,28,"<a href=\"Command\/ExtensionCommand.php.html#11\">ExtensionCommand<\/a>"],[0,3,"<a href=\"Command\/ExtensionCommand\/BaseCommand.php.html#11\">BaseCommand<\/a>"],[0,5,"<a href=\"Command\/ExtensionCommand\/DisableCommand.php.html#9\">DisableCommand<\/a>"],[0,5,"<a href=\"Command\/ExtensionCommand\/EnableCommand.php.html#8\">EnableCommand<\/a>"],[0,59,"<a href=\"Command\/InstallCommand.php.html#25\">InstallCommand<\/a>"],[0,10,"<a href=\"Command\/KnownCommand.php.html#6\">KnownCommand<\/a>"],[0,22,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#12\">ShowCommand<\/a>"],[0,2,"<a href=\"Command\/HelpCommand.php.html#5\">HelpCommand<\/a>"],[0,9,"<a href=\"Command\/InfoCommand.php.html#4\">InfoCommand<\/a>"],[0,13,"<a href=\"Command\/InitCommand.php.html#7\">InitCommand<\/a>"],[0,11,"<a href=\"Command\/ListCommand.php.html#7\">ListCommand<\/a>"],[0,5,"<a href=\"Command\/ListIniCommand.php.html#5\">ListIniCommand<\/a>"],[0,2,"<a href=\"Command\/MigratedCommand.php.html#6\">MigratedCommand<\/a>"],[0,1,"<a href=\"Command\/OffCommand.php.html#4\">OffCommand<\/a>"],[0,15,"<a href=\"Command\/PathCommand.php.html#7\">PathCommand<\/a>"],[100,4,"<a href=\"Command\/PurgeCommand.php.html#11\">PurgeCommand<\/a>"],[0,5,"<a href=\"Command\/RemoveCommand.php.html#11\">RemoveCommand<\/a>"],[0,7,"<a href=\"Command\/SelfUpdateCommand.php.html#7\">SelfUpdateCommand<\/a>"],[100,4,"<a href=\"Command\/SwitchCommand.php.html#9\">SwitchCommand<\/a>"],[0,1,"<a href=\"Command\/SwitchOffCommand.php.html#9\">SwitchOffCommand<\/a>"],[0,6,"<a href=\"Command\/UpdateCommand.php.html#5\">UpdateCommand<\/a>"],[100,4,"<a href=\"Command\/UseCommand.php.html#10\">UseCommand<\/a>"],[0,9,"<a href=\"Command\/VariantsCommand.php.html#6\">VariantsCommand<\/a>"],[0,1,"<a href=\"Command\/VirtualCommand.php.html#9\">VirtualCommand<\/a>"],[61.224489795918,20,"<a href=\"CommandBuilder.php.html#5\">CommandBuilder<\/a>"],[44.715447154472,63,"<a href=\"Config.php.html#6\">Config<\/a>"],[0,5,"<a href=\"Console.php.html#6\">Console<\/a>"],[93.333333333333,8,"<a href=\"Distribution\/DistributionUrlPolicy.php.html#6\">DistributionUrlPolicy<\/a>"],[0,22,"<a href=\"Downloader\/UrlDownloader.php.html#11\">UrlDownloader<\/a>"],[0,1,"<a href=\"Exception\/OopsException.php.html#5\">OopsException<\/a>"],[100,0,"<a href=\"Exception\/SystemCommandException.php.html#5\">SystemCommandException<\/a>"],[0,2,"<a href=\"Exception\/TaskFailureException.php.html#6\">TaskFailureException<\/a>"],[0,5,"<a href=\"Extension\/ConfigureOption.php.html#4\">ConfigureOption<\/a>"],[0,28,"<a href=\"Extension\/Extension.php.html#7\">Extension<\/a>"],[0,16,"<a href=\"Extension\/ExtensionDownloader.php.html#14\">ExtensionDownloader<\/a>"],[0,41,"<a href=\"Extension\/ExtensionFactory.php.html#16\">ExtensionFactory<\/a>"],[0,11,"<a href=\"Extension\/ExtensionInstaller.php.html#9\">ExtensionInstaller<\/a>"],[0,34,"<a href=\"Extension\/ExtensionManager.php.html#12\">ExtensionManager<\/a>"],[100,0,"<a href=\"Extension\/M4Extension.php.html#4\">M4Extension<\/a>"],[0,13,"<a href=\"Extension\/PeclExtension.php.html#5\">PeclExtension<\/a>"],[0,20,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#7\">BitbucketProvider<\/a>"],[0,21,"<a href=\"Extension\/Provider\/GithubProvider.php.html#7\">GithubProvider<\/a>"],[0,22,"<a href=\"Extension\/Provider\/PeclProvider.php.html#8\">PeclProvider<\/a>"],[100,4,"<a href=\"Extension\/Provider\/RepositoryDslParser.php.html#5\">RepositoryDslParser<\/a>"],[0,11,"<a href=\"ExtensionList.php.html#13\">ExtensionList<\/a>"],[0,12,"<a href=\"Machine.php.html#10\">Machine<\/a>"],[0,2,"<a href=\"Migrations.php.html#7\">Migrations<\/a>"],[29.032258064516,2,"<a href=\"Patch\/PatchCollection.php.html#10\">PatchCollection<\/a>"],[89.655172413793,13,"<a href=\"Patch\/RegexpPatch.php.html#13\">RegexpPatch<\/a>"],[100,15,"<a href=\"Patch\/RegexpPatchRule.php.html#7\">RegexpPatchRule<\/a>"],[0,6,"<a href=\"PatchPHP.php.html#24\">PatchPHP<\/a>"],[35.714285714286,6,"<a href=\"PatchUtils.php.html#5\">PatchUtils<\/a>"],[0,4,"<a href=\"Paths.php.html#4\">Paths<\/a>"],[0,5,"<a href=\"PhpBrew.php.html#7\">PhpBrew<\/a>"],[94.444444444444,11,"<a href=\"Platform\/Linux.php.html#9\">Linux<\/a>"],[66.666666666667,3,"<a href=\"Platform\/Linux\/CentOS.php.html#4\">CentOS<\/a>"],[66.666666666667,3,"<a href=\"Platform\/Linux\/Debian.php.html#4\">Debian<\/a>"],[100,3,"<a href=\"Platform\/Linux\/UnknownDistribution.php.html#4\">UnknownDistribution<\/a>"],[88.888888888889,8,"<a href=\"Platform\/Mac.php.html#6\">Mac<\/a>"],[42.857142857143,14,"<a href=\"Platform\/PlatformInfo.php.html#4\">PlatformInfo<\/a>"],[66.666666666667,3,"<a href=\"Platform\/UnixLikeHardware.php.html#6\">UnixLikeHardware<\/a>"],[100,7,"<a href=\"Platform\/UnknownPlatform.php.html#4\">UnknownPlatform<\/a>"],[52.5,52,"<a href=\"Process.php.html#21\">Process<\/a>"],[22.80701754386,46,"<a href=\"ReleaseList.php.html#12\">ReleaseList<\/a>"],[0,9,"<a href=\"Tasks\/Apxs2CheckTask.php.html#8\">Apxs2CheckTask<\/a>"],[0,3,"<a href=\"Tasks\/Apxs2PatchTask.php.html#6\">Apxs2PatchTask<\/a>"],[63.157894736842,9,"<a href=\"Tasks\/BaseTask.php.html#6\">BaseTask<\/a>"],[0,8,"<a href=\"Tasks\/BuildTask.php.html#11\">BuildTask<\/a>"],[0,18,"<a href=\"Tasks\/ConfigureTask.php.html#13\">ConfigureTask<\/a>"],[0,5,"<a href=\"Tasks\/DSymTask.php.html#6\">DSymTask<\/a>"],[0,10,"<a href=\"Tasks\/DefaultConfigTask.php.html#9\">DefaultConfigTask<\/a>"],[0,7,"<a href=\"Tasks\/DownloadTask.php.html#9\">DownloadTask<\/a>"],[0,10,"<a href=\"Tasks\/ExtractTask.php.html#11\">ExtractTask<\/a>"],[0,1,"<a href=\"Tasks\/FetchReleaseListTask.php.html#6\">FetchReleaseListTask<\/a>"],[0,3,"<a href=\"Tasks\/InstallTask.php.html#11\">InstallTask<\/a>"],[80.952380952381,11,"<a href=\"Tasks\/MakeTask.php.html#9\">MakeTask<\/a>"],[100,6,"<a href=\"Tasks\/Patch64BitSupportTask.php.html#8\">Patch64BitSupportTask<\/a>"],[0,4,"<a href=\"Tasks\/PrepareDirectoryTask.php.html#7\">PrepareDirectoryTask<\/a>"],[0,6,"<a href=\"Tasks\/RemoveTask.php.html#6\">RemoveTask<\/a>"],[0,3,"<a href=\"Tasks\/TestTask.php.html#11\">TestTask<\/a>"],[0,7,"<a href=\"Testing\/CommandTestCase.php.html#7\">CommandTestCase<\/a>"],[88.235294117647,5,"<a href=\"Testing\/TemporaryFileFixture.php.html#6\">TemporaryFileFixture<\/a>"],[0,3,"<a href=\"Topic\/ContributionTopic.php.html#10\">ContributionTopic<\/a>"],[0,3,"<a href=\"Topic\/CookbookTopic.php.html#10\">CookbookTopic<\/a>"],[0,3,"<a href=\"Topic\/HomeTopic.php.html#10\">HomeTopic<\/a>"],[0,3,"<a href=\"Topic\/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#10\">MigratingFromHomebrewPhpToPhpbrewTopic<\/a>"],[0,3,"<a href=\"Topic\/PHPBrewJATopic.php.html#10\">PHPBrewJATopic<\/a>"],[0,3,"<a href=\"Topic\/ReleaseProcessTopic.php.html#10\">ReleaseProcessTopic<\/a>"],[0,3,"<a href=\"Topic\/RequirementTopic.php.html#10\">RequirementTopic<\/a>"],[0,3,"<a href=\"Topic\/SettingUpConfigurationTopic.php.html#10\">SettingUpConfigurationTopic<\/a>"],[0,3,"<a href=\"Topic\/TroubleshootingTopic.php.html#10\">TroubleshootingTopic<\/a>"],[48.351648351648,68,"<a href=\"Utils.php.html#8\">Utils<\/a>"],[77.388535031847,97,"<a href=\"VariantBuilder.php.html#26\">VariantBuilder<\/a>"],[100,0,"<a href=\"VariantParser.php.html#5\">InvalidVariantSyntaxException<\/a>"],[67.924528301887,18,"<a href=\"VariantParser.php.html#7\">VariantParser<\/a>"],[88.636363636364,24,"<a href=\"Version.php.html#18\">Version<\/a>"],[64.705882352941,7,"<a href=\"VersionDslParser.php.html#5\">VersionDslParser<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.scatter.onlyCircles(false);
+    chart.tooltipContent(function(key, y, e, graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[71.428571428571,3,"<a href=\"Build.php.html#57\">Build::__construct<\/a>"],[0,1,"<a href=\"Build.php.html#69\">Build::setName<\/a>"],[100,1,"<a href=\"Build.php.html#74\">Build::getName<\/a>"],[100,1,"<a href=\"Build.php.html#79\">Build::setVersion<\/a>"],[100,1,"<a href=\"Build.php.html#84\">Build::getVersion<\/a>"],[100,1,"<a href=\"Build.php.html#89\">Build::compareVersion<\/a>"],[100,1,"<a href=\"Build.php.html#97\">Build::setSourceDirectory<\/a>"],[100,3,"<a href=\"Build.php.html#102\">Build::getSourceDirectory<\/a>"],[0,1,"<a href=\"Build.php.html#111\">Build::isBuildable<\/a>"],[0,1,"<a href=\"Build.php.html#116\">Build::getBuildLogPath<\/a>"],[0,1,"<a href=\"Build.php.html#123\">Build::setInstallPrefix<\/a>"],[0,1,"<a href=\"Build.php.html#128\">Build::getBinDirectory<\/a>"],[0,1,"<a href=\"Build.php.html#133\">Build::getEtcDirectory<\/a>"],[0,1,"<a href=\"Build.php.html#138\">Build::getVarDirectory<\/a>"],[0,1,"<a href=\"Build.php.html#143\">Build::getVarConfigDirectory<\/a>"],[100,1,"<a href=\"Build.php.html#148\">Build::getInstallPrefix<\/a>"],[0,1,"<a href=\"Build.php.html#156\">Build::getCurrentConfigScanPath<\/a>"],[0,1,"<a href=\"Build.php.html#161\">Build::getPath<\/a>"],[80.952380952381,6,"<a href=\"Build.php.html#169\">Build::getIdentifier<\/a>"],[0,1,"<a href=\"Build.php.html#202\">Build::getSourceExtensionDirectory<\/a>"],[37.5,3,"<a href=\"Build.php.html#207\">Build::setBuildSettings<\/a>"],[0,1,"<a href=\"Build.php.html#223\">Build::__set_state<\/a>"],[100,1,"<a href=\"Build.php.html#234\">Build::serialize<\/a>"],[0,2,"<a href=\"Build.php.html#247\">Build::findByName<\/a>"],[0,1,"<a href=\"Build.php.html#258\">Build::unserialize<\/a>"],[0,2,"<a href=\"Build.php.html#264\">Build::import<\/a>"],[0,2,"<a href=\"Build.php.html#283\">Build::getStateFile<\/a>"],[0,2,"<a href=\"Build.php.html#290\">Build::setState<\/a>"],[0,5,"<a href=\"Build.php.html#298\">Build::getState<\/a>"],[100,1,"<a href=\"Build.php.html#312\">Build::export<\/a>"],[100,1,"<a href=\"Build.php.html#317\">Build::writeFile<\/a>"],[0,1,"<a href=\"Build.php.html#322\">Build::loadFile<\/a>"],[100,1,"<a href=\"Build.php.html#328\">Build::__call<\/a>"],[66.666666666667,2,"<a href=\"BuildRegister.php.html#12\">BuildRegister::__construct<\/a>"],[100,1,"<a href=\"BuildRegister.php.html#20\">BuildRegister::register<\/a>"],[80,2,"<a href=\"BuildRegister.php.html#25\">BuildRegister::deregister<\/a>"],[40,4,"<a href=\"BuildSettings\/BuildSettings.php.html#16\">BuildSettings::__construct<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#29\">BuildSettings::toArray<\/a>"],[0,2,"<a href=\"BuildSettings\/BuildSettings.php.html#37\">BuildSettings::enableVariants<\/a>"],[100,2,"<a href=\"BuildSettings\/BuildSettings.php.html#44\">BuildSettings::enableVariant<\/a>"],[0,2,"<a href=\"BuildSettings\/BuildSettings.php.html#49\">BuildSettings::disableVariants<\/a>"],[100,1,"<a href=\"BuildSettings\/BuildSettings.php.html#61\">BuildSettings::disableVariant<\/a>"],[100,3,"<a href=\"BuildSettings\/BuildSettings.php.html#71\">BuildSettings::resolveVariants<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#83\">BuildSettings::isDisabledVariant<\/a>"],[100,1,"<a href=\"BuildSettings\/BuildSettings.php.html#88\">BuildSettings::isEnabledVariant<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#93\">BuildSettings::removeDisabledVariant<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#103\">BuildSettings::setVariants<\/a>"],[100,1,"<a href=\"BuildSettings\/BuildSettings.php.html#114\">BuildSettings::hasVariant<\/a>"],[100,1,"<a href=\"BuildSettings\/BuildSettings.php.html#122\">BuildSettings::removeVariant<\/a>"],[100,1,"<a href=\"BuildSettings\/BuildSettings.php.html#131\">BuildSettings::getVariants<\/a>"],[100,1,"<a href=\"BuildSettings\/BuildSettings.php.html#139\">BuildSettings::getDisabledVariants<\/a>"],[66.666666666667,2,"<a href=\"BuildSettings\/BuildSettings.php.html#153\">BuildSettings::getVariant<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#162\">BuildSettings::setExtraOptions<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#167\">BuildSettings::appendExtraOptions<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#172\">BuildSettings::getExtraOptions<\/a>"],[0,2,"<a href=\"BuildSettings\/BuildSettings.php.html#180\">BuildSettings::loadVariantInfoFile<\/a>"],[0,1,"<a href=\"BuildSettings\/BuildSettings.php.html#192\">BuildSettings::writeVariantInfoFile<\/a>"],[0,5,"<a href=\"BuildSettings\/BuildSettings.php.html#203\">BuildSettings::loadVariantInfo<\/a>"],[0,1,"<a href=\"BuildSettings\/DefaultBuildSettings.php.html#6\">DefaultBuildSettings::__construct<\/a>"],[0,1,"<a href=\"Command\/CdCommand.php.html#11\">CdCommand::brief<\/a>"],[0,1,"<a href=\"Command\/CdCommand.php.html#16\">CdCommand::arguments<\/a>"],[0,1,"<a href=\"Command\/CdCommand.php.html#23\">CdCommand::usage<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/CleanCommand.php.html#12\">CleanCommand::brief<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/CleanCommand.php.html#17\">CleanCommand::options<\/a>"],[0,3,"<a href=\"Command\/ExtensionCommand\/CleanCommand.php.html#22\">CleanCommand::arguments<\/a>"],[0,3,"<a href=\"Command\/ExtensionCommand\/CleanCommand.php.html#29\">CleanCommand::anonymous function<\/a>"],[0,3,"<a href=\"Command\/ExtensionCommand\/CleanCommand.php.html#36\">CleanCommand::execute<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/ConfigCommand.php.html#15\">ConfigCommand::brief<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/ConfigCommand.php.html#20\">ConfigCommand::arguments<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/ConfigCommand.php.html#24\">ConfigCommand::anonymous function<\/a>"],[0,4,"<a href=\"Command\/ExtensionCommand\/ConfigCommand.php.html#30\">ConfigCommand::execute<\/a>"],[0,1,"<a href=\"Command\/CtagsCommand.php.html#9\">CtagsCommand::brief<\/a>"],[0,1,"<a href=\"Command\/CtagsCommand.php.html#14\">CtagsCommand::arguments<\/a>"],[100,1,"<a href=\"Command\/CtagsCommand.php.html#16\">CtagsCommand::anonymous function<\/a>"],[0,5,"<a href=\"Command\/CtagsCommand.php.html#20\">CtagsCommand::execute<\/a>"],[0,1,"<a href=\"Command\/DownloadCommand.php.html#12\">DownloadCommand::brief<\/a>"],[0,1,"<a href=\"Command\/DownloadCommand.php.html#17\">DownloadCommand::usage<\/a>"],[0,1,"<a href=\"Command\/DownloadCommand.php.html#22\">DownloadCommand::arguments<\/a>"],[0,1,"<a href=\"Command\/DownloadCommand.php.html#31\">DownloadCommand::options<\/a>"],[0,4,"<a href=\"Command\/DownloadCommand.php.html#44\">DownloadCommand::execute<\/a>"],[0,1,"<a href=\"Command\/EachCommand.php.html#10\">EachCommand::brief<\/a>"],[0,1,"<a href=\"Command\/EachCommand.php.html#15\">EachCommand::options<\/a>"],[0,2,"<a href=\"Command\/EachCommand.php.html#21\">EachCommand::execute<\/a>"],[0,3,"<a href=\"Command\/EachCommand.php.html#30\">EachCommand::prompt<\/a>"],[0,3,"<a href=\"Command\/EachCommand.php.html#46\">EachCommand::runCommandRecursive<\/a>"],[0,1,"<a href=\"Command\/EachCommand.php.html#56\">EachCommand::getVersions<\/a>"],[0,1,"<a href=\"Command\/EachCommand.php.html#60\">EachCommand::anonymous function<\/a>"],[0,1,"<a href=\"Command\/EnvCommand.php.html#9\">EnvCommand::brief<\/a>"],[0,5,"<a href=\"Command\/EnvCommand.php.html#14\">EnvCommand::execute<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand.php.html#13\">ExtensionCommand::aliases<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand.php.html#17\">ExtensionCommand::usage<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand.php.html#22\">ExtensionCommand::brief<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand.php.html#27\">ExtensionCommand::init<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand.php.html#41\">ExtensionCommand::options<\/a>"],[0,8,"<a href=\"Command\/ExtensionCommand.php.html#47\">ExtensionCommand::describeExtension<\/a>"],[0,15,"<a href=\"Command\/ExtensionCommand.php.html#79\">ExtensionCommand::execute<\/a>"],[0,3,"<a href=\"Command\/ExtensionCommand\/BaseCommand.php.html#14\">BaseCommand::prepare<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/DisableCommand.php.html#11\">DisableCommand::usage<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/DisableCommand.php.html#16\">DisableCommand::brief<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/DisableCommand.php.html#21\">DisableCommand::arguments<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/DisableCommand.php.html#26\">DisableCommand::anonymous function<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/DisableCommand.php.html#32\">DisableCommand::execute<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/EnableCommand.php.html#10\">EnableCommand::usage<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/EnableCommand.php.html#15\">EnableCommand::brief<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/EnableCommand.php.html#20\">EnableCommand::arguments<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/EnableCommand.php.html#25\">EnableCommand::anonymous function<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/EnableCommand.php.html#31\">EnableCommand::execute<\/a>"],[0,1,"<a href=\"Command\/InstallCommand.php.html#27\">InstallCommand::brief<\/a>"],[0,1,"<a href=\"Command\/InstallCommand.php.html#32\">InstallCommand::aliases<\/a>"],[0,1,"<a href=\"Command\/InstallCommand.php.html#37\">InstallCommand::usage<\/a>"],[0,2,"<a href=\"Command\/InstallCommand.php.html#42\">InstallCommand::arguments<\/a>"],[100,1,"<a href=\"Command\/InstallCommand.php.html#60\">InstallCommand::anonymous function<\/a>"],[0,5,"<a href=\"Command\/InstallCommand.php.html#64\">InstallCommand::parseSemanticOptions<\/a>"],[0,1,"<a href=\"Command\/InstallCommand.php.html#98\">InstallCommand::options<\/a>"],[0,47,"<a href=\"Command\/InstallCommand.php.html#167\">InstallCommand::execute<\/a>"],[0,1,"<a href=\"Command\/KnownCommand.php.html#8\">KnownCommand::brief<\/a>"],[0,1,"<a href=\"Command\/KnownCommand.php.html#16\">KnownCommand::options<\/a>"],[0,8,"<a href=\"Command\/KnownCommand.php.html#28\">KnownCommand::execute<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#14\">ShowCommand::usage<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#19\">ShowCommand::brief<\/a>"],[0,1,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#24\">ShowCommand::options<\/a>"],[0,3,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#28\">ShowCommand::arguments<\/a>"],[0,3,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#35\">ShowCommand::anonymous function<\/a>"],[0,8,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#42\">ShowCommand::describeExtension<\/a>"],[0,5,"<a href=\"Command\/ExtensionCommand\/ShowCommand.php.html#75\">ShowCommand::execute<\/a>"],[0,2,"<a href=\"Command\/HelpCommand.php.html#8\">HelpCommand::execute<\/a>"],[0,1,"<a href=\"Command\/InfoCommand.php.html#6\">InfoCommand::brief<\/a>"],[0,1,"<a href=\"Command\/InfoCommand.php.html#11\">InfoCommand::usage<\/a>"],[0,1,"<a href=\"Command\/InfoCommand.php.html#16\">InfoCommand::header<\/a>"],[0,5,"<a href=\"Command\/InfoCommand.php.html#22\">InfoCommand::execute<\/a>"],[0,1,"<a href=\"Command\/InfoCommand.php.html#62\">InfoCommand::anonymous function<\/a>"],[0,1,"<a href=\"Command\/InitCommand.php.html#9\">InitCommand::brief<\/a>"],[0,1,"<a href=\"Command\/InitCommand.php.html#14\">InitCommand::options<\/a>"],[0,7,"<a href=\"Command\/InitCommand.php.html#19\">InitCommand::execute<\/a>"],[0,2,"<a href=\"Command\/InitCommand.php.html#103\">InitCommand::getBashScript<\/a>"],[0,2,"<a href=\"Command\/InitCommand.php.html#109\">InitCommand::getFishScript<\/a>"],[0,1,"<a href=\"Command\/ListCommand.php.html#9\">ListCommand::brief<\/a>"],[0,1,"<a href=\"Command\/ListCommand.php.html#14\">ListCommand::options<\/a>"],[0,9,"<a href=\"Command\/ListCommand.php.html#20\">ListCommand::execute<\/a>"],[0,1,"<a href=\"Command\/ListIniCommand.php.html#7\">ListIniCommand::brief<\/a>"],[0,4,"<a href=\"Command\/ListIniCommand.php.html#12\">ListIniCommand::execute<\/a>"],[0,1,"<a href=\"Command\/MigratedCommand.php.html#8\">MigratedCommand::brief<\/a>"],[0,1,"<a href=\"Command\/MigratedCommand.php.html#13\">MigratedCommand::execute<\/a>"],[0,1,"<a href=\"Command\/OffCommand.php.html#6\">OffCommand::brief<\/a>"],[0,1,"<a href=\"Command\/PathCommand.php.html#9\">PathCommand::brief<\/a>"],[0,1,"<a href=\"Command\/PathCommand.php.html#14\">PathCommand::arguments<\/a>"],[0,13,"<a href=\"Command\/PathCommand.php.html#22\">PathCommand::execute<\/a>"],[100,1,"<a href=\"Command\/PurgeCommand.php.html#13\">PurgeCommand::arguments<\/a>"],[100,1,"<a href=\"Command\/PurgeCommand.php.html#15\">PurgeCommand::anonymous function<\/a>"],[100,1,"<a href=\"Command\/PurgeCommand.php.html#21\">PurgeCommand::brief<\/a>"],[100,1,"<a href=\"Command\/PurgeCommand.php.html#26\">PurgeCommand::execute<\/a>"],[0,1,"<a href=\"Command\/RemoveCommand.php.html#13\">RemoveCommand::brief<\/a>"],[0,1,"<a href=\"Command\/RemoveCommand.php.html#18\">RemoveCommand::arguments<\/a>"],[0,3,"<a href=\"Command\/RemoveCommand.php.html#24\">RemoveCommand::execute<\/a>"],[0,1,"<a href=\"Command\/SelfUpdateCommand.php.html#9\">SelfUpdateCommand::usage<\/a>"],[0,1,"<a href=\"Command\/SelfUpdateCommand.php.html#14\">SelfUpdateCommand::brief<\/a>"],[100,1,"<a href=\"Command\/SelfUpdateCommand.php.html#19\">SelfUpdateCommand::arguments<\/a>"],[0,1,"<a href=\"Command\/SelfUpdateCommand.php.html#20\">SelfUpdateCommand::anonymous function<\/a>"],[0,3,"<a href=\"Command\/SelfUpdateCommand.php.html#26\">SelfUpdateCommand::execute<\/a>"],[100,1,"<a href=\"Command\/SwitchCommand.php.html#12\">SwitchCommand::arguments<\/a>"],[100,1,"<a href=\"Command\/SwitchCommand.php.html#14\">SwitchCommand::anonymous function<\/a>"],[100,1,"<a href=\"Command\/SwitchCommand.php.html#21\">SwitchCommand::brief<\/a>"],[100,1,"<a href=\"Command\/SwitchCommand.php.html#26\">SwitchCommand::execute<\/a>"],[0,1,"<a href=\"Command\/SwitchOffCommand.php.html#11\">SwitchOffCommand::brief<\/a>"],[0,1,"<a href=\"Command\/UpdateCommand.php.html#7\">UpdateCommand::brief<\/a>"],[0,1,"<a href=\"Command\/UpdateCommand.php.html#12\">UpdateCommand::options<\/a>"],[0,4,"<a href=\"Command\/UpdateCommand.php.html#31\">UpdateCommand::execute<\/a>"],[100,1,"<a href=\"Command\/UseCommand.php.html#13\">UseCommand::arguments<\/a>"],[100,1,"<a href=\"Command\/UseCommand.php.html#15\">UseCommand::anonymous function<\/a>"],[100,1,"<a href=\"Command\/UseCommand.php.html#21\">UseCommand::brief<\/a>"],[100,1,"<a href=\"Command\/UseCommand.php.html#26\">UseCommand::execute<\/a>"],[0,1,"<a href=\"Command\/VariantsCommand.php.html#9\">VariantsCommand::brief<\/a>"],[0,1,"<a href=\"Command\/VariantsCommand.php.html#14\">VariantsCommand::usage<\/a>"],[0,5,"<a href=\"Command\/VariantsCommand.php.html#19\">VariantsCommand::wrapLine<\/a>"],[0,2,"<a href=\"Command\/VariantsCommand.php.html#37\">VariantsCommand::execute<\/a>"],[0,1,"<a href=\"Command\/VirtualCommand.php.html#11\">VirtualCommand::execute<\/a>"],[100,1,"<a href=\"CommandBuilder.php.html#26\">CommandBuilder::__construct<\/a>"],[0,1,"<a href=\"CommandBuilder.php.html#31\">CommandBuilder::args<\/a>"],[0,1,"<a href=\"CommandBuilder.php.html#36\">CommandBuilder::addArg<\/a>"],[0,1,"<a href=\"CommandBuilder.php.html#41\">CommandBuilder::arg<\/a>"],[0,1,"<a href=\"CommandBuilder.php.html#46\">CommandBuilder::nice<\/a>"],[71.428571428571,2,"<a href=\"CommandBuilder.php.html#51\">CommandBuilder::execute<\/a>"],[0,1,"<a href=\"CommandBuilder.php.html#63\">CommandBuilder::__toString<\/a>"],[100,1,"<a href=\"CommandBuilder.php.html#68\">CommandBuilder::setStdout<\/a>"],[100,1,"<a href=\"CommandBuilder.php.html#73\">CommandBuilder::setAppendLog<\/a>"],[100,1,"<a href=\"CommandBuilder.php.html#78\">CommandBuilder::setLogPath<\/a>"],[68,9,"<a href=\"CommandBuilder.php.html#83\">CommandBuilder::getCommand<\/a>"],[75,4,"<a href=\"Config.php.html#10\">Config::getPhpbrewHome<\/a>"],[0,1,"<a href=\"Config.php.html#24\">Config::setPhpbrewHome<\/a>"],[0,1,"<a href=\"Config.php.html#29\">Config::setPhpbrewRoot<\/a>"],[62.5,4,"<a href=\"Config.php.html#34\">Config::getPhpbrewRoot<\/a>"],[100,1,"<a href=\"Config.php.html#51\">Config::getVariantsDir<\/a>"],[100,1,"<a href=\"Config.php.html#59\">Config::getBuildDir<\/a>"],[100,1,"<a href=\"Config.php.html#65\">Config::getCurrentBuildDir<\/a>"],[60,2,"<a href=\"Config.php.html#69\">Config::getDistFileDir<\/a>"],[60,2,"<a href=\"Config.php.html#78\">Config::getTempFileDir<\/a>"],[100,1,"<a href=\"Config.php.html#87\">Config::getPHPReleaseListPath<\/a>"],[100,1,"<a href=\"Config.php.html#98\">Config::getInstallPrefix<\/a>"],[100,1,"<a href=\"Config.php.html#103\">Config::getVersionInstallPrefix<\/a>"],[100,1,"<a href=\"Config.php.html#116\">Config::getVersionEtcPath<\/a>"],[100,1,"<a href=\"Config.php.html#121\">Config::getVersionBinPath<\/a>"],[0,7,"<a href=\"Config.php.html#126\">Config::findInstalledBuilds<\/a>"],[0,1,"<a href=\"Config.php.html#179\">Config::anonymous function<\/a>"],[0,1,"<a href=\"Config.php.html#148\">Config::findMatchedBuilds<\/a>"],[0,3,"<a href=\"Config.php.html#156\">Config::findFirstMatchedBuild<\/a>"],[0,2,"<a href=\"Config.php.html#166\">Config::findLatestBuild<\/a>"],[0,1,"<a href=\"Config.php.html#173\">Config::putPathEnvFor<\/a>"],[100,7,"<a href=\"Config.php.html#190\">Config::getInstalledPhpVersions<\/a>"],[100,1,"<a href=\"Config.php.html#214\">Config::getCurrentPhpConfigBin<\/a>"],[100,1,"<a href=\"Config.php.html#219\">Config::getCurrentPhpizeBin<\/a>"],[100,1,"<a href=\"Config.php.html#227\">Config::getCurrentPhpConfigScanPath<\/a>"],[100,1,"<a href=\"Config.php.html#232\">Config::getCurrentPhpDir<\/a>"],[0,1,"<a href=\"Config.php.html#238\">Config::useSystemPhpVersion<\/a>"],[0,1,"<a href=\"Config.php.html#244\">Config::setPhpVersion<\/a>"],[66.666666666667,2,"<a href=\"Config.php.html#249\">Config::getCurrentPhpName<\/a>"],[100,1,"<a href=\"Config.php.html#257\">Config::getLookupPrefix<\/a>"],[100,1,"<a href=\"Config.php.html#262\">Config::getCurrentPhpBin<\/a>"],[88.888888888889,5,"<a href=\"Config.php.html#267\">Config::getConfigParam<\/a>"],[0,4,"<a href=\"Config.php.html#283\">Config::initDirectories<\/a>"],[0,1,"<a href=\"Console.php.html#11\">Console::options<\/a>"],[0,1,"<a href=\"Console.php.html#16\">Console::init<\/a>"],[0,2,"<a href=\"Console.php.html#64\">Console::configure<\/a>"],[0,1,"<a href=\"Console.php.html#78\">Console::brief<\/a>"],[100,1,"<a href=\"Distribution\/DistributionUrlPolicy.php.html#10\">DistributionUrlPolicy::setMirrorSite<\/a>"],[100,3,"<a href=\"Distribution\/DistributionUrlPolicy.php.html#18\">DistributionUrlPolicy::buildUrl<\/a>"],[87.5,4,"<a href=\"Distribution\/DistributionUrlPolicy.php.html#33\">DistributionUrlPolicy::isDistributedAtMuseum<\/a>"],[0,1,"<a href=\"Downloader\/UrlDownloader.php.html#17\">UrlDownloader::__construct<\/a>"],[0,14,"<a href=\"Downloader\/UrlDownloader.php.html#30\">UrlDownloader::download<\/a>"],[0,4,"<a href=\"Downloader\/UrlDownloader.php.html#86\">UrlDownloader::resolveDownloadFileName<\/a>"],[0,1,"<a href=\"Downloader\/UrlDownloader.php.html#101\">UrlDownloader::isCurlExtensionAvailable<\/a>"],[0,1,"<a href=\"Downloader\/UrlDownloader.php.html#106\">UrlDownloader::isWgetCommandAvailable<\/a>"],[0,1,"<a href=\"Downloader\/UrlDownloader.php.html#111\">UrlDownloader::isCurlCommandAvailable<\/a>"],[0,1,"<a href=\"Exception\/OopsException.php.html#7\">OopsException::__construct<\/a>"],[0,1,"<a href=\"Exception\/TaskFailureException.php.html#10\">TaskFailureException::__construct<\/a>"],[0,1,"<a href=\"Exception\/TaskFailureException.php.html#15\">TaskFailureException::getTask<\/a>"],[0,1,"<a href=\"Extension\/ConfigureOption.php.html#14\">ConfigureOption::__construct<\/a>"],[0,1,"<a href=\"Extension\/ConfigureOption.php.html#21\">ConfigureOption::getOption<\/a>"],[0,1,"<a href=\"Extension\/ConfigureOption.php.html#26\">ConfigureOption::getDescription<\/a>"],[0,1,"<a href=\"Extension\/ConfigureOption.php.html#31\">ConfigureOption::getValueHint<\/a>"],[0,1,"<a href=\"Extension\/ConfigureOption.php.html#36\">ConfigureOption::setDefaultValue<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#44\">Extension::__construct<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#50\">Extension::setName<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#55\">Extension::getName<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#60\">Extension::setVersion<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#65\">Extension::getVersion<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#70\">Extension::setZend<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#75\">Extension::isZend<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#80\">Extension::setSharedLibraryName<\/a>"],[0,2,"<a href=\"Extension\/Extension.php.html#85\">Extension::getSharedLibraryName<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#93\">Extension::setExtensionName<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#98\">Extension::getExtensionName<\/a>"],[0,2,"<a href=\"Extension\/Extension.php.html#104\">Extension::setSourceDirectory<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#113\">Extension::getConfigM4File<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#117\">Extension::getConfigM4Path<\/a>"],[0,4,"<a href=\"Extension\/Extension.php.html#121\">Extension::findConfigM4File<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#136\">Extension::isBuildable<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#141\">Extension::getSourceDirectory<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#147\">Extension::getSharedLibraryPath<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#151\">Extension::getConfigFilePath<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#161\">Extension::isLoaded<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#171\">Extension::isInstalled<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#176\">Extension::addConfigureOption<\/a>"],[0,1,"<a href=\"Extension\/Extension.php.html#180\">Extension::getConfigureOptions<\/a>"],[0,1,"<a href=\"Extension\/ExtensionDownloader.php.html#21\">ExtensionDownloader::__construct<\/a>"],[0,3,"<a href=\"Extension\/ExtensionDownloader.php.html#28\">ExtensionDownloader::buildGithubTarballUrl<\/a>"],[0,3,"<a href=\"Extension\/ExtensionDownloader.php.html#36\">ExtensionDownloader::download<\/a>"],[0,6,"<a href=\"Extension\/ExtensionDownloader.php.html#66\">ExtensionDownloader::knownReleases<\/a>"],[0,3,"<a href=\"Extension\/ExtensionDownloader.php.html#98\">ExtensionDownloader::renameSourceDirectory<\/a>"],[0,4,"<a href=\"Extension\/ExtensionFactory.php.html#23\">ExtensionFactory::configM4Exists<\/a>"],[0,7,"<a href=\"Extension\/ExtensionFactory.php.html#39\">ExtensionFactory::createFromDirectory<\/a>"],[0,8,"<a href=\"Extension\/ExtensionFactory.php.html#86\">ExtensionFactory::lookupRecursive<\/a>"],[0,5,"<a href=\"Extension\/ExtensionFactory.php.html#123\">ExtensionFactory::lookup<\/a>"],[0,14,"<a href=\"Extension\/ExtensionFactory.php.html#145\">ExtensionFactory::createM4Extension<\/a>"],[0,3,"<a href=\"Extension\/ExtensionFactory.php.html#313\">ExtensionFactory::createPeclExtension<\/a>"],[0,2,"<a href=\"Extension\/ExtensionInstaller.php.html#15\">ExtensionInstaller::__construct<\/a>"],[0,9,"<a href=\"Extension\/ExtensionInstaller.php.html#21\">ExtensionInstaller::install<\/a>"],[0,1,"<a href=\"Extension\/ExtensionManager.php.html#27\">ExtensionManager::__construct<\/a>"],[0,3,"<a href=\"Extension\/ExtensionManager.php.html#32\">ExtensionManager::purgeExtension<\/a>"],[0,4,"<a href=\"Extension\/ExtensionManager.php.html#45\">ExtensionManager::cleanExtension<\/a>"],[0,2,"<a href=\"Extension\/ExtensionManager.php.html#67\">ExtensionManager::installExtension<\/a>"],[0,4,"<a href=\"Extension\/ExtensionManager.php.html#91\">ExtensionManager::createExtensionConfig<\/a>"],[0,3,"<a href=\"Extension\/ExtensionManager.php.html#117\">ExtensionManager::disable<\/a>"],[0,3,"<a href=\"Extension\/ExtensionManager.php.html#129\">ExtensionManager::enable<\/a>"],[0,6,"<a href=\"Extension\/ExtensionManager.php.html#146\">ExtensionManager::enableExtension<\/a>"],[0,4,"<a href=\"Extension\/ExtensionManager.php.html#178\">ExtensionManager::disableExtension<\/a>"],[0,3,"<a href=\"Extension\/ExtensionManager.php.html#203\">ExtensionManager::disableAntagonists<\/a>"],[0,1,"<a href=\"Extension\/ExtensionManager.php.html#216\">ExtensionManager::hasConflicts<\/a>"],[0,5,"<a href=\"Extension\/PeclExtension.php.html#9\">PeclExtension::setPackage<\/a>"],[0,1,"<a href=\"Extension\/PeclExtension.php.html#30\">PeclExtension::getPackage<\/a>"],[0,4,"<a href=\"Extension\/PeclExtension.php.html#35\">PeclExtension::findConfigM4FileFromPackageXml<\/a>"],[0,3,"<a href=\"Extension\/PeclExtension.php.html#46\">PeclExtension::findConfigM4File<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#15\">BitbucketProvider::getName<\/a>"],[0,3,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#19\">BitbucketProvider::buildPackageDownloadUrl<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#27\">BitbucketProvider::getOwner<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#32\">BitbucketProvider::setOwner<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#37\">BitbucketProvider::getRepository<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#42\">BitbucketProvider::setRepository<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#47\">BitbucketProvider::getPackageName<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#52\">BitbucketProvider::setPackageName<\/a>"],[0,2,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#57\">BitbucketProvider::exists<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#69\">BitbucketProvider::buildKnownReleasesUrl<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#74\">BitbucketProvider::parseKnownReleasesResponse<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#82\">BitbucketProvider::getDefaultVersion<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#87\">BitbucketProvider::setDefaultVersion<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#92\">BitbucketProvider::shouldLookupRecursive<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#97\">BitbucketProvider::resolveDownloadFileName<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#102\">BitbucketProvider::extractPackageCommands<\/a>"],[0,1,"<a href=\"Extension\/Provider\/BitbucketProvider.php.html#110\">BitbucketProvider::postExtractPackageCommands<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#15\">GithubProvider::getName<\/a>"],[0,3,"<a href=\"Extension\/Provider\/GithubProvider.php.html#19\">GithubProvider::buildPackageDownloadUrl<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#27\">GithubProvider::getOwner<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#32\">GithubProvider::setOwner<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#37\">GithubProvider::getRepository<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#42\">GithubProvider::setRepository<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#47\">GithubProvider::getPackageName<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#52\">GithubProvider::setPackageName<\/a>"],[0,2,"<a href=\"Extension\/Provider\/GithubProvider.php.html#57\">GithubProvider::exists<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#69\">GithubProvider::buildKnownReleasesUrl<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#74\">GithubProvider::parseKnownReleasesResponse<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#77\">GithubProvider::anonymous function<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#84\">GithubProvider::getDefaultVersion<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#89\">GithubProvider::setDefaultVersion<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#94\">GithubProvider::shouldLookupRecursive<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#99\">GithubProvider::resolveDownloadFileName<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#104\">GithubProvider::extractPackageCommands<\/a>"],[0,1,"<a href=\"Extension\/Provider\/GithubProvider.php.html#112\">GithubProvider::postExtractPackageCommands<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#16\">PeclProvider::getName<\/a>"],[0,2,"<a href=\"Extension\/Provider\/PeclProvider.php.html#20\">PeclProvider::buildPackageDownloadUrl<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#33\">PeclProvider::getOwner<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#38\">PeclProvider::setOwner<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#43\">PeclProvider::getRepository<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#48\">PeclProvider::setRepository<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#53\">PeclProvider::getPackageName<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#58\">PeclProvider::setPackageName<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#63\">PeclProvider::exists<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#71\">PeclProvider::buildKnownReleasesUrl<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#76\">PeclProvider::parseKnownReleasesResponse<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#83\">PeclProvider::anonymous function<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#90\">PeclProvider::getDefaultVersion<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#95\">PeclProvider::setDefaultVersion<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#100\">PeclProvider::shouldLookupRecursive<\/a>"],[0,4,"<a href=\"Extension\/Provider\/PeclProvider.php.html#105\">PeclProvider::resolveDownloadFileName<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#121\">PeclProvider::extractPackageCommands<\/a>"],[0,1,"<a href=\"Extension\/Provider\/PeclProvider.php.html#129\">PeclProvider::postExtractPackageCommands<\/a>"],[100,2,"<a href=\"Extension\/Provider\/RepositoryDslParser.php.html#18\">RepositoryDslParser::parse<\/a>"],[100,2,"<a href=\"Extension\/Provider\/RepositoryDslParser.php.html#38\">RepositoryDslParser::toUrl<\/a>"],[0,1,"<a href=\"ExtensionList.php.html#17\">ExtensionList::__construct<\/a>"],[0,2,"<a href=\"ExtensionList.php.html#21\">ExtensionList::getProviders<\/a>"],[0,3,"<a href=\"ExtensionList.php.html#35\">ExtensionList::getProviderByName<\/a>"],[0,2,"<a href=\"ExtensionList.php.html#44\">ExtensionList::getReadyInstance<\/a>"],[0,3,"<a href=\"ExtensionList.php.html#54\">ExtensionList::exists<\/a>"],[0,1,"<a href=\"Machine.php.html#15\">Machine::__construct<\/a>"],[0,2,"<a href=\"Machine.php.html#19\">Machine::getInstance<\/a>"],[0,4,"<a href=\"Machine.php.html#28\">Machine::detectProcessorNumber<\/a>"],[0,2,"<a href=\"Machine.php.html#45\">Machine::detectProcessorNumberByNproc<\/a>"],[0,3,"<a href=\"Machine.php.html#57\">Machine::detectProcessorNumberByGrep<\/a>"],[0,2,"<a href=\"Migrations.php.html#15\">Migrations::setupConfigFolder<\/a>"],[100,1,"<a href=\"Patch\/PatchCollection.php.html#12\">PatchCollection::createPatchesFor64BitSupport<\/a>"],[0,1,"<a href=\"Patch\/PatchCollection.php.html#27\">PatchCollection::createPatchesForApxs2<\/a>"],[100,1,"<a href=\"Patch\/RegexpPatch.php.html#40\">RegexpPatch::__construct<\/a>"],[100,1,"<a href=\"Patch\/RegexpPatch.php.html#48\">RegexpPatch::enableBackup<\/a>"],[100,2,"<a href=\"Patch\/RegexpPatch.php.html#53\">RegexpPatch::apply<\/a>"],[75,2,"<a href=\"Patch\/RegexpPatch.php.html#64\">RegexpPatch::read<\/a>"],[66.666666666667,3,"<a href=\"Patch\/RegexpPatch.php.html#75\">RegexpPatch::backup<\/a>"],[100,2,"<a href=\"Patch\/RegexpPatch.php.html#82\">RegexpPatch::applyRules<\/a>"],[66.666666666667,2,"<a href=\"Patch\/RegexpPatch.php.html#90\">RegexpPatch::write<\/a>"],[100,1,"<a href=\"Patch\/RegexpPatchRule.php.html#24\">RegexpPatchRule::__construct<\/a>"],[100,1,"<a href=\"Patch\/RegexpPatchRule.php.html#34\">RegexpPatchRule::always<\/a>"],[100,3,"<a href=\"Patch\/RegexpPatchRule.php.html#62\">RegexpPatchRule::anonymous function<\/a>"],[100,4,"<a href=\"Patch\/RegexpPatchRule.php.html#44\">RegexpPatchRule::anyOf<\/a>"],[100,3,"<a href=\"Patch\/RegexpPatchRule.php.html#60\">RegexpPatchRule::allOf<\/a>"],[100,3,"<a href=\"Patch\/RegexpPatchRule.php.html#72\">RegexpPatchRule::apply<\/a>"],[0,1,"<a href=\"PatchPHP.php.html#29\">PatchPHP::__construct<\/a>"],[0,2,"<a href=\"PatchPHP.php.html#35\">PatchPHP::getPatchFilename<\/a>"],[0,1,"<a href=\"PatchPHP.php.html#45\">PatchPHP::fetchDiff<\/a>"],[0,2,"<a href=\"PatchPHP.php.html#53\">PatchPHP::patch<\/a>"],[0,1,"<a href=\"PatchUtils.php.html#7\">PatchUtils::apply<\/a>"],[0,2,"<a href=\"PatchUtils.php.html#12\">PatchUtils::applyStdin<\/a>"],[90.909090909091,2,"<a href=\"PatchUtils.php.html#29\">PatchUtils::applyFileStdin<\/a>"],[0,1,"<a href=\"PatchUtils.php.html#46\">PatchUtils::reinplace<\/a>"],[0,1,"<a href=\"Paths.php.html#6\">Paths::getMacportsPrefix<\/a>"],[0,1,"<a href=\"Paths.php.html#11\">Paths::getHomebrewPrefix<\/a>"],[0,1,"<a href=\"Paths.php.html#16\">Paths::getDebianPrefix<\/a>"],[0,1,"<a href=\"Paths.php.html#21\">Paths::getRedhatPrefix<\/a>"],[0,3,"<a href=\"PhpBrew.php.html#9\">PhpBrew::run<\/a>"],[0,1,"<a href=\"PhpBrew.php.html#18\">PhpBrew::getCleanPath<\/a>"],[0,1,"<a href=\"PhpBrew.php.html#24\">PhpBrew::runUse<\/a>"],[88.888888888889,3,"<a href=\"Platform\/Linux.php.html#14\">Linux::__construct<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#28\">Linux::getOSVersion<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#33\">Linux::isMac<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#38\">Linux::isLinux<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#43\">Linux::isDebian<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#48\">Linux::isCentOS<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#53\">Linux::is32bit<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#58\">Linux::is64bit<\/a>"],[100,1,"<a href=\"Platform\/Linux.php.html#63\">Linux::setDistribution<\/a>"],[0,1,"<a href=\"Platform\/Linux\/CentOS.php.html#9\">CentOS::getVersion<\/a>"],[100,1,"<a href=\"Platform\/Linux\/CentOS.php.html#14\">CentOS::isDebian<\/a>"],[100,1,"<a href=\"Platform\/Linux\/CentOS.php.html#19\">CentOS::isCentOS<\/a>"],[0,1,"<a href=\"Platform\/Linux\/Debian.php.html#9\">Debian::getVersion<\/a>"],[100,1,"<a href=\"Platform\/Linux\/Debian.php.html#14\">Debian::isDebian<\/a>"],[100,1,"<a href=\"Platform\/Linux\/Debian.php.html#19\">Debian::isCentOS<\/a>"],[100,1,"<a href=\"Platform\/Linux\/UnknownDistribution.php.html#9\">UnknownDistribution::getVersion<\/a>"],[100,1,"<a href=\"Platform\/Linux\/UnknownDistribution.php.html#14\">UnknownDistribution::isDebian<\/a>"],[100,1,"<a href=\"Platform\/Linux\/UnknownDistribution.php.html#19\">UnknownDistribution::isCentOS<\/a>"],[100,1,"<a href=\"Platform\/Mac.php.html#10\">Mac::__construct<\/a>"],[0,1,"<a href=\"Platform\/Mac.php.html#15\">Mac::getOSVersion<\/a>"],[100,1,"<a href=\"Platform\/Mac.php.html#20\">Mac::isMac<\/a>"],[100,1,"<a href=\"Platform\/Mac.php.html#25\">Mac::isLinux<\/a>"],[100,1,"<a href=\"Platform\/Mac.php.html#30\">Mac::isDebian<\/a>"],[100,1,"<a href=\"Platform\/Mac.php.html#35\">Mac::isCentOS<\/a>"],[100,1,"<a href=\"Platform\/Mac.php.html#40\">Mac::is32bit<\/a>"],[100,1,"<a href=\"Platform\/Mac.php.html#45\">Mac::is64bit<\/a>"],[0,2,"<a href=\"Platform\/PlatformInfo.php.html#8\">PlatformInfo::getInstance<\/a>"],[0,1,"<a href=\"Platform\/PlatformInfo.php.html#17\">PlatformInfo::isMac<\/a>"],[0,1,"<a href=\"Platform\/PlatformInfo.php.html#22\">PlatformInfo::isLinux<\/a>"],[0,1,"<a href=\"Platform\/PlatformInfo.php.html#27\">PlatformInfo::isDebian<\/a>"],[0,1,"<a href=\"Platform\/PlatformInfo.php.html#32\">PlatformInfo::isCentOS<\/a>"],[0,1,"<a href=\"Platform\/PlatformInfo.php.html#37\">PlatformInfo::__construct<\/a>"],[85.714285714286,4,"<a href=\"Platform\/PlatformInfo.php.html#42\">PlatformInfo::createPlatform<\/a>"],[100,1,"<a href=\"Platform\/PlatformInfo.php.html#56\">PlatformInfo::isWindowsKernel<\/a>"],[100,1,"<a href=\"Platform\/PlatformInfo.php.html#61\">PlatformInfo::isDarwinKernel<\/a>"],[100,1,"<a href=\"Platform\/PlatformInfo.php.html#66\">PlatformInfo::isLinuxKernel<\/a>"],[100,1,"<a href=\"Platform\/UnixLikeHardware.php.html#8\">UnixLikeHardware::is32bit<\/a>"],[100,1,"<a href=\"Platform\/UnixLikeHardware.php.html#13\">UnixLikeHardware::is64bit<\/a>"],[0,1,"<a href=\"Platform\/UnixLikeHardware.php.html#18\">UnixLikeHardware::detectBitness<\/a>"],[100,1,"<a href=\"Platform\/UnknownPlatform.php.html#6\">UnknownPlatform::getOSVersion<\/a>"],[100,1,"<a href=\"Platform\/UnknownPlatform.php.html#11\">UnknownPlatform::isMac<\/a>"],[100,1,"<a href=\"Platform\/UnknownPlatform.php.html#16\">UnknownPlatform::isLinux<\/a>"],[100,1,"<a href=\"Platform\/UnknownPlatform.php.html#21\">UnknownPlatform::isDebian<\/a>"],[100,1,"<a href=\"Platform\/UnknownPlatform.php.html#26\">UnknownPlatform::isCentOS<\/a>"],[100,1,"<a href=\"Platform\/UnknownPlatform.php.html#31\">UnknownPlatform::is32bit<\/a>"],[100,1,"<a href=\"Platform\/UnknownPlatform.php.html#36\">UnknownPlatform::is64bit<\/a>"],[61.111111111111,5,"<a href=\"Process.php.html#51\">Process::__construct<\/a>"],[100,22,"<a href=\"Process.php.html#104\">Process::run<\/a>"],[62.5,3,"<a href=\"Process.php.html#111\">Process::anonymous function<\/a>"],[100,1,"<a href=\"Process.php.html#218\">Process::getOutput<\/a>"],[0,1,"<a href=\"Process.php.html#233\">Process::getErrorOutput<\/a>"],[0,1,"<a href=\"Process.php.html#245\">Process::getExitCode<\/a>"],[0,1,"<a href=\"Process.php.html#257\">Process::isSuccessful<\/a>"],[0,1,"<a href=\"Process.php.html#271\">Process::hasBeenSignaled<\/a>"],[0,1,"<a href=\"Process.php.html#285\">Process::getTermSignal<\/a>"],[0,1,"<a href=\"Process.php.html#299\">Process::hasBeenStopped<\/a>"],[0,1,"<a href=\"Process.php.html#313\">Process::getStopSignal<\/a>"],[100,1,"<a href=\"Process.php.html#318\">Process::addOutput<\/a>"],[0,1,"<a href=\"Process.php.html#323\">Process::addErrorOutput<\/a>"],[0,1,"<a href=\"Process.php.html#328\">Process::getCommandLine<\/a>"],[0,1,"<a href=\"Process.php.html#333\">Process::setCommandLine<\/a>"],[0,1,"<a href=\"Process.php.html#338\">Process::getTimeout<\/a>"],[0,1,"<a href=\"Process.php.html#343\">Process::setTimeout<\/a>"],[0,1,"<a href=\"Process.php.html#348\">Process::getWorkingDirectory<\/a>"],[0,1,"<a href=\"Process.php.html#353\">Process::setWorkingDirectory<\/a>"],[0,1,"<a href=\"Process.php.html#358\">Process::getEnv<\/a>"],[0,1,"<a href=\"Process.php.html#363\">Process::setEnv<\/a>"],[0,1,"<a href=\"Process.php.html#368\">Process::getStdin<\/a>"],[0,1,"<a href=\"Process.php.html#373\">Process::setStdin<\/a>"],[0,1,"<a href=\"Process.php.html#378\">Process::getOptions<\/a>"],[0,1,"<a href=\"Process.php.html#383\">Process::setOptions<\/a>"],[100,1,"<a href=\"ReleaseList.php.html#24\">ReleaseList::__construct<\/a>"],[100,3,"<a href=\"ReleaseList.php.html#29\">ReleaseList::setReleases<\/a>"],[100,1,"<a href=\"ReleaseList.php.html#39\">ReleaseList::getReleases<\/a>"],[66.666666666667,3,"<a href=\"ReleaseList.php.html#44\">ReleaseList::loadJson<\/a>"],[100,1,"<a href=\"ReleaseList.php.html#58\">ReleaseList::loadJsonFile<\/a>"],[83.333333333333,2,"<a href=\"ReleaseList.php.html#66\">ReleaseList::getLatestVersion<\/a>"],[75,2,"<a href=\"ReleaseList.php.html#78\">ReleaseList::getLatestPatchVersion<\/a>"],[0,3,"<a href=\"ReleaseList.php.html#87\">ReleaseList::getVersion<\/a>"],[66.666666666667,2,"<a href=\"ReleaseList.php.html#101\">ReleaseList::getVersions<\/a>"],[0,1,"<a href=\"ReleaseList.php.html#108\">ReleaseList::foundLocalReleaseList<\/a>"],[0,2,"<a href=\"ReleaseList.php.html#115\">ReleaseList::loadLocalReleaseList<\/a>"],[0,2,"<a href=\"ReleaseList.php.html#124\">ReleaseList::save<\/a>"],[0,1,"<a href=\"ReleaseList.php.html#133\">ReleaseList::fetchRemoteReleaseList<\/a>"],[0,3,"<a href=\"ReleaseList.php.html#140\">ReleaseList::getReadyInstance<\/a>"],[0,18,"<a href=\"ReleaseList.php.html#157\">ReleaseList::buildReleaseListFromOfficialSite<\/a>"],[0,1,"<a href=\"ReleaseList.php.html#220\">ReleaseList::anonymous function<\/a>"],[0,9,"<a href=\"Tasks\/Apxs2CheckTask.php.html#11\">Apxs2CheckTask::check<\/a>"],[0,3,"<a href=\"Tasks\/Apxs2PatchTask.php.html#8\">Apxs2PatchTask::patch<\/a>"],[100,2,"<a href=\"Tasks\/BaseTask.php.html#16\">BaseTask::__construct<\/a>"],[0,1,"<a href=\"Tasks\/BaseTask.php.html#25\">BaseTask::setLogger<\/a>"],[0,1,"<a href=\"Tasks\/BaseTask.php.html#30\">BaseTask::getLogger<\/a>"],[100,2,"<a href=\"Tasks\/BaseTask.php.html#35\">BaseTask::info<\/a>"],[0,2,"<a href=\"Tasks\/BaseTask.php.html#42\">BaseTask::debug<\/a>"],[100,1,"<a href=\"Tasks\/BaseTask.php.html#49\">BaseTask::__destruct<\/a>"],[0,8,"<a href=\"Tasks\/BuildTask.php.html#13\">BuildTask::run<\/a>"],[0,1,"<a href=\"Tasks\/ConfigureTask.php.html#17\">ConfigureTask::setLogPath<\/a>"],[0,1,"<a href=\"Tasks\/ConfigureTask.php.html#22\">ConfigureTask::setOptimizationLevel<\/a>"],[0,16,"<a href=\"Tasks\/ConfigureTask.php.html#27\">ConfigureTask::configure<\/a>"],[0,2,"<a href=\"Tasks\/DSymTask.php.html#15\">DSymTask::check<\/a>"],[0,3,"<a href=\"Tasks\/DSymTask.php.html#23\">DSymTask::patch<\/a>"],[0,10,"<a href=\"Tasks\/DefaultConfigTask.php.html#11\">DefaultConfigTask::setup<\/a>"],[0,7,"<a href=\"Tasks\/DownloadTask.php.html#11\">DownloadTask::download<\/a>"],[0,10,"<a href=\"Tasks\/ExtractTask.php.html#19\">ExtractTask::extract<\/a>"],[0,1,"<a href=\"Tasks\/FetchReleaseListTask.php.html#8\">FetchReleaseListTask::fetch<\/a>"],[0,3,"<a href=\"Tasks\/InstallTask.php.html#13\">InstallTask::install<\/a>"],[100,1,"<a href=\"Tasks\/MakeTask.php.html#14\">MakeTask::run<\/a>"],[100,1,"<a href=\"Tasks\/MakeTask.php.html#19\">MakeTask::install<\/a>"],[100,1,"<a href=\"Tasks\/MakeTask.php.html#24\">MakeTask::clean<\/a>"],[0,1,"<a href=\"Tasks\/MakeTask.php.html#29\">MakeTask::setBuildLogPath<\/a>"],[100,1,"<a href=\"Tasks\/MakeTask.php.html#34\">MakeTask::setQuiet<\/a>"],[100,1,"<a href=\"Tasks\/MakeTask.php.html#39\">MakeTask::isQuiet<\/a>"],[84.615384615385,5,"<a href=\"Tasks\/MakeTask.php.html#44\">MakeTask::make<\/a>"],[100,2,"<a href=\"Tasks\/Patch64BitSupportTask.php.html#11\">Patch64BitSupportTask::match<\/a>"],[100,4,"<a href=\"Tasks\/Patch64BitSupportTask.php.html#19\">Patch64BitSupportTask::patch<\/a>"],[0,4,"<a href=\"Tasks\/PrepareDirectoryTask.php.html#9\">PrepareDirectoryTask::run<\/a>"],[0,4,"<a href=\"Tasks\/RemoveTask.php.html#8\">RemoveTask::remove<\/a>"],[0,1,"<a href=\"Tasks\/RemoveTask.php.html#20\">RemoveTask::removeByVersion<\/a>"],[0,1,"<a href=\"Tasks\/RemoveTask.php.html#32\">RemoveTask::removeByBuildId<\/a>"],[0,3,"<a href=\"Tasks\/TestTask.php.html#13\">TestTask::run<\/a>"],[0,1,"<a href=\"Testing\/CommandTestCase.php.html#14\">CommandTestCase::setupApplication<\/a>"],[0,1,"<a href=\"Testing\/CommandTestCase.php.html#22\">CommandTestCase::setUp<\/a>"],[0,3,"<a href=\"Testing\/CommandTestCase.php.html#41\">CommandTestCase::tearDown<\/a>"],[0,1,"<a href=\"Testing\/CommandTestCase.php.html#51\">CommandTestCase::runCommand<\/a>"],[0,1,"<a href=\"Testing\/CommandTestCase.php.html#59\">CommandTestCase::runCommandWithStdout<\/a>"],[100,1,"<a href=\"Testing\/TemporaryFileFixture.php.html#17\">TemporaryFileFixture::__construct<\/a>"],[100,1,"<a href=\"Testing\/TemporaryFileFixture.php.html#27\">TemporaryFileFixture::setTemporaryDirectory<\/a>"],[100,1,"<a href=\"Testing\/TemporaryFileFixture.php.html#35\">TemporaryFileFixture::getTemporaryDirectory<\/a>"],[80,2,"<a href=\"Testing\/TemporaryFileFixture.php.html#56\">TemporaryFileFixture::withFile<\/a>"],[0,1,"<a href=\"Topic\/ContributionTopic.php.html#18\">ContributionTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/ContributionTopic.php.html#22\">ContributionTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/ContributionTopic.php.html#26\">ContributionTopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/CookbookTopic.php.html#18\">CookbookTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/CookbookTopic.php.html#22\">CookbookTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/CookbookTopic.php.html#26\">CookbookTopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/HomeTopic.php.html#18\">HomeTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/HomeTopic.php.html#22\">HomeTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/HomeTopic.php.html#26\">HomeTopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#18\">MigratingFromHomebrewPhpToPhpbrewTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#22\">MigratingFromHomebrewPhpToPhpbrewTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/MigratingFromHomebrewPhpToPhpbrewTopic.php.html#26\">MigratingFromHomebrewPhpToPhpbrewTopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/PHPBrewJATopic.php.html#18\">PHPBrewJATopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/PHPBrewJATopic.php.html#22\">PHPBrewJATopic::getId<\/a>"],[0,1,"<a href=\"Topic\/PHPBrewJATopic.php.html#26\">PHPBrewJATopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/ReleaseProcessTopic.php.html#18\">ReleaseProcessTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/ReleaseProcessTopic.php.html#22\">ReleaseProcessTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/ReleaseProcessTopic.php.html#26\">ReleaseProcessTopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/RequirementTopic.php.html#18\">RequirementTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/RequirementTopic.php.html#22\">RequirementTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/RequirementTopic.php.html#26\">RequirementTopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/SettingUpConfigurationTopic.php.html#18\">SettingUpConfigurationTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/SettingUpConfigurationTopic.php.html#22\">SettingUpConfigurationTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/SettingUpConfigurationTopic.php.html#26\">SettingUpConfigurationTopic::getContent<\/a>"],[0,1,"<a href=\"Topic\/TroubleshootingTopic.php.html#18\">TroubleshootingTopic::getRemoteUrl<\/a>"],[0,1,"<a href=\"Topic\/TroubleshootingTopic.php.html#22\">TroubleshootingTopic::getId<\/a>"],[0,1,"<a href=\"Topic\/TroubleshootingTopic.php.html#26\">TroubleshootingTopic::getContent<\/a>"],[66.666666666667,2,"<a href=\"Utils.php.html#10\">Utils::canonicalizeBuildName<\/a>"],[57.142857142857,3,"<a href=\"Utils.php.html#17\">Utils::support64bit<\/a>"],[90,4,"<a href=\"Utils.php.html#41\">Utils::findBinByPrefix<\/a>"],[0,5,"<a href=\"Utils.php.html#62\">Utils::findLibDir<\/a>"],[100,3,"<a href=\"Utils.php.html#90\">Utils::detectArch<\/a>"],[100,5,"<a href=\"Utils.php.html#120\">Utils::getLookupPrefixes<\/a>"],[0,4,"<a href=\"Utils.php.html#155\">Utils::findIncludePath<\/a>"],[100,4,"<a href=\"Utils.php.html#174\">Utils::findLibPrefix<\/a>"],[100,4,"<a href=\"Utils.php.html#191\">Utils::findIncludePrefix<\/a>"],[100,1,"<a href=\"Utils.php.html#207\">Utils::getPkgConfigPrefix<\/a>"],[90,4,"<a href=\"Utils.php.html#216\">Utils::system<\/a>"],[72.727272727273,4,"<a href=\"Utils.php.html#239\">Utils::findBin<\/a>"],[0,1,"<a href=\"Utils.php.html#259\">Utils::pipeExecute<\/a>"],[0,2,"<a href=\"Utils.php.html#274\">Utils::startsWith<\/a>"],[0,2,"<a href=\"Utils.php.html#279\">Utils::endsWith<\/a>"],[0,13,"<a href=\"Utils.php.html#284\">Utils::findLatestPhpVersion<\/a>"],[0,5,"<a href=\"Utils.php.html#328\">Utils::recursive_unlink<\/a>"],[0,2,"<a href=\"Utils.php.html#346\">Utils::editor<\/a>"],[80.790960451977,47,"<a href=\"VariantBuilder.php.html#95\">VariantBuilder::__construct<\/a>"],[60,3,"<a href=\"VariantBuilder.php.html#474\">VariantBuilder::anonymous function<\/a>"],[66.666666666667,4,"<a href=\"VariantBuilder.php.html#503\">VariantBuilder::getConflict<\/a>"],[30.769230769231,5,"<a href=\"VariantBuilder.php.html#520\">VariantBuilder::checkConflicts<\/a>"],[0,2,"<a href=\"VariantBuilder.php.html#540\">VariantBuilder::checkPkgPrefix<\/a>"],[0,1,"<a href=\"VariantBuilder.php.html#547\">VariantBuilder::getVariantNames<\/a>"],[68.75,8,"<a href=\"VariantBuilder.php.html#564\">VariantBuilder::buildVariant<\/a>"],[80.952380952381,7,"<a href=\"VariantBuilder.php.html#596\">VariantBuilder::buildDisableVariant<\/a>"],[85.714285714286,3,"<a href=\"VariantBuilder.php.html#639\">VariantBuilder::addOptions<\/a>"],[82.692307692308,17,"<a href=\"VariantBuilder.php.html#661\">VariantBuilder::build<\/a>"],[100,2,"<a href=\"VariantParser.php.html#10\">VariantParser::splitVariantValue<\/a>"],[91.428571428571,11,"<a href=\"VariantParser.php.html#21\">VariantParser::parseCommandArguments<\/a>"],[0,5,"<a href=\"VariantParser.php.html#75\">VariantParser::revealCommandArguments<\/a>"],[100,4,"<a href=\"Version.php.html#34\">Version::__construct<\/a>"],[100,3,"<a href=\"Version.php.html#46\">Version::setVersion<\/a>"],[100,1,"<a href=\"Version.php.html#63\">Version::getPatchVersion<\/a>"],[100,1,"<a href=\"Version.php.html#67\">Version::getMinorVersion<\/a>"],[100,1,"<a href=\"Version.php.html#71\">Version::getMajorVersion<\/a>"],[100,1,"<a href=\"Version.php.html#75\">Version::getVersion<\/a>"],[0,1,"<a href=\"Version.php.html#79\">Version::getDist<\/a>"],[0,1,"<a href=\"Version.php.html#83\">Version::compare<\/a>"],[0,1,"<a href=\"Version.php.html#87\">Version::upgradePatchVersion<\/a>"],[100,1,"<a href=\"Version.php.html#91\">Version::hasPatchVersion<\/a>"],[92.857142857143,7,"<a href=\"Version.php.html#96\">Version::findLatestPatchVersion<\/a>"],[100,1,"<a href=\"Version.php.html#117\">Version::getCanonicalizedVersionName<\/a>"],[100,1,"<a href=\"Version.php.html#121\">Version::__toString<\/a>"],[64.705882352941,7,"<a href=\"VersionDslParser.php.html#14\">VersionDslParser::parse<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

@@ -3,6 +3,11 @@ namespace PhpBrew;
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
+
+/**
+ * This config class provides settings based on the current environment
+ * variables like PHPBREW_ROOT or PHPBREW_HOME.
+ */
 class Config
 {
     protected static $currentPhpVersion = null;
@@ -93,6 +98,10 @@ class Config
     /**
      * A build prefix is the prefix we specified when we install the PHP.
      *
+     * when PHPBREW_ROOT is pointing to /home/user/.phpbrew
+     *
+     * php(s) will be installed into /home/user/.phpbrew/php/php-{version}
+     *
      * @return string
      */
     static public function getInstallPrefix()
@@ -100,11 +109,11 @@ class Config
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
+
     static public function getVersionInstallPrefix($version)
     {
         return self::getInstallPrefix() . DIRECTORY_SEPARATOR . $version;
     }
-
 
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
@@ -224,15 +233,20 @@ class Config
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
      */
-    static public function getCurrentPhpConfigScanPath()
+    static public function getCurrentPhpConfigScanPath($home = false)
     {
-        return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+        return self::getCurrentPhpDir($home) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-    static public function getCurrentPhpDir()
+    static public function getCurrentPhpDir($home = false)
     {
+        if ($home) {
+            return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+        }
         return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
+
+
 
     // XXX: needs to be removed.
     static public function useSystemPhpVersion()
@@ -246,6 +260,13 @@ class Config
         self::$currentPhpVersion = 'php-'.$phpVersion;
     }
 
+
+    /**
+     * getCurrentPhpName return the current php version from
+     * self::$currentPhpVersion or from environment variable `PHPBREW_PHP`
+     *
+     * @return string
+     */
     static public function getCurrentPhpName()
     {
         if (self::$currentPhpVersion !== null) {
@@ -267,8 +288,12 @@ class Config
     static public function getConfigParam($param = null)
     {
         $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
-        $yaml = Yaml::parse($configFile);
 
+        if (!file_exists($configFile)) {
+            return array();
+        }
+
+        $yaml = Yaml::parse($configFile);
         if (is_array($yaml)) {
             if ($param === null) {
                 return $yaml;
