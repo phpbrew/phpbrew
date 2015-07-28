@@ -3,3 +3,4 @@ vendor/
 .onion
 .phpbrew
 tags
+build/logs
