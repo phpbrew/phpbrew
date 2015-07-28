@@ -4,3 +4,4 @@ build/
 .onion
 .phpbrew
 tags
+build/logs
