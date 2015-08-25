@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "493a8a1447e879b0b40c7e7f1ffd79bc",
+    "hash": "9e562f283bbfede4b351a59b20ae2fb3",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -93,21 +93,22 @@
         },
         {
             "name": "corneltek/cliframework",
-            "version": "2.5.4",
+            "version": "2.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CLIFramework.git",
-                "reference": "21eb2cad73abf72f327b40855f9cf24b27c22b15"
+                "reference": "30f82d016dd19a8c4dc972a012c1a97f49538616"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/21eb2cad73abf72f327b40855f9cf24b27c22b15",
-                "reference": "21eb2cad73abf72f327b40855f9cf24b27c22b15",
+                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/30f82d016dd19a8c4dc972a012c1a97f49538616",
+                "reference": "30f82d016dd19a8c4dc972a012c1a97f49538616",
                 "shasum": ""
             },
             "require": {
                 "corneltek/class-template": "*",
                 "corneltek/getoptionkit": "~2",
+                "corneltek/universal": ">= 1.4",
                 "php": ">=5.3.0",
                 "pimple/pimple": "*"
             },
@@ -134,25 +135,25 @@
             ],
             "description": "Command-line framework for PHP",
             "homepage": "http://github.com/c9s/CLIFramework",
-            "time": "2015-05-28 05:31:32"
+            "time": "2015-08-23 10:47:40"
         },
         {
             "name": "corneltek/codegen",
-            "version": "2.0.2",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CodeGen.git",
-                "reference": "b3bf3a625021e1cd9afaa9b991a1080c4d2b4f13"
+                "reference": "27e2948b77f83a632a72f4d0adbe7d3a79516de5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CodeGen/zipball/b3bf3a625021e1cd9afaa9b991a1080c4d2b4f13",
-                "reference": "b3bf3a625021e1cd9afaa9b991a1080c4d2b4f13",
+                "url": "https://api.github.com/repos/c9s/CodeGen/zipball/27e2948b77f83a632a72f4d0adbe7d3a79516de5",
+                "reference": "27e2948b77f83a632a72f4d0adbe7d3a79516de5",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "*",
-                "php": ">=5.4.0",
+                "php": ">=5.3.0",
                 "twig/twig": "*"
             },
             "require-dev": {
@@ -177,20 +178,20 @@
             ],
             "description": "PHP Code Generation Library",
             "homepage": "http://github.com/c9s/CodeGen",
-            "time": "2015-04-15 07:57:05"
+            "time": "2015-08-23 17:23:36"
         },
         {
             "name": "corneltek/curlkit",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CurlKit.git",
-                "reference": "ce36fd30b2c480ffc709e10ff078c6c9b8f19584"
+                "reference": "fc218e93d297b6654f09dbf31d987262c1c2aadd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/ce36fd30b2c480ffc709e10ff078c6c9b8f19584",
-                "reference": "ce36fd30b2c480ffc709e10ff078c6c9b8f19584",
+                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/fc218e93d297b6654f09dbf31d987262c1c2aadd",
+                "reference": "fc218e93d297b6654f09dbf31d987262c1c2aadd",
                 "shasum": ""
             },
             "require": {
@@ -210,20 +211,20 @@
                 "MIT"
             ],
             "description": "Curl Kit",
-            "time": "2014-12-15 04:16:45"
+            "time": "2015-06-22 11:24:26"
         },
         {
             "name": "corneltek/getoptionkit",
-            "version": "2.1.1",
+            "version": "2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/GetOptionKit.git",
-                "reference": "8be6d5d4666d371d006d59b56519453d26040e08"
+                "reference": "cea0942f2164f1cfcf06f7b1785efe1449b19abe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/8be6d5d4666d371d006d59b56519453d26040e08",
-                "reference": "8be6d5d4666d371d006d59b56519453d26040e08",
+                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/cea0942f2164f1cfcf06f7b1785efe1449b19abe",
+                "reference": "cea0942f2164f1cfcf06f7b1785efe1449b19abe",
                 "shasum": ""
             },
             "require": {
@@ -252,7 +253,7 @@
             ],
             "description": "Powerful command-line option toolkit",
             "homepage": "http://github.com/c9s/GetOptionKit",
-            "time": "2015-05-06 06:06:47"
+            "time": "2015-07-13 17:19:26"
         },
         {
             "name": "corneltek/pearx",
@@ -328,6 +329,48 @@
             "time": "2013-12-01 14:32:14"
         },
         {
+            "name": "corneltek/universal",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c9s/Universal.git",
+                "reference": "ded2149270654e36e6f04afca2df0990221485d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/Universal/zipball/ded2149270654e36e6f04afca2df0990221485d9",
+                "reference": "ded2149270654e36e6f04afca2df0990221485d9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "corneltek/phpunit-testmore": "dev-master",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Universal\\": "src/Universal/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yo-An Lin",
+                    "email": "cornelius.howl@gmail.com",
+                    "homepage": "http://c9s.me"
+                }
+            ],
+            "description": "Universal library for PHP",
+            "homepage": "http://github.com/c9s/Universal",
+            "time": "2015-08-22 09:54:03"
+        },
+        {
             "name": "doctrine/inflector",
             "version": "v1.0.1",
             "source": {
@@ -396,16 +439,16 @@
         },
         {
             "name": "pimple/pimple",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "876bf0899d01feacd2a2e83f04641e51350099ef"
+                "reference": "3313af5935dbc560fab845b76a1ca351b47855af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/876bf0899d01feacd2a2e83f04641e51350099ef",
-                "reference": "876bf0899d01feacd2a2e83f04641e51350099ef",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/3313af5935dbc560fab845b76a1ca351b47855af",
+                "reference": "3313af5935dbc560fab845b76a1ca351b47855af",
                 "shasum": ""
             },
             "require": {
@@ -438,25 +481,24 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2014-07-24 09:48:15"
+            "time": "2015-07-30 09:57:46"
         },
         {
             "name": "symfony/process",
-            "version": "v2.6.8",
-            "target-dir": "Symfony/Component/Process",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "7856d78ab6cce6e59d02d9e1a873441f6bd21306"
+                "reference": "48aeb0e48600321c272955132d7606ab0a49adb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/7856d78ab6cce6e59d02d9e1a873441f6bd21306",
-                "reference": "7856d78ab6cce6e59d02d9e1a873441f6bd21306",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/48aeb0e48600321c272955132d7606ab0a49adb3",
+                "reference": "48aeb0e48600321c272955132d7606ab0a49adb3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "symfony/phpunit-bridge": "~2.7"
@@ -464,11 +506,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\Process\\": ""
                 }
             },
@@ -488,21 +530,21 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2015-05-15 13:32:45"
+            "time": "2015-07-01 11:25:50"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.3.29",
+            "version": "v2.3.31",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "263b44e71b25090a45cec9dc944bb89ef8bfb79c"
+                "reference": "c956b2c07393b09ca8eecf3697a6d843635f355b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/263b44e71b25090a45cec9dc944bb89ef8bfb79c",
-                "reference": "263b44e71b25090a45cec9dc944bb89ef8bfb79c",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/c956b2c07393b09ca8eecf3697a6d843635f355b",
+                "reference": "c956b2c07393b09ca8eecf3697a6d843635f355b",
                 "shasum": ""
             },
             "require": {
@@ -538,29 +580,33 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-05-01 14:06:45"
+            "time": "2015-06-30 13:39:12"
         },
         {
             "name": "twig/twig",
-            "version": "v1.18.1",
+            "version": "v1.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9f70492f44398e276d1b81c1b43adfe6751c7b7f"
+                "reference": "913d282caca9ee0e8d05940c6caa486d58810dd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9f70492f44398e276d1b81c1b43adfe6751c7b7f",
-                "reference": "9f70492f44398e276d1b81c1b43adfe6751c7b7f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/913d282caca9ee0e8d05940c6caa486d58810dd4",
+                "reference": "913d282caca9ee0e8d05940c6caa486d58810dd4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.7"
             },
+            "require-dev": {
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~2.7"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.18-dev"
+                    "dev-master": "1.21-dev"
                 }
             },
             "autoload": {
@@ -595,7 +641,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-04-19 08:30:27"
+            "time": "2015-08-24 09:51:18"
         }
     ],
     "packages-dev": [
@@ -634,16 +680,16 @@
         },
         {
             "name": "cbednarski/pharcc",
-            "version": "v0.2.3",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cbednarski/pharcc.git",
-                "reference": "75a6d8ad9991948d4c7c37cc7c9c531db9be68c5"
+                "reference": "562f9d3d13d2856de6a7ca846a83fe70897baaea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cbednarski/pharcc/zipball/75a6d8ad9991948d4c7c37cc7c9c531db9be68c5",
-                "reference": "75a6d8ad9991948d4c7c37cc7c9c531db9be68c5",
+                "url": "https://api.github.com/repos/cbednarski/pharcc/zipball/562f9d3d13d2856de6a7ca846a83fe70897baaea",
+                "reference": "562f9d3d13d2856de6a7ca846a83fe70897baaea",
                 "shasum": ""
             },
             "require": {
@@ -652,6 +698,9 @@
                 "symfony/finder": "2.3.*",
                 "symfony/yaml": "2.3.*"
             },
+            "bin": [
+                "bin/pharcc"
+            ],
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -669,7 +718,7 @@
                 }
             ],
             "description": "Phar compiler library",
-            "time": "2013-12-15 12:08:24"
+            "time": "2015-07-05 23:40:02"
         },
         {
             "name": "corneltek/phpunit-testmore",
@@ -698,59 +747,18 @@
             "time": "2014-02-28 04:55:50"
         },
         {
-            "name": "corneltek/universal",
-            "version": "1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/c9s/php-Universal.git",
-                "reference": "52e4a134eb59911bddda9fc5dd8291f81ec230b6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/c9s/php-Universal/zipball/52e4a134eb59911bddda9fc5dd8291f81ec230b6",
-                "reference": "52e4a134eb59911bddda9fc5dd8291f81ec230b6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "corneltek/phpunit-testmore": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Universal": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Yo-An Lin",
-                    "email": "cornelius.howl@gmail.com",
-                    "homepage": "http://c9s.me"
-                }
-            ],
-            "description": "Universal library for PHP",
-            "homepage": "http://github.com/c9s/Universal",
-            "time": "2013-03-23 15:16:59"
-        },
-        {
             "name": "symfony/console",
-            "version": "v2.3.29",
+            "version": "v2.3.31",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "a36522dba03556e22ddb2ccf840cd8e03322ed5e"
+                "reference": "c685d21f478b62315248a671f07d28973e456009"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/a36522dba03556e22ddb2ccf840cd8e03322ed5e",
-                "reference": "a36522dba03556e22ddb2ccf840cd8e03322ed5e",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/c685d21f478b62315248a671f07d28973e456009",
+                "reference": "c685d21f478b62315248a671f07d28973e456009",
                 "shasum": ""
             },
             "require": {
@@ -790,21 +798,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-05-20 09:08:20"
+            "time": "2015-07-13 09:08:56"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.3.29",
+            "version": "v2.3.31",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "8a798a71280c379b7ec45be091fbdd66eaf4a28d"
+                "reference": "a2d5caa65c513e4acc5a849d91b24d5d2ed2a584"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/8a798a71280c379b7ec45be091fbdd66eaf4a28d",
-                "reference": "8a798a71280c379b7ec45be091fbdd66eaf4a28d",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/a2d5caa65c513e4acc5a849d91b24d5d2ed2a584",
+                "reference": "a2d5caa65c513e4acc5a849d91b24d5d2ed2a584",
                 "shasum": ""
             },
             "require": {
@@ -840,7 +848,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2015-05-15 13:28:34"
+            "time": "2015-07-08 05:54:32"
         }
     ],
     "aliases": [],
