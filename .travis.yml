@@ -1,22 +1,30 @@
 language: php
 php:
   - 5.3
-#  - 5.4
-#  - 5.5
+  - 5.4
+  - 5.5
   - 5.6
+  - 7.0
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - ctags
 
 install:
-- sudo apt-get update -qq
-- sudo apt-get install -y ctags
-- travis_retry composer self-update
-- travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
-- travis_retry composer install
 
 before_script:
+  - travis_retry composer self-update
+  - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
+  - travis_retry composer install
   - phpenv rehash
-  - cd /usr/local/bin && sudo curl -LO https://github.com/phpbrew/Onion/raw/master/onion && sudo chmod +x onion && cd -
+  - cd vendor/bin/ && curl -LO https://github.com/phpbrew/Onion/raw/master/onion && chmod +x onion && cd -
+  - export PATH=$PATH:$PWD/vendor/bin/
   - mkdir -p -v .phpbrew/build
   - mkdir -p -v .phpbrew/distfiles
+  - mkdir -p -v .phpbrew/register
   - mkdir -p -v .phpbrew/php
   - cp -v shell/bashrc .phpbrew/
   - source shell/bashrc
@@ -27,7 +35,7 @@ script:
   - phpunit --debug
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - php vendor/bin/coveralls
 
 cache:
   apt: true

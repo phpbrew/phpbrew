@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="BuildRegisterTest" file="/home/marcio/P/phpbrew/tests/PhpBrew/BuildRegisterTest.php" tests="0" assertions="0" failures="0" errors="0" time="0.000000"/>
+</testsuites>
