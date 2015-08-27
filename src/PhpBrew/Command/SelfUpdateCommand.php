@@ -41,7 +41,7 @@ class SelfUpdateCommand extends Command
             throw new RuntimeException("Fail to create temp file", 2);
         }
         chmod($tempFile, 0755);
-        $code = system("curl -# -L $url > $tempFile");
+        system("curl -# -L $url > $tempFile", $code);
         if(! $code == 0) {
             throw new RuntimeException("Update Failed", 1);
         }
