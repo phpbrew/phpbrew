@@ -66,7 +66,7 @@ class Build implements Serializable, Buildable
      *
      * @param string $version build version
      * @param string $name    build name
-     * @param string $prefix  install prefix
+     * @param string $installPrefix  install prefix
      */
     public function __construct($version, $name = null, $installPrefix = null)
     {
