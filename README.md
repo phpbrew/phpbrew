@@ -139,7 +139,7 @@ $ phpbrew install next as php-7.0.0
 
 
 ```bash
-$ phpbrew clean
+$ phpbrew clean php-5.4.0
 ```
 
 
