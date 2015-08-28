@@ -32,8 +32,8 @@ class CleanCommand extends Command
 
     public function execute($version)
     {
+        $buildDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $version;
         if ($this->options->all) {
-            $buildDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $version;
             if (!file_exists($buildDir)) {
                 $this->logger->info("Source directory " . $buildDir . " does not exist.");
             } else {
@@ -44,6 +44,7 @@ class CleanCommand extends Command
             $make = new MakeTask($this->logger);
             $make->setQuiet();
             $build = new Build($version);
+            $build->setSourceDirectory($buildDir);
             if ($make->clean($build)) {
                 $this->logger->info("Distribution is cleaned up. Woof! ");
             }
