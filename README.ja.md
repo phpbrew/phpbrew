@@ -16,10 +16,10 @@ phpbrewがあなたのためにやってくれること:
 - PDO、mysql、sqlite、debugなど様々なバリアント(variant)を持つPHPをビルドしてくれます。
 - apacheのPHPモジュールをコンパイルし、異なるバージョンごとに分けて管理してくれます。
 - PHPをビルドしてホームディレクトリにインストールするので、root権限が必要ありません。
-- バージョン間の切り替えがとても簡単でbash/zshといったシェルに統合されています。
+- bash/zshといったシェルに統合されていて、バージョン間の切り替えがとても簡単です。
 - 自動的に機能を検知します。
 - PHP拡張モジュールを現在の環境にインストールして有効化することが簡単にできます。
-- システムワイドな環境へ複数のPHPをインストールすることができます。
+- システムワイドな環境に複数のPHPをインストールすることができます。
 - HomeBrewとMacPorts向けにパスの検知が最適化されています。
 
 <img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
@@ -31,7 +31,7 @@ PHPをビルドするための開発用パッケージをインストールす�
 
 ## phpbrewのインストール
 
-phpbrewをダウンロードするだけです：
+ダウンロードするだけ:
 
 ```bash
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
@@ -92,16 +92,17 @@ $ phpbrew known --update
 
 ## ビルド（build）とインストール
 
-シンプルに`default`variant (variant については後述します)でPHPをビルドしてインストールします：
+シンプルに`default`バリアント(バリアントについては後述します)でPHPをビルドしてインストールします:
 
 ```bash
 $ phpbrew install 5.4.0 +default
 ```
 
-`default` variant set をお薦めします。`default` variant set は最もよく使われているバリアント群を含んでいます。
-ミニマムインストールが必要であれば、`default` バリアントの指定を外してください。
+`default`バリアントセットをお薦めします。`default`バリアントセットは最もよく使われているバリアントを含んでいます。
+最小インストールが必要であれば、`default`バリアントの指定を外してください。
 
 `-j` または `--jobs` オプションを指定すると、並行ビルドを有効にすることができます。
+
 以下に例を挙げます：
 
 ```bash
@@ -125,6 +126,7 @@ $ phpbrew -d install --test 5.4.0
 ```bash
 $ phpbrew install --old 5.2.13
 ```
+
 ## ビルドをクリーンする
 
 
@@ -137,11 +139,11 @@ $ phpbrew clean
 PHPBrewは`configure`スクリプトのオプションをあなたの代わりに管理してくれます。
 シンプルにバリアント名を指定してください。そうすると、PHPBrewがincludeパスとビルドオプションを検知してくれます。
 
-PHPBrewはdefault variantsといくつかのvirtual variantsを提供します。
-default variantsは最もよく使われているvariantsを含んでいます。
-virtual variantsはvariant群を定義するもので、1つの virtual variant を使用するだけで、一度に複数の variants を有効化することが可能になります。
+PHPBrewは`default`バリアントといくつかの「仮想バリアント」(Virtual variants)を提供します。
+`default`バリアントは最もよく使われているバリアントを含んでいます。
+仮想バリアントはいくつものバリアントのセットを定義するもので、ひとつの仮想バリアントを使用するだけで、一度に複数のバリアントを有効化します。
 
-これらのvariantsに何が含まれているかを調べるには、`variants` サブコマンドを実行して一覧を表示します:
+これらのバリアントに何が含まれているかを調べるには、`variants`サブコマンドを実行して一覧を表示します:
 
 ```bash
 $ phpbrew variants
@@ -169,17 +171,17 @@ Using variants to build PHP:
   phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
 ```
 
-variantを有効化するには、`+`をvariant名の最初にプレフィックスとして付けます。
+バリアントを有効化するには、`+`をバリアント名の前に付けます。
 例えば、
 
     +mysql
 
-variantを無効化するには、`-`をvariant名の最初にプレフィックスとして付けます。
+バリアントを無効化するには、`-`をバリアント名の前に付けます。
 例えば、
 
     -debug
 
-以下に例を挙げます。defaultオプションとデータベースサポート(mysql, sqlite, postgresql)を有効にしてPHPをビルドしたい場合、以下を実行します:
+以下に例を挙げます。`default`オプションとデータベースサポート(mysql, sqlite, postgresql)を有効にしてPHPをビルドしたい場合、以下を実行します:
 
 ```bash
 $ phpbrew install 5.4.5 +default+dbs
@@ -201,7 +203,7 @@ pgsql(Postgresql)拡張を有効にしてPHPをビルドするには:
 $ phpbrew install 5.4.1 +pgsql+pdo
 ```
 
-Mac OS Xでpostgresqlのbase dirを指定してpgsql拡張をビルドするには:
+Mac OS Xでpostgresqlのディレクトリを指定してpgsql拡張をビルドするには:
 
 ```bash
 $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
@@ -210,9 +212,10 @@ $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
 pgsqlパス指定は`pg_config`の位置で、`pg_config`は /opt/local/lib/postgresql91/bin で見つけられるでしょう。
 
 
-ニュートラル(中立的)なコンパイルオプションでPHPをビルドするには、`neutral` virtual variant を指定します。
-`neutral` virtual variantは `--disable-all` も含めて余計なコンパイルオプションを極力追加しません。
+ニュートラル(中立的)なコンパイルオプションでPHPをビルドするには、`neutral` 仮想バリアントを指定します。
+`neutral` 仮想バリアントは `--disable-all` も含めて余計なコンパイルオプションを極力追加しません。
 しかし、`pear`のインストールをサポートするために、いくつかのオプション(例えば `--enable-libxml`)は自動的に追加されます。
+
 `neutral` variantでPHPをビルドするには:
 
 ```bash
@@ -220,7 +223,7 @@ $ phpbrew install 5.4.1 +neutral
 ```
 
 
-さらなる詳細は、[PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki)を参照してください。
+そのほかの詳細は[PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki)をご覧ください。
 
 
 ## 追加オプション
@@ -329,10 +332,10 @@ phpbrew config
 ```
 
 
-## PHPBrewのアップグレード
+## PHPBrewの更新
 
-PHPBrewをアップグレードする場合、 `self-update` コマンドを実行するだけで済みます。
-このコマンドでgithub上の `master` ブランチの最新バージョンをインストールすることができます：
+最新のPHPBrewに更新するには、`self-update`コマンドを実行するだけで済みます。
+このコマンドでgithub上の`master`ブランチの最新バージョンをインストールすることができます:
 
 ```bash
 $ phpbrew self-update
@@ -452,7 +455,8 @@ PHPのバージョン情報をシェルプロンプトに追加するには、`"
 export PHPBREW_SET_PROMPT=1
 ```
 
-プロンプトにバージョン情報を埋め込むには、`phpbrew_current_php_version`シェル関数が使えて、これは`.phpbrew/bashrc`で定義されていて、`PS1`変数にバージョン情報を設定することができます。
+プロンプトにバージョン情報を埋め込むには、`phpbrew_current_php_version`シェル関数が利用可能です。
+これは`.phpbrew/bashrc`で定義されていて、`PS1`変数にバージョン情報を設定することができます。
 
 例えば、
 
@@ -464,9 +468,10 @@ PS1=" \$(phpbrew_current_php_version) \$ "
 既知の問題点：
 --------------
 
-- PHP-5.3以上のバージョンで、"intl 64ビットのビルドがOS Xで失敗する" <https://bugs.php.net/bug.php?id=48795>
+- PHP-5.3以上のバージョンで、OS Xで64bit版intlのビルドが失敗する <https://bugs.php.net/bug.php?id=48795>
 
-- GD拡張を指定してPHPをビルドするには、`libpng dir`と`libjpeg dir`を指定する必要があります。例えば、
+- GD拡張を指定してPHPをビルドするには、`libpng dir`と`libjpeg dir`を指定する必要があります。
+  例えば、
 
     $ phpbrew install php-5.4.10 +default +mysql +intl +gettext +apxs2=/usr/bin/apxs2 \
         -- --with-libdir=lib/x86_64-linux-gnu \
@@ -484,12 +489,12 @@ PS1=" \$(phpbrew_current_php_version) \$ "
 FAQ
 -------------------------
 
-Q: 異なるコンパイルオプションを指定した、同一バージョンのPHPはどうすれば実現可能ですか？
+Q: 同じバージョンで異なるコンパイルオプションを指定したPHPをインストールすることはできますか？
 
-A: 今のところ、php5.x.xをインストールして`/Users/phpbrew/.phpbrew/php/php-5.x.x`フォルダを新しい名前にリネームすることで実現可能です。例えば、php-5.x.x-superにリネームして別の php-5.3.3をインストールする、といったように。
+A: 今のところ、php5.x.xをインストールして`/Users/phpbrew/.phpbrew/php/php-5.x.x`フォルダを別の名前にリネームすることで実現可能です。例えば、php-5.x.x-superにリネームして新しくphp-5.3.3をインストールする、といったように。
 
 
-コントリビュート
+貢献するには
 ------------------
 
 [Contribution](https://github.com/phpbrew/phpbrew/wiki/Contribution)をご覧ください。
