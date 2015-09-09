@@ -6,7 +6,7 @@ PHPBrew
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 
-phpbrwe は異なるバージョンの PHP を $HOME ディレクトリにビルドしてインストールすることができます。
+phpbrew は異なるバージョンの PHP を $HOME ディレクトリにビルドしてインストールすることができます。
 
 phpbrew は環境変数の管理もします。なので、望む時にいつでも PHP のバージョンを切り替えたり、一時的にバージョンを変更して使ったりすることが可能になっています。
 
