@@ -197,13 +197,13 @@ $ phpbrew install 5.3.10 +mysql+debug+pgsql +apxs2
 $ phpbrew install 5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
 ```
 
-pgsql(Postgresql)拡張を有効にしてPHPをビルドするには:
+pgsql(PostgreSQL)拡張を有効にしてPHPをビルドするには:
 
 ```bash
 $ phpbrew install 5.4.1 +pgsql+pdo
 ```
 
-Mac OS Xでpostgresqlのディレクトリを指定してpgsql拡張をビルドするには:
+Mac OS XでPostgreSQLのディレクトリを指定してpgsql拡張をビルドするには:
 
 ```bash
 $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
@@ -335,7 +335,7 @@ phpbrew config
 ## PHPBrewの更新
 
 最新のPHPBrewに更新するには、`self-update`コマンドを実行するだけで済みます。
-このコマンドでgithub上の`master`ブランチの最新バージョンをインストールすることができます:
+このコマンドでGitHub上の`master`ブランチの最新バージョンをインストールすることができます:
 
 ```bash
 $ phpbrew self-update
