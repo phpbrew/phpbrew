@@ -207,7 +207,7 @@ $ phpbrew install 5.3.10 +mysql+debug+pgsql +apxs2
 $ phpbrew install 5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
 ```
 
-To build PHP with pgsql (Postgresql) extension:
+To build PHP with pgsql (PostgreSQL) extension:
 
 ```bash
 $ phpbrew install 5.4.1 +pgsql+pdo
@@ -358,7 +358,7 @@ phpbrew config
 
 To upgrade phpbrew, you may simply run the `self-update` command,
 this command enables you to install the latest version of
-`master` branch from github:
+`master` branch from GitHub:
 
 ```bash
 $ phpbrew self-update
