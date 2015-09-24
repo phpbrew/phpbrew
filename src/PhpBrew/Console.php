@@ -64,8 +64,10 @@ class Console extends Application
 
     public function configure()
     {
-        // avoid warnings when web scraping malformed HTML
-        libxml_use_internal_errors(true);
+        // avoid warnings when web scraping possible malformed HTML from pecl
+        if (extension_loaded('libxml')) {
+            libxml_use_internal_errors(true);
+        }
         // prevent execution time limit fatal error
         set_time_limit(0);
         // prevent warnings when timezone is not set
