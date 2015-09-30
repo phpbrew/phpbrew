@@ -209,7 +209,7 @@ local ret=1
               '--build-dir=[Specify the build directory. the distribution tarball will be extracted to the directory you specified instead of $PHPBREW_ROOT/build/{name}.]:dir:_directories' \
               '--root[specify phpbrew root instead of PHPBREW_ROOT]' \
               '--home[specify phpbrew home instead of PHPBREW_HOME]' \
-              '--no-clean[Do not clean previously compiled objects before building PHP. By default phpbrew will run `make clean` before runnign the configure script to ensure everything is cleaned up.]' \
+              '--no-clean[Do not clean previously compiled objects before building PHP. By default phpbrew will run `make clean` before running the configure script to ensure everything is cleaned up.]' \
               '--no-patch[Do not apply any patch]' \
               '--no-configure[Do not run configure script]' \
               '--no-install[Do not install, just run build the target]' \
