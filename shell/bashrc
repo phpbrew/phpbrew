@@ -241,9 +241,9 @@ function phpbrew ()
               local regex="^php-5\.2.*"
 
               if [[ ${_PHP_VERSION} =~ ${regex} ]]; then
-                ${PHPFPM_BIN} start
+                sudo ${PHPFPM_BIN} start
               else
-                ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
+                sudo ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
                   --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf \
                   --pid ${PHPFPM_PIDFILE} \
                   ${*:3}
@@ -258,10 +258,10 @@ function phpbrew ()
               local regex="^php-5\.2.*"
 
               if [[ ${PHPBREW_PHP} =~ ${regex} ]]; then
-                ${PHPFPM_BIN} stop
+                sudo ${PHPFPM_BIN} stop
               elif [[ -e ${PHPFPM_PIDFILE} ]] ; then
                 echo "Stopping php-fpm..."
-                kill $(cat ${PHPFPM_PIDFILE})
+                sudo kill $(cat ${PHPFPM_PIDFILE})
                 rm -f ${PHPFPM_PIDFILE}
               fi
             }
