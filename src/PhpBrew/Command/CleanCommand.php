@@ -4,6 +4,7 @@ namespace PhpBrew\Command;
 use PhpBrew\Tasks\MakeTask;
 use PhpBrew\Build;
 use PhpBrew\Config;
+use PhpBrew\Utils;
 
 use CLIFramework\Command;
 
