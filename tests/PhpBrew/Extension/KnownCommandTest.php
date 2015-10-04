@@ -7,8 +7,9 @@ use GetOptionKit\OptionResult;
 use PhpBrew\Extension\Provider\BitbucketProvider;
 use PhpBrew\Extension\Provider\GithubProvider;
 use PhpBrew\Extension\Provider\PeclProvider;
+use PhpBrew\Testing\CommandTestCase;
 
-class KnownCommandTest extends \PHPUnit_Framework_TestCase {
+class KnownCommandTest extends CommandTestCase {
 
     public function testPeclPackage() {
 

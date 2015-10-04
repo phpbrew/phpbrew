@@ -71,7 +71,6 @@ class ExtensionDownloader
             $curlVersionInfo = curl_version();
             $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. $curlVersionInfo['version']);
             $downloader = new CurlDownloader;
-            $downloader->setProgressHandler(new ProgressBar);
 
             $console = Console::getInstance();
             if (! $console->options->{'no-progress'}) {
