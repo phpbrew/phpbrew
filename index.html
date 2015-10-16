@@ -133,6 +133,15 @@ variants, if you need a minimum install, just remove the <code>default</code> va
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew -d install --test 5.4.0
 </pre></div>
 
+<p>To install versions from GitHub branches:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ phpbrew install github:php/php-src@PHP-7.0 as php-7.0.0
+</pre></div>
+
+<p>This will build from the branch <a href="https://github.com/php/php-src/tree/PHP-7.0">PHP-7.0</a>
+from the official GitHub php repository. <code style="white-space:nowrap;">github:{username}/php-src@{branch}</code>
+cand be used to install from any fork of the php project.</p>
+
 <p>To install older versions (less than 5.3):</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>phpbrew install --old 5.2.13
