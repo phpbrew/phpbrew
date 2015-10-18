@@ -446,7 +446,7 @@ function phpbrew_current_php_version() {
 }
 
 if [[ -n "$PHPBREW_SET_PROMPT" && "$PHPBREW_SET_PROMPT" == "1" ]]; then
-    export PS1="\w > \u@\h [$(phpbrew_current_php_version)]\n\\$ "
+    export PS1="\w > \u@\h [\$(phpbrew_current_php_version)]\n\\$ "
 fi
 
 function _phpbrewrc_load ()
