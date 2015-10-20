@@ -393,7 +393,7 @@ function __phpbrew_remove_purge ()
     _PHP_VERSION=$1
     if [[ "$_PHP_VERSION" = "$PHPBREW_PHP" ]]
     then
-        echo "php version: $_PHP_VERSION is already in used."
+        echo "php version: $_PHP_VERSION is already in use."
         return 1
     fi
 
