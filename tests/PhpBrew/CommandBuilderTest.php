@@ -35,7 +35,7 @@ class CommandBuilderTest extends PHPUnit_Framework_TestCase
                 'appendLog' => true,
                 'stdout'    => true,
                 'logPath'   => '/tmp/build.log',
-                'expected'      => 'ls | tee --append /tmp/build.log 2>&1'
+                'expected'      => 'ls | tee -a /tmp/build.log 2>&1'
             ),
             array(
                 'appendLog' => false,
