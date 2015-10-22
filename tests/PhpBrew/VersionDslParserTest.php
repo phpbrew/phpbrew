@@ -37,6 +37,13 @@ class ExtensionDslParserTest extends \PHPUnit_Framework_TestCase
             array('github.com:marc/php-src', 'https://github.com/marc/php-src/archive/master.tar.gz', 'php-marc-master'), // implicit branch
             array('git@github.com:marc/php-src', 'https://github.com/marc/php-src/archive/master.tar.gz', 'php-marc-master'),
             array('https://www.github.com/marc/php-src', 'https://github.com/marc/php-src/archive/master.tar.gz', 'php-marc-master'),
+
+            // Other URLs
+            array('https://www.php.net/~ab/php-7.0.0alpha1.tar.gz', 'https://www.php.net/~ab/php-7.0.0alpha1.tar.gz', 'php-7.0.0alpha1'),
+            array('https://www.php.net/~ab/php-7.0.0beta2.tar.gz', 'https://www.php.net/~ab/php-7.0.0beta2.tar.gz', 'php-7.0.0beta2'),
+            array('https://www.php.net/~ab/php-7.0.0RC3.tar.gz', 'https://www.php.net/~ab/php-7.0.0RC3.tar.gz', 'php-7.0.0RC3'),
+            array('https://www.php.net/~ab/php-7.0.0.tar.gz', 'https://www.php.net/~ab/php-7.0.0.tar.gz', 'php-7.0.0'),
+            array('http://php.net/distributions/php-5.6.14.tar.bz2', 'http://php.net/distributions/php-5.6.14.tar.bz2', 'php-5.6.14'),
         );
     }
 
