@@ -48,6 +48,7 @@ local ret=1
     '(-h --help)'{-h,--help}'[Show help.]' \
     '--version[Show version.]' \
     '(-p --profile)'{-p,--profile}'[Display timing and memory usage information.]' \
+    '--log-path[The path of a log file.]' \
     '--no-interact[Do not ask any interactive question.]' \
     '--no-progress[Do not display progress bar.]' \
     ': :->cmds' \
@@ -170,7 +171,7 @@ local ret=1
                   (get)
                         _arguments -w -S -s \
                           '--chmod=[]' \
-                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.5" "sami" "phpcs" "onion" "box-2.5" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
+                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.5" "sami" "phpcs" "pdepend" "onion" "box-2.5" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
                            && ret=0
                   
                   ;;
@@ -218,6 +219,7 @@ local ret=1
               '--old[Install phpbrew incompatible phps (< 5.3)]' \
               '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
               '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
+              '--user-config[Allow users create their own config file (php.ini or extension config init files)]' \
               '--connect-timeout=[The system aborts the command if downloading of a php version not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
               '(-f --force)'{-f,--force}'[Force the installation (redownloads source).]' \
               '(-d --dryrun)'{-d,--dryrun}'[Do not build, but run through all the tasks.]' \
