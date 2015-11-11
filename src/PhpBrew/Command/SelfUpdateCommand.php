@@ -41,8 +41,8 @@ class SelfUpdateCommand extends Command
             throw new RuntimeException("Fail to create temp file", 2);
         }
         chmod($tempFile, 0755);
-        $code = system("curl -# -L $url > $tempFile");
-        if(! $code == 0) {
+        $lastLine = system("curl -# -L $url > $tempFile", $code);
+        if($lastLine === false || ! $code == 0) {
             throw new RuntimeException("Update Failed", 1);
         }
         //todo we can check the hash here in order to make sure we have download the phar successfully
