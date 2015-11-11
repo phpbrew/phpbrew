@@ -467,7 +467,7 @@ function _phpbrewrc_load ()
             fi
 
             # check if top level directory or filesystem boundary is reached
-            if [ "$PWD" == '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
+            if [ "$PWD" = '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
                 # check if there's a previously loaded .phpbrewrc
                 if [[ ! -z "$PHPBREW_LAST_RC_DIR" ]]; then
                     unset PHPBREW_LAST_RC_DIR
@@ -497,6 +497,6 @@ function _phpbrewrc_load ()
     PHPBREW_LAST_DIR="$PWD"
 }
 
-if [[ -n "$BASH_VERSION" && -z "$PHPBREW_RC_DISABLE" ]]; then
+if [[ (-n "$BASH_VERSION" || -n "$ZSH_VERSION") && -z "$PHPBREW_RC_DISABLE" ]]; then
     trap "_phpbrewrc_load" DEBUG
 fi
