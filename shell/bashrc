@@ -169,38 +169,6 @@ function phpbrew ()
                 __phpbrew_update_config
             fi
             ;;
-        install-pyrus)
-            echo "Installing pyrus..."
-            cd $PHPBREW_BIN && \
-                wget --no-check-certificate -c http://pear2.php.net/pyrus.phar -O pyrus && \
-                chmod +x pyrus && \
-                cd -
-            hash -r
-            ;;
-        install-phpunit)
-            echo "Installing phpunit..."
-            cd $PHPBREW_BIN && \
-                wget --no-check-certificate -c https://phar.phpunit.de/phpunit.phar -O phpunit && \
-                chmod +x phpunit && \
-                cd -
-            hash -r
-            ;;
-        install-composer)
-            echo "Installing composer..."
-            cd $PHPBREW_BIN && \
-                wget --no-check-certificate -c http://getcomposer.org/composer.phar -O composer && \
-                chmod +x composer && \
-                cd -
-            hash -r
-            ;;
-        install-onion)
-            echo "Installing onion..."
-            cd $PHPBREW_BIN
-            wget --no-check-certificate -c https://raw.github.com/c9s/Onion/master/onion -O onion
-            chmod +x onion
-            cd -
-            hash -r
-            ;;
         cd)
             case $2 in
                 var)
