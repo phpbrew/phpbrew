@@ -27,8 +27,8 @@ class ConfigureTask extends BaseTask
     {
         $extra = $build->getExtraOptions();
         if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
-            $this->debug("configure file not found, running buildconf script...");
-            $lastline = system('./buildconf', $status);
+            $this->debug("configure file not found, running './buildconf --force'...");
+            $lastline = system('./buildconf --force', $status);
             if ($status !== 0) {
                 throw new SystemCommandException("buildconf error: $lastline");
             }
