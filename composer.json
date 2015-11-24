@@ -22,7 +22,7 @@
         "corneltek/pearx": "dev-master",
         "corneltek/curlkit": "~1",
         "symfony/process": "~2.3@stable",
-        "symfony/yaml": "2.3.*@stable"
+        "symfony/yaml": "~2.3@stable"
     },
     "require-dev": {
         "corneltek/phpunit-testmore": "dev-master",
