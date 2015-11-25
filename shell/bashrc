@@ -246,7 +246,7 @@ function phpbrew ()
                 ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
                   --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf \
                   --pid ${PHPFPM_PIDFILE} \
-                  ${*:3}
+                  "$@"
               fi
 
               if [[ $? != "0" ]] ; then
@@ -267,14 +267,14 @@ function phpbrew ()
             }
             case $2 in
                 start)
-                    fpm_start
+                    fpm_start "${@:4}"
                     ;;
                 stop)
                     fpm_stop
                     ;;
                 restart)
                     fpm_stop
-                    fpm_start
+                    fpm_start "${@:4}"
                     ;;
                 module)
                     $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
