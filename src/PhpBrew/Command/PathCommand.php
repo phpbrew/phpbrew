@@ -11,6 +11,13 @@ class PathCommand extends Command
         return 'Show paths of the current PHP.';
     }
 
+    public function usage()
+    {
+        return 'phpbrew path [' 
+            . join(', ', array('root', 'home','build','bin','include', 'etc', 'ext', 'ext-src', 'extension-src', 'extension-dir', 'config-scan', 'dist'))
+            . ']';
+    }
+
     public function arguments($args)
     {
         $args->add('type')
