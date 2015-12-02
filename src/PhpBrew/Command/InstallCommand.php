@@ -321,7 +321,7 @@ class InstallCommand extends Command
         }
 
         $variantBuilder = new VariantBuilder;
-        $variants = $variantBuilder->build($build);
+        $configureOptions = $variantBuilder->build($build);
 
         $distFileDir = Config::getDistFileDir();
 
@@ -364,7 +364,7 @@ class InstallCommand extends Command
 
             if (!$this->options->{'no-configure'}) {
                 $configureTask = new ConfigureTask($this->logger, $this->options);
-                $configureTask->run($build, $variants);
+                $configureTask->run($build, $configureOptions);
                 unset($configureTask); // trigger __destruct
             }
 
@@ -397,12 +397,12 @@ class InstallCommand extends Command
                 $dsym->patch($build, $this->options);
             }
         } catch (SystemCommandException $e) {
-            if ($build = $e->getBuild()) {
-                $buildLog = $build->getBuildLogPath();
-                $this->logger->error($e->getMessage());
-                $this->logger->error("Please checkout the build log file for more details:");
-                $this->logger->error("\t tail $buildLog");
-            }
+            $buildLog = $e->getLogFile();
+            $this->logger->error("Error: " . $e->getMessage());
+            $this->logger->error("Configure options: ");
+            print_r($configureOptions);
+            $this->logger->error("Please checkout the build log file for more details:");
+            $this->logger->error("\t tail $buildLog");
             return;
         }
 

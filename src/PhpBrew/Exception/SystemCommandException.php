@@ -18,7 +18,11 @@ class SystemCommandException extends RuntimeException
 
     public function getLogFile()
     {
-        return $this->logFile;
+        if ($this->logFile) {
+            return $this->logFile;
+        } else if ($this->build) {
+            return $this->build->getBuildLogPath();
+        }
     }
 
     public function getBuild()
