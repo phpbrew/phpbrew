@@ -19,6 +19,7 @@ use PhpBrew\ReleaseList;
 use PhpBrew\VersionDslParser;
 use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Distribution\DistributionUrlPolicy;
+use PhpBrew\Exception\SystemCommandException;
 use CLIFramework\ValueCollection;
 use CLIFramework\Command;
 
@@ -359,39 +360,50 @@ class InstallCommand extends Command
 
         $buildLogFile = $build->getBuildLogPath();
 
-        if (!$this->options->{'no-configure'}) {
-            $configureTask = new ConfigureTask($this->logger, $this->options);
-            $configureTask->run($build, $variants);
-            unset($configureTask); // trigger __destruct
-        }
+        try {
 
-        {
-            $buildTask = new BuildTask($this->logger, $this->options);
-            $buildTask->run($build);
-            unset($buildTask); // trigger __destruct
-        }
+            if (!$this->options->{'no-configure'}) {
+                $configureTask = new ConfigureTask($this->logger, $this->options);
+                $configureTask->run($build, $variants);
+                unset($configureTask); // trigger __destruct
+            }
+
+            {
+                $buildTask = new BuildTask($this->logger, $this->options);
+                $buildTask->run($build);
+                unset($buildTask); // trigger __destruct
+            }
 
 
-        if ($this->options->{'test'}) {
-            $testTask = new TestTask($this->logger, $this->options);
-            $testTask->run($build);
-            unset($testTask); // trigger __destruct
-        }
+            if ($this->options->{'test'}) {
+                $testTask = new TestTask($this->logger, $this->options);
+                $testTask->run($build);
+                unset($testTask); // trigger __destruct
+            }
 
-        if (!$this->options->{'no-install'}) {
-            $installTask = new InstallTask($this->logger, $this->options);
-            $installTask->install($build);
-            unset($installTask); // trigger __destruct
-        }
+            if (!$this->options->{'no-install'}) {
+                $installTask = new InstallTask($this->logger, $this->options);
+                $installTask->install($build);
+                unset($installTask); // trigger __destruct
+            }
 
-        if ($this->options->{'post-clean'}) {
-            $clean->clean($build);
-        }
+            if ($this->options->{'post-clean'}) {
+                $clean->clean($build);
+            }
 
-        /** POST INSTALLATION **/
-        {
-            $dsym = new DSymTask($this->logger, $this->options);
-            $dsym->patch($build, $this->options);
+            /** POST INSTALLATION **/
+            {
+                $dsym = new DSymTask($this->logger, $this->options);
+                $dsym->patch($build, $this->options);
+            }
+        } catch (SystemCommandException $e) {
+            if ($build = $e->getBuild()) {
+                $buildLog = $build->getBuildLogPath();
+                $this->logger->error($e->getMessage());
+                $this->logger->error("Please checkout the build log file for more details:");
+                $this->logger->error("\t tail $buildLog");
+            }
+            return;
         }
 
         // copy php-fpm config
