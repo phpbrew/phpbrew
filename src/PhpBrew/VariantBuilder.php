@@ -318,8 +318,7 @@ class VariantBuilder
             }
             // This will create openssl.so file for dynamic loading.
             echo "Compiling with openssl=shared, please install libssl-dev or openssl header files if you need";
-
-            return "--with-openssl=shared";
+            return "--with-openssl";
         };
 
         /*
