@@ -19,7 +19,7 @@ class InstallTask extends BaseTask
         if (!$this->options->dryrun) {
             $code = $cmd->execute();
             if ($code != 0) {
-                throw new SystemCommandException('Install failed.', $build->getBuildLogPath());
+                throw new SystemCommandException('Install failed.', $build, $build->getBuildLogPath());
             }
         }
         $build->setState(Build::STATE_INSTALL);

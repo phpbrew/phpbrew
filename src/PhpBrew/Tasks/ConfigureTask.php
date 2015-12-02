@@ -30,7 +30,7 @@ class ConfigureTask extends BaseTask
             $this->debug("configure file not found, running './buildconf --force'...");
             $lastline = system('./buildconf --force', $status);
             if ($status !== 0) {
-                throw new SystemCommandException("buildconf error: $lastline");
+                throw new SystemCommandException("buildconf error: $lastline", $build);
             }
         }
         $prefix = $build->getInstallPrefix();
@@ -123,7 +123,7 @@ class ConfigureTask extends BaseTask
         if (!$this->options->dryrun) {
             $code = $cmd->execute();
             if ($code != 0) {
-                throw new SystemCommandException("Configure failed: $code", $buildLogPath);
+                throw new SystemCommandException("Configure failed: $code", $build, $buildLogPath);
             }
         }
 
