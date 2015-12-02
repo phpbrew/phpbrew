@@ -57,6 +57,7 @@ class PathCommand extends Command
                 break;
             case 'extension-dir':
             case 'ext-dir':
+            case 'ext':
                 echo ini_get('extension_dir');
                 break;
             case 'etc':
