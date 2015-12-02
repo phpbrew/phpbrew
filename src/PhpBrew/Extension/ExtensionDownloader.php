@@ -72,10 +72,14 @@ class ExtensionDownloader
             $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. $curlVersionInfo['version']);
             $downloader = new CurlDownloader;
 
+            /*
+            FIXME
+
             $console = Console::getInstance();
             if (! $console->options->{'no-progress'}) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
+            */
 
             if ($this->options) {
                 if ($proxy = $this->options->{'http-proxy'}) {
