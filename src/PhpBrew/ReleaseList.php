@@ -154,7 +154,7 @@ class ReleaseList
         return $instance;
     }
 
-    public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
+    private static function downloadReleaseListFromOfficialSite($version, OptionResult $options = null)
     {
         if (!extension_loaded('openssl')) {
             throw new Exception(
@@ -162,7 +162,7 @@ class ReleaseList
         }
 
         $max = ($options && $options->old) ? 1000 : 100;
-        $url = "https://php.net/releases/index.php?json&version=5&max={$max}";
+        $url = "https://php.net/releases/index.php?json&version={$version}&max={$max}";
 
         if (extension_loaded('curl')) {
             $downloader = new CurlDownloader;
@@ -191,6 +191,15 @@ class ReleaseList
         }
 
         $obj = json_decode($json, true);
+        return $obj;
+    }
+
+    public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
+    {
+        $obj = array_merge(
+            self::downloadReleaseListFromOfficialSite(7),
+            self::downloadReleaseListFromOfficialSite(5)
+        );
         $releaseVersions = array();
         foreach ($obj as $k => $v) {
             if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
