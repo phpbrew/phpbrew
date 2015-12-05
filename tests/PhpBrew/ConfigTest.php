@@ -215,7 +215,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             'PHPBREW_ROOT' => 'tests/fixtures',
         );
         $this->withEnv($env, function($self) {
-            $config = PhpBrew\Config::getConfigParam();
+            $config = PhpBrew\Config::getConfig();
             $self->assertSame(array('key1' => 'value1', 'key2' => 'value2'), $config);
             $self->assertEquals('value1', PhpBrew\Config::getConfigParam('key1'));
             $self->assertEquals('value2', PhpBrew\Config::getConfigParam('key2'));
