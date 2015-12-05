@@ -1,4 +1,24 @@
 language: php
+
+
+matrix:
+  exclude:
+  - php: 5.3
+    env: TEST_SUITE=Command
+  - php: 5.4
+    env: TEST_SUITE=Command
+  - php: 5.5
+    env: TEST_SUITE=Command
+  - php: 5.6
+    env: TEST_SUITE=Command
+  - php: 7.0
+    env: TEST_SUITE=Command
+
+env:
+- TEST_SUITE=Core
+- TEST_SUITE=Command
+- TEST_SUITE=Extension
+
 php:
   - 5.3
   - 5.4
@@ -32,7 +52,7 @@ before_script:
 script:
   - source shell/bashrc
   # - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit --debug
+  - phpunit --debug --testsuite $TEST_SUITE
 
 after_script:
   - php vendor/bin/coveralls
