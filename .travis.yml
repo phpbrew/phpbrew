@@ -48,6 +48,7 @@ script:
 - source shell/bashrc
 - phpunit --debug --testsuite $TEST_SUITE
 after_script:
+- make build
 - php vendor/bin/coveralls
 cache:
   apt: true
