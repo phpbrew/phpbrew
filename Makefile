@@ -1,5 +1,5 @@
 OUTPUT        = phpbrew.phar
-TARGET        = phpbrew
+TARGET        = build/phpbrew
 MOVE          = mv
 SUDOCP        = sudo cp
 INSTALL_PATH  = /usr/local/bin
