@@ -63,6 +63,7 @@ deploy:
   bucket: phpbrew
   acl: ''
   upload-dir: travis-builds
+  # local_dir: build
   on:
     repo: phpbrew/phpbrew
     branch: 'master'
