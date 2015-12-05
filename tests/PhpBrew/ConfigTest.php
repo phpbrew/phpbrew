@@ -210,7 +210,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetConfigParam()
     {
         $env = array(
-            'PHPBREW_ROOT' => __DIR__ . '/../fixtures/'
+            // I guess this causes the failure here: https://travis-ci.org/phpbrew/phpbrew/jobs/95057923
+            // 'PHPBREW_ROOT' => __DIR__ . '/../fixtures',
+            'PHPBREW_ROOT' => 'tests/fixtures',
         );
         $this->withEnv($env, function($self) {
             $config = PhpBrew\Config::getConfigParam();
