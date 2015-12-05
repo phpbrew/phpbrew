@@ -6,7 +6,7 @@ INSTALL_PATH  = /usr/local/bin
 PERMISSION    = chmod +x
 TEST          = phpunit
 
-default:
+build:
 	php bin/phpbrew compile \
 			--lib src \
 			--lib vendor/corneltek/cliframework/src \
