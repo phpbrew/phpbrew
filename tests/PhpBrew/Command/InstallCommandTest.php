@@ -11,6 +11,7 @@ class InstallCommandTest extends CommandTestCase
 {
     /**
      * @outputBuffering enabled
+     * @group install
      */
     public function testKnownCommand()
     {
@@ -21,6 +22,7 @@ class InstallCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      * @depends testKnownCommand
+     * @group install
      */
     public function testInstallCommand()
     {
@@ -54,6 +56,7 @@ class InstallCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      * @depends testInstallCommand
+     * @group install
      */
     public function testInstallAsCommand()
     {
