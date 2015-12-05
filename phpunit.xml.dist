@@ -41,7 +41,7 @@
           <file>tests/PhpBrew/VersionTest.php</file>
         </testsuite>
 
-        <testsuite name="Commands">
+        <testsuite name="Command">
             <directory suffix="Test.php">tests/PhpBrew/Command</directory>
         </testsuite>
 
