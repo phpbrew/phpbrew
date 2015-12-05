@@ -7,10 +7,19 @@ use Exception;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
+
     private $previousPhpBrewRoot;
+
     private $previousPhpBrewHome;
 
     public $primaryVersion = '5.5.22';
+
+    public function getPrimaryVersion()
+    {
+        return $this->primaryVersion;
+    }
+
+
 
     public function setupApplication()
     {

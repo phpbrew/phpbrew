@@ -24,10 +24,11 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testInstallCommand()
     {
+        $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs {$this->primaryVersion} +default +intl"));
-        $this->assertListContains("php-{$this->primaryVersion}");
+        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs {$versionName} +default +intl"));
+        $this->assertListContains("php-{$versionName}");
     }
 
     /**
@@ -36,7 +37,8 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testUseCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew use {$this->primaryVersion}"));
+        $versionName = $this->getPrimaryVersion();
+        $this->assertTrue($this->runCommand("phpbrew use {$versionName}"));
     }
 
     /**
@@ -45,17 +47,20 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testCtagsCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew ctags {$this->primaryVersion}"));
+        $versionName = $this->getPrimaryVersion();
+        $this->assertTrue($this->runCommand("phpbrew ctags {$versionName}"));
     }
 
     /**
      * @outputBuffering enabled
      * @depends testInstallCommand
      */
-    public function testInstallAsCommand() {
+    public function testInstallAsCommand()
+    {
+        $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs {$this->primaryVersion} as myphp +soap"));
+        $this->assertTrue($this->runCommand("phpbrew --quiet install {$jobs} {$versionName} as myphp +soap"));
         $this->assertListContains("myphp");
     }
 
@@ -65,10 +70,12 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testCleanCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew --quiet clean {$this->primaryVersion}"));
+        $versionName = $this->getPrimaryVersion();
+        $this->assertTrue($this->runCommand("phpbrew --quiet clean {$versionName}"));
     }
 
-    protected function assertListContains($string) {
+    protected function assertListContains($string)
+    {
         $this->assertContains($string, Config::getInstalledPhpVersions());
     }
 }

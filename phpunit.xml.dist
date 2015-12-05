@@ -25,18 +25,18 @@
         </testsuite>
 
         <testsuite name="Core">
-          <file>BuildRegisterTest.php</file>
-          <file>BuildTest.php</file>
-          <file>CommandBuilderTest.php</file>
-          <file>ConfigTest.php</file>
-          <file>MachineTest.php</file>
-          <file>PatchUtilsTest.php</file>
-          <file>ReleaseListTest.php</file>
-          <file>UtilsTest.php</file>
-          <file>VariantBuilderTest.php</file>
-          <file>VariantParserTest.php</file>
-          <file>VersionDslParserTest.php</file>
-          <file>VersionTest.php</file>
+          <file>tests/PhpBrew/BuildRegisterTest.php</file>
+          <file>tests/PhpBrew/BuildTest.php</file>
+          <file>tests/PhpBrew/CommandBuilderTest.php</file>
+          <file>tests/PhpBrew/ConfigTest.php</file>
+          <file>tests/PhpBrew/MachineTest.php</file>
+          <file>tests/PhpBrew/PatchUtilsTest.php</file>
+          <file>tests/PhpBrew/ReleaseListTest.php</file>
+          <file>tests/PhpBrew/UtilsTest.php</file>
+          <file>tests/PhpBrew/VariantBuilderTest.php</file>
+          <file>tests/PhpBrew/VariantParserTest.php</file>
+          <file>tests/PhpBrew/VersionDslParserTest.php</file>
+          <file>tests/PhpBrew/VersionTest.php</file>
         </testsuite>
 
         <testsuite name="Commands">

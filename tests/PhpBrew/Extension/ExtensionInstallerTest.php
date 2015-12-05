@@ -25,7 +25,8 @@ class ExtensionInstallerTest extends CommandTestCase
 
     public function setUp() {
         parent::setUp();
-        $this->runCommand("phpbrew use {$this->primaryVersion}");
+        $versionName = $this->getPrimaryVersion();
+        $this->runCommand("phpbrew use {$versionName}");
     }
 
     public function testPackageUrl()
