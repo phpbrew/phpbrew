@@ -18,6 +18,7 @@
 
     <testsuites>
         <testsuite name="All">
+            <!-- run install command tests before all tests -->
             <file>tests/PhpBrew/Command/KnownCommandTest.php</file>
             <file>tests/PhpBrew/Command/InstallCommandTest.php</file>
             <directory suffix="Test.php">tests</directory>
