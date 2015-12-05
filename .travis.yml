@@ -32,6 +32,7 @@ before_script:
 script:
   - source shell/bashrc
   # - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
+  - phpunit --group small
   - phpunit --debug
 
 after_script:
