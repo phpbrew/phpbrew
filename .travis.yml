@@ -4,8 +4,6 @@ language: php
 matrix:
   fast_finish: true
   exclude:
-  - php: 5.3
-    env: TEST_SUITE=Command
   - php: 5.4
     env: TEST_SUITE=Command
   - php: 5.5
