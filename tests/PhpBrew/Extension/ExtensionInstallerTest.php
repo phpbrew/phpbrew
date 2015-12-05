@@ -42,7 +42,8 @@ class ExtensionInstallerTest extends CommandTestCase
     public function packageNameProvider()
     {
         return array(
-            array('xdebug'),
+            // xdebug requires at least php 5.4
+            // array('xdebug'),
             array('APCu'),
             array('yaml'),
         );
