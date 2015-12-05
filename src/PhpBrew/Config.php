@@ -292,17 +292,13 @@ class Config
         if (!file_exists($configFile)) {
             return array();
         }
-
         $yaml = Yaml::parse($configFile);
-        if (is_array($yaml)) {
-            if ($param === null) {
-                return $yaml;
-            } elseif ($param != null && isset($yaml[$param])) {
+        if ($param) {
+            if (isset($yaml[$param])) {
                 return $yaml[$param];
             }
         }
-
-        return array();
+        return $yaml;
     }
 
     static public function initDirectories($buildName = NULL) {
