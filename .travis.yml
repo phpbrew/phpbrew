@@ -62,6 +62,7 @@ deploy:
     secure: FKUkXHugu4zB4hs6LEv399z6neV8jGZpJP/cTCvKsTiKiomZKnOznxMwZhYIXOAr6CzQvW+9zCp0IzZCZcIo6x7HBdgsiEfF/1yPx2zUuJbaiqa7XCkfFd5p1nKmNcprL/KXwvXOueZ5J7QhV67+x3kVArbt+uvm9glXBX/aHmM=
   bucket: phpbrew
   acl: ''
+  upload-dir: travis-builds
   on:
     repo: phpbrew/phpbrew
     branch: 'master'
