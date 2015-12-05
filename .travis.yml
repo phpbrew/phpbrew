@@ -14,7 +14,9 @@ matrix:
     env: TEST_SUITE=Command
   - php: 7.0
     env: TEST_SUITE=Command
-  # allow_failures:
+  allow_failures:
+  - php: 7.0
+  - php: nightly
 
 env:
 - TEST_SUITE=Core
