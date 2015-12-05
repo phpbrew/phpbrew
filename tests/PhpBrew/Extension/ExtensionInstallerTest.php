@@ -44,15 +44,15 @@ class ExtensionInstallerTest extends CommandTestCase
         return array(
             // xdebug requires at least php 5.4
             // array('xdebug'),
-            array('APCu'),
-            array('yaml'),
+            array('APCu', 'stable'),
+            array('yaml', 'stable'),
         );
     }
 
     /**
      * @dataProvider packageNameProvider
      */
-    public function testInstallPackages($extensionName, $extensionVersion = 'latest')
+    public function testInstallPackages($extensionName, $extensionVersion)
     {
         $logger = new Logger;
         $logger->setDebug();
