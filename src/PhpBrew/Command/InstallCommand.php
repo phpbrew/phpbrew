@@ -399,8 +399,14 @@ class InstallCommand extends Command
         } catch (SystemCommandException $e) {
             $buildLog = $e->getLogFile();
             $this->logger->error("Error: " . $e->getMessage());
-            $this->logger->error("Configure options: ");
-            print_r($configureOptions);
+            $this->logger->error("Configure options: " . join(' ', $configureOptions));
+            $this->logger->error("Last 5 lines in the log file:");
+
+            $lines = array_slice(file($buildLog), -5);
+            foreach ($lines as $line) {
+                echo $line , PHP_EOL;
+            }
+
             $this->logger->error("Please checkout the build log file for more details:");
             $this->logger->error("\t tail $buildLog");
             return;
