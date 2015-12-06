@@ -48,7 +48,6 @@ script:
 - source shell/bashrc
 - phpunit --debug --testsuite $TEST_SUITE
 after_script:
-- make build
 - php vendor/bin/coveralls
 cache:
   apt: true
@@ -56,6 +55,8 @@ cache:
   - vendor
   - ".phpbrew/distfiles"
   - ".phpbrew/php"
+before_deploy:
+- make build
 deploy:
   provider: s3
   access_key_id: AKIAJCOXUMKVDHFVNS6Q
