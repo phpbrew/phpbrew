@@ -65,7 +65,7 @@ deploy:
   upload-dir: travis-builds
   # local_dir: build
   on:
-    tags: true
     repo: phpbrew/phpbrew
     # branch: 'master'
+    # tags: true
     all_branches: true
