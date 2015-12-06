@@ -293,7 +293,7 @@ class Config
         if (!file_exists($configFile)) {
             return array();
         }
-        return Yaml::parse($configFile);
+        return Yaml::parse(file_get_contents($configFile));
     }
 
     static public function getConfigParam($param = null)
