@@ -161,7 +161,12 @@ class Build implements Serializable, Buildable
 
     public function getEtcDirectory()
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+        $etc = $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+        if (!file_exists($etc)) {
+            mkdir($etc, 0755, true);
+        }
+
+        return $etc;
     }
 
     public function getVarDirectory()
