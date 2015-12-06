@@ -35,8 +35,6 @@ before_script:
 - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
 - travis_retry composer install --no-interaction
 - phpenv rehash
-- mkdir -p vendor/bin && cd vendor/bin/ && curl -LO https://github.com/phpbrew/Onion/raw/master/onion
-  && chmod +x onion && cd -
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build
 - mkdir -p -v .phpbrew/distfiles
