@@ -13,9 +13,13 @@ class ConfigCommand extends Command
 
     public function execute()
     {
-        $root = Config::getPhpbrewRoot();
-        $php  = Config::getCurrentPhpName();
-        $file = "{$root}/php/{$php}/etc/php.ini";
+        $file = php_ini_loaded_file();
+        if(! file_exists($file)) {
+            $php  = Config::getCurrentPhpName();
+            $this->logger->warn("Sorry, I can't find the {$file} file for php {$php}.");
+            return;
+        }
+
         Utils::editor($file);
     }
 }
