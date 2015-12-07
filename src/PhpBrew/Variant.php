@@ -12,16 +12,33 @@ class Variant
 
     protected $packageMap;
 
-    public $default;
+
+    public $optionName;
+
+    public $option;
+
+    public $defaultOption;
 
     public function __construct($name)
     {
         $this->name = $name;
     }
 
+    public function optionName($optionName)
+    {
+        $this->optionName = $optionName;
+        return $this;
+    }
+
+    public function option($option)
+    {
+        $this->option = $option;
+        return $this;
+    }
+
     public function defaultOption($option)
     {
-        $this->default = $option;
+        $this->defaultOption = $option;
         return $this;
     }
 
@@ -45,6 +62,27 @@ class Variant
         }
         return [];
     }
+
+    public function disableDefaultOption()
+    {
+        $this->defaultOption = null;
+    }
+
+    public function toArgument()
+    {
+        if ($this->optionName) {
+            $str = $this->optionName;
+            // TODO: escape spaces here
+            if ($this->option) {
+                $str .= '=' . $this->option;
+            } else if ($this->defaultOption) {
+                $str .= '=' . $this->defaultOption;
+            }
+            return $str;
+        }
+        return null;
+    }
+
 
 }
 
