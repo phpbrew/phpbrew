@@ -15,7 +15,6 @@ matrix:
   - php: 7.0
     env: TEST_SUITE=Extension
   allow_failures:
-  - php: 7.0
   - php: nightly
 env:
 - TEST_SUITE=Core
