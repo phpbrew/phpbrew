@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4fe574a8a120c9ca11ade82df17c34a0",
+    "hash": "d55f8a80af38c31e35323ed55fb63dde",
+    "content-hash": "3688b37073b22331119407e2e9eaf91c",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -772,10 +773,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "corneltek/cliframework": 0,
         "corneltek/pearx": 20,
-        "symfony/process": 0,
-        "symfony/yaml": 0,
         "corneltek/phpunit-testmore": 20
     },
     "prefer-stable": false,

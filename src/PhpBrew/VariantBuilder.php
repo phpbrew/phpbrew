@@ -486,8 +486,10 @@ class VariantBuilder
         $customVirtualVariants = Config::getConfigParam('variants');
         $customVirtualVariantsToAdd = array();
 
-        foreach ($customVirtualVariants as $key => $extension) {
-            $customVirtualVariantsToAdd[$key] = array_keys($extension);
+        if (!empty($customVirtualVariants)) {
+            foreach ($customVirtualVariants as $key => $extension) {
+                $customVirtualVariantsToAdd[$key] = array_keys($extension);
+            }
         }
 
         $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);

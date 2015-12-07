@@ -10,25 +10,14 @@ TEST          = phpunit
 .PHONY: build
 
 build/phpbrew:
-	php bin/phpbrew compile \
-			--lib src \
-			--lib vendor/corneltek/cliframework/src \
-			--lib vendor/pimple/pimple/src \
-			--lib vendor/corneltek/pearx/src \
-			--lib vendor/corneltek/getoptionkit/src \
-			--lib vendor/corneltek/curlkit/src \
-			--lib vendor/corneltek/universal/src \
-			--lib vendor/symfony/process \
-			--lib vendor/symfony/yaml \
-			--lib shell \
-			--exclude Tests/ \
-			--exclude CHANGELOG\|README \
-			--exclude phpunit.xml \
-			--classloader \
-			--bootstrap scripts/phpbrew-emb.php \
-			--executable \
-			--no-compress \
-			--output $(OUTPUT)
+	php bin/phpbrew archive --executable \
+		--exclude Tests \
+		--exclude CHANGELOG\|README \
+		--exclude phpunit.xml \
+		--no-compress \
+		--add shell \
+		--bootstrap scripts/phpbrew-emb.php \
+		$(OUTPUT)
 	$(COPY) $(OUTPUT) $(TARGET)
 	$(COPY) $(OUTPUT) build/phpbrew
 	$(PERMISSION) $(TARGET)
