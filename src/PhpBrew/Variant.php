@@ -54,6 +54,11 @@ class Variant
         return $this;
     }
 
+    public function platformPackages($platform, array $packages)
+    {
+        $this->packageMap[$platform] = $packages;
+        return $this;
+    }
 
     public function getPlatformPackages($platform)
     {
