@@ -8,8 +8,12 @@ matrix:
     env: TEST_SUITE=Command
   - php: 5.6
     env: TEST_SUITE=Command
+  - php: 5.6
+    env: TEST_SUITE=Extension
   - php: 7.0
     env: TEST_SUITE=Command
+  - php: 7.0
+    env: TEST_SUITE=Extension
   allow_failures:
   - php: 7.0
   - php: nightly
