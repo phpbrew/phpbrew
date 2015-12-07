@@ -36,7 +36,7 @@ building PHP.
 Just download it:
 
 ```bash
-curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
+curl -L -o phpbrew https://goo.gl/s1mPO8
 chmod +x phpbrew
 ```
 
