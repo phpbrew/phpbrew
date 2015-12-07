@@ -33,7 +33,7 @@ addons:
   apt:
     packages:
     - ctags
-install: 
+install:
 before_script:
 - travis_retry composer self-update
 - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
@@ -44,17 +44,18 @@ before_script:
 - mkdir -p -v .phpbrew/distfiles
 - mkdir -p -v .phpbrew/register
 - mkdir -p -v .phpbrew/php
+- rm phpbrew
 - cp -v shell/bashrc .phpbrew/
 - source shell/bashrc
 script:
 - source shell/bashrc
-- phpunit --debug --testsuite $TEST_SUITE
+- phpunit --testsuite $TEST_SUITE
 after_script:
 - php vendor/bin/coveralls
 cache:
   apt: true
   directories:
-  - vendor
+  - "vendor"
   - ".phpbrew/distfiles"
   - ".phpbrew/php"
 before_deploy:
