@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+### Version 1.20.3 - Mon Dec  7 23:56:32 2015
+
+- Fixed duplicated getBuild method in SystemCommandException
+- Fixed class loading for symfony yaml component with new cliframework
+
 ### Version 1.20.2 - Mon Dec  7 09:15:23 2015
 
 - added better php7 build support.
