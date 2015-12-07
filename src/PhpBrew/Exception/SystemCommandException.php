@@ -30,10 +30,6 @@ class SystemCommandException extends RuntimeException
         return $this->build;
     }
 
-    public function getBuild()
-    {
-        return $this->build;
-    }
 }
 
 
