@@ -35,8 +35,6 @@ before_script:
 - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
 - travis_retry composer install --no-interaction
 - phpenv rehash
-- mkdir -p vendor/bin && cd vendor/bin/ && curl -LO https://github.com/phpbrew/Onion/raw/master/onion
-  && chmod +x onion && cd -
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build
 - mkdir -p -v .phpbrew/distfiles
@@ -55,15 +53,19 @@ cache:
   - vendor
   - ".phpbrew/distfiles"
   - ".phpbrew/php"
+before_deploy:
+- make build
 deploy:
   provider: s3
   access_key_id: AKIAJCOXUMKVDHFVNS6Q
   secret_access_key:
     secure: FKUkXHugu4zB4hs6LEv399z6neV8jGZpJP/cTCvKsTiKiomZKnOznxMwZhYIXOAr6CzQvW+9zCp0IzZCZcIo6x7HBdgsiEfF/1yPx2zUuJbaiqa7XCkfFd5p1nKmNcprL/KXwvXOueZ5J7QhV67+x3kVArbt+uvm9glXBX/aHmM=
   bucket: phpbrew
-  acl: ''
+  acl: public_read
   upload-dir: travis-builds
   # local_dir: build
   on:
     repo: phpbrew/phpbrew
-    branch: 'master'
+    # branch: 'master'
+    # tags: true
+    all_branches: true

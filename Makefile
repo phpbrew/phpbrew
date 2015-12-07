@@ -1,12 +1,14 @@
 OUTPUT        = phpbrew.phar
-TARGET        = phpbrew
+TARGET        = build/phpbrew
 MOVE          = mv
 SUDOCP        = sudo cp
 INSTALL_PATH  = /usr/local/bin
 PERMISSION    = chmod +x
 TEST          = phpunit
 
-default:
+.PHONY: build
+
+build:
 	php bin/phpbrew compile \
 			--lib src \
 			--lib vendor/corneltek/cliframework/src \
@@ -58,7 +60,8 @@ test/extension-installer:
 	php bin/phpbrew --debug ext install soap
 
 test/see-coverage:
-		xdg-open build/logs/coverage/index.html
+	xdg-open build/logs/coverage/index.html
 
 clean:
-		git checkout -- $(TARGET)
+	git checkout -- $(TARGET)
+
