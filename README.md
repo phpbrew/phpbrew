@@ -8,9 +8,6 @@ PHPBrew
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
 
-phpbrew also manage the environment variables, so you can `use`, `switch` php
-version whenever you need.
-
 What phpbrew can do for you:
 
 - Configure options are simplified into variants,  no worries about the path anymore!
@@ -36,7 +33,7 @@ building PHP.
 Just download it:
 
 ```bash
-curl -L -o phpbrew https://goo.gl/s1mPO8
+curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
 ```
 
@@ -48,6 +45,14 @@ sudo mv phpbrew /usr/local/bin/phpbrew
 
 Be sure to have `/usr/local/bin` in your `$PATH` environment variable.
 
+### Install from CI builds
+
+Travis-CI automatically uploads the builds onto Amazon S3 storage, you can use the following link to download the phar file:
+
+```bash
+curl -L -o phpbrew https://goo.gl/s1mPO8
+chmod +x phpbrew
+```
 
 ## Setting up
 
@@ -81,8 +86,6 @@ $ phpbrew lookup-prefix macports
 ```
 
 ## Basic usage
-
-
 
 To list known versions:
 
