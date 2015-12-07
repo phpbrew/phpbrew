@@ -9,7 +9,7 @@ TEST          = phpunit
 
 .PHONY: build
 
-build:
+build/phpbrew:
 	php bin/phpbrew compile \
 			--lib src \
 			--lib vendor/corneltek/cliframework/src \
@@ -29,9 +29,14 @@ build:
 			--executable \
 			--no-compress \
 			--output $(OUTPUT)
-		$(COPY) $(OUTPUT) $(TARGET)
-		$(COPY) $(OUTPUT) build/phpbrew
-		$(PERMISSION) $(TARGET)
+	$(COPY) $(OUTPUT) $(TARGET)
+	$(COPY) $(OUTPUT) build/phpbrew
+	$(PERMISSION) $(TARGET)
+
+build: build/phpbrew
+
+sign: build
+	gpg --armor --detach-sign build/phpbrew
 
 install:
 		$(SUDOCP) $(TARGET) $(INSTALL_PATH)
