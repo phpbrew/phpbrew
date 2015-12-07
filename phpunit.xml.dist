@@ -2,6 +2,8 @@
 
 <phpunit bootstrap="tests/bootstrap.php"
          backupGlobals="false"
+         stopOnFailure="true"
+         stopOnError="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          convertErrorsToExceptions="true"
@@ -18,27 +20,35 @@
 
     <testsuites>
         <testsuite name="All">
+            <!-- run install command tests before all tests -->
             <file>tests/PhpBrew/Command/KnownCommandTest.php</file>
             <file>tests/PhpBrew/Command/InstallCommandTest.php</file>
             <directory suffix="Test.php">tests</directory>
         </testsuite>
 
         <testsuite name="Core">
-            <file>tests/PhpBrew/BuildTest.php</file>
-            <file>tests/PhpBrew/UtilsTest.php</file>
-            <file>tests/PhpBrew/VariantBuilderTest.php</file>
-            <file>tests/PhpBrew/VariantParserTest.php</file>
-            <file>tests/PhpBrew/VersionTest.php</file>
-            <file>tests/PhpBrew/ConfigTest.php</file>
+          <file>tests/PhpBrew/BuildRegisterTest.php</file>
+          <file>tests/PhpBrew/BuildTest.php</file>
+          <file>tests/PhpBrew/CommandBuilderTest.php</file>
+          <file>tests/PhpBrew/ConfigTest.php</file>
+          <file>tests/PhpBrew/MachineTest.php</file>
+          <file>tests/PhpBrew/PatchUtilsTest.php</file>
+          <file>tests/PhpBrew/ReleaseListTest.php</file>
+          <file>tests/PhpBrew/UtilsTest.php</file>
+          <file>tests/PhpBrew/VariantBuilderTest.php</file>
+          <file>tests/PhpBrew/VariantParserTest.php</file>
+          <file>tests/PhpBrew/VersionDslParserTest.php</file>
+          <file>tests/PhpBrew/VersionTest.php</file>
         </testsuite>
 
-        <testsuite name="Commands">
+        <testsuite name="Command">
             <directory suffix="Test.php">tests/PhpBrew/Command</directory>
         </testsuite>
 
         <testsuite name="Extension">
             <directory suffix="Test.php">tests/PhpBrew/Extension</directory>
         </testsuite>
+
     </testsuites>
 
     <filter>

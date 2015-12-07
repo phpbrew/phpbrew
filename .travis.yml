@@ -1,45 +1,71 @@
 language: php
+matrix:
+  fast_finish: true
+  exclude:
+  - php: 5.4
+    env: TEST_SUITE=Command
+  - php: 5.5
+    env: TEST_SUITE=Command
+  - php: 5.6
+    env: TEST_SUITE=Command
+  - php: 7.0
+    env: TEST_SUITE=Command
+  allow_failures:
+  - php: 7.0
+  - php: nightly
+env:
+- TEST_SUITE=Core
+- TEST_SUITE=Command
+- TEST_SUITE=Extension
 php:
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
-
+- 5.3
+- 5.4
+- 5.5
+- 5.6
+- 7.0
+- nightly
 sudo: false
-
 addons:
   apt:
     packages:
-      - ctags
-
-install:
-
+    - ctags
+install: 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
-  - travis_retry composer install
-  - phpenv rehash
-  - cd vendor/bin/ && curl -LO https://github.com/phpbrew/Onion/raw/master/onion && chmod +x onion && cd -
-  - export PATH=$PATH:$PWD/vendor/bin/
-  - mkdir -p -v .phpbrew/build
-  - mkdir -p -v .phpbrew/distfiles
-  - mkdir -p -v .phpbrew/register
-  - mkdir -p -v .phpbrew/php
-  - cp -v shell/bashrc .phpbrew/
-  - source shell/bashrc
-
+- travis_retry composer self-update
+- travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
+- travis_retry composer install --no-interaction
+- phpenv rehash
+- export PATH=$PATH:$PWD/vendor/bin/
+- mkdir -p -v .phpbrew/build
+- mkdir -p -v .phpbrew/distfiles
+- mkdir -p -v .phpbrew/register
+- mkdir -p -v .phpbrew/php
+- cp -v shell/bashrc .phpbrew/
+- source shell/bashrc
 script:
-  - source shell/bashrc
-  # - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit --debug
-
+- source shell/bashrc
+- phpunit --debug --testsuite $TEST_SUITE
 after_script:
-  - php vendor/bin/coveralls
-
+- php vendor/bin/coveralls
 cache:
   apt: true
   directories:
-    - vendor
-    - .phpbrew/distfiles
-    - .phpbrew/php
+  - vendor
+  - ".phpbrew/distfiles"
+  - ".phpbrew/php"
+before_deploy:
+- make build
+deploy:
+  provider: s3
+  access_key_id: AKIAJCOXUMKVDHFVNS6Q
+  secret_access_key:
+    secure: FKUkXHugu4zB4hs6LEv399z6neV8jGZpJP/cTCvKsTiKiomZKnOznxMwZhYIXOAr6CzQvW+9zCp0IzZCZcIo6x7HBdgsiEfF/1yPx2zUuJbaiqa7XCkfFd5p1nKmNcprL/KXwvXOueZ5J7QhV67+x3kVArbt+uvm9glXBX/aHmM=
+  bucket: phpbrew
+  acl: public_read
+  upload-dir: travis-builds
+  local_dir: build
+  on:
+    repo: phpbrew/phpbrew
+    # branch: 'master'
+    # tags: true
+    all_branches: true

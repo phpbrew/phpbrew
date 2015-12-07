@@ -56,7 +56,6 @@ class ConfigureTask extends BaseTask
             $args[] = "--with-config-file-path={$prefix}/etc";
             $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
         }
-        $args[] = "--with-pear={$prefix}/lib/php";
 
         if ($variantOptions) {
             $args = array_merge($args, $variantOptions);
@@ -64,6 +63,10 @@ class ConfigureTask extends BaseTask
 
         $this->debug('Enabled variants: ' . join(', ', array_keys($build->getVariants())));
         $this->debug('Disabled variants: ' . join(', ', array_keys($build->getDisabledVariants())));
+
+        if ($build->isEnabledVariant('pear')) {
+            $args[] = "--with-pear={$prefix}/lib/php";
+        }
 
         foreach ((array) $this->options->patch as $patchPath) {
             // copy patch file to here

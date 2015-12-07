@@ -19,6 +19,7 @@ use PhpBrew\ReleaseList;
 use PhpBrew\VersionDslParser;
 use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Distribution\DistributionUrlPolicy;
+use PhpBrew\Exception\SystemCommandException;
 use CLIFramework\ValueCollection;
 use CLIFramework\Command;
 
@@ -119,7 +120,7 @@ class InstallCommand extends Command
         $opts->add('home','specify phpbrew home instead of PHPBREW_HOME');
 
         $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. ' 
-            . 'By default phpbrew will run `make clean` before runnign the configure script '
+            . 'By default phpbrew will run `make clean` before running the configure script '
             . 'to ensure everything is cleaned up.')
             ;
 
@@ -320,7 +321,7 @@ class InstallCommand extends Command
         }
 
         $variantBuilder = new VariantBuilder;
-        $variants = $variantBuilder->build($build);
+        $configureOptions = $variantBuilder->build($build);
 
         $distFileDir = Config::getDistFileDir();
 
@@ -359,45 +360,65 @@ class InstallCommand extends Command
 
         $buildLogFile = $build->getBuildLogPath();
 
-        if (!$this->options->{'no-configure'}) {
-            $configureTask = new ConfigureTask($this->logger, $this->options);
-            $configureTask->run($build, $variants);
-            unset($configureTask); // trigger __destruct
-        }
+        try {
 
-        {
-            $buildTask = new BuildTask($this->logger, $this->options);
-            $buildTask->run($build);
-            unset($buildTask); // trigger __destruct
-        }
+            if (!$this->options->{'no-configure'}) {
+                $configureTask = new ConfigureTask($this->logger, $this->options);
+                $configureTask->run($build, $configureOptions);
+                unset($configureTask); // trigger __destruct
+            }
+
+            {
+                $buildTask = new BuildTask($this->logger, $this->options);
+                $buildTask->run($build);
+                unset($buildTask); // trigger __destruct
+            }
 
 
-        if ($this->options->{'test'}) {
-            $testTask = new TestTask($this->logger, $this->options);
-            $testTask->run($build);
-            unset($testTask); // trigger __destruct
-        }
+            if ($this->options->{'test'}) {
+                $testTask = new TestTask($this->logger, $this->options);
+                $testTask->run($build);
+                unset($testTask); // trigger __destruct
+            }
 
-        if (!$this->options->{'no-install'}) {
-            $installTask = new InstallTask($this->logger, $this->options);
-            $installTask->install($build);
-            unset($installTask); // trigger __destruct
-        }
+            if (!$this->options->{'no-install'}) {
+                $installTask = new InstallTask($this->logger, $this->options);
+                $installTask->install($build);
+                unset($installTask); // trigger __destruct
+            }
 
-        if ($this->options->{'post-clean'}) {
-            $clean->clean($build);
-        }
+            if ($this->options->{'post-clean'}) {
+                $clean->clean($build);
+            }
 
-        /** POST INSTALLATION **/
-        {
-            $dsym = new DSymTask($this->logger, $this->options);
-            $dsym->patch($build, $this->options);
+            /** POST INSTALLATION **/
+            {
+                $dsym = new DSymTask($this->logger, $this->options);
+                $dsym->patch($build, $this->options);
+            }
+        } catch (SystemCommandException $e) {
+            $buildLog = $e->getLogFile();
+            $this->logger->error("Error: " . $e->getMessage());
+            $this->logger->error("Configure options: " . join(' ', $configureOptions));
+
+
+            if (file_exists($buildLog)) {
+                $this->logger->error("Last 5 lines in the log file:");
+                $lines = array_slice(file($buildLog), -5);
+                foreach ($lines as $line) {
+                    echo $line , PHP_EOL;
+                }
+                $this->logger->error("Please checkout the build log file for more details:");
+                $this->logger->error("\t tail $buildLog");
+            }
+            return;
         }
 
         // copy php-fpm config
         $this->logger->info("---> Creating php-fpm.conf");
+        $etcDirectory = $build->getEtcDirectory();
         $phpFpmConfigPath = "sapi/fpm/php-fpm.conf";
-        $phpFpmTargetConfigPath = $build->getEtcDirectory() . DIRECTORY_SEPARATOR . 'php-fpm.conf';
+        $phpFpmTargetConfigPath = $etcDirectory . DIRECTORY_SEPARATOR . 'php-fpm.conf';
         if (file_exists($phpFpmConfigPath)) {
             if (!file_exists($phpFpmTargetConfigPath)) {
                 copy($phpFpmConfigPath, $phpFpmTargetConfigPath);
@@ -406,15 +427,13 @@ class InstallCommand extends Command
             }
         }
 
-
-
         $this->logger->info("---> Creating php.ini");
         $phpConfigPath = $build->getSourceDirectory()
              . DIRECTORY_SEPARATOR . ($this->options->production ? 'php.ini-production' : 'php.ini-development');
         $this->logger->info("---> Copying $phpConfigPath ");
 
         if (file_exists($phpConfigPath) && ! $this->options->dryrun) {
-            $targetConfigPath = $build->getEtcDirectory() . DIRECTORY_SEPARATOR . 'php.ini';
+            $targetConfigPath = $etcDirectory . DIRECTORY_SEPARATOR . 'php.ini';
 
             if (file_exists($targetConfigPath)) {
                 $this->logger->notice("Found existing $targetConfigPath.");
@@ -451,19 +470,22 @@ class InstallCommand extends Command
             }
         }
 
-        $this->logger->info("Initializing pear config...");
-        $home = Config::getPhpbrewHome();
 
-        @mkdir("$home/tmp/pear/temp", 0755, true);
-        @mkdir("$home/tmp/pear/cache_dir", 0755, true);
-        @mkdir("$home/tmp/pear/download_dir", 0755, true);
+        if ($build->isEnabledVariant('pear')) {
+            $this->logger->info("Initializing pear config...");
+            $home = Config::getPhpbrewHome();
 
-        system("pear config-set temp_dir $home/tmp/pear/temp");
-        system("pear config-set cache_dir $home/tmp/pear/cache_dir");
-        system("pear config-set download_dir $home/tmp/pear/download_dir");
+            @mkdir("$home/tmp/pear/temp", 0755, true);
+            @mkdir("$home/tmp/pear/cache_dir", 0755, true);
+            @mkdir("$home/tmp/pear/download_dir", 0755, true);
 
-        $this->logger->info("Enabling pear auto-discover...");
-        system("pear config-set auto_discover 1");
+            system("pear config-set temp_dir $home/tmp/pear/temp");
+            system("pear config-set cache_dir $home/tmp/pear/cache_dir");
+            system("pear config-set download_dir $home/tmp/pear/download_dir");
+
+            $this->logger->info("Enabling pear auto-discover...");
+            system("pear config-set auto_discover 1");
+        }
 
         $this->logger->debug("Source directory: " . $targetDir);
 

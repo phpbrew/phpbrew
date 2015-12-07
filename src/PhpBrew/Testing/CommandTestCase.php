@@ -2,14 +2,24 @@
 namespace PhpBrew\Testing;
 use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
 use PhpBrew\Console;
+use GetOptionKit\Option;
 use Exception;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
+
     private $previousPhpBrewRoot;
+
     private $previousPhpBrewHome;
 
     public $primaryVersion = '5.5.22';
+
+    public function getPrimaryVersion()
+    {
+        return $this->primaryVersion;
+    }
+
+
 
     public function setupApplication()
     {
@@ -31,6 +41,12 @@ abstract class CommandTestCase extends BaseCommandTestCase
         // already setup in phpunit.xml, but it seems don't work.
         putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
         putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
+
+        if($options = \PhpBrew\Console::getInstance()->options) {
+            $option = new Option('no-progress');
+            $option->setValue(true);
+            $options->set('no-progress', $option);
+        }
     }
 
     /*

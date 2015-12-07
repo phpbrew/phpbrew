@@ -25,7 +25,8 @@ class ExtensionInstallerTest extends CommandTestCase
 
     public function setUp() {
         parent::setUp();
-        $this->runCommand("phpbrew use {$this->primaryVersion}");
+        $versionName = $this->getPrimaryVersion();
+        $this->runCommand("phpbrew use {$versionName}");
     }
 
     public function testPackageUrl()
@@ -42,16 +43,17 @@ class ExtensionInstallerTest extends CommandTestCase
     public function packageNameProvider()
     {
         return array(
-            array('xdebug'),
-            array('APCu'),
-            array('yaml'),
+            // xdebug requires at least php 5.4
+            // array('xdebug'),
+            array('APCu', 'stable'),
+            array('yaml', 'stable'),
         );
     }
 
     /**
      * @dataProvider packageNameProvider
      */
-    public function testInstallPackages($extensionName, $extensionVersion = 'latest')
+    public function testInstallPackages($extensionName, $extensionVersion)
     {
         $logger = new Logger;
         $logger->setDebug();

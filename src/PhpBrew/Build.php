@@ -66,7 +66,7 @@ class Build implements Serializable, Buildable
      *
      * @param string $version build version
      * @param string $name    build name
-     * @param string $prefix  install prefix
+     * @param string $installPrefix  install prefix
      */
     public function __construct($version, $name = null, $installPrefix = null)
     {
@@ -161,7 +161,12 @@ class Build implements Serializable, Buildable
 
     public function getEtcDirectory()
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+        $etc = $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+        if (!file_exists($etc)) {
+            mkdir($etc, 0755, true);
+        }
+
+        return $etc;
     }
 
     public function getVarDirectory()

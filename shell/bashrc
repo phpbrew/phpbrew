@@ -214,7 +214,7 @@ function phpbrew ()
                 ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
                   --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf \
                   --pid ${PHPFPM_PIDFILE} \
-                  ${*:3}
+                  "$@"
               fi
 
               if [[ $? != "0" ]] ; then
@@ -235,14 +235,14 @@ function phpbrew ()
             }
             case $2 in
                 start)
-                    fpm_start
+                    fpm_start "${@:4}"
                     ;;
                 stop)
                     fpm_stop
                     ;;
                 restart)
                     fpm_stop
-                    fpm_start
+                    fpm_start "${@:4}"
                     ;;
                 module)
                     $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
@@ -361,7 +361,7 @@ function __phpbrew_remove_purge ()
     _PHP_VERSION=$1
     if [[ "$_PHP_VERSION" = "$PHPBREW_PHP" ]]
     then
-        echo "php version: $_PHP_VERSION is already in used."
+        echo "php version: $_PHP_VERSION is already in use."
         return 1
     fi
 
@@ -414,7 +414,7 @@ function phpbrew_current_php_version() {
 }
 
 if [[ -n "$PHPBREW_SET_PROMPT" && "$PHPBREW_SET_PROMPT" == "1" ]]; then
-    export PS1="\w > \u@\h [$(phpbrew_current_php_version)]\n\\$ "
+    export PS1="\w > \u@\h [\$(phpbrew_current_php_version)]\n\\$ "
 fi
 
 function _phpbrewrc_load ()
@@ -435,9 +435,12 @@ function _phpbrewrc_load ()
             fi
 
             # check if top level directory or filesystem boundary is reached
-            if [ "$PWD" == '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
-                unset PHPBREW_LAST_RC_DIR
-                __phpbrew_load_user_config
+            if [ "$PWD" = '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
+                # check if there's a previously loaded .phpbrewrc
+                if [[ ! -z "$PHPBREW_LAST_RC_DIR" ]]; then
+                    unset PHPBREW_LAST_RC_DIR
+                    __phpbrew_load_user_config
+                fi
                 break
             fi
 
@@ -462,6 +465,6 @@ function _phpbrewrc_load ()
     PHPBREW_LAST_DIR="$PWD"
 }
 
-if [[ -n "$BASH_VERSION" && -z "$PHPBREW_RC_DISABLE" ]]; then
+if [[ (-n "$BASH_VERSION" || -n "$ZSH_VERSION") && -z "$PHPBREW_RC_DISABLE" ]]; then
     trap "_phpbrewrc_load" DEBUG
 fi

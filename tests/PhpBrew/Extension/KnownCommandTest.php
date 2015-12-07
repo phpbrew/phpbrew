@@ -7,8 +7,9 @@ use GetOptionKit\OptionResult;
 use PhpBrew\Extension\Provider\BitbucketProvider;
 use PhpBrew\Extension\Provider\GithubProvider;
 use PhpBrew\Extension\Provider\PeclProvider;
+use PhpBrew\Testing\CommandTestCase;
 
-class KnownCommandTest extends \PHPUnit_Framework_TestCase {
+class KnownCommandTest extends CommandTestCase {
 
     public function testPeclPackage() {
 
@@ -27,18 +28,25 @@ class KnownCommandTest extends \PHPUnit_Framework_TestCase {
 
     public function testGithubPackage() {
 
-        $logger = new Logger;
-        $logger->setQuiet();
+        try {
 
-        $provider = new GithubProvider();
-        $provider->setOwner('phalcon');
-        $provider->setRepository('cphalcon');
-        $provider->setPackageName('phalcon');
+            $logger = new Logger;
+            $logger->setQuiet();
 
-        $extensionDownloader = new ExtensionDownloader($logger, new OptionResult);
-        $versionList = $extensionDownloader->knownReleases($provider);
+            $provider = new GithubProvider();
+            $provider->setOwner('phalcon');
+            $provider->setRepository('cphalcon');
+            $provider->setPackageName('phalcon');
 
-        $this->assertNotCount(0, $versionList);
+            $extensionDownloader = new ExtensionDownloader($logger, new OptionResult);
+            $versionList = $extensionDownloader->knownReleases($provider);
+            $this->assertNotCount(0, $versionList);
+
+        } catch (\CurlKit\CurlException $e) {
+
+            $this->markTestIncomplete($e->getMessage());
+
+        }
 
     }
 

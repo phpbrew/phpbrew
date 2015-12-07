@@ -1,14 +1,9 @@
 Hacking
 ==========
 
+Run composer install:
 
-Install Onion first:
-
-    $ curl http://install.onionphp.org/ | sh
-
-Install dependencies:
-
-    $ onion -d install
+    $ copmoser install --prefer-source
 
 Initialize
 

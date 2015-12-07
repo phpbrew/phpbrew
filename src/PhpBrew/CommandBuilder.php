@@ -75,7 +75,7 @@ class CommandBuilder
         $this->append = $append;
     }
 
-    public function setLogPath($logPath) 
+    public function setLogPath($logPath)
     {
         $this->logPath = $logPath;
     }
@@ -101,7 +101,7 @@ class CommandBuilder
         if ($this->stdout && $this->logPath) {
             $cmd[] = '| tee';
             if ($this->append) {
-                $cmd[] = '--append';
+                $cmd[] = '-a';
             }
             $cmd[] = $this->logPath;
             $cmd[] = '2>&1';

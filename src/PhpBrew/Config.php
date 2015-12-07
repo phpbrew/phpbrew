@@ -285,24 +285,24 @@ class Config
         return getenv('PHPBREW_PATH');
     }
 
-    static public function getConfigParam($param = null)
+
+
+    static public function getConfig()
     {
         $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
-
         if (!file_exists($configFile)) {
             return array();
         }
+        return Yaml::parse(file_get_contents($configFile));
+    }
 
-        $yaml = Yaml::parse($configFile);
-        if (is_array($yaml)) {
-            if ($param === null) {
-                return $yaml;
-            } elseif ($param != null && isset($yaml[$param])) {
-                return $yaml[$param];
-            }
+    static public function getConfigParam($param = null)
+    {
+        $config = self::getConfig();
+        if ($param && isset($config[$param])) {
+            return $config[$param];
         }
-
-        return array();
+        return $config;
     }
 
     static public function initDirectories($buildName = NULL) {

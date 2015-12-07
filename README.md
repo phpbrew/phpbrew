@@ -38,7 +38,7 @@ Just download it:
 ```bash
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
-sudo mv phpbrew /usr/bin/phpbrew
+sudo mv phpbrew /usr/local/bin/phpbrew
 ```
 
 ## Basic usage
@@ -132,14 +132,19 @@ $ phpbrew install --old 5.2.13
 To install the next (unstable) version:
 
 ```bash
-$ phpbrew install next as php-7.0.0
+$ phpbrew install next as php-7.1.0
+```
+
+To install from a github tag:
+```bash
+$ phpbrew install github:php/php-src@PHP-7.0 as php-7.0.0
 ```
 
 ## Clean up build
 
 
 ```bash
-$ phpbrew clean
+$ phpbrew clean php-5.4.0
 ```
 
 
@@ -207,7 +212,7 @@ $ phpbrew install 5.3.10 +mysql+debug+pgsql +apxs2
 $ phpbrew install 5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
 ```
 
-To build PHP with pgsql (Postgresql) extension:
+To build PHP with pgsql (PostgreSQL) extension:
 
 ```bash
 $ phpbrew install 5.4.1 +pgsql+pdo
@@ -358,7 +363,7 @@ phpbrew config
 
 To upgrade phpbrew, you may simply run the `self-update` command,
 this command enables you to install the latest version of
-`master` branch from github:
+`master` branch from GitHub:
 
 ```bash
 $ phpbrew self-update

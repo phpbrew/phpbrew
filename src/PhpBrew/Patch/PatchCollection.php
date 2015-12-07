@@ -36,11 +36,11 @@ class PatchCollection
                 'libs/libphp$PHP_VERSION.'
             ),
             RegexpPatchRule::always(
-                '#libs/libphp5.so#',
+                '#libs/libphp[57].so#',
                 'libs/libphp$PHP_VERSION.so'
             ),
             RegexpPatchRule::always(
-                '#libs/libphp5.la#',
+                '#libs/libphp[57].la#',
                 'libs/libphp$PHP_VERSION.la'
             ),
             RegexpPatchRule::always(

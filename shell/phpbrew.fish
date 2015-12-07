@@ -161,34 +161,6 @@ function phpbrew
                 echo $PHPBREW_LOOKUP_PREFIX
                 __phpbrew_update_config
             end
-        case install-pyrus
-            echo "Installing pyrus..."
-            cd $PHPBREW_BIN ; and \
-                wget --no-check-certificate -c http://pear2.php.net/pyrus.phar -O pyrus ; and \
-                chmod +x pyrus ; and \
-                cd -
-            #hash -r
-        case install-phpunit
-            echo "Installing phpunit..."
-            cd $PHPBREW_BIN ; and \
-                wget --no-check-certificate -c https://phar.phpunit.de/phpunit.phar -O phpunit ; and \
-                chmod +x phpunit ; and \
-                cd -
-            #hash -r
-        case install-composer
-            echo "Installing composer..."
-            cd $PHPBREW_BIN ; and \
-                wget --no-check-certificate -c http://getcomposer.org/composer.phar -O composer ; and \
-                chmod +x composer ; and \
-                cd -
-            #hash -r
-        case install-onion
-            echo "Installing onion..."
-            cd $PHPBREW_BIN ; and \
-              wget --no-check-certificate -c https://raw.github.com/c9s/Onion/master/onion -O onion ; and \
-              chmod +x onion ; and \
-              cd -
-            #hash -r
         case cd
             if [ (count $argv) -eq 1 ]; return 0; end
 
