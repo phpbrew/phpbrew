@@ -65,7 +65,7 @@ class Variant
         if (isset($this->packageMap[$platform])) {
             return $this->packageMap[$platform];
         }
-        return [];
+        return array();
     }
 
     public function disableDefaultOption()
