@@ -51,6 +51,7 @@
           <file>tests/PhpBrew/PatchUtilsTest.php</file>
           <file>tests/PhpBrew/ReleaseListTest.php</file>
           <file>tests/PhpBrew/UtilsTest.php</file>
+          <file>tests/PhpBrew/VariantTest.php</file>
           <file>tests/PhpBrew/VariantBuilderTest.php</file>
           <file>tests/PhpBrew/VariantParserTest.php</file>
           <file>tests/PhpBrew/VersionDslParserTest.php</file>

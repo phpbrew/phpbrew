@@ -56,9 +56,6 @@ function exec_line($command)
  * API:
  *
  * $variantBuilder = new VariantBuilder;
- * $variantBuilder->register('debug', function () {
- *
- * });
  * $variantBuilder->build($build);
  */
 class VariantBuilder
