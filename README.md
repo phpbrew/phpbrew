@@ -38,10 +38,18 @@ Just download it:
 ```bash
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
+```
+
+Install it into your bin folder:
+
+```sh
 sudo mv phpbrew /usr/local/bin/phpbrew
 ```
 
-## Basic usage
+Be sure to have `/usr/local/bin` in your `$PATH` environment variable.
+
+
+## Setting up
 
 Init a bash script for your shell environment:
 
@@ -52,8 +60,10 @@ $ phpbrew init
 Then add these lines to your `.bashrc` or `.zshrc` file:
 
 ```bash
-$ source ~/.phpbrew/bashrc
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 ```
+
+### Setting up lookup prefix
 
 You may setup your prefered default prefix for looking up libraries, available
 options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
@@ -69,6 +79,9 @@ For Macports users:
 ```bash
 $ phpbrew lookup-prefix macports
 ```
+
+## Basic usage
+
 
 
 To list known versions:

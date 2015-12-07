@@ -1,6 +1,17 @@
 CHANGES
 =======
 
+### Version 1.20.2 - Mon Dec  7 09:15:23 2015
+
+- added better php7 build support.
+- fixed apxs2 patch for php7.
+- improved travis-ci build speed.
+- improved build process error message by dumping the last 5 lines of log to
+  console directly.
+- moved built phpbrew phar file into build/phpbrew
+- created a symbol link 'phpbrew' under the root of project directory and make
+  it pointing to 'build/phpbrew'
+
 ### Version 1.20.1 - Thu Jul 27 16:30:27 2015
 
 - sensibly forces redownload when using wget #554

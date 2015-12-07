@@ -1,6 +1,7 @@
 OUTPUT        = phpbrew.phar
-TARGET        = build/phpbrew
-MOVE          = mv
+TARGET        = phpbrew
+MOVE          = mv -v
+COPY          = cp -v
 SUDOCP        = sudo cp
 INSTALL_PATH  = /usr/local/bin
 PERMISSION    = chmod +x
@@ -28,7 +29,8 @@ build:
 			--executable \
 			--no-compress \
 			--output $(OUTPUT)
-		$(MOVE) $(OUTPUT) $(TARGET)
+		$(COPY) $(OUTPUT) $(TARGET)
+		$(COPY) $(OUTPUT) build/phpbrew
 		$(PERMISSION) $(TARGET)
 
 install:
@@ -63,5 +65,6 @@ test/see-coverage:
 	xdg-open build/logs/coverage/index.html
 
 clean:
+	rm -rf build
 	git checkout -- $(TARGET)
 
