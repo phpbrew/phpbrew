@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d55f8a80af38c31e35323ed55fb63dde",
-    "content-hash": "3688b37073b22331119407e2e9eaf91c",
+    "hash": "e2fa52b374e3449d6eb155e0686c5127",
+    "content-hash": "9d680ca021fec7a4b12ebd5c48ba538f",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -87,16 +87,16 @@
         },
         {
             "name": "corneltek/cliframework",
-            "version": "2.8.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CLIFramework.git",
-                "reference": "7ca1239bb032f5cd1d746974954adde0233900ce"
+                "reference": "a28b1e9e6b8ce178a6ecc84caae85fafa67f090e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/7ca1239bb032f5cd1d746974954adde0233900ce",
-                "reference": "7ca1239bb032f5cd1d746974954adde0233900ce",
+                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/a28b1e9e6b8ce178a6ecc84caae85fafa67f090e",
+                "reference": "a28b1e9e6b8ce178a6ecc84caae85fafa67f090e",
                 "shasum": ""
             },
             "require": {
@@ -114,6 +114,11 @@
                 "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "CLIFramework\\": "src/CLIFramework/"
@@ -140,7 +145,7 @@
                 "getopt",
                 "zsh"
             ],
-            "time": "2015-11-07 11:01:47"
+            "time": "2015-12-07 15:41:31"
         },
         {
             "name": "corneltek/codegen",
@@ -773,6 +778,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "corneltek/cliframework": 20,
         "corneltek/pearx": 20,
         "corneltek/phpunit-testmore": 20
     },
