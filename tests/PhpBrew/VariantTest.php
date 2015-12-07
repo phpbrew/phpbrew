@@ -10,9 +10,9 @@ class VariantTest extends PHPUnit_Framework_TestCase
             ->optionName('--with-openssl')
             ->defaultOption('shared')
             ->depends(array(
-                'ubuntu-14.04' => ['libopenssl'],
-                'ubuntu-14.10' => ['libopenssl'],
-                'macports' => ['openssl'],
+                'ubuntu-14.04' => array('libopenssl'),
+                'ubuntu-14.10' => array('libopenssl'),
+                'macports' => array('openssl'),
             ));
         $this->assertEquals('--with-openssl=shared',$variant->toArgument());
 
