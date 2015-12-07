@@ -5,7 +5,6 @@
         "This file is @generated automatically"
     ],
     "hash": "4fe574a8a120c9ca11ade82df17c34a0",
-    "content-hash": "70d18260babd7c6619362315dd9729f9",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -266,12 +265,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbrew/PEARX.git",
-                "reference": "56cc1072960605bc3f908a6057a292b292ad5810"
+                "reference": "6da64cf2d493e66416cda18a6b9fb4289ed4a70a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/56cc1072960605bc3f908a6057a292b292ad5810",
-                "reference": "56cc1072960605bc3f908a6057a292b292ad5810",
+                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/6da64cf2d493e66416cda18a6b9fb4289ed4a70a",
+                "reference": "6da64cf2d493e66416cda18a6b9fb4289ed4a70a",
                 "shasum": ""
             },
             "require": {
@@ -301,7 +300,7 @@
             ],
             "description": "PEAR channel client",
             "homepage": "http://github.com/c9s/PEARX",
-            "time": "2015-12-05 14:47:06"
+            "time": "2015-12-07 03:15:18"
         },
         {
             "name": "corneltek/serializerkit",
