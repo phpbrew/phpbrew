@@ -71,6 +71,6 @@ deploy:
   local_dir: build
   on:
     repo: phpbrew/phpbrew
-    # branch: 'master'
+    branch: 'master'
     # tags: true
     all_branches: true
