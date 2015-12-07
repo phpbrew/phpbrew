@@ -1,7 +1,8 @@
-tmp/
-vendor/
-build/
+/tmp
+/vendor/
+/build/
 .onion
 .phpbrew
 tags
-build/logs
+/build/logs
+*.phar
