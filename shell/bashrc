@@ -206,7 +206,7 @@ function phpbrew ()
             function fpm_start()
             {
               echo "Starting php-fpm..."
-              local regex="^php-5\.2.*"
+              local regex="^php-[57]\.2.*"
 
               if [[ ${_PHP_VERSION} =~ ${regex} ]]; then
                 ${PHPFPM_BIN} start
@@ -223,7 +223,7 @@ function phpbrew ()
             }
             function fpm_stop()
             {
-              local regex="^php-5\.2.*"
+              local regex="^php-[57]\.2.*"
 
               if [[ ${PHPBREW_PHP} =~ ${regex} ]]; then
                 ${PHPFPM_BIN} stop
@@ -402,7 +402,7 @@ function __phpbrew_remove_purge ()
 
 function phpbrew_current_php_version() {
   if type "php" > /dev/null; then
-    local version=$(php -v | grep "PHP 5" | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-6)
+    local version=$(php -v | grep -E "PHP [57]" | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-6)
     if [[ -z "$PHPBREW_PHP" ]]; then
       echo "php:$version-system"
     else
