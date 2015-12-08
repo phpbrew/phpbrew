@@ -36,7 +36,7 @@ install:
 before_script:
 - travis_retry composer self-update
 - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
-- travis_retry composer install --no-interaction --prefer-source
+- travis_retry composer update --no-interaction --prefer-source
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build
