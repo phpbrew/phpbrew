@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+use PhpBrew\Build;
 
 /**
  * The variant definition schema
@@ -18,6 +19,11 @@ class Variant
     public $option;
 
     public $defaultOption;
+
+    /**
+     * callable option builder
+     */
+    protected $builder;
 
     public function __construct($name)
     {
@@ -73,19 +79,45 @@ class Variant
         $this->defaultOption = null;
     }
 
-    public function toArgument()
+
+    public function builder(callable $builder)
     {
+        $this->builder = $builder;
+        return $this;
+    }
+
+
+
+    public function toArguments(Build $build = null)
+    {
+        $options = array();
         if ($this->optionName) {
             $str = $this->optionName;
+
             // TODO: escape spaces here
+            $opt = null;
             if ($this->option) {
-                $str .= '=' . $this->option;
+                $opt = $this->option;
             } else if ($this->defaultOption) {
-                $str .= '=' . $this->defaultOption;
+                $opt = $this->defaultOption;
             }
-            return $str;
+            if ($opt) {
+                if (is_callable($opt)) {
+                    $opt = call_user_func($opt, $build);
+                }
+                if ($opt) {
+                    $str .= '=' . $opt;
+                }
+            }
+            $options[] = $str;
         }
-        return null;
+
+        if ($this->builder) {
+            if ($opts = call_user_func($this->builder)) {
+                $options = array_merge($options, $opts);
+            }
+        }
+        return $options;
     }
 
 

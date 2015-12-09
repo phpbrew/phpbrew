@@ -1,8 +1,25 @@
 <?php
 use PhpBrew\Variant;
+use PhpBrew\Build;
 
 class VariantTest extends PHPUnit_Framework_TestCase
 {
+
+    public function testVariantBuilder()
+    {
+        $variant = new Variant('ipc');
+        $variant->desc('ipc support')
+            ->builder(function(Build $build) {
+                return array(
+                    '--enable-shmop',
+                    '--enable-sysvsem',
+                    '--enable-sysvshm',
+                    '--enable-sysvmsg',
+                );
+            });
+
+    }
+
     public function testVariant()
     {
         $variant = new Variant('openssl');
@@ -14,9 +31,11 @@ class VariantTest extends PHPUnit_Framework_TestCase
                 'ubuntu-14.10' => array('libopenssl'),
                 'macports' => array('openssl'),
             ));
-        $this->assertEquals('--with-openssl=shared',$variant->toArgument());
+        $options = $variant->toArguments();
+        $this->assertEquals('--with-openssl=shared', $options[0]);
 
         $variant->disableDefaultOption();
-        $this->assertEquals('--with-openssl',$variant->toArgument());
+        $options = $variant->toArguments();
+        $this->assertEquals('--with-openssl', $options[0]);
     }
 }
