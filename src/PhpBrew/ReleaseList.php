@@ -162,7 +162,7 @@ class ReleaseList
         }
 
         $max = ($options && $options->old) ? 1000 : 100;
-        $url = "https://php.net/releases/index.php?json&version={$version}&max={$max}";
+        $url = "https://secure.php.net/releases/index.php?json&version={$version}&max={$max}";
 
         if (extension_loaded('curl')) {
             $downloader = new CurlDownloader;
@@ -197,8 +197,8 @@ class ReleaseList
     public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
     {
         $obj = array_merge(
-            self::downloadReleaseListFromOfficialSite(7),
-            self::downloadReleaseListFromOfficialSite(5)
+            self::downloadReleaseListFromOfficialSite(7, $options),
+            self::downloadReleaseListFromOfficialSite(5, $options)
         );
         $releaseVersions = array();
         foreach ($obj as $k => $v) {
