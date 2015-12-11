@@ -384,6 +384,44 @@
             "time": "2015-11-07 10:32:02"
         },
         {
+            "name": "corneltek/versionkit",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/c9s/VersionKit.git",
+                "reference": "cb944475bc182dce3b38ab967e5c60cec9dd900a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/VersionKit/zipball/cb944475bc182dce3b38ab967e5c60cec9dd900a",
+                "reference": "cb944475bc182dce3b38ab967e5c60cec9dd900a",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "VersionKit\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "c9s",
+                    "email": "cornelius.howl@gmail.com"
+                }
+            ],
+            "description": "Versioning library",
+            "time": "2015-12-11 10:58:18"
+        },
+        {
             "name": "doctrine/inflector",
             "version": "v1.1.0",
             "source": {
@@ -1364,6 +1402,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "corneltek/cliframework": 20,
+        "corneltek/versionkit": 20,
         "corneltek/pearx": 20,
         "corneltek/curlkit": 20,
         "corneltek/phpunit-testmore": 20
