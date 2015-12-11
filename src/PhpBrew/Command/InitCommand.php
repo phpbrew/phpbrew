@@ -69,9 +69,9 @@ class InitCommand extends \CLIFramework\Command
         $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
 
         // write bashrc script to phpbrew home
-        file_put_contents($home . '/bashrc' , $this->getBashScript());
+        file_put_contents($home . '/bashrc' , $this->getBashScriptPath());
         // write phpbrew.fish script to phpbrew home
-        file_put_contents($home . '/phpbrew.fish' , $this->getFishScript());
+        file_put_contents($home . '/phpbrew.fish' , $this->getFishScriptPath());
 
         if (strpos(getenv("SHELL"), "fish") !== false)  {
             $initConfig = <<<EOS
@@ -110,15 +110,26 @@ EOS;
         $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
     }
 
-    public function getBashScript()
+    protected function getCurrentShellDirectory()
     {
-        $path = Phar::running() ?: __DIR__ . '/../../../shell';
+        $path = Phar::running();
+        if ($path) {
+            $path = $path . DIRECTORY_SEPARATOR . 'shell';
+        } else {
+            $path = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'shell';
+        }
+        return $path;
+    }
+
+    protected function getBashScriptPath()
+    {
+        $path = $this->getCurrentShellDirectory();
         return file_get_contents($path . DIRECTORY_SEPARATOR . 'bashrc');
     }
 
-    public function getFishScript()
+    protected function getFishScriptPath()
     {
-        $path = Phar::running() ?: __DIR__ . '/../../../shell';
+        $path = $this->getCurrentShellDirectory();
         return file_get_contents($path . DIRECTORY_SEPARATOR . 'phpbrew.fish');
     }
 }
