@@ -113,12 +113,12 @@ EOS;
     public function getBashScript()
     {
         $path = Phar::running() ?: __DIR__ . '/../../../shell';
-        return file_get_contents($path . '/bashrc');
+        return file_get_contents($path . DIRECTORY_SEPARATOR . 'bashrc');
     }
 
     public function getFishScript()
     {
         $path = Phar::running() ?: __DIR__ . '/../../../shell';
-        return file_get_contents($path . '/phpbrew.fish');
+        return file_get_contents($path . DIRECTORY_SEPARATOR . 'phpbrew.fish');
     }
 }
