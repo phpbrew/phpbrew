@@ -35,6 +35,8 @@ class EnvCommand extends \CLIFramework\Command
                 echo 'export PHPBREW_PATH=' . ($buildName ? Config::getVersionBinPath($buildName) : '') . "\n";
             }
         }
-
+        $this->logger->writeln('# Run this command to configure your shell:');
+        $this->logger->writeln('# # eval "$(phpbrew env)"');
     }
 }
+
