@@ -7,9 +7,9 @@ INSTALL_PATH  = /usr/local/bin
 PERMISSION    = chmod +x
 TEST          = phpunit
 
-.PHONY: build
+.PHONY: build phar
 
-build/phpbrew:
+phar:
 	php bin/phpbrew archive --executable \
 		--exclude Tests \
 		--exclude CHANGELOG\|README \
@@ -22,7 +22,7 @@ build/phpbrew:
 	$(COPY) $(OUTPUT) build/phpbrew
 	$(PERMISSION) $(TARGET)
 
-build: build/phpbrew
+build: phar
 
 sign: build
 	gpg --armor --detach-sign build/phpbrew
