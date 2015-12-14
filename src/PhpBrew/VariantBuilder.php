@@ -704,7 +704,11 @@ class VariantBuilder
         foreach ($this->virtualVariants as $name => $variantNames) {
             if ($build->isEnabledVariant($name)) {
                 foreach ($variantNames as $subVariantName) {
-                    $build->enableVariant($subVariantName);
+                    // enable the sub-variant only if it's not already enabled
+                    // in order to not override a non-default value with the default
+                    if (!$build->isEnabledVariant($subVariantName)) {
+                        $build->enableVariant($subVariantName);
+                    }
                 }
 
                 // it's a virtual variant, can not be built by buildVariant
