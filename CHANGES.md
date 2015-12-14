@@ -1,6 +1,20 @@
 CHANGES
 =======
 
+### Version 1.20.4 - Mon Dec 14 19:37:01 2015
+
+- Commit 2e41279: Merge pull request #637 from morozov/virtual-variant-value
+
+   Do not override explicitly specified values with the default from virtual variants
+
+- Commit 728ff9b: Merge pull request #634 from kurotaky/fix-phpbrew-bin-path-connection
+
+   Does not connect the phpbrew bin path when `$PHPBREW_BIN` is blank
+
+- Commit 3c5d6d8: Merge pull request #631 from Dexus/Dexus-patch-1
+
+   Fix ReleaseList.php and Options forwarding
+
 ### Version 1.20.3 - Mon Dec  7 23:56:32 2015
 
 - Fixed duplicated getBuild method in SystemCommandException
