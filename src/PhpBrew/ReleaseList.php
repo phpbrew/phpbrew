@@ -187,7 +187,13 @@ class ReleaseList
 
             $json = $downloader->request($url);
         } else {
-            $json = file_get_contents($url);
+            $proxyOptions = Config::getProxyConfig();
+            if ($proxyOptions) {
+                $context = steam_context_create($proxyOptions);
+                $json = file_get_contents($url, false, $context);
+            } else {
+                $json = file_get_contents($url);
+            }
         }
 
         $obj = json_decode($json, true);
