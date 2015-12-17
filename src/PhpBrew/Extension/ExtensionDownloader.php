@@ -91,7 +91,13 @@ class ExtensionDownloader
             }
             $info = $downloader->request($url, array(), $curlOptions);
         } else {
-            $info = file_get_contents($url);
+            $proxyOptions = Config::getProxyConfig();
+            if ($proxyOptions) {
+                $context = stream_context_create($proxyOptions);
+                $info = file_get_contents($url, false, $context);
+            } else {
+                $info = file_get_contents($url);
+            }
         }
 
         return $provider->parseKnownReleasesResponse($info);

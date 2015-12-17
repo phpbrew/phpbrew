@@ -296,6 +296,15 @@ class Config
         return Yaml::parse(file_get_contents($configFile));
     }
 
+    static public function getProxyConfig()
+    {
+        $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPERATOR . 'proxy.yaml';
+        if (!file_exists($configFile)) {
+            return false;
+        }
+        return Yaml::parse(file_get_contents($configFile));
+    }
+
     static public function getConfigParam($param = null)
     {
         $config = self::getConfig();
