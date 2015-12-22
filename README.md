@@ -467,18 +467,20 @@ phpbrew fpm config
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
 
-## Installing Extra Component
+## Installing Extra Apps
+
+phpbrew provides app command to fetch some php apps.
 
 ### Installing composer 
 
 ```bash
-$ phpbrew install-composer
+$ phpbrew app get composer
 ```
 
 ### Installing phpunit
 
 ```bash
-phpbrew install-phpunit
+phpbrew app get phpunit
 ```
 
 ## Enabling Version Info Prompt
