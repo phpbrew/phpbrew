@@ -23,6 +23,7 @@ class TestTask extends BaseTask
         $cmd->setLogPath($build->getBuildLogPath());
         $cmd->setStdout($this->options->{'stdout'});
 
+        putenv('NO_INTERACTION=1');
         $this->debug('' .  $cmd);
         $code = $cmd->execute();
         if ($code != 0)
