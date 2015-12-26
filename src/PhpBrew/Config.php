@@ -298,7 +298,7 @@ class Config
 
     static public function getProxyConfig()
     {
-        $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPERATOR . 'proxy.yaml';
+        $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'proxy.yaml';
         if (!file_exists($configFile)) {
             return false;
         }
