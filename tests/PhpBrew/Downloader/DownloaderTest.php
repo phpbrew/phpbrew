@@ -29,22 +29,22 @@ class DownloaderTestextends extends PHPUnit_Framework_TestCase
 
     public function testDownloadByWgetCommand()
     {
-        $this->_test(WgetCommandDownloader::class);
+        $this->_test('PhpBrew\Downloader\WgetCommandDownloader');
     }
 
     public function testDownloadByCurlCommand()
     {
-        $this->_test(CurlCommandDownloader::class);
+        $this->_test('PhpBrew\Downloader\CurlCommandDownloader');
     }
 
     public function testDownloadByCurlExtension()
     {
-        $this->_test(CurlExtensionDownloader::class);
+        $this->_test('PhpBrew\Downloader\CurlExtensionDownloader');
     }
 
     public function testDownloadByFileFunction()
     {
-        $this->_test(FileFunctionDownloader::class);
+        $this->_test('PhpBrew\Downloader\FileFunctionDownloader');
     }
 
     private function _test($downloader)

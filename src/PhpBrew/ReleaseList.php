@@ -1,9 +1,11 @@
 <?php
 namespace PhpBrew;
+use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
 use Exception;
+use PhpBrew\Downloader\Factory as DownloadFactory;
 use RuntimeException;
 
 defined('JSON_UNESCAPED_SLASHES') || define('JSON_UNESCAPED_SLASHES', 0);
@@ -164,31 +166,8 @@ class ReleaseList
         $max = ($options && $options->old) ? 1000 : 100;
         $url = "https://php.net/releases/index.php?json&version={$version}&max={$max}";
 
-        if (extension_loaded('curl')) {
-            $downloader = new CurlDownloader;
-            $downloader->setProgressHandler(new ProgressBar);
-
-            if (! Console::getInstance()->options->{'no-progress'}) {
-                $downloader->setProgressHandler(new ProgressBar);
-            }
-
-            if ($options) {
-                $seconds = $options->{'connect-timeout'};
-                if ($seconds || $seconds = getenv('CONNECT_TIMEOUT')) {
-                    $downloader->setConnectionTimeout($seconds);
-                }
-                if ($proxy = $options->{'http-proxy'}) {
-                    $downloader->setProxy($proxy);
-                }
-                if ($proxyAuth = $options->{'http-proxy-auth'}) {
-                    $downloader->setProxyAuth($proxyAuth);
-                }
-            }
-
-            $json = $downloader->request($url);
-        } else {
-            $json = file_get_contents($url);
-        }
+        $file = DownloadFactory::getInstance(Logger::getInstance(), $options)->download($url);
+        $json = file_get_contents($file);
 
         $obj = json_decode($json, true);
         return $obj;
@@ -197,8 +176,8 @@ class ReleaseList
     public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
     {
         $obj = array_merge(
-            self::downloadReleaseListFromOfficialSite(7),
-            self::downloadReleaseListFromOfficialSite(5)
+            self::downloadReleaseListFromOfficialSite(7, $options),
+            self::downloadReleaseListFromOfficialSite(5, $options)
         );
         $releaseVersions = array();
         foreach ($obj as $k => $v) {
