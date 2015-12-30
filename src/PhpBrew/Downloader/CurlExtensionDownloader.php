@@ -17,14 +17,7 @@ use RuntimeException;
 class CurlExtensionDownloader extends BaseDownloader
 {
 
-    /**
-     * @param string $url
-     *
-     * @return bool|string
-     *
-     * @throws \RuntimeException
-     */
-    public function download($url, $targetFilePath)
+    protected function process($url, $targetFilePath)
     {
         $this->logger->info('downloading via curl extension');
 
@@ -50,6 +43,7 @@ class CurlExtensionDownloader extends BaseDownloader
         if (false === file_put_contents($targetFilePath, $binary)) {
             throw new RuntimeException("Can't write file $targetFilePath");
         }
+        return true;
     }
 
     public function isMethodAvailable()

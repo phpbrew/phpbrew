@@ -14,19 +14,13 @@ use PhpBrew\Utils;
 class CurlCommandDownloader extends BaseDownloader
 {
 
-    /**
-     * @param string $url
-     *
-     * @return bool|string
-     *
-     * @throws \RuntimeException
-     */
-    public function download($url, $targetFilePath)
+    protected function process($url, $targetFilePath)
     {
         $this->logger->info('downloading via curl command');
         //todo proxy setting
         $silent = $this->logger->isQuiet() ? '--silent ' : '';
-        Utils::system("curl -C - -L $silent -o" . $targetFilePath . ' ' . $url);
+        Utils::system("curl -C - -L $silent -o" . $targetFilePath . ' "' . $url.'"');
+        return true;
     }
 
     public function isMethodAvailable()

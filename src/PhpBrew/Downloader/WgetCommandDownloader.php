@@ -21,12 +21,13 @@ class WgetCommandDownloader extends BaseDownloader
      *
      * @throws \RuntimeException
      */
-    public function download($url, $targetFilePath)
+    protected function process($url, $targetFilePath)
     {
         $this->logger->info('downloading via wget command');
         //todo proxy setting
         $quiet = $this->logger->isQuiet() ? '--quiet' : '';
-        Utils::system("wget --no-check-certificate -c $quiet -N -O " . $targetFilePath . ' ' . $url);
+        Utils::system("wget --no-check-certificate -c $quiet -N -O \"$targetFilePath\" \"$url\"");
+        return true;
     }
 
     public function isMethodAvailable()
