@@ -8,12 +8,23 @@ use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
 
+/**
+ * Class UrlDownloader
+ * @package PhpBrew\Downloader
+ * @deprecated  use Factory instead
+ */
 class UrlDownloader
 {
     public $logger;
 
     public $options;
 
+    /**
+     * UrlDownloader constructor.
+     * @param Logger $logger
+     * @param OptionResult $options
+     * @deprecated
+     */
     public function __construct(Logger $logger, OptionResult $options)
     {
         $this->logger = $logger;
@@ -26,6 +37,7 @@ class UrlDownloader
      * @return bool|string
      *
      * @throws \RuntimeException
+     * @deprecated
      */
     public function download($url, $targetFilePath)
     {

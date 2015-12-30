@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Command\AppCommand;
-use PhpBrew\Downloader\UrlDownloader;
+use PhpBrew\Downloader\Factory as DownloadFactory;
 use PhpBrew\Config;
 use PhpBrew\AppStore;
 use CLIFramework\Command;
@@ -17,6 +17,7 @@ class GetCommand extends Command
     public function options($opts)
     {
         $opts->add('chmod:');
+        DownloadFactory::addOptionsForCommand($opts);
     }
 
     public function arguments($args)
@@ -38,8 +39,7 @@ class GetCommand extends Command
         $targetDir = Config::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'bin';
         $target = $targetDir . DIRECTORY_SEPARATOR . $app['as'];
 
-        $downloader = new UrlDownloader($this->logger, $this->options);
-        $downloader->download($app['url'], $target);
+        DownloadFactory::getInstance($this->logger, $this->options)->download($app['url'], $target);
 
         $this->logger->info("Changing permissions to 0755");
 

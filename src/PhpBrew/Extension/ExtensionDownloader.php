@@ -5,6 +5,7 @@ use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
 use PhpBrew\Downloader;
+use PhpBrew\Downloader\Factory as DownloadFactory;
 use PhpBrew\Extension\Provider\Provider;
 use PhpBrew\Utils;
 use PEARX;
@@ -36,11 +37,10 @@ class ExtensionDownloader
     public function download(Provider $provider, $version = 'stable')
     {
         $url = $provider->buildPackageDownloadUrl($version);
-        $downloader = new Downloader\UrlDownloader($this->logger, $this->options);
         $basename = $provider->resolveDownloadFileName($version);
         $distDir = Config::getDistFileDir();
         $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
-        $downloader->download($url, $targetFilePath);
+        DownloadFactory::getInstance($this->logger, $this->options)->download($url, $targetFilePath);
         $info = pathinfo($basename);
 
         $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
@@ -67,32 +67,8 @@ class ExtensionDownloader
     {
         $url = $provider->buildKnownReleasesUrl();
 
-        if (extension_loaded('curl')) {
-            $curlVersionInfo = curl_version();
-            $curlOptions = array(CURLOPT_USERAGENT => 'curl/'. $curlVersionInfo['version']);
-            $downloader = new CurlDownloader;
-
-            /*
-            FIXME
-
-            $console = Console::getInstance();
-            if (! $console->options->{'no-progress'}) {
-                $downloader->setProgressHandler(new ProgressBar);
-            }
-            */
-
-            if ($this->options) {
-                if ($proxy = $this->options->{'http-proxy'}) {
-                    $downloader->setProxy($proxy);
-                }
-                if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
-                    $downloader->setProxyAuth($proxyAuth);
-                }
-            }
-            $info = $downloader->request($url, array(), $curlOptions);
-        } else {
-            $info = file_get_contents($url);
-        }
+        $file = DownloadFactory::getInstance($this->logger, $this->options)->download($url);
+        $info = file_get_contents($file);
 
         return $provider->parseKnownReleasesResponse($info);
 
