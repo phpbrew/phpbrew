@@ -150,7 +150,7 @@ class ReleaseList
         if ($instance->foundLocalReleaseList()) {
             $instance->setReleases($instance->loadLocalReleaseList());
         } else {
-            $instance->fetchRemoteReleaseList();
+            $instance->fetchRemoteReleaseList($options);
         }
 
         return $instance;

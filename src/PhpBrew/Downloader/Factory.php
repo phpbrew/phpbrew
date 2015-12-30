@@ -10,13 +10,14 @@ namespace PhpBrew\Downloader;
 
 
 use CLIFramework\Logger;
+use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionResult;
 
 class Factory
 {
 //    private static $downloader = null;
 
-    private static  $availableDownloader = array(
+    private static $availableDownloader = array(
         'PhpBrew\Downloader\CurlExtensionDownloader',
         'PhpBrew\Downloader\FileFunctionDownloader',
         'PhpBrew\Downloader\WgetCommandDownloader',
@@ -29,7 +30,7 @@ class Factory
      * @param string $downloader
      * @return BaseDownloader
      */
-    public static function getInstance($logger, $options, $downloader = null)
+    public static function getInstance(Logger $logger, OptionResult $options, $downloader = null)
     {
         if (empty($downloader) && $options->has('downloader')) {
             //todo use string alias instead?
@@ -47,5 +48,17 @@ class Factory
             }
         }
         throw new \RuntimeException('No available downloader found!');
+    }
+
+    public static function addOptionsForCommand(OptionCollection $opts)
+    {
+        $opts->add('downloader:', 'Downloader switcher');
+        $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
+            ->valueName('proxy host');
+        $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
+            ->valueName('user:pass');
+        $opts->add('connect-timeout:', 'Overrides the CONNECT_TIMEOUT env variable and aborts if download takes longer than specified.')
+            ->valueName('seconds');
+        return $opts;
     }
 }
