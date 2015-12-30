@@ -487,7 +487,12 @@ end
 
 function __fish_phpbrew_using_command
   set cmd (commandline -opc)
-  if [ (count $cmd) -gt 1 ]
+  if begin;  [ (count $argv) -gt 1 ]; and [ (count $cmd) -gt 2 ]; end
+    if begin; [ $argv[1] = $cmd[2] ]; and [ $argv[2] = $cmd[3] ]; end
+      return 0
+    end
+  end
+  if begin;  [ (count $argv) -eq 1 ]; and [ (count $cmd) -gt 1 ]; end
     if [ $argv[1] = $cmd[2] ]
       return 0
     end
@@ -512,6 +517,14 @@ function __fish_phpbrew_installed_version
 
 end
 
+function __fish_phpbrew_known_app
+if [ -e bin/phpbrew ]
+        command bin/phpbrew app list | cut -d '-' -f 1 | sed 's/ //g'
+    else
+        command phpbrew app list | cut -d '-' -f 1 | sed 's/ //g'
+    end
+end
+
 
 #
 complete -f -c phpbrew -s v -l verbose -d "Print verbose message."
@@ -525,6 +538,7 @@ complete -f -c phpbrew -l no-progress -d "Do not display progress bar."
 
 # commands
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a help -d "show help message of a command"
+complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a app -d "php app store"
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a init -d "Initialize phpbrew config file."
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a known -d "List known PHP versions"
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a install -d "Install php"
@@ -561,5 +575,10 @@ complete -f -c phpbrew -n '__fish_phpbrew_using_command env' -a '(__fish_phpbrew
 complete -f -c phpbrew -n '__fish_phpbrew_using_command path' -a '(__fish_phpbrew_installed_version)' -d " installed version"
 complete -f -c phpbrew -n '__fish_phpbrew_using_command remove' -a '(__fish_phpbrew_installed_version)' -d " installed version"
 complete -f -c phpbrew -n '__fish_phpbrew_using_command purge' -a '(__fish_phpbrew_installed_version)' -d " installed version"
+
+#app store
+complete -f -c phpbrew -n '__fish_phpbrew_using_command app' -a list -d "list all available app"
+complete -f -c phpbrew -n '__fish_phpbrew_using_command app' -a get -d "fetch and install app"
+complete -f -c phpbrew -n '__fish_phpbrew_using_command app get' -a '(__fish_phpbrew_known_app)' -d "app"
 
 exit 0
