@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 use Exception;
-use PhpBrew\Downloader\Factory as DownloadFactory;
+use PhpBrew\Downloader\DownloadFactory;
 
 /**
  * Task to download php distributions.

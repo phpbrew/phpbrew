@@ -3,7 +3,7 @@ namespace PhpBrew\Command;
 
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\Downloader\Factory as DownloadFactory;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\VariantParser;
 use PhpBrew\VariantBuilder;
 use PhpBrew\Tasks\DownloadTask;

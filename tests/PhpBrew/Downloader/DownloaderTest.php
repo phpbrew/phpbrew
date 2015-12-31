@@ -17,7 +17,7 @@ use PHPUnit_Framework_TestCase;
 /**
  * @large
  */
-class DownloaderTestextends extends PHPUnit_Framework_TestCase
+class DownloaderTest extends PHPUnit_Framework_TestCase
 {
     public $logger;
 
@@ -49,7 +49,7 @@ class DownloaderTestextends extends PHPUnit_Framework_TestCase
 
     private function _test($downloader)
     {
-        $instance = Factory::getInstance($this->logger, new OptionResult, $downloader);
+        $instance = DownloadFactory::getInstance($this->logger, new OptionResult, $downloader);
         if ($instance->isMethodAvailable()) {
             $actualFilePath = tempnam(Config::getTempFileDir(), '');
             $instance->download('http://httpbin.org/', $actualFilePath);

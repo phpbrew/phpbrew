@@ -2,7 +2,7 @@
 namespace PhpBrew\Command;
 use Exception;
 use PhpBrew\Config;
-use PhpBrew\Downloader\Factory as DownloadFactory;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\ReleaseList;

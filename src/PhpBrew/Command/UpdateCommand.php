@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Command;
-use PhpBrew\Downloader\Factory as DownloadFactory;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
 class UpdateCommand extends \CLIFramework\Command

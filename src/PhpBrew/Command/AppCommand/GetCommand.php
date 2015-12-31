@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Command\AppCommand;
-use PhpBrew\Downloader\Factory as DownloadFactory;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Config;
 use PhpBrew\AppStore;
 use CLIFramework\Command;

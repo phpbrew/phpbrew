@@ -1,11 +1,8 @@
 <?php
 namespace PhpBrew\Extension;
-use PhpBrew\Console;
-use CurlKit\CurlDownloader;
-use CurlKit\Progress\ProgressBar;
 use PhpBrew\Config;
 use PhpBrew\Downloader;
-use PhpBrew\Downloader\Factory as DownloadFactory;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Extension\Provider\Provider;
 use PhpBrew\Utils;
 use PEARX;

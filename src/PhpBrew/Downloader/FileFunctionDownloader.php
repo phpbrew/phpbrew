@@ -19,22 +19,21 @@ class FileFunctionDownloader extends BaseDownloader
         $this->logger->info('downloading via pure php functions');
 
         $opts = array();
-        if (!empty($this->options->{'http-proxy'})) {
-            $opts = array(
-                'http' => array(
-                    'proxy' => 'tcp://127.0.0.1:8080',
-                    'request_fulluri' => true,
-                    'header' => array(),
-                )
-            );
-            if($proxyAuth = $this->options->{'http-proxy-auth'}) {
+        if ($proxy = $this->options->{'http-proxy'}) {
+            $opts['http']['proxy'] = $proxy;
+            $opts['http']['request_fulluri'] = true;
+            $opts['http']['header'] = array();
+            if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
                 $opts['http']['header'][] = "Proxy-Authorization: Basic $proxyAuth";
             }
         }
+        if ($timeout = $this->options->{'connect-timeout'}) {
+            $opts['http']['timeout'] = $timeout;
+        }
 
-        if(empty($opts)) {
+        if (empty($opts)) {
             $binary = file_get_contents($url);
-        }else{
+        } else {
             $context = stream_context_create($opts);
             $binary = file_get_contents($url, null, $context);
         }

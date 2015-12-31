@@ -1,11 +1,9 @@
 <?php
 namespace PhpBrew;
 use CLIFramework\Logger;
-use CurlKit\CurlDownloader;
-use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
 use Exception;
-use PhpBrew\Downloader\Factory as DownloadFactory;
+use PhpBrew\Downloader\DownloadFactory;
 use RuntimeException;
 
 defined('JSON_UNESCAPED_SLASHES') || define('JSON_UNESCAPED_SLASHES', 0);

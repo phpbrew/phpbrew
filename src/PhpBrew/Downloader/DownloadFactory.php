@@ -13,7 +13,7 @@ use CLIFramework\Logger;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionResult;
 
-class Factory
+class DownloadFactory
 {
 //    private static $downloader = null;
 
