@@ -41,7 +41,7 @@ class VariantParser
                 if (substr($arg, 0, 2) === '--') {
                     throw new InvalidVariantSyntaxException("Invalid variant syntax exception start with '--': " . $arg);
                 }
-                preg_match_all('#[+-][\w_]+(=[\"\'\/\w_-]+)?#', $arg, $variantStrings);
+                preg_match_all('#[+-][\w_]+(=[\"\'\.\/\w_-]+)?#', $arg, $variantStrings);
 
                 if(isset($variantStrings[0])) {
                     $variantStrings = array_filter($variantStrings[0]);
