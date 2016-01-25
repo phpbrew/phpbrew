@@ -439,7 +439,7 @@ function _phpbrewrc_load
             set prev_fs $curr_fs
             set curr_fs (stat -c %d . ^/dev/null)  # GNU version
             if [ $status -ne 0 ]; then
-                set curr_fs (stat -f %d . ^>/dev/null)  # BSD version
+                set curr_fs (stat -f %d . ^/dev/null)  # BSD version
             end
 
             # check if top level directory or filesystem boundary is reached
