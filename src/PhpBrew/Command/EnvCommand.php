@@ -11,6 +11,17 @@ class EnvCommand extends \CLIFramework\Command
         return 'Export environment variables';
     }
 
+    public function arguments($args)
+    {
+        $args->add('installed php')
+            ->optional()
+            ->validValues(function() {
+                return \PhpBrew\Config::getInstalledPhpVersions();
+            })
+            ;
+    }
+
+
     public function execute($buildName = NULL)
     {
         // get current version
