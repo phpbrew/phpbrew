@@ -1,85 +1,85 @@
 PHPBrew
 =======
 
-*Read this in other languages:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
+*Leia este documento em outras linguaguens: [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 
-phpbrew builds and installs multiple version php(s) in your $HOME directory.
+phpbrew contrói e instala multiplas versões do php no seu diretório $HOME.
 
-What phpbrew can do for you:
+Oque phpbrew pode fazer para você:
 
-- Configure options are simplified into variants,  no worries about the path anymore!
-- Build php with different variants like PDO, mysql, sqlite, debug ...etc.
-- Compile apache php module and separate them by different versions.
-- Build and install php(s) in your home directory, so you don't need root permission.
-- Switch versions very easily and is integrated with bash/zsh shell.
-- Automatic feature detection.
-- Install & enable php extensions into current environment with ease.
-- Install multiple php into system-wide environment.
-- Path detection optimization for HomeBrew and MacPorts.
+- As configurações são feitas dentro de variaveis, não se preocupe mais com caminhos.
+- Construa php com diferentes variaveis como PDO, mysql, sqlite, debug etc...  
+- Compile modulos php do apache e separe eles por diferentes versões.
+- Construa e instale php(s) no seu diretório home, assim não irá precisar de permissão de root.
+- Troque de versões muito facilmente pois é integrado com bash/zsh shell.
+- Detecção automática de recurso.
+- Instale & abilite extenssões php no ambiente atual com facilidade.
+- Instale multiplas versões php em todo ambiente do sistema.
+- Detecção de caminho otimizado para HomeBrew e MacPorts.
 
 <img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
 
-## Requirement
+## Requisitos
 
-Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
-before you get started. you need to install some development packages for
-building PHP.
+Por favor veja [Requisitos](https://github.com/phpbrew/phpbrew/wiki/Requirement)
+antes de você começar. Você precisa instalar alguns pacotes de desenvolvimentos para
+desenvolvimento php.
 
-## Install phpbrew
+## Instale phpbrew
 
-Just download it:
+Faça isso:
 
 ```bash
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
 ```
 
-Install it into your bin folder:
+Instale dento da pasta bin do seu sistema:
 
 ```sh
 sudo mv phpbrew /usr/local/bin/phpbrew
 ```
 
-Be sure to have `/usr/local/bin` in your `$PATH` environment variable.
+Confirme se `/usr/local/bin` está nas `$PATH` variaveis de ambiente do sistema.
 
 
-## Setting up
+## Configurando
 
-Init a bash script for your shell environment:
+Inicie um script no seu ambiente (Terminal) shell
 
 ```bash
 $ phpbrew init
 ```
 
-Then add these lines to your `.bashrc` or `.zshrc` file:
+Então adicione essas linhas para seu arquivo `.bashrc` ou `.zshrc` :
 
 ```bash
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 ```
 
-### Setting up lookup prefix
+### Configurar prefixo de pesquisa
 
-You may setup your prefered default prefix for looking up libraries, available
-options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
+Você pode configurar seus prefixos de preferências padrões para procurar bibliotecas,
+as opções disponivéis são `macports`, `homebrew`, `debian`, `ubuntu` ou um caminho customizado:
 
-For Homebrew users:
+Para usuários Homebrew:
 
 ```bash
 $ phpbrew lookup-prefix homebrew
 ```
 
-For Macports users:
+Para usuários Macports:
 
 ```bash
 $ phpbrew lookup-prefix macports
 ```
 
-## Basic usage
+## Uso básico
 
-To list known versions:
+Para listar versões conhecidas:
 
 ```bash
 $ phpbrew known
@@ -90,21 +90,21 @@ $ phpbrew known
 5.3: 5.3.29, 5.3.28 ...
 ```
 
-To list known older versions (less than 5.3):
+Para listar versões antigas conhecidas (menor que 5.3):
 
 ```bash
 $ phpbrew known --old
 ```
 
-To update the release info:
+Para atualizar a informações de release:
 
 ```bash
 $ phpbrew update
 ```
 
-## Build And Install
+## Contruir e instalar
 
-Simply build and install PHP with default variant:
+Simplesmente construa e instale php com a variante padrão:
 
 ```bash
 $ phpbrew install 5.4.0 +default
