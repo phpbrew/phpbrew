@@ -1,6 +1,24 @@
 CHANGES
 =======
 
+### Version 1.20.6 - Fri Mar  4 13:41:32 2016
+
+phpbrewrc:
+
+- Improved .phpbrewrc searching effiency and fixed a bug related to $PWD.
+- Added help message about enabling .phpbrewrc in init command.
+- .phpbrewrc searching will be disabled by default and have to be enabled manually.
+
+command improvement:
+- Added arginfo to env command
+- Fixed phar file for dump() function by updating package dependencies to avoid
+  compiling packages from require-dev section (cliframework)
+- Allow user value of variants contains dot character
+
+fish:
+- Added proper redirect to STDERR for Fish shell
+
+
 ### Version 1.20.4 - Mon Dec 14 19:37:01 2015
 
 - Commit 2e41279: Merge pull request #637 from morozov/virtual-variant-value
