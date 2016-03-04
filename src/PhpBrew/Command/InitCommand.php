@@ -91,6 +91,11 @@ To enable PHP version info in your shell prompt, please set PHPBREW_SET_PROMPT=1
 in your `~/.bashrc` before you source `~/.phpbrew/bashrc`
 
     export PHPBREW_SET_PROMPT=1
+
+To enable .phpbrewrc file searching, please export the following variable:
+
+    export PHPBREW_RC_ENABLE=1
+
 EOS;
         }
 
