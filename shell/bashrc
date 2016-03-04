@@ -422,6 +422,16 @@ if [[ -n "$PHPBREW_SET_PROMPT" && "$PHPBREW_SET_PROMPT" == "1" ]]; then
     export PS1="\w > \u@\h [\$(phpbrew_current_php_version)]\n\\$ "
 fi
 
+
+# the _phpbrewrc_load will be called after *every simple command* executed in bash,
+# this will make the start up process slower if you have many commands to be run in your .bashrc or .zshrc
+# so this function simply compares the directory and return if nothing neccessary to do.
+# 
+# here is the description of trap from bash manual page:
+#
+#   If one of the signals is DEBUG, the list of COMMANDS is executed after
+#   every simple command.
+#
 function _phpbrewrc_load ()
 {
     # check if working dir has changed
