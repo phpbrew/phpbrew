@@ -91,12 +91,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CLIFramework.git",
-                "reference": "a28b1e9e6b8ce178a6ecc84caae85fafa67f090e"
+                "reference": "ad270dac9bdb34673987b4507718240fdf73db7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/a28b1e9e6b8ce178a6ecc84caae85fafa67f090e",
-                "reference": "a28b1e9e6b8ce178a6ecc84caae85fafa67f090e",
+                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/ad270dac9bdb34673987b4507718240fdf73db7a",
+                "reference": "ad270dac9bdb34673987b4507718240fdf73db7a",
                 "shasum": ""
             },
             "require": {
@@ -111,7 +111,7 @@
             },
             "require-dev": {
                 "corneltek/phpunit-testmore": "dev-master",
-                "satooshi/php-coveralls": "dev-master"
+                "satooshi/php-coveralls": "^1"
             },
             "type": "library",
             "extra": {
@@ -121,7 +121,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "CLIFramework\\": "src/CLIFramework/"
+                    "CLIFramework\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -145,20 +145,20 @@
                 "getopt",
                 "zsh"
             ],
-            "time": "2015-12-07 15:41:31"
+            "time": "2016-03-04 04:09:16"
         },
         {
             "name": "corneltek/codegen",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CodeGen.git",
-                "reference": "12b8b8755311915b19606c1dc29bb1ef725504b1"
+                "reference": "3ab8d6beabb400c4542b13023063163e79f2c9ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CodeGen/zipball/12b8b8755311915b19606c1dc29bb1ef725504b1",
-                "reference": "12b8b8755311915b19606c1dc29bb1ef725504b1",
+                "url": "https://api.github.com/repos/c9s/CodeGen/zipball/3ab8d6beabb400c4542b13023063163e79f2c9ed",
+                "reference": "3ab8d6beabb400c4542b13023063163e79f2c9ed",
                 "shasum": ""
             },
             "require": {
@@ -188,24 +188,24 @@
             ],
             "description": "PHP Code Generation Library",
             "homepage": "http://github.com/c9s/CodeGen",
-            "time": "2015-10-21 14:29:25"
+            "time": "2015-12-25 12:47:12"
         },
         {
             "name": "corneltek/curlkit",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CurlKit.git",
-                "reference": "fc218e93d297b6654f09dbf31d987262c1c2aadd"
+                "reference": "f27883b3cff26fe8ff492e211417d5d608c7c40d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/fc218e93d297b6654f09dbf31d987262c1c2aadd",
-                "reference": "fc218e93d297b6654f09dbf31d987262c1c2aadd",
+                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/f27883b3cff26fe8ff492e211417d5d608c7c40d",
+                "reference": "f27883b3cff26fe8ff492e211417d5d608c7c40d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "corneltek/phpunit-testmore": "dev-master"
@@ -221,20 +221,20 @@
                 "MIT"
             ],
             "description": "Curl Kit",
-            "time": "2015-06-22 11:24:26"
+            "time": "2016-02-16 14:16:11"
         },
         {
             "name": "corneltek/getoptionkit",
-            "version": "2.2.4",
+            "version": "2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/GetOptionKit.git",
-                "reference": "c7170525314b587019c0b2a7b0354432b64b48e0"
+                "reference": "977b11bf1f44a02398ecfc96cf2fc913cb9f017b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/c7170525314b587019c0b2a7b0354432b64b48e0",
-                "reference": "c7170525314b587019c0b2a7b0354432b64b48e0",
+                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/977b11bf1f44a02398ecfc96cf2fc913cb9f017b",
+                "reference": "977b11bf1f44a02398ecfc96cf2fc913cb9f017b",
                 "shasum": ""
             },
             "require": {
@@ -263,7 +263,7 @@
             ],
             "description": "Powerful command-line option toolkit",
             "homepage": "http://github.com/c9s/GetOptionKit",
-            "time": "2015-10-02 07:53:43"
+            "time": "2016-02-16 10:41:32"
         },
         {
             "name": "corneltek/pearx",
@@ -488,20 +488,21 @@
         },
         {
             "name": "symfony/class-loader",
-            "version": "v2.8.0",
+            "version": "v2.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/class-loader.git",
-                "reference": "51f83451bf0ddfc696e47e4642d6cd10fcfce160"
+                "reference": "517ab0554b6a5744d04480cb06873ffbd9442d73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/class-loader/zipball/51f83451bf0ddfc696e47e4642d6cd10fcfce160",
-                "reference": "51f83451bf0ddfc696e47e4642d6cd10fcfce160",
+                "url": "https://api.github.com/repos/symfony/class-loader/zipball/517ab0554b6a5744d04480cb06873ffbd9442d73",
+                "reference": "517ab0554b6a5744d04480cb06873ffbd9442d73",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.3.9",
+                "symfony/polyfill-apcu": "~1.1"
             },
             "require-dev": {
                 "symfony/finder": "~2.0,>=2.0.5|~3.0.0"
@@ -536,20 +537,20 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-26 07:00:59"
+            "time": "2016-01-30 15:58:35"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.8.0",
+            "version": "v2.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "ead9b07af4ba77b6507bee697396a5c79e633f08"
+                "reference": "877bb4b16ea573cc8c024e9590888fcf7eb7e0f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/ead9b07af4ba77b6507bee697396a5c79e633f08",
-                "reference": "ead9b07af4ba77b6507bee697396a5c79e633f08",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/877bb4b16ea573cc8c024e9590888fcf7eb7e0f7",
+                "reference": "877bb4b16ea573cc8c024e9590888fcf7eb7e0f7",
                 "shasum": ""
             },
             "require": {
@@ -585,20 +586,76 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-30 20:15:42"
+            "time": "2016-02-22 16:12:45"
         },
         {
-            "name": "symfony/process",
-            "version": "v2.8.0",
+            "name": "symfony/polyfill-apcu",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/process.git",
-                "reference": "1b988a88e3551102f3c2d9e1d47a18c3a78d6312"
+                "url": "https://github.com/symfony/polyfill-apcu.git",
+                "reference": "d1911e6caeb4b6a4c8e2d5c46b978a66b3745e4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/1b988a88e3551102f3c2d9e1d47a18c3a78d6312",
-                "reference": "1b988a88e3551102f3c2d9e1d47a18c3a78d6312",
+                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/d1911e6caeb4b6a4c8e2d5c46b978a66b3745e4c",
+                "reference": "d1911e6caeb4b6a4c8e2d5c46b978a66b3745e4c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting apcu_* functions to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "apcu",
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2016-01-20 09:13:37"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v2.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "7dedd5b60550f33dca16dd7e94ef8aca8b67bbfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/7dedd5b60550f33dca16dd7e94ef8aca8b67bbfe",
+                "reference": "7dedd5b60550f33dca16dd7e94ef8aca8b67bbfe",
                 "shasum": ""
             },
             "require": {
@@ -634,20 +691,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-30 12:35:10"
+            "time": "2016-02-02 13:33:15"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.0",
+            "version": "v2.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "f79824187de95064a2f5038904c4d7f0227fedb5"
+                "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/f79824187de95064a2f5038904c4d7f0227fedb5",
-                "reference": "f79824187de95064a2f5038904c4d7f0227fedb5",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
+                "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
                 "shasum": ""
             },
             "require": {
@@ -683,20 +740,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-30 12:35:10"
+            "time": "2016-02-23 07:41:20"
         },
         {
             "name": "twig/twig",
-            "version": "v1.23.1",
+            "version": "v1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6"
+                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
-                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
+                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
                 "shasum": ""
             },
             "require": {
@@ -709,7 +766,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.23-dev"
+                    "dev-master": "1.24-dev"
                 }
             },
             "autoload": {
@@ -744,7 +801,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-11-05 12:49:06"
+            "time": "2016-01-25 21:22:18"
         }
     ],
     "packages-dev": [
