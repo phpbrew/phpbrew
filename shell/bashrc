@@ -425,51 +425,49 @@ fi
 function _phpbrewrc_load ()
 {
     # check if working dir has changed
-    if [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
-        local curr_dir="$PWD"
-        local prev_dir="$OLDPWD"
-        local curr_fs=0
-        local prev_fs=0
-
-        while :
-        do
-            prev_fs=$curr_fs
-            curr_fs=$(stat -c %d . 2>/dev/null)  # GNU version
-            if [ $? -ne 0 ]; then
-                curr_fs=$(stat -f %d . 2>/dev/null)  # BSD version
-            fi
-
-            # check if top level directory or filesystem boundary is reached
-            if [ "$PWD" == '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
-                # check if there's a previously loaded .phpbrewrc
-                if [[ ! -z "$PHPBREW_LAST_RC_DIR" ]]; then
-                    unset PHPBREW_LAST_RC_DIR
-                    __phpbrew_load_user_config
-                fi
-                break
-            fi
-
-            # check if .phpbrewrc present
-            if [[ -r .phpbrewrc ]]; then
-                # check if it's not the same .phpbrewrc which was previously loaded
-                if [[ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]]; then
-                    __phpbrew_load_user_config
-                    PHPBREW_LAST_RC_DIR="$PWD"
-                    source .phpbrewrc
-                fi
-                break
-            fi
-
-            cd .. 2> /dev/null || break
-        done
-
-        cd "$curr_dir"
-        OLDPWD="$prev_dir"
+    if [[ "$PWD" == "$PHPBREW_LAST_DIR" ]]; then
+        return
     fi
+    local curr_dir="$PWD"
+    local prev_dir="$OLDPWD"
+    local curr_fs=0
+    local prev_fs=0
 
+    while [[ -n "$curr_dir" && -d "$curr_dir" ]] ; do
+        prev_fs=$curr_fs
+        curr_fs=$(stat -c %d . 2>/dev/null)  # GNU version
+        if [ $? -ne 0 ]; then
+            curr_fs=$(stat -f %d . 2>/dev/null)  # BSD version
+        fi
+
+        # check if top level directory or filesystem boundary is reached
+        if [[ "$curr_dir" == "/" ]] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
+            # check if there's a previously loaded .phpbrewrc
+            if [[ ! -z "$PHPBREW_LAST_RC_DIR" ]]; then
+                unset PHPBREW_LAST_RC_DIR
+                __phpbrew_load_user_config
+            fi
+            break
+        fi
+
+        # check if .phpbrewrc present
+        if [[ -r .phpbrewrc ]]; then
+            # check if it's not the same .phpbrewrc which was previously loaded
+            if [[ "$curr_dir" != "$PHPBREW_LAST_RC_DIR" ]]; then
+                __phpbrew_load_user_config
+                PHPBREW_LAST_RC_DIR="$curr_dir"
+                source .phpbrewrc
+            fi
+            break
+        fi
+        curr_dir=$(dirname $curr_dir)
+        if [[ "$curr_dir" == "/" ]] ; then
+            break
+        fi
+    done
     PHPBREW_LAST_DIR="$PWD"
 }
 
-if [[ (-n "$BASH_VERSION" || -n "$ZSH_VERSION") && -z "$PHPBREW_RC_DISABLE" ]]; then
+if [[ (-n "$BASH_VERSION" || -n "$ZSH_VERSION") && -n "$PHPBREW_RC_ENABLE" ]]; then
     trap "_phpbrewrc_load" DEBUG
 fi
