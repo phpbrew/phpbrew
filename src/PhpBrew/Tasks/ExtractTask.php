@@ -19,7 +19,7 @@ class ExtractTask extends BaseTask
     public function extract(Build $build, $targetFilePath, $extractDir = NULL)
     {
         $extractDirTemp = Config::getTempFileDir();
-        if (!$extractDir) {
+        if (empty($extractDir)) {
             $extractDir = dirname($targetFilePath);
         }
 
