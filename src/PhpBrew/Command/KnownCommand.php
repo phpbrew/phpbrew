@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+use PhpBrew\Config;
 use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
@@ -42,7 +43,9 @@ class KnownCommand extends \CLIFramework\Command
             $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
             $releases = $fetchTask->fetch();
         } else {
+            $this->logger->info(sprintf('Read local release list (last update: %s UTC).', gmdate('Y-m-d H:i:s', filectime(Config::getPHPReleaseListPath()))));
             $releases = $releaseList->loadLocalReleaseList();
+            $this->logger->info("You can run `phpbrew update` or `phpbrew known --update` to get a newer release list.");
         }
 
         foreach ($releases as $majorVersion => $versions) {
@@ -56,6 +59,9 @@ class KnownCommand extends \CLIFramework\Command
             $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ',5))
                 . (!$this->options->more ? ' ...' : ''));
         }
-        $this->logger->info("You can run `phpbrew update` to get a newer release list.");
+
+        if($this->options->old) {
+            $this->logger->warn('phpbrew need php 5.3 or above to run. build/switch to versions below 5.3 at your own risk.');
+        }
     }
 }
