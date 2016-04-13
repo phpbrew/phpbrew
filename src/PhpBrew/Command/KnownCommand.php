@@ -46,7 +46,7 @@ class KnownCommand extends \CLIFramework\Command
         }
 
         foreach ($releases as $majorVersion => $versions) {
-            if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
+            if (version_compare($majorVersion, '5.2', 'le') && ! $this->options->old) {
                 continue;
             }
             $versionList = array_keys($versions);
