@@ -1,7 +1,7 @@
 PHPBrew
 ==========
 
-*他の言語でもお読み頂けます: [English](README.md), [日本語](README.ja.md).*
+*他の言語でもお読み頂けます:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
@@ -169,7 +169,7 @@ Using variants to build PHP:
   phpbrew install 5.3.10 +default
   phpbrew install 5.3.10 +mysql +pdo
   phpbrew install 5.3.10 +mysql +pdo +apxs2
-  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
+  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
 ```
 
 バリアントを有効化するには、`+`をバリアント名の前に付けます。
@@ -423,13 +423,13 @@ phpbrew fpm config
 ```
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
-> 
+>
 > The correspond `php-fpm.conf` is lcoated in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
 > you may copy the default config file to the desired location. e.g.,
-> 
+>
 >     cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
 >         ~/.phpbrew/php/php-*/etc/php-fpm.conf
-> 
+>
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
 ## 追加コンポーネントのインストール
