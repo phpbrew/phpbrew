@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
 class UpdateCommand extends \CLIFramework\Command
@@ -11,21 +12,12 @@ class UpdateCommand extends \CLIFramework\Command
 
     public function options($opts)
     {
-        $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
-            ->valueName('proxy host')
-            ;
-
-        $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
-            ->valueName('user:pass')
-            ;
 
         $opts->add('o|old', 'List old phps (less than 5.3)');
 
         $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
 
-        $opts->add('connect-timeout:', 'Overrides the CONNECT_TIMEOUT env variable and aborts if download takes longer than specified.')
-            ->valueName('seconds')
-            ;
+        DownloadFactory::addOptionsForCommand($opts);
     }
 
     public function execute()

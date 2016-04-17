@@ -1,9 +1,9 @@
 <?php
 namespace PhpBrew;
-use CurlKit\CurlDownloader;
-use CurlKit\Progress\ProgressBar;
+use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 use Exception;
+use PhpBrew\Downloader\DownloadFactory;
 use RuntimeException;
 
 defined('JSON_UNESCAPED_SLASHES') || define('JSON_UNESCAPED_SLASHES', 0);
@@ -148,7 +148,7 @@ class ReleaseList
         if ($instance->foundLocalReleaseList()) {
             $instance->setReleases($instance->loadLocalReleaseList());
         } else {
-            $instance->fetchRemoteReleaseList();
+            $instance->fetchRemoteReleaseList($options);
         }
 
         return $instance;
@@ -164,40 +164,9 @@ class ReleaseList
         $max = ($options && $options->old) ? 1000 : 100;
         $url = "https://secure.php.net/releases/index.php?json&version={$version}&max={$max}";
 
-        if (extension_loaded('curl')) {
-            $downloader = new CurlDownloader;
-            $downloader->setProgressHandler(new ProgressBar);
-
-            if (! Console::getInstance()->options->{'no-progress'}) {
-                $downloader->setProgressHandler(new ProgressBar);
-            }
-
-            if ($options) {
-                $seconds = $options->{'connect-timeout'};
-                if ($seconds || $seconds = getenv('CONNECT_TIMEOUT')) {
-                    $downloader->setConnectionTimeout($seconds);
-                }
-                if ($proxy = $options->{'http-proxy'}) {
-                    $downloader->setProxy($proxy);
-                }
-                if ($proxyAuth = $options->{'http-proxy-auth'}) {
-                    $downloader->setProxyAuth($proxyAuth);
-                }
-            }
-
-            $json = $downloader->request($url);
-        } else {
-            $proxyOptions = Config::getProxyConfig();
-            if ($proxyOptions) {
-                $context = steam_context_create($proxyOptions);
-                $json = file_get_contents($url, false, $context);
-            } else {
-                $json = file_get_contents($url);
-            }
-        }
-
-        $obj = json_decode($json, true);
-        return $obj;
+        $file = DownloadFactory::getInstance(Logger::getInstance(), $options)->download($url);
+        $json = file_get_contents($file);
+        return json_decode($json, true);
     }
 
     public static function buildReleaseListFromOfficialSite(OptionResult $options = null)

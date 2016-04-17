@@ -8,6 +8,11 @@ use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
 
+/**
+ * Class UrlDownloader
+ * @package PhpBrew\Downloader
+ * @deprecated  use Factory instead
+ */
 class UrlDownloader
 {
     public $logger;
@@ -18,10 +23,17 @@ class UrlDownloader
      * It happens, that some providers blocks curl requests with out user agent
      * and you can catch "network is unreachable" error
      * Can be changed to any valid userAgent
+     *
      * @var string
      */
     public $userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)";
 
+    /*
+     * UrlDownloader constructor.
+     * @param Logger $logger
+     * @param OptionResult $options
+     * @deprecated
+     */
     public function __construct(Logger $logger, OptionResult $options)
     {
         $this->logger = $logger;
@@ -34,6 +46,7 @@ class UrlDownloader
      * @return bool|string
      *
      * @throws \RuntimeException
+     * @deprecated
      */
     public function download($url, $targetFilePath)
     {

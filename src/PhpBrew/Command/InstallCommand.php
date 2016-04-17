@@ -3,6 +3,7 @@ namespace PhpBrew\Command;
 
 use Exception;
 use PhpBrew\Config;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\VariantParser;
 use PhpBrew\VariantBuilder;
 use PhpBrew\Tasks\DownloadTask;
@@ -138,22 +139,10 @@ class InstallCommand extends Command
 
         $opts->add('old', 'Install phpbrew incompatible phps (< 5.3)');
 
-        $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
-            ->valueName('proxy host')
-            ;
-
-        $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
-            ->valueName('user:pass')
-            ;
-
         $opts->add('user-config','Allow users create their own config file (php.ini or extension config init files)');
 
-        $opts->add('connect-timeout:', 'The system aborts the command if downloading '
-                . 'of a php version not starts during this limit. This option '
-                . 'overrides a value of CONNECT_TIMEOUT environment variable.')
-            ->valueName('seconds')
-            ;
-        
+        DownloadFactory::addOptionsForCommand($opts);
+
         $opts->add('f|force', 'Force the installation (redownloads source).')
             ->defaultValue(false)
             ;
@@ -173,7 +162,7 @@ class InstallCommand extends Command
     {
         $distUrl = NULL;
         $versionInfo = array();
-        $releaseList = ReleaseList::getReadyInstance();
+        $releaseList = ReleaseList::getReadyInstance($this->options);
         $versionDslParser = new VersionDslParser();
         $clean = new MakeTask($this->logger, $this->options);
         $clean->setQuiet();

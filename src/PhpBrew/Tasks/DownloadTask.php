@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
-use PhpBrew\Downloader\UrlDownloader;
 use Exception;
+use PhpBrew\Downloader\DownloadFactory;
 
 /**
  * Task to download php distributions.
@@ -14,7 +14,7 @@ class DownloadTask extends BaseTask
             throw new Exception("Directory is not writable: $dir");
         }
 
-        $downloader = new UrlDownloader($this->logger, $this->options);
+        $downloader = DownloadFactory::getInstance($this->logger, $this->options);
         $basename = $downloader->resolveDownloadFileName($url);
         if (!$basename) {
             throw new Exception("Can not parse url: $url");
