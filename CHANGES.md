@@ -1,6 +1,32 @@
 CHANGES
 =======
 
+### Version 1.20.7 - Sun Apr 17 18:13:29 2016
+
+- Commit e1fc2a4: Merge pull request #683 from Simplesmente/master
+
+   add file README.pt-br.md and translating
+
+- Commit 7ad9da5: Merge pull request #701 from zvook/master
+
+   Network is unreachable php.net fix
+
+- Commit f1fdd1d: Merge pull request #703 from jhdxr/develop
+
+   fix issues about known command
+
+- Commit 5ca79aa: Merge pull request #653 from jhdxr/feature/down
+
+   refactor downloading related part ( #571 )
+
+- Commit 1475c8c: Merge pull request #652 from jhdxr/feature/fish
+
+   bugfix and improvements for fish
+
+- Commit 2e41279: Merge pull request #637 from morozov/virtual-variant-value
+
+   Do not override explicitly specified values with the default from virtual variants
+
 ### Version 1.20.6 - Fri Mar  4 13:41:32 2016
 
 phpbrewrc:
