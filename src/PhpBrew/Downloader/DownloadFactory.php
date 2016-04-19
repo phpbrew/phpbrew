@@ -15,14 +15,33 @@ use GetOptionKit\OptionResult;
 
 class DownloadFactory
 {
-//    private static $downloader = null;
-
     private static $availableDownloader = array(
-        'PhpBrew\Downloader\CurlExtensionDownloader',
-        'PhpBrew\Downloader\FileFunctionDownloader',
-        'PhpBrew\Downloader\WgetCommandDownloader',
-        'PhpBrew\Downloader\CurlCommandDownloader',
+        'php_curl'   => 'PhpBrew\Downloader\CurlExtensionDownloader',
+        'php_stream' => 'PhpBrew\Downloader\FileFunctionDownloader',
+        'wget'       => 'PhpBrew\Downloader\WgetCommandDownloader',
+        'curl'       => 'PhpBrew\Downloader\CurlCommandDownloader',
     );
+
+    private static $fallbackDownloaders = array('curl', 'wget');
+
+
+    /**
+     * @param Logger $logger is used for creating downloader
+     * @param OptionResult $options options used for create downloader
+     * @param array $preferences Use downloader by preferences.
+     */
+    public static function create(Logger $logger, OptionResult $options, array $preferences)
+    {
+        foreach ($preferences as $prefKey) {
+            if (isset(self::$availableDownloader[$prefKey])) {
+                $down = new $downloader($logger, $options);
+                if ($down->isMethodAvailable()) {
+                    return $down;
+                }
+            }
+        }
+        return self::create($logger, $options, self::$fallbackDownloaders);
+    }
 
     /**
      * @param Logger $logger

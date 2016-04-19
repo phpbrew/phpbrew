@@ -4,6 +4,10 @@ namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
 use PEARX\Channel as PeclChannel;
+use CurlKit\CurlDownloader;
+use CurlKit\Progress\ProgressBar;
+use DOMDocument;
+use Exception;
 
 class PeclProvider implements Provider {
 
@@ -17,13 +21,47 @@ class PeclProvider implements Provider {
         return 'pecl';
     }
 
-    public function buildPackageDownloadUrl($version='stable')
+
+    protected function getPackageXml($packageName, $version)
+    {
+        $channel = new PeclChannel($this->site);
+        $baseUrl = $channel->getRestBaseUrl();
+        $url = "$baseUrl/r/" . strtolower($packageName);
+
+        $downloader = new CurlDownloader;
+
+        // translate version name into numbers
+        if (in_array($version, array('stable', 'latest', 'beta'))) {
+            $stabilityTxtUrl = $url . '/' . $version . '.txt';
+            if ($ret = $downloader->request($stabilityTxtUrl)) {
+                $version = (string) $ret;
+            } else {
+                throw new Exception("Can not translate stability {$version} into exact version name.");
+            }
+        }
+        $xmlUrl = $url . '/' . $version . '.xml';
+        if ($ret = $downloader->request($xmlUrl)) {
+            $dom = new DOMDocument('1.0');
+            $dom->strictErrorChecking = false;
+            $dom->preserveWhiteSpace = false;
+            // $dom->resolveExternals = false;
+            if (false === $dom->loadXml($ret)) {
+                throw new Exception("Error in XMl document: $url");
+            }
+            return $dom;
+        }
+        return false;
+    }
+
+    public function buildPackageDownloadUrl($version = 'stable')
     {
         if ($this->getPackageName() == NULL) {
             throw new Exception("Repository invalid.");
         }
-        $channel = new PeclChannel($this->site);
-        $xml = $channel->fetchPackageReleaseXml($this->getPackageName(), $version);
+        $xml = $this->getPackageXml($this->getPackageName(), $version);
+        if (!$xml) {
+            throw new Exception("Unable to fetch package xml");
+        }
         $g = $xml->getElementsByTagName('g');
         $url = $g->item(0)->nodeValue;
         // just use tgz format file.
