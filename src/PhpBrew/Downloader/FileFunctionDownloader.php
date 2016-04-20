@@ -46,8 +46,15 @@ class FileFunctionDownloader extends BaseDownloader
         }
     }
 
-    public function isMethodAvailable()
+    public function hasSupport($requireSsl)
     {
-        return function_exists('file_get_contents');
+        if (!function_exists('file_get_contents')) {
+            return false;
+        }
+        $wrappers = stream_get_wrappers();
+        if ($requireSsl) {
+            return in_array('https', $wrappers);
+        }
+        return in_array('http', $wrappers);
     }
 }

@@ -79,5 +79,5 @@ abstract class BaseDownloader
         return basename($path);
     }
 
-    public abstract function isMethodAvailable();
+    public abstract function hasSupport($requireSsl);
 }

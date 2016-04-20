@@ -23,7 +23,7 @@ class CurlCommandDownloader extends BaseDownloader
         return true;
     }
 
-    public function isMethodAvailable()
+    public function hasSupport($requireSsl)
     {
         return Utils::findbin('curl');
     }

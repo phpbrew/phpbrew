@@ -46,7 +46,7 @@ class CurlExtensionDownloader extends BaseDownloader
         return true;
     }
 
-    public function isMethodAvailable()
+    public function hasSupport($requireSsl)
     {
         return extension_loaded('curl');
     }
