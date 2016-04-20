@@ -40,10 +40,9 @@ class FileFunctionDownloader extends BaseDownloader
         if ($binary !== false) {
             file_put_contents($targetFilePath, $binary);
             return true;
-        } else {
-//            throw new RuntimeException("Fail to request $url");
-            return false;
         }
+        // throw new RuntimeException("Fail to request $url");
+        return false;
     }
 
     public function hasSupport($requireSsl)
