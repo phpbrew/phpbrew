@@ -1,11 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: xiami
- * Date: 2015/12/30
- * Time: 12:09
+ * Downloader Factory
+ *
+ * @date 2015/12/30
+ * @author: xiami, yoanlin
  */
-
 namespace PhpBrew\Downloader;
 
 
