@@ -16,7 +16,7 @@ class PhpStreamDownloader extends BaseDownloader
 
     protected function process($url, $targetFilePath)
     {
-        $this->logger->info('downloading via pure php functions');
+        $this->logger->info("Downloading $url via php stream");
 
         $opts = array();
         if ($proxy = $this->options->{'http-proxy'}) {

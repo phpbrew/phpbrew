@@ -27,6 +27,14 @@ class CurlCommandDownloader extends BaseDownloader
         $silent = $this->logger->isQuiet() ? '--silent ' : '';
         $command = array("curl");
 
+        if ($proxy = $this->options->{'http-proxy'}) {
+            $this->logger->warn('http proxy is not support by this download.');
+        }
+        if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
+            $this->logger->warn('http proxy is not support by this download.');
+        }
+
+
         if ($this->enableContinueAt || $this->options->{'continue'}) {
             $command[] = "-C -";
         }

@@ -353,6 +353,12 @@ It's possible to replace the default downloader with your preference:
 
     phpbrew ext install --downloader php_curl apcu
 
+The curl php extension based downloader supports User-Agent and Proxy Settings,
+thus you can do this if you encountered some network issues:
+
+    phpbrew ext install --download php_curl --http-proxy=... --http-proxy-auth=... apcu
+
+
 
 ### Enabling Extension
 

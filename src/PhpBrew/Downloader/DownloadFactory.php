@@ -65,7 +65,7 @@ class DownloadFactory
         }
         if (empty($downloader) && $options->has('downloader')) {
             $logger->info("Found --downloader option, try to use {$options->downloader} as default downloader.");
-            return self::create($logger, $options, [$options->downloader]);
+            return self::create($logger, $options, array($options->downloader));
         }
         return self::create($logger, $options, array_keys(self::$availableDownloaders));
     }
