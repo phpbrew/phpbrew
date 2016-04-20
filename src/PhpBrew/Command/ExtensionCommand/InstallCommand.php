@@ -87,6 +87,20 @@ class InstallCommand extends BaseCommand
 
     public function execute($extName, $version = 'stable')
     {
+
+
+        if (version_compare(PHP_VERSION, "7.0.0") > 0) {
+            $this->logger->warn(
+"Warning: Some extension won't be able to be built with php7. If the extension
+supports php7 in another branch or new major version, you will need to specify
+the branch name or version name explicitly.
+
+For example, to install memcached extension with php7, use:
+
+    phpbrew ext install github:php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl
+"
+            );
+        }
         if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName) ) {
             $pathinfo = pathinfo($extName);
             $repoUrl = $extName;
