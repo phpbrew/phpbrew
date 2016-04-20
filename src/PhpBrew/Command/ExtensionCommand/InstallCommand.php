@@ -3,6 +3,7 @@ namespace PhpBrew\Command\ExtensionCommand;
 
 use Exception;
 use PhpBrew\Config;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
@@ -30,6 +31,8 @@ class InstallCommand extends BaseCommand
     {
         $opts->add('pecl', 'Try to download from pecl even when ext source is bundled with php-src.');
         $opts->add('redownload', 'Force to redownload extension source even if it is already available.');
+
+        DownloadFactory::addOptionsForCommand($opts);
     }
 
     public function arguments($args)

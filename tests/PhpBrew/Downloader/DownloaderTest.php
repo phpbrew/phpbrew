@@ -39,12 +39,12 @@ class DownloaderTest extends PHPUnit_Framework_TestCase
 
     public function testDownloadByCurlExtension()
     {
-        $this->_test('PhpBrew\Downloader\CurlExtensionDownloader');
+        $this->_test('PhpBrew\Downloader\PhpCurlDownloader');
     }
 
     public function testDownloadByFileFunction()
     {
-        $this->_test('PhpBrew\Downloader\FileFunctionDownloader');
+        $this->_test('PhpBrew\Downloader\PhpStreamDownloader');
     }
 
     private function _test($downloader)

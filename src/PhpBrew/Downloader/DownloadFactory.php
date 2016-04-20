@@ -16,8 +16,8 @@ use GetOptionKit\OptionResult;
 class DownloadFactory
 {
     private static $availableDownloaders = array(
-        'php_curl'   => 'PhpBrew\Downloader\CurlExtensionDownloader',
-        'php_stream' => 'PhpBrew\Downloader\FileFunctionDownloader',
+        'php_curl'   => 'PhpBrew\Downloader\PhpCurlDownloader',
+        'php_stream' => 'PhpBrew\Downloader\PhpStreamDownloader',
         'wget'       => 'PhpBrew\Downloader\WgetCommandDownloader',
         'curl'       => 'PhpBrew\Downloader\CurlCommandDownloader',
     );
@@ -44,6 +44,7 @@ class DownloadFactory
                 }
             }
         }
+        $logger->debug("Downloader not found, falling back to command-based downloader.");
         return self::create($logger, $options, self::$fallbackDownloaders);
     }
 
@@ -55,14 +56,17 @@ class DownloadFactory
      */
     public static function getInstance(Logger $logger, OptionResult $options, $downloader = null)
     {
-        if (empty($downloader) && $options->has('downloader')) {
-            //todo use string alias instead?
-            $downloader = self::$availableDownloaders[$options->downloader];
-        }
         if (is_string($downloader)) {
             if (class_exists($downloader) && is_subclass_of($downloader, 'PhpBrew\Downloader\BaseDownloader')) {
                 return new $downloader($logger, $options);
             }
+            return self::create($logger, $options, array($downloader));
+        } else if (is_array($downloader)) {
+            return self::create($logger, $options, $downloader);
+        }
+        if (empty($downloader) && $options->has('downloader')) {
+            $logger->info("Found --downloader option, try to use {$options->downloader} as default downloader.");
+            return self::create($logger, $options, [$options->downloader]);
         }
         return self::create($logger, $options, array_keys(self::$availableDownloaders));
     }

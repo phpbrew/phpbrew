@@ -11,7 +11,7 @@ namespace PhpBrew\Downloader;
 
 use RuntimeException;
 
-class FileFunctionDownloader extends BaseDownloader
+class PhpStreamDownloader extends BaseDownloader
 {
 
     protected function process($url, $targetFilePath)

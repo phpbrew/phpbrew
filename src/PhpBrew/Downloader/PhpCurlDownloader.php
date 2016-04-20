@@ -14,7 +14,7 @@ use CurlKit\Progress\ProgressBar;
 use PhpBrew\Console;
 use RuntimeException;
 
-class CurlExtensionDownloader extends BaseDownloader
+class PhpCurlDownloader extends BaseDownloader
 {
 
     protected function process($url, $targetFilePath)
