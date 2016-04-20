@@ -72,7 +72,8 @@ class DownloadFactory
 
     public static function addOptionsForCommand(OptionCollection $opts)
     {
-        $opts->add('downloader:', 'Downloader switcher');
+        $opts->add('downloader:', 'Specify downloader instead of the default downloader.');
+        $opts->add('continue', 'Continue getting a partially-downloaded file.');
         $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
             ->valueName('proxy host');
         $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')

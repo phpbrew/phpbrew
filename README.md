@@ -318,7 +318,7 @@ $ phpbrew ext install APC
 $ phpbrew ext install memcache
 ```
 
-### Installing Extension With Version
+### Installing Extension With Stability
 
 To install extensions with stability tag:
 
@@ -339,6 +339,20 @@ To install extensions with customized options:
 ```bash
 $ phpbrew ext install yaml -- --with-yaml=/opt/local
 ```
+
+### Installing Extension with specific downloader
+
+Right now, phpbrew supports 4 different downloader implementation:
+
+- `php_curl` - download files using the built-in php curl extension.
+- `php_stream` - download files using the built-in php stream wrapper.
+- `curl`
+- `wget`
+
+It's possible to replace the default downloader with your preference:
+
+    phpbrew ext install --downloader php_curl apcu
+
 
 ### Enabling Extension
 

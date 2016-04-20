@@ -15,9 +15,9 @@ use PhpBrew\Utils;
 
 abstract class BaseDownloader
 {
-    public $logger;
+    protected $logger;
 
-    public $options;
+    protected $options;
 
     public function __construct(Logger $logger, OptionResult $options)
     {
