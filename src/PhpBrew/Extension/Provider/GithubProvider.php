@@ -16,7 +16,10 @@ class GithubProvider implements Provider {
         return 'github';
     }
 
-    public function buildPackageDownloadUrl($version='stable')
+    /**
+     * By default we install extension from master branch
+     */
+    public function buildPackageDownloadUrl($version = 'master')
     {
         if (($this->getOwner() == NULL) || ($this->getRepository() == NULL)) {
             throw new Exception("Username or Repository invalid.");

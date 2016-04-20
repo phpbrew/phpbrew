@@ -95,12 +95,14 @@ class InstallCommand extends BaseCommand
 supports php7 in another branch or new major version, you will need to specify
 the branch name or version name explicitly.
 
-For example, to install memcached extension with php7, use:
+For example, to install memcached extension for php7, use:
 
     phpbrew ext install github:php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl
 "
             );
         }
+
+        // Detect protocol
         if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName) ) {
             $pathinfo = pathinfo($extName);
             $repoUrl = $extName;
@@ -114,11 +116,11 @@ For example, to install memcached extension with php7, use:
             }
         }
 
+        // Expand extensionset from config
         $extensions = array();
         if (Utils::startsWith($extName, '+')) {
             $config = Config::getConfigParam('extensions');
             $extName = ltrim($extName, '+');
-
             if (isset($config[$extName])) {
                 foreach ($config[$extName] as $extensionName => $extOptions) {
                     $args = explode(' ', $extOptions);
@@ -139,8 +141,9 @@ For example, to install memcached extension with php7, use:
 
             $provider = $extensionList->exists($extensionName);
 
-            if(! $provider)
+            if (! $provider) {
                 throw new Exception("Could not find provider for $extensionName.");
+            }
 
             $extensionName = $provider->getPackageName();
             $ext = ExtensionFactory::lookupRecursive($extensionName);
