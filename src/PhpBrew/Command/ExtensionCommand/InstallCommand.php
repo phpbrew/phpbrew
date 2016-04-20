@@ -102,6 +102,10 @@ For example, to install memcached extension for php7, use:
             );
         }
 
+        if (strtolower($extName) === "apc" && version_compare(PHP_VERSION, "5.6.0") > 0) {
+            $this->logger->warn("apc is not compatible with php 5.6+ versions, install apcu instead.");
+        }
+
         // Detect protocol
         if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName) ) {
             $pathinfo = pathinfo($extName);
