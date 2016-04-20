@@ -19,7 +19,7 @@ class CurlExtensionDownloader extends BaseDownloader
 
     protected function process($url, $targetFilePath)
     {
-        $this->logger->info('downloading via curl extension');
+        $this->logger->info("Downloading $url via curl extension");
 
         $downloader = new CurlDownloader;
 
