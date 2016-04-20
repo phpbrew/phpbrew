@@ -48,6 +48,14 @@ class CurlExtensionDownloader extends BaseDownloader
 
     public function hasSupport($requireSsl)
     {
-        return extension_loaded('curl');
+        if (!extension_loaded('curl')) {
+            return false;
+        }
+        if ($requireSsl) {
+            $info = curl_version();
+            return in_array('https', $info['protocols']);
+        }
+        return true;
+
     }
 }
