@@ -19,6 +19,8 @@ function __phpbrew_set_path()
 
     if [[ -n $PHPBREW_ROOT ]] ; then
         export PATH_WITHOUT_PHPBREW=$(AR=(); for i in `echo $PATH|tr ':' ' '` ; do [[ `expr "$i" : "$PHPBREW_ROOT" 2>/dev/null` -eq 0 ]] && AR+=($i); done; echo "${AR[*]}"|tr ' ' ':';)
+    else
+        export PATH_WITHOUT_PHPBREW=$PATH
     fi
 
     if [[ -z "$PHPBREW_PATH" ]]
