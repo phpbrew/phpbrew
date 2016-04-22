@@ -184,12 +184,12 @@ class Config
         $buildDir = $root . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $buildName;
 
         // re-build path
-        $paths = explode(':',getenv('PATH'));
+        $paths = explode(PATH_SEPARATOR,getenv('PATH'));
         $paths = array_filter($paths, function($p) use ($root) {
             return (strpos($p, $root) === False);
         });
         array_unshift($paths, $buildDir . DIRECTORY_SEPARATOR . 'bin');
-        putenv('PATH=' . join(':', $paths));
+        putenv('PATH=' . join(PATH_SEPARATOR, $paths));
     }
 
 
