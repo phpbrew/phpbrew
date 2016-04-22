@@ -9,6 +9,59 @@ use CLIFramework\Logger;
  */
 class PatchCollection
 {
+
+
+    /**
+     * @see https://github.com/phpbrew/phpbrew/issues/636
+     */
+    public static function createPatchesForOSXOpenssl(Logger $logger, Buildable $build)
+    {
+        /*
+         Macports
+         -lssl /opt/local/lib/libssl.dylib
+         -lcrypto /opt/local/lib/libcrypto.dylib
+
+         /usr/local/opt/openssl/lib/libssl.dylib 
+         /usr/local/opt/openssl/lib/libcrypto.dylib
+         */
+        $dylibssl = null;
+        $dylibcrypto = null;
+
+        
+        $paths = array('/opt/local/lib/libssl.dylib',
+            '/usr/local/opt/openssl/lib/libssl.dylib',
+            '/usr/local/lib/libssl.dylib', '/usr/lib/libssl.dylib');
+        foreach ($paths as $path) {
+            if (file_exists($path)) {
+                $dylibssl = $path;
+                break;
+            }
+        }
+
+        $paths = array('/opt/local/lib/libcrypto.dylib',
+            '/usr/local/opt/openssl/lib/libcrypto.dylib',
+            '/usr/local/lib/libcrypto.dylib', '/usr/lib/libcrypto.dylib');
+        foreach ($paths as $path) {
+            if (file_exists($path)) {
+                $dylibcrypto = $path;
+                break;
+            }
+        }
+
+        $rules = array();
+        if ($dylibssl) {
+            $rules[] = RegexpPatchRule::allOf(array('/^EXTRA_LIBS =/'), '/-lssl/', $dylibssl);
+        }
+        if ($dylibcrypto) {
+            $rules[] = RegexpPatchRule::allOf(array('/^EXTRA_LIBS =/'), '/-lcrypto/', $dylibcrypto);
+        }
+        if (empty($rules)) {
+            return array();
+        }
+        return array(new RegexpPatch($logger, $build, array('Makefile'), $rules));
+    }
+
+
     public static function createPatchesFor64BitSupport(Logger $logger, Buildable $build)
     {
         return array(

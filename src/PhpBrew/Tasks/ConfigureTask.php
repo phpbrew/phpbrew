@@ -131,9 +131,14 @@ class ConfigureTask extends BaseTask
         }
 
         if (!$this->options->{'no-patch'}) {
-            $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $this->options);
-            if ($patch64bit->match($build)) {
-                $patch64bit->patch($build);
+            $tasks = array(
+                new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $this->options),
+                new \PhpBrew\Tasks\PatchDarwinOpenSSLTask($this->logger, $this->options),
+            );
+            foreach ($tasks as $task) {
+                if ($task->match($build)) {
+                    $task->patch($build);
+                }
             }
         }
         $build->setState(Build::STATE_CONFIGURE);
