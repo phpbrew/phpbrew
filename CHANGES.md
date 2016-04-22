@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+### Version 1.20.8 - Sat Apr 23 01:41:37 2016
+
+- Fixed openssl build issue on darwin https://github.com/phpbrew/phpbrew/issues/636
+- Replaced ':' with `PATH_SEPARATOR` to make the path generation indenpendant.
+- Few fixes
+
 ### Version 1.20.7 - Sun Apr 17 18:13:29 2016
 
 - Commit e1fc2a4: Merge pull request #683 from Simplesmente/master
