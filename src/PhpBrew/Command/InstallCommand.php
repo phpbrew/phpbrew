@@ -484,15 +484,19 @@ class InstallCommand extends Command
 
         if ($build->hasVariant('pdo') && $build->hasVariant('mysql')) {
             echo <<<EOT
-- We found that you enabled 'mysql' variant, you might need to setup your
-  'pdo_mysql.default_socket' or 'mysqli.default_socket' in your php.ini file
+
+* We found that you enabled 'mysql' variant, you might need to setup your
+  'pdo_mysql.default_socket' or 'mysqli.default_socket' in your php.ini file.
+
 EOT;
         }
 
         if (isset($targetConfigPath)) {
             echo <<<EOT
-- To configure your installed PHP further, you can edit the config file at
+
+* To configure your installed PHP further, you can edit the config file at
     $targetConfigPath
+
 EOT;
         }
 
@@ -506,6 +510,7 @@ Or you can use switch command to switch your default php to $buildName:
     $ phpbrew switch $buildName
 
 Enjoy!
+
 EOT;
 
     }
