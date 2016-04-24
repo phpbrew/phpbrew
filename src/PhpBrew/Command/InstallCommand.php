@@ -482,6 +482,20 @@ class InstallCommand extends Command
 
         $this->logger->info("Congratulations! Now you have PHP with $version as $buildName");
 
+        if ($build->hasVariant('pdo') && $build->hasVariant('mysql')) {
+            echo <<<EOT
+- We found that you enabled 'mysql' variant, you might need to setup your
+  'pdo_mysql.default_socket' or 'mysqli.default_socket' in your php.ini file
+EOT;
+        }
+
+        if (isset($targetConfigPath)) {
+            echo <<<EOT
+- To configure your installed PHP further, you can edit the config file at
+    $targetConfigPath
+EOT;
+        }
+
         echo <<<EOT
 To use the newly built PHP, try the line(s) below:
 
@@ -492,7 +506,6 @@ Or you can use switch command to switch your default php to $buildName:
     $ phpbrew switch $buildName
 
 Enjoy!
-
 EOT;
 
     }
