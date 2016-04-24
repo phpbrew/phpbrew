@@ -18,7 +18,7 @@ class InstallTask extends BaseTask
         $cmd->setStdout($this->options->{'stdout'});
         if (!$this->options->dryrun) {
             $code = $cmd->execute();
-            if ($code != 0) {
+            if ($code !== 0) {
                 throw new SystemCommandException('Install failed.', $build, $build->getBuildLogPath());
             }
         }
