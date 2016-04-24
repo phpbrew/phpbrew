@@ -506,7 +506,7 @@ EOT;
 
             echo <<<EOT
 
-* You haven't run 'phpbrew init' yet! Be sure to setup your phpbrew to use your own php(s)
+* WARNING: You haven't run 'phpbrew init' yet! Be sure to setup your phpbrew to use your own php(s)
   Please run 'phpbrew init' to setup your phpbrew in place.
 
 EOT;
@@ -518,7 +518,7 @@ EOT;
 
             echo <<<EOT
 
-* You haven't setup your .bashrc file to load phpbrew shell script yet!
+* WARNING: You haven't setup your .bashrc file to load phpbrew shell script yet!
   Please run 'phpbrew init' to see the steps!
 
 EOT;
@@ -527,6 +527,7 @@ EOT;
 
 
         echo <<<EOT
+
 To use the newly built PHP, try the line(s) below:
 
     $ phpbrew use $buildName
