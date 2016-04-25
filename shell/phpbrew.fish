@@ -230,12 +230,12 @@ function phpbrew
 
             switch $argv[2]
               case start
-                    fpm_start
+                    fpm_start $argv
               case stop
                     fpm_stop
               case restart
                     fpm_stop
-                    fpm_start
+                    fpm_start $argv
               case module
                      eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf -m | less
               case info
