@@ -183,26 +183,30 @@ function phpbrew
 
         case fpm
             if [ (count $argv) -ge 3 ]
-              set _PHP_VERSION $argv[3]
+              set -g _PHP_VERSION $argv[3]
             else
-              set _PHP_VERSION $PHPBREW_PHP
+              set -g _PHP_VERSION $PHPBREW_PHP
             end
 
             mkdir -p $PHPBREW_ROOT/php/$_PHP_VERSION/var/run
-            set PHPFPM_BIN $PHPBREW_ROOT/php/$_PHP_VERSION/sbin/php-fpm
-            set PHPFPM_PIDFILE $PHPBREW_ROOT/php/$_PHP_VERSION/var/run/php-fpm.pid
+            set -g PHPFPM_BIN $PHPBREW_ROOT/php/$_PHP_VERSION/sbin/php-fpm
+            set -g PHPFPM_PIDFILE $PHPBREW_ROOT/php/$_PHP_VERSION/var/run/php-fpm.pid
 
             function fpm_start
               echo "Starting php-fpm..."
               set -l regex '^php-5\.2.*'
 
+              if [ (count $argv) -ge 4 ]
+                set _PHPFPM_APPEND $argv[4..-1]
+              else
+                set _PHPFPM_APPEND ""
+              end
+
+
               if echo $_PHP_VERSION | egrep -q -e $regex
                 eval $PHPFPM_BIN start
               else
-                eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                  --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf \
-                  --pid $PHPFPM_PIDFILE \
-                  $argv[4..-1]
+                 eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --pid $PHPFPM_PIDFILE $_PHPFPM_APPEND
               end
 
               if [ "$status" != "0" ]
@@ -233,13 +237,9 @@ function phpbrew
                     fpm_stop
                     fpm_start
               case module
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf \
-                            -m | less
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf -m | less
               case info
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf \
-                            -i
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf -i
               case config
                     if [ -n "$EDITOR" ]
                         eval $EDITOR $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf
@@ -248,11 +248,9 @@ function phpbrew
                         nano $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf
                     end
               case help
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --help
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --help
               case test
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --test
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --test
               case '*'
                     echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
             end
