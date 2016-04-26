@@ -54,12 +54,9 @@ class Patch64BitSupportTask extends BaseTask
 
     public function patch(Build $build)
     {
-        $this->info("===> Checking if php-5.3 source is on 64bit machine");
-
         if ($this->match($build)) {
             // Then patch Makefile for PHP 5.3.x on 64bit system.
-            $this->info("===> Applying patch file for php5.3.x on 64bit machine.");
-
+            $this->info("===> Applying patch file for php5.3.x on 64bit machine when intl is enabled.");
             if (!$this->options->dryrun) {
                 $patches = PatchCollection::createPatchesFor64BitSupport($this->logger, $build);
                 foreach ($patches as $patch) {
