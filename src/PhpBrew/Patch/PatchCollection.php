@@ -62,6 +62,12 @@ class PatchCollection
     }
 
 
+    /**
+     * This is related to msgformat c++ libstdc++ issue.
+     *
+     * @see https://github.com/phpbrew/phpbrew/issues/707
+     * @see http://www.serverphorums.com/read.php?7,369479
+     */
     public static function createPatchesFor64BitSupport(Logger $logger, Buildable $build)
     {
         return array(
