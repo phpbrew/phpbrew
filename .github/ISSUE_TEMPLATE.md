@@ -1,16 +1,21 @@
 ### Output
 
+```
 ...
+```
+
 
 ### Expected Result
 
+```
 ...
+```
 
 ### Command
 
 Paste your phpbrew install command here (be sure to install with `--debug` flag, e.g. `phpbrew --debug install`)
 
-    phpbrew 
+    phpbrew --debug install php-5.x.x +openssl -- --....
 
 ### Build Log
 
