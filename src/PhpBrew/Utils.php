@@ -206,11 +206,12 @@ class Utils
 
     public static function getPkgConfigPrefix($package)
     {
-        $cmd = 'pkg-config --variable=prefix ' . $package;
-        $process = new Process($cmd);
-        $process->run();
-
-        return trim($process->getOutput());
+        if (self::findBin('pkg-config')) {
+            $cmd = 'pkg-config --variable=prefix ' . $package;
+            $process = new Process($cmd);
+            $process->run();
+            return trim($process->getOutput());
+        }
     }
 
     static public function system($command, $logger = NULL)
