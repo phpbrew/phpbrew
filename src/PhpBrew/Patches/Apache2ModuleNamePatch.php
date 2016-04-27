@@ -19,8 +19,7 @@ class Apache2ModuleNamePatch extends Patch
 
     public function rules()
     {
-        $rules = [];
-
+        $rules = array();
 
 
         /*
