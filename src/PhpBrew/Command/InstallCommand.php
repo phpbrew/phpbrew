@@ -501,7 +501,7 @@ system-wide phpbrew or this might cause problems.");
 
         $this->logger->info("Congratulations! Now you have PHP with $version as $buildName");
 
-        if ($build->hasVariant('pdo') && $build->hasVariant('mysql')) {
+        if ($build->isEnabledVariant('pdo') && $build->isEnabledVariant('mysql')) {
             echo <<<EOT
 
 * We found that you enabled 'mysql' variant, you might need to setup your
