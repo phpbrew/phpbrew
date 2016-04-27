@@ -74,7 +74,7 @@ class DiffPatchRule
 
 
         $logger->info("---> Patching from {$diffFile} ...");
-        $lastline = system("patch --directory " . escapeshellarg($dir) . " --backup -p{$this->strip} < " . escapeshellarg($diffFile), $retval);
+        $lastline = system("patch --forward --directory " . escapeshellarg($dir) . " --backup -p{$this->strip} < " . escapeshellarg($diffFile), $retval);
         if ($retval !== 0) {
             $logger->error("patch failed: $lastline");
             return false;
