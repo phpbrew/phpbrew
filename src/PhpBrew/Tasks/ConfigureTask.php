@@ -56,8 +56,8 @@ class ConfigureTask extends BaseTask
             $args = array_merge($args, $variantOptions);
         }
 
-        $this->debug('Enabled variants: ' . join(', ', array_keys($build->getVariants())));
-        $this->debug('Disabled variants: ' . join(', ', array_keys($build->getDisabledVariants())));
+        $this->debug('Enabled variants: [' . join(', ', array_keys($build->getVariants())) . ']');
+        $this->debug('Disabled variants: [' . join(', ', array_keys($build->getDisabledVariants())) . ']');
 
         if ($build->isEnabledVariant('pear')) {
             $args[] = "--with-pear={$prefix}/lib/php";
