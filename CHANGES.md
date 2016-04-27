@@ -1,6 +1,16 @@
 CHANGES
 =======
 
+### Version 1.21.0 - Wed Apr 27 23:19:33 2016
+
+- Refactored patch classes 
+- Supported new diff-based patches and regexp-based patches
+- Added some default options for 5.3, 5.4, 5.5 and 5.6 separately
+- Added BeforeConfigureTask and AfterConfigureTask to separate build phases.
+
+Patches
+- Added multiple-sapi patch for 5.3.29
+
 ### Version 1.20.8 - Sat Apr 23 01:41:37 2016
 
 - Fixed openssl build issue on darwin https://github.com/phpbrew/phpbrew/issues/636
