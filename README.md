@@ -54,7 +54,7 @@ Init a bash script for your shell environment:
 $ phpbrew init
 ```
 
-Then add these lines to your `.bashrc` or `.zshrc` file:
+*Add these lines to your `.bashrc` or `.zshrc` file*:
 
 ```bash
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
@@ -102,7 +102,7 @@ To update the release info:
 $ phpbrew update
 ```
 
-## Build And Install
+## Start Building Your Own PHP
 
 Simply build and install PHP with default variant:
 
@@ -149,13 +149,11 @@ To install from a github tag:
 $ phpbrew install github:php/php-src@PHP-7.0 as php-7.0.0
 ```
 
-## Clean up build
-
+## Cleaning up build directory
 
 ```bash
 $ phpbrew clean php-5.4.0
 ```
-
 
 ## Variants
 
