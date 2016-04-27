@@ -158,10 +158,18 @@ class InstallCommand extends Command
             ->valueName('concurrent job number')
             ;
         $opts->add('stdout', 'Outputs install logs to stdout.');
+
+        $opts->add('sudo', 'Run commands with sudo (developer only)');
     }
 
     public function execute($version)
     {
+        if (posix_getuid() == 0) {
+            $this->logger->warn(
+"*WARNING* You're runing phpbrew as root/sudo. Unless you're going to install
+system-wide phpbrew or this might cause problems.");
+            sleep(3);
+        }
         $distUrl = NULL;
         $versionInfo = array();
         $releaseList = ReleaseList::getReadyInstance($this->options);
