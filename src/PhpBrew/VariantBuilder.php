@@ -317,13 +317,10 @@ class VariantBuilder
                 return "--with-openssl=$prefix";
             }
 
-            // Special detection for homebrew openssl
+            // Special detection and fallback for homebrew openssl
             // @see https://github.com/phpbrew/phpbrew/issues/607
-            if (file_exists('/usr/local/opt/openssl')) {
-                return "--with-openssl=/usr/local/opt/openssl";
-            }
-            // More fallback detection for homebrew
             $possiblePrefixes = array(
+                '/usr/local/opt/openssl',
                 '/usr/local/Cellar/openssl/1.0.2g',
                 '/usr/local/Cellar/openssl/1.0.2f',
                 '/usr/local/Cellar/openssl/1.0.2e_1',
