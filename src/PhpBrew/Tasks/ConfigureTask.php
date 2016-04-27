@@ -63,6 +63,20 @@ class ConfigureTask extends BaseTask
             $args[] = "--with-pear={$prefix}/lib/php";
         }
 
+        // Options for specific versions
+        // todo: extract to BuildPlan class: PHP53 BuildPlan, PHP54 BuildPlan, PHP55 BuildPlan ?
+        if ($build->compareVersion('5.4') == -1) {
+            // copied from https://github.com/Homebrew/homebrew-php/blob/master/Formula/php53.rb
+            $args[] = "--enable-sqlite-utf8";
+            $args[] = "--enable-zend-multibyte";
+        } else if ($build->compareVersion('5.6') == -1) {
+            // dtrace is not compatible with phpdbg: https://github.com/krakjoe/phpdbg/issues/38
+            if (!$build->isEnabledVariant('phpdbg')) {
+                $args[] = "--enable-dtrace";
+            }
+            $args[] = "--enable-zend-signals";
+        }
+
         foreach ($extra as $a) {
             $args[] = $a;
         }

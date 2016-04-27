@@ -53,6 +53,7 @@ class PHP53Patch extends Patch
 
     public function match(Buildable $build, Logger $logger)
     {
+        // todo: not sure if this works for linux?
         return $build->osName === "Darwin" && version_compare($build->getVersion(), '5.3.29') === 0;
     }
 
