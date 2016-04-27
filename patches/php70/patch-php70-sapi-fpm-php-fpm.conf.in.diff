@@ -1,0 +1,41 @@
+--- a/sapi/fpm/php-fpm.conf.in.orig	2015-06-10 03:49:51.000000000 -0500
++++ b/sapi/fpm/php-fpm.conf.in	2015-06-13 22:03:00.000000000 -0500
+@@ -14,14 +14,14 @@
+ ; Pid file
+ ; Note: the default prefix is @EXPANDED_LOCALSTATEDIR@
+ ; Default Value: none
+-;pid = run/php-fpm.pid
++;pid = run/@PHP@/php-fpm.pid
+ 
+ ; Error log file
+ ; If it's set to "syslog", log is sent to syslogd instead of being written
+ ; in a local file.
+ ; Note: the default prefix is @EXPANDED_LOCALSTATEDIR@
+ ; Default Value: log/php-fpm.log
+-;error_log = log/php-fpm.log
++error_log = log/@PHP@/php-fpm.log
+ 
+ ; syslog_facility is used to specify what type of program is logging the
+ ; message. This lets syslogd specify that messages from different facilities
+@@ -34,7 +34,7 @@
+ ; instances running on the same server, you can change the default value
+ ; which must suit common needs.
+ ; Default Value: php-fpm
+-;syslog.ident = php-fpm
++syslog.ident = @PHP@-fpm
+ 
+ ; Log level
+ ; Possible Values: alert, error, warning, notice, debug
+@@ -76,9 +76,10 @@
+ ; Default Value: no set
+ ; process.priority = -19
+ 
+-; Send FPM to background. Set to 'no' to keep FPM in foreground for debugging.
++; Send FPM to background. Set to 'no' to keep FPM in foreground for debugging
++; or for use with launchd.
+ ; Default Value: yes
+-;daemonize = yes
++daemonize = no
+ 
+ ; Set open file descriptor rlimit for the master process.
+ ; Default Value: system defined value

@@ -1,0 +1,11 @@
+--- a/scripts/php-config.in.orig	2011-05-15 01:09:21.000000000 -0500
++++ b/scripts/php-config.in	2011-10-04 05:45:52.000000000 -0500
+@@ -7,7 +7,7 @@
+ version="@PHP_VERSION@"
+ vernum="@PHP_VERSION_ID@"
+ include_dir="@includedir@/php"
+-includes="-I$include_dir -I$include_dir/main -I$include_dir/TSRM -I$include_dir/Zend -I$include_dir/ext -I$include_dir/ext/date/lib"
++includes="-I$include_dir -I$include_dir/main -I$include_dir/TSRM -I$include_dir/Zend -I$include_dir/ext -I$include_dir/ext/date/lib -I@prefix@/include"
+ ldflags="@PHP_LDFLAGS@"
+ libs="@EXTRA_LIBS@"
+ extension_dir='@EXTENSION_DIR@'
