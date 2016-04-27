@@ -245,6 +245,7 @@ class InstallCommand extends Command
         // find inherited variants
         if ($buildLike) {
             if ($parentBuild = Build::findByName($buildLike)) {
+                $this->logger->info("===> Loading build settings from $buildLike");
                 $build->loadVariantInfo($parentBuild->settings->toArray());
             }
         }
