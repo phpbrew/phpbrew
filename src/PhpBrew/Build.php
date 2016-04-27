@@ -59,6 +59,10 @@ class Build implements Serializable, Buildable
      */
     public $state;
 
+    public $osName;
+
+    public $osRelease;
+
     /**
      * Construct a Build object,
      *
@@ -78,8 +82,19 @@ class Build implements Serializable, Buildable
             // TODO: find the install prefix automatically
         }
         $this->setBuildSettings(new BuildSettings());
+        $this->osName = php_uname('s');
+        $this->osRelease = php_uname('r');
     }
 
+    public function setOSName($osName)
+    {
+        $this->osName = $osName;
+    }
+
+    public function setOSRelease($osRelease)
+    {
+        $this->osRelease = $osRelease;
+    }
 
 
     public function setName($name)

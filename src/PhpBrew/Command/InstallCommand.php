@@ -11,7 +11,9 @@ use PhpBrew\Tasks\PrepareDirectoryTask;
 use PhpBrew\Tasks\MakeTask;
 use PhpBrew\Tasks\InstallTask;
 use PhpBrew\Tasks\ExtractTask;
+use PhpBrew\Tasks\BeforeConfigureTask;
 use PhpBrew\Tasks\ConfigureTask;
+use PhpBrew\Tasks\AfterConfigureTask;
 use PhpBrew\Tasks\BuildTask;
 use PhpBrew\Tasks\DSymTask;
 use PhpBrew\Tasks\TestTask;
@@ -352,8 +354,16 @@ class InstallCommand extends Command
         try {
 
             if (!$this->options->{'no-configure'}) {
+                $configureTask = new BeforeConfigureTask($this->logger, $this->options);
+                $configureTask->run($build);
+                unset($configureTask); // trigger __destruct
+
                 $configureTask = new ConfigureTask($this->logger, $this->options);
                 $configureTask->run($build, $configureOptions);
+                unset($configureTask); // trigger __destruct
+
+                $configureTask = new AfterConfigureTask($this->logger, $this->options);
+                $configureTask->run($build);
                 unset($configureTask); // trigger __destruct
             }
 

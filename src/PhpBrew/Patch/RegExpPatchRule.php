@@ -4,7 +4,7 @@ namespace PhpBrew\Patch;
 /**
  * Defines a rule of a replacement using regexp.
  */
-class RegexpPatchRule
+class RegExpPatchRule
 {
     /**
      * @var string

@@ -28,7 +28,6 @@ class ExtractTask extends BaseTask
 
         if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
             $this->info("===> Distribution file was successfully extracted, skipping...");
-
             return $extractedDir;
         }
 

@@ -6,6 +6,10 @@ use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\Build;
 
+
+use PhpBrew\Patches\IntlWith64bitPatch;
+use PhpBrew\Patches\OpenSSLDSOPatch;
+
 /**
  * Task to run `make`
  */
@@ -26,13 +30,6 @@ class ConfigureTask extends BaseTask
     public function run(Build $build, $variantOptions)
     {
         $extra = $build->getExtraOptions();
-        if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
-            $this->debug("configure file not found, running './buildconf --force'...");
-            $lastline = system('./buildconf --force', $status);
-            if ($status !== 0) {
-                throw new SystemCommandException("buildconf error: $lastline", $build);
-            }
-        }
         $prefix = $build->getInstallPrefix();
 
         // append cflags
@@ -45,8 +42,6 @@ class ConfigureTask extends BaseTask
 
         $args = array();
         $args[] = "--prefix=" . $prefix;
-
-
         if ($this->options->{'user-config'}) {
 
             $args[] = "--with-config-file-path={$prefix}/etc";
@@ -68,32 +63,6 @@ class ConfigureTask extends BaseTask
             $args[] = "--with-pear={$prefix}/lib/php";
         }
 
-        foreach ((array) $this->options->patch as $patchPath) {
-            // copy patch file to here
-            $this->info("===> Applying patch file from $patchPath ...");
-
-            // Search for strip parameter
-            for ($i = 0; $i <= 16; $i++) {
-                ob_start();
-                system("patch -p$i --dry-run < $patchPath", $return);
-                ob_end_clean();
-
-                if ($return === 0) {
-                    system("patch -p$i < $patchPath");
-                    break;
-                }
-            }
-        }
-
-        // let's apply patch for libphp{php version}.so (apxs)
-        if ($build->isEnabledVariant('apxs2')) {
-            $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
-            $apxs2Checker->check($build, $this->options);
-
-            $apxs2Patch = new \PhpBrew\Tasks\Apxs2PatchTask($this->logger);
-            $apxs2Patch->patch($build, $this->options);
-        }
-
         foreach ($extra as $a) {
             $args[] = $a;
         }
@@ -113,9 +82,11 @@ class ConfigureTask extends BaseTask
         $cmd->setLogPath($buildLogPath);
         $cmd->setStdout($this->options->{'stdout'});
 
-        $this->logger->info("\n");
-        $this->logger->info("Use tail command to see what's going on:");
-        $this->logger->info("   $ tail -F $buildLogPath\n\n");
+        if (!$this->options->{'stdout'}) {
+            $this->logger->info("\n");
+            $this->logger->info("Use tail command to see what's going on:");
+            $this->logger->info("   $ tail -F $buildLogPath\n\n");
+        }
 
         $this->debug($cmd->getCommand());
 
@@ -127,18 +98,6 @@ class ConfigureTask extends BaseTask
             $code = $cmd->execute();
             if ($code !== 0) {
                 throw new SystemCommandException("Configure failed: $code", $build, $buildLogPath);
-            }
-        }
-
-        if (!$this->options->{'no-patch'}) {
-            $tasks = array(
-                new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $this->options),
-                new \PhpBrew\Tasks\PatchDarwinOpenSSLTask($this->logger, $this->options),
-            );
-            foreach ($tasks as $task) {
-                if ($task->match($build)) {
-                    $task->patch($build);
-                }
             }
         }
         $build->setState(Build::STATE_CONFIGURE);

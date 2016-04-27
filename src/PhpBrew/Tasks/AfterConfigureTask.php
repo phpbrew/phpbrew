@@ -1,0 +1,37 @@
+<?php
+namespace PhpBrew\Tasks;
+use PhpBrew\Exception\SystemCommandException;
+use RuntimeException;
+use PhpBrew\CommandBuilder;
+use PhpBrew\Config;
+use PhpBrew\Build;
+use PhpBrew\Patches\IntlWith64bitPatch;
+use PhpBrew\Patches\OpenSSLDSOPatch;
+
+/**
+ * Task run before 'configure'
+ */
+class AfterConfigureTask extends BaseTask
+{
+    public function setLogPath($path)
+    {
+        $this->logPath = $path;
+    }
+
+    public function run(Build $build)
+    {
+        if (!$this->options->{'no-patch'}) {
+            $this->logger->info("===> Checking patches...");
+            $patches = array();
+            $patches[] = new IntlWith64bitPatch;
+            $patches[] = new OpenSSLDSOPatch;
+            foreach ($patches as $patch) {
+                $this->logger->info("Checking patch for " . $patch->desc());
+                if ($patch->match($build, $this->logger)) {
+                    $patched = $patch->apply($build, $this->logger);
+                    $this->logger->info("$patched changes patched.");
+                }
+            }
+        }
+    }
+}
