@@ -313,8 +313,16 @@ directory is in:
 
 ### Installing Extension - The Most Simple Way
 
+Before you install any PHP extension, you should set your current running php:
+
 ```bash
-$ phpbrew ext install APC
+$ phpbrew use php-5.5.6
+```
+
+Then run `ext install` to install the extensions
+
+```bash
+$ phpbrew ext install apcu
 $ phpbrew ext install memcache
 ```
 
@@ -334,10 +342,29 @@ To install extensions with version name:
 $ phpbrew ext install xdebug 2.0.1
 ```
 
-To install extensions with customized options:
+### Showing extension config options
+
+To see if there are some configure options to build the extension, you can use
+the `ext show` command. Please note that the `show` command only works for
+built-in extensions:
+
+```bash
+phpbrew ext show apcu
+```
+
+### Install extensions with customized options:
 
 ```bash
 $ phpbrew ext install yaml -- --with-yaml=/opt/local
+```
+
+### Installing Extension from GitHub
+
+The special prefix `github:` tells phpbrew to get the extension repository from
+`php-memcached-dev/phpmemcached` and branch `php7`
+
+```bash
+$ phpbrew ext install github:php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl
 ```
 
 ### Installing Extension with specific downloader
@@ -357,7 +384,6 @@ The curl php extension based downloader supports User-Agent and Proxy Settings,
 thus you can do this if you encountered some network issues:
 
     phpbrew ext install --download php_curl --http-proxy=... --http-proxy-auth=... apcu
-
 
 
 ### Enabling Extension
