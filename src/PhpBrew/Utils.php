@@ -126,7 +126,7 @@ class Utils
             '/usr',
             '/usr/lib',
             '/usr/local',
-            '/usr/local/lib'
+            '/usr/local/lib',
         );
 
         if ($pathStr = getenv('PHPBREW_LOOKUP_PREFIX')) {
