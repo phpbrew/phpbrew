@@ -24,7 +24,7 @@ class UseCommand extends Command
     }
 
     public function execute($buildName) {
-        if ($buildName) {
+        if (!$buildName) {
             // This exception is used for tracing tests
             throw new Exception("build name is required.");
         }
