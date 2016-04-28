@@ -225,7 +225,7 @@ class Utils
             $logger->debug("Running Command:" . $command);
         }
 
-        $lastLine = system($command, $returnValue);
+        $lastline = system($command, $returnValue);
         if ($returnValue !== 0) {
             throw new SystemCommandException("Command failed: $command returns: $lastline", $build);
         }
