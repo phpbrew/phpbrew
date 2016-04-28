@@ -21,10 +21,9 @@ class EnvCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      */
-    public function testEnvCommand() {
-        ob_start();
-        $this->assertTrue($this->runCommand("phpbrew env"));
-        ob_end_clean();
+    public function testEnvCommand()
+    {
+        $this->assertCommandSuccess("phpbrew env");
     }
 
 
