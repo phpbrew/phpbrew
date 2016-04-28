@@ -34,7 +34,7 @@ class ExtractTask extends BaseTask
         // NOTICE: Always extract to prevent incomplete extraction
         $this->info("===> Extracting $targetFilePath to $extractedDirTemp");
         system("tar -C $extractDirTemp -xf $targetFilePath", $ret);
-        if ($ret != 0) {
+        if ($ret !== 0) {
             throw new RuntimeException('Extract failed.');
         }
         clearstatcache(true);

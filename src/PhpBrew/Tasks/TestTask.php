@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
-
+use PhpBrew\Exception\SystemCommandException;
 use PhpBrew\Build;
 use PhpBrew\CommandBuilder;
 use RuntimeException;
@@ -12,7 +12,7 @@ class TestTask extends BaseTask
 {
     public function run(Build $build, $nice = null)
     {
-        $this->info("Testing...");
+        $this->info("===> Running tests...");
         $cmd = new CommandBuilder('make test');
 
         if ($nice) {
@@ -25,8 +25,9 @@ class TestTask extends BaseTask
 
         putenv('NO_INTERACTION=1');
         $this->debug('' .  $cmd);
-        $code = $cmd->execute();
-        if ($code != 0)
-           throw new RuntimeException('Test failed.');
+        $code = $cmd->execute($lastline);
+        if ($code !== 0) {
+            throw new SystemCommandException("Test failed: $lastline", $build);
+        }
     }
 }
