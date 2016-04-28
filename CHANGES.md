@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+### Version 1.21.1
+
+- Fixed BSD make issue - prefer gmake over make. remove --quiet flag when os == bsd
+- Added more path detection for apxs2
+- Added more path detection for gettext
+- Added --with-mysql-sock option autodetection
+- Run pkg-config only when pkg-config is found.
+
 ### Version 1.21.0 - Wed Apr 27 23:19:33 2016
 
 - Refactored patch classes 
