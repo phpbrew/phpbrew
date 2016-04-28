@@ -50,7 +50,7 @@ class DownloaderTest extends PHPUnit_Framework_TestCase
     private function _test($downloader)
     {
         $instance = DownloadFactory::getInstance($this->logger, new OptionResult, $downloader);
-        if ($instance->hasSupport()) {
+        if ($instance->hasSupport(false)) {
             $actualFilePath = tempnam(Config::getTempFileDir(), '');
             $instance->download('http://httpbin.org/', $actualFilePath);
             $this->assertFileExists($actualFilePath);
