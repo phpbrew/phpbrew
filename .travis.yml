@@ -1,4 +1,6 @@
 language: php
+services:
+- mysql
 matrix:
   fast_finish: true
   exclude:
