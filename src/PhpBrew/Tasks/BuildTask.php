@@ -42,9 +42,9 @@ class BuildTask extends BaseTask
 
         if (!$this->options->dryrun) {
             $startTime = microtime(true);
-            $code = $cmd->execute();
+            $code = $cmd->execute($lastline);
             if ($code !== 0) {
-                throw new SystemCommandException('Make failed.', $build, $build->getBuildLogPath());
+                throw new SystemCommandException("Make failed: $lastline", $build, $build->getBuildLogPath());
             }
             $buildTime = round((microtime(true) - $startTime) / 60, 1);
             $this->info("Build finished: $buildTime minutes.");
