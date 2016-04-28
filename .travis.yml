@@ -41,7 +41,7 @@ script:
 - source shell/bashrc
 - phpunit --debug
 after_success:
-- php vendor/bin/coveralls
+- travis_retry php vendor/bin/coveralls -v
 cache:
   apt: true
   directories:
