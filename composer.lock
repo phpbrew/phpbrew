@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "743fbc5029e84b10dd004fb5ba3f028d",
-    "content-hash": "11ef8f49da181ee535140f946d047f0e",
+    "hash": "acf81fac23b9242e76019e223ea3ee88",
+    "content-hash": "562bc119cf416f4d1a30b42762a9eb39",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -197,25 +197,30 @@
         },
         {
             "name": "corneltek/curlkit",
-            "version": "1.0.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CurlKit.git",
-                "reference": "f27883b3cff26fe8ff492e211417d5d608c7c40d"
+                "reference": "67deaa5cdded2d5ddaac8dc12f5d15400f2227e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/f27883b3cff26fe8ff492e211417d5d608c7c40d",
-                "reference": "f27883b3cff26fe8ff492e211417d5d608c7c40d",
+                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/67deaa5cdded2d5ddaac8dc12f5d15400f2227e8",
+                "reference": "67deaa5cdded2d5ddaac8dc12f5d15400f2227e8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.3.0"
             },
             "require-dev": {
                 "corneltek/phpunit-testmore": "dev-master"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "CurlKit\\": "src/CurlKit/"
@@ -226,7 +231,7 @@
                 "MIT"
             ],
             "description": "Curl Kit",
-            "time": "2016-02-16 14:16:11"
+            "time": "2016-04-28 10:32:21"
         },
         {
             "name": "corneltek/getoptionkit",
@@ -276,12 +281,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbrew/PEARX.git",
-                "reference": "6da64cf2d493e66416cda18a6b9fb4289ed4a70a"
+                "reference": "f484106743c5e0153c03887f2a6f367f8883de0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/6da64cf2d493e66416cda18a6b9fb4289ed4a70a",
-                "reference": "6da64cf2d493e66416cda18a6b9fb4289ed4a70a",
+                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/f484106743c5e0153c03887f2a6f367f8883de0a",
+                "reference": "f484106743c5e0153c03887f2a6f367f8883de0a",
                 "shasum": ""
             },
             "require": {
@@ -294,8 +299,8 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "PEARX": "src"
+                "psr-4": {
+                    "PEARX\\": "src/PEARX/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -311,7 +316,7 @@
             ],
             "description": "PEAR channel client",
             "homepage": "http://github.com/c9s/PEARX",
-            "time": "2015-12-07 03:15:18"
+            "time": "2016-04-28 13:52:09"
         },
         {
             "name": "corneltek/serializerkit",
@@ -839,6 +844,7 @@
     "stability-flags": {
         "corneltek/cliframework": 20,
         "corneltek/pearx": 20,
+        "corneltek/curlkit": 20,
         "corneltek/phpunit-testmore": 20
     },
     "prefer-stable": false,
