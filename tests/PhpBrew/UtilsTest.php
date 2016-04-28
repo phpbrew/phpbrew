@@ -14,7 +14,7 @@ class UtilsTest extends PHPUnit_Framework_TestCase
 
     public function testLookupPrefix()
     {
-        ok( Utils::getLookupPrefixes() );
+        $this->assertNotEmpty(Utils::getLookupPrefixes());
     }
 
     public function testPrefix()
@@ -25,7 +25,6 @@ class UtilsTest extends PHPUnit_Framework_TestCase
 
     public function testFindbin()
     {
-        ok(Utils::findBin('ls'));
-        ok(Utils::findBin('psql'));
+        $this->assertNotNull(Utils::findBin('ls'));
     }
 }
