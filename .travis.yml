@@ -34,7 +34,7 @@ before_script:
 - source shell/bashrc
 script:
 - source shell/bashrc
-- phpunit
+- phpunit --debug
 after_script:
 - php vendor/bin/coveralls
 cache:
