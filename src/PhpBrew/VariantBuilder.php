@@ -343,25 +343,56 @@ class VariantBuilder
         --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
                                 directory.  If mysqlnd is passed as DIR,
                                 the MySQL native driver will be used [/usr/local]
+
         --with-mysqli[=FILE]    Include MySQLi support.  FILE is the path
                                 to mysql_config.  If mysqlnd is passed as FILE,
                                 the MySQL native driver will be used [mysql_config]
+
         --with-pdo-mysql[=DIR]    PDO: MySQL support. DIR is the MySQL base directoy
                                 If mysqlnd is passed as DIR, the MySQL native
                                 native driver will be used [/usr/local]
 
-        --with-mysql         // deprecated
+        --with-mysql            deprecated in 7.0
+
+        mysqlnd was added since php 5.3
         */
         $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') {
-            $opts = array(
-                "--with-mysql=$prefix",
-                "--with-mysqli=$prefix"
-            );
 
+            $opts = array();
+            if ($build->compareVersion('7.0') < 0) {
+                $opts[] = "--with-mysql=$prefix";
+            }
+
+            $opts[] = "--with-mysqli=$prefix";
             if ($build->hasVariant('pdo')) {
                 $opts[] = "--with-pdo-mysql=$prefix";
             }
 
+            $foundSock = false;
+            if ($bin = Utils::findBin('mysql_config')) {
+                $line = system("$bin --socket", $retval);
+                if ($line && $retval == 0 && file_exists($line)) {
+                    $foundSock = true;
+                    $opts[] = "--with-mysql-sock=$line";
+                }
+            }
+            if (!$foundSock) {
+                $possiblePaths = array(
+                    /* macports mysql ... */
+                    '/opt/local/var/run/mysql57/mysqld.sock',
+                    '/opt/local/var/run/mysql56/mysqld.sock',
+                    '/opt/local/var/run/mysql55/mysqld.sock',
+                    '/opt/local/var/run/mysql54/mysqld.sock',
+
+                    '/tmp/mysql.sock', /* homebrew mysql sock */
+                    '/var/run/mysqld/mysql.sock',
+                    '/var/mysql/mysql.sock',
+                );
+                $paths = array_filter($possiblePaths, "file_exists");
+                if (count($paths) > 0 && file_exists($paths[0])) {
+                    $opts[] = "--with-mysql-sock={$paths[0]}";
+                }
+            }
             return $opts;
         };
 
