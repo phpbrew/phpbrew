@@ -215,7 +215,7 @@ class Utils
         }
     }
 
-    static public function system($command, $logger = NULL)
+    static public function system($command, $logger = NULL, $build = null)
     {
         if (is_array($command)) {
             $command = join(' ', $command);
@@ -227,7 +227,7 @@ class Utils
 
         $lastLine = system($command, $returnValue);
         if ($returnValue !== 0) {
-            throw new Exception("Command failed: $command returns:" . $lastLine);
+            throw new SystemCommandException("Command failed: $command returns: $lastline", $build);
         }
         return $returnValue;
     }

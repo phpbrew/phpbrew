@@ -13,17 +13,17 @@ class MakeTask extends BaseTask
 
     public function run(Buildable $build)
     {
-        return $this->make($build->getSourceDirectory(), 'all');
+        return $this->make($build->getSourceDirectory(), 'all', $build);
     }
 
     public function install(Buildable $build)
     {
-        return $this->make($build->getSourceDirectory(), 'install');
+        return $this->make($build->getSourceDirectory(), 'install', $build);
     }
 
     public function clean(Buildable $build)
     {
-        return $this->make($build->getSourceDirectory(), 'clean');
+        return $this->make($build->getSourceDirectory(), 'clean', $build);
     }
 
     public function setBuildLogPath($buildLogPath)
@@ -47,7 +47,7 @@ class MakeTask extends BaseTask
         return preg_match('/GNU Make/', shell_exec("$bin --version"));
     }
 
-    private function make($path, $target = 'all')
+    private function make($path, $target = 'all', $build = null)
     {
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->error("Makefile not found in path $path");
@@ -88,7 +88,6 @@ class MakeTask extends BaseTask
         }
 
         $this->logger->info("===> Running make $target: " . join(' ', $cmd));
-        $ret = Utils::system($cmd, $this->logger);
-        return $ret === 0;
+        return Utils::system($cmd, $this->logger, $build) === 0;
     }
 }

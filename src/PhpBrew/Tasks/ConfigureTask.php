@@ -2,6 +2,7 @@
 namespace PhpBrew\Tasks;
 use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
+use Exception;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\Build;
@@ -31,6 +32,7 @@ class ConfigureTask extends BaseTask
     {
         $extra = $build->getExtraOptions();
         $prefix = $build->getInstallPrefix();
+
 
         // append cflags
         if ($this->optimizationLevel) {
