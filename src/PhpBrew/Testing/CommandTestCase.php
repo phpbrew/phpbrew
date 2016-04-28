@@ -44,8 +44,8 @@ abstract class CommandTestCase extends BaseCommandTestCase
         // <env name="PHPBREW_HOME" value=".phpbrew"/>
 
         // already setup in phpunit.xml, but it seems don't work.
-        putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
-        putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
+        // putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
+        // putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
 
         if($options = \PhpBrew\Console::getInstance()->options) {
             $option = new Option('no-progress');
@@ -62,10 +62,10 @@ abstract class CommandTestCase extends BaseCommandTestCase
     public function tearDown()
     {
         if ($this->previousPhpBrewRoot !== null) {
-            putenv('PHPBREW_ROOT=' . $this->previousPhpBrewRoot);
+            // putenv('PHPBREW_ROOT=' . $this->previousPhpBrewRoot);
         }
         if ($this->previousPhpBrewHome !== null) {
-            putenv('PHPBREW_HOME=' . $this->previousPhpBrewHome);
+            // putenv('PHPBREW_HOME=' . $this->previousPhpBrewHome);
         }
     }
 
