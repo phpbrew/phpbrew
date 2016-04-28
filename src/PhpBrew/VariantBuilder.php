@@ -463,6 +463,16 @@ class VariantBuilder
                 return '--with-apxs2=' . $bin;
             }
 
+            /* Special paths for homebrew */
+            $possiblePaths = array(
+                '/usr/local/opt/httpd24/bin/apxs',
+                '/usr/local/opt/httpd23/bin/apxs',
+                '/usr/local/opt/httpd22/bin/apxs',
+            );
+            $paths = array_filter($possiblePaths, "file_exists");
+            if (count($paths) > 0 && file_exists($paths[0])) {
+                $opts[] = "--with-apxs2={$paths[0]}";
+            }
             return $a;
         };
 
