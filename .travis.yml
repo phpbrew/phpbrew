@@ -3,25 +3,9 @@ services:
 - mysql
 matrix:
   fast_finish: true
-  exclude:
-  - php: 5.4
-    env: TEST_SUITE=Command
-  - php: 5.5
-    env: TEST_SUITE=Command
-  - php: 5.6
-    env: TEST_SUITE=Command
-  - php: 5.6
-    env: TEST_SUITE=Extension
-  - php: 7.0
-    env: TEST_SUITE=Command
-  - php: 7.0
-    env: TEST_SUITE=Extension
   allow_failures:
   - php: nightly
 env:
-- TEST_SUITE=Core
-- TEST_SUITE=Command
-- TEST_SUITE=Extension
 php:
 - 5.3
 - 5.4
