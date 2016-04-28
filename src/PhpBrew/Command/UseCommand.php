@@ -39,6 +39,11 @@ class UseCommand extends Command
             putenv("PHPBREW_PHP=$buildName");
             putenv("PHPBREW_PATH=$root/php/$buildName/bin");
             putenv("PHPBREW_BIN=$home/bin");
+            $_ENV['PHPBREW_ROOT'] = $root;
+            $_ENV['PHPBREW_HOME'] = $home;
+            $_ENV['PHPBREW_PHP'] = $buildName;
+            $_ENV['PHPBREW_PATH'] = "$root/php/$buildName/bin";
+            $_ENV['PHPBREW_BIN'] = "$home/bin";
         }
         if (!getenv('TRAVIS')) {
             $this->logger->warning("You should not see this, if you see this, it means you didn't load the ~/.phpbrew/bashrc script, please check if bashrc is sourced in your shell.");
