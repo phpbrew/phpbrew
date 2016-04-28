@@ -67,7 +67,16 @@ abstract class CommandTestCase extends BaseCommandTestCase
     public function assertCommandSuccess($args)
     {
         try {
-            $this->assertTrue($this->runCommand($args));
+            ob_start();
+            $this->assertTrue($ret = parent::runCommand($args));
+            $output = ob_get_contents();
+            ob_end_clean();
+            if ($ret === false) {
+                echo '[' , join(' ',$args), ']', PHP_EOL;
+                echo '===================================', PHP_EOL;
+                echo $output, PHP_EOL;
+                echo '===================================', PHP_EOL;
+            }
         } catch (\CurlKit\CurlException $e) {
             $this->markTestIncomplete($e->getMessage());
         }
@@ -76,7 +85,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
     public function runCommand($args)
     {
         ob_start();
-            $status = parent::runCommand($args);
+        $status = parent::runCommand($args);
         ob_end_clean();
         return $status;
     }
