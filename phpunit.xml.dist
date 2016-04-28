@@ -2,8 +2,8 @@
 
 <phpunit bootstrap="tests/bootstrap.php"
          backupGlobals="false"
-         stopOnFailure="true"
-         stopOnError="true"
+         stopOnFailure="false"
+         stopOnError="false"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          convertErrorsToExceptions="true"
