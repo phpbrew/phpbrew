@@ -42,7 +42,7 @@ class ExtractTask extends BaseTask
 
         // NOTICE: Always extract to tmp directory prevent incomplete extraction
         $this->info("===> Extracting $targetFilePath to $extractedDirTemp");
-        $lastline = system("tar -C $extractDirTemp -xf $targetFilePath", $ret);
+        $lastline = system("tar -C " . escapeshellarg($extractDirTemp) . " -xf " . escapeshellarg($targetFilePath), $ret);
         if ($ret !== 0) {
             throw new SystemCommandException("Extract failed: $lastline", $build);
         }
@@ -56,8 +56,8 @@ class ExtractTask extends BaseTask
         }
 
         if (is_dir($extractedDir)) {
-            $this->info("===> Removing $extractedDir");
-            $lastline = system("rm -rf $extractedDir", $ret);
+            $this->info("===> Found existing build directory, removing $extractedDir ...");
+            $lastline = system("rm -rf " . escapeshellarg($extractedDir), $ret);
             if ($ret !== 0) {
                 throw new SystemCommandException("Unable to remove $extractedDir: $lastline", $build);
             }
