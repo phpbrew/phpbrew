@@ -79,6 +79,7 @@ class InstallCommandTest extends CommandTestCase
 
     protected function assertListContains($string)
     {
+        $this->assertNotEmpty(Config::getInstalledPhpVersions());
         $this->assertContains($string, Config::getInstalledPhpVersions());
     }
 }
