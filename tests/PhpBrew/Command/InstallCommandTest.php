@@ -15,8 +15,8 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testKnownCommand()
     {
-        $this->assertTrue($this->runCommand("phpbrew init"));
-        $this->assertTrue($this->runCommand("phpbrew known --update"));
+        $this->assertCommandSuccess("phpbrew init");
+        $this->assertCommandSuccess("phpbrew known --update");
     }
 
     /**
@@ -29,7 +29,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertTrue($this->runCommand("phpbrew --quiet install $jobs {$versionName} +default +intl"));
+        $this->assertCommandSuccess("phpbrew --quiet install $jobs {$versionName} +default +intl");
         $this->assertListContains("php-{$versionName}");
     }
 
@@ -40,7 +40,7 @@ class InstallCommandTest extends CommandTestCase
     public function testUseCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertTrue($this->runCommand("phpbrew use {$versionName}"));
+        $this->assertCommandSuccess("phpbrew use {$versionName}");
     }
 
     /**
@@ -50,7 +50,7 @@ class InstallCommandTest extends CommandTestCase
     public function testCtagsCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertTrue($this->runCommand("phpbrew ctags {$versionName}"));
+        $this->assertCommandSuccess("phpbrew ctags {$versionName}");
     }
 
     /**
@@ -63,7 +63,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertTrue($this->runCommand("phpbrew --quiet install {$jobs} {$versionName} as myphp +soap"));
+        $this->assertCommandSuccess("phpbrew --quiet install {$jobs} {$versionName} as myphp +soap");
         $this->assertListContains("myphp");
     }
 
@@ -74,7 +74,7 @@ class InstallCommandTest extends CommandTestCase
     public function testCleanCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertTrue($this->runCommand("phpbrew --quiet clean {$versionName}"));
+        $this->assertCommandSuccess("phpbrew --quiet clean {$versionName}");
     }
 
     protected function assertListContains($string)
