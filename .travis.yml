@@ -23,6 +23,7 @@ install:
 - travis_retry composer require satooshi/php-coveralls "^1.0" --no-update --dev
 - travis_retry composer update --no-interaction
 before_script:
+- phpenv config-rm xdebug.ini
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build
