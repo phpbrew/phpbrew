@@ -11,6 +11,7 @@
          verbose="true">
 
     <php>
+      <ini name="safe_mode_allowed_env_var" value="PHP_,PHPBREW"/>
       <env name="PHPBREW_ROOT" value=".phpbrew"/>
       <env name="PHPBREW_HOME" value=".phpbrew"/>
       <env name="PHPBREW_EXTENSION_DIR" value="tests/fixtures/ext"/>
