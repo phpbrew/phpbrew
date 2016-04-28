@@ -90,16 +90,32 @@ $ phpbrew known
 5.3: 5.3.29, 5.3.28 ...
 ```
 
-To list known older versions (less than 5.3):
+To show more minor versions:
 
 ```bash
-$ phpbrew known --old
+$ phpbrew known --more
 ```
 
 To update the release info:
 
 ```bash
 $ phpbrew update
+```
+
+To get older versions (less than 5.4)
+
+> Please note that we don't guarantee that you can build the php versions that
+> are not supported by offical successfully, please don't fire any issue about
+> the older versions, these issues won't be fixed.
+
+```bash
+$ phpbrew update --old
+```
+
+To list known older versions (less than 5.4)
+
+```bash
+$ phpbrew known --old
 ```
 
 ## Start Building Your Own PHP
