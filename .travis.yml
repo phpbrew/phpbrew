@@ -38,7 +38,7 @@ before_script:
 - source shell/bashrc
 script:
 - source shell/bashrc
-- phpunit --debug
+- phpunit
 after_success:
 - travis_retry php vendor/bin/coveralls -v
 cache:
