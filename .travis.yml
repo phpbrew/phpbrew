@@ -16,8 +16,8 @@ php:
 - 5.5
 - 5.6
 - 7.0
-- nightly
-sudo: false
+# - nightly
+sudo: required
 addons:
   apt:
     packages:
@@ -38,6 +38,7 @@ before_script:
 - source shell/bashrc
 script:
 - source shell/bashrc
+- php envtest.php
 - phpunit
 after_success:
 - travis_retry php vendor/bin/coveralls -v
@@ -46,7 +47,6 @@ cache:
   directories:
   - "vendor"
   - ".phpbrew/distfiles"
-  - ".phpbrew/php"
 before_deploy:
 - make build
 deploy:

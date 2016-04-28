@@ -12,9 +12,11 @@ class UseCommand extends Command
 
     public function arguments($args) {
         $args->add('php version')
+            /*
             ->validValues(function(){
-                return Config::findMatchedBuilds();
+                return Config::findMatchedBuilds(false);
             })
+            */
             ;
     }
 
@@ -36,7 +38,7 @@ class UseCommand extends Command
             }
             putenv("PHPBREW_ROOT=$root");
             putenv("PHPBREW_HOME=$home");
-            putenv("PHPBREW_PHP=$buildName");
+            putenv("PHPBREW_PHP=$buildName") or die("putenv failed");
             putenv("PHPBREW_PATH=$root/php/$buildName/bin");
             putenv("PHPBREW_BIN=$home/bin");
         }

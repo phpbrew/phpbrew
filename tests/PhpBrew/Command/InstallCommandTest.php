@@ -34,7 +34,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew --quiet install $jobs {$versionName} +default +intl");
+        $this->assertCommandSuccess("phpbrew --quiet install $jobs php-{$versionName} +default +intl");
         $this->assertListContains("php-{$versionName}");
     }
 
@@ -44,7 +44,7 @@ class InstallCommandTest extends CommandTestCase
     public function testUseCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertCommandSuccess("phpbrew use {$versionName}");
+        $this->assertCommandSuccess("phpbrew use php-{$versionName}");
     }
 
     /**
@@ -53,7 +53,7 @@ class InstallCommandTest extends CommandTestCase
     public function testCtagsCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertCommandSuccess("phpbrew ctags {$versionName}");
+        $this->assertCommandSuccess("phpbrew ctags php-{$versionName}");
     }
 
     /**
@@ -65,7 +65,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew --quiet install {$jobs} {$versionName} as myphp +soap");
+        $this->assertCommandSuccess("phpbrew --quiet install {$jobs} php-{$versionName} as myphp +soap");
         $this->assertListContains("myphp");
     }
 
@@ -75,13 +75,13 @@ class InstallCommandTest extends CommandTestCase
     public function testCleanCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertCommandSuccess("phpbrew --quiet clean {$versionName}");
+        $this->assertCommandSuccess("phpbrew --quiet clean php-{$versionName}");
     }
 
     protected function assertListContains($string)
     {
-        var_dump(Config::getInstalledPhpVersions());
-        $this->assertNotEmpty(Config::getInstalledPhpVersions());
-        $this->assertContains($string, Config::getInstalledPhpVersions());
+        var_dump(Config::findInstalledBuilds(false));
+        $this->assertNotEmpty(Config::findInstalledBuilds(false), 'findInstalledBuilds');
+        $this->assertContains($string, Config::findInstalledBuilds(false));
     }
 }

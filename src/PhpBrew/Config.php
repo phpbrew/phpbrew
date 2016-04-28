@@ -195,6 +195,8 @@ class Config
 
     /**
      * XXX: This method is now deprecated. use findMatchedBuilds insteads.
+     *
+     * @deprecated
      */
     static public function getInstalledPhpVersions()
     {
@@ -209,19 +211,15 @@ class Config
                 if ($item == '.' || $item == '..') {
                     continue;
                 }
-
                 if (file_exists($path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php')) {
                     $versions[] = $item;
                 }
             }
-
             closedir($fp);
         } else {
             throw new Exception("opendir failed");
         }
-
         rsort($versions);
-
         return $versions;
     }
 

@@ -7,6 +7,7 @@ use Exception;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
+    protected $debug = true;
 
     private $previousPhpBrewRoot;
 
@@ -72,6 +73,9 @@ abstract class CommandTestCase extends BaseCommandTestCase
     public function assertCommandSuccess($args)
     {
         try {
+            if ($this->debug) {
+                fwrite(STDERR, $args . PHP_EOL);
+            }
             ob_start();
             $this->assertTrue($ret = parent::runCommand($args));
             $output = ob_get_contents();
