@@ -226,7 +226,7 @@ class Utils
 
         $lastLine = system($command, $returnValue);
         if ($returnValue !== 0) {
-            throw new Exception("Command failed: $command returns " . $lastLine);
+            throw new Exception("Command failed: $command returns:" . $lastLine);
         }
         return $returnValue;
     }
