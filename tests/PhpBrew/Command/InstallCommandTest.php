@@ -4,6 +4,13 @@ use PhpBrew\Machine;
 use PhpBrew\Config;
 
 /**
+ * The install command tests are heavy.
+ *
+ * Don't catch the exceptions, the system command exception 
+ * will show up the error message.
+ *
+ * Build output will be shown when assertion failed.
+ *
  * @large
  * @group command
  */
