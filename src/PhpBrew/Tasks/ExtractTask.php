@@ -20,10 +20,11 @@ class ExtractTask extends BaseTask
      */
     public function extract(Build $build, $targetFilePath, $extractDir = NULL)
     {
-        $extractDirTemp = tempnam($extractDir, 'php_');
         if (empty($extractDir)) {
             $extractDir = dirname($targetFilePath);
         }
+        $extractDirTemp = tempnam($extractDir, 'php_');
+        mkdir($extractDirTemp, 0755, true);
 
         // This converts: '/opt/phpbrew/distfiles/php-7.0.2.tar.bz2'
         //        to just '/opt/phpbrew/tmp/distfiles/php-7.0.2'
