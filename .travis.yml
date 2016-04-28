@@ -35,7 +35,7 @@ before_script:
 script:
 - source shell/bashrc
 - phpunit --debug
-after_script:
+after_success:
 - php vendor/bin/coveralls
 cache:
   apt: true
