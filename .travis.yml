@@ -24,7 +24,7 @@ addons:
     - ctags
 install:
 - travis_retry composer self-update
-- travis_retry composer install --no-interaction
+- travis_retry composer update --no-interaction
 before_script:
 - phpenv config-rm xdebug.ini
 - phpenv rehash
