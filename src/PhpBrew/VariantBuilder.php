@@ -154,7 +154,7 @@ class VariantBuilder
         $this->variants['session']     = '--enable-session';
         $this->variants['tokenizer']     = '--enable-tokenizer';
 
-        // PHP 5.5 only variants
+        // opcache was added since 5.6
         $this->variants['opcache']     = '--enable-opcache';
 
         $this->variants['imap'] = '--with-imap-ssl';
@@ -748,6 +748,11 @@ class VariantBuilder
         } elseif ($prefix = Utils::findLibPrefix('i386-linux-gnu')) {
             $this->addOptions("--with-libdir=lib/i386-linux-gnu");
         }
+
+        if ($build->compareVersion('5.6') >= 0) {
+            $this->enableVariant('opcache');
+        }
+
 
         // enable/expand virtual variants
         foreach ($this->virtualVariants as $name => $variantNames) {
