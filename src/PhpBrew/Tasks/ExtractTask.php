@@ -41,7 +41,7 @@ class ExtractTask extends BaseTask
         if (!is_dir($extractedDirTemp)) {
             // retry with github extracted dir path
             $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . 'php-src-' . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
-            if(! is_dir($extractedDirTemp)) {
+            if (!is_dir($extractedDirTemp)) {
                 throw new RuntimeException("Unable to find $extractedDirTemp");
             }
         }
