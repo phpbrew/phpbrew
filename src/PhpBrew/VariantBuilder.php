@@ -750,7 +750,7 @@ class VariantBuilder
         }
 
         if ($build->compareVersion('5.6') >= 0) {
-            $this->enableVariant('opcache');
+            $build->enableVariant('opcache');
         }
 
 
