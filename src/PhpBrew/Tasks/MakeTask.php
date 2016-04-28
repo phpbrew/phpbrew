@@ -41,6 +41,12 @@ class MakeTask extends BaseTask
         return $this->isQuiet;
     }
 
+
+    private function isGNUMake($bin)
+    {
+        return preg_match('/GNU Make/', shell_exec("$bin --version"));
+    }
+
     private function make($path, $target = 'all')
     {
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
@@ -56,21 +62,26 @@ class MakeTask extends BaseTask
         $make = null;
         if (!$gmake) {
             $make = Utils::findBin('make');
+            if ($make && $this->isGNUMake($make)) {
+                $gmake = $make;
+            }
         }
 
         // Prefer 'gmake' rather than 'make'
         $cmd = array($gmake ?: $make, "-C", escapeshellarg($path));
+
         if ($this->isQuiet()) {
             if ($gmake) {
                 $cmd[] = '--quiet';
             } else {
-                // fixme: sometimes make is linked to gmake, we should prevent that.
+                // make may be a link to gmake, we should prevent that.
                 // append '-Q' only when we're really sure it is BSD make.
                 if (php_uname('s') === "FreeBSD") {
-                    // $cmd[] = '-Q';
+                    $cmd[] = '-Q';
                 }
             }
         }
+
         $cmd[] = escapeshellarg($target);
         if (!$this->logger->isDebug() && $this->buildLogPath) {
             $cmd[] = " >> " . escapeshellarg($this->buildLogPath) . " 2>&1";
