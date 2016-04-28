@@ -48,17 +48,18 @@ class CommandBuilder
         $this->nice = $nice;
     }
 
-    public function execute()
+
+    public function execute(& $lastline = null)
     {
         $ret = null;
         $command = $this->getCommand();
-        $line = system($command, $ret);
-        if ($line === false) {
+        $lastline = system($command, $ret);
+        if ($lastline === false) {
             return $ret;
         }
         if ($ret != 0) {
             // XXX: improve this later.
-            echo substr($line,0, 78) . "\n";
+            echo substr($lastline,0, 78) . "\n";
         }
         return $ret;
     }
