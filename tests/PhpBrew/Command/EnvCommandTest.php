@@ -1,5 +1,5 @@
 <?php
-use CLIFramework\Testing\CommandTestCase;
+use PhpBrew\Testing\CommandTestCase;
 
 /**
  * @large
