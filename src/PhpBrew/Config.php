@@ -201,7 +201,10 @@ class Config
         $versions = array();
         $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
 
-        if (file_exists($path) && $fp = opendir($path)) {
+        if (!file_exists($path)) {
+            throw new Exception("$path doesn't exist.");
+        }
+        if ($fp = opendir($path)) {
             while (($item = readdir($fp)) !== false) {
                 if ($item == '.' || $item == '..') {
                     continue;
@@ -213,6 +216,8 @@ class Config
             }
 
             closedir($fp);
+        } else {
+            throw new Exception("opendir failed");
         }
 
         rsort($versions);
