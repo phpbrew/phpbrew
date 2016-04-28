@@ -53,6 +53,11 @@
           <file>tests/PhpBrew/VariantParserTest.php</file>
           <file>tests/PhpBrew/VersionDslParserTest.php</file>
           <file>tests/PhpBrew/VersionTest.php</file>
+          <directory suffix="Test.php">tests/PhpBrew/Platform</directory>
+          <directory suffix="Test.php">tests/PhpBrew/Distribution</directory>
+          <directory suffix="Test.php">tests/PhpBrew/Downloader</directory>
+          <directory suffix="Test.php">tests/PhpBrew/PatchKit</directory>
+          <directory suffix="Test.php">tests/PhpBrew/Patches</directory>
         </testsuite>
 
         <testsuite name="Command">
