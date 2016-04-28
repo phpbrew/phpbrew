@@ -16,9 +16,11 @@ abstract class CommandTestCase extends BaseCommandTestCase
 
     public function getPrimaryVersion()
     {
+        /*
         if ($version = getenv('TRAVIS_PHP_VERSION')) {
             return "php-$version";
         }
+        */
         return $this->primaryVersion;
     }
 
