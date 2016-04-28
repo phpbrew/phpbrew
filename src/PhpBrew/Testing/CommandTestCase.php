@@ -64,10 +64,19 @@ abstract class CommandTestCase extends BaseCommandTestCase
         }
     }
 
+    public function assertCommandSuccess($args)
+    {
+        try {
+            $this->assertTrue($this->runCommand($args));
+        } catch (\CurlKit\CurlException $e) {
+            $this->markTestIncomplete($e->getMessage());
+        }
+    }
+
     public function runCommand($args)
     {
         ob_start();
-        $status = parent::runCommand($args);
+            $status = parent::runCommand($args);
         ob_end_clean();
         return $status;
     }
