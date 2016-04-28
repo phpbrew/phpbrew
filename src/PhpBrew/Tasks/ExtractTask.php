@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
-
+use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
 use PhpBrew\Config;
 use PhpBrew\Build;
@@ -31,32 +31,32 @@ class ExtractTask extends BaseTask
             return $extractedDir;
         }
 
-        // NOTICE: Always extract to prevent incomplete extraction
+        // NOTICE: Always extract to tmp directory prevent incomplete extraction
         $this->info("===> Extracting $targetFilePath to $extractedDirTemp");
-        system("tar -C $extractDirTemp -xf $targetFilePath", $ret);
+        $lastline = system("tar -C $extractDirTemp -xf $targetFilePath", $ret);
         if ($ret !== 0) {
-            throw new RuntimeException('Extract failed.');
+            throw new SystemCommandException("Extract failed: $lastline", $build);
         }
         clearstatcache(true);
         if (!is_dir($extractedDirTemp)) {
             // retry with github extracted dir path
             $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . 'php-src-' . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
             if (!is_dir($extractedDirTemp)) {
-                throw new RuntimeException("Unable to find $extractedDirTemp");
+                throw new SystemCommandException("Unable to find $extractedDirTemp", $build);
             }
         }
 
         if (is_dir($extractedDir)) {
             $this->info("===> Removing $extractedDir");
-            system("rm -rf $extractedDir", $ret);
+            $lastline = system("rm -rf $extractedDir", $ret);
             if ($ret !== 0) {
-                throw new RuntimeException("Unable to remove $extractedDir.");
+                throw new SystemCommandException("Unable to remove $extractedDir: $lastline", $build);
             }
         }
 
         $this->info("===> Moving $extractedDirTemp to $extractedDir");
         if (!rename($extractedDirTemp, $extractedDir)) {
-            throw new RuntimeException("Unable to move $extractedDirTemp to $extractedDir");
+            throw new SystemCommandException("Unable to move $extractedDirTemp to $extractedDir", $build);
         }
 
         $build->setState(Build::STATE_EXTRACT);
