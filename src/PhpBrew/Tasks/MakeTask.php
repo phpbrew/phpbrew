@@ -48,19 +48,36 @@ class MakeTask extends BaseTask
 
             return false;
         }
-        $cmd = array(
-            "make",
-            "-C", $path,
-            $this->isQuiet() ? "--quiet" : "",
-            $target
-        );
+
+        // FreeBSD make doesn't support --quiet option
+        // We should prefer GNU make instead of BSD make.
+        // @see https://github.com/phpbrew/phpbrew/issues/529
+        $gmake = Utils::findBin('gmake');
+        $make = null;
+        if (!$gmake) {
+            $make = Utils::findBin('make');
+        }
+
+        // Prefer 'gmake' rather than 'make'
+        $cmd = array($gmake ?: $make, "-C", escapeshellarg($path));
+        if ($this->isQuiet()) {
+            if ($gmake) {
+                $cmd[] = '--quiet';
+            } else {
+                // fixme: sometimes make is linked to gmake, we should prevent that.
+                // append '-Q' only when we're really sure it is BSD make.
+                if (php_uname('s') === "FreeBSD") {
+                    // $cmd[] = '-Q';
+                }
+            }
+        }
+        $cmd[] = escapeshellarg($target);
         if (!$this->logger->isDebug() && $this->buildLogPath) {
-            $cmd[] = " >> $this->buildLogPath 2>&1";
+            $cmd[] = " >> " . escapeshellarg($this->buildLogPath) . " 2>&1";
         }
 
         $this->logger->info("===> Running make $target: " . join(' ', $cmd));
         $ret = Utils::system($cmd, $this->logger);
-
-        return $ret == 0;
+        return $ret === 0;
     }
 }
