@@ -10,7 +10,6 @@ use PhpBrew\Config;
 class InstallCommandTest extends CommandTestCase
 {
     /**
-     * @outputBuffering enabled
      * @group install
      */
     public function testKnownCommand()
@@ -20,7 +19,6 @@ class InstallCommandTest extends CommandTestCase
     }
 
     /**
-     * @outputBuffering enabled
      * @depends testKnownCommand
      * @group install
      */
@@ -34,7 +32,6 @@ class InstallCommandTest extends CommandTestCase
     }
 
     /**
-     * @outputBuffering enabled
      * @depends testInstallCommand
      */
     public function testUseCommand()
@@ -44,7 +41,6 @@ class InstallCommandTest extends CommandTestCase
     }
 
     /**
-     * @outputBuffering enabled
      * @depends testInstallCommand
      */
     public function testCtagsCommand()
@@ -54,7 +50,6 @@ class InstallCommandTest extends CommandTestCase
     }
 
     /**
-     * @outputBuffering enabled
      * @depends testInstallCommand
      * @group install
      */
@@ -68,7 +63,6 @@ class InstallCommandTest extends CommandTestCase
     }
 
     /**
-     * @outputBuffering enabled
      * @depends testInstallCommand
      */
     public function testCleanCommand()
