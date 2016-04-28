@@ -25,7 +25,8 @@ class PathCommandTest extends CommandTestCase
     {
         $versionName = $this->getPrimaryVersion();
         $this->assertCommandSuccess("phpbrew use {$versionName}");
-        $this->assertRegExp("#php/$versionName/bin\$#",getenv('PHPBREW_PATH'));
+        $this->assertRegExp("#php/$versionName/bin\$#", getenv('PHPBREW_PATH'));
+        $this->assertEquals($versionName, getenv('PHPBREW_PHP'));
     }
 
     /**
