@@ -1,7 +1,8 @@
 <?php
 namespace PhpBrew;
-use Exception;
 use CLIFramework\Logger;
+use PhpBrew\Exception\SystemCommandException;
+use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
