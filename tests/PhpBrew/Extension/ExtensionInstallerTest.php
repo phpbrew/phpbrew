@@ -45,16 +45,20 @@ class ExtensionInstallerTest extends CommandTestCase
         return array(
             // xdebug requires at least php 5.4
             // array('xdebug'),
-            array('APCu', 'stable'),
-            array('yaml', 'stable'),
+            array(version_compare(PHP_VERSION, '5.5', '=='),'APCu', 'stable', array()),
+            // array(version_compare(PHP_VERSION, '5.5', '=='),'yaml', 'stable', array()),
         );
     }
 
     /**
      * @dataProvider packageNameProvider
      */
-    public function testInstallPackages($extensionName, $extensionVersion)
+    public function testInstallPackages($build, $extensionName, $extensionVersion, $options)
     {
+        if (!$build) {
+            $this->markTestSkipped('skip extension build test');
+            return;
+        }
         $logger = new Logger;
         $logger->setDebug();
         $manager = new ExtensionManager($logger);
@@ -64,6 +68,6 @@ class ExtensionInstallerTest extends CommandTestCase
         $downloader->download($peclProvider, $extensionVersion);
         $ext = ExtensionFactory::lookup($extensionName);
         $this->assertNotNull($ext);
-        $manager->installExtension($ext, array());
+        $manager->installExtension($ext, $options);
     }
 }
