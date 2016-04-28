@@ -23,10 +23,10 @@ class ExtractTask extends BaseTask
         if (empty($extractDir)) {
             $extractDir = dirname($targetFilePath);
         }
-        $extractDirTemp = tempnam($extractDir, 'php_');
+        $extractDirTemp = $extractDir . DIRECTORY_SEPARATOR . 'tmp.' . time();
 
         if (!file_exists($extractDirTemp)) {
-            @mkdir($extractDirTemp, 0755, true);
+            mkdir($extractDirTemp, 0755, true);
         }
 
         // This converts: '/opt/phpbrew/distfiles/php-7.0.2.tar.bz2'
@@ -67,7 +67,6 @@ class ExtractTask extends BaseTask
         if (!rename($extractedDirTemp, $extractedDir)) {
             throw new SystemCommandException("Unable to move $extractedDirTemp to $extractedDir", $build);
         }
-
         @rmdir($extractDirTemp);
 
         $build->setState(Build::STATE_EXTRACT);
