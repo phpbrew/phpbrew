@@ -51,14 +51,12 @@ class IntlWith64bitPatch extends Patch
      */
     public function match(Buildable $build, Logger $logger)
     {
-        $currentVersion = preg_replace('/[^\d]*(\d+).(\d+).*/i', '$1.$2', $build->getVersion());
-        return ($build->isEnabledVariant('intl') && version_compare($currentVersion, '5.4', '<='));
+        return ($build->isEnabledVariant('intl') && version_compare($build->getVersion(), '5.4', '<='));
     }
 
     public function rules()
     {
-        $rules = [];
-
+        $rules = array();
         $rules[] = RegExpPatchRule::files('Makefile')
             ->allOf(array('/^BUILD_/'))
             ->replaces('/\$\(CC\)/', '$(CXX)');
