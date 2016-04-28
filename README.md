@@ -5,6 +5,7 @@ PHPBrew
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
+[![Gitter](https://badges.gitter.im/phpbrew/phpbrew.svg)](https://gitter.im/phpbrew/phpbrew?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
 
@@ -604,6 +605,7 @@ Please see [Contribution](https://github.com/phpbrew/phpbrew/wiki/Contribution)
 Documentation
 -------------
 Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
+
 
 
 Author
