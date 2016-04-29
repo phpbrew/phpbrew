@@ -7,7 +7,7 @@ use Exception;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
-    protected $debug = true;
+    protected $debug = false;
 
     private $previousPhpBrewRoot;
 
