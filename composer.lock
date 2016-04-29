@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2aadb3f3190dcfd2224fdcba060218e5",
-    "content-hash": "4b083cb4f98c0fbe6a34c0737e74fce5",
+    "hash": "9ad471af3edaaea8ce2389521f926a9d",
+    "content-hash": "36f0ce2f4f1db2227e9d8c3c73027502",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -14,6 +14,12 @@
                 "type": "git",
                 "url": "https://github.com/c9s/CacheKit.git",
                 "reference": "8ced1f91e4cfa5a3ccb044e6991f9639676baf5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/CacheKit/zipball/8ced1f91e4cfa5a3ccb044e6991f9639676baf5d",
+                "reference": "8ced1f91e4cfa5a3ccb044e6991f9639676baf5d",
+                "shasum": ""
             },
             "require": {
                 "corneltek/serializerkit": "~1",
@@ -28,6 +34,7 @@
                     "CacheKit": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -326,6 +333,12 @@
                 "url": "https://github.com/c9s/php-SerializerKit.git",
                 "reference": "d6f222c252fcf5f7dde788173ceb4a41a92136dd"
             },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/php-SerializerKit/zipball/d6f222c252fcf5f7dde788173ceb4a41a92136dd",
+                "reference": "d6f222c252fcf5f7dde788173ceb4a41a92136dd",
+                "shasum": ""
+            },
             "require": {
                 "php": ">=5.3.0",
                 "symfony/yaml": "~2"
@@ -339,6 +352,7 @@
                     "SerializerKit": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "time": "2013-12-01 14:32:14"
         },
         {
