@@ -22,6 +22,7 @@ addons:
   apt:
     packages:
     - ctags
+    - libicu-dev
 install:
 - travis_retry composer self-update
 - travis_retry composer update --no-interaction
