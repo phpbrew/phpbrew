@@ -34,7 +34,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew install $jobs php-{$versionName} +default +intl");
+        $this->assertCommandSuccess("phpbrew install $jobs php-{$versionName} +default");
         $this->assertListContains("php-{$versionName}");
     }
 
@@ -65,7 +65,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew --debug install {$jobs} php-{$versionName} as myphp +soap");
+        $this->assertCommandSuccess("phpbrew install {$jobs} php-{$versionName} as myphp +soap");
         $this->assertListContains("myphp");
     }
 
@@ -75,12 +75,11 @@ class InstallCommandTest extends CommandTestCase
     public function testCleanCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertCommandSuccess("phpbrew --quiet clean php-{$versionName}");
+        $this->assertCommandSuccess("phpbrew clean php-{$versionName}");
     }
 
     protected function assertListContains($string)
     {
-        var_dump(Config::findInstalledBuilds(false));
         $this->assertNotEmpty(Config::findInstalledBuilds(false), 'findInstalledBuilds');
         $this->assertContains($string, Config::findInstalledBuilds(false));
     }

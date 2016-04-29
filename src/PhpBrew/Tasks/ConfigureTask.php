@@ -6,8 +6,7 @@ use Exception;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\Build;
-
-
+use PhpBrew\Utils;
 use PhpBrew\Patches\IntlWith64bitPatch;
 use PhpBrew\Patches\OpenSSLDSOPatch;
 
@@ -74,7 +73,9 @@ class ConfigureTask extends BaseTask
         } else if ($build->compareVersion('5.6') == -1) {
             // dtrace is not compatible with phpdbg: https://github.com/krakjoe/phpdbg/issues/38
             if (!$build->isEnabledVariant('phpdbg')) {
-                $args[] = "--enable-dtrace";
+                if ($prefix = Utils::findIncludePrefix('sys/sdt.h')) {
+                    $args[] = "--enable-dtrace";
+                }
             }
             $args[] = "--enable-zend-signals";
         }
