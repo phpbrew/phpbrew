@@ -23,12 +23,12 @@ class PhpBrew
 
     public static function runUse($version)
     {
-        putenv("PHPBREW_BIN=". Config::getPhpbrewHome() . '/bin');
-        putenv("PHPBREW_HOME=" . Config::getPhpbrewHome());
+        putenv("PHPBREW_BIN=". Config::getHome() . '/bin');
+        putenv("PHPBREW_HOME=" . Config::getHome());
         putenv("PHPBREW_LOOKUP_PREFIX=/usr/local/Cellar:/usr/local");
-        putenv("PHPBREW_PATH=" . Config::getPhpbrewHome() ."/php/php-{$version}/bin");
+        putenv("PHPBREW_PATH=" . Config::getHome() ."/php/php-{$version}/bin");
         putenv("PHPBREW_PHP=php-{$version}");
-        putenv("PHPBREW_ROOT=" . Config::getPhpbrewRoot());
+        putenv("PHPBREW_ROOT=" . Config::getRoot());
         putenv('PATH=' . getenv('PHPBREW_PATH') . ':' . self::getCleanPath());
     }
 

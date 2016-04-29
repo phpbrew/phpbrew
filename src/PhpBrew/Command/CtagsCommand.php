@@ -24,8 +24,8 @@ class CtagsCommand extends \CLIFramework\Command
 
 
         // $currentVersion;
-        $root = Config::getPhpbrewRoot();
-        $home = Config::getPhpbrewHome();
+        $root = Config::getRoot();
+        $home = Config::getHome();
 
         if ($versionName) {
             $sourceDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $versionName;

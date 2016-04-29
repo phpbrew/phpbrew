@@ -12,7 +12,7 @@ class Config
 {
     protected static $currentPhpVersion = null;
 
-    public static function getPhpbrewHome()
+    public static function getHome()
     {
         if ($custom = getenv('PHPBREW_HOME')) {
             if (!file_exists($custom)) {
@@ -36,7 +36,7 @@ class Config
         putenv('PHPBREW_ROOT='.  $root);
     }
 
-    public static function getPhpbrewRoot()
+    public static function getRoot()
     {
         if ($root = getenv('PHPBREW_ROOT')) {
             if (!file_exists($root)) {
@@ -55,7 +55,7 @@ class Config
      */
     static public function getVariantsDir()
     {
-        return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'variants';
+        return self::getHome() . DIRECTORY_SEPARATOR . 'variants';
     }
 
     /**
@@ -63,17 +63,17 @@ class Config
      */
     static public function getBuildDir()
     {
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
 
     static public function getCurrentBuildDir() {
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
     static public function getDistFileDir()
     {
-        $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'distfiles';
+        $dir =  self::getRoot() . DIRECTORY_SEPARATOR . 'distfiles';
         if (!file_exists($dir)) {
             mkdir($dir, 0755, true);
         }
@@ -82,7 +82,7 @@ class Config
 
     static public function getTempFileDir()
     {
-        $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'tmp';
+        $dir =  self::getRoot() . DIRECTORY_SEPARATOR . 'tmp';
         if (!file_exists($dir)) {
             mkdir($dir, 0755, true);
         }
@@ -92,7 +92,7 @@ class Config
     static public function getPHPReleaseListPath()
     {
         // Release list from php.net
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
     }
 
     /**
@@ -106,7 +106,7 @@ class Config
      */
     static public function getInstallPrefix()
     {
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
 
@@ -134,7 +134,7 @@ class Config
 
 
     static public function putPathEnvFor($buildName) {
-        $root = Config::getPhpbrewRoot();
+        $root = Config::getRoot();
         $buildDir = $root . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $buildName;
 
         // re-build path
@@ -155,7 +155,7 @@ class Config
     static public function getInstalledPhpVersions()
     {
         $versions = array();
-        $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+        $path = self::getRoot() . DIRECTORY_SEPARATOR . 'php';
 
         if (!file_exists($path)) {
             throw new Exception("$path doesn't exist.");
@@ -198,9 +198,9 @@ class Config
     static public function getCurrentPhpDir($home = false)
     {
         if ($home) {
-            return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+            return self::getHome() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
         }
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
 
@@ -246,7 +246,7 @@ class Config
 
     static public function getConfig()
     {
-        $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
+        $configFile = self::getRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
         if (!file_exists($configFile)) {
             return array();
         }
@@ -255,7 +255,7 @@ class Config
 
     static public function getProxyConfig()
     {
-        $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'proxy.yaml';
+        $configFile = self::getRoot() . DIRECTORY_SEPARATOR . 'proxy.yaml';
         if (!file_exists($configFile)) {
             return false;
         }
@@ -272,8 +272,8 @@ class Config
     }
 
     static public function initDirectories($buildName = NULL) {
-        $dirs[] = self::getPhpbrewHome();
-        $dirs[] = self::getPhpbrewRoot();
+        $dirs[] = self::getHome();
+        $dirs[] = self::getRoot();
         $dirs[] = self::getVariantsDir();
         $dirs[] = self::getBuildDir();
         $dirs[] = self::getDistFileDir();

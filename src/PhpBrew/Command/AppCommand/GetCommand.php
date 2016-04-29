@@ -36,7 +36,7 @@ class GetCommand extends Command
             throw new Exception("App $appName not found.");
         }
         $app = $apps[$appName];
-        $targetDir = Config::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'bin';
+        $targetDir = Config::getRoot() . DIRECTORY_SEPARATOR . 'bin';
         $target = $targetDir . DIRECTORY_SEPARATOR . $app['as'];
 
         DownloadFactory::getInstance($this->logger, $this->options)->download($app['url'], $target);

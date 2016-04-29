@@ -9,8 +9,8 @@ class PrepareDirectoryTask extends BaseTask
     public function run(Build $build = NULL)
     {
         $dirs = array();
-        $dirs[] = Config::getPhpbrewRoot();
-        $dirs[] = Config::getPhpbrewHome();
+        $dirs[] = Config::getRoot();
+        $dirs[] = Config::getHome();
         $dirs[] = Config::getBuildDir();
         $dirs[] = Config::getDistFileDir();
         $dirs[] = Config::getVariantsDir();

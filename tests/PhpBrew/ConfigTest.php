@@ -28,7 +28,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             'HOME'         => null
         );
         $this->withEnv($env, function() {
-            PhpBrew\Config::getPhpbrewHome();
+            PhpBrew\Config::getHome();
         });
     }
 
@@ -39,21 +39,21 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             'PHPBREW_HOME' => null
         );
         $this->withEnv($env, function($self) {
-            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getPhpbrewHome());
+            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getHome());
         });
     }
 
     public function testGetPhpbrewHomeWhenPHPBREW_HOMEIsDefined()
     {
         $this->withEnv(array(), function($self) {
-            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getPhpbrewHome());
+            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getHome());
         });
     }
 
     public function testGetPhpbrewRootWhenPHPBREW_ROOTIsDefined()
     {
         $this->withEnv(array(), function($self) {
-            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getPhpbrewRoot());
+            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getRoot());
         });
     }
 
@@ -64,7 +64,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             'PHPBREW_ROOT' => null
         );
         $this->withEnv($env, function($self) {
-            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getPhpbrewRoot());
+            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getRoot());
         });
     }
 

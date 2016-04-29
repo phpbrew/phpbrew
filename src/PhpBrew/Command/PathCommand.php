@@ -30,10 +30,10 @@ class PathCommand extends Command
     {
         switch ($name) {
             case 'root':
-                echo Config::getPhpbrewRoot();
+                echo Config::getRoot();
                 break;
             case 'home':
-                echo Config::getPhpbrewHome();
+                echo Config::getHome();
                 break;
             case 'config-scan':
                 echo Config::getCurrentPhpConfigScanPath();

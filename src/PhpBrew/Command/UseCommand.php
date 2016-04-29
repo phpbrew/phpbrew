@@ -32,8 +32,8 @@ class UseCommand extends Command
             throw new Exception("build name is required.");
         }
         { // this block is important for tests only
-            $root = Config::getPhpbrewRoot();
-            $home = Config::getPhpbrewHome();
+            $root = Config::getRoot();
+            $home = Config::getHome();
             if (!file_exists("$root/php/$buildName")) {
                 throw new Exception("build $buildName doesn't exist.");
             }

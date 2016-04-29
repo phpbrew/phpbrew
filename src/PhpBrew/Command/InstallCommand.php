@@ -462,7 +462,7 @@ system-wide phpbrew or this might cause problems.");
 
         if ($build->isEnabledVariant('pear')) {
             $this->logger->info("Initializing pear config...");
-            $home = Config::getPhpbrewHome();
+            $home = Config::getHome();
 
             @mkdir("$home/tmp/pear/temp", 0755, true);
             @mkdir("$home/tmp/pear/cache_dir", 0755, true);
@@ -502,7 +502,7 @@ EOT;
 
         // If the bashrc file is not found, it means 'init' command didn't get
         // a chance to be executed.
-        if (!file_exists(Config::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'bashrc')) {
+        if (!file_exists(Config::getHome() . DIRECTORY_SEPARATOR . 'bashrc')) {
 
             echo <<<EOT
 

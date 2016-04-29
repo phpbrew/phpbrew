@@ -30,8 +30,8 @@ class EnvCommand extends \CLIFramework\Command
         }
 
         // $currentVersion;
-        $root = Config::getPhpbrewRoot();
-        $home = Config::getPhpbrewHome();
+        $root = Config::getRoot();
+        $home = Config::getHome();
         $lookup = getenv('PHPBREW_LOOKUP_PREFIX');
 
         $this->logger->writeln("export PHPBREW_ROOT=$root");

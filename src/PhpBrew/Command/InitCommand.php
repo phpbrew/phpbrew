@@ -19,8 +19,8 @@ class InitCommand extends \CLIFramework\Command
     public function execute()
     {
         // $currentVersion;
-        $root = Config::getPhpbrewRoot();
-        $home = Config::getPhpbrewHome();
+        $root = Config::getRoot();
+        $home = Config::getHome();
         $buildDir = Config::getBuildDir();
         $buildPrefix = Config::getInstallPrefix();
         // $versionBuildPrefix = Config::getVersionInstallPrefix($version);

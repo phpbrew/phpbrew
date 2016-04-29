@@ -11,7 +11,7 @@ class BuildRegister
 
     public function __construct()
     {
-        $this->root = Config::getPhpbrewRoot();
+        $this->root = Config::getRoot();
         $this->baseDir = $this->root . DIRECTORY_SEPARATOR . 'register';
     }
 
