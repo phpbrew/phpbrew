@@ -2,6 +2,7 @@
 namespace PhpBrew\Command;
 use CLIFramework\Command;
 use PhpBrew\Config;
+use PhpBrew\BuildFinder;
 use Exception;
 
 /**
@@ -14,7 +15,7 @@ class UseCommand extends Command
         $args->add('php version')
             /*
             ->validValues(function(){
-                return Config::findMatchedBuilds(false);
+                return BuildFinder::findMatchedBuilds(false);
             })
             */
             ;

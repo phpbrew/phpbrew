@@ -2,6 +2,7 @@
 use PhpBrew\Testing\CommandTestCase;
 use PhpBrew\Machine;
 use PhpBrew\Config;
+use PhpBrew\BuildFinder;
 
 /**
  * The install command tests are heavy.
@@ -80,7 +81,7 @@ class InstallCommandTest extends CommandTestCase
 
     protected function assertListContains($string)
     {
-        $this->assertNotEmpty(Config::findInstalledBuilds(false), 'findInstalledBuilds');
-        $this->assertContains($string, Config::findInstalledBuilds(false));
+        $this->assertNotEmpty(BuildFinder::findInstalledBuilds(false), 'findInstalledBuilds');
+        $this->assertContains($string, BuildFinder::findInstalledBuilds(false));
     }
 }

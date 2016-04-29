@@ -132,52 +132,6 @@ class Config
         return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'bin';
     }
 
-    static public function findInstalledBuilds($stripPrefix = true)
-    {
-        $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
-        if (!file_exists($path)) {
-            throw new Exception($path . ' does not exist.');
-        }
-        $names = scandir($path);
-        $names = array_filter($names, function($name) use ($path) {
-            return $name != '.' && $name != '..' && file_exists($path . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php');
-        });
-
-        if ($names == null || empty($names)) {
-            return array();
-        }
-
-        if ($stripPrefix) {
-            $names = array_map(function($name)  { return preg_replace('/^php-(?=(\d+\.\d+\.\d+)$)/','', $name); }, $names);
-        }
-        uasort($names, 'version_compare'); // ordering version name ascending... 5.5.17, 5.5.12
-        return array_reverse($names);  // make it descending... since there is no sort function for user-define in reverse order.
-    }
-
-    static public function findMatchedBuilds($buildNameRE = '', $stripPrefix = true)
-    {
-        $builds = self::findInstalledBuilds($stripPrefix);
-        return array_filter($builds, function($build) use ($buildNameRE) {
-            return preg_match("/^$buildNameRE/i", $build);
-        });
-    }
-
-    static public function findFirstMatchedBuild($buildNameRE = '', $stripPrefix = true)
-    {
-        $builds = self::findInstalledBuilds($stripPrefix);
-        foreach ($builds as $build) {
-            if (preg_match("/$buildNameRE/i", $build)) {
-                return $build;
-            }
-        }
-    }
-
-    static public function findLatestBuild($stripPrefix = true) {
-        $builds = Config::findInstalledBuilds($stripPrefix);
-        if (!empty($builds)) {
-            return $builds[0]; // latest
-        }
-    }
 
     static public function putPathEnvFor($buildName) {
         $root = Config::getPhpbrewRoot();
