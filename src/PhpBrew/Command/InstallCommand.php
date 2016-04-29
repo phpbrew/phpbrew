@@ -328,14 +328,14 @@ system-wide phpbrew or this might cause problems.");
         $downloadTask = new DownloadTask($this->logger, $this->options);
         $targetFilePath = $downloadTask->download($distUrl, $distFileDir, isset($versionInfo['md5']) ? $versionInfo['md5'] : NULL);
         if (!file_exists($targetFilePath)) {
-            throw new Exception("Download failed, $targetFilePath does not exist.");
+            throw new SystemCommandException("Download failed, $targetFilePath does not exist.", $build);
         }
         unset($downloadTask);
 
         $extractTask = new ExtractTask($this->logger, $this->options);
         $targetDir = $extractTask->extract($build, $targetFilePath, $buildDir);
         if (!file_exists($targetDir)) {
-            throw new Exception("Extract failed, $targetDir does not exist.");
+            throw new SystemCommandException("Extract failed, $targetDir does not exist.", $build);
         }
         unset($extractTask);
 
@@ -360,66 +360,47 @@ system-wide phpbrew or this might cause problems.");
 
         $buildLogFile = $build->getBuildLogPath();
 
-        try {
+        if (!$this->options->{'no-configure'}) {
+            $configureTask = new BeforeConfigureTask($this->logger, $this->options);
+            $configureTask->run($build);
+            unset($configureTask); // trigger __destruct
 
-            if (!$this->options->{'no-configure'}) {
-                $configureTask = new BeforeConfigureTask($this->logger, $this->options);
-                $configureTask->run($build);
-                unset($configureTask); // trigger __destruct
+            $configureTask = new ConfigureTask($this->logger, $this->options);
+            $configureTask->run($build, $configureOptions);
+            unset($configureTask); // trigger __destruct
 
-                $configureTask = new ConfigureTask($this->logger, $this->options);
-                $configureTask->run($build, $configureOptions);
-                unset($configureTask); // trigger __destruct
+            $configureTask = new AfterConfigureTask($this->logger, $this->options);
+            $configureTask->run($build);
+            unset($configureTask); // trigger __destruct
+        }
 
-                $configureTask = new AfterConfigureTask($this->logger, $this->options);
-                $configureTask->run($build);
-                unset($configureTask); // trigger __destruct
-            }
-
-            {
-                $buildTask = new BuildTask($this->logger, $this->options);
-                $buildTask->run($build);
-                unset($buildTask); // trigger __destruct
-            }
+        {
+            $buildTask = new BuildTask($this->logger, $this->options);
+            $buildTask->run($build);
+            unset($buildTask); // trigger __destruct
+        }
 
 
-            if ($this->options->{'test'}) {
-                $testTask = new TestTask($this->logger, $this->options);
-                $testTask->run($build);
-                unset($testTask); // trigger __destruct
-            }
+        if ($this->options->{'test'}) {
+            $testTask = new TestTask($this->logger, $this->options);
+            $testTask->run($build);
+            unset($testTask); // trigger __destruct
+        }
 
-            if (!$this->options->{'no-install'}) {
-                $installTask = new InstallTask($this->logger, $this->options);
-                $installTask->install($build);
-                unset($installTask); // trigger __destruct
-            }
+        if (!$this->options->{'no-install'}) {
+            $installTask = new InstallTask($this->logger, $this->options);
+            $installTask->install($build);
+            unset($installTask); // trigger __destruct
+        }
 
-            if ($this->options->{'post-clean'}) {
-                $clean->clean($build);
-            }
+        if ($this->options->{'post-clean'}) {
+            $clean->clean($build);
+        }
 
-            /** POST INSTALLATION **/
-            {
-                $dsym = new DSymTask($this->logger, $this->options);
-                $dsym->patch($build, $this->options);
-            }
-        } catch (SystemCommandException $e) {
-            $buildLog = $e->getLogFile();
-            $this->logger->error("Error: " . $e->getMessage());
-            $this->logger->error("Configure options: " . join(' ', $configureOptions));
-
-
-            if (file_exists($buildLog)) {
-                $this->logger->error("Last 5 lines in the log file:");
-                $lines = array_slice(file($buildLog), -5);
-                foreach ($lines as $line) {
-                    echo $line , PHP_EOL;
-                }
-                $this->logger->error("Please checkout the build log file for more details:");
-                $this->logger->error("\t tail $buildLog");
-            }
-            return;
+        /** POST INSTALLATION **/
+        {
+            $dsym = new DSymTask($this->logger, $this->options);
+            $dsym->patch($build, $this->options);
         }
 
         // copy php-fpm config
