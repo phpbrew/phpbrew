@@ -60,7 +60,7 @@ class PHP53Patch extends Patch
 
     public function rules()
     {
-        $rules = [];
+        $rules = array();
         // The patch only works for php5.3.29
         $rules[] = DiffPatchRule::from(GistContent::url('javian', 'bfcbd5bc5874ee9c539fb3d642cdce3e', 'multi-sapi-5.3.29-homebrew.patch', 'bf079cc68ec76290f02f57981ae85b20a06dd428'))
             ->strip(1)
