@@ -32,7 +32,7 @@ class PathCommandTest extends CommandTestCase
         var_dump(getenv('PHPBREW_HOME'));
 
         // $this->assertRegExp("#php/$versionName/bin\$#", getenv('PHPBREW_PATH'));
-        $this->assertEquals($versionName, getenv('PHPBREW_PHP'));
+        $this->assertEquals("php-$versionName", getenv('PHPBREW_PHP'));
     }
 
     /**
