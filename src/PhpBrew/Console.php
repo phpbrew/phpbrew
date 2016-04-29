@@ -118,10 +118,12 @@ class Console extends Application
             $this->logger->newline();
 
         } catch (SystemCommandException $e) {
-            $buildLog = $e->getLogFile();
-            $this->logger->error("Error: " . $e->getMessage());
-            $this->logger->error("Configure options: " . join(' ', $configureOptions));
 
+            // Todo: detect $lastline for library missing here...
+
+            $buildLog = $e->getLogFile();
+            $this->logger->error("Error: " . trim($e->getMessage()));
+            $this->logger->error("Configure options: " . join(' ', $configureOptions));
 
             if (file_exists($buildLog)) {
                 $this->logger->error("Last 5 lines in the log file:");

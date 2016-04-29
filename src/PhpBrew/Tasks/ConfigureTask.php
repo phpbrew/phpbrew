@@ -114,7 +114,6 @@ class ConfigureTask extends BaseTask
         if (!$this->options->dryrun) {
             $code = $cmd->execute($lastline);
             if ($code !== 0) {
-                // todo: detect $lastline for library missing here...
                 throw new SystemCommandException("Configure failed: $lastline", $build, $buildLogPath);
             }
         }
