@@ -9,7 +9,7 @@ class BuildFinder
      */
     static public function findInstalledBuilds($stripPrefix = true)
     {
-        $path = Config::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+        $path = Config::getRoot() . DIRECTORY_SEPARATOR . 'php';
         if (!file_exists($path)) {
             throw new Exception($path . ' does not exist.');
         }
