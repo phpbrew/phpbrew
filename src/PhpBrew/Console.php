@@ -126,7 +126,7 @@ class Console extends Application
             $this->logger->error("Configure options: " . join(' ', $configureOptions));
 
             if (file_exists($buildLog)) {
-                $this->logger->error("Last 5 lines in the log file:");
+                $this->logger->error("The last 5 lines in the log file:");
                 $lines = array_slice(file($buildLog), -5);
                 foreach ($lines as $line) {
                     echo $line , PHP_EOL;
