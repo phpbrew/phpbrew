@@ -8,10 +8,24 @@ use PhpBrew\Build;
 
 class Apxs2CheckTask extends BaseTask
 {
-    public function check(Build $build)
-    {
-        $apxs = $build->getVariant('apxs2');
+    protected $apxs;
 
+    public function check($build = '')
+    {
+        if($build instanceof Build) {
+            $apxs = $build->getVariant('apxs2');
+
+            $this->apxs = $this->getExecutableApxs($apxs);
+            $this->checkModuleDir();
+            $this->checkConfigDir();
+        }else{
+            $this->apxs = $this->getExecutableApxs();
+            $this->checkConfigDir();
+        }
+    }
+
+    protected function getExecutableApxs($apxs = true)
+    {
         // trying to find apxs binary in case it wasn't explicitly specified (+apxs variant without path)
         if ($apxs === true) {
             $apxs = Utils::findbin('apxs');
@@ -21,7 +35,11 @@ class Apxs2CheckTask extends BaseTask
         if (!is_executable($apxs)) {
             throw new Exception("apxs binary is not executable: $apxs");
         }
+    }
 
+    protected function checkModuleDir()
+    {
+        $apxs = $this->apxs;
         // use apxs to check module dir permission
         if ($apxs && $libdir = trim(Utils::pipeExecute("$apxs -q LIBEXECDIR"))) {
             if (false === is_writable($libdir)) {
@@ -31,7 +49,11 @@ class Apxs2CheckTask extends BaseTask
                 throw new Exception();
             }
         }
+    }
 
+    protected function checkConfigDir()
+    {
+        $apxs = $this->apxs;
         if ($apxs && $confdir = trim(Utils::pipeExecute("$apxs -q SYSCONFDIR"))) {
             if (false === is_writable($confdir)) {
                 $this->logger->error("Apache conf dir $confdir is not writable for phpbrew.");
