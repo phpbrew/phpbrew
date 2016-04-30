@@ -29,7 +29,7 @@ Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
 before you get started. you need to install some development packages for
 building PHP.
 
-## Install phpbrew
+## Installation
 
 Just download it:
 
@@ -38,7 +38,7 @@ curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
 ```
 
-Install it into your bin folder:
+Then you can install it into your bin folder:
 
 ```sh
 sudo mv phpbrew /usr/local/bin/phpbrew
@@ -119,7 +119,7 @@ To list known older versions (less than 5.4)
 $ phpbrew known --old
 ```
 
-## Start Building Your Own PHP
+## Starting Building Your Own PHP
 
 Simply build and install PHP with default variant:
 
