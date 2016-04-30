@@ -26,6 +26,8 @@ addons:
 install:
 - travis_retry composer install --no-interaction
 before_script:
+# see if ccache is working
+- ccache -s
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
