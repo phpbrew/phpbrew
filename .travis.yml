@@ -27,6 +27,7 @@ install:
 - travis_retry composer install --no-interaction
 before_script:
 # see if ccache is working
+- export USE_CCACHE=1
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
@@ -44,6 +45,7 @@ cache:
   directories:
   - "vendor"
   - ".phpbrew/distfiles"
+  - "$HOME/.ccache"
 before_deploy:
 - make build
 deploy:
