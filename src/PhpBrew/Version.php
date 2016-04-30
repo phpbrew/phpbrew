@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use InvalidArgumentException;
 
 /**
@@ -31,10 +32,10 @@ class Version
 
     public $dist = 'php'; // can be hhvm
 
-    public function __construct($a, $dist = NULL)
+    public function __construct($a, $dist = null)
     {
         // XXX: support stability flag.
-        if (preg_match('/^(\w+)-(.*?)$/',$a, $regs)) {
+        if (preg_match('/^(\w+)-(.*?)$/', $a, $regs)) {
             $this->dist = $dist ?: $regs[1];
             $this->setVersion($regs[2]);
         } else {
@@ -60,45 +61,54 @@ class Version
     }
 
 
-    public function getPatchVersion() {
+    public function getPatchVersion()
+    {
         return $this->patchVersion;
     }
 
-    public function getMinorVersion() {
+    public function getMinorVersion()
+    {
         return $this->minorVersion;
     }
 
-    public function getMajorVersion() {
+    public function getMajorVersion()
+    {
         return $this->majorVersion;
     }
 
-    public function getVersion() {
+    public function getVersion()
+    {
         return $this->version;
     }
 
-    public function getDist() {
+    public function getDist()
+    {
         return $this->dist;
     }
 
-    public function compare($b) {
+    public function compare($b)
+    {
         return version_compare($a->getVersion(), $b->getVersion());
     }
 
-    public function upgradePatchVersion(array $availableVersions) {
+    public function upgradePatchVersion(array $availableVersions)
+    {
         $this->version = self::findLatestPatchVersion($this->getVersion(), $availableVersions);
     }
 
-    public static function hasPatchVersion($version) {
+    public static function hasPatchVersion($version)
+    {
         $va = explode('.', $version);
         return count($va) >= 3;
     }
 
-    public static function findLatestPatchVersion($currentVersion, array $versions) {
+    public static function findLatestPatchVersion($currentVersion, array $versions)
+    {
         // Trim 5.4.29 to 5.4
         $va = explode('.', $currentVersion);
         if (count($va) == 3) {
             list($cMajor, $cMinor, $cPatch) = $va;
-        } elseif(count($va) == 2) {
+        } elseif (count($va) == 2) {
             list($cMajor, $cMinor) = $va;
             $cPatch = 0;
         }
@@ -114,16 +124,13 @@ class Version
     /**
      * @return string the version string, php-5.3.29, php-5.4.2 without prefix
      */
-    public function getCanonicalizedVersionName() {
+    public function getCanonicalizedVersionName()
+    {
         return $this->dist . '-' . $this->version;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getCanonicalizedVersionName();
     }
-
 }
-
-
-
-

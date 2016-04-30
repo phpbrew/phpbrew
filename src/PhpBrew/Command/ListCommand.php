@@ -11,10 +11,10 @@ class ListCommand extends \CLIFramework\Command
         return 'List installed PHPs';
     }
 
-    public function options($opts) 
+    public function options($opts)
     {
-        $opts->add('d|dir','Show php directories.');
-        $opts->add('v|variants','Show used variants.');
+        $opts->add('d|dir', 'Show php directories.');
+        $opts->add('v|variants', 'Show used variants.');
     }
 
     public function execute()
@@ -35,7 +35,7 @@ class ListCommand extends \CLIFramework\Command
 
             if ($currentVersion == $version) {
                 $this->logger->writeln(
-                    $this->formatter->format(sprintf('* %-15s', $version), 'bold') 
+                    $this->formatter->format(sprintf('* %-15s', $version), 'bold')
                 );
             } else {
                 $this->logger->writeln(

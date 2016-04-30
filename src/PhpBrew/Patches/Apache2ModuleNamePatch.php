@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Patches;
+
 use PhpBrew\Buildable;
 use PhpBrew\PatchKit\Patch;
 use PhpBrew\PatchKit\RegExpPatchRule;
@@ -57,8 +58,3 @@ class Apache2ModuleNamePatch extends Patch
         return $rules;
     }
 }
-
-
-
-
-

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use CLIFramework\Application;
 use CLIFramework\Exception\CommandNotFoundException;
 use CLIFramework\Exception\CommandArgumentNotEnoughException;
@@ -17,7 +18,8 @@ class Console extends Application
     const NAME = 'phpbrew';
     const VERSION = "1.21.1";
 
-    public function options($opts) {
+    public function options($opts)
+    {
         parent::options($opts);
         $opts->add('no-progress', 'Do not display progress bar.');
     }
@@ -56,7 +58,7 @@ class Console extends Application
         $this->command('off');
         $this->command('switch-off', 'PhpBrew\Command\SwitchOffCommand');
 
-        $this->topics(array (
+        $this->topics(array(
             'contribution' => 'PhpBrew\\Topic\\ContributionTopic',
             'cookbook' => 'PhpBrew\\Topic\\CookbookTopic',
             'home' => 'PhpBrew\\Topic\\HomeTopic',
@@ -95,28 +97,22 @@ class Console extends Application
     public function runWithTry(array $argv)
     {
         try {
-
             return $this->run($argv);
-
         } catch (CommandArgumentNotEnoughException $e) {
-
-            $this->logger->error( $e->getMessage() );
+            $this->logger->error($e->getMessage());
             $this->logger->writeln("Expected argument prototypes:");
-            foreach($e->getCommand()->getAllCommandPrototype() as $p) {
+            foreach ($e->getCommand()->getAllCommandPrototype() as $p) {
                 $this->logger->writeln("\t" . $p);
             }
             $this->logger->newline();
-
         } catch (CommandNotFoundException $e) {
-
-            $this->logger->error( $e->getMessage() . " available commands are: " . join(', ', $e->getCommand()->getVisibleCommandList())  );
+            $this->logger->error($e->getMessage() . " available commands are: " . join(', ', $e->getCommand()->getVisibleCommandList()));
             $this->logger->newline();
 
             $this->logger->writeln("Please try the command below to see the details:");
             $this->logger->newline();
-            $this->logger->writeln("\t" . $this->getProgramName() . ' help ' );
+            $this->logger->writeln("\t" . $this->getProgramName() . ' help ');
             $this->logger->newline();
-
         } catch (SystemCommandException $e) {
 
             // Todo: detect $lastline for library missing here...
@@ -134,14 +130,10 @@ class Console extends Application
                 $this->logger->error("Please checkout the build log file for more details:");
                 $this->logger->error("\t tail $buildLog");
             }
-
         } catch (BadMethodCallException $e) {
-
             $this->logger->error($e->getMessage());
             $this->logger->error("Seems like an application logic error, please contact the developer.");
-
         } catch (Exception $e) {
-
             if ($this->options && $this->options->debug) {
                 $printer = new DevelopmentExceptionPrinter($this->getLogger());
                 $printer->dump($e);
@@ -153,6 +145,4 @@ class Console extends Application
 
         return false;
     }
-
-
 }

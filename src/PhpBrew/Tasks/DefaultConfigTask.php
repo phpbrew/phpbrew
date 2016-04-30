@@ -57,5 +57,4 @@ class DefaultConfigTask extends BaseTask
             }
         }
     }
-
 }

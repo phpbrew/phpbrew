@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Extension;
+
 use PhpBrew\Config;
 use PhpBrew\Downloader;
 use PhpBrew\Downloader\DownloadFactory;
@@ -53,7 +54,7 @@ class ExtensionDownloader
         $cmds = array_merge($provider->extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath),
             $provider->postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath));
 
-        foreach($cmds as $cmd) {
+        foreach ($cmds as $cmd) {
             $this->logger->debug($cmd);
             Utils::system($cmd);
         }
@@ -66,12 +67,10 @@ class ExtensionDownloader
         $file = DownloadFactory::getInstance($this->logger, $this->options)->download($url);
         $info = file_get_contents($file);
         return $provider->parseKnownReleasesResponse($info);
-
     }
 
-    public function renameSourceDirectory (Extension $ext)
+    public function renameSourceDirectory(Extension $ext)
     {
-
         $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
         $extName = $ext->getExtensionName();
         $name = $ext->getName();
@@ -86,7 +85,7 @@ class ExtensionDownloader
                 "mv $extensionExtractDir $extensionDir"
             );
 
-            foreach($cmds as $cmd) {
+            foreach ($cmds as $cmd) {
                 $this->logger->debug($cmd);
                 Utils::system($cmd);
             }
@@ -95,9 +94,6 @@ class ExtensionDownloader
             $sourceDir = str_replace($extensionExtractDir, $extensionDir, $ext->getSourceDirectory());
             $ext->setSourceDirectory($sourceDir);
             $ext->setName($extName);
-
         }
-
     }
-
 }

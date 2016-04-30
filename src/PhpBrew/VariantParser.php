@@ -1,8 +1,11 @@
 <?php
 namespace PhpBrew;
+
 use Exception;
 
-class InvalidVariantSyntaxException extends Exception {}
+class InvalidVariantSyntaxException extends Exception
+{
+}
 
 class VariantParser
 {
@@ -43,7 +46,7 @@ class VariantParser
                 }
                 preg_match_all('#[+-][\w_]+(=[\"\'\.\/\w_-]+)?#', $arg, $variantStrings);
 
-                if(isset($variantStrings[0])) {
+                if (isset($variantStrings[0])) {
                     $variantStrings = array_filter($variantStrings[0]);
                     foreach ($variantStrings as $str) {
                         if ($str[0] == '+') {

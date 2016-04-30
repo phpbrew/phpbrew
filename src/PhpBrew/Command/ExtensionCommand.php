@@ -10,7 +10,8 @@ use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
 class ExtensionCommand extends BaseCommand
 {
-    public function aliases() {
+    public function aliases()
+    {
         return array('ext');
     }
 
@@ -44,12 +45,12 @@ class ExtensionCommand extends BaseCommand
         $opts->add('sp|show-path', 'Show extension config.m4 path');
     }
 
-    public function describeExtension(Extension $ext) 
+    public function describeExtension(Extension $ext)
     {
         $this->logger->write(sprintf(' [%s] %-12s %-12s',
-            extension_loaded($ext->getExtensionName()) ? '*' : ' ' ,
+            extension_loaded($ext->getExtensionName()) ? '*' : ' ',
             $ext->getExtensionName(),
-            phpversion($ext->getExtensionName()) 
+            phpversion($ext->getExtensionName())
         ));
 
         if ($this->options->{'show-path'}) {
@@ -65,11 +66,11 @@ class ExtensionCommand extends BaseCommand
                 $options = $ext->getConfigureOptions();
                 if (!empty($options)) {
                     $this->logger->info($padding . 'Configure options:');
-                    foreach($options as $option) {
-                        $this->logger->info($padding . '  ' 
-                            . sprintf('%-32s %s', 
+                    foreach ($options as $option) {
+                        $this->logger->info($padding . '  '
+                            . sprintf('%-32s %s',
                                 $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
-                                $option->desc ));
+                                $option->desc));
                     }
                 }
             }
@@ -90,7 +91,7 @@ class ExtensionCommand extends BaseCommand
 
         if (file_exists($extDir) && is_dir($extDir)) {
             $this->logger->debug("Scanning $extDir...");
-            foreach( scandir($extDir) as $extName) {
+            foreach (scandir($extDir) as $extName) {
                 if ($extName == "." || $extName == "..") {
                     continue;
                 }
@@ -107,8 +108,7 @@ class ExtensionCommand extends BaseCommand
                                 $extensions[$ext->getExtensionName()] = $ext;
                                 $extensionNames[] = $extName;
                                 break;
-                            } catch(Exception $e) {
-
+                            } catch (Exception $e) {
                             }
                         }
                         

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use Serializable;
 use PhpBrew\BuildSettings\BuildSettings;
 use PhpBrew\Types\ExistingDirectory;
@@ -236,7 +237,6 @@ class Build implements Serializable, Buildable
                     $names[] = $str;
                 }
             }
-
         }
 
         if ($this->phpEnvironment === self::ENV_PRODUCTION) {
@@ -298,7 +298,7 @@ class Build implements Serializable, Buildable
         $prefix = Config::getVersionInstallPrefix($name);
         if (file_exists($prefix)) {
             // a installation exists
-            return new self($name, NULL, $prefix);
+            return new self($name, null, $prefix);
         }
 
         return null;

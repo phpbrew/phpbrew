@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+
 use PhpBrew\Config;
 use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\FetchReleaseListTask;
@@ -58,11 +59,11 @@ class KnownCommand extends \CLIFramework\Command
             if (!$this->options->more) {
                 array_splice($versionList, 8);
             }
-            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ',5))
+            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ', 5))
                 . (!$this->options->more ? ' ...' : ''));
         }
 
-        if($this->options->old) {
+        if ($this->options->old) {
             $this->logger->warn('phpbrew need php 5.3 or above to run. build/switch to versions below 5.3 at your own risk.');
         }
     }

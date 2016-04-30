@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use PhpBrew\Exception\SystemCommandException;
 
 class CommandBuilder

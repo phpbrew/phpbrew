@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
 use Exception;
@@ -44,10 +45,8 @@ class ConfigureTask extends BaseTask
         $args = array();
         $args[] = "--prefix=" . $prefix;
         if ($this->options->{'user-config'}) {
-
             $args[] = "--with-config-file-path={$prefix}/etc";
             $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
-
         } else {
             $args[] = "--with-config-file-path={$prefix}/etc";
             $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
@@ -70,7 +69,7 @@ class ConfigureTask extends BaseTask
             // copied from https://github.com/Homebrew/homebrew-php/blob/master/Formula/php53.rb
             $args[] = "--enable-sqlite-utf8";
             $args[] = "--enable-zend-multibyte";
-        } else if ($build->compareVersion('5.6') == -1) {
+        } elseif ($build->compareVersion('5.6') == -1) {
             // dtrace is not compatible with phpdbg: https://github.com/krakjoe/phpdbg/issues/38
             if (!$build->isEnabledVariant('phpdbg')) {
                 if ($prefix = Utils::findIncludePrefix('sys/sdt.h')) {
@@ -91,7 +90,7 @@ class ConfigureTask extends BaseTask
         if (file_exists($buildLogPath)) {
             $newPath = $buildLogPath . '.' . filemtime($buildLogPath);
             $this->info("Found existing build.log, renaming it to $newPath");
-            rename($buildLogPath,$newPath);
+            rename($buildLogPath, $newPath);
         }
 
         $this->info("===> Configuring {$build->version}...");

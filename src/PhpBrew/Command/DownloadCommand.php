@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\Downloader\DownloadFactory;
@@ -21,13 +22,14 @@ class DownloadCommand extends Command
         return 'phpbrew download [php-version]';
     }
 
-    public function arguments($args) {
-        $args->add('version')->suggestions(function() {
+    public function arguments($args)
+    {
+        $args->add('version')->suggestions(function () {
             $releaseList = ReleaseList::getReadyInstance();
             $releases = $releaseList->getReleases();
 
             $collection = new ValueCollection;
-            foreach($releases as $major => $versions) {
+            foreach ($releases as $major => $versions) {
                 $collection->group($major, "PHP $major", array_keys($versions));
             }
 
@@ -51,7 +53,6 @@ class DownloadCommand extends Command
 
     public function execute($version)
     {
-
         $version = preg_replace('/^php-/', '', $version);
         $releaseList = ReleaseList::getReadyInstance($this->options);
         $releases = $releaseList->getReleases();

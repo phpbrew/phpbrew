@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Testing;
+
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use PHPUnit_Framework_TestCase;
@@ -72,9 +73,4 @@ abstract class PatchTestCase extends PHPUnit_Framework_TestCase
         }
         $this->cleanupBuildDirectory();
     }
-
 }
-
-
-
-

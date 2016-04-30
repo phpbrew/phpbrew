@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Downloader;
 
-
 use RuntimeException;
 
 class PhpStreamDownloader extends BaseDownloader

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
 use PhpBrew\CommandBuilder;
@@ -21,7 +22,7 @@ class BeforeConfigureTask extends BaseTask
 
     public function run(Build $build)
     {
-        if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
+        if (!file_exists($build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running './buildconf --force'...");
             $lastline = system('./buildconf --force', $status);
             if ($status !== 0) {

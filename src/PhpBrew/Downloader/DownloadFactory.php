@@ -7,7 +7,6 @@
  */
 namespace PhpBrew\Downloader;
 
-
 use CLIFramework\Logger;
 use GetOptionKit\OptionCollection;
 use GetOptionKit\OptionResult;
@@ -60,7 +59,7 @@ class DownloadFactory
                 return new $downloader($logger, $options);
             }
             return self::create($logger, $options, array($downloader));
-        } else if (is_array($downloader)) {
+        } elseif (is_array($downloader)) {
             return self::create($logger, $options, $downloader);
         }
         if (empty($downloader) && $options->has('downloader')) {

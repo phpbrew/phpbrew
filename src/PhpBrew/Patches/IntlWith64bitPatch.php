@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Patches;
+
 use PhpBrew\Buildable;
 use PhpBrew\PatchKit\Patch;
 use PhpBrew\PatchKit\RegExpPatchRule;
@@ -7,7 +8,8 @@ use CLIFramework\Logger;
 
 class IntlWith64bitPatch extends Patch
 {
-    public function desc() {
+    public function desc()
+    {
         return "php5.3.x on 64bit machine when intl is enabled.";
     }
 
@@ -66,11 +68,4 @@ class IntlWith64bitPatch extends Patch
             ->replaces('/^(.*)$/', '$1 -lstdc++');
         return $rules;
     }
-
-
 }
-
-
-
-
-

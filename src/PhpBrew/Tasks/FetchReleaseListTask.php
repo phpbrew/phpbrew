@@ -1,6 +1,7 @@
 <?php
 
 namespace PhpBrew\Tasks;
+
 use PhpBrew\ReleaseList;
 
 class FetchReleaseListTask extends BaseTask

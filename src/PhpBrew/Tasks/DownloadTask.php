@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use Exception;
 use PhpBrew\Downloader\DownloadFactory;
 
@@ -8,7 +9,7 @@ use PhpBrew\Downloader\DownloadFactory;
  */
 class DownloadTask extends BaseTask
 {
-    public function download($url, $dir, $md5 = NULL)
+    public function download($url, $dir, $md5 = null)
     {
         if (!is_writable($dir)) {
             throw new Exception("Directory is not writable: $dir");

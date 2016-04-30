@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Types;
+
 use LogicException;
 use PhpBrew\Types\Path;
 
@@ -13,4 +14,3 @@ class ExistingDirectory extends Path
         parent::__construct($directory);
     }
 }
-

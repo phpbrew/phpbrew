@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Types;
+
 use SplFileInfo;
 
 class Path
@@ -16,10 +17,8 @@ class Path
         return new SplFileInfo($this->path);
     }
 
-    public function __toString() 
+    public function __toString()
     {
         return $this->path;
     }
 }
-
-

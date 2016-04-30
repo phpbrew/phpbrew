@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command\AppCommand;
+
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Config;
 use PhpBrew\AppStore;
@@ -24,12 +25,12 @@ class GetCommand extends Command
     {
         $apps = AppStore::all();
         $args->add('app-name')
-            ->validValues( array_keys($apps) )
+            ->validValues(array_keys($apps))
             ;
     }
 
-    public function execute($appName) {
-
+    public function execute($appName)
+    {
         $apps = AppStore::all();
 
         if (!isset($apps[$appName])) {
@@ -52,5 +53,3 @@ class GetCommand extends Command
         $this->logger->info("Downloaded at $target");
     }
 }
-
-

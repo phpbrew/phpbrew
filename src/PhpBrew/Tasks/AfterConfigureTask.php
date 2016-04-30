@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
 use PhpBrew\CommandBuilder;

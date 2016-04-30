@@ -15,14 +15,14 @@ class EnvCommand extends \CLIFramework\Command
     {
         $args->add('installed php')
             ->optional()
-            ->validValues(function() {
+            ->validValues(function () {
                 return \PhpBrew\Config::getInstalledPhpVersions();
             })
             ;
     }
 
 
-    public function execute($buildName = NULL)
+    public function execute($buildName = null)
     {
         // get current version
         if (!$buildName) {
@@ -50,4 +50,3 @@ class EnvCommand extends \CLIFramework\Command
         $this->logger->writeln('# # eval "$(phpbrew env)"');
     }
 }
-

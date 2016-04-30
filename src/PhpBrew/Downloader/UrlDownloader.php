@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Downloader;
+
 use PhpBrew\Console;
 use PhpBrew\Utils;
 use RuntimeException;
@@ -119,7 +120,7 @@ class UrlDownloader
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
         if (false === $path || false === strpos($path, ".")) {
-            return NULL;
+            return null;
         }
         return basename($path);
     }

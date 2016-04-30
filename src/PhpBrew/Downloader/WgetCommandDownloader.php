@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Downloader;
 
-
 use PhpBrew\Utils;
 
 class WgetCommandDownloader extends BaseDownloader
