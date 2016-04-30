@@ -12,7 +12,7 @@ class BuildRegister
     public function __construct()
     {
         $this->root = Config::getRoot();
-        $this->baseDir = $this->root . DIRECTORY_SEPARATOR . 'register';
+        $this->baseDir = $this->root . DIRECTORY_SEPARATOR . 'registry';
     }
 
     public function register(Build $build) {

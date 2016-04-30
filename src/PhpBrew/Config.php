@@ -66,6 +66,10 @@ class Config
         return self::getRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
+    static public function getRegistryDir()
+    {
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'registry';
+    }
 
     static public function getCurrentBuildDir() {
         return self::getRoot() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
@@ -277,6 +281,7 @@ class Config
         $dirs[] = self::getVariantsDir();
         $dirs[] = self::getBuildDir();
         $dirs[] = self::getDistFileDir();
+        $dirs[] = self::getRegistryDir();
         if ($buildName) {
             $dirs[] = self::getCurrentBuildDir($buildName);
             $dirs[] = self::getCurrentBuildDir($buildName) . DIRECTORY_SEPARATOR . 'ext';
