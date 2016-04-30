@@ -246,11 +246,9 @@ class Utils
         foreach ($paths as $path) {
             $f = $path . DIRECTORY_SEPARATOR . $bin;
 
-            if (file_exists($f)) {
-                while (is_link($f)) {
-                    $f = readlink($f);
-                }
-
+            //realpath will handle file existence or symbolic link automatically
+            $f = realpath($f);
+            if ($f !== false) {
                 return $f;
             }
         }
