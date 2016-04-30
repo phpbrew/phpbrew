@@ -28,10 +28,11 @@ class Config
             return $custom;
         }
         if ($home = getenv('HOME')) {
-            if (!file_exists($custom)) {
-                mkdir($custom, 0755, true);
+            $path = $home . DIRECTORY_SEPARATOR . '.phpbrew';
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
             }
-            return $home . DIRECTORY_SEPARATOR . '.phpbrew';
+            return $path;
         }
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
