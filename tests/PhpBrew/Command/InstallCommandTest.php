@@ -26,6 +26,7 @@ class InstallCommandTest extends CommandTestCase
         $this->assertCommandSuccess("phpbrew known --update");
     }
 
+
     /**
      * @depends testKnownCommand
      * @group install
@@ -56,6 +57,15 @@ class InstallCommandTest extends CommandTestCase
     {
         $versionName = $this->getPrimaryVersion();
         $this->assertCommandSuccess("phpbrew ctags php-{$versionName}");
+    }
+
+    /**
+     * @group install
+     * @group mayignore
+     */
+    public function testGitHubInstallCommand()
+    {
+        $this->assertCommandSuccess("phpbrew --debug install --dryrun github:php/php-src@PHP-7.0 as php-7.0.0 +cli+posix");
     }
 
     /**
