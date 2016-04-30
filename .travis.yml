@@ -27,7 +27,6 @@ install:
 - travis_retry composer install --no-interaction
 before_script:
 # see if ccache is working
-- ccache -s
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
@@ -37,6 +36,7 @@ script:
 - source shell/bashrc
 - phpunit --exclude-group mayignore
 after_success:
+- ccache -s
 - travis_retry php vendor/bin/coveralls -v
 cache:
   apt: true
