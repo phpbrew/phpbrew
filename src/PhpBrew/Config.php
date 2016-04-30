@@ -12,6 +12,13 @@ class Config
 {
     protected static $currentPhpVersion = null;
 
+
+    /**
+     * Return optional home directory.
+     *
+     * @throws Exception
+     * @return string
+     */
     public static function getHome()
     {
         if ($custom = getenv('PHPBREW_HOME')) {
@@ -21,6 +28,9 @@ class Config
             return $custom;
         }
         if ($home = getenv('HOME')) {
+            if (!file_exists($custom)) {
+                mkdir($custom, 0755, true);
+            }
             return $home . DIRECTORY_SEPARATOR . '.phpbrew';
         }
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
