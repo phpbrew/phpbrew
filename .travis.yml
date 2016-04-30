@@ -38,6 +38,7 @@ after_success:
 - travis_retry php vendor/bin/coveralls -v
 cache:
   apt: true
+  ccache: true
   directories:
   - "vendor"
   - ".phpbrew/distfiles"
