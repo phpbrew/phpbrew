@@ -35,7 +35,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew install $jobs php-{$versionName} +default");
+        $this->assertCommandSuccess("phpbrew install $jobs php-{$versionName} +cli+posix");
         $this->assertListContains("php-{$versionName}");
     }
 
@@ -66,7 +66,7 @@ class InstallCommandTest extends CommandTestCase
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();
         $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew install {$jobs} php-{$versionName} as myphp +soap");
+        $this->assertCommandSuccess("phpbrew install {$jobs} php-{$versionName} as myphp +cli+soap");
         $this->assertListContains("myphp");
     }
 
