@@ -31,7 +31,6 @@ before_script:
 - mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
 - rm phpbrew
 - cp -v shell/bashrc .phpbrew/
-- source shell/bashrc
 script:
 - source shell/bashrc
 - phpunit --exclude-group mayignore
