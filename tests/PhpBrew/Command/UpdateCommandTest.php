@@ -12,6 +12,6 @@ class UpdateCommandTest extends CommandTestCase
      */
     public function testUpdateCommand()
     {
-        $this->assertCommandSuccess("phpbrew --quiet update");
+        $this->assertCommandSuccess("phpbrew --quiet update --old");
     }
 }

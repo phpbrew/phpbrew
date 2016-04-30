@@ -12,7 +12,7 @@ class KnownCommandTest extends CommandTestCase
      * @group mayignore
      */
     public function testCommand() {
-        $this->assertCommandSuccess('phpbrew known');
+        $this->assertCommandSuccess('phpbrew --quiet known');
     }
 
     /**
@@ -20,14 +20,14 @@ class KnownCommandTest extends CommandTestCase
      * @group mayignore
      */
     public function testMoreOption() {
-        $this->assertCommandSuccess('phpbrew known --more');
+        $this->assertCommandSuccess('phpbrew --quiet known --more');
     }
 
     /**
      * @outputBuffering enabled
      */
     public function testOldMoreOption() {
-        $this->assertCommandSuccess('phpbrew known --old --more');
+        $this->assertCommandSuccess('phpbrew --quiet known --old --more');
     }
 
 
@@ -37,7 +37,7 @@ class KnownCommandTest extends CommandTestCase
      */
     public function testKnownUpdateCommand()
     {
-        $this->assertCommandSuccess('phpbrew known --update');
-        $this->assertCommandSuccess('phpbrew known -u');
+        $this->assertCommandSuccess('phpbrew --quiet known --update');
+        $this->assertCommandSuccess('phpbrew --quiet known -u');
     }
 }
