@@ -10,6 +10,7 @@ namespace PhpBrew\Command;
 
 
 use PhpBrew\Command\ApacheCommand\BaseCommand;
+use PhpBrew\Utils\ApacheUtils;
 
 class ApacheCommand extends BaseCommand
 {
@@ -20,7 +21,7 @@ class ApacheCommand extends BaseCommand
 
     public function brief()
     {
-        return 'Execute apache subcommands';
+        return 'Show basic info about apache and execute apache subcommands';
     }
 
     public function init()
@@ -39,6 +40,6 @@ class ApacheCommand extends BaseCommand
 
     public function execute()
     {
-
+        $this->logger->info("Apache config file path: " . ApacheUtils::getApacheConfigPath());
     }
 }
