@@ -28,6 +28,7 @@ install:
 before_script:
 # see if ccache is working
 - export USE_CCACHE=1
+- export PATH=/usr/lib/ccache:$PATH
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
 - mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
