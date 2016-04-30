@@ -25,7 +25,7 @@ addons:
     - libicu-dev
 install:
 - travis_retry composer self-update
-- travis_retry composer update --no-interaction
+- travis_retry composer install --no-interaction
 before_script:
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
