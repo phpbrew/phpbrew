@@ -9,6 +9,7 @@ class KnownCommandTest extends CommandTestCase
 {
     /**
      * @outputBuffering enabled
+     * @group mayignore
      */
     public function testCommand() {
         $this->assertCommandSuccess('phpbrew known');
@@ -16,6 +17,7 @@ class KnownCommandTest extends CommandTestCase
 
     /**
      * @outputBuffering enabled
+     * @group mayignore
      */
     public function testMoreOption() {
         $this->assertCommandSuccess('phpbrew known --more');
@@ -31,6 +33,7 @@ class KnownCommandTest extends CommandTestCase
 
     /**
      * @outputBuffering enabled
+     * @group mayignore
      */
     public function testKnownUpdateCommand()
     {

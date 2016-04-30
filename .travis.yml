@@ -38,7 +38,7 @@ before_script:
 - source shell/bashrc
 script:
 - source shell/bashrc
-- phpunit
+- phpunit --exclude-group mayignore
 after_success:
 - travis_retry php vendor/bin/coveralls -v
 cache:
