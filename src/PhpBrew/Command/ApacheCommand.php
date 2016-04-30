@@ -25,6 +25,7 @@ class ApacheCommand extends BaseCommand
 
     public function init()
     {
+        parent::init();
         $this->command('switch');
     }
 
