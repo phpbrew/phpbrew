@@ -28,10 +28,7 @@ install:
 before_script:
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
-- mkdir -p -v .phpbrew/build
-- mkdir -p -v .phpbrew/distfiles
-- mkdir -p -v .phpbrew/register
-- mkdir -p -v .phpbrew/php
+- mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
 - rm phpbrew
 - cp -v shell/bashrc .phpbrew/
 - source shell/bashrc
