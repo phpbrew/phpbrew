@@ -38,7 +38,7 @@ class BuildTask extends BaseTask
             $cmd->addArg("-j{$makeJobs}");
         }
 
-        $this->debug($cmd->getCommand());
+        $this->debug($cmd->buildCommand());
 
         if (!$this->options->dryrun) {
             $startTime = microtime(true);

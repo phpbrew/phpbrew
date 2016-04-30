@@ -48,25 +48,31 @@ class CommandBuilder
         $this->nice = $nice;
     }
 
+    public function passthru(& $lastline = null)
+    {
+        $ret = null;
+        $command = $this->buildCommand(false);
+        $lastline = passthru($command, $ret);
+        if ($lastline === false) {
+            return $ret;
+        }
+        return $ret;
+    }
 
     public function execute(& $lastline = null)
     {
         $ret = null;
-        $command = $this->getCommand();
+        $command = $this->buildCommand();
         $lastline = system($command, $ret);
         if ($lastline === false) {
             return $ret;
-        }
-        if ($ret != 0) {
-            // XXX: improve this later.
-            echo substr($lastline,0, 78) . "\n";
         }
         return $ret;
     }
 
     public function __toString()
     {
-        return $this->getCommand();
+        return $this->buildCommand();
     }
 
     public function setStdout($stdout = true)
@@ -84,7 +90,7 @@ class CommandBuilder
         $this->logPath = $logPath;
     }
 
-    public function getCommand()
+    public function buildCommand($handleRedirect = true)
     {
         $cmd = array();
 
@@ -102,17 +108,19 @@ class CommandBuilder
         }
 
         // redirect stderr to stdout and pipe to the file.
-        if ($this->stdout && $this->logPath) {
-            $cmd[] = '| tee';
-            if ($this->append) {
-                $cmd[] = '-a';
+        if ($handleRedirect) {
+            if ($this->stdout && $this->logPath) {
+                $cmd[] = '| tee';
+                if ($this->append) {
+                    $cmd[] = '-a';
+                }
+                $cmd[] = $this->logPath;
+                $cmd[] = '2>&1';
+            } elseif ($this->logPath) {
+                $cmd[] = $this->append ? '>>' : '>';
+                $cmd[] = $this->logPath;
+                $cmd[] = '2>&1';
             }
-            $cmd[] = $this->logPath;
-            $cmd[] = '2>&1';
-        } elseif ($this->logPath) {
-            $cmd[] = $this->append ? '>>' : '>';
-            $cmd[] = $this->logPath;
-            $cmd[] = '2>&1';
         }
         return join(' ', $cmd);
     }

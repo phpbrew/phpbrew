@@ -105,7 +105,7 @@ class ConfigureTask extends BaseTask
             $this->logger->info("   $ tail -F $buildLogPath\n\n");
         }
 
-        $this->debug($cmd->getCommand());
+        $this->debug($cmd->buildCommand());
 
         if ($this->options->nice) {
             $cmd->nice($this->options->nice);

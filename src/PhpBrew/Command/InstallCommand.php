@@ -159,7 +159,7 @@ class InstallCommand extends Command
             ;
         $opts->add('stdout', 'Outputs install logs to stdout.');
 
-        $opts->add('sudo', 'Run commands with sudo (developer only)');
+        $opts->add('sudo', 'sudo to run install command.');
     }
 
     public function execute($version)
