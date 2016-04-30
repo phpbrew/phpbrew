@@ -43,6 +43,7 @@ class ConfigureTask extends BaseTask
         }
 
         $args = array();
+        $args[] = "-C";
         $args[] = "--prefix=" . $prefix;
         if ($this->options->{'user-config'}) {
             $args[] = "--with-config-file-path={$prefix}/etc";
