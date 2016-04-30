@@ -285,9 +285,11 @@ class Config
         return $config;
     }
 
-    static public function initDirectories($buildName = NULL) {
-        $dirs[] = self::getHome();
+    static public function initDirectories($buildName = NULL)
+    {
+        $dirs = array();
         $dirs[] = self::getRoot();
+        $dirs[] = self::getHome();
         $dirs[] = self::getVariantsDir();
         $dirs[] = self::getBuildDir();
         $dirs[] = self::getDistFileDir();
@@ -300,6 +302,18 @@ class Config
         foreach($dirs as $dir) {
             if (!file_exists($dir)) {
                 mkdir($dir, 0755, true);
+            }
+        }
+
+        $write = array();
+        $write[] = self::getHome();
+        $write[] = self::getVariantsDir();
+        $write[] = self::getBuildDir();
+        $write[] = self::getDistFileDir();
+        $write[] = self::getRegistryDir();
+        foreach ($write as $dir) {
+            if (!is_writable($dir)) {
+                throw new Exception("$dir is not writable, please fix the folder permissions.");
             }
         }
     }
