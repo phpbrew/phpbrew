@@ -45,7 +45,7 @@ class CtagsCommand extends \CLIFramework\Command
         $this->logger->info("Scanning " . $sourceDir);
 
         $cmd = new CommandBuilder('ctags');
-        $cmd->arg('--recurse');
+        $cmd->arg('-R');
         $cmd->arg('-a');
         $cmd->arg('-h');
         $cmd->arg('.c.h.cpp');
