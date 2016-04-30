@@ -138,12 +138,12 @@ class VariantBuilder
 
 
         /*
-        --enable-intl 
+        --enable-intl
 
-         To build the extension you need to install the » ICU library, version 
+         To build the extension you need to install the » ICU library, version
          4.0.0 or newer is required.
-         This extension is bundled with PHP as of PHP version 5.3.0. 
-         Alternatively, the PECL version of this extension may be used with all 
+         This extension is bundled with PHP as of PHP version 5.3.0.
+         Alternatively, the PECL version of this extension may be used with all
          PHP versions greater than 5.2.0 (5.2.4+ recommended).
 
          This requires --with-icu-dir=/....
@@ -581,7 +581,7 @@ class VariantBuilder
 
     public function checkConflicts(Build $build)
     {
-        if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion() , 'php-5.4.0') < 0) {
+        if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion(), 'php-5.4.0') < 0) {
             if ($conflicts = $this->getConflict($build, 'apxs2')) {
                 $msgs = array();
                 $msgs[] = "PHP Version lower than 5.4.0 can only build one SAPI at the same time.";
@@ -657,7 +657,7 @@ class VariantBuilder
 
     public function buildDisableVariant(Build $build, $feature, $userValue = null)
     {
-        if (isset( $this->variants[$feature])) {
+        if (isset($this->variants[$feature])) {
             if (in_array('-'.$feature, $this->builtList)) {
                 return array();
             }

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
 use PhpBrew\Config;
@@ -18,7 +19,7 @@ class ExtractTask extends BaseTask
      *
      * @param string $extractDir (the build dir)
      */
-    public function extract(Build $build, $targetFilePath, $extractDir = NULL)
+    public function extract(Build $build, $targetFilePath, $extractDir = null)
     {
         if (empty($extractDir)) {
             $extractDir = dirname($targetFilePath);
@@ -35,7 +36,7 @@ class ExtractTask extends BaseTask
         $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . $distBasename;
         $extractedDir     = $extractDir . DIRECTORY_SEPARATOR . $build->getName();
 
-        if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
+        if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure')) {
             $this->info("===> Distribution file was successfully extracted, skipping...");
             return $extractedDir;
         }

@@ -43,13 +43,14 @@ class InstallCommand extends Command
         return 'phpbrew install [php-version] ([+variant...])';
     }
 
-    public function arguments($args) {
-        $args->add('version')->suggestions(function() {
+    public function arguments($args)
+    {
+        $args->add('version')->suggestions(function () {
             $releaseList = ReleaseList::getReadyInstance();
             $releases = $releaseList->getReleases();
 
             $collection = new ValueCollection;
-            foreach($releases as $major => $versions) {
+            foreach ($releases as $major => $versions) {
                 $collection->group($major, "PHP $major", array_keys($versions));
             }
 
@@ -57,11 +58,11 @@ class InstallCommand extends Command
 
             return $collection;
         });
-        $args->add('variants')->multiple()->suggestions(function() {
+        $args->add('variants')->multiple()->suggestions(function () {
             $variants = new VariantBuilder;
             $list = $variants->getVariantNames();
             sort($list);
-            return array_map(function($n) { return '+' . $n; }, $list);
+            return array_map(function ($n) { return '+' . $n; }, $list);
         });
     }
 
@@ -112,17 +113,17 @@ class InstallCommand extends Command
 
         $opts->add('production', 'Use production configuration file. this installer will copy the php-production.ini into the etc directory.');
 
-        $opts->add('build-dir:','Specify the build directory. '
+        $opts->add('build-dir:', 'Specify the build directory. '
             . 'the distribution tarball will be extracted to the directory you specified '
             . 'instead of $PHPBREW_ROOT/build/{name}.')
             ->isa('dir')
             ;
 
-        $opts->add('root','specify phpbrew root instead of PHPBREW_ROOT');
+        $opts->add('root', 'specify phpbrew root instead of PHPBREW_ROOT');
 
-        $opts->add('home','specify phpbrew home instead of PHPBREW_HOME');
+        $opts->add('home', 'specify phpbrew home instead of PHPBREW_HOME');
 
-        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. ' 
+        $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. '
             . 'By default phpbrew will run `make clean` before running the configure script '
             . 'to ensure everything is cleaned up.')
             ;
@@ -141,7 +142,7 @@ class InstallCommand extends Command
 
         $opts->add('old', 'Install phpbrew incompatible phps (< 5.3)');
 
-        $opts->add('user-config','Allow users create their own config file (php.ini or extension config init files)');
+        $opts->add('user-config', 'Allow users create their own config file (php.ini or extension config init files)');
 
         DownloadFactory::addOptionsForCommand($opts);
 
@@ -170,7 +171,7 @@ class InstallCommand extends Command
 system-wide phpbrew or this might cause problems.");
             sleep(3);
         }
-        $distUrl = NULL;
+        $distUrl = null;
         $versionInfo = array();
         $releaseList = ReleaseList::getReadyInstance($this->options);
         $versionDslParser = new VersionDslParser();
@@ -264,7 +265,7 @@ system-wide phpbrew or this might cause problems.");
             $msg .= ' using variants from ' . $buildLike;
         }
         if (isset($semanticOptions['using'])) {
-            $msg .= ' plus custom variants: ' . join(', ',$semanticOptions['using']);
+            $msg .= ' plus custom variants: ' . join(', ', $semanticOptions['using']);
             $args = array_merge($args, $semanticOptions['using']);
         }
         if ($buildAs) {
@@ -290,14 +291,14 @@ system-wide phpbrew or this might cause problems.");
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
         }
 
-        if (preg_match('/5\.3\./',$version)) {
+        if (preg_match('/5\.3\./', $version)) {
             $this->logger->notice("PHP 5.3 requires +intl, enabled by default.");
             $build->enableVariant('intl');
         }
 
         // always add +xml by default unless --without-pear is present
         // TODO: This can be done by "-pear"
-        if(! in_array('--without-pear', $variantInfo['extra_options'])){
+        if (! in_array('--without-pear', $variantInfo['extra_options'])) {
             $build->enableVariant('xml');
         }
 
@@ -326,7 +327,7 @@ system-wide phpbrew or this might cause problems.");
         $distFileDir = Config::getDistFileDir();
 
         $downloadTask = new DownloadTask($this->logger, $this->options);
-        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, isset($versionInfo['md5']) ? $versionInfo['md5'] : NULL);
+        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, isset($versionInfo['md5']) ? $versionInfo['md5'] : null);
         if (!file_exists($targetFilePath)) {
             throw new SystemCommandException("Download failed, $targetFilePath does not exist.", $build);
         }
@@ -339,11 +340,11 @@ system-wide phpbrew or this might cause problems.");
         }
         unset($extractTask);
 
-        // Update build source directory 
+        // Update build source directory
         $this->logger->debug('Source Directory: ' . realpath($targetDir));
         $build->setSourceDirectory($targetDir);
 
-        if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile') ) {
+        if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->info("Found existing Makefile, running make clean to ensure everything will be rebuilt.");
             $this->logger->info("You can append --no-clean option after the install command if you don't want to rebuild.");
             $clean->clean($build);
@@ -354,7 +355,7 @@ system-wide phpbrew or this might cause problems.");
         // Write variants info.
         $variantInfoFile = $build->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
-        if ( false === $build->writeVariantInfoFile($variantInfoFile)) {
+        if (false === $build->writeVariantInfoFile($variantInfoFile)) {
             $this->logger->warn("Can't store variant info.");
         }
 
@@ -503,7 +504,6 @@ EOT;
         // If the bashrc file is not found, it means 'init' command didn't get
         // a chance to be executed.
         if (!file_exists(Config::getHome() . DIRECTORY_SEPARATOR . 'bashrc')) {
-
             echo <<<EOT
 
 * WARNING:
@@ -516,7 +516,6 @@ EOT;
         // If the environment variable is not defined, it means users didn't
         // setup ther .bashrc or .zshrc
         if (!getenv('PHPBREW_HOME')) {
-
             echo <<<EOT
 
 * WARNING:
@@ -541,6 +540,5 @@ Or you can use switch command to switch your default php to $buildName:
 Enjoy!
 
 EOT;
-
     }
 }

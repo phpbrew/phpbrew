@@ -9,15 +9,17 @@ use CurlKit\Progress\ProgressBar;
 use DOMDocument;
 use Exception;
 
-class PeclProvider implements Provider {
+class PeclProvider implements Provider
+{
 
     public $site = 'pecl.php.net';
-    public $owner = NULL;
-    public $repository = NULL;
-    public $packageName = NULL;
+    public $owner = null;
+    public $repository = null;
+    public $packageName = null;
     public $defaultVersion = 'stable';
 
-    public static function getName() {
+    public static function getName()
+    {
         return 'pecl';
     }
 
@@ -55,7 +57,7 @@ class PeclProvider implements Provider {
 
     public function buildPackageDownloadUrl($version = 'stable')
     {
-        if ($this->getPackageName() == NULL) {
+        if ($this->getPackageName() == null) {
             throw new Exception("Repository invalid.");
         }
         $xml = $this->getPackageXml($this->getPackageName(), $version);
@@ -98,10 +100,10 @@ class PeclProvider implements Provider {
         $this->packageName = $packageName;
     }
 
-    public function exists($url, $packageName = NULL)
+    public function exists($url, $packageName = null)
     {
-        $this->setOwner(NULL);
-        $this->setRepository(NULL);
+        $this->setOwner(null);
+        $this->setRepository(null);
         $this->setPackageName($url);
         return true;
     }
@@ -112,8 +114,8 @@ class PeclProvider implements Provider {
             'bcmath', 'bz2', 'calendar', 'com_dotnet', 'ctype', 'curl', 'date',
             'dba', 'dom', 'enchant', 'exif', 'fileinfo', 'filter', 'ftp', 'gd',
             'gettext', 'gmp', 'hash', 'iconv', 'imap', 'interbase', 'intl',
-            'json', 'ldap', 'libxml', 'mbstring', 'mcrypt', 'mssql', 'mysqli', 
-            'mysqlnd', 'oci8', 'odbc', 'opcache', 'openssl', 'pcntl', 'pcre', 
+            'json', 'ldap', 'libxml', 'mbstring', 'mcrypt', 'mssql', 'mysqli',
+            'mysqlnd', 'oci8', 'odbc', 'opcache', 'openssl', 'pcntl', 'pcre',
             'pdo', 'pdo_dblib', 'pdo_firebird', 'pdo_mysql', 'pdo_oci', 'pdo_odbc',
             'pdo_pgsql', 'pdo_sqlite', 'pgsql', 'phar', 'posix', 'pspell',
             'readline', 'recode', 'reflection', 'session', 'shmop', 'simplexml',
@@ -134,9 +136,9 @@ class PeclProvider implements Provider {
         // convert xml to array
         $xml = simplexml_load_string($content);
         $json = json_encode($xml);
-        $info2 = json_decode($json, TRUE);
+        $info2 = json_decode($json, true);
 
-        $versionList = array_map(function($version) {
+        $versionList = array_map(function ($version) {
             return $version['v'];
         }, $info2['r']);
 
@@ -169,7 +171,7 @@ class PeclProvider implements Provider {
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
         if (false === $path || false === strpos($path, ".")) {
-            return NULL;
+            return null;
         }
         return basename($path);
     }
@@ -197,5 +199,4 @@ class PeclProvider implements Provider {
         );
         return $cmds;
     }
-
 }

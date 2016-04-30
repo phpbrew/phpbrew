@@ -22,14 +22,18 @@ class EachCommand extends \CLIFramework\Command
     {
         $command = trim($command);
 
-        if(empty($command)) throw new Exception("Empty command supplied.");
+        if (empty($command)) {
+            throw new Exception("Empty command supplied.");
+        }
         $this->prompt($command);
         $this->runCommandRecursive($command);
     }
 
     protected function prompt($command)
     {
-        if($this->options->assumeyes) return;
+        if ($this->options->assumeyes) {
+            return;
+        }
         $versions = $this->getVersions();
         $versionlist = join(', ', $versions);
         echo $this->formatter->format("Run ", 'transparent');
@@ -40,16 +44,20 @@ class EachCommand extends \CLIFramework\Command
         echo $this->formatter->format("Yes/no", "green");
         echo $this->formatter->format("]> ", "transparent");
         $response = fgetc(fopen('php://stdin', 'r'));
-        if (preg_match('/n|o/i', $response)) throw new Exception("Aborted.");
+        if (preg_match('/n|o/i', $response)) {
+            throw new Exception("Aborted.");
+        }
     }
 
     protected function runCommandRecursive($command)
     {
         $phpbrew = new PhpBrew;
-        foreach($this->getVersions() as $version) {
+        foreach ($this->getVersions() as $version) {
             $this->logger->info($this->formatter->format("Running `{$command}` for php-{$version}:", 'bold'));
             $output = trim($phpbrew->run(preg_split('#\s+#', $command), $version, true));
-            if(! empty($output)) $this->logger->info($output);
+            if (! empty($output)) {
+                $this->logger->info($output);
+            }
         }
     }
 
@@ -57,9 +65,8 @@ class EachCommand extends \CLIFramework\Command
     {
         $versions = Config::getInstalledPhpVersions();
         
-        return array_map(function($version){
+        return array_map(function ($version) {
             return str_replace('php-', '', $version);
         }, $versions);
     }
-
 }

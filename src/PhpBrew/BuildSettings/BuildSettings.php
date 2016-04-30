@@ -26,7 +26,8 @@ class BuildSettings
         }
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'enabled_variants' => $this->variants,
             'disabled_variants' => $this->disabledVariants,
@@ -34,9 +35,9 @@ class BuildSettings
         );
     }
 
-    public function enableVariants(array $settings) 
+    public function enableVariants(array $settings)
     {
-        foreach($settings as $name => $value) {
+        foreach ($settings as $name => $value) {
             $this->enableVariant($name, $value);
         }
     }
@@ -46,9 +47,9 @@ class BuildSettings
         $this->variants[$name] = $value ?: true;
     }
 
-    public function disableVariants(array $settings) 
+    public function disableVariants(array $settings)
     {
-        foreach($settings as $name => $value) {
+        foreach ($settings as $name => $value) {
             $this->disableVariant($name);
         }
     }
@@ -65,7 +66,7 @@ class BuildSettings
 
 
     /**
-     * Remove the enabled the variants since we've disabled 
+     * Remove the enabled the variants since we've disabled
      * them.
      */
     public function resolveVariants()
@@ -189,7 +190,7 @@ class BuildSettings
     }
 
 
-    public function writeVariantInfoFile($variantInfoFile) 
+    public function writeVariantInfoFile($variantInfoFile)
     {
         return file_put_contents($variantInfoFile, serialize(array(
             'enabled_variants' => $this->variants,
@@ -218,10 +219,4 @@ class BuildSettings
         }
         return $this->resolveVariants(); // Remove the enabled variants
     }
-
-
-
 }
-
-
-

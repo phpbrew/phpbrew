@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Downloader;
 
-
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 use PhpBrew\Utils;
@@ -35,28 +34,28 @@ abstract class BaseDownloader
      */
     public function download($url, $targetFilePath = null)
     {
-        if(empty($targetFilePath)) {
+        if (empty($targetFilePath)) {
             $targetFilePath =  tempnam(sys_get_temp_dir(), 'phpbrew_');
-            if($targetFilePath === false) {
+            if ($targetFilePath === false) {
                 throw new RuntimeException("Fail to create temp file");
             }
-        }else{
-            if(!file_exists($targetFilePath)) {
+        } else {
+            if (!file_exists($targetFilePath)) {
                 touch($targetFilePath);
             }
         }
-        if(!is_writable($targetFilePath)) {
+        if (!is_writable($targetFilePath)) {
             throw new \RuntimeException("Target path ($targetFilePath) is not writable!");
         }
-        if($this->process($url, $targetFilePath)){
+        if ($this->process($url, $targetFilePath)) {
             $this->logger->debug("$url => $targetFilePath");
             return $targetFilePath;
-        }else{
+        } else {
             return false;
         }
     }
 
-    protected abstract function process($url, $targetFilePath);
+    abstract protected function process($url, $targetFilePath);
 
     /**
      *
@@ -74,10 +73,10 @@ abstract class BaseDownloader
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
         if (false === $path || false === strpos($path, ".")) {
-            return NULL;
+            return null;
         }
         return basename($path);
     }
 
-    public abstract function hasSupport($requireSsl);
+    abstract public function hasSupport($requireSsl);
 }

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 use Exception;
@@ -51,7 +52,7 @@ class ReleaseList
 
             return $releases;
         } else {
-            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json,0, 125) );
+            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json, 0, 125));
         }
     }
 
@@ -141,7 +142,9 @@ class ReleaseList
     {
         static $instance;
 
-        if ($instance) { return $instance; }
+        if ($instance) {
+            return $instance;
+        }
 
         $instance = new self;
 
@@ -204,12 +207,11 @@ class ReleaseList
         }
 
         foreach ($releaseVersions as $key => & $versions) {
-            uksort($releaseVersions[$key],function ($a, $b) {
+            uksort($releaseVersions[$key], function ($a, $b) {
                 return version_compare($b, $a);
             });
         }
 
         return $releaseVersions;
     }
-
 }

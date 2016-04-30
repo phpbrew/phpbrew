@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Downloader;
 
-
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use PhpBrew\Console;
@@ -56,6 +55,5 @@ class PhpCurlDownloader extends BaseDownloader
             return in_array('https', $info['protocols']);
         }
         return true;
-
     }
 }

@@ -4,21 +4,23 @@ namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
 
-class BitbucketProvider implements Provider {
+class BitbucketProvider implements Provider
+{
 
     public $site = 'bitbucket.org';
-    public $owner = NULL;
-    public $repository = NULL;
-    public $packageName = NULL;
+    public $owner = null;
+    public $repository = null;
+    public $packageName = null;
     public $defaultVersion = 'master';
 
-    public static function getName() {
+    public static function getName()
+    {
         return 'bitbucket';
     }
 
     public function buildPackageDownloadUrl($version='stable')
     {
-        if (($this->getOwner() == NULL) || ($this->getRepository() == NULL)) {
+        if (($this->getOwner() == null) || ($this->getRepository() == null)) {
             throw new Exception("Username or Repository invalid.");
         }
         return sprintf('https://%s/%s/%s/get/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
@@ -54,7 +56,7 @@ class BitbucketProvider implements Provider {
         $this->packageName = $packageName;
     }
 
-    public function exists($dsl, $packageName = NULL)
+    public function exists($dsl, $packageName = null)
     {
         $dslparser = new RepositoryDslParser();
         $info = $dslparser->parse($dsl);
@@ -78,7 +80,7 @@ class BitbucketProvider implements Provider {
 
     public function parseKnownReleasesResponse($content)
     {
-        $info = json_decode($content, TRUE);
+        $info = json_decode($content, true);
         $versionList = array_keys($info);
 
         return $versionList;
@@ -123,5 +125,4 @@ class BitbucketProvider implements Provider {
         );
         return $cmds;
     }
-
 }

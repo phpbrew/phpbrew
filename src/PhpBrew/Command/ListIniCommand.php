@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+
 use CLIFramework\Command;
 
 class ListIniCommand extends Command

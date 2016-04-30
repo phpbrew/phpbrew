@@ -13,7 +13,7 @@ class PathCommand extends Command
 
     public function usage()
     {
-        return 'phpbrew path [' 
+        return 'phpbrew path ['
             . join(', ', array('root', 'home','build','bin','include', 'etc', 'ext', 'ext-src', 'extension-src', 'extension-dir', 'config-scan', 'dist'))
             . ']';
     }

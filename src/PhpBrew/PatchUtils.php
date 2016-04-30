@@ -1,15 +1,17 @@
 <?php
 namespace PhpBrew;
+
 use RuntimeException;
 
 class PatchUtils
 {
-    static public function apply($originalFile, $patchFile, $level = 0) {
+    public static function apply($originalFile, $patchFile, $level = 0)
+    {
         $lastline = system("patch -p{$level} $originalFile $patchFile", $ret);
         return $ret == 0;
     }
 
-    static public function applyStdin($diff, &$output, $level = 0)
+    public static function applyStdin($diff, &$output, $level = 0)
     {
         $desc = array(
             0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
@@ -26,7 +28,7 @@ class PatchUtils
         return proc_close($process);
     }
 
-    static public function applyFileStdin($originalFile, $diff, &$output, $level = 0)
+    public static function applyFileStdin($originalFile, $diff, &$output, $level = 0)
     {
         $desc = array(
             0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
@@ -43,15 +45,11 @@ class PatchUtils
         return proc_close($process);
     }
 
-    static public function reinplace($file, $pattern, $replace) {
+    public static function reinplace($file, $pattern, $replace)
+    {
         $content = file_get_contents($file);
         $ret = preg_replace($pattern, $replace, $content);
         file_put_contents($file, $content);
         return $ret;
     }
 }
-
-
-
-
-

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\PatchKit;
+
 use PhpBrew\Buildable;
 use CLIFramework\Logger;
 
@@ -9,7 +10,3 @@ interface PatchRule
 
     public function backup(Buildable $build, Logger $logger);
 }
-
-
-
-

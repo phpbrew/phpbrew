@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Exception\SystemCommandException;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Build;
@@ -12,7 +13,7 @@ class BuildTask extends BaseTask
     public function run(Build $build, $targets = array())
     {
         if ($build->getState() >= Build::STATE_BUILD) {
-        $this->info("===> Already built, skipping...");
+            $this->info("===> Already built, skipping...");
 
             return;
         }

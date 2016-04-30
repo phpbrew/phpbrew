@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Patches;
+
 use PhpBrew\Buildable;
 use PhpBrew\PatchKit\Patch;
 use PhpBrew\PatchKit\RegExpPatchRule;
@@ -7,7 +8,8 @@ use CLIFramework\Logger;
 
 class OpenSSLDSOPatch extends Patch
 {
-    public function desc() {
+    public function desc()
+    {
         return "openssl dso linking patch";
     }
 
@@ -26,7 +28,7 @@ class OpenSSLDSOPatch extends Patch
          -lcrypto /opt/local/lib/libcrypto.dylib
 
         HomeBrew
-         /usr/local/opt/openssl/lib/libssl.dylib 
+         /usr/local/opt/openssl/lib/libssl.dylib
          /usr/local/opt/openssl/lib/libcrypto.dylib
         */
         $dylibssl = null;

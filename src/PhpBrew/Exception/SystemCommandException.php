@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Exception;
+
 use RuntimeException;
 use PhpBrew\Build;
 
@@ -20,7 +21,7 @@ class SystemCommandException extends RuntimeException
     {
         if ($this->logFile) {
             return $this->logFile;
-        } else if ($this->build) {
+        } elseif ($this->build) {
             return $this->build->getBuildLogPath();
         }
     }
@@ -29,8 +30,4 @@ class SystemCommandException extends RuntimeException
     {
         return $this->build;
     }
-
 }
-
-
-

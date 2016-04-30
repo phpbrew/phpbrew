@@ -6,13 +6,18 @@ use PhpBrew\Console;
 
 class PhpBrew
 {
-    public function run($args, $version, $buffer = false) {
-        if($buffer) ob_start();
+    public function run($args, $version, $buffer = false)
+    {
+        if ($buffer) {
+            ob_start();
+        }
         $this->runUse($version);
         $console = new Console;
         array_unshift($args, 'phpbrew');
         $console->run($args);
-        if($buffer) return ob_get_clean();
+        if ($buffer) {
+            return ob_get_clean();
+        }
     }
 
     public static function getCleanPath()
@@ -31,5 +36,4 @@ class PhpBrew
         putenv("PHPBREW_ROOT=" . Config::getRoot());
         putenv('PATH=' . getenv('PHPBREW_PATH') . ':' . self::getCleanPath());
     }
-
 }

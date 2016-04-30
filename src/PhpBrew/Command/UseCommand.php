@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+
 use CLIFramework\Command;
 use PhpBrew\Config;
 use PhpBrew\BuildFinder;
@@ -11,7 +12,8 @@ use Exception;
 class UseCommand extends Command
 {
 
-    public function arguments($args) {
+    public function arguments($args)
+    {
         $args->add('php version')
             /*
             ->validValues(function(){
@@ -26,7 +28,8 @@ class UseCommand extends Command
         return 'Use php, switch version temporarily';
     }
 
-    public function execute($buildName) {
+    public function execute($buildName)
+    {
         if (!$buildName) {
             // This exception is used for tracing tests
             throw new Exception("build name is required.");

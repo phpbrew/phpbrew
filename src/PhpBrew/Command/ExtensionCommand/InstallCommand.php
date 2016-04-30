@@ -70,7 +70,8 @@ class InstallCommand extends BaseCommand
         );
     }
 
-    public function prepare() {
+    public function prepare()
+    {
         parent::prepare();
 
         $buildDir = Config::getCurrentBuildDir();
@@ -87,8 +88,6 @@ class InstallCommand extends BaseCommand
 
     public function execute($extName, $version = 'stable')
     {
-
-
         if (version_compare(PHP_VERSION, "7.0.0") > 0) {
             $this->logger->warn(
 "Warning: Some extension won't be able to be built with php7. If the extension
@@ -107,7 +106,7 @@ For example, to install memcached extension for php7, use:
         }
 
         // Detect protocol
-        if ((preg_match('#^git://#',$extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName) ) {
+        if ((preg_match('#^git://#', $extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName)) {
             $pathinfo = pathinfo($extName);
             $repoUrl = $extName;
             $extName = $pathinfo['filename'];
@@ -142,7 +141,6 @@ For example, to install memcached extension for php7, use:
 
         $manager = new ExtensionManager($this->logger);
         foreach ($extensions as $extensionName => $extConfig) {
-
             $provider = $extensionList->exists($extensionName);
 
             if (! $provider) {
@@ -160,7 +158,9 @@ For example, to install memcached extension for php7, use:
 
                 // not every project has stable branch, using master as default version
                 $args = array_slice(func_get_args(), 1);
-                if (!isset($args[0]) || $args[0] != $extConfig->version) $extConfig->version = $provider->getDefaultVersion();
+                if (!isset($args[0]) || $args[0] != $extConfig->version) {
+                    $extConfig->version = $provider->getDefaultVersion();
+                }
 
                 $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
 
@@ -176,7 +176,6 @@ For example, to install memcached extension for php7, use:
                 if ($ext) {
                     $extensionDownloader->renameSourceDirectory($ext);
                 }
-
             }
             if (!$ext) {
                 throw new Exception("$extensionName not found.");

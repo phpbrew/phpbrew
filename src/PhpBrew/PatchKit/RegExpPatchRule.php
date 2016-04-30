@@ -1,8 +1,8 @@
 <?php
 namespace PhpBrew\PatchKit;
+
 use PhpBrew\Buildable;
 use CLIFramework\Logger;
-
 
 /**
  * RegExpPatchRule implements a pcre_replace based patch rule
@@ -13,7 +13,7 @@ class RegExpPatchRule implements PatchRule
 
 
     /**
-     * @var string the regexp pattern 
+     * @var string the regexp pattern
      */
     private $pattern;
 
@@ -42,7 +42,7 @@ class RegExpPatchRule implements PatchRule
      */
     public function allOf(array $patterns)
     {
-        $this->predicator = function($line) use ($patterns) {
+        $this->predicator = function ($line) use ($patterns) {
             foreach ($patterns as $pattern) {
                 if (!preg_match($pattern, $line)) {
                     return false;
@@ -58,7 +58,7 @@ class RegExpPatchRule implements PatchRule
         if (count($patterns) === 0) {
             $this->predicator = true;
         }
-        $this->predicator = function($line) use ($patterns) {
+        $this->predicator = function ($line) use ($patterns) {
             foreach ($patterns as $pattern) {
                 if (preg_match($pattern, $line)) {
                     return true;
@@ -84,7 +84,7 @@ class RegExpPatchRule implements PatchRule
     }
 
 
-    static public function files($files)
+    public static function files($files)
     {
         return new self((array)$files);
     }

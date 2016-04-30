@@ -1,10 +1,10 @@
 <?php
 namespace PhpBrew\PatchKit;
+
 use PhpBrew\Buildable;
 use PhpBrew\Downloader\DownloadFactory;
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
-
 
 /**
  * DiffPatchRule implements a diff based patch rule
@@ -34,14 +34,13 @@ class DiffPatchRule
         return $this;
     }
 
-    static public function from($diffFile)
+    public static function from($diffFile)
     {
         return new self($diffFile);
     }
 
     public function backup(Buildable $build, Logger $logger)
     {
-
     }
 
     public function apply(Buildable $build, Logger $logger)
@@ -81,6 +80,4 @@ class DiffPatchRule
         }
         return 1;
     }
-
 }
-    

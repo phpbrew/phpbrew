@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
@@ -12,7 +13,6 @@ class UpdateCommand extends \CLIFramework\Command
 
     public function options($opts)
     {
-
         $opts->add('o|old', 'List old phps (less than 5.3)');
 
         $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
@@ -34,6 +34,5 @@ class UpdateCommand extends \CLIFramework\Command
                 . count($versionList) . ' releases');
         }
         $this->logger->info('===> Done');
-
     }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Extension;
+
 use CLIFramework\Logger;
 use PhpBrew\Config;
 use PhpBrew\Utils;
@@ -12,13 +13,14 @@ class ExtensionInstaller
 
     public $options;
 
-    public function __construct(Logger $logger, OptionResult $options = NULL)
+    public function __construct(Logger $logger, OptionResult $options = null)
     {
         $this->logger = $logger;
         $this->options = $options ?: new \GetOptionKit\OptionResult;
     }
 
-    public function install(Extension $ext, array $configureOptions = array()) {
+    public function install(Extension $ext, array $configureOptions = array())
+    {
         $sourceDir = $ext->getSourceDirectory();
         $pwd = getcwd();
         $buildLogPath = $sourceDir . DIRECTORY_SEPARATOR . 'build.log';
@@ -37,7 +39,7 @@ class ExtensionInstaller
             $clean->clean($ext);
         }
 
-        if ($ext->getConfigM4File() !== "config.m4" && ! file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4') ) {
+        if ($ext->getConfigM4File() !== "config.m4" && ! file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4')) {
             symlink($ext->getConfigM4File(), $sourceDir . DIRECTORY_SEPARATOR . 'config.m4');
         }
 

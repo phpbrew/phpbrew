@@ -38,8 +38,9 @@ class RepositoryDslParser
     protected function toUrl($dsl)
     {
         $url = $dsl;
-        foreach (self::$macros as $target => $sources)
+        foreach (self::$macros as $target => $sources) {
             $url = str_replace($sources, $target, $url);
+        }
 
         return preg_replace('#\.git$#', '', $url);
     }

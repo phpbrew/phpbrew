@@ -36,7 +36,7 @@ class InitCommand extends \CLIFramework\Command
         $paths[] = $root . DIRECTORY_SEPARATOR . 'register';
         $paths[] = $buildDir;
         $paths[] = $buildPrefix;
-        foreach($paths as $p) {
+        foreach ($paths as $p) {
             $this->logger->info("Checking directory $p");
             if (!file_exists($p)) {
                 $this->logger->info("Creating directory $p");
@@ -65,22 +65,22 @@ class InitCommand extends \CLIFramework\Command
             copy($configFile, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
-        $this->logger->writeln( $this->formatter->format("Initialization successfully finished!",'strong_green') );
-        $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
+        $this->logger->writeln($this->formatter->format("Initialization successfully finished!", 'strong_green'));
+        $this->logger->writeln($this->formatter->format("<=====================================================>", 'strong_white'));
 
         // write bashrc script to phpbrew home
-        file_put_contents($home . '/bashrc' , $this->getBashScriptPath());
+        file_put_contents($home . '/bashrc', $this->getBashScriptPath());
         // write phpbrew.fish script to phpbrew home
-        file_put_contents($home . '/phpbrew.fish' , $this->getFishScriptPath());
+        file_put_contents($home . '/phpbrew.fish', $this->getFishScriptPath());
 
-        if (strpos(getenv("SHELL"), "fish") !== false)  {
+        if (strpos(getenv("SHELL"), "fish") !== false) {
             $initConfig = <<<EOS
 Paste the following line(s) to the end of your ~/.config/fish/config.fish and start a
 new shell, phpbrew should be up and fully functional from there:
 
     source $home/phpbrew.fish
 EOS;
-        }else {
+        } else {
             $initConfig = <<<EOS
 Paste the following line(s) to the end of your ~/.bashrc and start a
 new shell, phpbrew should be up and fully functional from there:
@@ -112,7 +112,7 @@ Enjoy phpbrew at \$HOME!!
 
 
 EOS;
-        $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
+        $this->logger->writeln($this->formatter->format("<=====================================================>", 'strong_white'));
     }
 
     protected function getCurrentShellDirectory()

@@ -3,7 +3,7 @@ namespace PhpBrew;
 
 class AppStore
 {
-    public static function all() 
+    public static function all()
     {
         $apps = array(
             'composer'  => array('url' => 'https://getcomposer.org/composer.phar', 'as'                              => 'composer'),
@@ -17,7 +17,7 @@ class AppStore
             'onion'     => array('url' => 'https://raw.githubusercontent.com/phpbrew/Onion/master/onion', 'as' => 'onion'),
             'box-2.5'   => array('url' => 'https://github.com/box-project/box2/releases/download/2.5.2/box-2.5.2.phar', 'as' => 'box'),
         );
-        $phpunitapps = explode(' ','phpunit phpcov phpcpd phpdcd phptok phploc');
+        $phpunitapps = explode(' ', 'phpunit phpcov phpcpd phpdcd phptok phploc');
         foreach ($phpunitapps as $phpunitapp) {
             $apps[ $phpunitapp ] = array(
                 'url' => sprintf('https://phar.phpunit.de/%s.phar', $phpunitapp),
@@ -27,9 +27,3 @@ class AppStore
         return $apps;
     }
 }
-
-
-
-
-
-

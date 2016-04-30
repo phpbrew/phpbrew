@@ -5,7 +5,6 @@ use PhpBrew\Tasks\MakeTask;
 use PhpBrew\Build;
 use PhpBrew\Config;
 use PhpBrew\Utils;
-
 use CLIFramework\Command;
 
 class CleanCommand extends Command
@@ -25,9 +24,10 @@ class CleanCommand extends Command
         $opts->add('a|all', 'Remove all the files in the source directory of the PHP distribution.');
     }
 
-    public function arguments($args) {
+    public function arguments($args)
+    {
         $args->add('installed php')
-            ->validValues(function() { return \PhpBrew\Config::getInstalledPhpVersions(); })
+            ->validValues(function () { return \PhpBrew\Config::getInstalledPhpVersions(); })
             ;
     }
 

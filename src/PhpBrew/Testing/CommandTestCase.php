@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Testing;
+
 use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
 use PhpBrew\Console;
 use GetOptionKit\Option;
@@ -48,7 +49,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
         // putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
         // putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
 
-        if($options = \PhpBrew\Console::getInstance()->options) {
+        if ($options = \PhpBrew\Console::getInstance()->options) {
             $option = new Option('no-progress');
             $option->setValue(true);
             $options->set('no-progress', $option);
@@ -81,7 +82,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
             $output = ob_get_contents();
             ob_end_clean();
             if ($ret === false) {
-                echo '[' , join(' ',$args), ']', PHP_EOL;
+                echo '[' , join(' ', $args), ']', PHP_EOL;
                 echo '===================================', PHP_EOL;
                 echo $output, PHP_EOL;
                 echo '===================================', PHP_EOL;
@@ -103,5 +104,4 @@ abstract class CommandTestCase extends BaseCommandTestCase
     {
         return parent::runCommand($args);
     }
-
 }

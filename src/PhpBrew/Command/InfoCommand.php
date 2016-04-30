@@ -79,6 +79,5 @@ class InfoCommand extends \CLIFramework\Command
         ) as $extName) {
             $this->logger->info($extName, 1);
         }
-
     }
 }
