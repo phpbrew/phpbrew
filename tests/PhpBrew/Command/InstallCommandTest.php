@@ -50,6 +50,7 @@ class InstallCommandTest extends CommandTestCase
 
     /**
      * @depends testInstallCommand
+     * @group mayignore
      */
     public function testCtagsCommand()
     {
