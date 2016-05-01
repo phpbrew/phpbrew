@@ -549,7 +549,10 @@ class VariantBuilder
 
         if (!empty($customVirtualVariants)) {
             foreach ($customVirtualVariants as $key => $extension) {
-                $customVirtualVariantsToAdd[$key] = array_keys($extension);
+                // The extension might be null
+                if (!empty($extension)) {
+                    $customVirtualVariantsToAdd[$key] = array_keys($extension);
+                }
             }
         }
 
