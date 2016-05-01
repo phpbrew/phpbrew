@@ -63,7 +63,6 @@ class VariantBuilder
 
         'small' => array(
             'bz2',
-            'calendar',
             'cli',
             'dom',
             'filter',
