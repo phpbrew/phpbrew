@@ -43,8 +43,10 @@ class ConfigureTask extends BaseTask
         }
 
         $args = array();
-        // $args[] = "--config-cache=../config.cache"; 
-        $args[] = "-C"; // project wise cache
+
+        // $args[] = "-C"; // project wise cache (--config-cache)
+        $args[] = "--cache-file=" . escapeshellarg(Config::getCacheDir() . DIRECTORY_SEPARATOR . 'config.cache');
+
         $args[] = "--prefix=" . $prefix;
         if ($this->options->{'user-config'}) {
             $args[] = "--with-config-file-path={$prefix}/etc";
