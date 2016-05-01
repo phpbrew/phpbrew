@@ -194,6 +194,13 @@ class VariantBuilder
                 return "--with-mcrypt=$prefix";
             }
 
+            if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix mcrypt", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-mcrypt=' . $prefix;
+                }
+            }
+
             return "--with-mcrypt"; // let autotool to find it.
         };
 
