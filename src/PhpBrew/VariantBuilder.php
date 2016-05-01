@@ -232,6 +232,12 @@ class VariantBuilder
                 return "--with-curl=$prefix";
             }
 
+            if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix curl", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-curl=' . $prefix;
+                }
+            }
             return null;
         };
 
