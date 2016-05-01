@@ -521,7 +521,7 @@ class VariantBuilder
 
         $this->variants['apxs2'] = function (Build $build, $prefix = null) {
             $a = '--with-apxs2';
-            if ($prefix && file_exists($prefix)) {
+            if ($prefix) {
                 return '--with-apxs2=' . $prefix;
             }
 
