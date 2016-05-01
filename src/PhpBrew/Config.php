@@ -70,6 +70,14 @@ class Config
     }
 
     /**
+     * cache directory for configure
+     */
+    public static function getCacheDir()
+    {
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'cache';
+    }
+
+    /**
      * php(s) could be global, so we use ROOT path.
      */
     public static function getBuildDir()
@@ -295,6 +303,7 @@ class Config
         $dirs[] = self::getHome();
         $dirs[] = self::getVariantsDir();
         $dirs[] = self::getBuildDir();
+        $dirs[] = self::getCacheDir();
         $dirs[] = self::getDistFileDir();
         $dirs[] = self::getRegistryDir();
         if ($buildName) {
@@ -312,6 +321,7 @@ class Config
         $write[] = self::getHome();
         $write[] = self::getVariantsDir();
         $write[] = self::getBuildDir();
+        $write[] = self::getCacheDir();
         $write[] = self::getDistFileDir();
         $write[] = self::getRegistryDir();
         foreach ($write as $dir) {
