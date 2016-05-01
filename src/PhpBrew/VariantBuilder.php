@@ -480,10 +480,15 @@ class VariantBuilder
 
             if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
+            } else if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ($prefix = Utils::findLibPrefix('libxml2.a')) {
+            } else if ($prefix = Utils::findLibPrefix('libxml2.a')) {
                 $options[] = "--with-libxml-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix libxml2", $retval);
+                if ($retval === 0 && $prefix) {
+                    $options[] = '--with-libxml2=' . $prefix;
+                }
             }
 
             return $options;
