@@ -584,7 +584,7 @@ class VariantBuilder
 
     public function checkConflicts(Build $build)
     {
-        if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion(), 'php-5.4.0') < 0) {
+        if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion(), '5.4.0') < 0) {
             if ($conflicts = $this->getConflict($build, 'apxs2')) {
                 $msgs = array();
                 $msgs[] = "PHP Version lower than 5.4.0 can only build one SAPI at the same time.";
