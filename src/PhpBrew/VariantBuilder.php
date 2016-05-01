@@ -61,6 +61,25 @@ class VariantBuilder
         // provide no additional feature
         'neutral' => array(),
 
+        'small' => array(
+            'bz2',
+            'calendar',
+            'cli',
+            'dom',
+            'filter',
+            'ipc',
+            'json',
+            'mbregex',
+            'mbstring',
+            'pcre',
+            'phar',
+            'posix',
+            'readline',
+            'xml',
+            'curl',
+            'openssl',
+        ),
+
         // provide all basic features
         'default' => array(
             'bcmath',
@@ -89,7 +108,7 @@ class VariantBuilder
             'curl',
             'openssl',
             'zip',
-        )
+        ),
     );
 
     public function __construct()
