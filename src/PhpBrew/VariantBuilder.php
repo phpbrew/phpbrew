@@ -290,6 +290,14 @@ class VariantBuilder
                 return '--with-icu-dir=' . $prefix;
             }
 
+            // For homebrew
+            if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix icu4c", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-icu-dir=' . $prefix;
+                }
+            }
+
             throw new RuntimeException(
                 "libicu not found, please install libicu-dev or libicu library/development files."
             );
