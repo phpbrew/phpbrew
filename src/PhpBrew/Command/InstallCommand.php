@@ -123,6 +123,8 @@ class InstallCommand extends Command
 
         $opts->add('home', 'specify phpbrew home instead of PHPBREW_HOME');
 
+        $opts->add('no-config-cache', 'do not use config.cache for configure script.');
+
         $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. '
             . 'By default phpbrew will run `make clean` before running the configure script '
             . 'to ensure everything is cleaned up.')
