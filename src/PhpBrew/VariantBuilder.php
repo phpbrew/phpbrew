@@ -273,7 +273,7 @@ class VariantBuilder
             } else if ($bin = Utils::findBin('brew')) {
                 $prefix = system("$bin --prefix libjpeg", $retval);
                 if ($retval === 0 && $prefix) {
-                    return '--with-jpeg-dir=' . $prefix;
+                    $opts[] = '--with-jpeg-dir=' . $prefix;
                 }
             }
 
@@ -282,7 +282,7 @@ class VariantBuilder
             } else if ($bin = Utils::findBin('brew')) {
                 $prefix = system("$bin --prefix libpng", $retval);
                 if ($retval === 0 && $prefix) {
-                    return '--with-png-dir=' . $prefix;
+                    $opts[] = '--with-png-dir=' . $prefix;
                 }
             }
 
@@ -298,7 +298,7 @@ class VariantBuilder
             } else if ($bin = Utils::findBin('brew')) {
                 $prefix = system("$bin --prefix freetype", $retval);
                 if ($retval === 0 && $prefix) {
-                    return '--with-freetype-dir=' . $prefix;
+                    $opts[] = '--with-freetype-dir=' . $prefix;
                 }
             }
 
