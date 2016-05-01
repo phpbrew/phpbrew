@@ -358,18 +358,16 @@ class VariantBuilder
                 return "--with-openssl=$prefix";
             }
 
+
             // Special detection and fallback for homebrew openssl
             // @see https://github.com/phpbrew/phpbrew/issues/607
-            $possiblePrefixes = array(
-                '/usr/local/opt/openssl',
-                '/usr/local/Cellar/openssl/1.0.2g',
-                '/usr/local/Cellar/openssl/1.0.2f',
-                '/usr/local/Cellar/openssl/1.0.2e_1',
-                '/usr/local/Cellar/openssl/1.0.2e',
-                '/usr/local/Cellar/openssl/1.0.2d_1',
-                '/usr/local/Cellar/openssl/1.0.2d',
-                '/usr/local/Cellar/openssl/1.0.1e',
-            );
+            if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix openssl", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-openssl=' . $prefix;
+                }
+            }
+            $possiblePrefixes = array('/usr/local/opt/openssl');
             $foundPrefixes = array_filter($possiblePrefixes, "file_exists");
             if (count($foundPrefixes) > 0) {
                 return "--with-openssl=" . $foundPrefixes[0];
@@ -452,6 +450,8 @@ class VariantBuilder
 
         $this->variants['pgsql'] = function (Build $build, $prefix = null) {
             $opts = array();
+
+            // The names are used from macports
             $possibleNames = array('psql90','psql91','psql92','psql93','psql');
             while (!$prefix && ! empty($possibleNames)) {
                 $prefix = Utils::findBin(array_pop($possibleNames));
