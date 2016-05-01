@@ -503,15 +503,13 @@ class VariantBuilder
 
         $this->variants['apxs2'] = function (Build $build, $prefix = null) {
             $a = '--with-apxs2';
-            if ($prefix) {
+            if ($prefix && file_exists($prefix)) {
                 return '--with-apxs2=' . $prefix;
             }
 
             if ($bin = Utils::findBinByPrefix('apxs2')) {
                 return '--with-apxs2=' . $bin;
-            }
-
-            if ($bin = Utils::findBinByPrefix('apxs')) {
+            } else if ($bin = Utils::findBinByPrefix('apxs')) {
                 return '--with-apxs2=' . $bin;
             }
 
