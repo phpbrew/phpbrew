@@ -520,6 +520,7 @@ class VariantBuilder
                 '/usr/local/opt/httpd24/bin/apxs',
                 '/usr/local/opt/httpd23/bin/apxs',
                 '/usr/local/opt/httpd22/bin/apxs',
+                '/usr/sbin/apxs', // it's possible to find apxs under this path (OS X)
             );
             $paths = array_filter($possiblePaths, "file_exists");
             if (count($paths) > 0 && file_exists($paths[0])) {
