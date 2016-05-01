@@ -225,12 +225,16 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 $opts = array();
                 $opts[] = '--with-readline=' . $prefix;
-
                 if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                     $opts[] = '--with-libedit=' . $prefix;
                 }
 
                 return $opts;
+            } else if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix readline", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-readline=' . $prefix;
+                }
             }
 
             return '--with-readline';
