@@ -252,10 +252,20 @@ class VariantBuilder
 
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix libjpeg", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-jpeg-dir=' . $prefix;
+                }
             }
 
             if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
                 $opts[] = "--with-png-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix libpng", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-png-dir=' . $prefix;
+                }
             }
 
             // the freetype-dir option does not take prefix as its value,
@@ -265,8 +275,13 @@ class VariantBuilder
             //   for path in $i/include/freetype2/freetype/freetype.h
             if ($prefix = Utils::findIncludePrefix('freetype2/freetype.h')) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
+            } else if ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
                 $opts[] = "--with-freetype-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix freetype", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-freetype-dir=' . $prefix;
+                }
             }
 
             return $opts;
