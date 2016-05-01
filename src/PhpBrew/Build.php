@@ -3,7 +3,6 @@ namespace PhpBrew;
 
 use Serializable;
 use PhpBrew\BuildSettings\BuildSettings;
-use PhpBrew\Types\ExistingDirectory;
 
 /**
  * A build object contains version information,
@@ -136,8 +135,6 @@ class Build implements Serializable, Buildable
 
     /**
      * PHP Source directory, this method returns value only when source directory is set.
-     *
-     * TODO: use ExistingDirectory class
      */
     public function setSourceDirectory($dir)
     {
