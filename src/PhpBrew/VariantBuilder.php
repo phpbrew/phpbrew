@@ -182,6 +182,13 @@ class VariantBuilder
                 return "--with-mhash=$prefix";
             }
 
+            if ($bin = Utils::findBin('brew')) {
+                $prefix = system("$bin --prefix mhash", $retval);
+                if ($retval === 0 && $prefix) {
+                    return '--with-mhash=' . $prefix;
+                }
+            }
+
             return "--with-mhash"; // let autotool to find it.
         };
 
