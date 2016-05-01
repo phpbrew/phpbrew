@@ -53,14 +53,16 @@ class BeforeConfigureTask extends BaseTask
             $apxs2Checker->check($build, $this->options);
         }
 
-        $this->logger->info("===> Checking patches...");
-        $patches = array();
-        $patches[] = new Apache2ModuleNamePatch;
-        foreach ($patches as $patch) {
-            $this->logger->info("Checking patch for " . $patch->desc());
-            if ($patch->match($build, $this->logger)) {
-                $patched = $patch->apply($build, $this->logger);
-                $this->logger->info("$patched changes patched.");
+        if (!$this->options->{'no-patch'}) {
+            $this->logger->info("===> Checking patches...");
+            $patches = array();
+            $patches[] = new Apache2ModuleNamePatch;
+            foreach ($patches as $patch) {
+                $this->logger->info("Checking patch for " . $patch->desc());
+                if ($patch->match($build, $this->logger)) {
+                    $patched = $patch->apply($build, $this->logger);
+                    $this->logger->info("$patched changes patched.");
+                }
             }
         }
     }
