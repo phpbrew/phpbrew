@@ -493,7 +493,7 @@ class VariantBuilder
             } else if ($bin = Utils::findBin('brew')) {
                 $prefix = system("$bin --prefix libxml2", $retval);
                 if ($retval === 0 && $prefix) {
-                    $options[] = '--with-libxml2=' . $prefix;
+                    $options[] = '--with-libxml-dir=' . $prefix;
                 }
             }
 
@@ -530,7 +530,7 @@ class VariantBuilder
             if (count($paths) > 0 && file_exists($paths[0])) {
                 $opts[] = "--with-apxs2={$paths[0]}";
             }
-            return $a;
+            return $a; // fallback to autoconf finder
         };
 
 
