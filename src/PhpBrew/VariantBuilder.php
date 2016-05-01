@@ -517,9 +517,14 @@ class VariantBuilder
 
             /* Special paths for homebrew */
             $possiblePaths = array(
+                // macports apxs path
                 '/usr/local/opt/httpd24/bin/apxs',
                 '/usr/local/opt/httpd23/bin/apxs',
                 '/usr/local/opt/httpd22/bin/apxs',
+                '/usr/local/opt/httpd21/bin/apxs',
+
+                '/usr/local/sbin/apxs', // homebrew apxs prefix
+                '/usr/local/bin/apxs',
                 '/usr/sbin/apxs', // it's possible to find apxs under this path (OS X)
                 '/usr/bin/apxs', // not sure if this one helps
             );
