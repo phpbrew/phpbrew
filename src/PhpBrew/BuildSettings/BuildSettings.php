@@ -215,7 +215,7 @@ class BuildSettings
             $this->disableVariants($variantInfo['disabled_variants']);
         }
         if (isset($variantInfo['extra_options'])) {
-            $this->extraOptions = array_merge($this->extraOptions, $variantInfo['extra_options']);
+            $this->extraOptions = array_unique(array_merge($this->extraOptions, $variantInfo['extra_options']));
         }
         return $this->resolveVariants(); // Remove the enabled variants
     }
