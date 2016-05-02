@@ -16,7 +16,7 @@ use BadMethodCallException;
 class Console extends Application
 {
     const NAME = 'phpbrew';
-    const VERSION = "1.21.1";
+    const VERSION = "1.21.2";
 
     public function options($opts)
     {
