@@ -46,6 +46,7 @@ cache:
   directories:
   - "vendor"
   - ".phpbrew/distfiles"
+  - ".phpbrew/cache"
   - "$HOME/.ccache"
 before_deploy:
 - make build
