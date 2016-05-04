@@ -14,7 +14,7 @@ class Utils
     {
         if (is_readable($tz = '/etc/timezone')) {
             $lines = array_filter(file($tz), function($line) {
-                return !preg_match('^#', $line);
+                return !preg_match('/^#/', $line);
             });
             if (!empty($lines)) {
                 return trim($lines[0]);
