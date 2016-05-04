@@ -247,6 +247,11 @@ function phpbrew ()
                     fpm_stop
                     fpm_start "${@:4}"
                     ;;
+                current)
+                    if [[ -f $PHPFPM_PIDFILE ]] ; then
+                        ps ux -p "$(cat $PHPFPM_PIDFILE)"
+                    fi
+                    ;;
                 module)
                     $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
                             --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf \
