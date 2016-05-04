@@ -12,6 +12,7 @@
 # PHPBREW_PATH: the bin path of the current php.
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
+[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
 
 function __phpbrew_set_path()
 {
@@ -27,12 +28,7 @@ function __phpbrew_set_path()
     then
         export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
     else
-        if [[ -z $PHPBREW_BIN ]]
-        then
-            export PATH=$PHPBREW_PATH:$PATH_WITHOUT_PHPBREW
-        else
-            export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
-        fi
+        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
     fi
 }
 
