@@ -9,6 +9,20 @@ use RecursiveIteratorIterator;
 
 class Utils
 {
+
+    public static function readTimeZone()
+    {
+        if (is_readable($tz = '/etc/timezone')) {
+            $lines = array_filter(file($tz), function($line) {
+                return !preg_match('^#', $line);
+            });
+            if (!empty($lines)) {
+                return trim($lines[0]);
+            }
+        }
+        return false;
+    }
+
     public static function canonicalizeBuildName($version)
     {
         if (!preg_match('/^php-/', $version)) {
@@ -353,4 +367,8 @@ class Utils
         $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
         exec("{$editor} {$file} > {$tty}");
     }
+
+
+
+
 }

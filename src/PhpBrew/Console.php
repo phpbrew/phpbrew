@@ -92,10 +92,10 @@ class Console extends Application
         }
         // prevent execution time limit fatal error
         set_time_limit(0);
+
         // prevent warnings when timezone is not set
-        date_default_timezone_set(
-            is_readable($tz = '/etc/timezone') ? trim(file_get_contents($tz)) : 'America/Los_Angeles'
-        );
+        date_default_timezone_set(Utils::readTimeZone() ?: 'America/Los_Angeles');
+
         // fix bold output so it looks good on light and dark terminals
         $this->getFormatter()->addStyle('bold', array('bold' => 1));
     }
