@@ -64,6 +64,9 @@ class CommandBuilder
     {
         $ret = null;
         $command = $this->buildCommand();
+        if ($this->stdout) {
+            $command = "set -o pipefail; $command";
+        }
         $lastline = system($command, $ret);
         if ($lastline === false) {
             return $ret;
