@@ -33,7 +33,9 @@ class VariantBuilder
 
     public $conflicts = array(
         // PHP Version lower than 5.4.0 can only built one SAPI at the same time.
-        'apxs2' => array( 'fpm','cgi' ),
+        'apxs2' => array('fpm','cgi'),
+        'editline' => array('readline'),
+        'readline' => array('editline'),
     );
 
     public $options = array();
@@ -259,24 +261,37 @@ class VariantBuilder
             return null;
         };
 
+        /*
+        Users might prefer readline over libedit because only readline supports
+        readline_list_history() (http://www.php.net/readline-list-history).
+        On the other hand we want libedit to be the default because its license
+        is compatible with PHP's which means PHP can be distributable.
+        
+        related issue https://github.com/phpbrew/phpbrew/issues/497
+        */
         $this->variants['readline'] = function (Build $build, $prefix = null) {
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
-                $opts = array();
-                $opts[] = '--with-readline=' . $prefix;
-                if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
-                    $opts[] = '--with-libedit=' . $prefix;
-                }
-
-                return $opts;
+                return '--with-readline=' . $prefix;
             } else if ($bin = Utils::findBin('brew')) {
                 $prefix = system("$bin --prefix readline", $retval);
                 if ($retval === 0 && $prefix) {
                     return '--with-readline=' . $prefix;
                 }
             }
-
             return '--with-readline';
         };
+
+
+        /*
+         * editline is conflict with readline
+         */
+        $this->variants['editline'] = function (Build $build, $prefix = null) {
+            if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
+                return '--with-libedit=' . $prefix;
+            }
+        };
+
+
 
         $this->variants['gd'] = function (Build $build, $prefix = null) {
             $opts = array();
