@@ -283,8 +283,10 @@ class VariantBuilder
          * editline is conflict with readline
          */
         $this->variants['editline'] = function (Build $build, $prefix = null) {
-            if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
-                return '--with-libedit=' . $prefix;
+            if ($prefix) {
+                return "--with-libedit=$prefix";
+            } else if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
+                return "--with-libedit=$prefix";
             }
         };
 
