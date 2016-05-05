@@ -33,11 +33,10 @@ class ApacheUtils
     public static function getExecuatableHttpd($path = '')
     {
         if (empty($path)) {
-            $path = Utils::findbin('httpd');
-        }
-
-        if (empty($path)) { //for ubuntu
-            $path = Utils::findbin('apache2');
+            $apxs = self::getExecutableApxs();
+            $sbindir = trim(Utils::pipeExecute("$apxs -q sbindir"));
+            $progname = trim(Utils::pipeExecute("$apxs -q progname"));
+            $path = $sbindir . DIRECTORY_SEPARATOR . $progname;
         }
 
         if (!is_executable($path)) {
