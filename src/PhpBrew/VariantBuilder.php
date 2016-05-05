@@ -476,6 +476,21 @@ class VariantBuilder
         };
 
         /*
+
+        MySQL Native Driver is a replacement for the MySQL Client Library
+        (libmysqlclient). MySQL Native Driver is part of the official PHP
+        sources as of PHP 5.3.0.
+
+        The MySQL database extensions MySQL extension, mysqli and PDO MYSQL all
+        communicate with the MySQL server. In the past, this was done by the
+        extension using the services provided by the MySQL Client Library. The
+        extensions were compiled against the MySQL Client Library in order to
+        use its client-server protocol.
+
+        With MySQL Native Driver there is now an alternative, as the MySQL
+        database extensions can be compiled to use MySQL Native Driver instead
+        of the MySQL Client Library.
+
         --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
                                 directory.  If mysqlnd is passed as DIR,
                                 the MySQL native driver will be used [/usr/local]
@@ -498,6 +513,12 @@ class VariantBuilder
             if ($build->compareVersion('7.0') < 0) {
                 $opts[] = "--with-mysql=$prefix";
             }
+
+            /*
+            if ($build->compareVersion('5.4') > 0) {
+                $opts[] = "--enable-mysqlnd";
+            }
+            */
 
             $opts[] = "--with-mysqli=$prefix";
             if ($build->hasVariant('pdo')) {
