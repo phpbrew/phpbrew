@@ -7,6 +7,14 @@ use PhpBrew\Exception\OopsException;
 use PhpBrew\Build;
 
 
+function first_existing_path($possiblePaths) {
+    $existingPaths = array_filter($possiblePaths, "file_exists");
+    if (!empty($existingPaths)) {
+        return $existingPaths[0];
+    }
+    return false;
+}
+
 function exec_line($command) {
     $output = array();
     exec($command, $output, $retval);
@@ -532,13 +540,24 @@ class VariantBuilder
             while (!$prefix && ! empty($possibleNames)) {
                 $prefix = Utils::findBin(array_pop($possibleNames));
             }
-
             $opts[] = $prefix ? "--with-pgsql=$prefix" : "--with-pgsql";
 
             if ($build->hasVariant('pdo')) {
-                $opts[] = $prefix ? "--with-pdo-pgsql=$prefix" : '--with-pdo-pgsql';
+                if ($bin = Utils::findBin('pg_config')) {
+                    $opts[] = "--with-pdo-pgsql=$bin";
+                } else if ($path = first_existing_path(array(
+                        "/opt/local/lib/postgresql95/bin/pg_config",
+                        "/opt/local/lib/postgresql94/bin/pg_config",
+                        "/opt/local/lib/postgresql93/bin/pg_config",
+                        "/opt/local/lib/postgresql92/bin/pg_config",
+                    ))) {
+                    $opts[] = "--with-pdo-pgsql=$path";
+                } else if ($prefix) {
+                    $opts[] = "--with-pdo-pgsql=$prefix";
+                } else {
+                    $opts[] = "--with-pdo-pgsql";
+                }
             }
-
             return $opts;
         };
 
