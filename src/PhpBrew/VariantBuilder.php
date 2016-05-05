@@ -292,23 +292,42 @@ class VariantBuilder
 
 
 
+        /**
+         * It looks like gd won't be compiled without "shared"
+         *
+         * Suggested options is +gd=shared,{prefix}
+         *
+         * Issue: gd.so: undefined symbol: gdImageCreateFromWebp might happend
+         *
+         * Adding --with-libpath=lib or --with-libpath=lib/x86_64-linux-gnu
+         * might solve the gd issue.
+         *
+         * The configure script in ext/gd detects libraries by something like
+         * test -f $PREFIX/$LIBPATH/libxxx.a, where $PREFIX is what you passed
+         * in --with-xxxx-dir and $LIBPATH can varies in different OS.
+         *
+         * By adding --with-libpath, you can set it up properly.
+         *
+         * @see https://github.com/phpbrew/phpbrew/issues/461
+         */
         $this->variants['gd'] = function (Build $build, $prefix = null) {
             $opts = array();
-
-            // it looks like gd won't be compiled without "shared"
-            // suggested options is +gd=shared,/usr
-
             if ($prefix) {
                 $opts[] = "--with-gd=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('gd.h')) {
+            } else if ($prefix = Utils::findIncludePrefix('gd.h')) {
                 $opts[] = "--with-gd=shared,$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix gd")) {
+                    $opts[] = "--with-gd=shared,$output";
+                }
             }
+
 
             $opts[] = '--enable-gd-native-ttf';
 
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
+            } else if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix libjpeg")) {
                     $opts[] = "--with-jpeg-dir=$output";
                 }
