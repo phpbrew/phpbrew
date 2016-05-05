@@ -6,6 +6,18 @@ use RuntimeException;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\Build;
 
+
+function exec_line($command) {
+    $output = array();
+    exec($command, $output, $retval);
+    if ($retval === 0) {
+        $output = array_filter($output);
+        return end($output);
+    }
+    return false;
+}
+
+
 /**
  * VariantBuilder build variants to configure options.
  *
@@ -190,9 +202,8 @@ class VariantBuilder
             }
 
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix mhash", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-mhash=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix mhash")) {
+                    return "--with-mhash=$output";
                 }
             }
 
@@ -209,20 +220,21 @@ class VariantBuilder
             }
 
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix mcrypt", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-mcrypt=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix mcrypt")) {
+                    return "--with-mcrypt=$output";
                 }
             }
 
             return "--with-mcrypt"; // let autotool to find it.
         };
 
-        $this->variants['zlib'] = function (Build $build) {
-            if ($prefix = Utils::findIncludePrefix('zlib.h')) {
-                return '--with-zlib=' . $prefix;
+        $this->variants['zlib'] = function (Build $build, $prefix = null) {
+            if ($prefix) {
+                return "--with-zlib=$prefix";
             }
-
+            if ($prefix = Utils::findIncludePrefix('zlib.h')) {
+                return "--with-zlib=$prefix";
+            }
             return null;
         };
 
@@ -240,9 +252,8 @@ class VariantBuilder
             }
 
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix curl", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-curl=' . end(array_filter($output));
+                if ($prefix = exec_line("$bin --prefix curl")) {
+                    return "--with-curl=$prefix";
                 }
             }
             return null;
@@ -260,9 +271,8 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 return '--with-readline=' . $prefix;
             } elseif ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix readline", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-readline=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix readline")) {
+                    return '--with-readline=' . $output;
                 }
             }
             return '--with-readline';
@@ -297,18 +307,16 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix libjpeg", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $opts[] = '--with-jpeg-dir=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix libjpeg")) {
+                    $opts[] = "--with-jpeg-dir=$output";
                 }
             }
 
             if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
                 $opts[] = "--with-png-dir=$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix libpng", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $opts[] = '--with-png-dir=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix libpng")) {
+                    $opts[] = "--with-png-dir=$output";
                 }
             }
 
@@ -322,12 +330,10 @@ class VariantBuilder
             } elseif ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
                 $opts[] = "--with-freetype-dir=$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix freetype", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $opts[] = '--with-freetype-dir=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix freetype", $output, $retval)) {
+                    $opts[] = "--with-freetype-dir=$output";
                 }
             }
-
             return $opts;
         };
 
@@ -366,11 +372,9 @@ class VariantBuilder
                     // For macports or linux
                     $opts[] = '--with-icu-dir=' . $prefix;
                 } elseif ($bin = Utils::findBin('brew')) {
-
                     // For homebrew
-                    exec("$bin --prefix icu4c", $output, $retval);
-                    if ($retval === 0 && !empty($output)) {
-                        $opts[] = '--with-icu-dir=' . end(array_filter($output));
+                    if ($output = exec_line("$bin --prefix icu4c")) {
+                        $opts[] = "--with-icu-dir=$output";
                     }
                 }
             }
@@ -415,9 +419,8 @@ class VariantBuilder
             // Special detection and fallback for homebrew openssl
             // @see https://github.com/phpbrew/phpbrew/issues/607
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix openssl", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-openssl=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix openssl")) {
+                    return "--with-openssl=$output";
                 }
             }
             $possiblePrefixes = array('/usr/local/opt/openssl');
@@ -462,10 +465,9 @@ class VariantBuilder
 
             $foundSock = false;
             if ($bin = Utils::findBin('mysql_config')) {
-                exec("$bin --socket", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
+                if ($output = exec_line("$bin --socket")) {
                     $foundSock = true;
-                    $opts[] = "--with-mysql-sock=" . end(array_filter($output));
+                    $opts[] = "--with-mysql-sock=$output";
                 }
             }
             if (!$foundSock) {
@@ -538,9 +540,8 @@ class VariantBuilder
             } elseif ($prefix = Utils::findLibPrefix('libxml2.a')) {
                 $options[] = "--with-libxml-dir=$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix libxml2", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $options[] = '--with-libxml-dir=' . end(array_filter($prefix));
+                if ($output = exec_line("$bin --prefix libxml2")) {
+                    $options[] = "--with-libxml-dir=$output";
                 }
             }
 
