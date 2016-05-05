@@ -1,6 +1,33 @@
 CHANGES
 =======
 
+### Version 1.21.2
+
+- `mysql_config` lookup is improved.
+- Added `pg_config` support for pgsql prefix.
+- Improved `pdo_pgsql` prefix.
+- readline will now prefered over editline and the two libraries conflicts.
+
+    Users might prefer readline over libedit
+
+    because only readline supports readline_list_history()
+    (http://www.php.net/readline-list-history).  On the other hand we want
+    libedit to be the default because its license is compatible with PHP's
+    which means PHP can be distributable.
+
+    related issue https://github.com/phpbrew/phpbrew/issues/497
+
+- Deprecated icu variant, search for icu directory in +intl variant.
+- Fixed extra options serialization
+- Replaced "system" with "exec"
+- Fixed timezone grepping issue for #557
+- Fixed PHPBREW_BIN issue for #335
+
+Bash
+
+- Replaced "cd" with "builtin cd"
+- Added "fpm current" command for #248
+
 ### Version 1.21.1
 
 - Fixed BSD make issue - prefer gmake over make. remove --quiet flag when os == bsd
