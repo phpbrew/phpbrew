@@ -59,6 +59,11 @@ class Build implements Serializable, Buildable
      */
     public $state;
 
+
+
+    /**
+     * environment related information (should be moved to environment class)
+     */
     public $osName;
 
     public $osRelease;

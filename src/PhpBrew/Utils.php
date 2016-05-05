@@ -13,7 +13,7 @@ class Utils
     public static function readTimeZone()
     {
         if (is_readable($tz = '/etc/timezone')) {
-            $lines = array_filter(file($tz), function($line) {
+            $lines = array_filter(file($tz), function ($line) {
                 return !preg_match('/^#/', $line);
             });
             if (!empty($lines)) {
@@ -262,8 +262,7 @@ class Utils
 
         foreach ($paths as $path) {
             $f = $path . DIRECTORY_SEPARATOR . $bin;
-
-            //realpath will handle file existence or symbolic link automatically
+            // realpath will handle file existence or symbolic link automatically
             $f = realpath($f);
             if ($f !== false) {
                 return $f;
@@ -367,8 +366,4 @@ class Utils
         $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
         exec("{$editor} {$file} > {$tty}");
     }
-
-
-
-
 }

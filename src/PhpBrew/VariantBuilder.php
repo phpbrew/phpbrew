@@ -157,19 +157,6 @@ class VariantBuilder
         $this->variants['pcntl']    = '--enable-pcntl';
 
 
-        /*
-        --enable-intl
-
-         To build the extension you need to install the » ICU library, version
-         4.0.0 or newer is required.
-         This extension is bundled with PHP as of PHP version 5.3.0.
-         Alternatively, the PECL version of this extension may be used with all
-         PHP versions greater than 5.2.0 (5.2.4+ recommended).
-
-         This requires --with-icu-dir=/....
-         */
-        $this->variants['intl']     = '--enable-intl';
-
         $this->variants['phar']     = '--enable-phar';
         $this->variants['session']     = '--enable-session';
         $this->variants['tokenizer']     = '--enable-tokenizer';
@@ -266,13 +253,13 @@ class VariantBuilder
         readline_list_history() (http://www.php.net/readline-list-history).
         On the other hand we want libedit to be the default because its license
         is compatible with PHP's which means PHP can be distributable.
-        
+
         related issue https://github.com/phpbrew/phpbrew/issues/497
         */
         $this->variants['readline'] = function (Build $build, $prefix = null) {
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 return '--with-readline=' . $prefix;
-            } else if ($bin = Utils::findBin('brew')) {
+            } elseif ($bin = Utils::findBin('brew')) {
                 exec("$bin --prefix readline", $output, $retval);
                 if ($retval === 0 && !empty($output)) {
                     return '--with-readline=' . end(array_filter($output));
@@ -309,7 +296,7 @@ class VariantBuilder
 
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
+            } elseif ($bin = Utils::findBin('brew')) {
                 exec("$bin --prefix libjpeg", $output, $retval);
                 if ($retval === 0 && !empty($output)) {
                     $opts[] = '--with-jpeg-dir=' . end(array_filter($output));
@@ -318,7 +305,7 @@ class VariantBuilder
 
             if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
                 $opts[] = "--with-png-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
+            } elseif ($bin = Utils::findBin('brew')) {
                 exec("$bin --prefix libpng", $output, $retval);
                 if ($retval === 0 && !empty($output)) {
                     $opts[] = '--with-png-dir=' . end(array_filter($output));
@@ -332,9 +319,9 @@ class VariantBuilder
             //   for path in $i/include/freetype2/freetype/freetype.h
             if ($prefix = Utils::findIncludePrefix('freetype2/freetype.h')) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } else if ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
+            } elseif ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
+            } elseif ($bin = Utils::findBin('brew')) {
                 exec("$bin --prefix freetype", $output, $retval);
                 if ($retval === 0 && !empty($output)) {
                     $opts[] = '--with-freetype-dir=' . end(array_filter($output));
@@ -345,35 +332,61 @@ class VariantBuilder
         };
 
 
+        /*
+        --enable-intl
+
+         To build the extension you need to install the » ICU library, version
+         4.0.0 or newer is required.
+
+         This extension is bundled with PHP as of PHP version 5.3.0.
+         Alternatively, the PECL version of this extension may be used with all
+         PHP versions greater than 5.2.0 (5.2.4+ recommended).
+
+         This requires --with-icu-dir=/....
+
+         Please note prefix must provide {prefix}/bin/icu-config for autoconf
+         to find the related icu-config binary, or the configure will fail.
+
+         Issue: https://github.com/phpbrew/phpbrew/issues/433
+        */
+        $this->variants['intl']     = function (Build $build) {
+            $opts = array('--enable-intl');
+
+            // If icu variant is not set, and --with-icu-dir could not been found in the extra options
+            $icuOption = $build->settings->grepExtraOptionsByPattern('#--with-icu-dir#');
+            if (!$build->settings->isEnabledVariant('icu') || empty($icuOption)) {
+                if ($bin = Utils::findBin('icu-config')) {
+
+                    /*
+                    * let autoconf find it's own icu-config
+                    * The build-in acinclude.m4 will find the icu-config from $PATH:/usr/local/bin
+                    */
+                } elseif ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
+
+                    // For macports or linux
+                    $opts[] = '--with-icu-dir=' . $prefix;
+                } elseif ($bin = Utils::findBin('brew')) {
+
+                    // For homebrew
+                    exec("$bin --prefix icu4c", $output, $retval);
+                    if ($retval === 0 && !empty($output)) {
+                        $opts[] = '--with-icu-dir=' . end(array_filter($output));
+                    }
+                }
+            }
+            return $opts;
+        };
+
         /**
-         * with icu
+         * icu variant
+         *
+         * @deprecated this variant is deprecated since icu is a part of intl
+         * extension.  however, we kept this variant for user to customize the icu path
          */
         $this->variants['icu'] = function (Build $build, $val = null) {
             if ($val) {
                 return '--with-icu-dir=' . $val;
             }
-
-            // For homebrew
-            if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix icu4c", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-icu-dir=' . end(array_filter($output[0]));
-                }
-            }
-
-            // For macports
-            if ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
-                return '--with-icu-dir=' . $prefix;
-            }
-
-            // the last one path is for Ubuntu
-            if ($prefix = Utils::findLibPrefix('icu/pkgdata.inc', 'icu/Makefile.inc')) {
-                return '--with-icu-dir=' . $prefix;
-            }
-
-            throw new RuntimeException(
-                "libicu not found, please install libicu-dev or libicu library/development files."
-            );
         };
 
 
@@ -520,11 +533,11 @@ class VariantBuilder
 
             if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } else if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
+            } elseif ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } else if ($prefix = Utils::findLibPrefix('libxml2.a')) {
+            } elseif ($prefix = Utils::findLibPrefix('libxml2.a')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
+            } elseif ($bin = Utils::findBin('brew')) {
                 exec("$bin --prefix libxml2", $output, $retval);
                 if ($retval === 0 && !empty($output)) {
                     $options[] = '--with-libxml-dir=' . end(array_filter($prefix));
@@ -543,7 +556,7 @@ class VariantBuilder
 
             if ($bin = Utils::findBinByPrefix('apxs2')) {
                 return '--with-apxs2=' . $bin;
-            } else if ($bin = Utils::findBinByPrefix('apxs')) {
+            } elseif ($bin = Utils::findBinByPrefix('apxs')) {
                 return '--with-apxs2=' . $bin;
             }
 

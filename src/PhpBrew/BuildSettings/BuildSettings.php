@@ -175,6 +175,12 @@ class BuildSettings
         return $this->extraOptions;
     }
 
+    public function grepExtraOptionsByPattern($pattern)
+    {
+        // preg_grep is available since PHP4
+        return preg_grep($pattern, $this->extraOptions);
+    }
+
     /**
      * Load and return the variant info from file.
      */
