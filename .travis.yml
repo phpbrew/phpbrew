@@ -1,45 +1,84 @@
 language: php
+services:
+- mysql
+matrix:
+  fast_finish: true
+  allow_failures:
+  - php: nightly
+# env:
+#   matrix:
+#   - TEST_SUITE=Core
+#   - TEST_SUITE=Command
+#   - TEST_SUITE=Extension
 php:
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
-
-sudo: false
-
+- 5.3
+- 5.4
+- 5.5
+- 5.6
+- 7.0
+# - nightly
+sudo: required
 addons:
   apt:
     packages:
-      - ctags
-
+    - ctags
+    - libicu-dev
 install:
-
+- travis_retry composer install --no-interaction
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
-  - travis_retry composer install --no-interaction --prefer-source
-  - phpenv rehash
-  - cd vendor/bin/ && curl -LO https://github.com/phpbrew/Onion/raw/master/onion && chmod +x onion && cd -
-  - export PATH=$PATH:$PWD/vendor/bin/
-  - mkdir -p -v .phpbrew/build
-  - mkdir -p -v .phpbrew/distfiles
-  - mkdir -p -v .phpbrew/register
-  - mkdir -p -v .phpbrew/php
-  - cp -v shell/bashrc .phpbrew/
-  - source shell/bashrc
-
+# see if ccache is working
+- export USE_CCACHE=1
+- export PATH=/usr/lib/ccache:$PATH
+- phpenv rehash
+- export PATH=$PATH:$PWD/vendor/bin/
+- mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
+- rm phpbrew
+- cp -v shell/bashrc .phpbrew/
 script:
-  - source shell/bashrc
-  # - ./scripts/compile && phpunit --bootstrap tests/bootstrap-phar.php # test phar
-  - phpunit --debug
-
-after_script:
-  - php vendor/bin/coveralls
-
+- source shell/bashrc
+- phpunit --exclude-group mayignore
+after_success:
+- ccache -s
+- travis_retry php vendor/bin/coveralls -v
 cache:
   apt: true
+  ccache: true
   directories:
-    - vendor
-    - .phpbrew/distfiles
-    - .phpbrew/php
+  - "vendor"
+  - ".phpbrew/distfiles"
+  - ".phpbrew/cache"
+  - "$HOME/.ccache"
+before_deploy:
+- make build
+deploy:
+- provider: s3
+  access_key_id: AKIAJCOXUMKVDHFVNS6Q
+  secret_access_key:
+    secure: FKUkXHugu4zB4hs6LEv399z6neV8jGZpJP/cTCvKsTiKiomZKnOznxMwZhYIXOAr6CzQvW+9zCp0IzZCZcIo6x7HBdgsiEfF/1yPx2zUuJbaiqa7XCkfFd5p1nKmNcprL/KXwvXOueZ5J7QhV67+x3kVArbt+uvm9glXBX/aHmM=
+  bucket: phpbrew
+  acl: public_read
+  upload-dir: travis-build/master
+  local_dir: build
+  skip_cleanup: true
+  on:
+    repo: phpbrew/phpbrew
+    branch: 'master'
+- provider: s3
+  access_key_id: AKIAJCOXUMKVDHFVNS6Q
+  secret_access_key:
+    secure: FKUkXHugu4zB4hs6LEv399z6neV8jGZpJP/cTCvKsTiKiomZKnOznxMwZhYIXOAr6CzQvW+9zCp0IzZCZcIo6x7HBdgsiEfF/1yPx2zUuJbaiqa7XCkfFd5p1nKmNcprL/KXwvXOueZ5J7QhV67+x3kVArbt+uvm9glXBX/aHmM=
+  bucket: phpbrew
+  acl: public_read
+  upload-dir: travis-build/develop
+  local_dir: build
+  skip_cleanup: true
+  on:
+    repo: phpbrew/phpbrew
+    branch: 'develop'
+notifications:
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/8a279012c99e209a89ae
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # options: [always|never|change] default: always

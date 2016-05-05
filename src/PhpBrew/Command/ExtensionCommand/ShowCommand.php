@@ -21,7 +21,8 @@ class ShowCommand extends BaseCommand
         return 'Show information of a PHP extension';
     }
 
-    public function options($opts) {
+    public function options($opts)
+    {
         $opts->add('download', 'download the extensino source if extension not found.');
     }
 
@@ -39,9 +40,8 @@ class ShowCommand extends BaseCommand
             });
     }
 
-    public function describeExtension(Extension $ext) 
+    public function describeExtension(Extension $ext)
     {
-
         $info = array(
             'Name' => $ext->getExtensionName(),
             'Source Directory' => $ext->getSourceDirectory(),
@@ -49,12 +49,12 @@ class ShowCommand extends BaseCommand
             'INI File' => $ext->getConfigFilePath(),
             'Extension'    => ($ext instanceof PeclExtension) ? 'Pecl' : 'Core',
             'Zend'              => $ext->isZend() ? 'yes' : 'no',
-            'Loaded' => (extension_loaded($ext->getExtensionName()) 
-                ? $this->formatter->format('yes','green')
+            'Loaded' => (extension_loaded($ext->getExtensionName())
+                ? $this->formatter->format('yes', 'green')
                 : $this->formatter->format('no', 'red')),
         );
 
-        foreach($info as $label => $val) {
+        foreach ($info as $label => $val) {
             $this->logger->writeln(sprintf('%20s: %s', $label, $val));
         }
 
@@ -63,8 +63,8 @@ class ShowCommand extends BaseCommand
             $this->logger->newline();
             $this->logger->writeln(sprintf('%20s: ', 'Configure Options'));
             $this->logger->newline();
-            foreach($options as $option) {
-                $this->logger->writeln(sprintf('        %-32s %s', 
+            foreach ($options as $option) {
+                $this->logger->writeln(sprintf('        %-32s %s',
                         $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
                         $option->desc));
                 $this->logger->newline();
@@ -82,7 +82,6 @@ class ShowCommand extends BaseCommand
 
         // Extension not found, use pecl to download it.
         if (!$ext && $this->options->{'download'}) {
-
             $extensionList = new ExtensionList;
             // initial local list
             $extensionList->initLocalExtensionList($this->logger, $this->options);
@@ -100,5 +99,3 @@ class ShowCommand extends BaseCommand
         $this->describeExtension($ext);
     }
 }
-
-

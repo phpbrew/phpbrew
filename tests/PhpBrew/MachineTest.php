@@ -8,7 +8,7 @@ class MachineTest extends \PHPUnit_Framework_TestCase
     {
         $machine = new MachineForTest();
         if (!$machine->detectProcessorNumber()) {
-            skip();
+            return $this->markTestSkipped('processor number detect failed.');
         }
 
         ok($machine->detectProcessorNumber() > 0);

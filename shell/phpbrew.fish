@@ -161,34 +161,6 @@ function phpbrew
                 echo $PHPBREW_LOOKUP_PREFIX
                 __phpbrew_update_config
             end
-        case install-pyrus
-            echo "Installing pyrus..."
-            cd $PHPBREW_BIN ; and \
-                wget --no-check-certificate -c http://pear2.php.net/pyrus.phar -O pyrus ; and \
-                chmod +x pyrus ; and \
-                cd -
-            #hash -r
-        case install-phpunit
-            echo "Installing phpunit..."
-            cd $PHPBREW_BIN ; and \
-                wget --no-check-certificate -c https://phar.phpunit.de/phpunit.phar -O phpunit ; and \
-                chmod +x phpunit ; and \
-                cd -
-            #hash -r
-        case install-composer
-            echo "Installing composer..."
-            cd $PHPBREW_BIN ; and \
-                wget --no-check-certificate -c http://getcomposer.org/composer.phar -O composer ; and \
-                chmod +x composer ; and \
-                cd -
-            #hash -r
-        case install-onion
-            echo "Installing onion..."
-            cd $PHPBREW_BIN ; and \
-              wget --no-check-certificate -c https://raw.github.com/c9s/Onion/master/onion -O onion ; and \
-              chmod +x onion ; and \
-              cd -
-            #hash -r
         case cd
             if [ (count $argv) -eq 1 ]; return 0; end
 
@@ -211,26 +183,30 @@ function phpbrew
 
         case fpm
             if [ (count $argv) -ge 3 ]
-              set _PHP_VERSION $argv[3]
+              set -g _PHP_VERSION $argv[3]
             else
-              set _PHP_VERSION $PHPBREW_PHP
+              set -g _PHP_VERSION $PHPBREW_PHP
             end
 
             mkdir -p $PHPBREW_ROOT/php/$_PHP_VERSION/var/run
-            set PHPFPM_BIN $PHPBREW_ROOT/php/$_PHP_VERSION/sbin/php-fpm
-            set PHPFPM_PIDFILE $PHPBREW_ROOT/php/$_PHP_VERSION/var/run/php-fpm.pid
+            set -g PHPFPM_BIN $PHPBREW_ROOT/php/$_PHP_VERSION/sbin/php-fpm
+            set -g PHPFPM_PIDFILE $PHPBREW_ROOT/php/$_PHP_VERSION/var/run/php-fpm.pid
 
             function fpm_start
               echo "Starting php-fpm..."
               set -l regex '^php-5\.2.*'
 
+              if [ (count $argv) -ge 4 ]
+                set _PHPFPM_APPEND $argv[4..-1]
+              else
+                set _PHPFPM_APPEND ""
+              end
+
+
               if echo $_PHP_VERSION | egrep -q -e $regex
                 eval $PHPFPM_BIN start
               else
-                eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                  --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf \
-                  --pid $PHPFPM_PIDFILE \
-                  $argv[4..-1]
+                 eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --pid $PHPFPM_PIDFILE $_PHPFPM_APPEND
               end
 
               if [ "$status" != "0" ]
@@ -254,20 +230,16 @@ function phpbrew
 
             switch $argv[2]
               case start
-                    fpm_start
+                    fpm_start $argv
               case stop
                     fpm_stop
               case restart
                     fpm_stop
-                    fpm_start
+                    fpm_start $argv
               case module
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf \
-                            -m | less
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf -m | less
               case info
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf \
-                            -i
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf -i
               case config
                     if [ -n "$EDITOR" ]
                         eval $EDITOR $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf
@@ -276,11 +248,9 @@ function phpbrew
                         nano $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf
                     end
               case help
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --help
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --help
               case test
-                    eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini \
-                            --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --test
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --test
               case '*'
                     echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
             end
@@ -467,7 +437,9 @@ function _phpbrewrc_load
             set prev_fs $curr_fs
             set curr_fs (stat -c %d . ^/dev/null)  # GNU version
             if [ $status -ne 0 ]; then
-                set curr_fs (stat -f %d . ^>/dev/null)  # BSD version
+                # the original curr_fs
+                # set curr_fs (stat -f %d . ^/dev/null)  # BSD version
+                set curr_fs (stat -f %d . >/dev/null ^&1)  # BSD version
             end
 
             # check if top level directory or filesystem boundary is reached
@@ -515,7 +487,12 @@ end
 
 function __fish_phpbrew_using_command
   set cmd (commandline -opc)
-  if [ (count $cmd) -gt 1 ]
+  if begin;  [ (count $argv) -gt 1 ]; and [ (count $cmd) -gt 2 ]; end
+    if begin; [ $argv[1] = $cmd[2] ]; and [ $argv[2] = $cmd[3] ]; end
+      return 0
+    end
+  end
+  if begin;  [ (count $argv) -eq 1 ]; and [ (count $cmd) -gt 1 ]; end
     if [ $argv[1] = $cmd[2] ]
       return 0
     end
@@ -540,6 +517,14 @@ function __fish_phpbrew_installed_version
 
 end
 
+function __fish_phpbrew_known_app
+if [ -e bin/phpbrew ]
+        command bin/phpbrew app list | cut -d '-' -f 1 | sed 's/ //g'
+    else
+        command phpbrew app list | cut -d '-' -f 1 | sed 's/ //g'
+    end
+end
+
 
 #
 complete -f -c phpbrew -s v -l verbose -d "Print verbose message."
@@ -553,6 +538,7 @@ complete -f -c phpbrew -l no-progress -d "Do not display progress bar."
 
 # commands
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a help -d "show help message of a command"
+complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a app -d "php app store"
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a init -d "Initialize phpbrew config file."
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a known -d "List known PHP versions"
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a install -d "Install php"
@@ -589,5 +575,10 @@ complete -f -c phpbrew -n '__fish_phpbrew_using_command env' -a '(__fish_phpbrew
 complete -f -c phpbrew -n '__fish_phpbrew_using_command path' -a '(__fish_phpbrew_installed_version)' -d " installed version"
 complete -f -c phpbrew -n '__fish_phpbrew_using_command remove' -a '(__fish_phpbrew_installed_version)' -d " installed version"
 complete -f -c phpbrew -n '__fish_phpbrew_using_command purge' -a '(__fish_phpbrew_installed_version)' -d " installed version"
+
+#app store
+complete -f -c phpbrew -n '__fish_phpbrew_using_command app' -a list -d "list all available app"
+complete -f -c phpbrew -n '__fish_phpbrew_using_command app' -a get -d "fetch and install app"
+complete -f -c phpbrew -n '__fish_phpbrew_using_command app get' -a '(__fish_phpbrew_known_app)' -d "app"
 
 exit 0

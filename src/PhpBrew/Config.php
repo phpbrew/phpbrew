@@ -1,8 +1,8 @@
 <?php
 namespace PhpBrew;
+
 use Exception;
 use Symfony\Component\Yaml\Yaml;
-
 
 /**
  * This config class provides settings based on the current environment
@@ -12,7 +12,14 @@ class Config
 {
     protected static $currentPhpVersion = null;
 
-    public static function getPhpbrewHome()
+
+    /**
+     * Return optional home directory.
+     *
+     * @throws Exception
+     * @return string
+     */
+    public static function getHome()
     {
         if ($custom = getenv('PHPBREW_HOME')) {
             if (!file_exists($custom)) {
@@ -21,7 +28,11 @@ class Config
             return $custom;
         }
         if ($home = getenv('HOME')) {
-            return $home . DIRECTORY_SEPARATOR . '.phpbrew';
+            $path = $home . DIRECTORY_SEPARATOR . '.phpbrew';
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+            return $path;
         }
         throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
@@ -36,7 +47,7 @@ class Config
         putenv('PHPBREW_ROOT='.  $root);
     }
 
-    public static function getPhpbrewRoot()
+    public static function getRoot()
     {
         if ($root = getenv('PHPBREW_ROOT')) {
             if (!file_exists($root)) {
@@ -53,46 +64,59 @@ class Config
     /**
      * Variants is private, so we use HOME path.
      */
-    static public function getVariantsDir()
+    public static function getVariantsDir()
     {
-        return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'variants';
+        return self::getHome() . DIRECTORY_SEPARATOR . 'variants';
+    }
+
+    /**
+     * cache directory for configure
+     */
+    public static function getCacheDir()
+    {
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'cache';
     }
 
     /**
      * php(s) could be global, so we use ROOT path.
      */
-    static public function getBuildDir()
+    public static function getBuildDir()
     {
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build';
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'build';
     }
 
-
-    static public function getCurrentBuildDir() {
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+    public static function getRegistryDir()
+    {
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'registry';
     }
 
-    static public function getDistFileDir()
+    public static function getCurrentBuildDir()
     {
-        $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'distfiles';
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+    }
+
+    public static function getDistFileDir()
+    {
+        $dir =  self::getRoot() . DIRECTORY_SEPARATOR . 'distfiles';
         if (!file_exists($dir)) {
             mkdir($dir, 0755, true);
         }
         return $dir;
     }
 
-    static public function getTempFileDir()
+    public static function getTempFileDir()
     {
-        $dir =  self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'tmp';
+        $dir =  self::getRoot() . DIRECTORY_SEPARATOR . 'tmp';
         if (!file_exists($dir)) {
             mkdir($dir, 0755, true);
         }
         return $dir;
     }
 
-    static public function getPHPReleaseListPath()
+    public static function getPHPReleaseListPath()
     {
         // Release list from php.net
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'php-releases.json';
     }
 
     /**
@@ -104,13 +128,13 @@ class Config
      *
      * @return string
      */
-    static public function getInstallPrefix()
+    public static function getInstallPrefix()
     {
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'php';
     }
 
 
-    static public function getVersionInstallPrefix($version)
+    public static function getVersionInstallPrefix($version)
     {
         return self::getInstallPrefix() . DIRECTORY_SEPARATOR . $version;
     }
@@ -122,110 +146,68 @@ class Config
      *
      * @return string
      */
-    static public function getVersionEtcPath($buildName)
+    public static function getVersionEtcPath($buildName)
     {
         return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'etc';
     }
 
-    static public function getVersionBinPath($buildName)
+    public static function getVersionBinPath($buildName)
     {
         return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'bin';
     }
 
-    static public function findInstalledBuilds($stripPrefix = true)
+
+    public static function putPathEnvFor($buildName)
     {
-        $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
-        if (!file_exists($path)) {
-            throw new Exception($path . ' does not exist.');
-        }
-        $names = scandir($path);
-        $names = array_filter($names, function($name) use ($path) {
-            return $name != '.' && $name != '..' && file_exists($path . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php');
-        });
-
-        if ($names == null || empty($names)) {
-            return array();
-        }
-
-        if ($stripPrefix) {
-            $names = array_map(function($name)  { return preg_replace('/^php-(?=(\d+\.\d+\.\d+)$)/','', $name); }, $names);
-        }
-        uasort($names, 'version_compare'); // ordering version name ascending... 5.5.17, 5.5.12
-        return array_reverse($names);  // make it descending... since there is no sort function for user-define in reverse order.
-    }
-
-    static public function findMatchedBuilds($buildNameRE = '', $stripPrefix = true)
-    {
-        $builds = self::findInstalledBuilds($stripPrefix);
-        return array_filter($builds, function($build) use ($buildNameRE) {
-            return preg_match("/^$buildNameRE/i", $build);
-        });
-    }
-
-    static public function findFirstMatchedBuild($buildNameRE = '', $stripPrefix = true)
-    {
-        $builds = self::findInstalledBuilds($stripPrefix);
-        foreach ($builds as $build) {
-            if (preg_match("/$buildNameRE/i", $build)) {
-                return $build;
-            }
-        }
-    }
-
-    static public function findLatestBuild($stripPrefix = true) {
-        $builds = Config::findInstalledBuilds($stripPrefix);
-        if (!empty($builds)) {
-            return $builds[0]; // latest
-        }
-    }
-
-    static public function putPathEnvFor($buildName) {
-        $root = Config::getPhpbrewRoot();
+        $root = Config::getRoot();
         $buildDir = $root . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $buildName;
 
         // re-build path
-        $paths = explode(':',getenv('PATH'));
-        $paths = array_filter($paths, function($p) use ($root) {
-            return (strpos($p, $root) === False);
+        $paths = explode(PATH_SEPARATOR, getenv('PATH'));
+        $paths = array_filter($paths, function ($p) use ($root) {
+            return (strpos($p, $root) === false);
         });
         array_unshift($paths, $buildDir . DIRECTORY_SEPARATOR . 'bin');
-        putenv('PATH=' . join(':', $paths));
+        putenv('PATH=' . join(PATH_SEPARATOR, $paths));
     }
 
 
     /**
      * XXX: This method is now deprecated. use findMatchedBuilds insteads.
+     *
+     * @deprecated
      */
-    static public function getInstalledPhpVersions()
+    public static function getInstalledPhpVersions()
     {
         $versions = array();
-        $path = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php';
+        $path = self::getRoot() . DIRECTORY_SEPARATOR . 'php';
 
-        if (file_exists($path) && $fp = opendir($path)) {
+        if (!file_exists($path)) {
+            throw new Exception("$path doesn't exist.");
+        }
+        if ($fp = opendir($path)) {
             while (($item = readdir($fp)) !== false) {
                 if ($item == '.' || $item == '..') {
                     continue;
                 }
-
                 if (file_exists($path . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php')) {
                     $versions[] = $item;
                 }
             }
-
             closedir($fp);
+        } else {
+            throw new Exception("opendir failed");
         }
-
         rsort($versions);
-
         return $versions;
     }
 
-    static public function getCurrentPhpConfigBin()
+    public static function getCurrentPhpConfigBin()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php-config';
     }
 
-    static public function getCurrentPhpizeBin() 
+    public static function getCurrentPhpizeBin()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phpize';
     }
@@ -233,29 +215,29 @@ class Config
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
      */
-    static public function getCurrentPhpConfigScanPath($home = false)
+    public static function getCurrentPhpConfigScanPath($home = false)
     {
         return self::getCurrentPhpDir($home) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
-    static public function getCurrentPhpDir($home = false)
+    public static function getCurrentPhpDir($home = false)
     {
         if ($home) {
-            return self::getPhpbrewHome() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+            return self::getHome() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
         }
-        return self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
+        return self::getRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
 
 
     // XXX: needs to be removed.
-    static public function useSystemPhpVersion()
+    public static function useSystemPhpVersion()
     {
         self::$currentPhpVersion = null;
     }
 
     // XXX: needs to be removed.
-    static public function setPhpVersion($phpVersion)
+    public static function setPhpVersion($phpVersion)
     {
         self::$currentPhpVersion = 'php-'.$phpVersion;
     }
@@ -267,7 +249,7 @@ class Config
      *
      * @return string
      */
-    static public function getCurrentPhpName()
+    public static function getCurrentPhpName()
     {
         if (self::$currentPhpVersion !== null) {
             return self::$currentPhpVersion;
@@ -275,52 +257,77 @@ class Config
         return getenv('PHPBREW_PHP');
     }
 
-    static public function getLookupPrefix()
+    public static function getLookupPrefix()
     {
         return getenv('PHPBREW_LOOKUP_PREFIX');
     }
 
-    static public function getCurrentPhpBin()
+    public static function getCurrentPhpBin()
     {
         return getenv('PHPBREW_PATH');
     }
 
-    static public function getConfigParam($param = null)
-    {
-        $configFile = self::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
 
+
+    public static function getConfig()
+    {
+        $configFile = self::getRoot() . DIRECTORY_SEPARATOR . 'config.yaml';
         if (!file_exists($configFile)) {
             return array();
         }
-
-        $yaml = Yaml::parse($configFile);
-        if (is_array($yaml)) {
-            if ($param === null) {
-                return $yaml;
-            } elseif ($param != null && isset($yaml[$param])) {
-                return $yaml[$param];
-            }
-        }
-
-        return array();
+        return Yaml::parse(file_get_contents($configFile));
     }
 
-    static public function initDirectories($buildName = NULL) {
-        $dirs[] = self::getPhpbrewHome();
-        $dirs[] = self::getPhpbrewRoot();
+    public static function getProxyConfig()
+    {
+        $configFile = self::getRoot() . DIRECTORY_SEPARATOR . 'proxy.yaml';
+        if (!file_exists($configFile)) {
+            return false;
+        }
+        return Yaml::parse(file_get_contents($configFile));
+    }
+
+    public static function getConfigParam($param = null)
+    {
+        $config = self::getConfig();
+        if ($param && isset($config[$param])) {
+            return $config[$param];
+        }
+        return $config;
+    }
+
+    public static function initDirectories($buildName = null)
+    {
+        $dirs = array();
+        $dirs[] = self::getRoot();
+        $dirs[] = self::getHome();
         $dirs[] = self::getVariantsDir();
         $dirs[] = self::getBuildDir();
+        $dirs[] = self::getCacheDir();
         $dirs[] = self::getDistFileDir();
+        $dirs[] = self::getRegistryDir();
         if ($buildName) {
             $dirs[] = self::getCurrentBuildDir($buildName);
             $dirs[] = self::getCurrentBuildDir($buildName) . DIRECTORY_SEPARATOR . 'ext';
             $dirs[] = self::getInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
         }
-        foreach($dirs as $dir) {
+        foreach ($dirs as $dir) {
             if (!file_exists($dir)) {
                 mkdir($dir, 0755, true);
             }
         }
-    }
 
+        $write = array();
+        $write[] = self::getHome();
+        $write[] = self::getVariantsDir();
+        $write[] = self::getBuildDir();
+        $write[] = self::getCacheDir();
+        $write[] = self::getDistFileDir();
+        $write[] = self::getRegistryDir();
+        foreach ($write as $dir) {
+            if (!is_writable($dir)) {
+                throw new Exception("$dir is not writable, please fix the folder permissions.");
+            }
+        }
+    }
 }

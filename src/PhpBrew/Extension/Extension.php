@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Extension;
+
 use PhpBrew\Config;
 use PhpBrew\Buildable;
 use Exception;
@@ -35,7 +36,7 @@ class Extension implements Buildable
     protected $isZend = false;
 
     /**
-     * @var ConfigureOption[] 
+     * @var ConfigureOption[]
      *
      * Contains [($name, $desc), .... ] pairs
      */
@@ -110,21 +111,24 @@ class Extension implements Buildable
         }
     }
 
-    public function getConfigM4File() {
+    public function getConfigM4File()
+    {
         return $this->configM4File;
     }
 
-    public function getConfigM4Path() {
+    public function getConfigM4Path()
+    {
         return $this->sourceDirectory . DIRECTORY_SEPARATOR . $this->configM4File;
     }
 
-    public function findConfigM4File($dir) {
+    public function findConfigM4File($dir)
+    {
         $configM4Path = $dir . DIRECTORY_SEPARATOR . 'config.m4';
         if (file_exists($configM4Path)) {
             return 'config.m4';
         }
 
-        for ($i = 0 ; $i < 10 ; $i++ ) {
+        for ($i = 0 ; $i < 10 ; $i++) {
             $filename = "config{$i}.m4";
             $configM4Path = $dir . DIRECTORY_SEPARATOR . $filename;
             if (file_exists($configM4Path)) {
@@ -144,7 +148,8 @@ class Extension implements Buildable
     }
 
 
-    public function getSharedLibraryPath() {
+    public function getSharedLibraryPath()
+    {
         return ini_get('extension_dir') . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
     }
 
@@ -173,12 +178,13 @@ class Extension implements Buildable
         return file_exists($this->getSharedLibraryPath());
     }
 
-    public function addConfigureOption(ConfigureOption $opt) {
+    public function addConfigureOption(ConfigureOption $opt)
+    {
         $this->configureOptions[] = $opt;
     }
 
-    public function getConfigureOptions() {
+    public function getConfigureOptions()
+    {
         return $this->configureOptions;
     }
 }
-

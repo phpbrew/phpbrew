@@ -2,6 +2,8 @@
 
 <phpunit bootstrap="tests/bootstrap.php"
          backupGlobals="false"
+         stopOnFailure="false"
+         stopOnError="false"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          convertErrorsToExceptions="true"
@@ -9,42 +11,74 @@
          verbose="true">
 
     <php>
-        <env name="PHPBREW_ROOT" value=".phpbrew"/>
-        <env name="PHPBREW_HOME" value=".phpbrew"/>
-        <env name="PHPBREW_EXTENSION_DIR" value="tests/fixtures/ext"/>
-        <env name="PHPBREW_FIXTURES_PHP_DIR" value="tests/fixtures/php"/>
-        <env name="PHPBREW_EXPECTED_PHP_DIR" value="tests/expected/php"/>
+      <ini name="safe_mode_allowed_env_var" value="PHP_,PHPBREW"/>
+      <env name="PHPBREW_ROOT" value=".phpbrew"/>
+      <env name="PHPBREW_HOME" value=".phpbrew"/>
+      <env name="PHPBREW_BIN" value=".phpbrew/bin"/>
+      <env name="PHPBREW_EXTENSION_DIR" value="tests/fixtures/ext"/>
+      <env name="PHPBREW_FIXTURES_PHP_DIR" value="tests/fixtures/php"/>
+      <env name="PHPBREW_EXPECTED_PHP_DIR" value="tests/expected/php"/>
+      <env name="PHPBREW_BUILD_PHP_DIR" value="tests/build"/>
     </php>
 
     <testsuites>
         <testsuite name="All">
+            <file>tests/PhpBrew/BuildRegisterTest.php</file>
+            <file>tests/PhpBrew/BuildTest.php</file>
+            <file>tests/PhpBrew/CommandBuilderTest.php</file>
+            <file>tests/PhpBrew/ConfigTest.php</file>
+            <file>tests/PhpBrew/MachineTest.php</file>
+            <file>tests/PhpBrew/PatchUtilsTest.php</file>
+            <file>tests/PhpBrew/ReleaseListTest.php</file>
+            <file>tests/PhpBrew/UtilsTest.php</file>
+            <file>tests/PhpBrew/VariantBuilderTest.php</file>
+            <file>tests/PhpBrew/VariantParserTest.php</file>
+            <file>tests/PhpBrew/VersionDslParserTest.php</file>
+            <file>tests/PhpBrew/VersionTest.php</file>
+
+            <!-- run install command tests before all tests -->
             <file>tests/PhpBrew/Command/KnownCommandTest.php</file>
             <file>tests/PhpBrew/Command/InstallCommandTest.php</file>
             <directory suffix="Test.php">tests</directory>
         </testsuite>
 
         <testsuite name="Core">
-            <file>tests/PhpBrew/BuildTest.php</file>
-            <file>tests/PhpBrew/UtilsTest.php</file>
-            <file>tests/PhpBrew/VariantBuilderTest.php</file>
-            <file>tests/PhpBrew/VariantParserTest.php</file>
-            <file>tests/PhpBrew/VersionTest.php</file>
-            <file>tests/PhpBrew/ConfigTest.php</file>
+          <file>tests/PhpBrew/BuildRegisterTest.php</file>
+          <file>tests/PhpBrew/BuildTest.php</file>
+          <file>tests/PhpBrew/CommandBuilderTest.php</file>
+          <file>tests/PhpBrew/ConfigTest.php</file>
+          <file>tests/PhpBrew/MachineTest.php</file>
+          <file>tests/PhpBrew/PatchUtilsTest.php</file>
+          <file>tests/PhpBrew/ReleaseListTest.php</file>
+          <file>tests/PhpBrew/UtilsTest.php</file>
+          <file>tests/PhpBrew/VariantBuilderTest.php</file>
+          <file>tests/PhpBrew/VariantParserTest.php</file>
+          <file>tests/PhpBrew/VersionDslParserTest.php</file>
+          <file>tests/PhpBrew/VersionTest.php</file>
+          <directory suffix="Test.php">tests/PhpBrew/Platform</directory>
+          <directory suffix="Test.php">tests/PhpBrew/Distribution</directory>
+          <directory suffix="Test.php">tests/PhpBrew/Downloader</directory>
+          <directory suffix="Test.php">tests/PhpBrew/PatchKit</directory>
+          <directory suffix="Test.php">tests/PhpBrew/Patches</directory>
         </testsuite>
 
-        <testsuite name="Commands">
+        <testsuite name="Command">
             <directory suffix="Test.php">tests/PhpBrew/Command</directory>
         </testsuite>
 
         <testsuite name="Extension">
             <directory suffix="Test.php">tests/PhpBrew/Extension</directory>
         </testsuite>
+
     </testsuites>
 
     <filter>
-        <whitelist>
-            <directory>src</directory>
-        </whitelist>
+      <whitelist>
+        <directory>src</directory>
+        <exclude>
+          <directory suffix=".php">src/PhpBrew/Topic</directory>
+        </exclude>
+      </whitelist>
     </filter>
 
     <logging>

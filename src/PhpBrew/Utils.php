@@ -1,13 +1,30 @@
 <?php
 namespace PhpBrew;
-use Exception;
+
 use CLIFramework\Logger;
+use PhpBrew\Exception\SystemCommandException;
+use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 class Utils
 {
-    public static function canonicalizeBuildName($version) {
+
+    public static function readTimeZone()
+    {
+        if (is_readable($tz = '/etc/timezone')) {
+            $lines = array_filter(file($tz), function($line) {
+                return !preg_match('/^#/', $line);
+            });
+            if (!empty($lines)) {
+                return trim($lines[0]);
+            }
+        }
+        return false;
+    }
+
+    public static function canonicalizeBuildName($version)
+    {
         if (!preg_match('/^php-/', $version)) {
             return 'php-' . $version;
         }
@@ -78,16 +95,17 @@ class Utils
 
         $prefixes = array_reverse($prefixes);
 
-        foreach($prefixes as $prefix) {
+        foreach ($prefixes as $prefix) {
             if ($arch = self::detectArch($prefix)) {
                 return "lib/$arch";
             }
         }
-        return NULL;
+        return null;
     }
 
 
-    public static function detectArch($prefix) {
+    public static function detectArch($prefix)
+    {
         /*
             Prioritizes the FHS compliant
             /usr/lib/i386-linux-gnu/
@@ -113,7 +131,7 @@ class Utils
                 return $archName;
             }
         }
-        return NULL;
+        return null;
     }
 
 
@@ -126,7 +144,7 @@ class Utils
             '/usr',
             '/usr/lib',
             '/usr/local',
-            '/usr/local/lib'
+            '/usr/local/lib',
         );
 
         if ($pathStr = getenv('PHPBREW_LOOKUP_PREFIX')) {
@@ -138,7 +156,7 @@ class Utils
         }
 
         // if there is lib path, insert it to the end.
-        foreach($prefixes as $prefix) {
+        foreach ($prefixes as $prefix) {
             if ($arch = self::detectArch($prefix)) {
                 $prefixes[] = "$prefix/$arch";
             }
@@ -206,14 +224,15 @@ class Utils
 
     public static function getPkgConfigPrefix($package)
     {
-        $cmd = 'pkg-config --variable=prefix ' . $package;
-        $process = new Process($cmd);
-        $process->run();
-
-        return trim($process->getOutput());
+        if (self::findBin('pkg-config')) {
+            $cmd = 'pkg-config --variable=prefix ' . $package;
+            $process = new Process($cmd);
+            $process->run();
+            return trim($process->getOutput());
+        }
     }
 
-    static public function system($command, $logger = NULL)
+    public static function system($command, $logger = null, $build = null)
     {
         if (is_array($command)) {
             $command = join(' ', $command);
@@ -223,9 +242,9 @@ class Utils
             $logger->debug("Running Command:" . $command);
         }
 
-        $lastLine = system($command, $returnValue);
+        $lastline = system($command, $returnValue);
         if ($returnValue !== 0) {
-            throw new Exception("Command failed: $command returns " . $lastLine);
+            throw new SystemCommandException("Command failed: $command returns: $lastline", $build);
         }
         return $returnValue;
     }
@@ -244,11 +263,9 @@ class Utils
         foreach ($paths as $path) {
             $f = $path . DIRECTORY_SEPARATOR . $bin;
 
-            if (file_exists($f)) {
-                while (is_link($f)) {
-                    $f = readlink($f);
-                }
-
+            //realpath will handle file existence or symbolic link automatically
+            $f = realpath($f);
+            if ($f !== false) {
                 return $f;
             }
         }
@@ -325,7 +342,8 @@ class Utils
         return $foundVersion;
     }
 
-    static public function recursive_unlink($path, Logger $logger) {
+    public static function recursive_unlink($path, Logger $logger)
+    {
         $directoryIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
         $it = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($it as $file) {
@@ -343,11 +361,14 @@ class Utils
         }
     }
 
-    static public function editor($file)
+    public static function editor($file)
     {
         $tty  = exec("tty");
         $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
         exec("{$editor} {$file} > {$tty}");
     }
+
+
+
 
 }

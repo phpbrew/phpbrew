@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+
 /**
  * @codeCoverageIgnore
  */
@@ -13,7 +14,8 @@ class CdCommand extends VirtualCommand
         return 'Change to directories';
     }
 
-    public function arguments($args) {
+    public function arguments($args)
+    {
         $args->add('directory')
             ->isa('string')
             ->validValues(explode('|', 'var|etc|build|dist'))

@@ -1,5 +1,7 @@
 <?php
 namespace PhpBrew\Command;
+
+use PhpBrew\Config;
 use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
@@ -38,24 +40,31 @@ class KnownCommand extends \CLIFramework\Command
         $releaseList = new ReleaseList;
 
         $releases = array();
-        if (!$releaseList->foundLocalReleaseList() || $this->options->update) {
+        //always fetch list from remote when --old presents, because the local file may not contain the old versions
+        // and --old is seldom used.
+        if (!$releaseList->foundLocalReleaseList() || $this->options->update || $this->options->old) {
             $fetchTask = new FetchReleaseListTask($this->logger, $this->options);
             $releases = $fetchTask->fetch();
         } else {
+            $this->logger->info(sprintf('Read local release list (last update: %s UTC).', gmdate('Y-m-d H:i:s', filectime(Config::getPHPReleaseListPath()))));
             $releases = $releaseList->loadLocalReleaseList();
+            $this->logger->info("You can run `phpbrew update` or `phpbrew known --update` to get a newer release list.");
         }
 
         foreach ($releases as $majorVersion => $versions) {
-            if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
+            if (version_compare($majorVersion, '5.2', 'le') && ! $this->options->old) {
                 continue;
             }
             $versionList = array_keys($versions);
             if (!$this->options->more) {
                 array_splice($versionList, 8);
             }
-            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ',5))
+            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ', 5))
                 . (!$this->options->more ? ' ...' : ''));
         }
-        $this->logger->info("You can run `phpbrew update` to get a newer release list.");
+
+        if ($this->options->old) {
+            $this->logger->warn('phpbrew need php 5.3 or above to run. build/switch to versions below 5.3 at your own risk.');
+        }
     }
 }

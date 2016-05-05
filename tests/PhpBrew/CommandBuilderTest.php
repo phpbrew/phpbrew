@@ -22,7 +22,7 @@ class CommandBuilderTest extends PHPUnit_Framework_TestCase
         $cmd->setAppendLog($appendLog);
         $cmd->setStdout($stdout);
         $cmd->setLogPath($logPath);
-        $this->assertEquals($expected, $cmd->getCommand());
+        $this->assertEquals($expected, $cmd->buildCommand());
         ob_start();
         $this->assertEquals(0, $cmd->execute());
         ob_end_clean();

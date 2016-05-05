@@ -1,22 +1,33 @@
 <?php
 namespace PhpBrew\Exception;
+
 use RuntimeException;
+use PhpBrew\Build;
 
 class SystemCommandException extends RuntimeException
 {
     protected $logFile;
 
-    public function __construct($message, $logFile = null)
+    protected $build;
+
+    public function __construct($message, Build $build = null, $logFile = null)
     {
         parent::__construct($message);
+        $this->build = $build;
         $this->logFile = $logFile;
     }
 
     public function getLogFile()
     {
-        return $this->logFile;
+        if ($this->logFile) {
+            return $this->logFile;
+        } elseif ($this->build) {
+            return $this->build->getBuildLogPath();
+        }
+    }
+
+    public function getBuild()
+    {
+        return $this->build;
     }
 }
-
-
-

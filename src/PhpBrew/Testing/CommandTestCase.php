@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Testing;
+
 use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
 use PhpBrew\Console;
 use GetOptionKit\Option;
@@ -7,10 +8,25 @@ use Exception;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
+    protected $debug = false;
+
     private $previousPhpBrewRoot;
+
     private $previousPhpBrewHome;
 
-    public $primaryVersion = '5.5.22';
+    public $primaryVersion = '5.5.34';
+
+    public function getPrimaryVersion()
+    {
+        /*
+        if ($version = getenv('TRAVIS_PHP_VERSION')) {
+            return "php-$version";
+        }
+        */
+        return $this->primaryVersion;
+    }
+
+
 
     public function setupApplication()
     {
@@ -30,10 +46,10 @@ abstract class CommandTestCase extends BaseCommandTestCase
         // <env name="PHPBREW_HOME" value=".phpbrew"/>
 
         // already setup in phpunit.xml, but it seems don't work.
-        putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
-        putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
+        // putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
+        // putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
 
-        if($options = \PhpBrew\Console::getInstance()->options) {
+        if ($options = \PhpBrew\Console::getInstance()->options) {
             $option = new Option('no-progress');
             $option->setValue(true);
             $options->set('no-progress', $option);
@@ -48,10 +64,31 @@ abstract class CommandTestCase extends BaseCommandTestCase
     public function tearDown()
     {
         if ($this->previousPhpBrewRoot !== null) {
-            putenv('PHPBREW_ROOT=' . $this->previousPhpBrewRoot);
+            // putenv('PHPBREW_ROOT=' . $this->previousPhpBrewRoot);
         }
         if ($this->previousPhpBrewHome !== null) {
-            putenv('PHPBREW_HOME=' . $this->previousPhpBrewHome);
+            // putenv('PHPBREW_HOME=' . $this->previousPhpBrewHome);
+        }
+    }
+
+    public function assertCommandSuccess($args)
+    {
+        try {
+            if ($this->debug) {
+                fwrite(STDERR, $args . PHP_EOL);
+            }
+            ob_start();
+            $this->assertTrue($ret = parent::runCommand($args));
+            $output = ob_get_contents();
+            ob_end_clean();
+            if ($ret === false) {
+                echo '[' , join(' ', $args), ']', PHP_EOL;
+                echo '===================================', PHP_EOL;
+                echo $output, PHP_EOL;
+                echo '===================================', PHP_EOL;
+            }
+        } catch (\CurlKit\CurlException $e) {
+            $this->markTestIncomplete($e->getMessage());
         }
     }
 
@@ -67,5 +104,4 @@ abstract class CommandTestCase extends BaseCommandTestCase
     {
         return parent::runCommand($args);
     }
-
 }

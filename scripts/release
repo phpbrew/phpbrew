@@ -2,7 +2,6 @@
 # scripts/bump-version
 scripts/update-init-script
 scripts/compile
-onion build
 
 VERSION=$(grep '^version' package.ini | sed -e 's/version *= *//')
 git commit -am "Releasing $VERSION"

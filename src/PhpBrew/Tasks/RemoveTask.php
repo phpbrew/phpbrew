@@ -19,7 +19,7 @@ class RemoveTask extends BaseTask
 
     public function removeByVersion($version, $verbose = false)
     {
-        $home = Config::getPhpbrewRoot();
+        $home = Config::getRoot();
         $buildPrefix = Config::getVersionInstallPrefix($version);
         $this->remove($buildPrefix);
     }

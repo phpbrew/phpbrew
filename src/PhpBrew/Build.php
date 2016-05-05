@@ -1,8 +1,8 @@
 <?php
 namespace PhpBrew;
+
 use Serializable;
 use PhpBrew\BuildSettings\BuildSettings;
-use PhpBrew\Types\ExistingDirectory;
 
 /**
  * A build object contains version information,
@@ -59,6 +59,10 @@ class Build implements Serializable, Buildable
      */
     public $state;
 
+    public $osName;
+
+    public $osRelease;
+
     /**
      * Construct a Build object,
      *
@@ -78,8 +82,19 @@ class Build implements Serializable, Buildable
             // TODO: find the install prefix automatically
         }
         $this->setBuildSettings(new BuildSettings());
+        $this->osName = php_uname('s');
+        $this->osRelease = php_uname('r');
     }
 
+    public function setOSName($osName)
+    {
+        $this->osName = $osName;
+    }
+
+    public function setOSRelease($osRelease)
+    {
+        $this->osRelease = $osRelease;
+    }
 
 
     public function setName($name)
@@ -120,8 +135,6 @@ class Build implements Serializable, Buildable
 
     /**
      * PHP Source directory, this method returns value only when source directory is set.
-     *
-     * TODO: use ExistingDirectory class
      */
     public function setSourceDirectory($dir)
     {
@@ -161,7 +174,12 @@ class Build implements Serializable, Buildable
 
     public function getEtcDirectory()
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+        $etc = $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+        if (!file_exists($etc)) {
+            mkdir($etc, 0755, true);
+        }
+
+        return $etc;
     }
 
     public function getVarDirectory()
@@ -216,7 +234,6 @@ class Build implements Serializable, Buildable
                     $names[] = $str;
                 }
             }
-
         }
 
         if ($this->phpEnvironment === self::ENV_PRODUCTION) {
@@ -278,7 +295,7 @@ class Build implements Serializable, Buildable
         $prefix = Config::getVersionInstallPrefix($name);
         if (file_exists($prefix)) {
             // a installation exists
-            return new self($name, NULL, $prefix);
+            return new self($name, null, $prefix);
         }
 
         return null;

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use PhpBrew\Build;
 use PhpBrew\Config;
 
@@ -11,16 +12,18 @@ class BuildRegister
 
     public function __construct()
     {
-        $this->root = Config::getPhpbrewRoot();
-        $this->baseDir = $this->root . DIRECTORY_SEPARATOR . 'register';
+        $this->root = Config::getRoot();
+        $this->baseDir = $this->root . DIRECTORY_SEPARATOR . 'registry';
     }
 
-    public function register(Build $build) {
+    public function register(Build $build)
+    {
         $file = $this->baseDir . DIRECTORY_SEPARATOR . $build->getName();
         $build->writeFile($file);
     }
 
-    public function deregister(Build $build) {
+    public function deregister(Build $build)
+    {
         $file = $this->baseDir . DIRECTORY_SEPARATOR . $build->getName();
         if (file_exists($file)) {
             unlink($file);
@@ -29,5 +32,3 @@ class BuildRegister
         return false;
     }
 }
-
-

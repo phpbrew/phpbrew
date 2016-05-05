@@ -11,7 +11,18 @@ class EnvCommand extends \CLIFramework\Command
         return 'Export environment variables';
     }
 
-    public function execute($buildName = NULL)
+    public function arguments($args)
+    {
+        $args->add('installed php')
+            ->optional()
+            ->validValues(function () {
+                return \PhpBrew\Config::getInstalledPhpVersions();
+            })
+            ;
+    }
+
+
+    public function execute($buildName = null)
     {
         // get current version
         if (!$buildName) {
@@ -19,8 +30,8 @@ class EnvCommand extends \CLIFramework\Command
         }
 
         // $currentVersion;
-        $root = Config::getPhpbrewRoot();
-        $home = Config::getPhpbrewHome();
+        $root = Config::getRoot();
+        $home = Config::getHome();
         $lookup = getenv('PHPBREW_LOOKUP_PREFIX');
 
         $this->logger->writeln("export PHPBREW_ROOT=$root");
@@ -35,6 +46,7 @@ class EnvCommand extends \CLIFramework\Command
                 echo 'export PHPBREW_PATH=' . ($buildName ? Config::getVersionBinPath($buildName) : '') . "\n";
             }
         }
-
+        $this->logger->writeln('# Run this command to configure your shell:');
+        $this->logger->writeln('# # eval "$(phpbrew env)"');
     }
 }

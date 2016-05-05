@@ -33,7 +33,9 @@ class VariantBuilder
 
     public $conflicts = array(
         // PHP Version lower than 5.4.0 can only built one SAPI at the same time.
-        'apxs2' => array( 'fpm','cgi' ),
+        'apxs2' => array('fpm','cgi'),
+        'editline' => array('readline'),
+        'readline' => array('editline'),
     );
 
     public $options = array();
@@ -60,6 +62,24 @@ class VariantBuilder
 
         // provide no additional feature
         'neutral' => array(),
+
+        'small' => array(
+            'bz2',
+            'cli',
+            'dom',
+            'filter',
+            'ipc',
+            'json',
+            'mbregex',
+            'mbstring',
+            'pcre',
+            'phar',
+            'posix',
+            'readline',
+            'xml',
+            'curl',
+            'openssl',
+        ),
 
         // provide all basic features
         'default' => array(
@@ -89,7 +109,7 @@ class VariantBuilder
             'curl',
             'openssl',
             'zip',
-        )
+        ),
     );
 
     public function __construct()
@@ -138,12 +158,12 @@ class VariantBuilder
 
 
         /*
-        --enable-intl 
+        --enable-intl
 
-         To build the extension you need to install the » ICU library, version 
+         To build the extension you need to install the » ICU library, version
          4.0.0 or newer is required.
-         This extension is bundled with PHP as of PHP version 5.3.0. 
-         Alternatively, the PECL version of this extension may be used with all 
+         This extension is bundled with PHP as of PHP version 5.3.0.
+         Alternatively, the PECL version of this extension may be used with all
          PHP versions greater than 5.2.0 (5.2.4+ recommended).
 
          This requires --with-icu-dir=/....
@@ -154,7 +174,7 @@ class VariantBuilder
         $this->variants['session']     = '--enable-session';
         $this->variants['tokenizer']     = '--enable-tokenizer';
 
-        // PHP 5.5 only variants
+        // opcache was added since 5.6
         $this->variants['opcache']     = '--enable-opcache';
 
         $this->variants['imap'] = '--with-imap-ssl';
@@ -182,6 +202,13 @@ class VariantBuilder
                 return "--with-mhash=$prefix";
             }
 
+            if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix mhash", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    return '--with-mhash=' . end(array_filter($output));
+                }
+            }
+
             return "--with-mhash"; // let autotool to find it.
         };
 
@@ -192,6 +219,13 @@ class VariantBuilder
 
             if ($prefix = Utils::findIncludePrefix('mcrypt.h')) {
                 return "--with-mcrypt=$prefix";
+            }
+
+            if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix mcrypt", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    return '--with-mcrypt=' . end(array_filter($output));
+                }
             }
 
             return "--with-mcrypt"; // let autotool to find it.
@@ -218,23 +252,46 @@ class VariantBuilder
                 return "--with-curl=$prefix";
             }
 
+            if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix curl", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    return '--with-curl=' . end(array_filter($output));
+                }
+            }
             return null;
         };
 
+        /*
+        Users might prefer readline over libedit because only readline supports
+        readline_list_history() (http://www.php.net/readline-list-history).
+        On the other hand we want libedit to be the default because its license
+        is compatible with PHP's which means PHP can be distributable.
+        
+        related issue https://github.com/phpbrew/phpbrew/issues/497
+        */
         $this->variants['readline'] = function (Build $build, $prefix = null) {
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
-                $opts = array();
-                $opts[] = '--with-readline=' . $prefix;
-
-                if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
-                    $opts[] = '--with-libedit=' . $prefix;
+                return '--with-readline=' . $prefix;
+            } else if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix readline", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    return '--with-readline=' . end(array_filter($output));
                 }
-
-                return $opts;
             }
-
             return '--with-readline';
         };
+
+
+        /*
+         * editline is conflict with readline
+         */
+        $this->variants['editline'] = function (Build $build, $prefix = null) {
+            if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
+                return '--with-libedit=' . $prefix;
+            }
+        };
+
+
 
         $this->variants['gd'] = function (Build $build, $prefix = null) {
             $opts = array();
@@ -252,10 +309,20 @@ class VariantBuilder
 
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix libjpeg", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    $opts[] = '--with-jpeg-dir=' . end(array_filter($output));
+                }
             }
 
             if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
                 $opts[] = "--with-png-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix libpng", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    $opts[] = '--with-png-dir=' . end(array_filter($output));
+                }
             }
 
             // the freetype-dir option does not take prefix as its value,
@@ -265,8 +332,13 @@ class VariantBuilder
             //   for path in $i/include/freetype2/freetype/freetype.h
             if ($prefix = Utils::findIncludePrefix('freetype2/freetype.h')) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
+            } else if ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
                 $opts[] = "--with-freetype-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix freetype", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    $opts[] = '--with-freetype-dir=' . end(array_filter($output));
+                }
             }
 
             return $opts;
@@ -280,13 +352,22 @@ class VariantBuilder
             if ($val) {
                 return '--with-icu-dir=' . $val;
             }
-            // the last one path is for Ubuntu
-            if ($prefix = Utils::findLibPrefix('icu/pkgdata.inc', 'icu/Makefile.inc')) {
-                return '--with-icu-dir=' . $prefix;
+
+            // For homebrew
+            if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix icu4c", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    return '--with-icu-dir=' . end(array_filter($output[0]));
+                }
             }
 
             // For macports
             if ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
+                return '--with-icu-dir=' . $prefix;
+            }
+
+            // the last one path is for Ubuntu
+            if ($prefix = Utils::findLibPrefix('icu/pkgdata.inc', 'icu/Makefile.inc')) {
                 return '--with-icu-dir=' . $prefix;
             }
 
@@ -316,35 +397,81 @@ class VariantBuilder
             if ($prefix = Utils::getPkgConfigPrefix('openssl')) {
                 return "--with-openssl=$prefix";
             }
+
+
+            // Special detection and fallback for homebrew openssl
+            // @see https://github.com/phpbrew/phpbrew/issues/607
+            if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix openssl", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    return '--with-openssl=' . end(array_filter($output));
+                }
+            }
+            $possiblePrefixes = array('/usr/local/opt/openssl');
+            $foundPrefixes = array_filter($possiblePrefixes, "file_exists");
+            if (count($foundPrefixes) > 0) {
+                return "--with-openssl=" . $foundPrefixes[0];
+            }
+
             // This will create openssl.so file for dynamic loading.
             echo "Compiling with openssl=shared, please install libssl-dev or openssl header files if you need";
-
-            return "--with-openssl=shared";
+            return "--with-openssl";
         };
 
         /*
         --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
                                 directory.  If mysqlnd is passed as DIR,
                                 the MySQL native driver will be used [/usr/local]
+
         --with-mysqli[=FILE]    Include MySQLi support.  FILE is the path
                                 to mysql_config.  If mysqlnd is passed as FILE,
                                 the MySQL native driver will be used [mysql_config]
+
         --with-pdo-mysql[=DIR]    PDO: MySQL support. DIR is the MySQL base directoy
                                 If mysqlnd is passed as DIR, the MySQL native
                                 native driver will be used [/usr/local]
 
-        --with-mysql         // deprecated
+        --with-mysql            deprecated in 7.0
+
+        mysqlnd was added since php 5.3
         */
         $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') {
-            $opts = array(
-                "--with-mysql=$prefix",
-                "--with-mysqli=$prefix"
-            );
 
+            $opts = array();
+            if ($build->compareVersion('7.0') < 0) {
+                $opts[] = "--with-mysql=$prefix";
+            }
+
+            $opts[] = "--with-mysqli=$prefix";
             if ($build->hasVariant('pdo')) {
                 $opts[] = "--with-pdo-mysql=$prefix";
             }
 
+            $foundSock = false;
+            if ($bin = Utils::findBin('mysql_config')) {
+                exec("$bin --socket", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    $foundSock = true;
+                    $opts[] = "--with-mysql-sock=" . end(array_filter($output));
+                }
+            }
+            if (!$foundSock) {
+                $possiblePaths = array(
+                    /* macports mysql ... */
+                    '/opt/local/var/run/mysql57/mysqld.sock',
+                    '/opt/local/var/run/mysql56/mysqld.sock',
+                    '/opt/local/var/run/mysql55/mysqld.sock',
+                    '/opt/local/var/run/mysql54/mysqld.sock',
+
+                    '/tmp/mysql.sock', /* homebrew mysql sock */
+                    '/var/run/mysqld/mysql.sock',
+                    '/var/mysql/mysql.sock',
+                );
+                $paths = array_filter($possiblePaths, "file_exists");
+                if (count($paths) > 0 && file_exists($paths[0])) {
+                    $opts[] = "--with-mysql-sock={$paths[0]}";
+                }
+            }
             return $opts;
         };
 
@@ -363,6 +490,8 @@ class VariantBuilder
 
         $this->variants['pgsql'] = function (Build $build, $prefix = null) {
             $opts = array();
+
+            // The names are used from macports
             $possibleNames = array('psql90','psql91','psql92','psql93','psql');
             while (!$prefix && ! empty($possibleNames)) {
                 $prefix = Utils::findBin(array_pop($possibleNames));
@@ -391,10 +520,15 @@ class VariantBuilder
 
             if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
+            } else if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } elseif ($prefix = Utils::findLibPrefix('libxml2.a')) {
+            } else if ($prefix = Utils::findLibPrefix('libxml2.a')) {
                 $options[] = "--with-libxml-dir=$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                exec("$bin --prefix libxml2", $output, $retval);
+                if ($retval === 0 && !empty($output)) {
+                    $options[] = '--with-libxml-dir=' . end(array_filter($prefix));
+                }
             }
 
             return $options;
@@ -409,13 +543,28 @@ class VariantBuilder
 
             if ($bin = Utils::findBinByPrefix('apxs2')) {
                 return '--with-apxs2=' . $bin;
-            }
-
-            if ($bin = Utils::findBinByPrefix('apxs')) {
+            } else if ($bin = Utils::findBinByPrefix('apxs')) {
                 return '--with-apxs2=' . $bin;
             }
 
-            return $a;
+            /* Special paths for homebrew */
+            $possiblePaths = array(
+                // macports apxs path
+                '/usr/local/opt/httpd24/bin/apxs',
+                '/usr/local/opt/httpd23/bin/apxs',
+                '/usr/local/opt/httpd22/bin/apxs',
+                '/usr/local/opt/httpd21/bin/apxs',
+
+                '/usr/local/sbin/apxs', // homebrew apxs prefix
+                '/usr/local/bin/apxs',
+                '/usr/sbin/apxs', // it's possible to find apxs under this path (OS X)
+                '/usr/bin/apxs', // not sure if this one helps
+            );
+            $paths = array_filter($possiblePaths, "file_exists");
+            if (count($paths) > 0 && file_exists($paths[0])) {
+                $opts[] = "--with-apxs2={$paths[0]}";
+            }
+            return $a; // fallback to autoconf finder
         };
 
 
@@ -427,7 +576,9 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('libintl.h')) {
                 return '--with-gettext=' . $prefix;
             }
-
+            if (file_exists('/usr/local/opt/gettext')) {
+                return '--with-gettext=/usr/local/opt/gettext';
+            }
             return '--with-gettext';
         };
 
@@ -487,8 +638,13 @@ class VariantBuilder
         $customVirtualVariants = Config::getConfigParam('variants');
         $customVirtualVariantsToAdd = array();
 
-        foreach ($customVirtualVariants as $key => $extension) {
-            $customVirtualVariantsToAdd[$key] = array_keys($extension);
+        if (!empty($customVirtualVariants)) {
+            foreach ($customVirtualVariants as $key => $extension) {
+                // The extension might be null
+                if (!empty($extension)) {
+                    $customVirtualVariantsToAdd[$key] = array_keys($extension);
+                }
+            }
         }
 
         $this->virtualVariants = array_merge($customVirtualVariantsToAdd, $this->virtualVariants);
@@ -519,7 +675,7 @@ class VariantBuilder
 
     public function checkConflicts(Build $build)
     {
-        if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion() , 'php-5.4.0') < 0) {
+        if ($build->isEnabledVariant('apxs2') && version_compare($build->getVersion(), '5.4.0') < 0) {
             if ($conflicts = $this->getConflict($build, 'apxs2')) {
                 $msgs = array();
                 $msgs[] = "PHP Version lower than 5.4.0 can only build one SAPI at the same time.";
@@ -595,7 +751,7 @@ class VariantBuilder
 
     public function buildDisableVariant(Build $build, $feature, $userValue = null)
     {
-        if (isset( $this->variants[$feature])) {
+        if (isset($this->variants[$feature])) {
             if (in_array('-'.$feature, $this->builtList)) {
                 return array();
             }
@@ -699,11 +855,20 @@ class VariantBuilder
             $this->addOptions("--with-libdir=lib/i386-linux-gnu");
         }
 
+        if ($build->compareVersion('5.6') >= 0) {
+            $build->enableVariant('opcache');
+        }
+
+
         // enable/expand virtual variants
         foreach ($this->virtualVariants as $name => $variantNames) {
             if ($build->isEnabledVariant($name)) {
                 foreach ($variantNames as $subVariantName) {
-                    $build->enableVariant($subVariantName);
+                    // enable the sub-variant only if it's not already enabled
+                    // in order to not override a non-default value with the default
+                    if (!$build->isEnabledVariant($subVariantName)) {
+                        $build->enableVariant($subVariantName);
+                    }
                 }
 
                 // it's a virtual variant, can not be built by buildVariant

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew;
+
 use CLIFramework\Logger;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
@@ -15,7 +16,7 @@ class ExtensionList
 
 
     public function __construct()
-    { 
+    {
     }
 
     public static function getProviders()
@@ -37,11 +38,14 @@ class ExtensionList
         $providers = self::getProviders();
 
         foreach ($providers as $provider) {
-            if ($provider::getName() == $providerName) return $provider;
+            if ($provider::getName() == $providerName) {
+                return $provider;
+            }
         }
     }
 
-    static public function getReadyInstance($branch = 'master', Logger $logger = NULL) {
+    public static function getReadyInstance($branch = 'master', Logger $logger = null)
+    {
         static $instance;
         if ($instance) {
             return $instance;
@@ -58,14 +62,11 @@ class ExtensionList
         // determine which provider support this extension
         $providers = self::getProviders();
         foreach ($providers as $provider) {
-            if($provider->exists($extensionName)) return $provider;
+            if ($provider->exists($extensionName)) {
+                return $provider;
+            }
         }
 
         return false;
-
     }
-    
 }
-
-
-

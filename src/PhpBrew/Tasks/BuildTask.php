@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Exception\SystemCommandException;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Build;
@@ -12,7 +13,7 @@ class BuildTask extends BaseTask
     public function run(Build $build, $targets = array())
     {
         if ($build->getState() >= Build::STATE_BUILD) {
-        $this->info("===> Already built, skipping...");
+            $this->info("===> Already built, skipping...");
 
             return;
         }
@@ -38,13 +39,13 @@ class BuildTask extends BaseTask
             $cmd->addArg("-j{$makeJobs}");
         }
 
-        $this->debug($cmd->getCommand());
+        $this->debug($cmd->buildCommand());
 
         if (!$this->options->dryrun) {
             $startTime = microtime(true);
-            $code = $cmd->execute();
-            if ($code != 0) {
-                throw new SystemCommandException('Make failed.', $build->getBuildLogPath());
+            $code = $cmd->execute($lastline);
+            if ($code !== 0) {
+                throw new SystemCommandException("Make failed: $lastline", $build, $build->getBuildLogPath());
             }
             $buildTime = round((microtime(true) - $startTime) / 60, 1);
             $this->info("Build finished: $buildTime minutes.");

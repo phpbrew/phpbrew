@@ -1,9 +1,10 @@
 <?php
 namespace PhpBrew;
-use CurlKit\CurlDownloader;
-use CurlKit\Progress\ProgressBar;
+
+use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 use Exception;
+use PhpBrew\Downloader\DownloadFactory;
 use RuntimeException;
 
 defined('JSON_UNESCAPED_SLASHES') || define('JSON_UNESCAPED_SLASHES', 0);
@@ -51,7 +52,7 @@ class ReleaseList
 
             return $releases;
         } else {
-            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json,0, 125) );
+            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json, 0, 125));
         }
     }
 
@@ -141,20 +142,22 @@ class ReleaseList
     {
         static $instance;
 
-        if ($instance) { return $instance; }
+        if ($instance) {
+            return $instance;
+        }
 
         $instance = new self;
 
         if ($instance->foundLocalReleaseList()) {
             $instance->setReleases($instance->loadLocalReleaseList());
         } else {
-            $instance->fetchRemoteReleaseList();
+            $instance->fetchRemoteReleaseList($options);
         }
 
         return $instance;
     }
 
-    public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
+    private static function downloadReleaseListFromOfficialSite($version, OptionResult $options = null)
     {
         if (!extension_loaded('openssl')) {
             throw new Exception(
@@ -162,35 +165,19 @@ class ReleaseList
         }
 
         $max = ($options && $options->old) ? 1000 : 100;
-        $url = "https://php.net/releases/index.php?json&version=5&max={$max}";
+        $url = "https://secure.php.net/releases/index.php?json&version={$version}&max={$max}";
 
-        if (extension_loaded('curl')) {
-            $downloader = new CurlDownloader;
-            $downloader->setProgressHandler(new ProgressBar);
+        $file = DownloadFactory::getInstance(Logger::getInstance(), $options)->download($url);
+        $json = file_get_contents($file);
+        return json_decode($json, true);
+    }
 
-            if (! Console::getInstance()->options->{'no-progress'}) {
-                $downloader->setProgressHandler(new ProgressBar);
-            }
-
-            if ($options) {
-                $seconds = $options->{'connect-timeout'};
-                if ($seconds || $seconds = getenv('CONNECT_TIMEOUT')) {
-                    $downloader->setConnectionTimeout($seconds);
-                }
-                if ($proxy = $options->{'http-proxy'}) {
-                    $downloader->setProxy($proxy);
-                }
-                if ($proxyAuth = $options->{'http-proxy-auth'}) {
-                    $downloader->setProxyAuth($proxyAuth);
-                }
-            }
-
-            $json = $downloader->request($url);
-        } else {
-            $json = file_get_contents($url);
-        }
-
-        $obj = json_decode($json, true);
+    public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
+    {
+        $obj = array_merge(
+            self::downloadReleaseListFromOfficialSite(7, $options),
+            self::downloadReleaseListFromOfficialSite(5, $options)
+        );
         $releaseVersions = array();
         foreach ($obj as $k => $v) {
             if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
@@ -220,12 +207,11 @@ class ReleaseList
         }
 
         foreach ($releaseVersions as $key => & $versions) {
-            uksort($releaseVersions[$key],function ($a, $b) {
+            uksort($releaseVersions[$key], function ($a, $b) {
                 return version_compare($b, $a);
             });
         }
 
         return $releaseVersions;
     }
-
 }

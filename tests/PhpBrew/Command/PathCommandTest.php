@@ -21,8 +21,12 @@ class PathCommandTest extends CommandTestCase
         );
     }
 
-    public function testUseLatestPHP() {
-        $this->runCommand("phpbrew use {$this->primaryVersion}");
+    public function testUseLatestPHP()
+    {
+        $versionName = $this->getPrimaryVersion();
+        $this->assertCommandSuccess("phpbrew use php-{$versionName}");
+        // $this->assertRegExp("#php/$versionName/bin\$#", getenv('PHPBREW_PATH'));
+        $this->assertEquals("php-$versionName", getenv('PHPBREW_PHP'));
     }
 
     /**

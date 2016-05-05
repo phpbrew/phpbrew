@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command\ExtensionCommand;
+
 use PhpBrew\Config;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionManager;
@@ -11,7 +12,8 @@ use GetOptionKit\OptionResult;
 abstract class BaseCommand extends \CLIFramework\Command
 {
 
-    public function prepare() {
+    public function prepare()
+    {
         parent::prepare();
         if (!getenv('PHPBREW_PHP')) {
             $this->logger->error("Error: PHPBREW_PHP environment variable is not defined.");
@@ -23,6 +25,4 @@ abstract class BaseCommand extends \CLIFramework\Command
 
         return true;
     }
-
 }
-

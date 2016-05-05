@@ -42,7 +42,6 @@ class KnownCommand extends \CLIFramework\Command
 
     public function execute($extensionName)
     {
-
         $extensionList = new ExtensionList;
 
         $provider = $extensionList->exists($extensionName);
@@ -51,10 +50,9 @@ class KnownCommand extends \CLIFramework\Command
             $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
             $versionList = $extensionDownloader->knownReleases($provider);
             $this->logger->info("\n");
-            $this->logger->writeln(wordwrap(join(', ', $versionList), 80, "\n" ));
+            $this->logger->writeln(wordwrap(join(', ', $versionList), 80, "\n"));
         } else {
             $this->logger->info("Can not determine host or unsupported of $extensionName \n");
         }
-
     }
 }

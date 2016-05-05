@@ -19,9 +19,9 @@ class ExtensionManager
      * an extension with a known conflict.
      * @var array
      */
-    protected $conflicts = array (
-        'json'  => array ('jsonc'),   // enabling jsonc disables json
-        'jsonc' => array ('json'),    // enabling json disables jsonc
+    protected $conflicts = array(
+        'json'  => array('jsonc'),   // enabling jsonc disables json
+        'jsonc' => array('json'),    // enabling json disables jsonc
     );
 
     public function __construct(Logger $logger)
@@ -50,8 +50,9 @@ class ExtensionManager
                 ! $ext->isBuildable() ||
                 ! $make->clean($ext);
 
-        if ($code != 0)
+        if ($code != 0) {
             $this->logger->error("Could not clean extension: {$ext->getName()}.");
+        }
 
         return $code == 0;
     }
@@ -91,7 +92,7 @@ class ExtensionManager
         $this->logger->info("===> Creating config file {$ini}");
 
         if (!file_exists(dirname($ini))) {
-            mkdir(dirname($ini),0755, true);
+            mkdir(dirname($ini), 0755, true);
         }
 
         // create extension config file
@@ -110,7 +111,8 @@ class ExtensionManager
     }
 
 
-    public function disable($extensionName) {
+    public function disable($extensionName)
+    {
         $ext = ExtensionFactory::lookup($extensionName);
         if (!$ext) {
             $ext = ExtensionFactory::lookupRecursive($extensionName);
@@ -122,7 +124,8 @@ class ExtensionManager
         }
     }
 
-    public function enable($extensionName) {
+    public function enable($extensionName)
+    {
         $ext = ExtensionFactory::lookup($extensionName);
         if (!$ext) {
             $ext = ExtensionFactory::lookupRecursive($extensionName);
@@ -213,6 +216,4 @@ class ExtensionManager
     {
         return array_key_exists($ext->getName(), $this->conflicts);
     }
-
-
 }

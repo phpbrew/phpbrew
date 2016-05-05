@@ -28,7 +28,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             'HOME'         => null
         );
         $this->withEnv($env, function() {
-            PhpBrew\Config::getPhpbrewHome();
+            PhpBrew\Config::getHome();
         });
     }
 
@@ -39,21 +39,21 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             'PHPBREW_HOME' => null
         );
         $this->withEnv($env, function($self) {
-            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getPhpbrewHome());
+            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getHome());
         });
     }
 
     public function testGetPhpbrewHomeWhenPHPBREW_HOMEIsDefined()
     {
         $this->withEnv(array(), function($self) {
-            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getPhpbrewHome());
+            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getHome());
         });
     }
 
     public function testGetPhpbrewRootWhenPHPBREW_ROOTIsDefined()
     {
         $this->withEnv(array(), function($self) {
-            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getPhpbrewRoot());
+            $self->assertStringEndsWith('.phpbrew', PhpBrew\Config::getRoot());
         });
     }
 
@@ -64,7 +64,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             'PHPBREW_ROOT' => null
         );
         $this->withEnv($env, function($self) {
-            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getPhpbrewRoot());
+            $self->assertStringEndsWith('.phpbrew/.phpbrew', PhpBrew\Config::getRoot());
         });
     }
 
@@ -210,12 +210,15 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetConfigParam()
     {
         $env = array(
-            'PHPBREW_ROOT' => __DIR__ . '/../fixtures/'
+            // I guess this causes the failure here: https://travis-ci.org/phpbrew/phpbrew/jobs/95057923
+            // 'PHPBREW_ROOT' => __DIR__ . '/../fixtures',
+            'PHPBREW_ROOT' => 'tests/fixtures',
         );
         $this->withEnv($env, function($self) {
-            is(array('key1' => 'value1', 'key2' => 'value2'), PhpBrew\Config::getConfigParam());
-            is('value1', PhpBrew\Config::getConfigParam('key1'));
-            is('value2', PhpBrew\Config::getConfigParam('key2'));
+            $config = PhpBrew\Config::getConfig();
+            $self->assertSame(array('key1' => 'value1', 'key2' => 'value2'), $config);
+            $self->assertEquals('value1', PhpBrew\Config::getConfigParam('key1'));
+            $self->assertEquals('value2', PhpBrew\Config::getConfigParam('key2'));
         });
     }
 

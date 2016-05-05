@@ -1,6 +1,104 @@
 CHANGES
 =======
 
+### Version 1.21.1
+
+- Fixed BSD make issue - prefer gmake over make. remove --quiet flag when os == bsd
+- Added more path detection for apxs2
+- Added more path detection for gettext
+- Added --with-mysql-sock option autodetection
+- Run pkg-config only when pkg-config is found.
+
+### Version 1.21.0 - Wed Apr 27 23:19:33 2016
+
+- Refactored patch classes 
+- Supported new diff-based patches and regexp-based patches
+- Added some default options for 5.3, 5.4, 5.5 and 5.6 separately
+- Added BeforeConfigureTask and AfterConfigureTask to separate build phases.
+
+Patches
+- Added multiple-sapi patch for 5.3.29
+
+### Version 1.20.8 - Sat Apr 23 01:41:37 2016
+
+- Fixed openssl build issue on darwin https://github.com/phpbrew/phpbrew/issues/636
+- Replaced ':' with `PATH_SEPARATOR` to make the path generation indenpendant.
+- Few fixes
+
+### Version 1.20.7 - Sun Apr 17 18:13:29 2016
+
+- Commit e1fc2a4: Merge pull request #683 from Simplesmente/master
+
+   add file README.pt-br.md and translating
+
+- Commit 7ad9da5: Merge pull request #701 from zvook/master
+
+   Network is unreachable php.net fix
+
+- Commit f1fdd1d: Merge pull request #703 from jhdxr/develop
+
+   fix issues about known command
+
+- Commit 5ca79aa: Merge pull request #653 from jhdxr/feature/down
+
+   refactor downloading related part ( #571 )
+
+- Commit 1475c8c: Merge pull request #652 from jhdxr/feature/fish
+
+   bugfix and improvements for fish
+
+- Commit 2e41279: Merge pull request #637 from morozov/virtual-variant-value
+
+   Do not override explicitly specified values with the default from virtual variants
+
+### Version 1.20.6 - Fri Mar  4 13:41:32 2016
+
+phpbrewrc:
+
+- Improved .phpbrewrc searching effiency and fixed a bug related to $PWD.
+- Added help message about enabling .phpbrewrc in init command.
+- .phpbrewrc searching will be disabled by default and have to be enabled manually.
+
+command improvement:
+- Added arginfo to env command
+- Fixed phar file for dump() function by updating package dependencies to avoid
+  compiling packages from require-dev section (cliframework)
+- Allow user value of variants contains dot character
+
+fish:
+- Added proper redirect to STDERR for Fish shell
+
+
+### Version 1.20.4 - Mon Dec 14 19:37:01 2015
+
+- Commit 2e41279: Merge pull request #637 from morozov/virtual-variant-value
+
+   Do not override explicitly specified values with the default from virtual variants
+
+- Commit 728ff9b: Merge pull request #634 from kurotaky/fix-phpbrew-bin-path-connection
+
+   Does not connect the phpbrew bin path when `$PHPBREW_BIN` is blank
+
+- Commit 3c5d6d8: Merge pull request #631 from Dexus/Dexus-patch-1
+
+   Fix ReleaseList.php and Options forwarding
+
+### Version 1.20.3 - Mon Dec  7 23:56:32 2015
+
+- Fixed duplicated getBuild method in SystemCommandException
+- Fixed class loading for symfony yaml component with new cliframework
+
+### Version 1.20.2 - Mon Dec  7 09:15:23 2015
+
+- added better php7 build support.
+- fixed apxs2 patch for php7.
+- improved travis-ci build speed.
+- improved build process error message by dumping the last 5 lines of log to
+  console directly.
+- moved built phpbrew phar file into build/phpbrew
+- created a symbol link 'phpbrew' under the root of project directory and make
+  it pointing to 'build/phpbrew'
+
 ### Version 1.20.1 - Thu Jul 27 16:30:27 2015
 
 - sensibly forces redownload when using wget #554

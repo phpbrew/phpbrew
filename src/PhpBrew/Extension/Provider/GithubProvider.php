@@ -4,21 +4,26 @@ namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
 
-class GithubProvider implements Provider {
+class GithubProvider implements Provider
+{
 
     public $site = 'github.com';
-    public $owner = NULL;
-    public $repository = NULL;
-    public $packageName = NULL;
+    public $owner = null;
+    public $repository = null;
+    public $packageName = null;
     public $defaultVersion = 'master';
 
-    public static function getName() {
+    public static function getName()
+    {
         return 'github';
     }
 
-    public function buildPackageDownloadUrl($version='stable')
+    /**
+     * By default we install extension from master branch
+     */
+    public function buildPackageDownloadUrl($version = 'master')
     {
-        if (($this->getOwner() == NULL) || ($this->getRepository() == NULL)) {
+        if (($this->getOwner() == null) || ($this->getRepository() == null)) {
             throw new Exception("Username or Repository invalid.");
         }
         return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
@@ -54,7 +59,7 @@ class GithubProvider implements Provider {
         $this->packageName = $packageName;
     }
 
-    public function exists($dsl, $packageName = NULL)
+    public function exists($dsl, $packageName = null)
     {
         $dslparser = new RepositoryDslParser();
         $info = $dslparser->parse($dsl);
@@ -78,8 +83,8 @@ class GithubProvider implements Provider {
 
     public function parseKnownReleasesResponse($content)
     {
-        $info = json_decode($content, TRUE);
-        $versionList = array_map(function($version) {
+        $info = json_decode($content, true);
+        $versionList = array_map(function ($version) {
             return $version['name'];
         }, $info);
 
@@ -125,5 +130,4 @@ class GithubProvider implements Provider {
         );
         return $cmds;
     }
-
 }

@@ -1,7 +1,7 @@
 PHPBrew
 ==========
 
-*他の言語でもお読み頂けます: [English](README.md), [日本語](README.ja.md).*
+*他の言語でもお読み頂けます:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
@@ -72,10 +72,11 @@ $ phpbrew lookup-prefix macports
 
 ```bash
 $ phpbrew known
-5.6:  5.6.1, 5.6.0 ...
-5.5:  5.5.17, 5.5.16, 5.5.15, 5.5.14, 5.5.13, 5.5.12, 5.5.11, 5.5.10 ...
-5.4:  5.4.33, 5.4.32, 5.4.31, 5.4.30, 5.4.29, 5.4.28, 5.4.27, 5.4.26 ...
-5.3:  5.3.29, 5.3.28, 5.3.27, 5.3.26, 5.3.25, 5.3.24, 5.3.23, 5.3.22 ...
+7.0: 7.0.3, 7.0.2, 7.0.1, 7.0.0 ...
+5.6: 5.6.18, 5.6.17, 5.6.16, 5.6.15, 5.6.14, 5.6.13, 5.6.12, 5.6.11 ...
+5.5: 5.5.32, 5.5.31, 5.5.30, 5.5.29, 5.5.28, 5.5.27, 5.5.26, 5.5.25 ...
+5.4: 5.4.45, 5.4.44, 5.4.43, 5.4.42, 5.4.41, 5.4.40, 5.4.39, 5.4.38 ...
+5.3: 5.3.29, 5.3.28 ...
 ```
 
 古いバージョン（5.3以前）を一覧表示します：
@@ -168,7 +169,7 @@ Using variants to build PHP:
   phpbrew install 5.3.10 +default
   phpbrew install 5.3.10 +mysql +pdo
   phpbrew install 5.3.10 +mysql +pdo +apxs2
-  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
+  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
 ```
 
 バリアントを有効化するには、`+`をバリアント名の前に付けます。
@@ -422,13 +423,13 @@ phpbrew fpm config
 ```
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
-> 
+>
 > The correspond `php-fpm.conf` is lcoated in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
 > you may copy the default config file to the desired location. e.g.,
-> 
+>
 >     cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
 >         ~/.phpbrew/php/php-*/etc/php-fpm.conf
-> 
+>
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
 ## 追加コンポーネントのインストール

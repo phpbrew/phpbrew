@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Command\AppCommand;
-use PhpBrew\Downloader\UrlDownloader;
+
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Config;
 use PhpBrew\AppStore;
 use CLIFramework\Command;
@@ -17,29 +18,29 @@ class GetCommand extends Command
     public function options($opts)
     {
         $opts->add('chmod:');
+        DownloadFactory::addOptionsForCommand($opts);
     }
 
     public function arguments($args)
     {
         $apps = AppStore::all();
         $args->add('app-name')
-            ->validValues( array_keys($apps) )
+            ->validValues(array_keys($apps))
             ;
     }
 
-    public function execute($appName) {
-
+    public function execute($appName)
+    {
         $apps = AppStore::all();
 
         if (!isset($apps[$appName])) {
             throw new Exception("App $appName not found.");
         }
         $app = $apps[$appName];
-        $targetDir = Config::getPhpbrewRoot() . DIRECTORY_SEPARATOR . 'bin';
+        $targetDir = Config::getRoot() . DIRECTORY_SEPARATOR . 'bin';
         $target = $targetDir . DIRECTORY_SEPARATOR . $app['as'];
 
-        $downloader = new UrlDownloader($this->logger, $this->options);
-        $downloader->download($app['url'], $target);
+        DownloadFactory::getInstance($this->logger, $this->options)->download($app['url'], $target);
 
         $this->logger->info("Changing permissions to 0755");
 
@@ -52,5 +53,3 @@ class GetCommand extends Command
         $this->logger->info("Downloaded at $target");
     }
 }
-
-

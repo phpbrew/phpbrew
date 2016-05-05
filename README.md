@@ -1,15 +1,13 @@
 PHPBrew
 =======
 
-*Read this in other languages: [English](README.md), [日本語](README.ja.md).*
+*Read this in other languages:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
+[![Gitter](https://badges.gitter.im/phpbrew/phpbrew.svg)](https://gitter.im/phpbrew/phpbrew?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
-
-phpbrew also manage the environment variables, so you can `use`, `switch` php
-version whenever you need.
 
 What phpbrew can do for you:
 
@@ -21,7 +19,7 @@ What phpbrew can do for you:
 - Automatic feature detection.
 - Install & enable php extensions into current environment with ease.
 - Install multiple php into system-wide environment.
-- Path detection optimization for HomeBrew and MacPorts. 
+- Path detection optimization for HomeBrew and MacPorts.
 
 <img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
 
@@ -31,17 +29,25 @@ Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
 before you get started. you need to install some development packages for
 building PHP.
 
-## Install phpbrew
+## Installation
 
 Just download it:
 
 ```bash
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
+```
+
+Then you can install it into your bin folder:
+
+```sh
 sudo mv phpbrew /usr/local/bin/phpbrew
 ```
 
-## Basic usage
+Be sure to have `/usr/local/bin` in your `$PATH` environment variable.
+
+
+## Setting up
 
 Init a bash script for your shell environment:
 
@@ -49,11 +55,13 @@ Init a bash script for your shell environment:
 $ phpbrew init
 ```
 
-Then add these lines to your `.bashrc` or `.zshrc` file:
+*Add these lines to your `.bashrc` or `.zshrc` file*:
 
 ```bash
-$ source ~/.phpbrew/bashrc
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 ```
+
+### Setting up lookup prefix
 
 You may setup your prefered default prefix for looking up libraries, available
 options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
@@ -70,21 +78,23 @@ For Macports users:
 $ phpbrew lookup-prefix macports
 ```
 
+## Basic usage
 
 To list known versions:
 
 ```bash
 $ phpbrew known
-5.6:  5.6.1, 5.6.0 ...
-5.5:  5.5.17, 5.5.16, 5.5.15, 5.5.14, 5.5.13, 5.5.12, 5.5.11, 5.5.10 ...
-5.4:  5.4.33, 5.4.32, 5.4.31, 5.4.30, 5.4.29, 5.4.28, 5.4.27, 5.4.26 ...
-5.3:  5.3.29, 5.3.28, 5.3.27, 5.3.26, 5.3.25, 5.3.24, 5.3.23, 5.3.22 ...
+7.0: 7.0.3, 7.0.2, 7.0.1, 7.0.0 ...
+5.6: 5.6.18, 5.6.17, 5.6.16, 5.6.15, 5.6.14, 5.6.13, 5.6.12, 5.6.11 ...
+5.5: 5.5.32, 5.5.31, 5.5.30, 5.5.29, 5.5.28, 5.5.27, 5.5.26, 5.5.25 ...
+5.4: 5.4.45, 5.4.44, 5.4.43, 5.4.42, 5.4.41, 5.4.40, 5.4.39, 5.4.38 ...
+5.3: 5.3.29, 5.3.28 ...
 ```
 
-To list known older versions (less than 5.3):
+To show more minor versions:
 
 ```bash
-$ phpbrew known --old
+$ phpbrew known --more
 ```
 
 To update the release info:
@@ -93,7 +103,23 @@ To update the release info:
 $ phpbrew update
 ```
 
-## Build And Install
+To get older versions (less than 5.4)
+
+> Please note that we don't guarantee that you can build the php versions that
+> are not supported by offical successfully, please don't fire any issue about
+> the older versions, these issues won't be fixed.
+
+```bash
+$ phpbrew update --old
+```
+
+To list known older versions (less than 5.4)
+
+```bash
+$ phpbrew known --old
+```
+
+## Starting Building Your Own PHP
 
 Simply build and install PHP with default variant:
 
@@ -140,13 +166,11 @@ To install from a github tag:
 $ phpbrew install github:php/php-src@PHP-7.0 as php-7.0.0
 ```
 
-## Clean up build
-
+## Cleaning up build directory
 
 ```bash
 $ phpbrew clean php-5.4.0
 ```
-
 
 ## Variants
 
@@ -184,7 +208,7 @@ Using variants to build PHP:
   phpbrew install 5.3.10 +default
   phpbrew install 5.3.10 +mysql +pdo
   phpbrew install 5.3.10 +mysql +pdo +apxs2
-  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2 
+  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
 ```
 
 To enable one variant, simply add a prefix `+` before the variant name, eg
@@ -195,7 +219,7 @@ To disable one variant, simply add a prefix `-` before the variant name.
 
     -debug
 
-For example, if we want to build PHP with the default options and 
+For example, if we want to build PHP with the default options and
 database supports (mysql, sqlite, postgresql), you may simply run:
 
 ```bash
@@ -304,12 +328,20 @@ directory is in:
 
 ### Installing Extension - The Most Simple Way
 
+Before you install any PHP extension, you should set your current running php:
+
 ```bash
-$ phpbrew ext install APC
+$ phpbrew use php-5.5.6
+```
+
+Then run `ext install` to install the extensions
+
+```bash
+$ phpbrew ext install apcu
 $ phpbrew ext install memcache
 ```
 
-### Installing Extension With Version
+### Installing Extension With Stability
 
 To install extensions with stability tag:
 
@@ -325,11 +357,49 @@ To install extensions with version name:
 $ phpbrew ext install xdebug 2.0.1
 ```
 
-To install extensions with customized options:
+### Showing extension config options
+
+To see if there are some configure options to build the extension, you can use
+the `ext show` command. Please note that the `show` command only works for
+built-in extensions:
+
+```bash
+phpbrew ext show apcu
+```
+
+### Install extensions with customized options:
 
 ```bash
 $ phpbrew ext install yaml -- --with-yaml=/opt/local
 ```
+
+### Installing Extension from GitHub
+
+The special prefix `github:` tells phpbrew to get the extension repository from
+`php-memcached-dev/phpmemcached` and branch `php7`
+
+```bash
+$ phpbrew ext install github:php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl
+```
+
+### Installing Extension with specific downloader
+
+Right now, phpbrew supports 4 different downloader implementation:
+
+- `php_curl` - download files using the built-in php curl extension.
+- `php_stream` - download files using the built-in php stream wrapper.
+- `curl`
+- `wget`
+
+It's possible to replace the default downloader with your preference:
+
+    phpbrew ext install --downloader php_curl apcu
+
+The curl php extension based downloader supports User-Agent and Proxy Settings,
+thus you can do this if you encountered some network issues:
+
+    phpbrew ext install --download php_curl --http-proxy=... --http-proxy-auth=... apcu
+
 
 ### Enabling Extension
 
@@ -449,28 +519,30 @@ phpbrew fpm config
 ```
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
-> 
+>
 > The correspond `php-fpm.conf` is lcoated in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
 > you may copy the default config file to the desired location. e.g.,
-> 
+>
 >     cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
 >         ~/.phpbrew/php/php-*/etc/php-fpm.conf
-> 
+>
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
 
-## Installing Extra Component
+## Installing Extra Apps
 
-### Installing composer 
+phpbrew provides app command to fetch some php apps.
+
+### Installing composer
 
 ```bash
-$ phpbrew install-composer
+$ phpbrew app get composer
 ```
 
 ### Installing phpunit
 
 ```bash
-phpbrew install-phpunit
+phpbrew app get phpunit
 ```
 
 ## Enabling Version Info Prompt
@@ -533,6 +605,7 @@ Please see [Contribution](https://github.com/phpbrew/phpbrew/wiki/Contribution)
 Documentation
 -------------
 Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
+
 
 
 Author

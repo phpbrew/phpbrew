@@ -19,10 +19,11 @@ class DownloadCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @dataProvider versionDataProvider
      */
-    public function testDownloadCommand($versionName) {
-        $this->assertTrue($this->runCommand("phpbrew init"));
-        $this->assertTrue($this->runCommand("phpbrew -q download $versionName"));
-        $this->assertTrue($this->runCommand("phpbrew -q download $versionName")); // redownload should just check the checksum instead of extracting it.
-        $this->assertTrue($this->runCommand("phpbrew -q download -f $versionName"));
+    public function testDownloadCommand($versionName)
+    {
+        $this->assertCommandSuccess("phpbrew init");
+        $this->assertCommandSuccess("phpbrew -q download $versionName");
+        $this->assertCommandSuccess("phpbrew -q download $versionName"); // redownload should just check the checksum instead of extracting it.
+        $this->assertCommandSuccess("phpbrew -q download -f $versionName");
     }
 }

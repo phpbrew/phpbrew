@@ -12,6 +12,7 @@
 # PHPBREW_PATH: the bin path of the current php.
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
+[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
 
 function __phpbrew_set_path()
 {
@@ -19,6 +20,8 @@ function __phpbrew_set_path()
 
     if [[ -n $PHPBREW_ROOT ]] ; then
         export PATH_WITHOUT_PHPBREW=$(AR=(); for i in `echo $PATH|tr ':' ' '` ; do [[ `expr "$i" : "$PHPBREW_ROOT" 2>/dev/null` -eq 0 ]] && AR+=($i); done; echo "${AR[*]}"|tr ' ' ':';)
+    else
+        export PATH_WITHOUT_PHPBREW=$PATH
     fi
 
     if [[ -z "$PHPBREW_PATH" ]]
@@ -147,7 +150,7 @@ function phpbrew ()
         cd-src)
             local SOURCE_DIR=$PHPBREW_HOME/build/$PHPBREW_PHP
             if [[ -d $SOURCE_DIR ]] ; then
-                cd $SOURCE_DIR
+                builtin cd $SOURCE_DIR
             fi
             ;;
         switch)
@@ -169,38 +172,6 @@ function phpbrew ()
                 __phpbrew_update_config
             fi
             ;;
-        install-pyrus)
-            echo "Installing pyrus..."
-            cd $PHPBREW_BIN && \
-                wget --no-check-certificate -c http://pear2.php.net/pyrus.phar -O pyrus && \
-                chmod +x pyrus && \
-                cd -
-            hash -r
-            ;;
-        install-phpunit)
-            echo "Installing phpunit..."
-            cd $PHPBREW_BIN && \
-                wget --no-check-certificate -c https://phar.phpunit.de/phpunit.phar -O phpunit && \
-                chmod +x phpunit && \
-                cd -
-            hash -r
-            ;;
-        install-composer)
-            echo "Installing composer..."
-            cd $PHPBREW_BIN && \
-                wget --no-check-certificate -c http://getcomposer.org/composer.phar -O composer && \
-                chmod +x composer && \
-                cd -
-            hash -r
-            ;;
-        install-onion)
-            echo "Installing onion..."
-            cd $PHPBREW_BIN
-            wget --no-check-certificate -c https://raw.github.com/c9s/Onion/master/onion -O onion
-            chmod +x onion
-            cd -
-            hash -r
-            ;;
         cd)
             case $2 in
                 var)
@@ -221,7 +192,7 @@ function phpbrew ()
                 ;;
             esac
             echo "Switching to $chdir, run 'cd -' to go back."
-            cd $chdir
+            builtin cd $chdir
             return 0
             ;;
         fpm)
@@ -238,7 +209,7 @@ function phpbrew ()
             function fpm_start()
             {
               echo "Starting php-fpm..."
-              local regex="^php-5\.2.*"
+              local regex="^php-[57]\.2.*"
 
               if [[ ${_PHP_VERSION} =~ ${regex} ]]; then
                 ${PHPFPM_BIN} start
@@ -246,7 +217,7 @@ function phpbrew ()
                 ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
                   --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf \
                   --pid ${PHPFPM_PIDFILE} \
-                  ${*:3}
+                  "$@"
               fi
 
               if [[ $? != "0" ]] ; then
@@ -255,7 +226,7 @@ function phpbrew ()
             }
             function fpm_stop()
             {
-              local regex="^php-5\.2.*"
+              local regex="^php-[57]\.2.*"
 
               if [[ ${PHPBREW_PHP} =~ ${regex} ]]; then
                 ${PHPFPM_BIN} stop
@@ -267,14 +238,19 @@ function phpbrew ()
             }
             case $2 in
                 start)
-                    fpm_start
+                    fpm_start "${@:4}"
                     ;;
                 stop)
                     fpm_stop
                     ;;
                 restart)
                     fpm_stop
-                    fpm_start
+                    fpm_start "${@:4}"
+                    ;;
+                current)
+                    if [[ -f $PHPFPM_PIDFILE ]] ; then
+                        ps ux -p "$(cat $PHPFPM_PIDFILE)"
+                    fi
                     ;;
                 module)
                     $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
@@ -434,7 +410,7 @@ function __phpbrew_remove_purge ()
 
 function phpbrew_current_php_version() {
   if type "php" > /dev/null; then
-    local version=$(php -v | grep "PHP 5" | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-6)
+    local version=$(php -v | grep -E "PHP [57]" | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-6)
     if [[ -z "$PHPBREW_PHP" ]]; then
       echo "php:$version-system"
     else
@@ -449,54 +425,62 @@ if [[ -n "$PHPBREW_SET_PROMPT" && "$PHPBREW_SET_PROMPT" == "1" ]]; then
     export PS1="\w > \u@\h [\$(phpbrew_current_php_version)]\n\\$ "
 fi
 
+
+# the _phpbrewrc_load will be called after *every simple command* executed in bash,
+# this will make the start up process slower if you have many commands to be run in your .bashrc or .zshrc
+# so this function simply compares the directory and return if nothing neccessary to do.
+# 
+# here is the description of trap from bash manual page:
+#
+#   If one of the signals is DEBUG, the list of COMMANDS is executed after
+#   every simple command.
+#
 function _phpbrewrc_load ()
 {
     # check if working dir has changed
-    if [[ "$PWD" != "$PHPBREW_LAST_DIR" ]]; then
-        local curr_dir="$PWD"
-        local prev_dir="$OLDPWD"
-        local curr_fs=0
-        local prev_fs=0
-
-        while :
-        do
-            prev_fs=$curr_fs
-            curr_fs=$(stat -c %d . 2>/dev/null)  # GNU version
-            if [ $? -ne 0 ]; then
-                curr_fs=$(stat -f %d . 2>/dev/null)  # BSD version
-            fi
-
-            # check if top level directory or filesystem boundary is reached
-            if [ "$PWD" = '/' ] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
-                # check if there's a previously loaded .phpbrewrc
-                if [[ ! -z "$PHPBREW_LAST_RC_DIR" ]]; then
-                    unset PHPBREW_LAST_RC_DIR
-                    __phpbrew_load_user_config
-                fi
-                break
-            fi
-
-            # check if .phpbrewrc present
-            if [[ -r .phpbrewrc ]]; then
-                # check if it's not the same .phpbrewrc which was previously loaded
-                if [[ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]]; then
-                    __phpbrew_load_user_config
-                    PHPBREW_LAST_RC_DIR="$PWD"
-                    source .phpbrewrc
-                fi
-                break
-            fi
-
-            cd .. 2> /dev/null || break
-        done
-
-        cd "$curr_dir"
-        OLDPWD="$prev_dir"
+    if [[ "$PWD" == "$PHPBREW_LAST_DIR" ]]; then
+        return
     fi
+    local curr_dir="$PWD"
+    local prev_dir="$OLDPWD"
+    local curr_fs=0
+    local prev_fs=0
 
+    while [[ -n "$curr_dir" && -d "$curr_dir" ]] ; do
+        prev_fs=$curr_fs
+        curr_fs=$(stat -c %d . 2>/dev/null)  # GNU version
+        if [ $? -ne 0 ]; then
+            curr_fs=$(stat -f %d . 2>/dev/null)  # BSD version
+        fi
+
+        # check if top level directory or filesystem boundary is reached
+        if [[ "$curr_dir" == "/" ]] || [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; then
+            # check if there's a previously loaded .phpbrewrc
+            if [[ ! -z "$PHPBREW_LAST_RC_DIR" ]]; then
+                unset PHPBREW_LAST_RC_DIR
+                __phpbrew_load_user_config
+            fi
+            break
+        fi
+
+        # check if .phpbrewrc present
+        if [[ -r .phpbrewrc ]]; then
+            # check if it's not the same .phpbrewrc which was previously loaded
+            if [[ "$curr_dir" != "$PHPBREW_LAST_RC_DIR" ]]; then
+                __phpbrew_load_user_config
+                PHPBREW_LAST_RC_DIR="$curr_dir"
+                source .phpbrewrc
+            fi
+            break
+        fi
+        curr_dir=$(dirname $curr_dir)
+        if [[ "$curr_dir" == "/" ]] ; then
+            break
+        fi
+    done
     PHPBREW_LAST_DIR="$PWD"
 }
 
-if [[ (-n "$BASH_VERSION" || -n "$ZSH_VERSION") && -z "$PHPBREW_RC_DISABLE" ]]; then
+if [[ (-n "$BASH_VERSION" || -n "$ZSH_VERSION") && -n "$PHPBREW_RC_ENABLE" ]]; then
     trap "_phpbrewrc_load" DEBUG
 fi

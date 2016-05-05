@@ -1,6 +1,6 @@
 <?php
 namespace PhpBrew\Command\AppCommand;
-use PhpBrew\Downloader\UrlDownloader;
+
 use PhpBrew\Config;
 use PhpBrew\AppStore;
 use CLIFramework\Command;
@@ -13,13 +13,11 @@ class ListCommand extends Command
         return 'list php apps';
     }
 
-    public function execute() 
+    public function execute()
     {
         $apps = AppStore::all();
         foreach ($apps as $name => $opt) {
-            $this->logger->writeln(sprintf('% -8s - %s', $name , $opt['url']));
+            $this->logger->writeln(sprintf('% -8s - %s', $name, $opt['url']));
         }
     }
 }
-
-

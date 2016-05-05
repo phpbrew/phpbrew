@@ -1,6 +1,7 @@
 <?php
 namespace PhpBrew\Tasks;
 
+use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
 use PhpBrew\Config;
 use PhpBrew\Build;
@@ -15,50 +16,59 @@ class ExtractTask extends BaseTask
      * Unpacks the source tarball file.
      *
      * @param string $targetFilePath absolute file path
+     *
+     * @param string $extractDir (the build dir)
      */
-    public function extract(Build $build, $targetFilePath, $extractDir = NULL)
+    public function extract(Build $build, $targetFilePath, $extractDir = null)
     {
-        $extractDirTemp = Config::getTempFileDir();
-        if (!$extractDir) {
+        if (empty($extractDir)) {
             $extractDir = dirname($targetFilePath);
         }
+        $extractDirTemp = $extractDir . DIRECTORY_SEPARATOR . 'tmp.' . time();
 
-        $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
+        if (!file_exists($extractDirTemp)) {
+            mkdir($extractDirTemp, 0755, true);
+        }
+
+        // This converts: '/opt/phpbrew/distfiles/php-7.0.2.tar.bz2'
+        //        to just '/opt/phpbrew/tmp/distfiles/php-7.0.2'
+        $distBasename = preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
+        $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . $distBasename;
         $extractedDir     = $extractDir . DIRECTORY_SEPARATOR . $build->getName();
 
-        if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure') ) {
+        if ($build->getState() >= Build::STATE_EXTRACT && file_exists($extractedDir . DIRECTORY_SEPARATOR . 'configure')) {
             $this->info("===> Distribution file was successfully extracted, skipping...");
-
             return $extractedDir;
         }
 
-        // NOTICE: Always extract to prevent incomplete extraction
+        // NOTICE: Always extract to tmp directory prevent incomplete extraction
         $this->info("===> Extracting $targetFilePath to $extractedDirTemp");
-        system("tar -C $extractDirTemp -xf $targetFilePath", $ret);
-        if ($ret != 0) {
-            throw new RuntimeException('Extract failed.');
+        $lastline = system("tar -C " . escapeshellarg($extractDirTemp) . " -xf " . escapeshellarg($targetFilePath), $ret);
+        if ($ret !== 0) {
+            throw new SystemCommandException("Extract failed: $lastline", $build);
         }
         clearstatcache(true);
         if (!is_dir($extractedDirTemp)) {
             // retry with github extracted dir path
-            $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . 'php-src-' . preg_replace('#\.tar\.(gz|bz2)$#', '', basename($targetFilePath));
-            if(! is_dir($extractedDirTemp)) {
-                throw new RuntimeException("Unable to find $extractedDirTemp");
+            $extractedDirTemp = $extractDirTemp . DIRECTORY_SEPARATOR . 'php-src-' . $distBasename;
+            if (!is_dir($extractedDirTemp)) {
+                throw new SystemCommandException("Unable to find $extractedDirTemp", $build);
             }
         }
 
         if (is_dir($extractedDir)) {
-            $this->info("===> Removing $extractedDir");
-            system("rm -rf $extractedDir", $ret);
+            $this->info("===> Found existing build directory, removing $extractedDir ...");
+            $lastline = system("rm -rf " . escapeshellarg($extractedDir), $ret);
             if ($ret !== 0) {
-                throw new RuntimeException("Unable to remove $extractedDir.");
+                throw new SystemCommandException("Unable to remove $extractedDir: $lastline", $build);
             }
         }
 
         $this->info("===> Moving $extractedDirTemp to $extractedDir");
         if (!rename($extractedDirTemp, $extractedDir)) {
-            throw new RuntimeException("Unable to move $extractedDirTemp to $extractedDir");
+            throw new SystemCommandException("Unable to move $extractedDirTemp to $extractedDir", $build);
         }
+        @rmdir($extractDirTemp);
 
         $build->setState(Build::STATE_EXTRACT);
 

@@ -1,10 +1,15 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Exception\SystemCommandException;
 use RuntimeException;
+use Exception;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 use PhpBrew\Build;
+use PhpBrew\Utils;
+use PhpBrew\Patches\IntlWith64bitPatch;
+use PhpBrew\Patches\OpenSSLDSOPatch;
 
 /**
  * Task to run `make`
@@ -26,14 +31,8 @@ class ConfigureTask extends BaseTask
     public function run(Build $build, $variantOptions)
     {
         $extra = $build->getExtraOptions();
-        if (!file_exists( $build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
-            $this->debug("configure file not found, running buildconf script...");
-            $lastline = system('./buildconf', $status);
-            if ($status !== 0) {
-                throw new SystemCommandException("buildconf error: $lastline");
-            }
-        }
         $prefix = $build->getInstallPrefix();
+
 
         // append cflags
         if ($this->optimizationLevel) {
@@ -44,51 +43,46 @@ class ConfigureTask extends BaseTask
         }
 
         $args = array();
+
+        if (!$this->options->{'no-config-cache'}) {
+            // $args[] = "-C"; // project wise cache (--config-cache)
+            $args[] = "--cache-file=" . escapeshellarg(Config::getCacheDir() . DIRECTORY_SEPARATOR . 'config.cache');
+        }
+
         $args[] = "--prefix=" . $prefix;
-
-
         if ($this->options->{'user-config'}) {
-
             $args[] = "--with-config-file-path={$prefix}/etc";
             $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
-
         } else {
             $args[] = "--with-config-file-path={$prefix}/etc";
             $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
         }
-        $args[] = "--with-pear={$prefix}/lib/php";
 
         if ($variantOptions) {
             $args = array_merge($args, $variantOptions);
         }
 
-        $this->debug('Enabled variants: ' . join(', ', array_keys($build->getVariants())));
-        $this->debug('Disabled variants: ' . join(', ', array_keys($build->getDisabledVariants())));
+        $this->debug('Enabled variants: [' . join(', ', array_keys($build->getVariants())) . ']');
+        $this->debug('Disabled variants: [' . join(', ', array_keys($build->getDisabledVariants())) . ']');
 
-        foreach ((array) $this->options->patch as $patchPath) {
-            // copy patch file to here
-            $this->info("===> Applying patch file from $patchPath ...");
-
-            // Search for strip parameter
-            for ($i = 0; $i <= 16; $i++) {
-                ob_start();
-                system("patch -p$i --dry-run < $patchPath", $return);
-                ob_end_clean();
-
-                if ($return === 0) {
-                    system("patch -p$i < $patchPath");
-                    break;
-                }
-            }
+        if ($build->isEnabledVariant('pear')) {
+            $args[] = "--with-pear={$prefix}/lib/php";
         }
 
-        // let's apply patch for libphp{php version}.so (apxs)
-        if ($build->isEnabledVariant('apxs2')) {
-            $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
-            $apxs2Checker->check($build, $this->options);
-
-            $apxs2Patch = new \PhpBrew\Tasks\Apxs2PatchTask($this->logger);
-            $apxs2Patch->patch($build, $this->options);
+        // Options for specific versions
+        // todo: extract to BuildPlan class: PHP53 BuildPlan, PHP54 BuildPlan, PHP55 BuildPlan ?
+        if ($build->compareVersion('5.4') == -1) {
+            // copied from https://github.com/Homebrew/homebrew-php/blob/master/Formula/php53.rb
+            $args[] = "--enable-sqlite-utf8";
+            $args[] = "--enable-zend-multibyte";
+        } elseif ($build->compareVersion('5.6') == -1) {
+            // dtrace is not compatible with phpdbg: https://github.com/krakjoe/phpdbg/issues/38
+            if (!$build->isEnabledVariant('phpdbg')) {
+                if ($prefix = Utils::findIncludePrefix('sys/sdt.h')) {
+                    $args[] = "--enable-dtrace";
+                }
+            }
+            $args[] = "--enable-zend-signals";
         }
 
         foreach ($extra as $a) {
@@ -102,7 +96,7 @@ class ConfigureTask extends BaseTask
         if (file_exists($buildLogPath)) {
             $newPath = $buildLogPath . '.' . filemtime($buildLogPath);
             $this->info("Found existing build.log, renaming it to $newPath");
-            rename($buildLogPath,$newPath);
+            rename($buildLogPath, $newPath);
         }
 
         $this->info("===> Configuring {$build->version}...");
@@ -110,27 +104,22 @@ class ConfigureTask extends BaseTask
         $cmd->setLogPath($buildLogPath);
         $cmd->setStdout($this->options->{'stdout'});
 
-        $this->logger->info("\n");
-        $this->logger->info("Use tail command to see what's going on:");
-        $this->logger->info("   $ tail -F $buildLogPath\n\n");
+        if (!$this->options->{'stdout'}) {
+            $this->logger->info("\n");
+            $this->logger->info("Use tail command to see what's going on:");
+            $this->logger->info("   $ tail -F $buildLogPath\n\n");
+        }
 
-        $this->debug($cmd->getCommand());
+        $this->debug($cmd->buildCommand());
 
         if ($this->options->nice) {
             $cmd->nice($this->options->nice);
         }
 
         if (!$this->options->dryrun) {
-            $code = $cmd->execute();
-            if ($code != 0) {
-                throw new SystemCommandException("Configure failed: $code", $buildLogPath);
-            }
-        }
-
-        if (!$this->options->{'no-patch'}) {
-            $patch64bit = new \PhpBrew\Tasks\Patch64BitSupportTask($this->logger, $this->options);
-            if ($patch64bit->match($build)) {
-                $patch64bit->patch($build);
+            $code = $cmd->execute($lastline);
+            if ($code !== 0) {
+                throw new SystemCommandException("Configure failed: $lastline", $build, $buildLogPath);
             }
         }
         $build->setState(Build::STATE_CONFIGURE);

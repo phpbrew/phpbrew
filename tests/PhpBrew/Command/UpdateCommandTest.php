@@ -10,9 +10,8 @@ class UpdateCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      */
-    public function testUpdateCommand() {
-        ob_start();
-        $this->assertTrue($this->runCommand("phpbrew --quiet update"));
-        ob_end_clean();
+    public function testUpdateCommand()
+    {
+        $this->assertCommandSuccess("phpbrew --quiet update --old");
     }
 }

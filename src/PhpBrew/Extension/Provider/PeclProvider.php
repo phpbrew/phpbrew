@@ -4,26 +4,66 @@ namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
 use PEARX\Channel as PeclChannel;
+use CurlKit\CurlDownloader;
+use CurlKit\Progress\ProgressBar;
+use DOMDocument;
+use Exception;
 
-class PeclProvider implements Provider {
+class PeclProvider implements Provider
+{
 
     public $site = 'pecl.php.net';
-    public $owner = NULL;
-    public $repository = NULL;
-    public $packageName = NULL;
+    public $owner = null;
+    public $repository = null;
+    public $packageName = null;
     public $defaultVersion = 'stable';
 
-    public static function getName() {
+    public static function getName()
+    {
         return 'pecl';
     }
 
-    public function buildPackageDownloadUrl($version='stable')
+
+    protected function getPackageXml($packageName, $version)
     {
-        if ($this->getPackageName() == NULL) {
+        $channel = new PeclChannel($this->site);
+        $baseUrl = $channel->getRestBaseUrl();
+        $url = "$baseUrl/r/" . strtolower($packageName);
+
+        $downloader = new CurlDownloader;
+
+        // translate version name into numbers
+        if (in_array($version, array('stable', 'latest', 'beta'))) {
+            $stabilityTxtUrl = $url . '/' . $version . '.txt';
+            if ($ret = $downloader->request($stabilityTxtUrl)) {
+                $version = (string) $ret;
+            } else {
+                throw new Exception("Can not translate stability {$version} into exact version name.");
+            }
+        }
+        $xmlUrl = $url . '/' . $version . '.xml';
+        if ($ret = $downloader->request($xmlUrl)) {
+            $dom = new DOMDocument('1.0');
+            $dom->strictErrorChecking = false;
+            $dom->preserveWhiteSpace = false;
+            // $dom->resolveExternals = false;
+            if (false === $dom->loadXml($ret)) {
+                throw new Exception("Error in XMl document: $url");
+            }
+            return $dom;
+        }
+        return false;
+    }
+
+    public function buildPackageDownloadUrl($version = 'stable')
+    {
+        if ($this->getPackageName() == null) {
             throw new Exception("Repository invalid.");
         }
-        $channel = new PeclChannel($this->site);
-        $xml = $channel->fetchPackageReleaseXml($this->getPackageName(), $version);
+        $xml = $this->getPackageXml($this->getPackageName(), $version);
+        if (!$xml) {
+            throw new Exception("Unable to fetch package xml");
+        }
         $g = $xml->getElementsByTagName('g');
         $url = $g->item(0)->nodeValue;
         // just use tgz format file.
@@ -60,10 +100,10 @@ class PeclProvider implements Provider {
         $this->packageName = $packageName;
     }
 
-    public function exists($url, $packageName = NULL)
+    public function exists($url, $packageName = null)
     {
-        $this->setOwner(NULL);
-        $this->setRepository(NULL);
+        $this->setOwner(null);
+        $this->setRepository(null);
         $this->setPackageName($url);
         return true;
     }
@@ -74,8 +114,8 @@ class PeclProvider implements Provider {
             'bcmath', 'bz2', 'calendar', 'com_dotnet', 'ctype', 'curl', 'date',
             'dba', 'dom', 'enchant', 'exif', 'fileinfo', 'filter', 'ftp', 'gd',
             'gettext', 'gmp', 'hash', 'iconv', 'imap', 'interbase', 'intl',
-            'json', 'ldap', 'libxml', 'mbstring', 'mcrypt', 'mssql', 'mysqli', 
-            'mysqlnd', 'oci8', 'odbc', 'opcache', 'openssl', 'pcntl', 'pcre', 
+            'json', 'ldap', 'libxml', 'mbstring', 'mcrypt', 'mssql', 'mysqli',
+            'mysqlnd', 'oci8', 'odbc', 'opcache', 'openssl', 'pcntl', 'pcre',
             'pdo', 'pdo_dblib', 'pdo_firebird', 'pdo_mysql', 'pdo_oci', 'pdo_odbc',
             'pdo_pgsql', 'pdo_sqlite', 'pgsql', 'phar', 'posix', 'pspell',
             'readline', 'recode', 'reflection', 'session', 'shmop', 'simplexml',
@@ -96,9 +136,9 @@ class PeclProvider implements Provider {
         // convert xml to array
         $xml = simplexml_load_string($content);
         $json = json_encode($xml);
-        $info2 = json_decode($json, TRUE);
+        $info2 = json_decode($json, true);
 
-        $versionList = array_map(function($version) {
+        $versionList = array_map(function ($version) {
             return $version['v'];
         }, $info2['r']);
 
@@ -131,7 +171,7 @@ class PeclProvider implements Provider {
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
         if (false === $path || false === strpos($path, ".")) {
-            return NULL;
+            return null;
         }
         return basename($path);
     }
@@ -159,5 +199,4 @@ class PeclProvider implements Provider {
         );
         return $cmds;
     }
-
 }

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Command;
+
 use PhpBrew\Config;
 use CLIFramework\Command;
 
@@ -18,12 +19,12 @@ class AppCommand extends Command
         return 'php app store';
     }
 
-    public function options($opts) 
+    public function options($opts)
     {
-        $opts->add('l|list','Show app list.');
+        $opts->add('l|list', 'Show app list.');
     }
 
-    public function init() 
+    public function init()
     {
         parent::init();
         $this->command('get');
@@ -36,5 +37,3 @@ class AppCommand extends Command
         $listCommand->execute();
     }
 }
-
-

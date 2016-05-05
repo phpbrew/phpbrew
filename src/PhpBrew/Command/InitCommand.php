@@ -19,8 +19,8 @@ class InitCommand extends \CLIFramework\Command
     public function execute()
     {
         // $currentVersion;
-        $root = Config::getPhpbrewRoot();
-        $home = Config::getPhpbrewHome();
+        $root = Config::getRoot();
+        $home = Config::getHome();
         $buildDir = Config::getBuildDir();
         $buildPrefix = Config::getInstallPrefix();
         // $versionBuildPrefix = Config::getVersionInstallPrefix($version);
@@ -36,7 +36,7 @@ class InitCommand extends \CLIFramework\Command
         $paths[] = $root . DIRECTORY_SEPARATOR . 'register';
         $paths[] = $buildDir;
         $paths[] = $buildPrefix;
-        foreach($paths as $p) {
+        foreach ($paths as $p) {
             $this->logger->info("Checking directory $p");
             if (!file_exists($p)) {
                 $this->logger->info("Creating directory $p");
@@ -65,22 +65,22 @@ class InitCommand extends \CLIFramework\Command
             copy($configFile, $root . DIRECTORY_SEPARATOR . 'config.yaml');
         }
 
-        $this->logger->writeln( $this->formatter->format("Initialization successfully finished!",'strong_green') );
-        $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
+        $this->logger->writeln($this->formatter->format("Initialization successfully finished!", 'strong_green'));
+        $this->logger->writeln($this->formatter->format("<=====================================================>", 'strong_white'));
 
         // write bashrc script to phpbrew home
-        file_put_contents($home . '/bashrc' , $this->getBashScript());
+        file_put_contents($home . '/bashrc', $this->getBashScriptPath());
         // write phpbrew.fish script to phpbrew home
-        file_put_contents($home . '/phpbrew.fish' , $this->getFishScript());
+        file_put_contents($home . '/phpbrew.fish', $this->getFishScriptPath());
 
-        if (strpos(getenv("SHELL"), "fish") !== false)  {
+        if (strpos(getenv("SHELL"), "fish") !== false) {
             $initConfig = <<<EOS
 Paste the following line(s) to the end of your ~/.config/fish/config.fish and start a
 new shell, phpbrew should be up and fully functional from there:
 
     source $home/phpbrew.fish
 EOS;
-        }else {
+        } else {
             $initConfig = <<<EOS
 Paste the following line(s) to the end of your ~/.bashrc and start a
 new shell, phpbrew should be up and fully functional from there:
@@ -91,6 +91,11 @@ To enable PHP version info in your shell prompt, please set PHPBREW_SET_PROMPT=1
 in your `~/.bashrc` before you source `~/.phpbrew/bashrc`
 
     export PHPBREW_SET_PROMPT=1
+
+To enable .phpbrewrc file searching, please export the following variable:
+
+    export PHPBREW_RC_ENABLE=1
+
 EOS;
         }
 
@@ -107,18 +112,29 @@ Enjoy phpbrew at \$HOME!!
 
 
 EOS;
-        $this->logger->writeln( $this->formatter->format("<=====================================================>", 'strong_white') );
+        $this->logger->writeln($this->formatter->format("<=====================================================>", 'strong_white'));
     }
 
-    public function getBashScript()
+    protected function getCurrentShellDirectory()
     {
-        $path = Phar::running() ?: __DIR__ . '/../../../shell';
-        return file_get_contents($path . '/bashrc');
+        $path = Phar::running();
+        if ($path) {
+            $path = $path . DIRECTORY_SEPARATOR . 'shell';
+        } else {
+            $path = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'shell';
+        }
+        return $path;
     }
 
-    public function getFishScript()
+    protected function getBashScriptPath()
     {
-        $path = Phar::running() ?: __DIR__ . '/../../../shell';
-        return file_get_contents($path . '/phpbrew.fish');
+        $path = $this->getCurrentShellDirectory();
+        return file_get_contents($path . DIRECTORY_SEPARATOR . 'bashrc');
+    }
+
+    protected function getFishScriptPath()
+    {
+        $path = $this->getCurrentShellDirectory();
+        return file_get_contents($path . DIRECTORY_SEPARATOR . 'phpbrew.fish');
     }
 }

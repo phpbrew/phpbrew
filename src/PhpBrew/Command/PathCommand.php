@@ -11,6 +11,13 @@ class PathCommand extends Command
         return 'Show paths of the current PHP.';
     }
 
+    public function usage()
+    {
+        return 'phpbrew path ['
+            . join(', ', array('root', 'home','build','bin','include', 'etc', 'ext', 'ext-src', 'extension-src', 'extension-dir', 'config-scan', 'dist'))
+            . ']';
+    }
+
     public function arguments($args)
     {
         $args->add('type')
@@ -23,10 +30,10 @@ class PathCommand extends Command
     {
         switch ($name) {
             case 'root':
-                echo Config::getPhpbrewRoot();
+                echo Config::getRoot();
                 break;
             case 'home':
-                echo Config::getPhpbrewHome();
+                echo Config::getHome();
                 break;
             case 'config-scan':
                 echo Config::getCurrentPhpConfigScanPath();
@@ -50,6 +57,7 @@ class PathCommand extends Command
                 break;
             case 'extension-dir':
             case 'ext-dir':
+            case 'ext':
                 echo ini_get('extension_dir');
                 break;
             case 'etc':

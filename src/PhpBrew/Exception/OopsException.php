@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Exception;
+
 use Exception;
 
 class OopsException extends Exception

@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Downloader;
+
 use PhpBrew\Console;
 use PhpBrew\Utils;
 use RuntimeException;
@@ -8,12 +9,32 @@ use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
 
+/**
+ * Class UrlDownloader
+ * @package PhpBrew\Downloader
+ * @deprecated  use Factory instead
+ */
 class UrlDownloader
 {
     public $logger;
 
     public $options;
 
+    /**
+     * It happens, that some providers blocks curl requests with out user agent
+     * and you can catch "network is unreachable" error
+     * Can be changed to any valid userAgent
+     *
+     * @var string
+     */
+    public $userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)";
+
+    /*
+     * UrlDownloader constructor.
+     * @param Logger $logger
+     * @param OptionResult $options
+     * @deprecated
+     */
     public function __construct(Logger $logger, OptionResult $options)
     {
         $this->logger = $logger;
@@ -26,6 +47,7 @@ class UrlDownloader
      * @return bool|string
      *
      * @throws \RuntimeException
+     * @deprecated
      */
     public function download($url, $targetFilePath)
     {
@@ -50,7 +72,11 @@ class UrlDownloader
             if (! $console->options->{'no-progress'} && $this->logger->getLevel() > 2) {
                 $downloader->setProgressHandler(new ProgressBar);
             }
-            $binary = $downloader->request($url);
+            $binary = $downloader->request(
+                $url,
+                array(),
+                array(CURLOPT_USERAGENT => $this->userAgent)
+            );
             if (false === file_put_contents($targetFilePath, $binary)) {
                 throw new RuntimeException("Can't write file $targetFilePath");
             }
@@ -63,7 +89,7 @@ class UrlDownloader
                 Utils::system("wget --no-check-certificate -c $quiet -N -O " . $targetFilePath . ' ' . $url);
             } elseif ($this->isCurlCommandAvailable()) {
                 $silent = $this->logger->isQuiet() ? '--silent ' : '';
-                Utils::system("curl -C - -L $silent -o" . $targetFilePath . ' ' . $url);
+                Utils::system("curl -A \"$this->userAgent\" -C - -L $silent -o" . $targetFilePath . ' ' . $url);
             } else {
                 throw new RuntimeException("Download failed - neither wget nor curl was found");
             }
@@ -94,7 +120,7 @@ class UrlDownloader
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
         if (false === $path || false === strpos($path, ".")) {
-            return NULL;
+            return null;
         }
         return basename($path);
     }

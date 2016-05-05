@@ -1,5 +1,6 @@
 <?php
 namespace PhpBrew\Tasks;
+
 use PhpBrew\Buildable;
 use PhpBrew\Utils;
 
@@ -13,17 +14,17 @@ class MakeTask extends BaseTask
 
     public function run(Buildable $build)
     {
-        return $this->make($build->getSourceDirectory(), 'all');
+        return $this->make($build->getSourceDirectory(), 'all', $build);
     }
 
     public function install(Buildable $build)
     {
-        return $this->make($build->getSourceDirectory(), 'install');
+        return $this->make($build->getSourceDirectory(), 'install', $build);
     }
 
     public function clean(Buildable $build)
     {
-        return $this->make($build->getSourceDirectory(), 'clean');
+        return $this->make($build->getSourceDirectory(), 'clean', $build);
     }
 
     public function setBuildLogPath($buildLogPath)
@@ -41,26 +42,53 @@ class MakeTask extends BaseTask
         return $this->isQuiet;
     }
 
-    private function make($path, $target = 'all')
+
+    private function isGNUMake($bin)
+    {
+        return preg_match('/GNU Make/', shell_exec("$bin --version"));
+    }
+
+    private function make($path, $target = 'all', $build = null)
     {
         if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->error("Makefile not found in path $path");
 
             return false;
         }
-        $cmd = array(
-            "make",
-            "-C", $path,
-            $this->isQuiet() ? "--quiet" : "",
-            $target
-        );
+
+        // FreeBSD make doesn't support --quiet option
+        // We should prefer GNU make instead of BSD make.
+        // @see https://github.com/phpbrew/phpbrew/issues/529
+        $gmake = Utils::findBin('gmake');
+        $make = null;
+        if (!$gmake) {
+            $make = Utils::findBin('make');
+            if ($make && $this->isGNUMake($make)) {
+                $gmake = $make;
+            }
+        }
+
+        // Prefer 'gmake' rather than 'make'
+        $cmd = array($gmake ?: $make, "-C", escapeshellarg($path));
+
+        if ($this->isQuiet()) {
+            if ($gmake) {
+                $cmd[] = '--quiet';
+            } else {
+                // make may be a link to gmake, we should prevent that.
+                // append '-Q' only when we're really sure it is BSD make.
+                if (php_uname('s') === "FreeBSD") {
+                    $cmd[] = '-Q';
+                }
+            }
+        }
+
+        $cmd[] = escapeshellarg($target);
         if (!$this->logger->isDebug() && $this->buildLogPath) {
-            $cmd[] = " >> $this->buildLogPath 2>&1";
+            $cmd[] = " >> " . escapeshellarg($this->buildLogPath) . " 2>&1";
         }
 
         $this->logger->info("===> Running make $target: " . join(' ', $cmd));
-        $ret = Utils::system($cmd, $this->logger);
-
-        return $ret == 0;
+        return Utils::system($cmd, $this->logger, $build) === 0;
     }
 }
