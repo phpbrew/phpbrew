@@ -36,7 +36,7 @@ addons:
     - libxpm-dev
     - locales
     - re2c
-    # packages for gd extension 
+    # packages for gd variant
     - libfreetype6
     - libfreetype6-dev
     - libpng12-0
@@ -47,6 +47,8 @@ addons:
     - libgd-dev
     - libgd3
     - libxpm4
+    # packages for intl variant
+    - libicu-dev
 install:
 - travis_retry composer install --no-interaction
 before_script:
