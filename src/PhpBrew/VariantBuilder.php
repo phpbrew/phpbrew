@@ -6,11 +6,23 @@ use RuntimeException;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\Build;
 
+function first_existing_executable($possiblePaths) {
+    $existingPaths = 
+        array_filter(
+            array_filter(
+                array_filter($possiblePaths, "file_exists"),
+                "is_file"),
+            "is_executable");
+    if (!empty($existingPaths)) {
+        return realpath($existingPaths[0]);
+    }
+    return false;
+}
 
 function first_existing_path($possiblePaths) {
     $existingPaths = array_filter($possiblePaths, "file_exists");
     if (!empty($existingPaths)) {
-        return $existingPaths[0];
+        return realpath($existingPaths[0]);
     }
     return false;
 }
@@ -545,7 +557,7 @@ class VariantBuilder
             if ($build->hasVariant('pdo')) {
                 if ($bin = Utils::findBin('pg_config')) {
                     $opts[] = "--with-pdo-pgsql=$bin";
-                } else if ($path = first_existing_path(array(
+                } else if ($path = first_existing_executable(array(
                         "/opt/local/lib/postgresql95/bin/pg_config",
                         "/opt/local/lib/postgresql94/bin/pg_config",
                         "/opt/local/lib/postgresql93/bin/pg_config",
@@ -619,9 +631,8 @@ class VariantBuilder
                 '/usr/sbin/apxs', // it's possible to find apxs under this path (OS X)
                 '/usr/bin/apxs', // not sure if this one helps
             );
-            $paths = array_filter($possiblePaths, "file_exists");
-            if (count($paths) > 0 && file_exists($paths[0])) {
-                $opts[] = "--with-apxs2={$paths[0]}";
+            if ($path = first_existing_executable($possiblePaths)) {
+                $opts[] = "--with-apxs2=$path";
             }
             return $a; // fallback to autoconf finder
         };
