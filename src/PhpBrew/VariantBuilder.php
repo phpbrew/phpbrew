@@ -550,6 +550,11 @@ class VariantBuilder
                         "/opt/local/lib/postgresql94/bin/pg_config",
                         "/opt/local/lib/postgresql93/bin/pg_config",
                         "/opt/local/lib/postgresql92/bin/pg_config",
+                        "/Library/PostgreSQL/9.5/bin/pg_config",
+                        "/Library/PostgreSQL/9.4/bin/pg_config",
+                        "/Library/PostgreSQL/9.3/bin/pg_config",
+                        "/Library/PostgreSQL/9.2/bin/pg_config",
+                        "/Library/PostgreSQL/9.1/bin/pg_config",
                     ))) {
                     $opts[] = "--with-pdo-pgsql=$path";
                 } else if ($prefix) {
