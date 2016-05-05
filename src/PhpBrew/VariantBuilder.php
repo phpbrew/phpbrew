@@ -476,20 +476,23 @@ class VariantBuilder
         };
 
         /*
+        quote from the manual page:
 
-        MySQL Native Driver is a replacement for the MySQL Client Library
-        (libmysqlclient). MySQL Native Driver is part of the official PHP
-        sources as of PHP 5.3.0.
+        > MySQL Native Driver is a replacement for the MySQL Client Library
+        > (libmysqlclient). MySQL Native Driver is part of the official PHP
+        > sources as of PHP 5.3.0.
 
-        The MySQL database extensions MySQL extension, mysqli and PDO MYSQL all
-        communicate with the MySQL server. In the past, this was done by the
-        extension using the services provided by the MySQL Client Library. The
-        extensions were compiled against the MySQL Client Library in order to
-        use its client-server protocol.
+        > The MySQL database extensions MySQL extension, mysqli and PDO MYSQL all
+        > communicate with the MySQL server. In the past, this was done by the
+        > extension using the services provided by the MySQL Client Library. The
+        > extensions were compiled against the MySQL Client Library in order to
+        > use its client-server protocol.
 
-        With MySQL Native Driver there is now an alternative, as the MySQL
-        database extensions can be compiled to use MySQL Native Driver instead
-        of the MySQL Client Library.
+        > With MySQL Native Driver there is now an alternative, as the MySQL
+        > database extensions can be compiled to use MySQL Native Driver instead
+        > of the MySQL Client Library.
+
+        mysqlnd should be prefered over the native client library.
 
         --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
                                 directory.  If mysqlnd is passed as DIR,
@@ -505,6 +508,9 @@ class VariantBuilder
 
         --with-mysql            deprecated in 7.0
 
+        --enable-mysqlnd        Enable mysqlnd explicitly, will be done implicitly
+                                when required by other extensions
+
         mysqlnd was added since php 5.3
         */
         $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') {
@@ -519,7 +525,6 @@ class VariantBuilder
                 $opts[] = "--enable-mysqlnd";
             }
             */
-
             $opts[] = "--with-mysqli=$prefix";
             if ($build->hasVariant('pdo')) {
                 $opts[] = "--with-pdo-mysql=$prefix";
