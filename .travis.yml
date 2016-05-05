@@ -22,7 +22,21 @@ addons:
   apt:
     packages:
     - ctags
+    - language-pack-de
+    - libaspell-dev
+    - libenchant-dev
+    - libgmp-dev
     - libicu-dev
+    - libmcrypt-dev
+    - libpspell-dev
+    - librecode-dev
+    - libsasl2-dev
+    - libt1-dev
+    - libtidy-dev
+    - libxpm-dev
+    - locales
+    - re2c
+
 install:
 - travis_retry composer install --no-interaction
 before_script:
