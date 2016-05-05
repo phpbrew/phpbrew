@@ -49,6 +49,9 @@ addons:
     - libxpm4
     # packages for intl variant
     - libicu-dev
+    # packages for openssl variant
+    - libssl-dev
+    - openssl
 install:
 - travis_retry composer install --no-interaction
 before_script:
