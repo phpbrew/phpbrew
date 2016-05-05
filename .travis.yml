@@ -42,6 +42,7 @@ install:
 before_script:
 # see if ccache is working
 - export USE_CCACHE=1
+- export CCACHE_COMPILERCHECK=content
 - export PATH=/usr/lib/ccache:$PATH
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
