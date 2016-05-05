@@ -22,7 +22,6 @@ class ApacheUtils
         // trying to find apxs binary in case it wasn't explicitly specified (+apxs variant without path)
         if (empty($apxs)) {
             $apxs = Utils::findbin('apxs');
-            Utils::getGlobalLogger()->debug("Found apxs2 binary: $apxs");
         }
 
         if (!is_executable($apxs)) {
@@ -35,12 +34,10 @@ class ApacheUtils
     {
         if (empty($path)) {
             $path = Utils::findbin('httpd');
-            Utils::getGlobalLogger()->debug("Found httpd binary: $path");
         }
 
         if (empty($path)) { //for ubuntu
             $path = Utils::findbin('apache2');
-            Utils::getGlobalLogger()->debug("Found apache2 binary: $path");
         }
 
         if (!is_executable($path)) {
@@ -55,13 +52,11 @@ class ApacheUtils
         $res = Utils::pipeExecute("$httpd -V | grep SERVER_CONFIG");
         $configPath = substr(trim(explode('=', $res)[1]), 1, -1);
         if ($configPath[0] == '/') {
-            Utils::getGlobalLogger()->debug("Found apache config path: $configPath");
             return $configPath;
         } else {
             $res = Utils::pipeExecute("$httpd -S | grep ServerRoot");
             $serverRoot = substr(trim(explode(':', $res)[1]), 1, -1);
             $configPath = $serverRoot . DIRECTORY_SEPARATOR . $configPath;
-            Utils::getGlobalLogger()->debug("Found apache config path: $configPath");
             return $configPath;
         }
     }
