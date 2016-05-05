@@ -44,7 +44,7 @@ addons:
     - libjpeg-dev
     - libjpeg8-dev
     - libjpeg8
-    - libgd-dev
+    # - libgd-dev this package doesn't exist on Ubuntu 12.04
     - libgd3
     - libxpm4
     # packages for intl variant
