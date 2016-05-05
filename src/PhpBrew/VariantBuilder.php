@@ -6,6 +6,38 @@ use RuntimeException;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\Build;
 
+function first_existing_executable($possiblePaths) {
+    $existingPaths = 
+        array_filter(
+            array_filter(
+                array_filter($possiblePaths, "file_exists"),
+                "is_file"),
+            "is_executable");
+    if (!empty($existingPaths)) {
+        return realpath($existingPaths[0]);
+    }
+    return false;
+}
+
+function first_existing_path($possiblePaths) {
+    $existingPaths = array_filter($possiblePaths, "file_exists");
+    if (!empty($existingPaths)) {
+        return realpath($existingPaths[0]);
+    }
+    return false;
+}
+
+function exec_line($command) {
+    $output = array();
+    exec($command, $output, $retval);
+    if ($retval === 0) {
+        $output = array_filter($output);
+        return end($output);
+    }
+    return false;
+}
+
+
 /**
  * VariantBuilder build variants to configure options.
  *
@@ -190,9 +222,8 @@ class VariantBuilder
             }
 
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix mhash", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-mhash=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix mhash")) {
+                    return "--with-mhash=$output";
                 }
             }
 
@@ -209,20 +240,21 @@ class VariantBuilder
             }
 
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix mcrypt", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-mcrypt=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix mcrypt")) {
+                    return "--with-mcrypt=$output";
                 }
             }
 
             return "--with-mcrypt"; // let autotool to find it.
         };
 
-        $this->variants['zlib'] = function (Build $build) {
-            if ($prefix = Utils::findIncludePrefix('zlib.h')) {
-                return '--with-zlib=' . $prefix;
+        $this->variants['zlib'] = function (Build $build, $prefix = null) {
+            if ($prefix) {
+                return "--with-zlib=$prefix";
             }
-
+            if ($prefix = Utils::findIncludePrefix('zlib.h')) {
+                return "--with-zlib=$prefix";
+            }
             return null;
         };
 
@@ -240,9 +272,8 @@ class VariantBuilder
             }
 
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix curl", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-curl=' . end(array_filter($output));
+                if ($prefix = exec_line("$bin --prefix curl")) {
+                    return "--with-curl=$prefix";
                 }
             }
             return null;
@@ -253,16 +284,15 @@ class VariantBuilder
         readline_list_history() (http://www.php.net/readline-list-history).
         On the other hand we want libedit to be the default because its license
         is compatible with PHP's which means PHP can be distributable.
-        
+
         related issue https://github.com/phpbrew/phpbrew/issues/497
         */
         $this->variants['readline'] = function (Build $build, $prefix = null) {
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 return '--with-readline=' . $prefix;
-            } else if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix readline", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-readline=' . end(array_filter($output));
+            } elseif ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix readline")) {
+                    return '--with-readline=' . $output;
                 }
             }
             return '--with-readline';
@@ -273,42 +303,61 @@ class VariantBuilder
          * editline is conflict with readline
          */
         $this->variants['editline'] = function (Build $build, $prefix = null) {
-            if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
-                return '--with-libedit=' . $prefix;
+            if ($prefix) {
+                return "--with-libedit=$prefix";
+            } else if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
+                return "--with-libedit=$prefix";
             }
         };
 
 
 
+        /**
+         * It looks like gd won't be compiled without "shared"
+         *
+         * Suggested options is +gd=shared,{prefix}
+         *
+         * Issue: gd.so: undefined symbol: gdImageCreateFromWebp might happend
+         *
+         * Adding --with-libpath=lib or --with-libpath=lib/x86_64-linux-gnu
+         * might solve the gd issue.
+         *
+         * The configure script in ext/gd detects libraries by something like
+         * test -f $PREFIX/$LIBPATH/libxxx.a, where $PREFIX is what you passed
+         * in --with-xxxx-dir and $LIBPATH can varies in different OS.
+         *
+         * By adding --with-libpath, you can set it up properly.
+         *
+         * @see https://github.com/phpbrew/phpbrew/issues/461
+         */
         $this->variants['gd'] = function (Build $build, $prefix = null) {
             $opts = array();
-
-            // it looks like gd won't be compiled without "shared"
-            // suggested options is +gd=shared,/usr
-
             if ($prefix) {
                 $opts[] = "--with-gd=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('gd.h')) {
+            } else if ($prefix = Utils::findIncludePrefix('gd.h')) {
                 $opts[] = "--with-gd=shared,$prefix";
+            } else if ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix gd")) {
+                    $opts[] = "--with-gd=shared,$output";
+                }
             }
+
 
             $opts[] = '--enable-gd-native-ttf';
 
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
             } else if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix libjpeg", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $opts[] = '--with-jpeg-dir=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix libjpeg")) {
+                    $opts[] = "--with-jpeg-dir=$output";
                 }
             }
 
             if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
                 $opts[] = "--with-png-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix libpng", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $opts[] = '--with-png-dir=' . end(array_filter($output));
+            } elseif ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix libpng")) {
+                    $opts[] = "--with-png-dir=$output";
                 }
             }
 
@@ -319,15 +368,13 @@ class VariantBuilder
             //   for path in $i/include/freetype2/freetype/freetype.h
             if ($prefix = Utils::findIncludePrefix('freetype2/freetype.h')) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } else if ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
+            } elseif ($prefix = Utils::findIncludePrefix("freetype2/freetype/freetype.h")) {
                 $opts[] = "--with-freetype-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix freetype", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $opts[] = '--with-freetype-dir=' . end(array_filter($output));
+            } elseif ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix freetype", $output, $retval)) {
+                    $opts[] = "--with-freetype-dir=$output";
                 }
             }
-
             return $opts;
         };
 
@@ -344,32 +391,36 @@ class VariantBuilder
 
          This requires --with-icu-dir=/....
 
+         Please note prefix must provide {prefix}/bin/icu-config for autoconf
+         to find the related icu-config binary, or the configure will fail.
+
          Issue: https://github.com/phpbrew/phpbrew/issues/433
         */
-        $this->variants['intl']     = function(Build $build) {
-            $opts = ['--enable-intl'];
+        $this->variants['intl']     = function (Build $build) {
+            $opts = array('--enable-intl');
 
+            // If icu variant is not set, and --with-icu-dir could not been found in the extra options
             $icuOption = $build->settings->grepExtraOptionsByPattern('#--with-icu-dir#');
-            if (empty($icuOption)) {
-                // For homebrew
-                if ($bin = Utils::findBin('brew')) {
-                    exec("$bin --prefix icu4c", $output, $retval);
-                    if ($retval === 0 && !empty($output)) {
-                        $opts[] = '--with-icu-dir=' . end(array_filter($output[0]));
-                    }
-                } else if ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
-                    // For macports or linux
-                    $opts[] = '--with-icu-dir=' . $prefix;
-                } else {
+            if (!$build->settings->isEnabledVariant('icu') || empty($icuOption)) {
+                if ($bin = Utils::findBin('icu-config')) {
+
                     /*
                     * let autoconf find it's own icu-config
                     * The build-in acinclude.m4 will find the icu-config from $PATH:/usr/local/bin
                     */
+                } elseif ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
+
+                    // For macports or linux
+                    $opts[] = '--with-icu-dir=' . $prefix;
+                } elseif ($bin = Utils::findBin('brew')) {
+                    // For homebrew
+                    if ($output = exec_line("$bin --prefix icu4c")) {
+                        $opts[] = "--with-icu-dir=$output";
+                    }
                 }
             }
-
             return $opts;
-        }
+        };
 
         /**
          * icu variant
@@ -409,9 +460,8 @@ class VariantBuilder
             // Special detection and fallback for homebrew openssl
             // @see https://github.com/phpbrew/phpbrew/issues/607
             if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix openssl", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-openssl=' . end(array_filter($output));
+                if ($output = exec_line("$bin --prefix openssl")) {
+                    return "--with-openssl=$output";
                 }
             }
             $possiblePrefixes = array('/usr/local/opt/openssl');
@@ -426,6 +476,24 @@ class VariantBuilder
         };
 
         /*
+        quote from the manual page:
+
+        > MySQL Native Driver is a replacement for the MySQL Client Library
+        > (libmysqlclient). MySQL Native Driver is part of the official PHP
+        > sources as of PHP 5.3.0.
+
+        > The MySQL database extensions MySQL extension, mysqli and PDO MYSQL all
+        > communicate with the MySQL server. In the past, this was done by the
+        > extension using the services provided by the MySQL Client Library. The
+        > extensions were compiled against the MySQL Client Library in order to
+        > use its client-server protocol.
+
+        > With MySQL Native Driver there is now an alternative, as the MySQL
+        > database extensions can be compiled to use MySQL Native Driver instead
+        > of the MySQL Client Library.
+
+        mysqlnd should be prefered over the native client library.
+
         --with-mysql[=DIR]      Include MySQL support.  DIR is the MySQL base
                                 directory.  If mysqlnd is passed as DIR,
                                 the MySQL native driver will be used [/usr/local]
@@ -440,6 +508,9 @@ class VariantBuilder
 
         --with-mysql            deprecated in 7.0
 
+        --enable-mysqlnd        Enable mysqlnd explicitly, will be done implicitly
+                                when required by other extensions
+
         mysqlnd was added since php 5.3
         */
         $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') {
@@ -449,6 +520,11 @@ class VariantBuilder
                 $opts[] = "--with-mysql=$prefix";
             }
 
+            /*
+            if ($build->compareVersion('5.4') > 0) {
+                $opts[] = "--enable-mysqlnd";
+            }
+            */
             $opts[] = "--with-mysqli=$prefix";
             if ($build->hasVariant('pdo')) {
                 $opts[] = "--with-pdo-mysql=$prefix";
@@ -456,10 +532,9 @@ class VariantBuilder
 
             $foundSock = false;
             if ($bin = Utils::findBin('mysql_config')) {
-                exec("$bin --socket", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
+                if ($output = exec_line("$bin --socket")) {
                     $foundSock = true;
-                    $opts[] = "--with-mysql-sock=" . end(array_filter($output));
+                    $opts[] = "--with-mysql-sock=$output";
                 }
             }
             if (!$foundSock) {
@@ -503,13 +578,29 @@ class VariantBuilder
             while (!$prefix && ! empty($possibleNames)) {
                 $prefix = Utils::findBin(array_pop($possibleNames));
             }
-
             $opts[] = $prefix ? "--with-pgsql=$prefix" : "--with-pgsql";
 
             if ($build->hasVariant('pdo')) {
-                $opts[] = $prefix ? "--with-pdo-pgsql=$prefix" : '--with-pdo-pgsql';
+                if ($bin = Utils::findBin('pg_config')) {
+                    $opts[] = "--with-pdo-pgsql=$bin";
+                } else if ($path = first_existing_executable(array(
+                        "/opt/local/lib/postgresql95/bin/pg_config",
+                        "/opt/local/lib/postgresql94/bin/pg_config",
+                        "/opt/local/lib/postgresql93/bin/pg_config",
+                        "/opt/local/lib/postgresql92/bin/pg_config",
+                        "/Library/PostgreSQL/9.5/bin/pg_config",
+                        "/Library/PostgreSQL/9.4/bin/pg_config",
+                        "/Library/PostgreSQL/9.3/bin/pg_config",
+                        "/Library/PostgreSQL/9.2/bin/pg_config",
+                        "/Library/PostgreSQL/9.1/bin/pg_config",
+                    ))) {
+                    $opts[] = "--with-pdo-pgsql=$path";
+                } else if ($prefix) {
+                    $opts[] = "--with-pdo-pgsql=$prefix";
+                } else {
+                    $opts[] = "--with-pdo-pgsql";
+                }
             }
-
             return $opts;
         };
 
@@ -527,14 +618,13 @@ class VariantBuilder
 
             if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } else if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
+            } elseif ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } else if ($prefix = Utils::findLibPrefix('libxml2.a')) {
+            } elseif ($prefix = Utils::findLibPrefix('libxml2.a')) {
                 $options[] = "--with-libxml-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix libxml2", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    $options[] = '--with-libxml-dir=' . end(array_filter($prefix));
+            } elseif ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix libxml2")) {
+                    $options[] = "--with-libxml-dir=$output";
                 }
             }
 
@@ -550,7 +640,7 @@ class VariantBuilder
 
             if ($bin = Utils::findBinByPrefix('apxs2')) {
                 return '--with-apxs2=' . $bin;
-            } else if ($bin = Utils::findBinByPrefix('apxs')) {
+            } elseif ($bin = Utils::findBinByPrefix('apxs')) {
                 return '--with-apxs2=' . $bin;
             }
 
@@ -567,9 +657,8 @@ class VariantBuilder
                 '/usr/sbin/apxs', // it's possible to find apxs under this path (OS X)
                 '/usr/bin/apxs', // not sure if this one helps
             );
-            $paths = array_filter($possiblePaths, "file_exists");
-            if (count($paths) > 0 && file_exists($paths[0])) {
-                $opts[] = "--with-apxs2={$paths[0]}";
+            if ($path = first_existing_executable($possiblePaths)) {
+                $opts[] = "--with-apxs2=$path";
             }
             return $a; // fallback to autoconf finder
         };
