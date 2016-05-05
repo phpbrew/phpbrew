@@ -157,19 +157,6 @@ class VariantBuilder
         $this->variants['pcntl']    = '--enable-pcntl';
 
 
-        /*
-        --enable-intl
-
-         To build the extension you need to install the » ICU library, version
-         4.0.0 or newer is required.
-         This extension is bundled with PHP as of PHP version 5.3.0.
-         Alternatively, the PECL version of this extension may be used with all
-         PHP versions greater than 5.2.0 (5.2.4+ recommended).
-
-         This requires --with-icu-dir=/....
-         */
-        $this->variants['intl']     = '--enable-intl';
-
         $this->variants['phar']     = '--enable-phar';
         $this->variants['session']     = '--enable-session';
         $this->variants['tokenizer']     = '--enable-tokenizer';
@@ -345,35 +332,55 @@ class VariantBuilder
         };
 
 
+        /*
+        --enable-intl
+
+         To build the extension you need to install the » ICU library, version
+         4.0.0 or newer is required.
+
+         This extension is bundled with PHP as of PHP version 5.3.0.
+         Alternatively, the PECL version of this extension may be used with all
+         PHP versions greater than 5.2.0 (5.2.4+ recommended).
+
+         This requires --with-icu-dir=/....
+
+         Issue: https://github.com/phpbrew/phpbrew/issues/433
+        */
+        $this->variants['intl']     = function(Build $build) {
+            $opts = ['--enable-intl'];
+
+            $icuOption = $build->settings->grepExtraOptionsByPattern('#--with-icu-dir#');
+            if (empty($icuOption)) {
+                // For homebrew
+                if ($bin = Utils::findBin('brew')) {
+                    exec("$bin --prefix icu4c", $output, $retval);
+                    if ($retval === 0 && !empty($output)) {
+                        $opts[] = '--with-icu-dir=' . end(array_filter($output[0]));
+                    }
+                } else if ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
+                    // For macports or linux
+                    $opts[] = '--with-icu-dir=' . $prefix;
+                } else {
+                    /*
+                    * let autoconf find it's own icu-config
+                    * The build-in acinclude.m4 will find the icu-config from $PATH:/usr/local/bin
+                    */
+                }
+            }
+
+            return $opts;
+        }
+
         /**
-         * with icu
+         * icu variant
+         *
+         * @deprecated this variant is deprecated since icu is a part of intl
+         * extension.  however, we kept this variant for user to customize the icu path
          */
         $this->variants['icu'] = function (Build $build, $val = null) {
             if ($val) {
                 return '--with-icu-dir=' . $val;
             }
-
-            // For homebrew
-            if ($bin = Utils::findBin('brew')) {
-                exec("$bin --prefix icu4c", $output, $retval);
-                if ($retval === 0 && !empty($output)) {
-                    return '--with-icu-dir=' . end(array_filter($output[0]));
-                }
-            }
-
-            // For macports
-            if ($prefix = Utils::getPkgConfigPrefix('icu-i18n')) {
-                return '--with-icu-dir=' . $prefix;
-            }
-
-            // the last one path is for Ubuntu
-            if ($prefix = Utils::findLibPrefix('icu/pkgdata.inc', 'icu/Makefile.inc')) {
-                return '--with-icu-dir=' . $prefix;
-            }
-
-            throw new RuntimeException(
-                "libicu not found, please install libicu-dev or libicu library/development files."
-            );
         };
 
 
