@@ -195,11 +195,9 @@ class BuildSettings
         return file_put_contents($variantInfoFile, serialize(array(
             'enabled_variants' => $this->variants,
             'disabled_variants' => $this->disabledVariants,
-            'extra_options' => $this->extraOptions,
+            'extra_options' => array_unique($this->extraOptions),
         )));
     }
-
-
 
     public function loadVariantInfo(array $variantInfo, $reset = false)
     {
