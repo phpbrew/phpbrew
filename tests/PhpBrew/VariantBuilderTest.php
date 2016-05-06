@@ -18,6 +18,11 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
             array(array('sqlite', 'pdo'), '#--with-pdo-sqlite#'),
             array(array('mysql', 'pdo'), '#--with-pdo-mysql#'),
             array(array('pgsql', 'pdo'), '#--with-pdo-pgsql#'),
+            array(array('default'), '#..#'),
+            array(array('mcrypt'), '#--with-mcrypt=#'),
+            array(array('openssl'), '#--with-openssl=#'),
+            array(array('zlib'), '#--with-zlib=#'),
+            array(array('curl'), '#--with-curl=#'),
         );
     }
 
@@ -40,7 +45,11 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build->resolveVariants();
         $variantBuilder = new VariantBuilder;
         $options = $variantBuilder->build($build);
-        $this->assertNotEmpty(preg_grep($optionPattern, $options));
+
+        $patterns = (array) $optionPattern;
+        foreach ($patterns as $p) {
+            $this->assertNotEmpty(preg_grep($p, $options));
+        }
     }
 
     public function test()

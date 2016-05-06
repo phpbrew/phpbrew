@@ -276,6 +276,11 @@ class VariantBuilder
                     return "--with-curl=$prefix";
                 }
             }
+            if ($bin = Utils::findBin('curl-config')) {
+                if ($prefix = exec_line("$bin --prefix")) {
+                    return "--with-curl=$prefix";
+                }
+            }
             return null;
         };
 
