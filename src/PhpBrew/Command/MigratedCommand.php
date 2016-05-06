@@ -3,6 +3,9 @@ namespace PhpBrew\Command;
 
 use CLIFramework\Command;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MigratedCommand extends Command
 {
     public function brief()

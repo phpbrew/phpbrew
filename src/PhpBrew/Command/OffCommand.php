@@ -1,6 +1,9 @@
 <?php
 namespace PhpBrew\Command;
 
+/**
+ * @codeCoverageIgnore
+ */
 class OffCommand extends VirtualCommand
 {
     public function brief()
