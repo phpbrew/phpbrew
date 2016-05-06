@@ -27,7 +27,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
             array(array('zlib'),          '#--with-zlib=#'),
             array(array('curl'),          '#--with-curl=#'),
             array(array('readline'),      '#--with-readline=#'),
-            array(array('editline'),      '#--with-libedit=#'),
+            # array(array('editline'),      '#--with-libedit=#'),
             array(array('gettext'),       '#--with-gettext=#'),
             array(array('ipc'),           array('#--enable-shmop#','#--enable-sysvshm#')),
             array(array('gmp'),           '#--with-gmp=#'),
