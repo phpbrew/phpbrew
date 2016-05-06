@@ -700,7 +700,6 @@ class VariantBuilder
                 return "--with-iconv=$prefix";
             }
             */
-
             return "--with-iconv";
         };
 
