@@ -98,19 +98,17 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build->resolveVariants();
 
         $options = $variants->build($build);
-        ok( in_array('--enable-pdo',$options) );
-        ok( in_array('--with-mysql=mysqlnd',$options) );
-        ok( in_array('--with-mysqli=mysqlnd',$options) );
-        ok( in_array('--with-pdo-mysql=mysqlnd',$options) );
-        ok( in_array('--with-pdo-sqlite',$options) );
+        $this->assertContains('--enable-pdo',$options);
+        $this->assertContains('--with-mysql=mysqlnd',$options);
+        $this->assertContains('--with-mysqli=mysqlnd',$options);
+        $this->assertContains('--with-pdo-mysql=mysqlnd',$options);
+        $this->assertContains('--with-pdo-sqlite',$options);
     }
 
     public function testAllVariant()
     {
-        $variants = new PhpBrew\VariantBuilder;
-        ok($variants);
-
-        $build = new PhpBrew\Build('5.3.0');
+        $variants = new VariantBuilder;
+        $build = new Build('5.3.0');
         $build->enableVariant('all');
         $build->disableVariant('mysql');
         $build->disableVariant('apxs2');
@@ -127,10 +125,8 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function testNeutralVirtualVariant()
     {
-        $variants = new PhpBrew\VariantBuilder;
-        ok($variants);
-
-        $build = new PhpBrew\Build('5.3.0');
+        $variants = new VariantBuilder;
+        $build = new Build('5.3.0');
         // $build->setVersion('5.3.0');
         $build->enableVariant('neutral');
         $build->resolveVariants();
@@ -140,7 +136,6 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $actual = array_filter($options, function ($option) {
             return !preg_match("/^--with-libdir/", $option);
         });
-
-        is( array(), $actual );
+        $this->assertEquals(array(), $actual);
     }
 }
