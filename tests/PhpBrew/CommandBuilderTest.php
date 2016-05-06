@@ -35,13 +35,13 @@ class CommandBuilderTest extends PHPUnit_Framework_TestCase
                 'appendLog' => true,
                 'stdout'    => true,
                 'logPath'   => '/tmp/build.log',
-                'expected'      => 'ls | tee -a /tmp/build.log 2>&1'
+                'expected'      => 'ls 2>&1'
             ),
             array(
                 'appendLog' => false,
                 'stdout'    => true,
                 'logPath'   => '/tmp/build.log',
-                'expected'      => 'ls | tee /tmp/build.log 2>&1'
+                'expected'      => 'ls 2>&1'
             ),
             array(
                 'appendLog' => true,
@@ -57,13 +57,13 @@ class CommandBuilderTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 'appendLog' => true,
-                'stdout'    => true,
+                'stdout'    => false,
                 'logPath'   => null,
                 'expected'      => 'ls'
             ),
             array(
                 'appendLog' => false,
-                'stdout'    => true,
+                'stdout'    => false,
                 'logPath'   => null,
                 'expected'      => 'ls'
             ),
