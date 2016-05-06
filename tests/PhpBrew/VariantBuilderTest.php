@@ -1,18 +1,53 @@
 <?php
+use PhpBrew\VariantBuilder;
+use PhpBrew\Build;
 
 /**
  * @small
  */
 class VariantBuilderTest extends PHPUnit_Framework_TestCase
 {
+    public function variantOptionProvider()
+    {
+        return array(
+            array(array('debug'), '#--enable-debug#'),
+            array(array('mysql'), '#--with-mysqli#'),
+            array(array('intl'), '#--enable-intl#'),
+            array(array('apxs2'), '#--with-apxs2=\S+#'),
+            array(array('sqlite'), '#--with-sqlite#'),
+            array(array('sqlite', 'pdo'), '#--with-pdo-sqlite#'),
+            array(array('mysql', 'pdo'), '#--with-pdo-mysql#'),
+            array(array('pgsql', 'pdo'), '#--with-pdo-pgsql#'),
+        );
+    }
+
+
+    /**
+     * @dataProvider variantOptionProvider
+     */
+    public function testVariantOption(array $variants, $optionPattern)
+    {
+        $build = new Build('5.5.0');
+
+        foreach ($variants as $variant) {
+            $k = explode('=', $variant, 2);
+            if (count($k) == 2) {
+                $build->enableVariant($k[0], $k[1]);
+            } else {
+                $build->enableVariant($k[0]);
+            }
+        }
+        $build->resolveVariants();
+        $variantBuilder = new VariantBuilder;
+        $options = $variantBuilder->build($build);
+        $this->assertNotEmpty(preg_grep($optionPattern, $options));
+    }
+
     public function test()
     {
-        $variants = new PhpBrew\VariantBuilder;
-        ok($variants);
-
-        $build = new PhpBrew\Build('5.3.0');
+        $variants = new VariantBuilder;
+        $build = new Build('5.3.0');
         $build->enableVariant('debug');
-        $build->enableVariant('icu');
         $build->enableVariant('sqlite');
         $build->enableVariant('xml_all');
         $build->enableVariant('apxs2','/opt/local/apache2/apxs2');
@@ -20,7 +55,6 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build->disableVariant('sqlite');
         $build->disableVariant('mysql');
         $build->resolveVariants();
-
         $options = $variants->build($build);
         ok( in_array('--enable-debug',$options) );
         ok( in_array('--enable-libxml',$options) );
@@ -83,9 +117,9 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build->resolveVariants();
 
         $options = $variants->build($build);
-        ok( in_array('--enable-all',$options) );
-        ok( in_array('--without-apxs2',$options) );
-        ok( in_array('--without-mysql',$options) );
+        $this->assertContains('--enable-all',$options);
+        $this->assertContains('--without-apxs2',$options);
+        $this->assertContains('--without-mysql',$options);
     }
 
     /**

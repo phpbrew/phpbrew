@@ -1,6 +1,7 @@
 language: php
 services:
 - mysql
+- postgresql
 matrix:
   fast_finish: true
   allow_failures:
