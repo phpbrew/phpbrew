@@ -11,10 +11,13 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(array('debug'), '#--enable-debug#'),
-            array(array('mysql'), '#--with-mysqli#'),
             array(array('intl'), '#--enable-intl#'),
             array(array('apxs2'), '#--with-apxs2=\S+#'),
             array(array('sqlite'), '#--with-sqlite#'),
+            array(array('mysql'), '#--with-mysqli#'),
+            array(array('pgsql'), '#--with-pgsql#'),
+            array(array('xml'), array('#--enable-(dom|libxml|simplexml)#', '#--with-libxml-dir#')),
+
             array(array('sqlite', 'pdo'), '#--with-pdo-sqlite#'),
             array(array('mysql', 'pdo'), '#--with-pdo-mysql#'),
             array(array('pgsql', 'pdo'), '#--with-pdo-pgsql#'),

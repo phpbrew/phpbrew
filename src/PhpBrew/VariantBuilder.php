@@ -677,8 +677,10 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('libintl.h')) {
                 return '--with-gettext=' . $prefix;
             }
-            if (file_exists('/usr/local/opt/gettext')) {
-                return '--with-gettext=/usr/local/opt/gettext';
+            if ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix gettext")) {
+                    return "--with-gettext=$output";
+                }
             }
             return '--with-gettext';
         };
