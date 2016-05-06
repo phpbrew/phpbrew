@@ -53,6 +53,8 @@ addons:
     # packages for openssl variant
     - libssl-dev
     - openssl
+    # packages for apxs2 
+    - apache2
 install:
 - travis_retry composer install --no-interaction
 before_script:
