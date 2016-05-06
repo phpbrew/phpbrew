@@ -27,14 +27,14 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
             array(array('zlib'),          '#--with-zlib=#'),
             array(array('curl'),          '#--with-curl=#'),
             array(array('readline'),      '#--with-readline=#'),
-            # array(array('editline'),      '#--with-libedit=#'),
+            array(array('editline'),      '#--with-libedit=#'),
             array(array('gettext'),       '#--with-gettext=#'),
             array(array('ipc'),           array('#--enable-shmop#','#--enable-sysvshm#')),
             array(array('gmp'),           '#--with-gmp=#'),
             array(array('mhash'),         '#--with-mhash=#'),
             array(array('iconv'),         '#--with-iconv#'),
             array(array('bz2'),           '#--with-bz2#'),
-            # array(array('gd'),            array('#--with-gd=#', '#--with-png-dir#', '#--with-jpeg-dir#')),
+            array(array('gd'),            array('#--with-gd=#', '#--with-png-dir#', '#--with-jpeg-dir#')),
         );
     }
 
@@ -48,8 +48,8 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         foreach ($variants as $variant) {
             $k = explode('=', $variant, 2);
 
-            if (getenv('TRAVIS') && $k[0] == "apxs2") {
-                return $this->markTestSkipped('Travis CI does not support apache2');
+            if (getenv('TRAVIS') && in_array($k[0], array("apxs2","gd","editline"))) {
+                return $this->markTestSkipped("Travis CI doesn't support {$k[0]}.");
             }
 
             if (count($k) == 2) {
