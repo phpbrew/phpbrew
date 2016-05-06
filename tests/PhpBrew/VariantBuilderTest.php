@@ -23,6 +23,9 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
             array(array('openssl'), '#--with-openssl=#'),
             array(array('zlib'), '#--with-zlib=#'),
             array(array('curl'), '#--with-curl=#'),
+            array(array('readline'), '#--with-readline=#'),
+            array(array('editline'), '#--with-libedit=#'),
+            array(array('gd'), array('#--with-gd=#', '#--with-png-dir#', '#--with-jpeg-dir#')),
         );
     }
 
