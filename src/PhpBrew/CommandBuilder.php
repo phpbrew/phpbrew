@@ -110,12 +110,16 @@ class CommandBuilder
 
         // redirect stderr to stdout and pipe to the file.
         if ($handleRedirect) {
-            if ($this->stdout && $this->logPath) {
+            if ($this->stdout) {
+                // XXX: tee is disabled here because the exit status won't be
+                // correct when using pipe.
+                /*
                 $cmd[] = '| tee';
                 if ($this->append) {
                     $cmd[] = '-a';
                 }
                 $cmd[] = $this->logPath;
+                 */
                 $cmd[] = '2>&1';
             } elseif ($this->logPath) {
                 $cmd[] = $this->append ? '>>' : '>';
