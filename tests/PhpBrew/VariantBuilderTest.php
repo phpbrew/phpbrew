@@ -47,6 +47,11 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
         $build = new Build('5.5.0');
         foreach ($variants as $variant) {
             $k = explode('=', $variant, 2);
+
+            if ($k[0] == "apxs2" && getenv('TRAVIS')) {
+                return $this->markTestSkipped('Travis CI does not support apache2');
+            }
+
             if (count($k) == 2) {
                 $build->enableVariant($k[0], $k[1]);
             } else {
