@@ -34,7 +34,7 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
             array(array('mhash'),         '#--with-mhash=#'),
             array(array('iconv'),         '#--with-iconv#'),
             array(array('bz2'),           '#--with-bz2#'),
-            array(array('gd'),            array('#--with-gd=#', '#--with-png-dir#', '#--with-jpeg-dir#')),
+            # array(array('gd'),            array('#--with-gd=#', '#--with-png-dir#', '#--with-jpeg-dir#')),
         );
     }
 
