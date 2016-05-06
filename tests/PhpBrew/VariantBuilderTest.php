@@ -45,7 +45,6 @@ class VariantBuilderTest extends PHPUnit_Framework_TestCase
     public function testVariantOption(array $variants, $optionPattern)
     {
         $build = new Build('5.5.0');
-
         foreach ($variants as $variant) {
             $k = explode('=', $variant, 2);
             if (count($k) == 2) {

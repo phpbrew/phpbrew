@@ -204,11 +204,14 @@ class VariantBuilder
             if ($prefix) {
                 return array("--with-pcre-regex", "--with-pcre-dir=$prefix");
             }
-
             if ($prefix = Utils::findIncludePrefix('pcre.h')) {
                 return array("--with-pcre-regex", "--with-pcre-dir=$prefix");
             }
-
+            if ($bin = Utils::findBin('brew')) {
+                if ($prefix = exec_line("$bin --prefix pcre")) {
+                    return array("--with-pcre-regex", "--with-pcre-dir=$prefix");
+                }
+            }
             return array("--with-pcre-regex");
         };
 
@@ -220,7 +223,6 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('mhash.h')) {
                 return "--with-mhash=$prefix";
             }
-
             if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix mhash")) {
                     return "--with-mhash=$output";
