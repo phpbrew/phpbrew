@@ -1,7 +1,19 @@
 CHANGES
 =======
 
-### Version 1.21.2
+
+### Version 1.21.4
+
+- Fixed GithubProvider curl setup.
+- Fixed PhpCurlDownloader options object singleton.
+- Removed `tee` when using stdout, it doesn't report exit status when using pipe.
+- Added more variant tests.
+- Supported prefix from `brew --prefix pcre`.
+- Fixed gettext prefix detection.
+- Fixed curl prefix with curl-config.
+
+
+### Version 1.21.3
 
 - `mysql_config` lookup is improved.
 - Added `pg_config` support for pgsql prefix.
