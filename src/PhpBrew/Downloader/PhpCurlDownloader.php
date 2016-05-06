@@ -32,10 +32,7 @@ class PhpCurlDownloader extends BaseDownloader
         if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
             $downloader->setProxyAuth($proxyAuth);
         }
-
-        // TODO: Get current instance instead of singleton to improve testing output
-        $console = Console::getInstance();
-        if (! $console->options->{'no-progress'} && $this->logger->getLevel() > 2) {
+        if (! $this->options->{'no-progress'} && $this->logger->getLevel() > 2) {
             $downloader->setProgressHandler(new ProgressBar);
         }
         $binary = $downloader->request($url);
