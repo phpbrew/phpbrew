@@ -27,9 +27,7 @@ class KnownCommandTest extends CommandTestCase {
     }
 
     public function testGithubPackage() {
-
         try {
-
             $logger = new Logger;
             $logger->setQuiet();
 

@@ -3,6 +3,7 @@
 namespace PhpBrew\Extension\Provider;
 
 use PhpBrew\Config;
+use Exception;
 
 class GithubProvider implements Provider
 {
