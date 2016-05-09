@@ -62,7 +62,8 @@ abstract class BaseDownloader
      * @return bool|string return content if download successfully, otherwise false is returned
      * @throws RuntimeException
      */
-    public function request($url) {
+    public function request($url)
+    {
         $path = $this->download($url);
         return $path === false ? false : file_get_contents($path);
     }
