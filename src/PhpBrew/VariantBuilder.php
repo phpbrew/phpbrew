@@ -293,6 +293,13 @@ class VariantBuilder
         is compatible with PHP's which means PHP can be distributable.
 
         related issue https://github.com/phpbrew/phpbrew/issues/497
+
+        The default libreadline version that comes with OS X is too old and
+        seems to be missing symbols like rl_mark, rl_pending_input,
+        rl_history_list, rl_on_new_line. This is not detected by ./configure
+
+        So we should prefer macports/homebrew library than the system readline library.
+        @see https://bugs.php.net/bug.php?id=48608
         */
         $this->variants['readline'] = function (Build $build, $prefix = null) {
             if ($prefix) {
