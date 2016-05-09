@@ -137,7 +137,7 @@ For example, to install memcached extension for php7, use:
             $extensions[$extName] = $this->getExtConfig($args);
         }
 
-        $extensionList = new ExtensionList;
+        $extensionList = new ExtensionList($this->logger, $this->options);
 
         $manager = new ExtensionManager($this->logger);
         foreach ($extensions as $extensionName => $extConfig) {

@@ -2,6 +2,7 @@
 namespace PhpBrew\Command\ExtensionCommand;
 
 use PhpBrew\Config;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\ExtensionList;
 use PhpBrew\Tasks\FetchExtensionListTask;
@@ -24,6 +25,7 @@ class KnownCommand extends \CLIFramework\Command
      */
     public function options($opts)
     {
+        DownloadFactory::addOptionsForCommand($opts);
     }
 
     public function arguments($args)
@@ -42,7 +44,7 @@ class KnownCommand extends \CLIFramework\Command
 
     public function execute($extensionName)
     {
-        $extensionList = new ExtensionList;
+        $extensionList = new ExtensionList($this->logger, $this->options);
 
         $provider = $extensionList->exists($extensionName);
 

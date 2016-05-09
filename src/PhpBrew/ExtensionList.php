@@ -14,12 +14,16 @@ use RuntimeException;
 class ExtensionList
 {
 
+    private $logger;
+    private $options;
 
-    public function __construct()
+    public function __construct(Logger $logger, OptionResult $options)
     {
+        $this->logger = $logger;
+        $this->options = $options;
     }
 
-    public static function getProviders()
+    public function getProviders()
     {
         static $providers;
         if ($providers) {
@@ -28,14 +32,14 @@ class ExtensionList
         $providers = array(
             new Extension\Provider\GithubProvider,
             new Extension\Provider\BitbucketProvider,
-            new Extension\Provider\PeclProvider
+            new Extension\Provider\PeclProvider($this->logger, $this->options)
         );
         return $providers;
     }
 
-    public static function getProviderByName($providerName)
+    public function getProviderByName($providerName)
     {
-        $providers = self::getProviders();
+        $providers = $this->getProviders();
 
         foreach ($providers as $provider) {
             if ($provider::getName() == $providerName) {
@@ -44,13 +48,13 @@ class ExtensionList
         }
     }
 
-    public static function getReadyInstance($branch = 'master', Logger $logger = null)
+    public static function getReadyInstance($branch = 'master', Logger $logger = null, OptionResult $options)
     {
         static $instance;
         if ($instance) {
             return $instance;
         }
-        $instance = new self;
+        $instance = new self($logger, $options);
 
         return $instance;
     }
@@ -60,7 +64,7 @@ class ExtensionList
 
 
         // determine which provider support this extension
-        $providers = self::getProviders();
+        $providers = $this->getProviders();
         foreach ($providers as $provider) {
             if ($provider->exists($extensionName)) {
                 return $provider;
