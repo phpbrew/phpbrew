@@ -42,7 +42,7 @@ class KnownCommand extends \CLIFramework\Command
 
     public function execute($extensionName)
     {
-        $extensionList = new ExtensionList;
+        $extensionList = new ExtensionList($this->logger, $this->options);
 
         $provider = $extensionList->exists($extensionName);
 

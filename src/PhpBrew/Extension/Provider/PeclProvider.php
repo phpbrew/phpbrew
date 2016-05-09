@@ -2,12 +2,15 @@
 
 namespace PhpBrew\Extension\Provider;
 
+use CLIFramework\Logger;
+use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use PEARX\Channel as PeclChannel;
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
 use DOMDocument;
 use Exception;
+use PhpBrew\Downloader\DownloadFactory;
 
 class PeclProvider implements Provider
 {
@@ -17,6 +20,15 @@ class PeclProvider implements Provider
     public $repository = null;
     public $packageName = null;
     public $defaultVersion = 'stable';
+
+    private $logger;
+    private $options;
+
+    public function __construct(Logger $logger, OptionResult $options)
+    {
+        $this->logger = $logger;
+        $this->options = $options;
+    }
 
     public static function getName()
     {
@@ -31,6 +43,7 @@ class PeclProvider implements Provider
         $url = "$baseUrl/r/" . strtolower($packageName);
 
         $downloader = new CurlDownloader;
+        $downloader = DownloadFactory::getInstance($this->logger, $this->options);
 
         // translate version name into numbers
         if (in_array($version, array('stable', 'latest', 'beta'))) {

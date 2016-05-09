@@ -55,6 +55,18 @@ abstract class BaseDownloader
         }
     }
 
+    /**
+     * fetch the remote content
+     *
+     * @param $url the url to be downloaded
+     * @return bool|string return content if download successfully, otherwise false is returned
+     * @throws RuntimeException
+     */
+    public function request($url) {
+        $path = $this->download($url);
+        return $path === false ? false : file_get_contents($path);
+    }
+
     abstract protected function process($url, $targetFilePath);
 
     /**
