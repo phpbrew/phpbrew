@@ -1,6 +1,10 @@
 CHANGES
 =======
+### Version 1.21.5
 
+- Fixed readline variant prefix
+- Fixed lookup prefix ordering (prefer libraries from macports, homebrew, then system)
+- Fixed build exception catching
 
 ### Version 1.21.4
 
