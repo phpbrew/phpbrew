@@ -75,7 +75,7 @@ class ConfigureTask extends BaseTask
             // copied from https://github.com/Homebrew/homebrew-php/blob/master/Formula/php53.rb
             $args[] = "--enable-sqlite-utf8";
             $args[] = "--enable-zend-multibyte";
-        } else if ($build->compareVersion('5.6') == -1) {
+        } elseif ($build->compareVersion('5.6') == -1) {
             $args[] = "--enable-zend-signals";
         }
 
