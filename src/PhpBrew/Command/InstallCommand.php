@@ -1,7 +1,6 @@
 <?php
 namespace PhpBrew\Command;
 
-use Exception;
 use PhpBrew\Config;
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\VariantParser;
@@ -22,9 +21,11 @@ use PhpBrew\ReleaseList;
 use PhpBrew\VersionDslParser;
 use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Distribution\DistributionUrlPolicy;
-use PhpBrew\Exception\SystemCommandException;
 use CLIFramework\ValueCollection;
 use CLIFramework\Command;
+
+use PhpBrew\Exception\SystemCommandException;
+use Exception;
 
 class InstallCommand extends Command
 {

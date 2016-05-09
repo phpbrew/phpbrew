@@ -12,6 +12,7 @@ use Exception;
 use ReflectionClass;
 use InvalidArgumentException;
 use BadMethodCallException;
+use PhpBrew\Exception\SystemCommandException;
 
 class Console extends Application
 {
