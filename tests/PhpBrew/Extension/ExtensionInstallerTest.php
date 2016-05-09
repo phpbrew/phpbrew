@@ -33,7 +33,7 @@ class ExtensionInstallerTest extends CommandTestCase
     {
         $logger = new Logger;
         $logger->setQuiet();
-        $peclProvider = new PeclProvider;
+        $peclProvider = new PeclProvider($logger, new OptionResult);
         $downloader = new ExtensionDownloader($logger, new OptionResult);
         $peclProvider->setPackageName('APCu');
         $extractPath = $downloader->download($peclProvider, 'latest');

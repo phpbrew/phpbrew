@@ -16,7 +16,7 @@ class KnownCommandTest extends CommandTestCase {
         $logger = new Logger;
         $logger->setQuiet();
 
-        $provider = new PeclProvider();
+        $provider = new PeclProvider($logger, new OptionResult());
         $provider->setPackageName('xdebug');
 
         $extensionDownloader = new ExtensionDownloader($logger, new OptionResult);
