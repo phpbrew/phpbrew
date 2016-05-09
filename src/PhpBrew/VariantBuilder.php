@@ -71,6 +71,9 @@ class VariantBuilder
         'apxs2' => array('fpm','cgi'),
         'editline' => array('readline'),
         'readline' => array('editline'),
+
+        // dtrace is not compatible with phpdbg: https://github.com/krakjoe/phpdbg/issues/38
+        'dtrace' => array('phpdbg'),
     );
 
     public $options = array();
@@ -203,6 +206,18 @@ class VariantBuilder
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
         $this->variants['xmlrpc'] = '--with-xmlrpc';
+
+        $this->variants['dtrace'] = function(Build $build, $prefix = null) {
+            // if dtrace is supported
+            /*
+            if ($prefix = Utils::findIncludePrefix('sys/sdt.h')) {
+                return "--enable-dtrace";
+            }
+             */
+            return "--enable-dtrace";
+        };
+
+
         $this->variants['pcre'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return array("--with-pcre-regex", "--with-pcre-dir=$prefix");

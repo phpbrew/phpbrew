@@ -75,13 +75,7 @@ class ConfigureTask extends BaseTask
             // copied from https://github.com/Homebrew/homebrew-php/blob/master/Formula/php53.rb
             $args[] = "--enable-sqlite-utf8";
             $args[] = "--enable-zend-multibyte";
-        } elseif ($build->compareVersion('5.6') == -1) {
-            // dtrace is not compatible with phpdbg: https://github.com/krakjoe/phpdbg/issues/38
-            if (!$build->isEnabledVariant('phpdbg')) {
-                if ($prefix = Utils::findIncludePrefix('sys/sdt.h')) {
-                    $args[] = "--enable-dtrace";
-                }
-            }
+        } else if ($build->compareVersion('5.6') == -1) {
             $args[] = "--enable-zend-signals";
         }
 
