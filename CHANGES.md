@@ -1,5 +1,13 @@
 CHANGES
 =======
+
+### Version 1.21.6
+
+- Moved dtrace to variant option.
+- Fixed downloader option
+- Added options for `phpbrew ext known`
+- Added --downloader support for PeclDownloader
+
 ### Version 1.21.5
 
 - Fixed readline variant prefix
