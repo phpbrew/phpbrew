@@ -23,7 +23,6 @@ use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Distribution\DistributionUrlPolicy;
 use CLIFramework\ValueCollection;
 use CLIFramework\Command;
-
 use PhpBrew\Exception\SystemCommandException;
 use Exception;
 
