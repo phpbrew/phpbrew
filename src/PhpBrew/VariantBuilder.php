@@ -207,7 +207,7 @@ class VariantBuilder
         $this->variants['kerberos'] = '--with-kerberos';
         $this->variants['xmlrpc'] = '--with-xmlrpc';
 
-        $this->variants['dtrace'] = function(Build $build, $prefix = null) {
+        $this->variants['dtrace'] = function (Build $build, $prefix = null) {
             // if dtrace is supported
             /*
             if ($prefix = Utils::findIncludePrefix('sys/sdt.h')) {
