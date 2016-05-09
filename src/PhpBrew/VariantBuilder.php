@@ -295,9 +295,13 @@ class VariantBuilder
         related issue https://github.com/phpbrew/phpbrew/issues/497
         */
         $this->variants['readline'] = function (Build $build, $prefix = null) {
+            if ($prefix) {
+                return "--with-readline=$prefix";
+            }
             if ($prefix = Utils::findIncludePrefix('readline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 return '--with-readline=' . $prefix;
-            } elseif ($bin = Utils::findBin('brew')) {
+            }
+            if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix readline")) {
                     return '--with-readline=' . $output;
                 }

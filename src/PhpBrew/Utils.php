@@ -138,18 +138,15 @@ class Utils
     public static function getLookupPrefixes()
     {
         $prefixes = array(
+            '/usr',
+            '/usr/local',
+            '/usr/local/opt', // homebrew link
             '/opt',
             '/opt/local',
-            '/opt/local/lib',
-            '/usr',
-            '/usr/lib',
-            '/usr/local',
-            '/usr/local/lib',
         );
 
         if ($pathStr = getenv('PHPBREW_LOOKUP_PREFIX')) {
             $paths = explode(':', $pathStr);
-
             foreach ($paths as $path) {
                 $prefixes[] = $path;
             }
@@ -161,7 +158,6 @@ class Utils
                 $prefixes[] = "$prefix/$arch";
             }
         }
-
         return array_reverse($prefixes);
     }
 
@@ -174,14 +170,11 @@ class Utils
     {
         $files = func_get_args();
         $prefixes = self::getLookupPrefixes();
-
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $dir = $prefix . DIRECTORY_SEPARATOR . 'include';
-                $path = $dir . DIRECTORY_SEPARATOR . $file;
-
+                $path = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
                 if (file_exists($path)) {
-                    return $dir;
+                    return $prefix;
                 }
             }
         }
@@ -213,7 +206,8 @@ class Utils
 
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                if (file_exists($prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file)) {
+                $path = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
+                if (file_exists($path)) {
                     return $prefix;
                 }
             }

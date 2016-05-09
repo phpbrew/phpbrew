@@ -20,7 +20,7 @@ $console = PhpBrew\Console::getInstance();
 if (isset($argv)) {
     // we don't invoke runWithTry here,
     // this is only for development
-    if (!$console->run($argv)) {
+    if (!$console->runWithTry($argv)) {
         exit(-1);
     }
 }
