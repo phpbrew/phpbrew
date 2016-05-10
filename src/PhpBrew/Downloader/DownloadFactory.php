@@ -78,11 +78,11 @@ class DownloadFactory
         }
 
         $instance = self::create($logger, $options, $downloader);
-        if($instance === null) {
+        if ($instance === null) {
             $logger->debug("Downloader not found, falling back to command-based downloader.");
             //if all downloader not available, maybe we should throw exceptions here instead of returning null?
             return self::create($logger, $options, self::$fallbackDownloaders);
-        }else{
+        } else {
             return $instance;
         }
     }
