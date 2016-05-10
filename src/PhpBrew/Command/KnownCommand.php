@@ -2,6 +2,7 @@
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
+use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
@@ -20,19 +21,8 @@ class KnownCommand extends \CLIFramework\Command
         $opts->add('m|more', 'Show more older versions');
         $opts->add('o|old', 'List old phps (less than 5.3)');
         $opts->add('u|update', 'Update release list');
-        $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
-            ->valueName('proxy host')
-        ;
 
-        $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
-            ->valueName('user:pass')
-        ;
-
-        $opts->add('connect-timeout:', 'The system aborts the command if downloading '
-                . 'of the versions list not starts during this limit. This option '
-                . 'overrides a value of CONNECT_TIMEOUT environment variable.')
-            ->valueName('seconds')
-            ;
+        DownloadFactory::addOptionsForCommand($opts);
     }
 
     public function execute()
