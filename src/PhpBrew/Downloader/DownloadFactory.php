@@ -13,11 +13,16 @@ use GetOptionKit\OptionResult;
 
 class DownloadFactory
 {
+    const METHOD_PHP_CURL = 'php_curl';
+    const METHOD_PHP_STREAM = 'php_stream';
+    const METHOD_WGET = 'wget';
+    const METHOD_CURL = 'curl';
+
     private static $availableDownloaders = array(
-        'php_curl'   => 'PhpBrew\Downloader\PhpCurlDownloader',
-        'php_stream' => 'PhpBrew\Downloader\PhpStreamDownloader',
-        'wget'       => 'PhpBrew\Downloader\WgetCommandDownloader',
-        'curl'       => 'PhpBrew\Downloader\CurlCommandDownloader',
+        self::METHOD_PHP_CURL   => 'PhpBrew\Downloader\PhpCurlDownloader',
+        self::METHOD_PHP_STREAM => 'PhpBrew\Downloader\PhpStreamDownloader',
+        self::METHOD_WGET       => 'PhpBrew\Downloader\WgetCommandDownloader',
+        self::METHOD_CURL       => 'PhpBrew\Downloader\CurlCommandDownloader',
     );
 
     /**
@@ -30,8 +35,10 @@ class DownloadFactory
      * @param Logger $logger is used for creating downloader
      * @param OptionResult $options options used for create downloader
      * @param array $preferences Use downloader by preferences.
+     * @param boolean $requireSsl
+     * @return BaseDownloader|null
      */
-    public static function create(Logger $logger, OptionResult $options, array $preferences, $requireSsl = true)
+    protected static function create(Logger $logger, OptionResult $options, array $preferences, $requireSsl = true)
     {
         foreach ($preferences as $prefKey) {
             if (isset(self::$availableDownloaders[$prefKey])) {
@@ -42,8 +49,7 @@ class DownloadFactory
                 }
             }
         }
-        $logger->debug("Downloader not found, falling back to command-based downloader.");
-        return self::create($logger, $options, self::$fallbackDownloaders);
+        return null;
     }
 
     /**
@@ -55,18 +61,30 @@ class DownloadFactory
     public static function getInstance(Logger $logger, OptionResult $options, $downloader = null)
     {
         if (is_string($downloader)) {
+            //if we specific a downloader class clearly, then it's the only choice
             if (class_exists($downloader) && is_subclass_of($downloader, 'PhpBrew\Downloader\BaseDownloader')) {
                 return new $downloader($logger, $options);
             }
-            return self::create($logger, $options, array($downloader));
-        } elseif (is_array($downloader)) {
-            return self::create($logger, $options, $downloader);
+            $downloader = array($downloader);
         }
-        if (empty($downloader) && $options->has('downloader')) {
+        if (empty($downloader)) {
+            $downloader = array_keys(self::$availableDownloaders);
+        }
+
+        //if --downloader presents, we will use it as the first choice, even if the caller specific downloader by alias/array
+        if ($options->has('downloader')) {
             $logger->info("Found --downloader option, try to use {$options->downloader} as default downloader.");
-            return self::create($logger, $options, array($options->downloader));
+            $downloader = array_merge(array($options->downloader), $downloader);
         }
-        return self::create($logger, $options, array_keys(self::$availableDownloaders));
+
+        $instance = self::create($logger, $options, $downloader);
+        if($instance === null) {
+            $logger->debug("Downloader not found, falling back to command-based downloader.");
+            //if all downloader not available, maybe we should throw exceptions here instead of returning null?
+            return self::create($logger, $options, self::$fallbackDownloaders);
+        }else{
+            return $instance;
+        }
     }
 
     public static function addOptionsForCommand(OptionCollection $opts)
