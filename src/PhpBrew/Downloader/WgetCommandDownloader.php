@@ -24,15 +24,17 @@ class WgetCommandDownloader extends BaseDownloader
     {
         $this->logger->info("Downloading $url via wget command");
 
-        if ($proxy = $this->options->{'http-proxy'}) {
-            $this->logger->warn('http proxy is not support by this download.');
+        $proxy = '';
+        if (!empty($this->options->{'http-proxy'})) {
+            if (!empty($this->options->{'http-proxy-auth'})) {
+                $proxy = sprintf('-e use_proxy=on -e http_proxy=%s', $this->options->{'http-proxy'});
+            } else {
+                $proxy = sprintf('-e use_proxy=on -e http_proxy=%s@%s', $this->options->{'http-proxy-auth'}, $this->options->{'http-proxy'});
+            }
         }
-        if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
-            $this->logger->warn('http proxy is not support by this download.');
-        }
-        // TODO proxy setting
+
         $quiet = $this->logger->isQuiet() ? '--quiet' : '';
-        Utils::system("wget --no-check-certificate -c $quiet -N -O \"$targetFilePath\" \"$url\"");
+        Utils::system(sprintf('wget --no-check-certificate -c %s %s -N -O %s %s', $quiet, $proxy, $targetFilePath, $url));
         return true;
     }
 
