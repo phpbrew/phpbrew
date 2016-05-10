@@ -35,6 +35,9 @@ class PhpCurlDownloader extends BaseDownloader
         if (! $this->options->{'no-progress'} && $this->logger->getLevel() > 2) {
             $downloader->setProgressHandler(new ProgressBar);
         }
+        if ($this->options->{'continue'}) {
+            $this->logger->warn('--continue is not support by this download.');
+        }
         $binary = $downloader->request($url);
         if (false === file_put_contents($targetFilePath, $binary)) {
             throw new RuntimeException("Can't write file $targetFilePath");

@@ -13,6 +13,13 @@ use PhpBrew\Utils;
 class WgetCommandDownloader extends BaseDownloader
 {
 
+    protected $enableContinueAt = false;
+
+    public function enableContinueAtOption()
+    {
+        $this->enableContinueAt = true;
+    }
+
     /**
      * @param string $url
      *
@@ -34,7 +41,8 @@ class WgetCommandDownloader extends BaseDownloader
         }
 
         $quiet = $this->logger->isQuiet() ? '--quiet' : '';
-        Utils::system(sprintf('wget --no-check-certificate -c %s %s -N -O %s %s', $quiet, $proxy, $targetFilePath, $url));
+        $continue = $this->enableContinueAt || $this->options->{'continue'} ? '-c' : '';
+        Utils::system(sprintf('wget --no-check-certificate %s %s %s -N -O %s %s', $continue, $quiet, $proxy, $targetFilePath, $url));
         return true;
     }
 

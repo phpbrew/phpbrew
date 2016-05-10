@@ -30,6 +30,10 @@ class PhpStreamDownloader extends BaseDownloader
             $opts['http']['timeout'] = $timeout;
         }
 
+        if ($this->options->{'continue'}) {
+            $this->logger->warn('--continue is not support by this download.');
+        }
+
         if (empty($opts)) {
             $binary = file_get_contents($url);
         } else {
