@@ -708,7 +708,7 @@ class VariantBuilder
                 '--with-xsl'
             );
 
-            while (0) {
+            do {
                 if ($bin = Utils::findBin('brew')) {
                     // for brew, it could be "/usr/local/opt/libxml2"
                     // or "/usr/local/Cellar/libxml2/2.9.3" before install.
@@ -732,7 +732,7 @@ class VariantBuilder
                     $options[] = "--with-libxml-dir=$prefix";
                     break;
                 }
-            }
+            } while(0);
             return $options;
         };
         $this->variants['xml_all'] = $this->variants['xml'];
