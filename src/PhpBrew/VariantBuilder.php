@@ -709,7 +709,10 @@ class VariantBuilder
             );
 
             while (0) {
+
                 if ($bin = Utils::findBin('brew')) {
+                    // for brew, it could be "/usr/local/opt/libxml2"
+                    // or "/usr/local/Cellar/libxml2/2.9.3" before install.
                     if ($output = exec_line("$bin --prefix libxml2")) {
                         if (file_exists($output)) {
                             $options[] = "--with-libxml-dir=$output";
