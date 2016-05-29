@@ -227,7 +227,10 @@ class VariantBuilder
             }
             if ($bin = Utils::findBin('brew')) {
                 if ($prefix = exec_line("$bin --prefix pcre")) {
-                    return array("--with-pcre-regex", "--with-pcre-dir=$prefix");
+                    if (file_exists($prefix)) {
+                        return array("--with-pcre-regex", "--with-pcre-dir=$prefix");
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
             return array("--with-pcre-regex");
@@ -243,7 +246,10 @@ class VariantBuilder
             }
             if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix mhash")) {
-                    return "--with-mhash=$output";
+                    if (file_exists($output)) {
+                        return "--with-mhash=$output";
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
 
@@ -261,7 +267,10 @@ class VariantBuilder
 
             if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix mcrypt")) {
-                    return "--with-mcrypt=$output";
+                    if (file_exists($output)) {
+                        return "--with-mcrypt=$output";
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
 
@@ -293,12 +302,18 @@ class VariantBuilder
 
             if ($bin = Utils::findBin('brew')) {
                 if ($prefix = exec_line("$bin --prefix curl")) {
-                    return "--with-curl=$prefix";
+                    if (file_exists($prefix)) {
+                        return "--with-curl=$prefix";
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
             if ($bin = Utils::findBin('curl-config')) {
                 if ($prefix = exec_line("$bin --prefix")) {
-                    return "--with-curl=$prefix";
+                    if (file_exists($prefix)) {
+                        return "--with-curl=$prefix";
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
             return null;
@@ -328,7 +343,10 @@ class VariantBuilder
             }
             if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix readline")) {
-                    return '--with-readline=' . $output;
+                    if (file_exists($output)) {
+                        return '--with-readline=' . $output;
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
             return '--with-readline';
@@ -337,13 +355,29 @@ class VariantBuilder
 
         /*
          * editline is conflict with readline
+         *
+         * one must tap the homebrew/dupes to use this formula
+         *
+         *      brew tap homebrew/dupes
          */
         $this->variants['editline'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return "--with-libedit=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
+            }
+            if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 return "--with-libedit=$prefix";
             }
+            if ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix libedit")) {
+                    if (file_exists($output)) {
+                        return '--with-libedit=' . $output;
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+                } else {
+                    echo "prefix of libedit not found, please run 'brew tap homebrew/dupes' to get the formula\n";
+                }
+            }
+            return "--with-libedit";
         };
 
 
@@ -374,7 +408,11 @@ class VariantBuilder
                 $opts[] = "--with-gd=shared,$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix gd")) {
-                    $opts[] = "--with-gd=shared,$output";
+                    if (file_exists($output)) {
+                        $opts[] = "--with-gd=shared,$output";
+                    } else {
+                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+                    }
                 }
             }
 
@@ -385,7 +423,11 @@ class VariantBuilder
                 $opts[] = "--with-jpeg-dir=$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix libjpeg")) {
-                    $opts[] = "--with-jpeg-dir=$output";
+                    if (file_exists($output)) {
+                        $opts[] = "--with-jpeg-dir=$output";
+                    } else {
+                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+                    }
                 }
             }
 
@@ -393,7 +435,11 @@ class VariantBuilder
                 $opts[] = "--with-png-dir=$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix libpng")) {
-                    $opts[] = "--with-png-dir=$output";
+                    if (file_exists($output)) {
+                        $opts[] = "--with-png-dir=$output";
+                    } else {
+                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+                    }
                 }
             }
 
@@ -408,7 +454,11 @@ class VariantBuilder
                 $opts[] = "--with-freetype-dir=$prefix";
             } elseif ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix freetype", $output, $retval)) {
-                    $opts[] = "--with-freetype-dir=$output";
+                    if (file_exists($output)) {
+                        $opts[] = "--with-freetype-dir=$output";
+                    } else {
+                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+                    }
                 }
             }
             return $opts;
@@ -451,7 +501,11 @@ class VariantBuilder
                 } elseif ($bin = Utils::findBin('brew')) {
                     // For homebrew
                     if ($output = exec_line("$bin --prefix icu4c")) {
-                        $opts[] = "--with-icu-dir=$output";
+                        if (file_exists($output)) {
+                            $opts[] = "--with-icu-dir=$output";
+                        } else {
+                            echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+                        }
                     }
                 }
             }
@@ -484,6 +538,17 @@ class VariantBuilder
                 return "--with-openssl=$val";
             }
 
+            // Special detection and fallback for homebrew openssl
+            // @see https://github.com/phpbrew/phpbrew/issues/607
+            if ($bin = Utils::findBin('brew')) {
+                if ($output = exec_line("$bin --prefix openssl")) {
+                    if (file_exists($output)) {
+                        return "--with-openssl=$output";
+                    }
+                    echo "prefix $output doesn't exist.";
+                }
+            }
+
             if ($prefix = Utils::findIncludePrefix('openssl/opensslv.h')) {
                 return "--with-openssl=$prefix";
             }
@@ -492,14 +557,6 @@ class VariantBuilder
                 return "--with-openssl=$prefix";
             }
 
-
-            // Special detection and fallback for homebrew openssl
-            // @see https://github.com/phpbrew/phpbrew/issues/607
-            if ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix openssl")) {
-                    return "--with-openssl=$output";
-                }
-            }
             $possiblePrefixes = array('/usr/local/opt/openssl');
             $foundPrefixes = array_filter($possiblePrefixes, "file_exists");
             if (count($foundPrefixes) > 0) {
@@ -652,18 +709,29 @@ class VariantBuilder
                 '--with-xsl'
             );
 
-            if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
-                $options[] = "--with-libxml-dir=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
-                $options[] = "--with-libxml-dir=$prefix";
-            } elseif ($prefix = Utils::findLibPrefix('libxml2.a')) {
-                $options[] = "--with-libxml-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix libxml2")) {
-                    $options[] = "--with-libxml-dir=$output";
+            while (0) {
+                if ($bin = Utils::findBin('brew')) {
+                    if ($output = exec_line("$bin --prefix libxml2")) {
+                        if (file_exists($output)) {
+                            $options[] = "--with-libxml-dir=$output";
+                            break;
+                        }
+                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+                    }
+                }
+                if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
+                    $options[] = "--with-libxml-dir=$prefix";
+                    break;
+                }
+                if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
+                    $options[] = "--with-libxml-dir=$prefix";
+                    break;
+                }
+                if ($prefix = Utils::findLibPrefix('libxml2.a')) {
+                    $options[] = "--with-libxml-dir=$prefix";
+                    break;
                 }
             }
-
             return $options;
         };
         $this->variants['xml_all'] = $this->variants['xml'];
@@ -708,11 +776,16 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('libintl.h')) {
                 return '--with-gettext=' . $prefix;
             }
+
             if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix gettext")) {
-                    return "--with-gettext=$output";
+                    if (file_exists($output)) {
+                        return "--with-gettext=$output";
+                    }
+                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
+
             return '--with-gettext';
         };
 
