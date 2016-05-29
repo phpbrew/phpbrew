@@ -5,6 +5,7 @@ use Exception;
 use RuntimeException;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\Build;
+use PhpBrew\PrefixFinder\BrewPrefixFinder;
 
 function first_existing_executable($possiblePaths)
 {
