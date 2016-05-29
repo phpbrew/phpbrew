@@ -538,6 +538,10 @@ class VariantBuilder
                 return "--with-openssl=$val";
             }
 
+            if ($prefix = Utils::findIncludePrefix('openssl/opensslv.h')) {
+                return "--with-openssl=$prefix";
+            }
+
             // Special detection and fallback for homebrew openssl
             // @see https://github.com/phpbrew/phpbrew/issues/607
             if ($bin = Utils::findBin('brew')) {
@@ -547,10 +551,6 @@ class VariantBuilder
                     }
                     echo "prefix $output doesn't exist.";
                 }
-            }
-
-            if ($prefix = Utils::findIncludePrefix('openssl/opensslv.h')) {
-                return "--with-openssl=$prefix";
             }
 
             if ($prefix = Utils::getPkgConfigPrefix('openssl')) {

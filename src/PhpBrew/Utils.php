@@ -215,14 +215,24 @@ class Utils
         return null;
     }
 
+    /**
+     * @param string $package
+     */
     public static function getPkgConfigPrefix($package)
     {
         if (self::findBin('pkg-config')) {
             $cmd = 'pkg-config --variable=prefix ' . $package;
             $process = new Process($cmd);
-            $process->run();
-            return trim($process->getOutput());
+            $code = $process->run();
+            if (intval($code) === 0) {
+                $path = trim($process->getOutput());
+                if (file_exists($path)) {
+                    return $path;
+                }
+            }
+            return false;
         }
+        return false;
     }
 
     public static function system($command, $logger = null, $build = null)

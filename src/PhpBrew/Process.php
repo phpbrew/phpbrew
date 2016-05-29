@@ -202,7 +202,12 @@ class Process
             throw new \RuntimeException(sprintf('The process stopped because of a "%s" signal.', $this->status['stopsig']));
         }
 
-        return $this->exitcode = $this->status['running'] ? $exitCode : $this->status['exitcode'];
+        //The exit code returned by the process (which is only meaningful if
+        //running is FALSE). Only first call of this function return real
+        //value, next calls return -1.
+        return $this->exitcode = $this->status['running']
+            ? $exitCode
+            : $this->status['exitcode'];
     }
 
     /**
