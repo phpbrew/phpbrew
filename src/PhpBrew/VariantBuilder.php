@@ -732,7 +732,7 @@ class VariantBuilder
                     $options[] = "--with-libxml-dir=$prefix";
                     break;
                 }
-            } while(0);
+            } while (0);
             return $options;
         };
         $this->variants['xml_all'] = $this->variants['xml'];
