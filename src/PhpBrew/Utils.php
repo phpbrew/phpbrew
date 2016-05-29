@@ -9,7 +9,6 @@ use RecursiveIteratorIterator;
 
 class Utils
 {
-
     public static function readTimeZone()
     {
         if (is_readable($tz = '/etc/timezone')) {

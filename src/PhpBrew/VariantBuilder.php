@@ -607,7 +607,6 @@ class VariantBuilder
         mysqlnd was added since php 5.3
         */
         $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') {
-
             $opts = array();
             if ($build->compareVersion('7.0') < 0) {
                 $opts[] = "--with-mysql=$prefix";

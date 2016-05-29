@@ -14,7 +14,9 @@ class CtagsCommand extends \CLIFramework\Command
     public function arguments($args)
     {
         $args->add('installed versions')
-            ->validValues(function () { return \PhpBrew\Config::getInstalledPhpVersions(); })
+            ->validValues(function () {
+                return \PhpBrew\Config::getInstalledPhpVersions();
+            })
             ;
     }
 

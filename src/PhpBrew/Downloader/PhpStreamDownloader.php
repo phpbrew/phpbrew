@@ -12,7 +12,6 @@ use RuntimeException;
 
 class PhpStreamDownloader extends BaseDownloader
 {
-
     protected function process($url, $targetFilePath)
     {
         $this->logger->info("Downloading $url via php stream");

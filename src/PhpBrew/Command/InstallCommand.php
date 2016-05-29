@@ -62,7 +62,9 @@ class InstallCommand extends Command
             $variants = new VariantBuilder;
             $list = $variants->getVariantNames();
             sort($list);
-            return array_map(function ($n) { return '+' . $n; }, $list);
+            return array_map(function ($n) {
+                return '+' . $n;
+            }, $list);
         });
     }
 

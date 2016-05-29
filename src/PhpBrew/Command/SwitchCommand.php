@@ -9,7 +9,6 @@ use PhpBrew\Config;
  */
 class SwitchCommand extends VirtualCommand
 {
-
     public function arguments($args)
     {
         $args->add('installed php')
