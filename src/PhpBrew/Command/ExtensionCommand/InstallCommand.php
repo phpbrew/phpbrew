@@ -13,7 +13,6 @@ use PhpBrew\Utils;
 
 class InstallCommand extends BaseCommand
 {
-
     public function usage()
     {
         return 'phpbrew [-dv, -r] ext install [extension name] [-- [options....]]';

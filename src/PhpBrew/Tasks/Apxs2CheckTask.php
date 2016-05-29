@@ -7,7 +7,6 @@ use PhpBrew\Build;
 
 class Apxs2CheckTask extends BaseTask
 {
-
     public function check(Build $build)
     {
         $apxs = $build->getVariant('apxs2');

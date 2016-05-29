@@ -7,7 +7,6 @@ use PHPUnit_Framework_TestCase;
 
 abstract class PatchTestCase extends PHPUnit_Framework_TestCase
 {
-
     protected function setupBuildDirectory($version)
     {
         $sourceDirectory = getenv('PHPBREW_BUILD_PHP_DIR');

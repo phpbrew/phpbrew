@@ -9,7 +9,6 @@ use PhpBrew\Tasks\FetchExtensionListTask;
 
 class KnownCommand extends \CLIFramework\Command
 {
-
     public function usage()
     {
         return 'phpbrew [-dv, -r] ext known extension_name';

@@ -4,7 +4,6 @@ namespace PhpBrew\Extension\Provider;
 
 interface Provider
 {
-
     public static function getName();
     public function getOwner();
     public function setOwner($owner);

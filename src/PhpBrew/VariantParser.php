@@ -9,7 +9,6 @@ class InvalidVariantSyntaxException extends Exception
 
 class VariantParser
 {
-
     public static function splitVariantValue($str)
     {
         if (strpos($str, '=') !== false) {

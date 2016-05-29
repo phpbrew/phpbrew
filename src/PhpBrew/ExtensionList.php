@@ -13,7 +13,6 @@ use RuntimeException;
 
 class ExtensionList
 {
-
     private $logger;
     private $options;
 

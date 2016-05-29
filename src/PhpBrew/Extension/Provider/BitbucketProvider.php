@@ -6,7 +6,6 @@ use PhpBrew\Config;
 
 class BitbucketProvider implements Provider
 {
-
     public $site = 'bitbucket.org';
     public $owner = null;
     public $repository = null;

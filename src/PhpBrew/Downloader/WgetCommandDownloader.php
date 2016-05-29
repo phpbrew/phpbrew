@@ -12,7 +12,6 @@ use PhpBrew\Utils;
 
 class WgetCommandDownloader extends BaseDownloader
 {
-
     protected $enableContinueAt = false;
 
     public function enableContinueAtOption()
