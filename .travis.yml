@@ -46,7 +46,7 @@ addons:
     - libjpeg8-dev
     - libjpeg8
     # - libgd-dev this package doesn't exist on Ubuntu 12.04
-    - libgd3
+    # - libgd3 doesn't exists on Travis CI
     - libxpm4
     # packages for intl variant
     - libicu-dev
