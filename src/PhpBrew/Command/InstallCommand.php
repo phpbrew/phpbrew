@@ -454,6 +454,13 @@ system-wide phpbrew or this might cause problems.");
                         $configContent = preg_replace('/^;?phar.readonly\s*=\s*.*/im', 'phar.readonly = 0', $configContent);
                     }
                 }
+
+                // turn off detect_encoding for 5.3
+                if ($build->compareVersion('5.4') < 0) {
+                    $this->logger->info("---> Turn off detect_encoding for php 5.3.*");
+                    $configContent = $configContent . "\ndetect_unicode = Off\n";
+                }
+
                 file_put_contents($targetConfigPath, $configContent);
             }
         }
