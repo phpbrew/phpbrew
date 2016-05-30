@@ -1,7 +1,8 @@
 <?php
+
 namespace PhpBrew\Command;
 
-/**
+/*
  * @codeCoverageIgnore
  */
 use Exception;

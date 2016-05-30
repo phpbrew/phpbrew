@@ -1,7 +1,7 @@
 <?php
+
 namespace PhpBrew\Command;
 
-use PhpBrew\Config;
 use CLIFramework\Command;
 
 class AppCommand extends Command

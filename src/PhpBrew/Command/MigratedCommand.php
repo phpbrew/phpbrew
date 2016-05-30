@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;

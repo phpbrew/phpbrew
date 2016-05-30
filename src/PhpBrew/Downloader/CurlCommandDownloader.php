@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: xiami
  * Date: 2015/12/30
- * Time: 11:57
+ * Time: 11:57.
  */
 
 namespace PhpBrew\Downloader;
@@ -24,7 +24,7 @@ class CurlCommandDownloader extends BaseDownloader
         $this->logger->info('downloading via curl command');
         //todo proxy setting
         $silent = $this->logger->isQuiet() ? '--silent ' : '';
-        $command = array("curl");
+        $command = array('curl');
 
         if ($proxy = $this->options->{'http-proxy'}) {
             $this->logger->warn('http proxy is not support by this download.');
@@ -33,20 +33,20 @@ class CurlCommandDownloader extends BaseDownloader
             $this->logger->warn('http proxy is not support by this download.');
         }
 
-
         if ($this->enableContinueAt || $this->options->{'continue'}) {
-            $command[] = "-C -";
+            $command[] = '-C -';
         }
-        $command[] = "-L";
+        $command[] = '-L';
         if ($this->logger->isQuiet()) {
             $command[] = '--silent';
         }
-        $command[] = "-o";
+        $command[] = '-o';
         $command[] = escapeshellarg($targetFilePath);
         $command[] = escapeshellarg($url);
-        $cmd = join(' ', $command);
+        $cmd = implode(' ', $command);
         $this->logger->debug($cmd);
         Utils::system($cmd);
+
         return true;
     }
 

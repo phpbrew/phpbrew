@@ -37,12 +37,12 @@ class Process
     /**
      * Constructor.
      *
-     * @param string  $commandline The command line to run
-     * @param string  $cwd         The working directory
-     * @param array   $env         The environment variables
-     * @param string  $stdin       The STDIN content
-     * @param integer $timeout     The timeout in seconds
-     * @param array   $options     An array of options for proc_open
+     * @param string $commandline The command line to run
+     * @param string $cwd         The working directory
+     * @param array  $env         The environment variables
+     * @param string $stdin       The STDIN content
+     * @param int    $timeout     The timeout in seconds
+     * @param array  $options     An array of options for proc_open
      *
      * @throws \RuntimeException When proc_open is not installed
      *
@@ -95,7 +95,7 @@ class Process
      * @param callable|string|array $callback A PHP callback to run whenever there is some
      *                                        output available on STDOUT or STDERR
      *
-     * @return integer The exit status code
+     * @return int The exit status code
      *
      * @throws \RuntimeException When process can't be launch or is stopped
      *
@@ -243,7 +243,7 @@ class Process
     /**
      * Returns the exit code returned by the process.
      *
-     * @return integer The exit status code
+     * @return int The exit status code
      *
      * @api
      */
@@ -255,7 +255,7 @@ class Process
     /**
      * Checks if the process ended successfully.
      *
-     * @return Boolean true if the process ended successfully, false otherwise
+     * @return bool true if the process ended successfully, false otherwise
      *
      * @api
      */
@@ -269,7 +269,7 @@ class Process
      *
      * It always returns false on Windows.
      *
-     * @return Boolean
+     * @return bool
      *
      * @api
      */
@@ -283,7 +283,7 @@ class Process
      *
      * It is only meaningful if hasBeenSignaled() returns true.
      *
-     * @return integer
+     * @return int
      *
      * @api
      */
@@ -297,7 +297,7 @@ class Process
      *
      * It always returns false on Windows.
      *
-     * @return Boolean
+     * @return bool
      *
      * @api
      */
@@ -307,11 +307,11 @@ class Process
     }
 
     /**
-     * Returns the number of the signal that caused the child process to stop its execution
+     * Returns the number of the signal that caused the child process to stop its execution.
      *
      * It is only meaningful if hasBeenStopped() returns true.
      *
-     * @return integer
+     * @return int
      *
      * @api
      */

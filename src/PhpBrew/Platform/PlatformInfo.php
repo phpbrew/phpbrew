@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Platform;
 
 class PlatformInfo
@@ -11,6 +12,7 @@ class PlatformInfo
             $kernelName = php_uname('s');
             self::$instance = new static(self::createPlatform($kernelName));
         }
+
         return self::$instance;
     }
 

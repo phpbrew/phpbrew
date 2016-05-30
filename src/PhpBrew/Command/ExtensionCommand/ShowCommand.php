@@ -1,13 +1,12 @@
 <?php
+
 namespace PhpBrew\Command\ExtensionCommand;
 
 use PhpBrew\Config;
 use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\PeclExtension;
-use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
 use Exception;
-use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
 class ShowCommand extends BaseCommand
 {
@@ -30,11 +29,12 @@ class ShowCommand extends BaseCommand
     {
         $args->add('extension')
             ->suggestions(function () {
-                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+                $extdir = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
+                        return $d != '.' && $d != '..' && is_dir($extdir.DIRECTORY_SEPARATOR.$d);
                     }
                 );
             });
@@ -47,8 +47,8 @@ class ShowCommand extends BaseCommand
             'Source Directory' => $ext->getSourceDirectory(),
             'Config' => $ext->getConfigM4Path(),
             'INI File' => $ext->getConfigFilePath(),
-            'Extension'    => ($ext instanceof PeclExtension) ? 'Pecl' : 'Core',
-            'Zend'              => $ext->isZend() ? 'yes' : 'no',
+            'Extension' => ($ext instanceof PeclExtension) ? 'Pecl' : 'Core',
+            'Zend' => $ext->isZend() ? 'yes' : 'no',
             'Loaded' => (extension_loaded($ext->getExtensionName())
                 ? $this->formatter->format('yes', 'green')
                 : $this->formatter->format('no', 'red')),
@@ -65,7 +65,7 @@ class ShowCommand extends BaseCommand
             $this->logger->newline();
             foreach ($options as $option) {
                 $this->logger->writeln(sprintf('        %-32s %s',
-                        $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
+                        $option->option.($option->valueHint ? '[='.$option->valueHint.']' : ''),
                         $option->desc));
                 $this->logger->newline();
             }
@@ -82,7 +82,7 @@ class ShowCommand extends BaseCommand
 
         // Extension not found, use pecl to download it.
         if (!$ext && $this->options->{'download'}) {
-            $extensionList = new ExtensionList;
+            $extensionList = new ExtensionList();
             // initial local list
             $extensionList->initLocalExtensionList($this->logger, $this->options);
 

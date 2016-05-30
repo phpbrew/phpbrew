@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\PatchKit;
 
 use PhpBrew\Buildable;
@@ -19,14 +20,14 @@ abstract class Patch
     abstract public function match(Buildable $build, Logger $logger);
 
     /**
-     * rules method returns the array of PatchRule class
+     * rules method returns the array of PatchRule class.
      *
      * @return array<PatchRule>
      */
     abstract public function rules();
 
     /**
-     * Each patch may implement its own logic to patch the file
+     * Each patch may implement its own logic to patch the file.
      */
     public function apply(Buildable $build, Logger $logger)
     {
@@ -42,6 +43,7 @@ abstract class Patch
                 }
             }
         }
+
         return $cnt;
     }
 }

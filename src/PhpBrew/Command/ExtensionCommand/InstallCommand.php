@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command\ExtensionCommand;
 
 use Exception;
@@ -7,7 +8,6 @@ use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\ExtensionList;
 use PhpBrew\Utils;
 
@@ -38,11 +38,12 @@ class InstallCommand extends BaseCommand
     {
         $args->add('extensions')
             ->suggestions(function () {
-                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+                $extdir = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
+                        return $d != '.' && $d != '..' && is_dir($extdir.DIRECTORY_SEPARATOR.$d);
                     }
                 );
             });
@@ -63,6 +64,7 @@ class InstallCommand extends BaseCommand
                 $version = $args[0];
             }
         }
+
         return (object) array(
             'version' => $version,
             'options' => $options,
@@ -74,20 +76,21 @@ class InstallCommand extends BaseCommand
         parent::prepare();
 
         $buildDir = Config::getCurrentBuildDir();
-        $extDir = $buildDir . DIRECTORY_SEPARATOR . 'ext';
-        if (! is_dir($extDir)) {
+        $extDir = $buildDir.DIRECTORY_SEPARATOR.'ext';
+        if (!is_dir($extDir)) {
             $this->logger->error("Error: The ext directory '$extDir' does not exist.");
             $this->logger->error("It looks like you don't have the PHP source in $buildDir or you didn't extract the tarball.");
-            $this->logger->error("Suggestion: Please install at least one PHP with your prefered version and switch to it.");
+            $this->logger->error('Suggestion: Please install at least one PHP with your prefered version and switch to it.');
+
             return false;
         }
+
         return true;
     }
 
-
     public function execute($extName, $version = 'stable')
     {
-        if (version_compare(PHP_VERSION, "7.0.0") > 0) {
+        if (version_compare(PHP_VERSION, '7.0.0') > 0) {
             $this->logger->warn(
 "Warning: Some extension won't be able to be built with php7. If the extension
 supports php7 in another branch or new major version, you will need to specify
@@ -100,16 +103,16 @@ For example, to install memcached extension for php7, use:
             );
         }
 
-        if (strtolower($extName) === "apc" && version_compare(PHP_VERSION, "5.6.0") > 0) {
-            $this->logger->warn("apc is not compatible with php 5.6+ versions, install apcu instead.");
+        if (strtolower($extName) === 'apc' && version_compare(PHP_VERSION, '5.6.0') > 0) {
+            $this->logger->warn('apc is not compatible with php 5.6+ versions, install apcu instead.');
         }
 
         // Detect protocol
-        if ((preg_match('#^git://#', $extName) || preg_match('#\.git$#', $extName)) && !preg_match("#github|bitbucket#", $extName)) {
+        if ((preg_match('#^git://#', $extName) || preg_match('#\.git$#', $extName)) && !preg_match('#github|bitbucket#', $extName)) {
             $pathinfo = pathinfo($extName);
             $repoUrl = $extName;
             $extName = $pathinfo['filename'];
-            $extDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . Config::getCurrentPhpName() . DIRECTORY_SEPARATOR . 'ext' . DIRECTORY_SEPARATOR . $extName;
+            $extDir = Config::getBuildDir().DIRECTORY_SEPARATOR.Config::getCurrentPhpName().DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR.$extName;
             if (!file_exists($extDir)) {
                 passthru("git clone $repoUrl $extDir", $ret);
                 if ($ret != 0) {
@@ -142,7 +145,7 @@ For example, to install memcached extension for php7, use:
         foreach ($extensions as $extensionName => $extConfig) {
             $provider = $extensionList->exists($extensionName);
 
-            if (! $provider) {
+            if (!$provider) {
                 throw new Exception("Could not find provider for $extensionName.");
             }
 
@@ -150,10 +153,10 @@ For example, to install memcached extension for php7, use:
             $ext = ExtensionFactory::lookupRecursive($extensionName);
 
             $always_redownload =
-                $this->options->{'pecl'} || $this->options->{'redownload'} || (! $provider->isBundled($extensionName));
+                $this->options->{'pecl'} || $this->options->{'redownload'} || (!$provider->isBundled($extensionName));
 
             // Extension not found, use pecl to download it.
-            if (! $ext || $always_redownload) {
+            if (!$ext || $always_redownload) {
 
                 // not every project has stable branch, using master as default version
                 $args = array_slice(func_get_args(), 1);

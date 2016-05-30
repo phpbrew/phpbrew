@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
@@ -25,19 +26,19 @@ class CtagsCommand extends \CLIFramework\Command
         $args = func_get_args();
         array_shift($args);
 
-
         // $currentVersion;
         $root = Config::getRoot();
         $home = Config::getHome();
 
         if ($versionName) {
-            $sourceDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $versionName;
+            $sourceDir = Config::getBuildDir().DIRECTORY_SEPARATOR.$versionName;
         } else {
             if (!getenv('PHPBREW_PHP')) {
-                $this->logger->error("Error: PHPBREW_PHP environment variable is not defined.");
-                $this->logger->error("  This command requires you specify a PHP version from your build list.");
+                $this->logger->error('Error: PHPBREW_PHP environment variable is not defined.');
+                $this->logger->error('  This command requires you specify a PHP version from your build list.');
                 $this->logger->error("  And it looks like you haven't switched to a version from the builds that were built with PHPBrew.");
-                $this->logger->error("Suggestion: Please install at least one PHP with your prefered version and switch to it.");
+                $this->logger->error('Suggestion: Please install at least one PHP with your prefered version and switch to it.');
+
                 return false;
             }
             $sourceDir = Config::getCurrentBuildDir();
@@ -45,7 +46,7 @@ class CtagsCommand extends \CLIFramework\Command
         if (!file_exists($sourceDir)) {
             return $this->logger->error("$sourceDir does not exist.");
         }
-        $this->logger->info("Scanning " . $sourceDir);
+        $this->logger->info('Scanning '.$sourceDir);
 
         $cmd = new CommandBuilder('ctags');
         $cmd->arg('-R');
@@ -53,9 +54,9 @@ class CtagsCommand extends \CLIFramework\Command
         $cmd->arg('-h');
         $cmd->arg('.c.h.cpp');
 
-        $cmd->arg($sourceDir . DIRECTORY_SEPARATOR . 'main');
-        $cmd->arg($sourceDir . DIRECTORY_SEPARATOR . 'ext');
-        $cmd->arg($sourceDir . DIRECTORY_SEPARATOR . 'Zend');
+        $cmd->arg($sourceDir.DIRECTORY_SEPARATOR.'main');
+        $cmd->arg($sourceDir.DIRECTORY_SEPARATOR.'ext');
+        $cmd->arg($sourceDir.DIRECTORY_SEPARATOR.'Zend');
 
         foreach ($args as $a) {
             $cmd->arg($a);
@@ -64,6 +65,6 @@ class CtagsCommand extends \CLIFramework\Command
         $this->logger->debug($cmd->__toString());
         $cmd->execute();
 
-        $this->logger->info("Done");
+        $this->logger->info('Done');
     }
 }

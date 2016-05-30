@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew;
 
 use Exception;
@@ -17,7 +18,7 @@ class VariantParser
             return array($name => $val);
         }
 
-        return array( $str => true );
+        return array($str => true);
     }
 
     public static function parseCommandArguments(array $args)
@@ -41,7 +42,7 @@ class VariantParser
 
             if ($arg[0] === '+' || $arg[0] === '-') {
                 if (substr($arg, 0, 2) === '--') {
-                    throw new InvalidVariantSyntaxException("Invalid variant syntax exception start with '--': " . $arg);
+                    throw new InvalidVariantSyntaxException("Invalid variant syntax exception start with '--': ".$arg);
                 }
                 preg_match_all('#[+-][\w_]+(=[\"\'\.\/\w_-]+)?#', $arg, $variantStrings);
 
@@ -55,7 +56,7 @@ class VariantParser
                             $a = self::splitVariantValue(substr($str, 1));
                             $disabledVariants = array_merge($disabledVariants, $a);
                         } else {
-                            throw new InvalidVariantSyntaxException($str . " is invalid syntax");
+                            throw new InvalidVariantSyntaxException($str.' is invalid syntax');
                         }
                     }
                 }
@@ -63,6 +64,7 @@ class VariantParser
                 throw new InvalidVariantSyntaxException("Unsupported variant syntax: $arg");
             }
         }
+
         return array(
             'enabled_variants' => $enabledVariants,
             'disabled_variants' => $disabledVariants,
@@ -70,26 +72,26 @@ class VariantParser
         );
     }
 
-
     /**
-     * Reveal the variants info to command arguments
+     * Reveal the variants info to command arguments.
      */
     public static function revealCommandArguments(array $info)
     {
         $out = '';
 
         foreach ($info['enabled_variants'] as $k => $v) {
-            $out .= ' +' . $k;
-            if (! is_bool($v)) {
-                $out .= '=' . $v . ' ';
+            $out .= ' +'.$k;
+            if (!is_bool($v)) {
+                $out .= '='.$v.' ';
             }
         }
         if (!empty($info['disabled_variants'])) {
-            $out .= " -" . join('-', array_keys($info['disabled_variants']));
+            $out .= ' -'.implode('-', array_keys($info['disabled_variants']));
         }
         if (!empty($info['extra_options'])) {
-            $out .= " -- " . join(' ', $info['extra_options']);
+            $out .= ' -- '.implode(' ', $info['extra_options']);
         }
+
         return $out;
     }
 }

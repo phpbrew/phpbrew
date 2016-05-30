@@ -1,9 +1,9 @@
 <?php
+
 namespace PhpBrew;
 
 use CLIFramework\Logger;
 use PhpBrew\Exception\SystemCommandException;
-use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -19,20 +19,22 @@ class Utils
                 return trim($lines[0]);
             }
         }
+
         return false;
     }
 
     public static function canonicalizeBuildName($version)
     {
         if (!preg_match('/^php-/', $version)) {
-            return 'php-' . $version;
+            return 'php-'.$version;
         }
+
         return $version;
     }
 
     public static function support64bit()
     {
-        $int = "9223372036854775807";
+        $int = '9223372036854775807';
         $int = intval($int);
         if ($int == 9223372036854775807) {
             /* 64bit */
@@ -48,7 +50,7 @@ class Utils
     }
 
     /**
-     * Find bin from prefix list
+     * Find bin from prefix list.
      *
      * @param string $bin
      *
@@ -59,20 +61,20 @@ class Utils
         $prefixes = self::getLookupPrefixes();
 
         foreach ($prefixes as $prefix) {
-            $binPath = $prefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
+            $binPath = $prefix.DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.$bin;
 
             if (file_exists($binPath)) {
                 return $binPath;
             }
 
-            $binPath = $prefix . DIRECTORY_SEPARATOR . 'sbin' . DIRECTORY_SEPARATOR . $bin;
+            $binPath = $prefix.DIRECTORY_SEPARATOR.'sbin'.DIRECTORY_SEPARATOR.$bin;
 
             if (file_exists($binPath)) {
                 return $binPath;
             }
         }
 
-        return null;
+        return;
     }
 
     public static function findLibDir()
@@ -99,9 +101,9 @@ class Utils
                 return "lib/$arch";
             }
         }
-        return null;
-    }
 
+        return;
+    }
 
     public static function detectArch($prefix)
     {
@@ -130,9 +132,9 @@ class Utils
                 return $archName;
             }
         }
-        return null;
-    }
 
+        return;
+    }
 
     public static function getLookupPrefixes()
     {
@@ -157,6 +159,7 @@ class Utils
                 $prefixes[] = "$prefix/$arch";
             }
         }
+
         return array_reverse($prefixes);
     }
 
@@ -171,14 +174,14 @@ class Utils
         $prefixes = self::getLookupPrefixes();
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $path = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
+                $path = $prefix.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.$file;
                 if (file_exists($path)) {
                     return $prefix;
                 }
             }
         }
 
-        return null;
+        return;
     }
 
     public static function findLibPrefix()
@@ -188,14 +191,14 @@ class Utils
 
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $p = $prefix . DIRECTORY_SEPARATOR . $file;
+                $p = $prefix.DIRECTORY_SEPARATOR.$file;
                 if (file_exists($p)) {
                     return $prefix;
                 }
             }
         }
 
-        return null;
+        return;
     }
 
     public static function findIncludePrefix()
@@ -205,14 +208,14 @@ class Utils
 
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $path = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
+                $path = $prefix.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.$file;
                 if (file_exists($path)) {
                     return $prefix;
                 }
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -221,7 +224,7 @@ class Utils
     public static function getPkgConfigPrefix($package)
     {
         if (self::findBin('pkg-config')) {
-            $cmd = 'pkg-config --variable=prefix ' . $package;
+            $cmd = 'pkg-config --variable=prefix '.$package;
             $process = new Process($cmd);
             $code = $process->run();
             if (intval($code) === 0) {
@@ -230,32 +233,36 @@ class Utils
                     return $path;
                 }
             }
+
             return false;
         }
+
         return false;
     }
 
     public static function system($command, $logger = null, $build = null)
     {
         if (is_array($command)) {
-            $command = join(' ', $command);
+            $command = implode(' ', $command);
         }
 
         if ($logger) {
-            $logger->debug("Running Command:" . $command);
+            $logger->debug('Running Command:'.$command);
         }
 
         $lastline = system($command, $returnValue);
         if ($returnValue !== 0) {
             throw new SystemCommandException("Command failed: $command returns: $lastline", $build);
         }
+
         return $returnValue;
     }
 
     /**
      * Find executable binary by PATH environment.
      *
-     * @param  string $bin binary name
+     * @param string $bin binary name
+     *
      * @return string the path
      */
     public static function findBin($bin)
@@ -264,7 +271,7 @@ class Utils
         $paths = explode(PATH_SEPARATOR, $path);
 
         foreach ($paths as $path) {
-            $f = $path . DIRECTORY_SEPARATOR . $bin;
+            $f = $path.DIRECTORY_SEPARATOR.$bin;
             // realpath will handle file existence or symbolic link automatically
             $f = realpath($f);
             if ($f !== false) {
@@ -272,7 +279,7 @@ class Utils
             }
         }
 
-        return null;
+        return;
     }
 
     public static function pipeExecute($command)
@@ -280,9 +287,9 @@ class Utils
         $proc = proc_open(
             $command,
             array(
-                array("pipe","r"), // stdin
-                array("pipe","w"), // stdout
-                array("pipe","w"), // stderr
+                array('pipe', 'r'), // stdin
+                array('pipe', 'w'), // stdout
+                array('pipe', 'w'), // stderr
             ),
             $pipes
         );
@@ -292,12 +299,12 @@ class Utils
 
     public static function startsWith($haystack, $needle)
     {
-        return $needle === "" || strpos($haystack, $needle) === 0;
+        return $needle === '' || strpos($haystack, $needle) === 0;
     }
 
     public static function endsWith($haystack, $needle)
     {
-        return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+        return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
     }
 
     public static function findLatestPhpVersion($version = null)
@@ -317,7 +324,7 @@ class Utils
                 while ($file = readdir($fp)) {
                     if ($file === '.'
                         || $file === '..'
-                        || is_file($buildDir . DIRECTORY_SEPARATOR . $file)
+                        || is_file($buildDir.DIRECTORY_SEPARATOR.$file)
                     ) {
                         continue;
                     }
@@ -349,7 +356,7 @@ class Utils
         $directoryIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
         $it = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($it as $file) {
-            $logger->debug("Deleting " . $file->getPathname());
+            $logger->debug('Deleting '.$file->getPathname());
             if ($file->isDir()) {
                 rmdir($file->getPathname());
             } else {
@@ -365,7 +372,7 @@ class Utils
 
     public static function editor($file)
     {
-        $tty  = exec("tty");
+        $tty = exec('tty');
         $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
         exec("{$editor} {$file} > {$tty}");
     }

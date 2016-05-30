@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Patches;
 
 use PhpBrew\Buildable;
@@ -10,7 +11,7 @@ class Apache2ModuleNamePatch extends Patch
 {
     public function desc()
     {
-        return "replace apache php module name with custom version name";
+        return 'replace apache php module name with custom version name';
     }
 
     public function match(Buildable $build, Logger $logger)
@@ -21,7 +22,6 @@ class Apache2ModuleNamePatch extends Patch
     public function rules()
     {
         $rules = array();
-
 
         /*
         This is for replacing something like this:
@@ -53,7 +53,6 @@ class Apache2ModuleNamePatch extends Patch
             ->replaces(
                 '#libphp\$\(PHP_MAJOR_VERSION\)#',
                 'libphp$(PHP_VERSION)');
-
 
         return $rules;
     }

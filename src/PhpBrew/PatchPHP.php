@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew;
 
 /**
@@ -34,11 +35,11 @@ class PatchPHP
 
     public function getPatchFilename()
     {
-        return ($this->patchName ?: uniqid()) . '.patch';
+        return ($this->patchName ?: uniqid()).'.patch';
     }
 
     /**
-     * fetch remote diff
+     * fetch remote diff.
      *
      * @param string $url
      */
@@ -48,7 +49,7 @@ class PatchPHP
     }
 
     /**
-     * patch file
+     * patch file.
      */
     public function patch()
     {

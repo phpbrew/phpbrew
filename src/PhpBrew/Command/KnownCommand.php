@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
@@ -27,7 +28,7 @@ class KnownCommand extends \CLIFramework\Command
 
     public function execute()
     {
-        $releaseList = new ReleaseList;
+        $releaseList = new ReleaseList();
 
         $releases = array();
         //always fetch list from remote when --old presents, because the local file may not contain the old versions
@@ -38,19 +39,19 @@ class KnownCommand extends \CLIFramework\Command
         } else {
             $this->logger->info(sprintf('Read local release list (last update: %s UTC).', gmdate('Y-m-d H:i:s', filectime(Config::getPHPReleaseListPath()))));
             $releases = $releaseList->loadLocalReleaseList();
-            $this->logger->info("You can run `phpbrew update` or `phpbrew known --update` to get a newer release list.");
+            $this->logger->info('You can run `phpbrew update` or `phpbrew known --update` to get a newer release list.');
         }
 
         foreach ($releases as $majorVersion => $versions) {
-            if (version_compare($majorVersion, '5.2', 'le') && ! $this->options->old) {
+            if (version_compare($majorVersion, '5.2', 'le') && !$this->options->old) {
                 continue;
             }
             $versionList = array_keys($versions);
             if (!$this->options->more) {
                 array_splice($versionList, 8);
             }
-            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow') . wordwrap(join(', ', $versionList), 80, "\n" . str_repeat(' ', 5))
-                . (!$this->options->more ? ' ...' : ''));
+            $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow').wordwrap(implode(', ', $versionList), 80, "\n".str_repeat(' ', 5))
+                .(!$this->options->more ? ' ...' : ''));
         }
 
         if ($this->options->old) {

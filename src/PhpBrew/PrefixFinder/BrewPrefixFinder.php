@@ -1,5 +1,7 @@
 <?php
+
 namespace PhpBrew\PrefixFinder;
+
 use PhpBrew\Utils;
 
 class BrewPrefixFinder
@@ -16,9 +18,11 @@ class BrewPrefixFinder
                 return $prefix;
             }
             $reason = "$prefix doesn't exist.";
+
             return false;
         }
         $reason = "hombrew formula {$formula} not found.";
+
         return false;
     }
 
@@ -28,12 +32,10 @@ class BrewPrefixFinder
         exec($command, $output, $retval);
         if ($retval === 0) {
             $output = array_filter($output);
+
             return end($output);
         }
+
         return false;
     }
 }
-
-
-
-

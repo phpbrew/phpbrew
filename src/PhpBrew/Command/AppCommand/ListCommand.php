@@ -1,10 +1,9 @@
 <?php
+
 namespace PhpBrew\Command\AppCommand;
 
-use PhpBrew\Config;
 use PhpBrew\AppStore;
 use CLIFramework\Command;
-use Exception;
 
 class ListCommand extends Command
 {

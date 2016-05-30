@@ -1,16 +1,16 @@
 <?php
+
 namespace PhpBrew\PatchKit;
 
 use PhpBrew\Buildable;
 use CLIFramework\Logger;
 
 /**
- * RegExpPatchRule implements a pcre_replace based patch rule
+ * RegExpPatchRule implements a pcre_replace based patch rule.
  */
 class RegExpPatchRule implements PatchRule
 {
     private $files;
-
 
     /**
      * @var string the regexp pattern
@@ -23,22 +23,20 @@ class RegExpPatchRule implements PatchRule
     private $replacement;
 
     /**
-     * @var callable|boolean
+     * @var callable|bool
      */
     private $predictor;
-
 
     /**
      * @param string $files
      */
     public function __construct(array $files)
     {
-        $this->files       = $files;
+        $this->files = $files;
     }
 
-
     /**
-     * This method build up the predicator
+     * This method build up the predicator.
      */
     public function allOf(array $patterns)
     {
@@ -48,8 +46,10 @@ class RegExpPatchRule implements PatchRule
                     return false;
                 }
             }
+
             return true;
         };
+
         return $this;
     }
 
@@ -64,31 +64,32 @@ class RegExpPatchRule implements PatchRule
                     return true;
                 }
             }
+
             return false;
         };
+
         return $this;
     }
 
     public function always()
     {
         $this->predicator = true;
+
         return $this;
     }
-
 
     public function replaces($pattern, $replacement)
     {
         $this->pattern = $pattern;
         $this->replacement = $replacement;
+
         return $this;
     }
 
-
     public static function files($files)
     {
-        return new self((array)$files);
+        return new self((array) $files);
     }
-
 
     protected function applyLines(array $lines, &$patched)
     {
@@ -99,6 +100,7 @@ class RegExpPatchRule implements PatchRule
                 $patched += $count;
             }
         }
+
         return implode($lines, PHP_EOL);
     }
 
@@ -116,7 +118,7 @@ class RegExpPatchRule implements PatchRule
     public function backup(Buildable $build, Logger $logger)
     {
         foreach ($this->files as $file) {
-            $path = $build->getSourceDirectory() . DIRECTORY_SEPARATOR . $file;
+            $path = $build->getSourceDirectory().DIRECTORY_SEPARATOR.$file;
             if (!file_exists($path)) {
                 $logger->error("file $path doesn't exist in the build directory.");
                 continue;
@@ -127,7 +129,7 @@ class RegExpPatchRule implements PatchRule
 
     protected function backupFile($path)
     {
-        $bakPath = $path . '.' . time() . '.bak';
+        $bakPath = $path.'.'.time().'.bak';
         copy($path, $bakPath);
     }
 
@@ -135,7 +137,7 @@ class RegExpPatchRule implements PatchRule
     {
         $patched = 0;
         foreach ($this->files as $file) {
-            $path = $build->getSourceDirectory() . DIRECTORY_SEPARATOR . $file;
+            $path = $build->getSourceDirectory().DIRECTORY_SEPARATOR.$file;
             if (!file_exists($path)) {
                 $logger->error("file $path doesn't exist in the build directory.");
                 continue;
@@ -147,6 +149,7 @@ class RegExpPatchRule implements PatchRule
                 }
             }
         }
+
         return $patched;
     }
 }

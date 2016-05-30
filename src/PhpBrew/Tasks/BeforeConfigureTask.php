@@ -1,17 +1,13 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Exception\SystemCommandException;
-use RuntimeException;
-use PhpBrew\CommandBuilder;
-use PhpBrew\Config;
 use PhpBrew\Build;
-use PhpBrew\Patches\IntlWith64bitPatch;
 use PhpBrew\Patches\Apache2ModuleNamePatch;
-use PhpBrew\Patches\OpenSSLDSOPatch;
 
 /**
- * Task run before 'configure'
+ * Task run before 'configure'.
  */
 class BeforeConfigureTask extends BaseTask
 {
@@ -22,7 +18,7 @@ class BeforeConfigureTask extends BaseTask
 
     public function run(Build $build)
     {
-        if (!file_exists($build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
+        if (!file_exists($build->getSourceDirectory().DIRECTORY_SEPARATOR.'configure')) {
             $this->debug("configure file not found, running './buildconf --force'...");
             $lastline = system('./buildconf --force', $status);
             if ($status !== 0) {
@@ -35,7 +31,7 @@ class BeforeConfigureTask extends BaseTask
             $this->info("===> Applying patch file from $patchPath ...");
 
             // Search for strip parameter
-            for ($i = 0; $i <= 16; $i++) {
+            for ($i = 0; $i <= 16; ++$i) {
                 ob_start();
                 system("patch -p$i --dry-run < $patchPath", $return);
                 ob_end_clean();
@@ -54,11 +50,11 @@ class BeforeConfigureTask extends BaseTask
         }
 
         if (!$this->options->{'no-patch'}) {
-            $this->logger->info("===> Checking patches...");
+            $this->logger->info('===> Checking patches...');
             $patches = array();
-            $patches[] = new Apache2ModuleNamePatch;
+            $patches[] = new Apache2ModuleNamePatch();
             foreach ($patches as $patch) {
-                $this->logger->info("Checking patch for " . $patch->desc());
+                $this->logger->info('Checking patch for '.$patch->desc());
                 if ($patch->match($build, $this->logger)) {
                     $patched = $patch->apply($build, $this->logger);
                     $this->logger->info("$patched changes patched.");

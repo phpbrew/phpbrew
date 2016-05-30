@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew;
 
 use Serializable;
@@ -7,7 +8,7 @@ use PhpBrew\BuildSettings\BuildSettings;
 /**
  * A build object contains version information,
  * variant configuration,
- * paths and an build identifier (BuildId)
+ * paths and an build identifier (BuildId).
  */
 class Build implements Serializable, Buildable
 {
@@ -18,11 +19,11 @@ class Build implements Serializable, Buildable
      * States that describe finished task.
      */
     const STATE_NONE = 0;
-    const STATE_DOWNLOAD  = 1;
-    const STATE_EXTRACT   = 2;
+    const STATE_DOWNLOAD = 1;
+    const STATE_EXTRACT = 2;
     const STATE_CONFIGURE = 3;
-    const STATE_BUILD     = 4;
-    const STATE_INSTALL   = 5;
+    const STATE_BUILD = 4;
+    const STATE_INSTALL = 5;
 
     public $name;
 
@@ -43,9 +44,7 @@ class Build implements Serializable, Buildable
      */
     protected $configDirectory;
 
-
     public $phpEnvironment = self::ENV_DEVELOPMENT;
-
 
     /**
      * @var PhpBrew\BuildSettings
@@ -53,29 +52,27 @@ class Build implements Serializable, Buildable
     public $settings;
 
     /**
-     * Build state
+     * Build state.
      *
      * @var string
      */
     public $state;
 
-
-
     /**
-     * environment related information (should be moved to environment class)
+     * environment related information (should be moved to environment class).
      */
     public $osName;
 
     public $osRelease;
 
     /**
-     * Construct a Build object,
+     * Construct a Build object,.
      *
      * A build object contains the information of all build options, prefix, paths... etc
      *
-     * @param string $version build version
-     * @param string $name    build name
-     * @param string $installPrefix  install prefix
+     * @param string $version       build version
+     * @param string $name          build name
+     * @param string $installPrefix install prefix
      */
     public function __construct($version, $name = null, $installPrefix = null)
     {
@@ -100,7 +97,6 @@ class Build implements Serializable, Buildable
     {
         $this->osRelease = $osRelease;
     }
-
 
     public function setName($name)
     {
@@ -137,7 +133,6 @@ class Build implements Serializable, Buildable
         return $this->configDirectory;
     }
 
-
     /**
      * PHP Source directory, this method returns value only when source directory is set.
      */
@@ -157,12 +152,12 @@ class Build implements Serializable, Buildable
 
     public function isBuildable()
     {
-        return file_exists($this->sourceDirectory . DIRECTORY_SEPARATOR . 'Makefile');
+        return file_exists($this->sourceDirectory.DIRECTORY_SEPARATOR.'Makefile');
     }
 
     public function getBuildLogPath()
     {
-        $dir = $this->getSourceDirectory() . DIRECTORY_SEPARATOR . 'build.log';
+        $dir = $this->getSourceDirectory().DIRECTORY_SEPARATOR.'build.log';
 
         return $dir;
     }
@@ -174,12 +169,12 @@ class Build implements Serializable, Buildable
 
     public function getBinDirectory()
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
+        return $this->installPrefix.DIRECTORY_SEPARATOR.'bin';
     }
 
     public function getEtcDirectory()
     {
-        $etc = $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
+        $etc = $this->installPrefix.DIRECTORY_SEPARATOR.'etc';
         if (!file_exists($etc)) {
             mkdir($etc, 0755, true);
         }
@@ -189,12 +184,12 @@ class Build implements Serializable, Buildable
 
     public function getVarDirectory()
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var';
+        return $this->installPrefix.DIRECTORY_SEPARATOR.'var';
     }
 
     public function getVarConfigDirectory()
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+        return $this->installPrefix.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'db';
     }
 
     public function getInstallPrefix()
@@ -203,16 +198,16 @@ class Build implements Serializable, Buildable
     }
 
     /**
-     * Returns {prefix}/var/db path
+     * Returns {prefix}/var/db path.
      */
     public function getCurrentConfigScanPath()
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
+        return $this->installPrefix.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'db';
     }
 
     public function getPath($subpath)
     {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
+        return $this->installPrefix.DIRECTORY_SEPARATOR.$subpath;
     }
 
     /**
@@ -235,7 +230,7 @@ class Build implements Serializable, Buildable
                     $names[] = $n;
                 } else {
                     $v = preg_replace('#\W+#', '_', $v);
-                    $str = $n . '=' . $v;
+                    $str = $n.'='.$v;
                     $names[] = $str;
                 }
             }
@@ -247,12 +242,12 @@ class Build implements Serializable, Buildable
             $names[] = 'dev';
         }
 
-        return join('-', $names);
+        return implode('-', $names);
     }
 
     public function getSourceExtensionDirectory()
     {
-        return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
+        return $this->sourceDirectory.DIRECTORY_SEPARATOR.'ext';
     }
 
     public function setBuildSettings(BuildSettings $settings)
@@ -265,7 +260,7 @@ class Build implements Serializable, Buildable
         // also contains the variant info,
         // but for backward compatibility, we still need a method to handle
         // the variant info file..
-        $variantFile = $this->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        $variantFile = $this->getInstallPrefix().DIRECTORY_SEPARATOR.'phpbrew.variants';
         if (file_exists($variantFile)) {
             $this->settings->loadVariantInfoFile($variantFile);
         }
@@ -280,7 +275,7 @@ class Build implements Serializable, Buildable
     }
 
     /**
-     * XXX: Make sure Serializable interface works for php 5.3
+     * XXX: Make sure Serializable interface works for php 5.3.
      */
     public function serialize()
     {
@@ -292,7 +287,8 @@ class Build implements Serializable, Buildable
      * currently a $name is a php version, but in future we may have customized
      * name for users.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return Build
      */
     public static function findByName($name)
@@ -303,7 +299,7 @@ class Build implements Serializable, Buildable
             return new self($name, null, $prefix);
         }
 
-        return null;
+        return;
     }
 
     public function unserialize($serialized)
@@ -320,7 +316,7 @@ class Build implements Serializable, Buildable
     }
 
     /**
-     * Where we store the last finished state, currently for:
+     * Where we store the last finished state, currently for:.
      *
      *  - FALSE or NULL - nothing done yet.
      *  - "download" - distribution file was downloaded.
@@ -334,7 +330,7 @@ class Build implements Serializable, Buildable
     public function getStateFile()
     {
         if ($dir = $this->getInstallPrefix()) {
-            return $dir . DIRECTORY_SEPARATOR . 'phpbrew_status';
+            return $dir.DIRECTORY_SEPARATOR.'phpbrew_status';
         }
     }
 
@@ -378,6 +374,6 @@ class Build implements Serializable, Buildable
 
     public function __call($m, $a)
     {
-        return call_user_func_array(array($this->settings,$m), $a);
+        return call_user_func_array(array($this->settings, $m), $a);
     }
 }

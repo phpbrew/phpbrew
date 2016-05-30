@@ -2,7 +2,6 @@
 
 namespace PhpBrew\Extension\Provider;
 
-use PhpBrew\Config;
 use Exception;
 
 class GithubProvider implements Provider
@@ -19,13 +18,14 @@ class GithubProvider implements Provider
     }
 
     /**
-     * By default we install extension from master branch
+     * By default we install extension from master branch.
      */
     public function buildPackageDownloadUrl($version = 'master')
     {
         if (($this->getOwner() == null) || ($this->getRepository() == null)) {
-            throw new Exception("Username or Repository invalid.");
+            throw new Exception('Username or Repository invalid.');
         }
+
         return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
     }
 
@@ -78,7 +78,7 @@ class GithubProvider implements Provider
 
     public function buildKnownReleasesUrl()
     {
-        return sprintf("https://api.github.com/repos/%s/%s/tags", $this->getOwner(), $this->getRepository());
+        return sprintf('https://api.github.com/repos/%s/%s/tags', $this->getOwner(), $this->getRepository());
     }
 
     public function parseKnownReleasesResponse($content)
@@ -108,26 +108,28 @@ class GithubProvider implements Provider
 
     public function resolveDownloadFileName($version)
     {
-        return sprintf("%s-%s.tar.gz", $this->getRepository(), $version);
+        return sprintf('%s-%s.tar.gz', $this->getRepository(), $version);
     }
 
     public function extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
         $cmds = array(
-            "tar -C $currentPhpExtensionDirectory -xzf $targetFilePath"
+            "tar -C $currentPhpExtensionDirectory -xzf $targetFilePath",
         );
+
         return $cmds;
     }
 
     public function postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
-        $targetPkgDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getPackageName();
-        $extractDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getRepository() . '-*';
+        $targetPkgDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getPackageName();
+        $extractDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getRepository().'-*';
 
         $cmds = array(
             "rm -rf $targetPkgDir",
-            "mv $extractDir $targetPkgDir"
+            "mv $extractDir $targetPkgDir",
         );
+
         return $cmds;
     }
 }

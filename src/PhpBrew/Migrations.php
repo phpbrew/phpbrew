@@ -1,13 +1,14 @@
 <?php
+
 namespace PhpBrew;
 
 /**
- * Tasks to ease phpbrew backwards / forwards compatibility
+ * Tasks to ease phpbrew backwards / forwards compatibility.
  */
 class Migrations
 {
     /**
-     * Creates extension config folder
+     * Creates extension config folder.
      *
      * Creates var/db/ folder for current php version if necessary
      * to keep Compatibility with older versions of phpbrew

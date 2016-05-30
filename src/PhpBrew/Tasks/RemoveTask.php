@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Config;
@@ -25,7 +26,6 @@ class RemoveTask extends BaseTask
     }
 
     /**
-     *
      * @param string $buildId a build ID is a version string that followed by
      *                        variants and options.
      */

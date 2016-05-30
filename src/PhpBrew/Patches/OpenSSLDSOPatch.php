@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Patches;
 
 use PhpBrew\Buildable;
@@ -10,12 +11,12 @@ class OpenSSLDSOPatch extends Patch
 {
     public function desc()
     {
-        return "openssl dso linking patch";
+        return 'openssl dso linking patch';
     }
 
     public function match(Buildable $build, Logger $logger)
     {
-        return $build->osName === "Darwin"
+        return $build->osName === 'Darwin'
             && version_compare($build->osRelease, '15.0.0') > 0
             && $build->isEnabledVariant('openssl');
     }
@@ -36,7 +37,7 @@ class OpenSSLDSOPatch extends Patch
 
         $paths = array('/opt/local/lib/libssl.dylib',
             '/usr/local/opt/openssl/lib/libssl.dylib',
-            '/usr/local/lib/libssl.dylib', '/usr/lib/libssl.dylib');
+            '/usr/local/lib/libssl.dylib', '/usr/lib/libssl.dylib', );
         foreach ($paths as $path) {
             if (file_exists($path)) {
                 $dylibssl = $path;
@@ -46,7 +47,7 @@ class OpenSSLDSOPatch extends Patch
 
         $paths = array('/opt/local/lib/libcrypto.dylib',
             '/usr/local/opt/openssl/lib/libcrypto.dylib',
-            '/usr/local/lib/libcrypto.dylib', '/usr/lib/libcrypto.dylib');
+            '/usr/local/lib/libcrypto.dylib', '/usr/lib/libcrypto.dylib', );
         foreach ($paths as $path) {
             if (file_exists($path)) {
                 $dylibcrypto = $path;
@@ -65,6 +66,7 @@ class OpenSSLDSOPatch extends Patch
                 ->allOf(array('/^EXTRA_LIBS =/'))
                 ->replaces('/-lcrypto/', $dylibcrypto);
         }
+
         return $rules;
     }
 }

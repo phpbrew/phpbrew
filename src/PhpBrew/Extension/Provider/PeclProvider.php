@@ -4,10 +4,8 @@ namespace PhpBrew\Extension\Provider;
 
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
-use PhpBrew\Config;
 use PEARX\Channel as PeclChannel;
 use CurlKit\CurlDownloader;
-use CurlKit\Progress\ProgressBar;
 use DOMDocument;
 use Exception;
 use PhpBrew\Downloader\DownloadFactory;
@@ -34,26 +32,25 @@ class PeclProvider implements Provider
         return 'pecl';
     }
 
-
     protected function getPackageXml($packageName, $version)
     {
         $channel = new PeclChannel($this->site);
         $baseUrl = $channel->getRestBaseUrl();
-        $url = "$baseUrl/r/" . strtolower($packageName);
+        $url = "$baseUrl/r/".strtolower($packageName);
 
-        $downloader = new CurlDownloader;
+        $downloader = new CurlDownloader();
         $downloader = DownloadFactory::getInstance($this->logger, $this->options);
 
         // translate version name into numbers
         if (in_array($version, array('stable', 'latest', 'beta'))) {
-            $stabilityTxtUrl = $url . '/' . $version . '.txt';
+            $stabilityTxtUrl = $url.'/'.$version.'.txt';
             if ($ret = $downloader->request($stabilityTxtUrl)) {
                 $version = (string) $ret;
             } else {
                 throw new Exception("Can not translate stability {$version} into exact version name.");
             }
         }
-        $xmlUrl = $url . '/' . $version . '.xml';
+        $xmlUrl = $url.'/'.$version.'.xml';
         if ($ret = $downloader->request($xmlUrl)) {
             $dom = new DOMDocument('1.0');
             $dom->strictErrorChecking = false;
@@ -62,24 +59,26 @@ class PeclProvider implements Provider
             if (false === $dom->loadXml($ret)) {
                 throw new Exception("Error in XMl document: $url");
             }
+
             return $dom;
         }
+
         return false;
     }
 
     public function buildPackageDownloadUrl($version = 'stable')
     {
         if ($this->getPackageName() == null) {
-            throw new Exception("Repository invalid.");
+            throw new Exception('Repository invalid.');
         }
         $xml = $this->getPackageXml($this->getPackageName(), $version);
         if (!$xml) {
-            throw new Exception("Unable to fetch package xml");
+            throw new Exception('Unable to fetch package xml');
         }
         $g = $xml->getElementsByTagName('g');
         $url = $g->item(0)->nodeValue;
         // just use tgz format file.
-        return $url . '.tgz';
+        return $url.'.tgz';
     }
 
     public function getOwner()
@@ -117,6 +116,7 @@ class PeclProvider implements Provider
         $this->setOwner(null);
         $this->setRepository(null);
         $this->setPackageName($url);
+
         return true;
     }
 
@@ -140,7 +140,7 @@ class PeclProvider implements Provider
 
     public function buildKnownReleasesUrl()
     {
-        return sprintf("http://pecl.php.net/rest/r/%s/allreleases.xml", $this->getPackageName());
+        return sprintf('http://pecl.php.net/rest/r/%s/allreleases.xml', $this->getPackageName());
     }
 
     public function parseKnownReleasesResponse($content)
@@ -182,23 +182,25 @@ class PeclProvider implements Provider
 
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
-        if (false === $path || false === strpos($path, ".")) {
-            return null;
+        if (false === $path || false === strpos($path, '.')) {
+            return;
         }
+
         return basename($path);
     }
 
     public function extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
         $cmds = array(
-            "tar -C $currentPhpExtensionDirectory -xzf $targetFilePath"
+            "tar -C $currentPhpExtensionDirectory -xzf $targetFilePath",
         );
+
         return $cmds;
     }
 
     public function postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
-        $targetPkgDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getPackageName();
+        $targetPkgDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getPackageName();
         $info = pathinfo($targetFilePath);
         $packageName = $this->getPackageName();
 
@@ -209,6 +211,7 @@ class PeclProvider implements Provider
             // Move "ext/package.xml" to "memcached/package.xml"
             "mv $currentPhpExtensionDirectory/package.xml $currentPhpExtensionDirectory/$packageName/package.xml",
         );
+
         return $cmds;
     }
 }

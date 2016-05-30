@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew;
 
 use CLIFramework\Logger;
@@ -12,11 +13,10 @@ defined('JSON_PRETTY_PRINT') || define('JSON_PRETTY_PRINT', 128);
 
 class ReleaseList
 {
-
     /**
      * $releases['5.3'] = [ {},... ]
      * $releases['5.4'] = [ {},... ]
-     * $releases['5.5'] = [ {},... ]
+     * $releases['5.5'] = [ {},... ].
      */
     public $releases = array();
 
@@ -52,7 +52,7 @@ class ReleaseList
 
             return $releases;
         } else {
-            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json, 0, 125));
+            throw new RuntimeException("Can't decode release json, invalid JSON string: ".substr($json, 0, 125));
         }
     }
 
@@ -70,7 +70,7 @@ class ReleaseList
         $latestMajor = array_shift($releases);
         $latest = array_shift($latestMajor);
         if (!$latest) {
-            throw new Exception("Latest major version not found.");
+            throw new Exception('Latest major version not found.');
         }
 
         return $latest['version'];
@@ -97,7 +97,7 @@ class ReleaseList
     }
 
     /**
-     * Get version by minor version number
+     * Get version by minor version number.
      */
     public function getVersions($key)
     {
@@ -146,7 +146,7 @@ class ReleaseList
             return $instance;
         }
 
-        $instance = new self;
+        $instance = new self();
 
         if ($instance->foundLocalReleaseList()) {
             $instance->setReleases($instance->loadLocalReleaseList());
@@ -169,6 +169,7 @@ class ReleaseList
 
         $file = DownloadFactory::getInstance(Logger::getInstance(), $options)->download($url);
         $json = file_get_contents($file);
+
         return json_decode($json, true);
     }
 
@@ -182,9 +183,9 @@ class ReleaseList
         foreach ($obj as $k => $v) {
             if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
                 list($o, $major, $minor) = $matches;
-                $release = array( 'version' => $k );
+                $release = array('version' => $k);
                 if (isset($v['announcement']['English'])) {
-                    $release['announcement'] = 'http://php.net' . $v['announcement']['English'];
+                    $release['announcement'] = 'http://php.net'.$v['announcement']['English'];
                 }
 
                 if (isset($v['date'])) {
@@ -193,7 +194,7 @@ class ReleaseList
                 foreach ($v['source'] as $source) {
                     if (isset($source['filename']) && preg_match('/\.tar\.bz2$/', $source['filename'])) {
                         $release['filename'] = $source['filename'];
-                        $release['name']     = $source['name'];
+                        $release['name'] = $source['name'];
                         if (isset($source['md5'])) {
                             $release['md5'] = $source['md5'];
                         }
@@ -206,7 +207,7 @@ class ReleaseList
             }
         }
 
-        foreach ($releaseVersions as $key => & $versions) {
+        foreach ($releaseVersions as $key => &$versions) {
             uksort($releaseVersions[$key], function ($a, $b) {
                 return version_compare($b, $a);
             });

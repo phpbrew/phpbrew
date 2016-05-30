@@ -26,13 +26,13 @@ class VersionDslParser
             $branch = isset($matches[4]) ? $matches[4] : 'master';
             $result = array(
                 'version' => ($owner === 'php' ? "php-{$branch}" : "php-{$owner}-{$branch}"),
-                'url' => "https://github.com/{$owner}/php-src/archive/{$branch}.tar.gz"
+                'url' => "https://github.com/{$owner}/php-src/archive/{$branch}.tar.gz",
             );
         }
 
         // non github url
-        if (! $result && preg_match('#^https?://#', $url)) {
-            if (! preg_match('#(php-(\d.\d+.\d+(?:(?:RC|alpha|beta)\d+)?)\.tar\.(?:gz|bz2))#', $url, $matches)) {
+        if (!$result && preg_match('#^https?://#', $url)) {
+            if (!preg_match('#(php-(\d.\d+.\d+(?:(?:RC|alpha|beta)\d+)?)\.tar\.(?:gz|bz2))#', $url, $matches)) {
                 throw new Exception("Can not find version name from the given URL: $url");
             }
 

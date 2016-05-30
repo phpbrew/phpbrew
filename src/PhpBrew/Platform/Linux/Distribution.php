@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Platform\Linux;
 
 interface Distribution
@@ -9,12 +10,12 @@ interface Distribution
     public function getVersion();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isDebian();
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCentOS();
 }

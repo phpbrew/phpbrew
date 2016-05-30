@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use Exception;
@@ -20,17 +21,17 @@ class DownloadTask extends BaseTask
         if (!$basename) {
             throw new Exception("Can not parse url: $url");
         }
-        $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
+        $targetFilePath = $dir.DIRECTORY_SEPARATOR.$basename;
 
         if (!$this->options->force && file_exists($targetFilePath)) {
             $this->logger->info('Checking distribution checksum...');
             $md5a = md5_file($targetFilePath);
             if ($md5 && $md5a != $md5) {
                 $this->logger->warn("Checksum mismatch: $md5a != $md5");
-                $this->logger->info("Re-Downloading...");
+                $this->logger->info('Re-Downloading...');
                 $downloader->download($url, $targetFilePath);
             } else {
-                $this->logger->info('Checksum matched: ' . $md5);
+                $this->logger->info('Checksum matched: '.$md5);
             }
         } else {
             $downloader->download($url, $targetFilePath);

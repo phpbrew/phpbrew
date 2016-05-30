@@ -1,7 +1,8 @@
 <?php
+
 namespace PhpBrew\Command;
 
-/**
+/*
  * @codeCoverageIgnore
  */
 use Exception;
@@ -29,13 +30,13 @@ class RemoveCommand extends Command
         if (!file_exists($prefix)) {
             throw new Exception("$prefix does not exist.");
         }
-        $prompter = new \CLIFramework\Prompter;
-        $answer = $prompter->ask("Are you sure to delete $buildName?", array('Y','n'), 'Y');
-        if (strtolower($answer) == "y") {
+        $prompter = new \CLIFramework\Prompter();
+        $answer = $prompter->ask("Are you sure to delete $buildName?", array('Y', 'n'), 'Y');
+        if (strtolower($answer) == 'y') {
             Utils::recursive_unlink($prefix, $this->logger);
             $this->logger->info("$buildName is removed.  I hope you're not surprised. :)");
         } else {
-            $this->logger->info("Let me guess, you drunk tonight.");
+            $this->logger->info('Let me guess, you drunk tonight.');
         }
     }
 }

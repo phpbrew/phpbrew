@@ -1,9 +1,9 @@
 <?php
+
 namespace PhpBrew\Command\ExtensionCommand;
 
 use PhpBrew\Config;
 use PhpBrew\Extension\ExtensionManager;
-use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
 class EnableCommand extends BaseCommand
 {
@@ -22,9 +22,10 @@ class EnableCommand extends BaseCommand
         $args->add('extensions')
             ->suggestions(function () {
                 $extension = '.ini.disabled';
+
                 return array_map(function ($path) use ($extension) {
                     return basename($path, $extension);
-                }, glob(Config::getCurrentPhpDir() . "/var/db/*{$extension}"));
+                }, glob(Config::getCurrentPhpDir()."/var/db/*{$extension}"));
             });
     }
 

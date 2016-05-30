@@ -3,14 +3,13 @@
  * Created by PhpStorm.
  * User: xiami
  * Date: 2015/12/30
- * Time: 11:59
+ * Time: 11:59.
  */
 
 namespace PhpBrew\Downloader;
 
 use CurlKit\CurlDownloader;
 use CurlKit\Progress\ProgressBar;
-use PhpBrew\Console;
 use RuntimeException;
 
 class PhpCurlDownloader extends BaseDownloader
@@ -19,7 +18,7 @@ class PhpCurlDownloader extends BaseDownloader
     {
         $this->logger->info("Downloading $url via curl extension");
 
-        $downloader = new CurlDownloader;
+        $downloader = new CurlDownloader();
 
         $seconds = $this->options->{'connect-timeout'};
         if ($seconds || $seconds = getenv('CONNECT_TIMEOUT')) {
@@ -31,8 +30,8 @@ class PhpCurlDownloader extends BaseDownloader
         if ($proxyAuth = $this->options->{'http-proxy-auth'}) {
             $downloader->setProxyAuth($proxyAuth);
         }
-        if (! $this->options->{'no-progress'} && $this->logger->getLevel() > 2) {
-            $downloader->setProgressHandler(new ProgressBar);
+        if (!$this->options->{'no-progress'} && $this->logger->getLevel() > 2) {
+            $downloader->setProgressHandler(new ProgressBar());
         }
         if ($this->options->{'continue'}) {
             $this->logger->warn('--continue is not support by this download.');
@@ -41,6 +40,7 @@ class PhpCurlDownloader extends BaseDownloader
         if (false === file_put_contents($targetFilePath, $binary)) {
             throw new RuntimeException("Can't write file $targetFilePath");
         }
+
         return true;
     }
 
@@ -51,8 +51,10 @@ class PhpCurlDownloader extends BaseDownloader
         }
         if ($requireSsl) {
             $info = curl_version();
+
             return in_array('https', $info['protocols']);
         }
+
         return true;
     }
 }

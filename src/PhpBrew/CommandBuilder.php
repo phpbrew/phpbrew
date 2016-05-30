@@ -1,11 +1,9 @@
 <?php
-namespace PhpBrew;
 
-use PhpBrew\Exception\SystemCommandException;
+namespace PhpBrew;
 
 class CommandBuilder
 {
-
     /* process nice value */
     public $nice;
 
@@ -22,7 +20,6 @@ class CommandBuilder
     public $append = true;
 
     public $logPath;
-
 
     public function __construct($script)
     {
@@ -49,7 +46,7 @@ class CommandBuilder
         $this->nice = $nice;
     }
 
-    public function passthru(& $lastline = null)
+    public function passthru(&$lastline = null)
     {
         $ret = null;
         $command = $this->buildCommand(false);
@@ -57,10 +54,11 @@ class CommandBuilder
         if ($lastline === false) {
             return $ret;
         }
+
         return $ret;
     }
 
-    public function execute(& $lastline = null)
+    public function execute(&$lastline = null)
     {
         $ret = null;
         $command = $this->buildCommand();
@@ -68,6 +66,7 @@ class CommandBuilder
         if ($lastline === false) {
             return $ret;
         }
+
         return $ret;
     }
 
@@ -127,6 +126,7 @@ class CommandBuilder
                 $cmd[] = '2>&1';
             }
         }
-        return join(' ', $cmd);
+
+        return implode(' ', $cmd);
     }
 }

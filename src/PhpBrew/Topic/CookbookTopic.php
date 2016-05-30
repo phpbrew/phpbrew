@@ -1,30 +1,31 @@
 <?php
 /**
-This is an auto-generated file,
 Please DO NOT modify this file directly.
 */
+
 namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class CookbookTopic  extends GitHubTopic {
+class CookbookTopic  extends GitHubTopic
+{
+    public $id = 'cookbook';
+    public $url = 'https://github.com/phpbrew/phpbrew/wiki/Cookbook.md';
+    public $title = 'Cookbook';
 
+    public function getRemoteUrl()
+    {
+        return $this->remoteUrl;
+    }
 
-public $id = 'cookbook';
-public $url = 'https://github.com/phpbrew/phpbrew/wiki/Cookbook.md';
-public $title = 'Cookbook';
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
-    public function getRemoteUrl() {
-    return $this->remoteUrl;
-}
-
-    public function getId() {
-    return $this->id;
-}
-
-    public function getContent() {
-return '### Setting up prefered lookup prefix
+    public function getContent()
+    {
+        return '### Setting up prefered lookup prefix
 
 phpbrew automatically detects the library prefix and include prefix for each different variant. for example, 
 if you want to include gd extension support, phpbrew finds if `gd2.h` exists in your include prefix.
@@ -225,7 +226,5 @@ phpbrew ext install libevent latest -- --with-libevent=/opt/local
 
 
 ';
+    }
 }
-
-}
-

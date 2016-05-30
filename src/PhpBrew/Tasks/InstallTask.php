@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Exception\SystemCommandException;
@@ -6,13 +7,13 @@ use PhpBrew\CommandBuilder;
 use PhpBrew\Build;
 
 /**
- * Task to run `make install`
+ * Task to run `make install`.
  */
 class InstallTask extends BaseTask
 {
     public function install(Build $build)
     {
-        $this->info("Installing...");
+        $this->info('Installing...');
 
         if ($this->options->sudo) {
             $cmd = new CommandBuilder('sudo make install');

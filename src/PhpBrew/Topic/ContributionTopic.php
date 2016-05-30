@@ -1,30 +1,31 @@
 <?php
 /**
-This is an auto-generated file,
 Please DO NOT modify this file directly.
 */
+
 namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class ContributionTopic  extends GitHubTopic {
+class ContributionTopic  extends GitHubTopic
+{
+    public $id = 'contribution';
+    public $url = 'https://github.com/phpbrew/phpbrew/wiki/Contribution.md';
+    public $title = 'Contribution';
 
+    public function getRemoteUrl()
+    {
+        return $this->remoteUrl;
+    }
 
-public $id = 'contribution';
-public $url = 'https://github.com/phpbrew/phpbrew/wiki/Contribution.md';
-public $title = 'Contribution';
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
-    public function getRemoteUrl() {
-    return $this->remoteUrl;
-}
-
-    public function getId() {
-    return $this->id;
-}
-
-    public function getContent() {
-return '### Before You Start Your Work
+    public function getContent()
+    {
+        return '### Before You Start Your Work
 
 Please discuss your idea first on GitHub issues with us before sending your pull request for new features and design.
 
@@ -114,7 +115,5 @@ develop: [![Build Status](https://travis-ci.org/phpbrew/phpbrew.png?branch=devel
 
 
 ';
+    }
 }
-
-}
-

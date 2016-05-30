@@ -1,15 +1,10 @@
 <?php
+
 namespace PhpBrew;
 
 use CLIFramework\Logger;
-use CurlKit\CurlDownloader;
-use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
-use PhpBrew\Config;
-use Exception;
 use PhpBrew\Extension\Provider;
-use PhpBrew\Tasks\FetchExtensionListTask;
-use RuntimeException;
 
 class ExtensionList
 {
@@ -29,10 +24,11 @@ class ExtensionList
             return $providers;
         }
         $providers = array(
-            new Extension\Provider\GithubProvider,
-            new Extension\Provider\BitbucketProvider,
-            new Extension\Provider\PeclProvider($this->logger, $this->options)
+            new Extension\Provider\GithubProvider(),
+            new Extension\Provider\BitbucketProvider(),
+            new Extension\Provider\PeclProvider($this->logger, $this->options),
         );
+
         return $providers;
     }
 
@@ -60,7 +56,6 @@ class ExtensionList
 
     public function exists($extensionName)
     {
-
 
         // determine which provider support this extension
         $providers = $this->getProviders();

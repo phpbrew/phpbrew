@@ -1,10 +1,10 @@
 <?php
+
 namespace PhpBrew\Testing;
 
 use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
 use PhpBrew\Console;
 use GetOptionKit\Option;
-use Exception;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
@@ -26,13 +26,12 @@ abstract class CommandTestCase extends BaseCommandTestCase
         return $this->primaryVersion;
     }
 
-
-
     public function setupApplication()
     {
         $console = Console::getInstance();
         $console->getLogger()->setQuiet();
         $console->getFormatter()->preferRawOutput();
+
         return $console;
     }
 
@@ -75,14 +74,14 @@ abstract class CommandTestCase extends BaseCommandTestCase
     {
         try {
             if ($this->debug) {
-                fwrite(STDERR, $args . PHP_EOL);
+                fwrite(STDERR, $args.PHP_EOL);
             }
             ob_start();
             $this->assertTrue($ret = parent::runCommand($args));
             $output = ob_get_contents();
             ob_end_clean();
             if ($ret === false) {
-                echo '[' , join(' ', $args), ']', PHP_EOL;
+                echo '[' , implode(' ', $args), ']', PHP_EOL;
                 echo '===================================', PHP_EOL;
                 echo $output, PHP_EOL;
                 echo '===================================', PHP_EOL;
@@ -97,6 +96,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
         ob_start();
         $status = parent::runCommand($args);
         ob_end_clean();
+
         return $status;
     }
 

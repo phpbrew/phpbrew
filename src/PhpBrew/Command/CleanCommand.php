@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\Tasks\MakeTask;
@@ -35,12 +36,12 @@ class CleanCommand extends Command
 
     public function execute($version)
     {
-        $buildDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $version;
+        $buildDir = Config::getBuildDir().DIRECTORY_SEPARATOR.$version;
         if ($this->options->all) {
             if (!file_exists($buildDir)) {
-                $this->logger->info("Source directory " . $buildDir . " does not exist.");
+                $this->logger->info('Source directory '.$buildDir.' does not exist.');
             } else {
-                $this->logger->info("Source directory " . $buildDir . " found, deleting...");
+                $this->logger->info('Source directory '.$buildDir.' found, deleting...');
                 Utils::recursive_unlink($buildDir, $this->logger);
             }
         } else {
@@ -49,7 +50,7 @@ class CleanCommand extends Command
             $build = new Build($version);
             $build->setSourceDirectory($buildDir);
             if ($make->clean($build)) {
-                $this->logger->info("Distribution is cleaned up. Woof! ");
+                $this->logger->info('Distribution is cleaned up. Woof! ');
             }
         }
     }

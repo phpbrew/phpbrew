@@ -1,21 +1,22 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Build;
 
 class DSymTask extends BaseTask
 {
-
     // Fix php.dSYM
     /* Check if php.dSYM exists */
     /**
-     * @param  \PhpBrew\Build $build
+     * @param \PhpBrew\Build $build
+     *
      * @return bool
      */
     public function check(Build $build)
     {
-        $phpbin = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php';
-        $dSYM = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php.dSYM';
+        $phpbin = $build->getBinDirectory().DIRECTORY_SEPARATOR.'php';
+        $dSYM = $build->getBinDirectory().DIRECTORY_SEPARATOR.'php.dSYM';
 
         return !file_exists($phpbin) && file_exists($dSYM);
     }
@@ -23,10 +24,10 @@ class DSymTask extends BaseTask
     public function patch(Build $build, $options)
     {
         if ($this->check($build)) {
-            $this->logger->info("---> Moving php.dSYM to php ");
+            $this->logger->info('---> Moving php.dSYM to php ');
             if (!$options->dryrun) {
-                $phpBin = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php';
-                $dSYM = $build->getBinDirectory() . DIRECTORY_SEPARATOR . 'php.dSYM';
+                $phpBin = $build->getBinDirectory().DIRECTORY_SEPARATOR.'php';
+                $dSYM = $build->getBinDirectory().DIRECTORY_SEPARATOR.'php.dSYM';
                 rename($dSYM, $phpBin);
             }
         }

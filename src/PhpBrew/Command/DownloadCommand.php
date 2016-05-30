@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use Exception;
@@ -28,7 +29,7 @@ class DownloadCommand extends Command
             $releaseList = ReleaseList::getReadyInstance();
             $releases = $releaseList->getReleases();
 
-            $collection = new ValueCollection;
+            $collection = new ValueCollection();
             foreach ($releases as $major => $versions) {
                 $collection->group($major, "PHP $major", array_keys($versions));
             }
@@ -61,12 +62,11 @@ class DownloadCommand extends Command
             throw new Exception("Version $version not found.");
         }
         $version = $versionInfo['version'];
-        $distUrl = 'http://www.php.net/get/' . $versionInfo['filename'] . '/from/this/mirror';
+        $distUrl = 'http://www.php.net/get/'.$versionInfo['filename'].'/from/this/mirror';
         if ($mirrorSite = $this->options->mirror) {
             // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
-            $distUrl = $mirrorSite . '/distributions/' . $versionInfo['filename'];
+            $distUrl = $mirrorSite.'/distributions/'.$versionInfo['filename'];
         }
-
 
         $prepare = new PrepareDirectoryTask($this->logger, $this->options);
         $prepare->run();
@@ -77,7 +77,7 @@ class DownloadCommand extends Command
         $targetDir = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
 
         if (!file_exists($targetDir)) {
-            throw new Exception("Download failed.");
+            throw new Exception('Download failed.');
         }
         $this->logger->info("Done, please look at: $targetDir");
     }

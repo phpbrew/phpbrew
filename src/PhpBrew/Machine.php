@@ -1,11 +1,10 @@
 <?php
-namespace PhpBrew;
 
-use PhpBrew\Utils;
+namespace PhpBrew;
 
 /**
  * TODO
- * merge this class into PhpBrew\Platform\Hardware
+ * merge this class into PhpBrew\Platform\Hardware.
  */
 class Machine
 {
@@ -39,7 +38,7 @@ class Machine
             return $this->processorNumber;
         }
 
-        return null;
+        return;
     }
 
     protected function detectProcessorNumberByNproc()
@@ -48,10 +47,11 @@ class Machine
             $process = new Process('nproc');
             $process->run();
             $this->processorNumber = intval($process->getOutput());
+
             return $this->processorNumber;
         }
 
-        return null;
+        return;
     }
 
     protected function detectProcessorNumberByGrep()
@@ -60,9 +60,10 @@ class Machine
             $process = new Process('grep -c ^processor /proc/cpuinfo 2>/dev/null');
             $process->run();
             $this->processorNumber = intval($process->getOutput());
+
             return $this->processorNumber;
         }
 
-        return null;
+        return;
     }
 }

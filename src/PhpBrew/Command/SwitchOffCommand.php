@@ -1,11 +1,10 @@
 <?php
+
 namespace PhpBrew\Command;
 
 /**
  * @codeCoverageIgnore
  */
-
-
 class SwitchOffCommand extends VirtualCommand
 {
     public function brief()

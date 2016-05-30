@@ -1,10 +1,11 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Config;
 
 /**
- * Task to run `make clean`
+ * Task to run `make clean`.
  */
 class DefaultConfigTask extends BaseTask
 {
@@ -13,7 +14,7 @@ class DefaultConfigTask extends BaseTask
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
 
         $this->logger->info(
-            "---> Copying config file for " . $options->production ? 'production' : 'development'
+            '---> Copying config file for '.$options->production ? 'production' : 'development'
         );
 
         if (file_exists($phpConfigFile)) {
@@ -23,11 +24,11 @@ class DefaultConfigTask extends BaseTask
 
             if (!file_exists(Config::getVersionEtcPath($version))) {
                 $dir = Config::getVersionEtcPath($version);
-                $this->logger->debug("Creating config directory");
+                $this->logger->debug('Creating config directory');
                 mkdir($dir, 0755, true);
             }
 
-            $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
+            $targetConfigPath = Config::getVersionEtcPath($version).DIRECTORY_SEPARATOR.'php.ini';
 
             if (file_exists($targetConfigPath)) {
                 $this->logger->notice("$targetConfigPath exists, do not overwrite.");
@@ -49,8 +50,8 @@ class DefaultConfigTask extends BaseTask
                     }
 
                     if (!$pharReadonly) {
-                        $this->logger->info("---> Disable phar.readonly option.");
-                        $content = preg_replace('/^phar.readonly\s*=\s*.*/im', "phar.readonly = 0", $content);
+                        $this->logger->info('---> Disable phar.readonly option.');
+                        $content = preg_replace('/^phar.readonly\s*=\s*.*/im', 'phar.readonly = 0', $content);
                     }
                     file_put_contents($targetConfigPath, $content);
                 }

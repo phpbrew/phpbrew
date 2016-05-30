@@ -1,11 +1,12 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Buildable;
 use PhpBrew\Utils;
 
 /**
- * Task to run `make clean`
+ * Task to run `make clean`.
  */
 class MakeTask extends BaseTask
 {
@@ -42,7 +43,6 @@ class MakeTask extends BaseTask
         return $this->isQuiet;
     }
 
-
     private function isGNUMake($bin)
     {
         return preg_match('/GNU Make/', shell_exec("$bin --version"));
@@ -50,7 +50,7 @@ class MakeTask extends BaseTask
 
     private function make($path, $target = 'all', $build = null)
     {
-        if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
+        if (!file_exists($path.DIRECTORY_SEPARATOR.'Makefile')) {
             $this->logger->error("Makefile not found in path $path");
 
             return false;
@@ -69,7 +69,7 @@ class MakeTask extends BaseTask
         }
 
         // Prefer 'gmake' rather than 'make'
-        $cmd = array($gmake ?: $make, "-C", escapeshellarg($path));
+        $cmd = array($gmake ?: $make, '-C', escapeshellarg($path));
 
         if ($this->isQuiet()) {
             if ($gmake) {
@@ -77,7 +77,7 @@ class MakeTask extends BaseTask
             } else {
                 // make may be a link to gmake, we should prevent that.
                 // append '-Q' only when we're really sure it is BSD make.
-                if (php_uname('s') === "FreeBSD") {
+                if (php_uname('s') === 'FreeBSD') {
                     $cmd[] = '-Q';
                 }
             }
@@ -85,10 +85,11 @@ class MakeTask extends BaseTask
 
         $cmd[] = escapeshellarg($target);
         if (!$this->logger->isDebug() && $this->buildLogPath) {
-            $cmd[] = " >> " . escapeshellarg($this->buildLogPath) . " 2>&1";
+            $cmd[] = ' >> '.escapeshellarg($this->buildLogPath).' 2>&1';
         }
 
-        $this->logger->info("===> Running make $target: " . join(' ', $cmd));
+        $this->logger->info("===> Running make $target: ".implode(' ', $cmd));
+
         return Utils::system($cmd, $this->logger, $build) === 0;
     }
 }

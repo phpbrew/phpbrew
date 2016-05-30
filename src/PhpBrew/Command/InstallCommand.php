@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
@@ -35,7 +36,7 @@ class InstallCommand extends Command
 
     public function aliases()
     {
-        return array('i','ins');
+        return array('i', 'ins');
     }
 
     public function usage()
@@ -49,7 +50,7 @@ class InstallCommand extends Command
             $releaseList = ReleaseList::getReadyInstance();
             $releases = $releaseList->getReleases();
 
-            $collection = new ValueCollection;
+            $collection = new ValueCollection();
             foreach ($releases as $major => $versions) {
                 $collection->group($major, "PHP $major", array_keys($versions));
             }
@@ -59,11 +60,12 @@ class InstallCommand extends Command
             return $collection;
         });
         $args->add('variants')->multiple()->suggestions(function () {
-            $variants = new VariantBuilder;
+            $variants = new VariantBuilder();
             $list = $variants->getVariantNames();
             sort($list);
+
             return array_map(function ($n) {
-                return '+' . $n;
+                return '+'.$n;
             }, $list);
         });
     }
@@ -98,7 +100,6 @@ class InstallCommand extends Command
         return $settings;
     }
 
-
     /**
      * @param \GetOptionKit\OptionCollection $opts
      */
@@ -116,8 +117,8 @@ class InstallCommand extends Command
         $opts->add('production', 'Use production configuration file. this installer will copy the php-production.ini into the etc directory.');
 
         $opts->add('build-dir:', 'Specify the build directory. '
-            . 'the distribution tarball will be extracted to the directory you specified '
-            . 'instead of $PHPBREW_ROOT/build/{name}.')
+            .'the distribution tarball will be extracted to the directory you specified '
+            .'instead of $PHPBREW_ROOT/build/{name}.')
             ->isa('dir')
             ;
 
@@ -128,8 +129,8 @@ class InstallCommand extends Command
         $opts->add('no-config-cache', 'do not use config.cache for configure script.');
 
         $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. '
-            . 'By default phpbrew will run `make clean` before running the configure script '
-            . 'to ensure everything is cleaned up.')
+            .'By default phpbrew will run `make clean` before running the configure script '
+            .'to ensure everything is cleaned up.')
             ;
 
         $opts->add('no-patch', 'Do not apply any patch');
@@ -182,7 +183,6 @@ system-wide phpbrew or this might cause problems.");
         $clean = new MakeTask($this->logger, $this->options);
         $clean->setQuiet();
 
-
         if ($root = $this->options->root) {
             Config::setPhpbrewRoot($root);
         }
@@ -196,7 +196,7 @@ system-wide phpbrew or this might cause problems.");
 
         // this should point to master or the latest version branch yet to be released
         if ('next' === strtolower($version)) {
-            $version = "github.com/php/php-src:master";
+            $version = 'github.com/php/php-src:master';
         }
 
         if ($info = $versionDslParser->parse($version)) {
@@ -227,14 +227,14 @@ system-wide phpbrew or this might cause problems.");
         array_shift($args); // shift the version name
 
         $semanticOptions = $this->parseSemanticOptions($args);
-        $buildAs =   isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->name;
+        $buildAs = isset($semanticOptions['as']) ? $semanticOptions['as'] : $this->options->name;
         $buildLike = isset($semanticOptions['like']) ? $semanticOptions['like'] : $this->options->like;
 
         // convert patch to realpath
         if ($this->options->patch) {
             $patchPaths = array();
             foreach ($this->options->patch as $patch) {
-                /** @var \SplFileInfo $patch */
+                /* @var \SplFileInfo $patch */
                 $patchPath = realpath($patch);
                 if ($patchPath !== false) {
                     $patchPaths[(string) $patch] = $patchPath;
@@ -244,16 +244,14 @@ system-wide phpbrew or this might cause problems.");
             $this->options->keys['patch']->value = $patchPaths;
         }
 
-
         // Initialize the build object, contains the information to build php.
         $build = new Build($version, $buildAs);
 
-        $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
+        $installPrefix = Config::getInstallPrefix().DIRECTORY_SEPARATOR.$build->getName();
         if (!file_exists($installPrefix)) {
             mkdir($installPrefix, 0755, true);
         }
         $build->setInstallPrefix($installPrefix);
-
 
         // find inherited variants
         if ($buildLike) {
@@ -263,22 +261,21 @@ system-wide phpbrew or this might cause problems.");
             }
         }
 
-
         $msg = "===> phpbrew will now build {$build->getVersion()}";
         if ($buildLike) {
-            $msg .= ' using variants from ' . $buildLike;
+            $msg .= ' using variants from '.$buildLike;
         }
         if (isset($semanticOptions['using'])) {
-            $msg .= ' plus custom variants: ' . join(', ', $semanticOptions['using']);
+            $msg .= ' plus custom variants: '.implode(', ', $semanticOptions['using']);
             $args = array_merge($args, $semanticOptions['using']);
         }
         if ($buildAs) {
-            $msg .= ' as ' . $buildAs;
+            $msg .= ' as '.$buildAs;
         }
         $this->logger->info($msg);
 
         if (!empty($args)) {
-            $this->logger->debug("---> Parsing variants from command arguments '" . join(' ', $args) . "'");
+            $this->logger->debug("---> Parsing variants from command arguments '".implode(' ', $args)."'");
         }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
@@ -291,33 +288,31 @@ system-wide phpbrew or this might cause problems.");
         if (!$variantInfo['enabled_variants']) {
             $build->setBuildSettings(new DefaultBuildSettings());
             $this->logger->notice("You haven't set any variant. A default set of extensions will be installed for the minimum requirement:");
-            $this->logger->notice('[' . implode(', ', array_keys($build->getVariants())) . ']');
+            $this->logger->notice('['.implode(', ', array_keys($build->getVariants())).']');
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
         }
 
         if (preg_match('/5\.3\./', $version)) {
-            $this->logger->notice("PHP 5.3 requires +intl, enabled by default.");
+            $this->logger->notice('PHP 5.3 requires +intl, enabled by default.');
             $build->enableVariant('intl');
         }
 
         // always add +xml by default unless --without-pear is present
         // TODO: This can be done by "-pear"
-        if (! in_array('--without-pear', $variantInfo['extra_options'])) {
+        if (!in_array('--without-pear', $variantInfo['extra_options'])) {
             $build->enableVariant('xml');
         }
 
         $this->logger->info('===> Loading and resolving variants...');
         $removedVariants = $build->loadVariantInfo($variantInfo);
         if (!empty($removedVariants)) {
-            $this->logger->debug('Removed variants: ' . join(',', $removedVariants));
+            $this->logger->debug('Removed variants: '.implode(',', $removedVariants));
         }
-
 
         {
             $prepareTask = new PrepareDirectoryTask($this->logger, $this->options);
             $prepareTask->run($build);
         }
-
 
         // Move to to build directory, because we are going to download distribution.
         $buildDir = $this->options->{'build-dir'} ?: Config::getBuildDir();
@@ -325,7 +320,7 @@ system-wide phpbrew or this might cause problems.");
             mkdir($buildDir, 0755, true);
         }
 
-        $variantBuilder = new VariantBuilder;
+        $variantBuilder = new VariantBuilder();
         $configureOptions = $variantBuilder->build($build);
 
         $distFileDir = Config::getDistFileDir();
@@ -345,11 +340,11 @@ system-wide phpbrew or this might cause problems.");
         unset($extractTask);
 
         // Update build source directory
-        $this->logger->debug('Source Directory: ' . realpath($targetDir));
+        $this->logger->debug('Source Directory: '.realpath($targetDir));
         $build->setSourceDirectory($targetDir);
 
-        if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
-            $this->logger->info("Found existing Makefile, running make clean to ensure everything will be rebuilt.");
+        if (!$this->options->{'no-clean'} && file_exists($targetDir.DIRECTORY_SEPARATOR.'Makefile')) {
+            $this->logger->info('Found existing Makefile, running make clean to ensure everything will be rebuilt.');
             $this->logger->info("You can append --no-clean option after the install command if you don't want to rebuild.");
             $clean->clean($build);
         }
@@ -357,7 +352,7 @@ system-wide phpbrew or this might cause problems.");
         // Change directory to the downloaded source directory.
         chdir($targetDir);
         // Write variants info.
-        $variantInfoFile = $build->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
+        $variantInfoFile = $build->getInstallPrefix().DIRECTORY_SEPARATOR.'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
         if (false === $build->writeVariantInfoFile($variantInfoFile)) {
             $this->logger->warn("Can't store variant info.");
@@ -385,7 +380,6 @@ system-wide phpbrew or this might cause problems.");
             unset($buildTask); // trigger __destruct
         }
 
-
         if ($this->options->{'test'}) {
             $testTask = new TestTask($this->logger, $this->options);
             $testTask->run($build);
@@ -402,17 +396,17 @@ system-wide phpbrew or this might cause problems.");
             $clean->clean($build);
         }
 
-        /** POST INSTALLATION **/
+        /* POST INSTALLATION **/
         {
             $dsym = new DSymTask($this->logger, $this->options);
             $dsym->patch($build, $this->options);
         }
 
         // copy php-fpm config
-        $this->logger->info("---> Creating php-fpm.conf");
+        $this->logger->info('---> Creating php-fpm.conf');
         $etcDirectory = $build->getEtcDirectory();
-        $phpFpmConfigPath = "sapi/fpm/php-fpm.conf";
-        $phpFpmTargetConfigPath = $etcDirectory . DIRECTORY_SEPARATOR . 'php-fpm.conf';
+        $phpFpmConfigPath = 'sapi/fpm/php-fpm.conf';
+        $phpFpmTargetConfigPath = $etcDirectory.DIRECTORY_SEPARATOR.'php-fpm.conf';
         if (file_exists($phpFpmConfigPath)) {
             if (!file_exists($phpFpmTargetConfigPath)) {
                 copy($phpFpmConfigPath, $phpFpmTargetConfigPath);
@@ -421,13 +415,13 @@ system-wide phpbrew or this might cause problems.");
             }
         }
 
-        $this->logger->info("---> Creating php.ini");
+        $this->logger->info('---> Creating php.ini');
         $phpConfigPath = $build->getSourceDirectory()
-             . DIRECTORY_SEPARATOR . ($this->options->production ? 'php.ini-production' : 'php.ini-development');
+             .DIRECTORY_SEPARATOR.($this->options->production ? 'php.ini-production' : 'php.ini-development');
         $this->logger->info("---> Copying $phpConfigPath ");
 
-        if (file_exists($phpConfigPath) && ! $this->options->dryrun) {
-            $targetConfigPath = $etcDirectory . DIRECTORY_SEPARATOR . 'php.ini';
+        if (file_exists($phpConfigPath) && !$this->options->dryrun) {
+            $targetConfigPath = $etcDirectory.DIRECTORY_SEPARATOR.'php.ini';
 
             if (file_exists($targetConfigPath)) {
                 $this->logger->notice("Found existing $targetConfigPath.");
@@ -456,17 +450,16 @@ system-wide phpbrew or this might cause problems.");
                     $pharReadonly = ini_get('phar.readonly');
                     // 0 or "" means readonly is disabled manually
                     if (!$pharReadonly) {
-                        $this->logger->info("---> Disabling phar.readonly option.");
-                        $configContent = preg_replace('/^;?phar.readonly\s*=\s*.*/im', "phar.readonly = 0", $configContent);
+                        $this->logger->info('---> Disabling phar.readonly option.');
+                        $configContent = preg_replace('/^;?phar.readonly\s*=\s*.*/im', 'phar.readonly = 0', $configContent);
                     }
                 }
                 file_put_contents($targetConfigPath, $configContent);
             }
         }
 
-
         if ($build->isEnabledVariant('pear')) {
-            $this->logger->info("Initializing pear config...");
+            $this->logger->info('Initializing pear config...');
             $home = Config::getHome();
 
             @mkdir("$home/tmp/pear/temp", 0755, true);
@@ -477,11 +470,11 @@ system-wide phpbrew or this might cause problems.");
             system("pear config-set cache_dir $home/tmp/pear/cache_dir");
             system("pear config-set download_dir $home/tmp/pear/download_dir");
 
-            $this->logger->info("Enabling pear auto-discover...");
-            system("pear config-set auto_discover 1");
+            $this->logger->info('Enabling pear auto-discover...');
+            system('pear config-set auto_discover 1');
         }
 
-        $this->logger->debug("Source directory: " . $targetDir);
+        $this->logger->debug('Source directory: '.$targetDir);
 
         $buildName = $build->getName();
 
@@ -507,7 +500,7 @@ EOT;
 
         // If the bashrc file is not found, it means 'init' command didn't get
         // a chance to be executed.
-        if (!file_exists(Config::getHome() . DIRECTORY_SEPARATOR . 'bashrc')) {
+        if (!file_exists(Config::getHome().DIRECTORY_SEPARATOR.'bashrc')) {
             echo <<<EOT
 
 * WARNING:
@@ -528,8 +521,6 @@ EOT;
 
 EOT;
         }
-
-
 
         echo <<<EOT
 

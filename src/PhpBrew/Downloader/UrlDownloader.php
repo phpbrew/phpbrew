@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Downloader;
 
 use PhpBrew\Console;
@@ -10,8 +11,8 @@ use CurlKit\Progress\ProgressBar;
 use GetOptionKit\OptionResult;
 
 /**
- * Class UrlDownloader
- * @package PhpBrew\Downloader
+ * Class UrlDownloader.
+ *
  * @deprecated  use Factory instead
  */
 class UrlDownloader
@@ -23,11 +24,11 @@ class UrlDownloader
     /**
      * It happens, that some providers blocks curl requests with out user agent
      * and you can catch "network is unreachable" error
-     * Can be changed to any valid userAgent
+     * Can be changed to any valid userAgent.
      *
      * @var string
      */
-    public $userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)";
+    public $userAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)';
 
     /*
      * UrlDownloader constructor.
@@ -47,6 +48,7 @@ class UrlDownloader
      * @return bool|string
      *
      * @throws \RuntimeException
+     *
      * @deprecated
      */
     public function download($url, $targetFilePath)
@@ -54,7 +56,7 @@ class UrlDownloader
         $this->logger->info("===> Downloading from $url");
         if ($this->isCurlExtensionAvailable()) {
             $this->logger->debug('---> Found curl extension, using CurlDownloader');
-            $downloader = new CurlDownloader;
+            $downloader = new CurlDownloader();
 
             $seconds = $this->options->{'connect-timeout'};
             if ($seconds || $seconds = getenv('CONNECT_TIMEOUT')) {
@@ -69,8 +71,8 @@ class UrlDownloader
 
             // TODO: Get current instance instead of singleton to improve testing output
             $console = Console::getInstance();
-            if (! $console->options->{'no-progress'} && $this->logger->getLevel() > 2) {
-                $downloader->setProgressHandler(new ProgressBar);
+            if (!$console->options->{'no-progress'} && $this->logger->getLevel() > 2) {
+                $downloader->setProgressHandler(new ProgressBar());
             }
             $binary = $downloader->request(
                 $url,
@@ -86,29 +88,29 @@ class UrlDownloader
             // check for wget or curl for downloading the php source archive
             if ($this->isWgetCommandAvailable()) {
                 $quiet = $this->logger->isQuiet() ? '--quiet' : '';
-                Utils::system("wget --no-check-certificate -c $quiet -N -O " . $targetFilePath . ' ' . $url);
+                Utils::system("wget --no-check-certificate -c $quiet -N -O ".$targetFilePath.' '.$url);
             } elseif ($this->isCurlCommandAvailable()) {
                 $silent = $this->logger->isQuiet() ? '--silent ' : '';
-                Utils::system("curl -A \"$this->userAgent\" -C - -L $silent -o" . $targetFilePath . ' ' . $url);
+                Utils::system("curl -A \"$this->userAgent\" -C - -L $silent -o".$targetFilePath.' '.$url);
             } else {
-                throw new RuntimeException("Download failed - neither wget nor curl was found");
+                throw new RuntimeException('Download failed - neither wget nor curl was found');
             }
         }
 
-
         // Verify the downloaded file.
         if (!file_exists($targetFilePath)) {
-            throw new RuntimeException("Download failed.");
+            throw new RuntimeException('Download failed.');
         }
         $this->logger->info("===> $targetFilePath downloaded.");
+
         return $targetFilePath; // return the filename
     }
 
     /**
+     * @param string $url
      *
-     * @param  string         $url
-     * @return string|boolean the resolved download file name or false it
-     *                            the url string can't be parsed
+     * @return string|bool the resolved download file name or false it
+     *                     the url string can't be parsed
      */
     public function resolveDownloadFileName($url)
     {
@@ -119,9 +121,10 @@ class UrlDownloader
 
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
-        if (false === $path || false === strpos($path, ".")) {
-            return null;
+        if (false === $path || false === strpos($path, '.')) {
+            return;
         }
+
         return basename($path);
     }
 

@@ -1,10 +1,9 @@
 <?php
+
 namespace PhpBrew;
 
-use InvalidArgumentException;
-
 /**
- * Version class to handle version conversions:
+ * Version class to handle version conversions:.
  *
  *   - 5.3 => php-5.3.29 (get the latest patched version)
  *   - 5.3.29 => php-5.3.29
@@ -14,11 +13,9 @@ use InvalidArgumentException;
  * TODO:
  *
  *    - Parse stability
- *
  */
 class Version
 {
-
     /**
      * @var string version string
      */
@@ -60,7 +57,6 @@ class Version
         $this->version = $version;
     }
 
-
     public function getPatchVersion()
     {
         return $this->patchVersion;
@@ -99,6 +95,7 @@ class Version
     public static function hasPatchVersion($version)
     {
         $va = explode('.', $version);
+
         return count($va) >= 3;
     }
 
@@ -118,7 +115,8 @@ class Version
                 $cPatch = $patch;
             }
         }
-        return join('.', array($cMajor, $cMinor, $cPatch));
+
+        return implode('.', array($cMajor, $cMinor, $cPatch));
     }
 
     /**
@@ -126,7 +124,7 @@ class Version
      */
     public function getCanonicalizedVersionName()
     {
-        return $this->dist . '-' . $this->version;
+        return $this->dist.'-'.$this->version;
     }
 
     public function __toString()

@@ -1,8 +1,8 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\BuildFinder;
-use PhpBrew\Config;
 
 /**
  * @codeCoverageIgnore
@@ -17,7 +17,6 @@ class SwitchCommand extends VirtualCommand
             })
             ;
     }
-
 
     public function brief()
     {

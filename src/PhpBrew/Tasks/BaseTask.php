@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use CLIFramework\Logger;
@@ -21,7 +22,7 @@ abstract class BaseTask
         if ($options) {
             $this->options = $options;
         } else {
-            $this->options = new OptionResult;
+            $this->options = new OptionResult();
         }
     }
 

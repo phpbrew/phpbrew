@@ -1,30 +1,31 @@
 <?php
 /**
-This is an auto-generated file,
 Please DO NOT modify this file directly.
 */
+
 namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class RequirementTopic  extends GitHubTopic {
+class RequirementTopic  extends GitHubTopic
+{
+    public $id = 'requirement';
+    public $url = 'https://github.com/phpbrew/phpbrew/wiki/Requirement.md';
+    public $title = 'Requirement';
 
+    public function getRemoteUrl()
+    {
+        return $this->remoteUrl;
+    }
 
-public $id = 'requirement';
-public $url = 'https://github.com/phpbrew/phpbrew/wiki/Requirement.md';
-public $title = 'Requirement';
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
-    public function getRemoteUrl() {
-    return $this->remoteUrl;
-}
-
-    public function getId() {
-    return $this->id;
-}
-
-    public function getContent() {
-return 'The requirements are for you to run phpbrew and build your PHP. to build your PHP, you need a lot of libraries installed on your system.
+    public function getContent()
+    {
+        return 'The requirements are for you to run phpbrew and build your PHP. to build your PHP, you need a lot of libraries installed on your system.
 
 The instructions below help you to get the things done.
 
@@ -119,7 +120,5 @@ sudo yum install --enablerepo=rpmforge re2c libmhash
 
 Reference: http://matome.naver.jp/odai/2133887830324055901
 ';
+    }
 }
-
-}
-

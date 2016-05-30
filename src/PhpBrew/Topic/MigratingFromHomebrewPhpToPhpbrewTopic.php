@@ -1,30 +1,31 @@
 <?php
 /**
-This is an auto-generated file,
 Please DO NOT modify this file directly.
 */
+
 namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class MigratingFromHomebrewPhpToPhpbrewTopic  extends GitHubTopic {
+class MigratingFromHomebrewPhpToPhpbrewTopic  extends GitHubTopic
+{
+    public $id = 'migrating-from-homebrew-php-to-phpbrew';
+    public $url = 'https://github.com/phpbrew/phpbrew/wiki/Migrating-from-homebrew-php-to-phpbrew.md';
+    public $title = 'Migrating from homebrew php to phpbrew';
 
+    public function getRemoteUrl()
+    {
+        return $this->remoteUrl;
+    }
 
-public $id = 'migrating-from-homebrew-php-to-phpbrew';
-public $url = 'https://github.com/phpbrew/phpbrew/wiki/Migrating-from-homebrew-php-to-phpbrew.md';
-public $title = 'Migrating from homebrew php to phpbrew';
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
-    public function getRemoteUrl() {
-    return $this->remoteUrl;
-}
-
-    public function getId() {
-    return $this->id;
-}
-
-    public function getContent() {
-return 'Written by Raphael Stolt [original gist](https://gist.github.com/raphaelstolt/5988689)
+    public function getContent()
+    {
+        return 'Written by Raphael Stolt [original gist](https://gist.github.com/raphaelstolt/5988689)
 
 ## Migrating from [homebrew-php](https://github.com/josegonzalez/homebrew-php) to [phpbrew](https://github.com/c9s/phpbrew)
 
@@ -130,7 +131,5 @@ Remove the possible PATH expansion from `~/.bash_profile` or `~/.zshrc`.
 Remove the `LoadModule` statement from `/private/etc/apache2/httpd.conf`.
 
     LoadModule php5_module /usr/local/Cellar/php54/5.4.16/libexec/apache2/libphp5.so';
+    }
 }
-
-}
-

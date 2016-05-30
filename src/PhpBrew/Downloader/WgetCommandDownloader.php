@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: xiami
  * Date: 2015/12/30
- * Time: 12:02
+ * Time: 12:02.
  */
 
 namespace PhpBrew\Downloader;
@@ -42,6 +42,7 @@ class WgetCommandDownloader extends BaseDownloader
         $quiet = $this->logger->isQuiet() ? '--quiet' : '';
         $continue = $this->enableContinueAt || $this->options->{'continue'} ? '-c' : '';
         Utils::system(sprintf('wget --no-check-certificate %s %s %s -N -O %s %s', $continue, $quiet, $proxy, $targetFilePath, $url));
+
         return true;
     }
 

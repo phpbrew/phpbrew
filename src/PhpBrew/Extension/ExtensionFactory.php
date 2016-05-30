@@ -1,22 +1,18 @@
 <?php
+
 namespace PhpBrew\Extension;
 
 use PhpBrew\Config;
-use PhpBrew\Extension\Extension;
-use PhpBrew\Extension\PeclExtension;
-use PhpBrew\Extension\M4Extension;
-use PhpBrew\Extension\ConfigureOption;
 use PEARX\PackageXml\Parser as PackageXmlParser;
 use Exception;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
 /**
- * This factory class handles the extension information
+ * This factory class handles the extension information.
  */
 class ExtensionFactory
 {
-
     /**
      * One extension directory might contains multiple config*.m4 file, like
      * memcache extension.
@@ -24,23 +20,23 @@ class ExtensionFactory
     public static function configM4Exists($extensionDir)
     {
         $files = array();
-        $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . 'config.m4';
+        $configM4Path = $extensionDir.DIRECTORY_SEPARATOR.'config.m4';
         if (file_exists($configM4Path)) {
             $files[] = $configM4Path;
         }
-        for ($i = 0 ; $i < 10 ; $i++) {
-            $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . "config{$i}.m4";
+        for ($i = 0; $i < 10; ++$i) {
+            $configM4Path = $extensionDir.DIRECTORY_SEPARATOR."config{$i}.m4";
             if (file_exists($configM4Path)) {
                 $files[] = $configM4Path;
             }
         }
+
         return $files;
     }
 
     public static function createFromDirectory($packageName, $extensionDir)
     {
-        $packageXmlPath = $extensionDir . DIRECTORY_SEPARATOR . 'package.xml';
-
+        $packageXmlPath = $extensionDir.DIRECTORY_SEPARATOR.'package.xml';
 
         // If the package.xml exists, we may get the configureoptions for configuring the Makefile
         // and use the provided extension name to enable the extension.
@@ -88,7 +84,7 @@ class ExtensionFactory
     {
         if ($fallback) {
             // Always push the PHP source directory to the end of the list for the fallback.
-            $lookupDirs[] = Config::getBuildDir() . DIRECTORY_SEPARATOR . Config::getCurrentPhpName() . DIRECTORY_SEPARATOR . 'ext' . DIRECTORY_SEPARATOR . $packageName;
+            $lookupDirs[] = Config::getBuildDir().DIRECTORY_SEPARATOR.Config::getCurrentPhpName().DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR.$packageName;
         }
 
         foreach ($lookupDirs as $lookupDir) {
@@ -100,13 +96,13 @@ class ExtensionFactory
                 return $ext;
             }
 
-            /**
+            /*
             * FOLLOW_SYMLINKS is available from 5.2.11, 5.3.1
             */
             $di = new RecursiveDirectoryIterator($lookupDir, RecursiveDirectoryIterator::SKIP_DOTS);
             $it = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 
-            /**
+            /*
             * Search for config.m4 or config0.m4 and use them to determine
             * the directory of the extension's source, because it's not always
             * the root directory in the ext archive (example xhprof)
@@ -126,7 +122,7 @@ class ExtensionFactory
     {
         if ($fallback) {
             // Always push the PHP source directory to the end of the list for the fallback.
-            $lookupDirectories[] = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+            $lookupDirectories[] = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
         }
 
         foreach ($lookupDirectories as $lookupDir) {
@@ -134,7 +130,7 @@ class ExtensionFactory
                 continue;
             }
 
-            $extensionDir = $lookupDir . DIRECTORY_SEPARATOR . $packageName;
+            $extensionDir = $lookupDir.DIRECTORY_SEPARATOR.$packageName;
             if ($ext = self::createFromDirectory($packageName, $extensionDir)) {
                 return $ext;
             }
@@ -146,7 +142,7 @@ class ExtensionFactory
     public static function createM4Extension($packageName, $m4Path)
     {
         if (!file_exists($m4Path)) {
-            return null;
+            return;
         }
 
         $m4 = file_get_contents($m4Path);
@@ -183,12 +179,11 @@ class ExtensionFactory
             $fullmatched = array_shift($matches);
             $ext = new M4Extension($packageName);
             $ext->setExtensionName($matches[0]);
-            $ext->setSharedLibraryName($matches[0] . '.so');
+            $ext->setSharedLibraryName($matches[0].'.so');
             if (isset($matches[6]) && strpos($matches[6], 'yes') !== false) {
                 $ext->setZend(true);
             }
             $ext->setSourceDirectory(dirname($m4Path));
-
 
             /*
             PHP_ARG_ENABLE(calendar,whether to enable calendar conversion support,
@@ -213,12 +208,12 @@ class ExtensionFactory
                             \]
                         )?
                     )?/x', $m4, $allMatches)) {
-                for ($i = 0; $i < count($allMatches[0]) ; $i++) {
+                for ($i = 0; $i < count($allMatches[0]); ++$i) {
                     $name = $allMatches[1][$i];
                     $desc = $allMatches[2][$i];
                     $option = $allMatches[3][$i];
-                    $optionDesc      = $allMatches[4][$i];
-                    $ext->addConfigureOption(new ConfigureOption($option ?: '--enable-' . $name, $desc ?: $optionDesc));
+                    $optionDesc = $allMatches[4][$i];
+                    $ext->addConfigureOption(new ConfigureOption($option ?: '--enable-'.$name, $desc ?: $optionDesc));
                 }
             }
 
@@ -285,17 +280,17 @@ class ExtensionFactory
                 //
                 //   dnl PHP_ARG_WITH(arg-name, check message, help text[, default-val[, extension-or-not]])
                 //
-                for ($i = 0; $i < count($allMatches[0]) ; $i++) {
+                for ($i = 0; $i < count($allMatches[0]); ++$i) {
                     $name = $allMatches[1][$i];
                     $desc = $allMatches[2][$i];
 
                     $option = $allMatches[3][$i];
                     $optionValueHint = $allMatches[4][$i];
-                    $optionDesc      = $allMatches[5][$i];
+                    $optionDesc = $allMatches[5][$i];
 
                     $defaultValue = $allMatches[6][$i];
 
-                    $opt = new ConfigureOption(($option ?: '--with-' . $name), ($desc ?: $optionDesc), $optionValueHint);
+                    $opt = new ConfigureOption(($option ?: '--with-'.$name), ($desc ?: $optionDesc), $optionValueHint);
                     if ($defaultValue) {
                         $opt->setDefaultValue($opt);
                     }
@@ -311,12 +306,12 @@ class ExtensionFactory
 
     public static function createPeclExtension($packageName, $packageXmlPath)
     {
-        $parser = new PackageXmlParser;
+        $parser = new PackageXmlParser();
         $package = $parser->parse($packageXmlPath);
         $ext = new PeclExtension($packageName);
         $ext->setPackage($package);
 
-        /**
+        /*
          * xhprof stores package.xml in the root directory, but putting the
          * config.m4 in the extension directory.
          * the path can be retrieve from the contents part from the package.xml
@@ -325,12 +320,13 @@ class ExtensionFactory
             $sourceDirectory = dirname($packageXmlPath);
             $m4dir = dirname($m4path);
             if ($m4dir != '.') {
-                $sourceDirectory .= DIRECTORY_SEPARATOR . $m4dir;
+                $sourceDirectory .= DIRECTORY_SEPARATOR.$m4dir;
             }
             $ext->setSourceDirectory($sourceDirectory);
         } else {
             $ext->setSourceDirectory(dirname($packageXmlPath));
         }
+
         return $ext;
     }
 }

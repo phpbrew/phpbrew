@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Exception;
 
 use Exception;

@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\BuildSettings;
 
 class DefaultBuildSettings extends BuildSettings

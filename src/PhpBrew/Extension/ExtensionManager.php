@@ -1,10 +1,9 @@
 <?php
+
 namespace PhpBrew\Extension;
 
 use Exception;
 use CLIFramework\Logger;
-use PhpBrew\Extension\Extension;
-use PhpBrew\Extension\ExtensionInstaller;
 use PhpBrew\Utils;
 use PhpBrew\Config;
 use PhpBrew\Tasks\MakeTask;
@@ -17,10 +16,11 @@ class ExtensionManager
      * Map of extensions that can't be enabled at the same time.
      * This helps phpbrew to unload antagonist extensions before enabling
      * an extension with a known conflict.
+     *
      * @var array
      */
     protected $conflicts = array(
-        'json'  => array('jsonc'),   // enabling jsonc disables json
+        'json' => array('jsonc'),   // enabling jsonc disables json
         'jsonc' => array('json'),    // enabling json disables jsonc
     );
 
@@ -32,23 +32,22 @@ class ExtensionManager
     public function purgeExtension(Extension $ext)
     {
         if ($sourceDir = $ext->getSourceDirectory()) {
-            $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+            $currentPhpExtensionDirectory = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
             $extName = $ext->getExtensionName();
-            $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $extName;
+            $extensionDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$extName;
             if (file_exists($extensionDir)) {
                 Utils::system("rm -rvf $extensionDir");
             }
         }
     }
 
-
     public function cleanExtension(Extension $ext)
     {
         $make = new MakeTask($this->logger);
         $make->setQuiet();
-        $code = ! is_dir($sourceDir = $ext->getSourceDirectory()) ||
-                ! $ext->isBuildable() ||
-                ! $make->clean($ext);
+        $code = !is_dir($sourceDir = $ext->getSourceDirectory()) ||
+                !$ext->isBuildable() ||
+                !$make->clean($ext);
 
         if ($code != 0) {
             $this->logger->error("Could not clean extension: {$ext->getName()}.");
@@ -81,14 +80,15 @@ class ExtensionManager
 
         $this->createExtensionConfig($ext);
         $this->enableExtension($ext);
-        $this->logger->info("Done.");
+        $this->logger->info('Done.');
+
         return $sourceDir;
     }
 
     public function createExtensionConfig(Extension $ext)
     {
         $sourceDir = $ext->getSourceDirectory();
-        $ini = $ext->getConfigFilePath() . '.disabled';
+        $ini = $ext->getConfigFilePath().'.disabled';
         $this->logger->info("===> Creating config file {$ini}");
 
         if (!file_exists(dirname($ini))) {
@@ -102,14 +102,13 @@ class ExtensionManager
         if ($ext->isZend()) {
             $makefile = file_get_contents("$sourceDir/Makefile");
             preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
-            $content = "zend_extension=" . $ext->getSharedLibraryPath();
+            $content = 'zend_extension='.$ext->getSharedLibraryPath();
         } else {
-            $content = "extension=" . $ext->getSharedLibraryName();
+            $content = 'extension='.$ext->getSharedLibraryName();
         }
         file_put_contents($ini, $content);
         $this->logger->debug("{$ini} is created.");
     }
-
 
     public function disable($extensionName)
     {
@@ -137,19 +136,20 @@ class ExtensionManager
         }
     }
 
-
     /**
-     * Enables ini file for current extension
-     * @return boolean
+     * Enables ini file for current extension.
+     *
+     * @return bool
      */
     public function enableExtension(Extension $ext)
     {
         $name = $ext->getExtensionName();
         $this->logger->info("===> Enabling extension $name");
         $enabled_file = $ext->getConfigFilePath();
-        $disabled_file = $enabled_file . '.disabled';
-        if (file_exists($enabled_file) && ($ext->isLoaded() && ! $this->hasConflicts($ext))) {
+        $disabled_file = $enabled_file.'.disabled';
+        if (file_exists($enabled_file) && ($ext->isLoaded() && !$this->hasConflicts($ext))) {
             $this->logger->info("[*] {$name} extension is already enabled.");
+
             return true;
         }
 
@@ -171,23 +171,26 @@ class ExtensionManager
     }
 
     /**
-     * Disables ini file for current extension
-     * @return boolean
+     * Disables ini file for current extension.
+     *
+     * @return bool
      */
     public function disableExtension(Extension $ext)
     {
         $name = $ext->getExtensionName();
         $enabled_file = $ext->getConfigFilePath();
-        $disabled_file = $enabled_file . '.disabled';
+        $disabled_file = $enabled_file.'.disabled';
 
         if (file_exists($disabled_file)) {
             $this->logger->info("[ ] {$name} extension is already disabled.");
+
             return true;
         }
 
         if (file_exists($enabled_file)) {
             if (rename($enabled_file, $disabled_file)) {
                 $this->logger->info("[ ] {$name} extension is disabled.");
+
                 return true;
             }
             $this->logger->warning("failed to disable {$name} extension.");
@@ -197,14 +200,14 @@ class ExtensionManager
     }
 
     /**
-     * Disable extensions known to conflict with current one
+     * Disable extensions known to conflict with current one.
      */
     public function disableAntagonists(Extension $ext)
     {
         $name = $ext->getName();
         if (isset($this->conflicts[$name])) {
             $conflicts = $this->conflicts[$name];
-            $this->logger->info("===> Applying conflicts resolution (" . implode(', ', $conflicts) . "):");
+            $this->logger->info('===> Applying conflicts resolution ('.implode(', ', $conflicts).'):');
             foreach ($conflicts as $extensionName) {
                 $ext = ExtensionFactory::lookup($extensionName);
                 $this->disableExtension($ext);

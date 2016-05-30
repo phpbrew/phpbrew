@@ -1,11 +1,10 @@
 <?php
+
 namespace PhpBrew\Command;
 
-/**
+/*
  * @codeCoverageIgnore
  */
-
-use CLIFramework\Command;
 
 class CdCommand extends VirtualCommand
 {

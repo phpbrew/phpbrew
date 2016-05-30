@@ -1,23 +1,20 @@
 <?php
+
 namespace PhpBrew;
 
 use CLIFramework\Application;
 use CLIFramework\Exception\CommandNotFoundException;
 use CLIFramework\Exception\CommandArgumentNotEnoughException;
-use CLIFramework\Exception\ExecuteMethodNotDefinedException;
 use CLIFramework\ExceptionPrinter\ProductionExceptionPrinter;
 use CLIFramework\ExceptionPrinter\DevelopmentExceptionPrinter;
-use Pimple\Container;
 use Exception;
-use ReflectionClass;
-use InvalidArgumentException;
 use BadMethodCallException;
 use PhpBrew\Exception\SystemCommandException;
 
 class Console extends Application
 {
     const NAME = 'phpbrew';
-    const VERSION = "1.21.6";
+    const VERSION = '1.21.6';
 
     public function options($opts)
     {
@@ -112,39 +109,39 @@ class Console extends Application
             return $this->run($argv);
         } catch (CommandArgumentNotEnoughException $e) {
             $this->logger->error($e->getMessage());
-            $this->logger->writeln("Expected argument prototypes:");
+            $this->logger->writeln('Expected argument prototypes:');
             foreach ($e->getCommand()->getAllCommandPrototype() as $p) {
-                $this->logger->writeln("\t" . $p);
+                $this->logger->writeln("\t".$p);
             }
             $this->logger->newline();
         } catch (CommandNotFoundException $e) {
-            $this->logger->error($e->getMessage() . " available commands are: " . join(', ', $e->getCommand()->getVisibleCommandList()));
+            $this->logger->error($e->getMessage().' available commands are: '.implode(', ', $e->getCommand()->getVisibleCommandList()));
             $this->logger->newline();
 
-            $this->logger->writeln("Please try the command below to see the details:");
+            $this->logger->writeln('Please try the command below to see the details:');
             $this->logger->newline();
-            $this->logger->writeln("\t" . $this->getProgramName() . ' help ');
+            $this->logger->writeln("\t".$this->getProgramName().' help ');
             $this->logger->newline();
         } catch (SystemCommandException $e) {
 
             // Todo: detect $lastline for library missing here...
 
             $buildLog = $e->getLogFile();
-            $this->logger->error("Error: " . trim($e->getMessage()));
-            $this->logger->error("Configure options: " . join(' ', $configureOptions));
+            $this->logger->error('Error: '.trim($e->getMessage()));
+            $this->logger->error('Configure options: '.implode(' ', $configureOptions));
 
             if (file_exists($buildLog)) {
-                $this->logger->error("The last 5 lines in the log file:");
+                $this->logger->error('The last 5 lines in the log file:');
                 $lines = array_slice(file($buildLog), -5);
                 foreach ($lines as $line) {
                     echo $line , PHP_EOL;
                 }
-                $this->logger->error("Please checkout the build log file for more details:");
+                $this->logger->error('Please checkout the build log file for more details:');
                 $this->logger->error("\t tail $buildLog");
             }
         } catch (BadMethodCallException $e) {
             $this->logger->error($e->getMessage());
-            $this->logger->error("Seems like an application logic error, please contact the developer.");
+            $this->logger->error('Seems like an application logic error, please contact the developer.');
         } catch (Exception $e) {
             if ($this->options && $this->options->debug) {
                 $printer = new DevelopmentExceptionPrinter($this->getLogger());

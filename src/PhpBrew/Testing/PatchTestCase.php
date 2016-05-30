@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Testing;
 
 use RecursiveDirectoryIterator;
@@ -10,7 +11,7 @@ abstract class PatchTestCase extends PHPUnit_Framework_TestCase
     protected function setupBuildDirectory($version)
     {
         $sourceDirectory = getenv('PHPBREW_BUILD_PHP_DIR');
-        $sourceFixtureDirectory = getenv('PHPBREW_FIXTURES_PHP_DIR') . DIRECTORY_SEPARATOR . $version;
+        $sourceFixtureDirectory = getenv('PHPBREW_FIXTURES_PHP_DIR').DIRECTORY_SEPARATOR.$version;
 
         $source = $sourceFixtureDirectory;
         $dest = $sourceDirectory;
@@ -23,9 +24,9 @@ abstract class PatchTestCase extends PHPUnit_Framework_TestCase
                 \RecursiveIteratorIterator::SELF_FIRST);
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName(), 0755, true);
+                mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0755, true);
             } else {
-                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                copy($item, $dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName());
             }
         }
     }

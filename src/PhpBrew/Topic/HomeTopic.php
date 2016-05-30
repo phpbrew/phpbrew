@@ -1,30 +1,31 @@
 <?php
 /**
-This is an auto-generated file,
 Please DO NOT modify this file directly.
 */
+
 namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class HomeTopic  extends GitHubTopic {
+class HomeTopic  extends GitHubTopic
+{
+    public $id = 'home';
+    public $url = 'https://github.com/phpbrew/phpbrew/wiki/Home.md';
+    public $title = 'Home';
 
+    public function getRemoteUrl()
+    {
+        return $this->remoteUrl;
+    }
 
-public $id = 'home';
-public $url = 'https://github.com/phpbrew/phpbrew/wiki/Home.md';
-public $title = 'Home';
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
-    public function getRemoteUrl() {
-    return $this->remoteUrl;
-}
-
-    public function getId() {
-    return $this->id;
-}
-
-    public function getContent() {
-return '### PHPBrew Guide
+    public function getContent()
+    {
+        return '### PHPBrew Guide
 
 #### For Users
 
@@ -50,7 +51,5 @@ return '### PHPBrew Guide
 * [[Migrating from homebrew-php to phpbrew|Migrating-from-homebrew-php-to-phpbrew]] written by Raphael Stolt 
 
 * [VERSION MANAGEMENT WITH PHPBREW](https://codio.com/s/blog/2014/03/phpbrew/) - March 10, 2014 by Freddy May';
+    }
 }
-
-}
-

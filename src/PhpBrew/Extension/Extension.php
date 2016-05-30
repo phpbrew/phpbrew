@@ -1,13 +1,12 @@
 <?php
+
 namespace PhpBrew\Extension;
 
 use PhpBrew\Config;
 use PhpBrew\Buildable;
-use Exception;
 
 class Extension implements Buildable
 {
-
     /**
      * @var string The extension package name
      *
@@ -20,14 +19,13 @@ class Extension implements Buildable
 
     protected $version;
 
-
     /**
      * @var string config.m4 filename
      */
     protected $configM4File = 'config.m4';
 
     /**
-     * The extension so name
+     * The extension so name.
      */
     protected $sharedLibraryName;
 
@@ -88,7 +86,8 @@ class Extension implements Buildable
         if ($this->sharedLibraryName) {
             return $this->sharedLibraryName;
         }
-        return strtolower($this->extensionName) . '.so'; // for windows it might be a DLL.
+
+        return strtolower($this->extensionName).'.so'; // for windows it might be a DLL.
     }
 
     public function setExtensionName($name)
@@ -100,7 +99,6 @@ class Extension implements Buildable
     {
         return $this->extensionName;
     }
-
 
     public function setSourceDirectory($dir)
     {
@@ -118,19 +116,19 @@ class Extension implements Buildable
 
     public function getConfigM4Path()
     {
-        return $this->sourceDirectory . DIRECTORY_SEPARATOR . $this->configM4File;
+        return $this->sourceDirectory.DIRECTORY_SEPARATOR.$this->configM4File;
     }
 
     public function findConfigM4File($dir)
     {
-        $configM4Path = $dir . DIRECTORY_SEPARATOR . 'config.m4';
+        $configM4Path = $dir.DIRECTORY_SEPARATOR.'config.m4';
         if (file_exists($configM4Path)) {
             return 'config.m4';
         }
 
-        for ($i = 0 ; $i < 10 ; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $filename = "config{$i}.m4";
-            $configM4Path = $dir . DIRECTORY_SEPARATOR . $filename;
+            $configM4Path = $dir.DIRECTORY_SEPARATOR.$filename;
             if (file_exists($configM4Path)) {
                 return $filename;
             }
@@ -139,7 +137,7 @@ class Extension implements Buildable
 
     public function isBuildable()
     {
-        return file_exists($this->sourceDirectory . DIRECTORY_SEPARATOR . 'Makefile');
+        return file_exists($this->sourceDirectory.DIRECTORY_SEPARATOR.'Makefile');
     }
 
     public function getSourceDirectory()
@@ -147,21 +145,20 @@ class Extension implements Buildable
         return $this->sourceDirectory;
     }
 
-
     public function getSharedLibraryPath()
     {
-        return ini_get('extension_dir') . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
+        return ini_get('extension_dir').DIRECTORY_SEPARATOR.$this->getSharedLibraryName();
     }
 
     public function getConfigFilePath()
     {
-        return Config::getCurrentPhpConfigScanPath() . '/' . $this->getName() . '.ini';
+        return Config::getCurrentPhpConfigScanPath().'/'.$this->getName().'.ini';
     }
 
     /**
-     * Checks if current extension is loaded
+     * Checks if current extension is loaded.
      *
-     * @return boolean
+     * @return bool
      */
     public function isLoaded()
     {
@@ -169,9 +166,9 @@ class Extension implements Buildable
     }
 
     /**
-     * Checks if extension.so file is in place
+     * Checks if extension.so file is in place.
      *
-     * @return boolean
+     * @return bool
      */
     public function isInstalled()
     {

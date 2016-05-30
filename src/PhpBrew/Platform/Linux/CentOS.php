@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Platform\Linux;
 
 class CentOS implements Distribution

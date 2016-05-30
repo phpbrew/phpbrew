@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Patches;
 
 use PhpBrew\Buildable;
@@ -10,12 +11,11 @@ class IntlWith64bitPatch extends Patch
 {
     public function desc()
     {
-        return "php5.3.x on 64bit machine when intl is enabled.";
+        return 'php5.3.x on 64bit machine when intl is enabled.';
     }
 
-
     /**
-     * This seems also related to 5.4 when 'intl' is enabled: --enable-intl
+     * This seems also related to 5.4 when 'intl' is enabled: --enable-intl.
      *
      * This is due to intl/msgformat/msgformat_helpers.cpp being a C++ file and
      * GCC not handling that case cleanly. The exact error is specifically due
@@ -49,11 +49,10 @@ class IntlWith64bitPatch extends Patch
      * - CentOS 7 x86_64
      * - OS X 10.5
      * - OS X 10.6
-     *
      */
     public function match(Buildable $build, Logger $logger)
     {
-        return ($build->isEnabledVariant('intl') && version_compare($build->getVersion(), '5.4', '<='));
+        return $build->isEnabledVariant('intl') && version_compare($build->getVersion(), '5.4', '<=');
     }
 
     public function rules()
@@ -66,6 +65,7 @@ class IntlWith64bitPatch extends Patch
         $rules[] = RegExpPatchRule::files('Makefile')
             ->allOf(array('/^EXTRA_LIBS =/'))
             ->replaces('/^(.*)$/', '$1 -lstdc++');
+
         return $rules;
     }
 }

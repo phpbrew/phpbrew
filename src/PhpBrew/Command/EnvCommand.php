@@ -1,8 +1,8 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
-use PhpBrew\Utils;
 
 class EnvCommand extends \CLIFramework\Command
 {
@@ -20,7 +20,6 @@ class EnvCommand extends \CLIFramework\Command
             })
             ;
     }
-
 
     public function execute($buildName = null)
     {
@@ -42,8 +41,8 @@ class EnvCommand extends \CLIFramework\Command
             // checking php version existence
             $targetPhpBinPath = Config::getVersionBinPath($buildName);
             if (is_dir($targetPhpBinPath)) {
-                echo 'export PHPBREW_PHP=' . $buildName . "\n";
-                echo 'export PHPBREW_PATH=' . ($buildName ? Config::getVersionBinPath($buildName) : '') . "\n";
+                echo 'export PHPBREW_PHP='.$buildName."\n";
+                echo 'export PHPBREW_PATH='.($buildName ? Config::getVersionBinPath($buildName) : '')."\n";
             }
         }
         $this->logger->writeln('# Run this command to configure your shell:');

@@ -1,12 +1,11 @@
 <?php
+
 namespace PhpBrew\Command\ExtensionCommand;
 
-use CLIFramework\Command;
 use PhpBrew\Config;
 use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
-use PhpBrew\Command\ExtensionCommand\BaseCommand;
 
 class CleanCommand extends BaseCommand
 {
@@ -24,11 +23,12 @@ class CleanCommand extends BaseCommand
     {
         $args->add('extensions')
             ->suggestions(function () {
-                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
+                $extdir = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
+                        return $d != '.' && $d != '..' && is_dir($extdir.DIRECTORY_SEPARATOR.$d);
                     }
                 );
             });
@@ -45,7 +45,7 @@ class CleanCommand extends BaseCommand
             } else {
                 $manager->cleanExtension($ext);
             }
-            $this->logger->info("Done");
+            $this->logger->info('Done');
         }
     }
 }

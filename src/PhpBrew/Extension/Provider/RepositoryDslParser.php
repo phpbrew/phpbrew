@@ -7,12 +7,12 @@ class RepositoryDslParser
     protected static $macros = array(
         'https://bitbucket.org/' => array(
             'git@bitbucket.org:',
-            'bitbucket:'
+            'bitbucket:',
         ),
         'https://github.com/' => array(
             'github:',
-            'git@github.com:'
-        )
+            'git@github.com:',
+        ),
     );
 
     public function parse($dsl)
@@ -20,7 +20,7 @@ class RepositoryDslParser
         $ast = array(
             'repository' => 'pecl',
             'owner' => null,
-            'package' => $dsl
+            'package' => $dsl,
         );
 
         $url = $this->toUrl($dsl);

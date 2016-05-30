@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use Exception;
@@ -29,7 +30,7 @@ class SelfUpdateCommand extends Command
     public function arguments($args)
     {
         $args->add('branch')->suggestions(function () {
-            /** TODO: maybe fetch tags and remote branches from github? */
+            /* TODO: maybe fetch tags and remote branches from github? */
             return array('master', 'develop');
         });
     }
@@ -53,7 +54,7 @@ class SelfUpdateCommand extends Command
         $tempFile = $downloader->download($url);
 
         if ($tempFile === false) {
-            throw new RuntimeException("Update Failed", 1);
+            throw new RuntimeException('Update Failed', 1);
         }
         chmod($tempFile, 0755);
         //todo we can check the hash here in order to make sure we have download the phar successfully
@@ -62,13 +63,13 @@ class SelfUpdateCommand extends Command
         $code = rename($tempFile, $script);
         if ($code === false) { //fallback to system move
             $code = system("mv -f $tempFile, $script");
-            if (! $code == 0) {
-                throw new RuntimeException("Update Failed", 3);
+            if (!$code == 0) {
+                throw new RuntimeException('Update Failed', 3);
             }
         }
 
-        $this->logger->info("Version updated.");
-        system($script . ' init');
-        system($script . ' --version');
+        $this->logger->info('Version updated.');
+        system($script.' init');
+        system($script.' --version');
     }
 }

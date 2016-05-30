@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;
@@ -31,7 +32,7 @@ class UseCommand extends Command
     {
         if (!$buildName) {
             // This exception is used for tracing tests
-            throw new Exception("build name is required.");
+            throw new Exception('build name is required.');
         }
         { // this block is important for tests only
             $root = Config::getRoot();
@@ -41,7 +42,7 @@ class UseCommand extends Command
             }
             putenv("PHPBREW_ROOT=$root");
             putenv("PHPBREW_HOME=$home");
-            putenv("PHPBREW_PHP=$buildName") or die("putenv failed");
+            putenv("PHPBREW_PHP=$buildName") or die('putenv failed');
             putenv("PHPBREW_PATH=$root/php/$buildName/bin");
             putenv("PHPBREW_BIN=$home/bin");
         }

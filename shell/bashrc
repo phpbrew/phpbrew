@@ -66,6 +66,8 @@ function __wget_as ()
 #
 # Homebrew uses it's own prefix system with cellars, it's more dynamic then
 # others.
+#
+# Detect package system automatically
 function __phpbrew_set_lookup_prefix ()
 {
     case $1 in

@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Build;
@@ -15,7 +16,7 @@ class PrepareDirectoryTask extends BaseTask
         $dirs[] = Config::getDistFileDir();
         $dirs[] = Config::getVariantsDir();
         if ($build) {
-            $dirs[] = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
+            $dirs[] = Config::getInstallPrefix().DIRECTORY_SEPARATOR.$build->getName();
         }
         foreach ($dirs as $dir) {
             if (!file_exists($dir)) {

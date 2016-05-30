@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\Downloader\DownloadFactory;
@@ -26,12 +27,12 @@ class UpdateCommand extends \CLIFramework\Command
         $releases = $fetchTask->fetch();
 
         foreach ($releases as $majorVersion => $versions) {
-            if (strpos($majorVersion, '5.2') !== false && ! $this->options->old) {
+            if (strpos($majorVersion, '5.2') !== false && !$this->options->old) {
                 continue;
             }
             $versionList = array_keys($versions);
             $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow')
-                . count($versionList) . ' releases');
+                .count($versionList).' releases');
         }
         $this->logger->info('===> Done');
     }

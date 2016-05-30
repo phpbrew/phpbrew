@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\VariantBuilder;
@@ -15,7 +16,7 @@ class VariantsCommand extends \CLIFramework\Command
         return 'phpbrew variants [php-version]';
     }
 
-    public function wrapLine($line, $prefix = "  ", $indent = "  ")
+    public function wrapLine($line, $prefix = '  ', $indent = '  ')
     {
         $lineX = 0;
         $newLine = $prefix;
@@ -25,7 +26,7 @@ class VariantsCommand extends \CLIFramework\Command
             $newLine .= $c;
 
             if ($lineX > 68 && $c === ' ') {
-                $newLine .= "\n" . $indent;
+                $newLine .= "\n".$indent;
                 $lineX = 0;
             }
         }
@@ -35,18 +36,18 @@ class VariantsCommand extends \CLIFramework\Command
 
     public function execute($version = null)
     {
-        $variants = new VariantBuilder;
+        $variants = new VariantBuilder();
         $list = $variants->getVariantNames();
         sort($list);
 
         echo "Variants: \n";
-        echo $this->wrapLine(join(', ', $list)) , "\n";
+        echo $this->wrapLine(implode(', ', $list)) , "\n";
         echo "\n\n";
 
         echo "Virtual variants: \n";
 
         foreach ($variants->virtualVariants as $name => $subvars) {
-            echo $this->wrapLine("$name: " . join(', ', $subvars)) , "\n";
+            echo $this->wrapLine("$name: ".implode(', ', $subvars)) , "\n";
         }
 
         echo "\n\n";

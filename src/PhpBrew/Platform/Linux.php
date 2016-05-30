@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Platform;
 
 use PhpBrew\Platform\Linux\Distribution;

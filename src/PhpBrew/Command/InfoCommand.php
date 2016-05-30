@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 class InfoCommand extends \CLIFramework\Command
@@ -16,27 +17,27 @@ class InfoCommand extends \CLIFramework\Command
     public function header($text)
     {
         $f = $this->logger->formatter;
-        echo $f->format($text . "\n", 'strong_white');
+        echo $f->format($text."\n", 'strong_white');
     }
 
     public function execute()
     {
         $this->header('Version');
-        echo "PHP-", phpversion(), "\n\n";
+        echo 'PHP-', phpversion(), "\n\n";
 
         $this->header('Constants');
         $constants = get_defined_constants();
 
         if (isset($constants['PHP_PREFIX'])) {
-            echo "PHP Prefix: ", $constants['PHP_PREFIX'], "\n";
+            echo 'PHP Prefix: ', $constants['PHP_PREFIX'], "\n";
         }
         if (isset($constants['PHP_BINARY'])) {
-            echo "PHP Binary: ", $constants['PHP_BINARY'], "\n";
+            echo 'PHP Binary: ', $constants['PHP_BINARY'], "\n";
         }
         if (isset($constants['DEFAULT_INCLUDE_PATH'])) {
-            echo "PHP Default Include path: ", $constants['DEFAULT_INCLUDE_PATH'], "\n";
+            echo 'PHP Default Include path: ', $constants['DEFAULT_INCLUDE_PATH'], "\n";
         }
-        echo "PHP Include path: ", get_include_path(), "\n";
+        echo 'PHP Include path: ', get_include_path(), "\n";
         echo "\n";
 
         // DEFAULT_INCLUDE_PATH
@@ -52,7 +53,7 @@ class InfoCommand extends \CLIFramework\Command
         $this->header('Extensions');
 
         $extensions = get_loaded_extensions();
-        $this->logger->info(join(', ', $extensions));
+        $this->logger->info(implode(', ', $extensions));
 
         echo "\n";
 
@@ -72,7 +73,7 @@ class InfoCommand extends \CLIFramework\Command
                     'mysql',
                     'oci8',
                     'sqlite3',
-                    'mysqlnd'
+                    'mysqlnd',
                 )
             );
             }

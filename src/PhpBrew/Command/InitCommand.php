@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use Phar;
@@ -33,7 +34,7 @@ class InitCommand extends \CLIFramework\Command
         $paths = array();
         $paths[] = $home;
         $paths[] = $root;
-        $paths[] = $root . DIRECTORY_SEPARATOR . 'register';
+        $paths[] = $root.DIRECTORY_SEPARATOR.'register';
         $paths[] = $buildDir;
         $paths[] = $buildPrefix;
         foreach ($paths as $p) {
@@ -48,8 +49,8 @@ class InitCommand extends \CLIFramework\Command
 
         $this->logger->info('Creating .metadata_never_index to prevent SpotLight indexing');
         $indexFiles = array(
-            $root . DIRECTORY_SEPARATOR . '.metadata_never_index',
-            $home . DIRECTORY_SEPARATOR . '.metadata_never_index',
+            $root.DIRECTORY_SEPARATOR.'.metadata_never_index',
+            $home.DIRECTORY_SEPARATOR.'.metadata_never_index',
         );
         foreach ($indexFiles as $indexFile) {
             if (!file_exists($indexFile)) {
@@ -62,18 +63,18 @@ class InitCommand extends \CLIFramework\Command
                 return $this->logger->error("config file '$configFile' does not exist.");
             }
             $this->logger->debug("Using yaml config from '$configFile'");
-            copy($configFile, $root . DIRECTORY_SEPARATOR . 'config.yaml');
+            copy($configFile, $root.DIRECTORY_SEPARATOR.'config.yaml');
         }
 
-        $this->logger->writeln($this->formatter->format("Initialization successfully finished!", 'strong_green'));
-        $this->logger->writeln($this->formatter->format("<=====================================================>", 'strong_white'));
+        $this->logger->writeln($this->formatter->format('Initialization successfully finished!', 'strong_green'));
+        $this->logger->writeln($this->formatter->format('<=====================================================>', 'strong_white'));
 
         // write bashrc script to phpbrew home
-        file_put_contents($home . '/bashrc', $this->getBashScriptPath());
+        file_put_contents($home.'/bashrc', $this->getBashScriptPath());
         // write phpbrew.fish script to phpbrew home
-        file_put_contents($home . '/phpbrew.fish', $this->getFishScriptPath());
+        file_put_contents($home.'/phpbrew.fish', $this->getFishScriptPath());
 
-        if (strpos(getenv("SHELL"), "fish") !== false) {
+        if (strpos(getenv('SHELL'), 'fish') !== false) {
             $initConfig = <<<EOS
 Paste the following line(s) to the end of your ~/.config/fish/config.fish and start a
 new shell, phpbrew should be up and fully functional from there:
@@ -112,29 +113,32 @@ Enjoy phpbrew at \$HOME!!
 
 
 EOS;
-        $this->logger->writeln($this->formatter->format("<=====================================================>", 'strong_white'));
+        $this->logger->writeln($this->formatter->format('<=====================================================>', 'strong_white'));
     }
 
     protected function getCurrentShellDirectory()
     {
         $path = Phar::running();
         if ($path) {
-            $path = $path . DIRECTORY_SEPARATOR . 'shell';
+            $path = $path.DIRECTORY_SEPARATOR.'shell';
         } else {
-            $path = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'shell';
+            $path = dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR.'shell';
         }
+
         return $path;
     }
 
     protected function getBashScriptPath()
     {
         $path = $this->getCurrentShellDirectory();
-        return file_get_contents($path . DIRECTORY_SEPARATOR . 'bashrc');
+
+        return file_get_contents($path.DIRECTORY_SEPARATOR.'bashrc');
     }
 
     protected function getFishScriptPath()
     {
         $path = $this->getCurrentShellDirectory();
-        return file_get_contents($path . DIRECTORY_SEPARATOR . 'phpbrew.fish');
+
+        return file_get_contents($path.DIRECTORY_SEPARATOR.'phpbrew.fish');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command;
 
 use PhpBrew\Config;
@@ -65,11 +66,11 @@ class ExtensionCommand extends BaseCommand
             if ($ext instanceof M4Extension) {
                 $options = $ext->getConfigureOptions();
                 if (!empty($options)) {
-                    $this->logger->info($padding . 'Configure options:');
+                    $this->logger->info($padding.'Configure options:');
                     foreach ($options as $option) {
-                        $this->logger->info($padding . '  '
-                            . sprintf('%-32s %s',
-                                $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
+                        $this->logger->info($padding.'  '
+                            .sprintf('%-32s %s',
+                                $option->option.($option->valueHint ? '[='.$option->valueHint.']' : ''),
                                 $option->desc));
                     }
                 }
@@ -80,7 +81,7 @@ class ExtensionCommand extends BaseCommand
     public function execute()
     {
         $buildDir = Config::getCurrentBuildDir();
-        $extDir = $buildDir . DIRECTORY_SEPARATOR . 'ext';
+        $extDir = $buildDir.DIRECTORY_SEPARATOR.'ext';
 
         // list for extensions which are not enabled
         $extensions = array();
@@ -92,12 +93,12 @@ class ExtensionCommand extends BaseCommand
         if (file_exists($extDir) && is_dir($extDir)) {
             $this->logger->debug("Scanning $extDir...");
             foreach (scandir($extDir) as $extName) {
-                if ($extName == "." || $extName == "..") {
+                if ($extName == '.' || $extName == '..') {
                     continue;
                 }
-                $dir = $extDir . DIRECTORY_SEPARATOR . $extName;
+                $dir = $extDir.DIRECTORY_SEPARATOR.$extName;
                 foreach ($lookupDirectories as $lookupDirectory) {
-                    $extensionDir = $dir . (empty($lookupDirectory) ? '' : DIRECTORY_SEPARATOR.$lookupDirectory);
+                    $extensionDir = $dir.(empty($lookupDirectory) ? '' : DIRECTORY_SEPARATOR.$lookupDirectory);
                     if ($m4files = ExtensionFactory::configM4Exists($extensionDir)) {
                         $this->logger->debug("Loading extension information $extName from $extensionDir");
 
@@ -111,7 +112,7 @@ class ExtensionCommand extends BaseCommand
                             } catch (Exception $e) {
                             }
                         }
-                        
+
                         break;
                     }
                 }

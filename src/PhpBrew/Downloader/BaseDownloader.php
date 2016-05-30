@@ -3,14 +3,13 @@
  * Created by PhpStorm.
  * User: xiami
  * Date: 2015/12/30
- * Time: 11:55
+ * Time: 11:55.
  */
 
 namespace PhpBrew\Downloader;
 
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
-use PhpBrew\Utils;
 
 abstract class BaseDownloader
 {
@@ -25,7 +24,7 @@ abstract class BaseDownloader
     }
 
     /**
-     * @param string $url the url to be downloaded
+     * @param string $url            the url to be downloaded
      * @param string $targetFilePath the path where file to be saved. null means auto-generated temp path
      *
      * @return bool|string if download successfully, return target file path, otherwise return false.
@@ -35,9 +34,9 @@ abstract class BaseDownloader
     public function download($url, $targetFilePath = null)
     {
         if (empty($targetFilePath)) {
-            $targetFilePath =  tempnam(sys_get_temp_dir(), 'phpbrew_');
+            $targetFilePath = tempnam(sys_get_temp_dir(), 'phpbrew_');
             if ($targetFilePath === false) {
-                throw new RuntimeException("Fail to create temp file");
+                throw new RuntimeException('Fail to create temp file');
             }
         } else {
             if (!file_exists($targetFilePath)) {
@@ -49,6 +48,7 @@ abstract class BaseDownloader
         }
         if ($this->process($url, $targetFilePath)) {
             $this->logger->debug("$url => $targetFilePath");
+
             return $targetFilePath;
         } else {
             return false;
@@ -56,25 +56,28 @@ abstract class BaseDownloader
     }
 
     /**
-     * fetch the remote content
+     * fetch the remote content.
      *
      * @param $url the url to be downloaded
+     *
      * @return bool|string return content if download successfully, otherwise false is returned
+     *
      * @throws RuntimeException
      */
     public function request($url)
     {
         $path = $this->download($url);
+
         return $path === false ? false : file_get_contents($path);
     }
 
     abstract protected function process($url, $targetFilePath);
 
     /**
+     * @param string $url
      *
-     * @param  string $url
-     * @return string|boolean the resolved download file name or false it
-     *                            the url string can't be parsed
+     * @return string|bool the resolved download file name or false it
+     *                     the url string can't be parsed
      */
     public function resolveDownloadFileName($url)
     {
@@ -85,9 +88,10 @@ abstract class BaseDownloader
 
         // try to get the filename through parse_url
         $path = parse_url($url, PHP_URL_PATH);
-        if (false === $path || false === strpos($path, ".")) {
-            return null;
+        if (false === $path || false === strpos($path, '.')) {
+            return;
         }
+
         return basename($path);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Testing;
 
 use PhpBrew\Config;
@@ -11,7 +12,8 @@ class TemporaryFileFixture
 
     /**
      * $caller must be a subclass of PHPUnit_Framework_TestCase.
-     * @param Object $caller the object which creates this object.
+     *
+     * @param object $caller     the object which creates this object.
      * @param string $sourcePath the path of a source file.
      */
     public function __construct($caller, $sourcePath)
@@ -45,8 +47,9 @@ class TemporaryFileFixture
      * this object.
      * The 2nd argument of the callback function is a destination file path.
      *
-     * @param string $destFileName the filename of a copy of the source file.
-     * @param Callable $callback the function called after creating a destination file.
+     * @param string   $destFileName the filename of a copy of the source file.
+     * @param callable $callback     the function called after creating a destination file.
+     *
      * @example
      * $fixture = new TemporaryFileFixture($this, '/tmp/Makefile.in');
      * $fixture->withFile('/tmp/Makefile', function($self, $destFilePath) {
@@ -56,7 +59,7 @@ class TemporaryFileFixture
     public function withFile($destFileName, $callback)
     {
         $contents = file_get_contents($this->sourcePath);
-        $destPath = $this->temporaryDirectory . DIRECTORY_SEPARATOR . $destFileName;
+        $destPath = $this->temporaryDirectory.DIRECTORY_SEPARATOR.$destFileName;
 
         $this->caller->assertFileExists($this->sourcePath);
         file_put_contents($destPath, $contents);

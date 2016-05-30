@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: xiami
  * Date: 2015/12/30
- * Time: 12:05
+ * Time: 12:05.
  */
 
 namespace PhpBrew\Downloader;
@@ -41,6 +41,7 @@ class PhpStreamDownloader extends BaseDownloader
         }
         if ($binary !== false) {
             file_put_contents($targetFilePath, $binary);
+
             return true;
         }
         // throw new RuntimeException("Fail to request $url");
@@ -56,6 +57,7 @@ class PhpStreamDownloader extends BaseDownloader
         if ($requireSsl) {
             return in_array('https', $wrappers);
         }
+
         return in_array('http', $wrappers);
     }
 }

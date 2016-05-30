@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Platform;
 
 class UnknownPlatform implements Platform

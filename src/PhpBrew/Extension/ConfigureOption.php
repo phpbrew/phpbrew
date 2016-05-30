@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Extension;
 
 class ConfigureOption

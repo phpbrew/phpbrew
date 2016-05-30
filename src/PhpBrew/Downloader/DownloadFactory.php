@@ -1,10 +1,11 @@
 <?php
 /**
- * Downloader Factory
+ * Downloader Factory.
  *
  * @date 2015/12/30
  * @author: xiami, yoanlin
  */
+
 namespace PhpBrew\Downloader;
 
 use CLIFramework\Logger;
@@ -19,23 +20,23 @@ class DownloadFactory
     const METHOD_CURL = 'curl';
 
     private static $availableDownloaders = array(
-        self::METHOD_PHP_CURL   => 'PhpBrew\Downloader\PhpCurlDownloader',
+        self::METHOD_PHP_CURL => 'PhpBrew\Downloader\PhpCurlDownloader',
         self::METHOD_PHP_STREAM => 'PhpBrew\Downloader\PhpStreamDownloader',
-        self::METHOD_WGET       => 'PhpBrew\Downloader\WgetCommandDownloader',
-        self::METHOD_CURL       => 'PhpBrew\Downloader\CurlCommandDownloader',
+        self::METHOD_WGET => 'PhpBrew\Downloader\WgetCommandDownloader',
+        self::METHOD_CURL => 'PhpBrew\Downloader\CurlCommandDownloader',
     );
 
     /**
-     * When php built-in extensions don't support openssl, we can use curl or wget instead
+     * When php built-in extensions don't support openssl, we can use curl or wget instead.
      */
     private static $fallbackDownloaders = array('curl', 'wget');
 
-
     /**
-     * @param Logger $logger is used for creating downloader
-     * @param OptionResult $options options used for create downloader
-     * @param array $preferences Use downloader by preferences.
-     * @param boolean $requireSsl
+     * @param Logger       $logger      is used for creating downloader
+     * @param OptionResult $options     options used for create downloader
+     * @param array        $preferences Use downloader by preferences.
+     * @param bool         $requireSsl
+     *
      * @return BaseDownloader|null
      */
     protected static function create(Logger $logger, OptionResult $options, array $preferences, $requireSsl = true)
@@ -49,13 +50,15 @@ class DownloadFactory
                 }
             }
         }
-        return null;
+
+        return;
     }
 
     /**
-     * @param Logger $logger
+     * @param Logger       $logger
      * @param OptionResult $options
-     * @param string $downloader
+     * @param string       $downloader
+     *
      * @return BaseDownloader
      */
     public static function getInstance(Logger $logger, OptionResult $options, $downloader = null)
@@ -79,7 +82,7 @@ class DownloadFactory
 
         $instance = self::create($logger, $options, $downloader);
         if ($instance === null) {
-            $logger->debug("Downloader not found, falling back to command-based downloader.");
+            $logger->debug('Downloader not found, falling back to command-based downloader.');
             //if all downloader not available, maybe we should throw exceptions here instead of returning null?
             return self::create($logger, $options, self::$fallbackDownloaders);
         } else {
@@ -97,6 +100,7 @@ class DownloadFactory
             ->valueName('user:pass');
         $opts->add('connect-timeout:', 'Overrides the CONNECT_TIMEOUT env variable and aborts if download takes longer than specified.')
             ->valueName('seconds');
+
         return $opts;
     }
 }

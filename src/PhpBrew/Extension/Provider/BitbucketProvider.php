@@ -2,8 +2,6 @@
 
 namespace PhpBrew\Extension\Provider;
 
-use PhpBrew\Config;
-
 class BitbucketProvider implements Provider
 {
     public $site = 'bitbucket.org';
@@ -17,11 +15,12 @@ class BitbucketProvider implements Provider
         return 'bitbucket';
     }
 
-    public function buildPackageDownloadUrl($version='stable')
+    public function buildPackageDownloadUrl($version = 'stable')
     {
         if (($this->getOwner() == null) || ($this->getRepository() == null)) {
-            throw new Exception("Username or Repository invalid.");
+            throw new Exception('Username or Repository invalid.');
         }
+
         return sprintf('https://%s/%s/%s/get/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
     }
 
@@ -74,7 +73,7 @@ class BitbucketProvider implements Provider
 
     public function buildKnownReleasesUrl()
     {
-        return sprintf("https://bitbucket.org/api/1.0/repositories/%s/%s/tags/", $this->getOwner(), $this->getRepository());
+        return sprintf('https://bitbucket.org/api/1.0/repositories/%s/%s/tags/', $this->getOwner(), $this->getRepository());
     }
 
     public function parseKnownReleasesResponse($content)
@@ -102,26 +101,28 @@ class BitbucketProvider implements Provider
 
     public function resolveDownloadFileName($version)
     {
-        return sprintf("%s-%s-%s.tar.gz", $this->getOwner(), $this->getRepository(), $version);
+        return sprintf('%s-%s-%s.tar.gz', $this->getOwner(), $this->getRepository(), $version);
     }
 
     public function extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
         $cmds = array(
-            "tar -C $currentPhpExtensionDirectory -xzf $targetFilePath"
+            "tar -C $currentPhpExtensionDirectory -xzf $targetFilePath",
         );
+
         return $cmds;
     }
 
     public function postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
-        $targetPkgDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getPackageName();
-        $extractDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getOwner() . '-' . $this->getRepository() . '-*';
+        $targetPkgDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getPackageName();
+        $extractDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getOwner().'-'.$this->getRepository().'-*';
 
         $cmds = array(
             "rm -rf $targetPkgDir",
-            "mv $extractDir $targetPkgDir"
+            "mv $extractDir $targetPkgDir",
         );
+
         return $cmds;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpBrew\Command\AppCommand;
 
 use PhpBrew\Downloader\DownloadFactory;
@@ -13,7 +14,6 @@ class GetCommand extends Command
     {
         return 'get php app';
     }
-
 
     public function options($opts)
     {
@@ -37,12 +37,12 @@ class GetCommand extends Command
             throw new Exception("App $appName not found.");
         }
         $app = $apps[$appName];
-        $targetDir = Config::getRoot() . DIRECTORY_SEPARATOR . 'bin';
-        $target = $targetDir . DIRECTORY_SEPARATOR . $app['as'];
+        $targetDir = Config::getRoot().DIRECTORY_SEPARATOR.'bin';
+        $target = $targetDir.DIRECTORY_SEPARATOR.$app['as'];
 
         DownloadFactory::getInstance($this->logger, $this->options)->download($app['url'], $target);
 
-        $this->logger->info("Changing permissions to 0755");
+        $this->logger->info('Changing permissions to 0755');
 
         if ($mod = $this->options->chmod) {
             chmod($target, octdec($mod));

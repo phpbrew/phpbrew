@@ -1,11 +1,11 @@
 <?php
+
 namespace PhpBrew\BuildSettings;
 
 class BuildSettings
 {
-
     /**
-     * TODO: should be renamed to enabledVariants
+     * TODO: should be renamed to enabledVariants.
      */
     public $variants = array();
 
@@ -64,7 +64,6 @@ class BuildSettings
         $this->disabledVariants[$name] = true;
     }
 
-
     /**
      * Remove the enabled the variants since we've disabled
      * them.
@@ -78,6 +77,7 @@ class BuildSettings
                 $removed[] = $n;
             }
         }
+
         return $removed;
     }
 
@@ -107,9 +107,10 @@ class BuildSettings
     }
 
     /**
-     * Check if we've enabled the variant
+     * Check if we've enabled the variant.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return bool
      */
     public function hasVariant($name)
@@ -125,9 +126,8 @@ class BuildSettings
         unset($this->variants[$variantName]);
     }
 
-
     /**
-     * Get enabled variants
+     * Get enabled variants.
      */
     public function getVariants()
     {
@@ -135,17 +135,15 @@ class BuildSettings
     }
 
     /**
-     * Get all disabled variants
+     * Get all disabled variants.
      */
     public function getDisabledVariants()
     {
         return $this->disabledVariants;
     }
 
-
-
     /**
-     * Returns variant user value
+     * Returns variant user value.
      *
      * @param string $n variant name
      *
@@ -157,7 +155,7 @@ class BuildSettings
             return $this->variants[$n];
         }
 
-        return null;
+        return;
     }
 
     public function setExtraOptions(array $options)
@@ -192,9 +190,9 @@ class BuildSettings
             );
         }
         $variantInfo = unserialize(file_get_contents($variantFile));
+
         return $this->loadVariantInfo($variantInfo);
     }
-
 
     public function writeVariantInfoFile($variantInfoFile)
     {
@@ -221,6 +219,7 @@ class BuildSettings
         if (isset($variantInfo['extra_options'])) {
             $this->extraOptions = array_unique(array_merge($this->extraOptions, $variantInfo['extra_options']));
         }
+
         return $this->resolveVariants(); // Remove the enabled variants
     }
 }

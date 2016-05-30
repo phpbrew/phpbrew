@@ -1,30 +1,31 @@
 <?php
 /**
-This is an auto-generated file,
 Please DO NOT modify this file directly.
 */
+
 namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class TroubleshootingTopic  extends GitHubTopic {
+class TroubleshootingTopic  extends GitHubTopic
+{
+    public $id = 'troubleshooting';
+    public $url = 'https://github.com/phpbrew/phpbrew/wiki/Troubleshooting.md';
+    public $title = 'Troubleshooting';
 
+    public function getRemoteUrl()
+    {
+        return $this->remoteUrl;
+    }
 
-public $id = 'troubleshooting';
-public $url = 'https://github.com/phpbrew/phpbrew/wiki/Troubleshooting.md';
-public $title = 'Troubleshooting';
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
-    public function getRemoteUrl() {
-    return $this->remoteUrl;
-}
-
-    public function getId() {
-    return $this->id;
-}
-
-    public function getContent() {
-return '### can not configure with +gd
+    public function getContent()
+    {
+        return '### can not configure with +gd
 
 Run with `+gd=shared,/usr` variant, which will be expanded to `--with-gd=shared,/usr`, e.g.,
 
@@ -103,7 +104,5 @@ CFLAGS="-I/opt/local/include" phpbrew ext install pecl_HTTP
 
 
 ';
+    }
 }
-
-}
-

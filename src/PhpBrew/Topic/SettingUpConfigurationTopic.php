@@ -1,30 +1,31 @@
 <?php
 /**
-This is an auto-generated file,
 Please DO NOT modify this file directly.
 */
+
 namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class SettingUpConfigurationTopic  extends GitHubTopic {
+class SettingUpConfigurationTopic  extends GitHubTopic
+{
+    public $id = 'setting-up-configuration';
+    public $url = 'https://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration.md';
+    public $title = 'Setting up Configuration';
 
+    public function getRemoteUrl()
+    {
+        return $this->remoteUrl;
+    }
 
-public $id = 'setting-up-configuration';
-public $url = 'https://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration.md';
-public $title = 'Setting up Configuration';
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
-    public function getRemoteUrl() {
-    return $this->remoteUrl;
-}
-
-    public function getId() {
-    return $this->id;
-}
-
-    public function getContent() {
-return 'With the yaml config file you can do the following things:
+    public function getContent()
+    {
+        return 'With the yaml config file you can do the following things:
 
 * Add custom virtual variants feature
 * Add presets of extensions
@@ -83,7 +84,5 @@ The virtual variants are defined in the config file (see _variants_ in the confi
 Similar to the virtual variants you can define virtual extensions (see _extenions_ in the config example above). You can set also the version of the module.
 
 The can be called by using the following command: _phpbrew ext install +dev_';
+    }
 }
-
-}
-
