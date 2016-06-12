@@ -21,6 +21,8 @@ CHANGES
 
         phpbrew fpm setup --initd 5.6
 
+- Added fpm which command to show which php-fpm will be used.
+
 ### Version 1.21.6
 
 - Moved dtrace to variant option.

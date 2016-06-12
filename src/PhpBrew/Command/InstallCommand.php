@@ -26,6 +26,7 @@ use CLIFramework\ValueCollection;
 use CLIFramework\Command;
 use PhpBrew\Exception\SystemCommandException;
 use Exception;
+use PhpBrew\PatchKit\RegExpPatchRule;
 
 class InstallCommand extends Command
 {
@@ -414,6 +415,21 @@ system-wide phpbrew or this might cause problems.");
                 $this->logger->notice("Found existing $phpFpmTargetConfigPath.");
             }
         }
+
+        $phpFpmDefaultPoolConfigPath = $etcDirectory . DIRECTORY_SEPARATOR . 'php-fpm.d/www.conf';
+        if (file_exists($phpFpmDefaultPoolConfigPath)) {
+
+            $fpmUnixSocket = $build->getInstallPrefix() . "/var/run/php-fpm.sock";
+            $this->logger->info("Patching default fpm pool listen path to $fpmUnixSocket");
+            // Patch pool listen unix
+            // The original config was below:
+            //
+            // listen = 127.0.0.1:9000
+            $ini = file_get_contents($phpFpmDefaultPoolConfigPath);
+            $ini = preg_replace('/^listen = .*$/m',"listen = $fpmUnixSocket\n", $ini);
+            file_put_contents($phpFpmDefaultPoolConfigPath, $ini);
+        }
+
 
         $this->logger->info('---> Creating php.ini');
         $phpConfigPath = $build->getSourceDirectory()
