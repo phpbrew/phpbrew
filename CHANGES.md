@@ -1,6 +1,15 @@
 CHANGES
 =======
 
+
+### Version 1.22.1
+
+- The install command now patches the default listen path defined in php-fpm/www.conf 
+  for each different build.
+
+- Fixed pgsql base dir finder
+
+
 ### Version 1.22.0
 
 - Added fpm setup command:
@@ -23,8 +32,6 @@ CHANGES
 
 - Added fpm which command to show which php-fpm will be used.
 
-- The install command now patches the default listen path defined in php-fpm/www.conf 
-  for each different build.
 
 ### Version 1.21.6
 

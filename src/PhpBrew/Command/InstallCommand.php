@@ -418,11 +418,13 @@ system-wide phpbrew or this might cause problems.");
 
         if (file_exists($phpFpmTargetConfigPath)) {
             $fpmUnixSocket = $build->getInstallPrefix() . "/var/run/php-fpm.sock";
-            $this->logger->info("Patching default fpm pool listen path to $fpmUnixSocket");
+            $this->logger->info("---> Patching default fpm pool listen path to $fpmUnixSocket");
             // Patch pool listen unix
             // The original config was below:
             //
             // listen = 127.0.0.1:9000
+            //
+            // See http://php.net/manual/en/install.fpm.configuration.php for more details
             $ini = file_get_contents($phpFpmTargetConfigPath);
             $ini = preg_replace('/^listen = .*$/m',"listen = $fpmUnixSocket\n", $ini);
             file_put_contents($phpFpmTargetConfigPath, $ini);
