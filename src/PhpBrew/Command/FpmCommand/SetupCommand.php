@@ -49,7 +49,7 @@ class SetupCommand extends Command
 
         // TODO: require sudo permission
         if ($this->options->systemctl) {
-            $content = $this->generateSystemctlService();
+            $content = $this->generateSystemctlService($buildName);
             $serviceFile = '/lib/systemd/system/phpbrew-fpm.service';
 
             if (!is_writable($serviceFile)) {
@@ -67,7 +67,7 @@ class SetupCommand extends Command
 
         } else if ($this->options->initd) {
 
-            $content = $this->generateInitD();
+            $content = $this->generateInitD($buildName);
             $file = '/etc/init.d/phpbrew-fpm';
 
             if (!is_writable($file)) {
@@ -91,10 +91,10 @@ class SetupCommand extends Command
     }
 
 
-    protected function generateSystemctlService()
+    protected function generateSystemctlService($buildName)
     {
         $root   = Config::getRoot();
-        $phpdir = Config::getCurrentPhpDir();
+        $phpdir = "$root/php/$buildName";
         $fpm    = $phpdir . '/sbin/php-fpm';
         $pidFile = $phpdir . '/var/run/php-fpm.pid';
         $config =<<<"EOS"
@@ -115,11 +115,10 @@ EOS;
     }
 
 
-    protected function generateInitD()
+    protected function generateInitD($buildName)
     {
         $root   = Config::getRoot();
-        $version = Config::getCurrentPhpName();
-        $phpdir = Config::getCurrentPhpDir();
+        $phpdir = "$root/php/$buildName";
         $pidFile = $phpdir . '/var/run/php-fpm.pid';
         $config =<<<"EOS"
 #!/bin/sh
@@ -136,7 +135,7 @@ EOS;
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="PHPBrew FastCGI Process Manager"
 NAME=phpbrew-fpm
-PHP_VERSION=$version
+PHP_VERSION=$buildName
 PHPBREW_ROOT=$root
 CONFFILE=$phpdir/etc/php-fpm.conf
 DAEMON=$phpdir/sbin/php-fpm
