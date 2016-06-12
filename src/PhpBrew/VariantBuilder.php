@@ -688,10 +688,9 @@ class VariantBuilder
                 return $opts;
             }
 
-            if ($build->hasVariant('pdo')) {
-                $bin = Utils::findBin('pg_config');
-                if (!$bin) {
-                    $bin = first_existing_executable(array(
+            $bin = Utils::findBin('pg_config');
+            if (!$bin) {
+                $bin = first_existing_executable(array(
                         '/opt/local/lib/postgresql95/bin/pg_config',
                         '/opt/local/lib/postgresql94/bin/pg_config',
                         '/opt/local/lib/postgresql93/bin/pg_config',
@@ -702,15 +701,20 @@ class VariantBuilder
                         '/Library/PostgreSQL/9.2/bin/pg_config',
                         '/Library/PostgreSQL/9.1/bin/pg_config',
                     ));
+            }
+
+            if ($bin) {
+                $opts[] = "--with-pgsql=" . dirname($bin);
+                if ($build->hasVariant('pdo')) {
+                   $opts[] = "--with-pdo-pgsql=" . dirname($bin);
                 }
-                if ($bin) {
-                    $opts[] = "--with-pgsql=" . dirname($bin);
-                    $opts[] = "--with-pdo-pgsql=" . dirname($bin);
-                } else {
-                    $opts[] = "--with-pgsql";
-                    $opts[] = '--with-pdo-pgsql';
-                }
-            } 
+                return $opts;
+            }
+
+            $opts[] = "--with-pgsql";
+            if ($build->hasVariant('pdo')) {
+                $opts[] = '--with-pdo-pgsql';
+            }
             return $opts;
         };
 
