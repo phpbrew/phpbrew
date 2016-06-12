@@ -166,7 +166,7 @@ class VariantBuilder
         $this->variants['inline'] = '--enable-inline-optimization';
 
         $this->variants['cli'] = '--enable-cli';
-        $this->variants['fpm'] = '--enable-fpm';
+
         $this->variants['ftp'] = '--enable-ftp';
         $this->variants['filter'] = '--enable-filter';
         $this->variants['gcov'] = '--enable-gcov';
@@ -207,6 +207,15 @@ class VariantBuilder
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
         $this->variants['xmlrpc'] = '--with-xmlrpc';
+
+
+        $this->variants['fpm'] = function(Build $build, $prefix = null) {
+            $opts = array('--enable-fpm');
+            if ($bin = Utils::findBin('systemctl')) {
+                $opts[] = '--with-fpm-systemd';
+            }
+            return $opts;
+        };
 
         $this->variants['dtrace'] = function (Build $build, $prefix = null) {
             // if dtrace is supported

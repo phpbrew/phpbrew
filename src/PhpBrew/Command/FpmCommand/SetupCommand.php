@@ -73,6 +73,9 @@ class SetupCommand extends Command
             $this->logger->info("Writing systemctl service entry: $serviceFile");
             file_put_contents($serviceFile, $content);
 
+            $this->logger->info("To reload systemctl service:");
+            $this->logger->info("    systemctl daemon-reload");
+
         } else if ($this->options->initd) {
 
             $content = $this->generateInitD($buildName, $fpmBin);
