@@ -406,28 +406,26 @@ system-wide phpbrew or this might cause problems.");
         // copy php-fpm config
         $this->logger->info('---> Creating php-fpm.conf');
         $etcDirectory = $build->getEtcDirectory();
-        $phpFpmConfigPath = 'sapi/fpm/php-fpm.conf';
-        $phpFpmTargetConfigPath = $etcDirectory.DIRECTORY_SEPARATOR.'php-fpm.conf';
-        if (file_exists($phpFpmConfigPath)) {
-            if (!file_exists($phpFpmTargetConfigPath)) {
-                copy($phpFpmConfigPath, $phpFpmTargetConfigPath);
-            } else {
-                $this->logger->notice("Found existing $phpFpmTargetConfigPath.");
-            }
-        }
+        $fpmUnixSocket = $build->getInstallPrefix() . "/var/run/php-fpm.sock";
+        $this->installAs("$etcDirectory/php-fpm.conf.default", "$etcDirectory/php-fpm.conf");
+        $this->installAs("$etcDirectory/php-fpm.d/www.conf.default", "$etcDirectory/php-fpm.d/www.conf");
 
-        if (file_exists($phpFpmTargetConfigPath)) {
-            $fpmUnixSocket = $build->getInstallPrefix() . "/var/run/php-fpm.sock";
-            $this->logger->info("---> Patching default fpm pool listen path to $fpmUnixSocket");
-            // Patch pool listen unix
-            // The original config was below:
-            //
-            // listen = 127.0.0.1:9000
-            //
-            // See http://php.net/manual/en/install.fpm.configuration.php for more details
-            $ini = file_get_contents($phpFpmTargetConfigPath);
-            $ini = preg_replace('/^listen = .*$/m',"listen = $fpmUnixSocket\n", $ini);
-            file_put_contents($phpFpmTargetConfigPath, $ini);
+        $patchingFiles = array("$etcDirectory/php-fpm.d/www.conf", "$etcDirectory/php-fpm.conf");
+        foreach ($patchingFiles as $patchingFile) {
+            if (file_exists($patchingFile)) {
+                $this->logger->info("---> Found $patchingFile");
+                // Patch pool listen unix
+                // The original config was below:
+                //
+                // listen = 127.0.0.1:9000
+                //
+                // See http://php.net/manual/en/install.fpm.configuration.php for more details
+                $ini = file_get_contents($patchingFile);
+                $this->logger->info("---> Patching default fpm pool listen path to $fpmUnixSocket");
+                $ini = preg_replace('/^listen = .*$/m',"listen = $fpmUnixSocket\n", $ini);
+                file_put_contents($patchingFile, $ini);
+                break;
+            }
         }
 
 
@@ -558,5 +556,18 @@ Or you can use switch command to switch your default php to $buildName:
 Enjoy!
 
 EOT;
+    }
+
+
+    protected function installAs($source, $target, $override = false)
+    {
+        if (file_exists($source)) {
+            if ($override || !file_exists($target)) {
+                return copy($source, $target);
+            } else {
+                $this->logger->notice("Found existing $target.");
+                return false;
+            }
+        }
     }
 }
