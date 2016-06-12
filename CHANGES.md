@@ -2,6 +2,10 @@ CHANGES
 =======
 
 
+### Version 1.22.2
+
+- Refined init command to support --root option.
+
 ### Version 1.22.1
 
 - The install command now patches the default listen path defined in php-fpm/www.conf 
