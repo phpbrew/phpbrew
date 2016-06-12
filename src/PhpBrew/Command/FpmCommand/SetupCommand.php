@@ -22,16 +22,25 @@ class SetupCommand extends Command
 {
     public function brief()
     {
-        return 'Setup fpm init script';
+        return 'generate and setup fpm startup config';
+    }
+
+    public function usage()
+    {
+        return 'phpbrew fpm setup [--systemctl|--initd|--launchctl] [--stdout] [<build name>]';
     }
 
     public function options($opts)
     {
-        $opts->add('systemctl', 'generate systemctl service entry');
-        $opts->add('initd', 'generate init.d script');
-        $opts->add('launchctl', 'generate plist for launchctl');
-        $opts->add('stdout', 'output script content in stdout');
-        
+        $opts->add('systemctl',
+            "Generate systemd service entry." . 
+            "This option only works for systemd-based Linux." . 
+            "To use this option, be sure to compile PHP with --with-fpm-systemd option." . 
+            "Start from 1.22, phpbrew automatically add --with-fpm-systemd when systemd is detected."
+        );
+        $opts->add('initd', 'Generate init.d script');
+        $opts->add('launchctl', 'Generate plist for launchctl (OS X)');
+        $opts->add('stdout', 'Print config in STDOUT instead of writing to the file.');
     }
 
     public function arguments($args)
