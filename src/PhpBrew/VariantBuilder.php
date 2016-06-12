@@ -671,20 +671,27 @@ class VariantBuilder
             return $opts;
         };
 
+
+
+        /**
+         * The --with-pgsql=[DIR] and --with-pdo-pgsql=[DIR] requires [DIR]/bin/pg_config to be found.
+         */
         $this->variants['pgsql'] = function (Build $build, $prefix = null) {
             $opts = array();
 
             // The names are used from macports
-            $possibleNames = array('psql90', 'psql91', 'psql92', 'psql93', 'psql');
-            while (!$prefix && !empty($possibleNames)) {
-                $prefix = Utils::findBin(array_pop($possibleNames));
+            if ($prefix) {
+                $opts[] = "--with-pgsql=$prefix";
+                if ($build->hasVariant('pdo')) {
+                    $opts[] = "--with-pdo-pgsql=$prefix";
+                }
+                return $opts;
             }
-            $opts[] = $prefix ? "--with-pgsql=$prefix" : '--with-pgsql';
 
             if ($build->hasVariant('pdo')) {
-                if ($bin = Utils::findBin('pg_config')) {
-                    $opts[] = "--with-pdo-pgsql=$bin";
-                } elseif ($path = first_existing_executable(array(
+                $bin = Utils::findBin('pg_config');
+                if (!$bin) {
+                    $bin = first_existing_executable(array(
                         '/opt/local/lib/postgresql95/bin/pg_config',
                         '/opt/local/lib/postgresql94/bin/pg_config',
                         '/opt/local/lib/postgresql93/bin/pg_config',
@@ -694,15 +701,16 @@ class VariantBuilder
                         '/Library/PostgreSQL/9.3/bin/pg_config',
                         '/Library/PostgreSQL/9.2/bin/pg_config',
                         '/Library/PostgreSQL/9.1/bin/pg_config',
-                    ))) {
-                    $opts[] = "--with-pdo-pgsql=$path";
-                } elseif ($prefix) {
-                    $opts[] = "--with-pdo-pgsql=$prefix";
+                    ));
+                }
+                if ($bin) {
+                    $opts[] = "--with-pgsql=" . dirname($bin);
+                    $opts[] = "--with-pdo-pgsql=" . dirname($bin);
                 } else {
+                    $opts[] = "--with-pgsql";
                     $opts[] = '--with-pdo-pgsql';
                 }
-            }
-
+            } 
             return $opts;
         };
 
