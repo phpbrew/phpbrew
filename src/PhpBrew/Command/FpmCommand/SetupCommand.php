@@ -29,6 +29,7 @@ class SetupCommand extends Command
     {
         $opts->add('systemctl', 'generate systemctl service entry');
         $opts->add('initd', 'generate init.d script');
+        $opts->add('stdout', 'output script content in stdout');
     }
 
     public function execute()
@@ -43,7 +44,12 @@ class SetupCommand extends Command
                 return;
             }
 
-            $this->logger->info('Writing systemctl service entry...');
+            if ($this->options->stdout) {
+                echo $content;
+                return;
+            }
+
+            $this->logger->info("Writing systemctl service entry: $serviceFile");
             file_put_contents($serviceFile, $content);
 
         } else if ($this->options->initd) {
@@ -56,9 +62,18 @@ class SetupCommand extends Command
                 return;
             }
 
+            if ($this->options->stdout) {
+                echo $content;
+                return;
+            }
 
-            $this->logger->info('Writing init.d script...');
+            $this->logger->info("Writing init.d script: $file");
             file_put_contents($file, $content);
+
+        } else {
+
+            $this->logger->info('Please use one of the options [--systemctl, --initd] to setup system fpm service.');
+
         }
     }
 
