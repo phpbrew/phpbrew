@@ -130,7 +130,6 @@ class Console extends Application
 
             $buildLog = $e->getLogFile();
             $this->logger->error('Error: '.trim($e->getMessage()));
-            $this->logger->error('Configure options: '.implode(' ', $configureOptions));
 
             if (file_exists($buildLog)) {
                 $this->logger->error('The last 5 lines in the log file:');
