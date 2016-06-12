@@ -47,6 +47,8 @@ class Console extends Application
         $this->command('ctags');
         $this->command('help');
 
+        $this->command('fpm-setup','PhpBrew\Command\FpmSetupCommand');
+
         $this->command('list-ini', 'PhpBrew\Command\ListIniCommand');
         $this->command('self-update', 'PhpBrew\Command\SelfUpdateCommand');
 
