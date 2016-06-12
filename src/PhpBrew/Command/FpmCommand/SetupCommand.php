@@ -136,10 +136,11 @@ class SetupCommand extends Command
     <key>KeepAlive</key>
     <true/>
     <key>Label</key>
-    <string>phpbrew.fpm</string>
+    <string>org.phpbrew.fpm</string>
     <key>ProgramArguments</key>
     <array>
         <string>$fpmBin</string>
+        <string>--nodaemonize</string>
         <string>--php-ini</string>
         <string>$phpdir/etc/php.ini</string>
         <string>--fpm-config</string>
