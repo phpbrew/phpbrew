@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpBrew\Command;
+namespace PhpBrew\Command\FpmCommand;
 
 use PhpBrew\Config;
 use PhpBrew\Downloader\DownloadFactory;
@@ -18,7 +18,7 @@ use PhpBrew\Exception\SystemCommandException;
 use Exception;
 
 
-class FpmSetupCommand extends Command
+class SetupCommand extends Command
 {
     public function brief()
     {
@@ -45,9 +45,9 @@ class FpmSetupCommand extends Command
 
             $this->logger->info('Writing systemctl service entry...');
             file_put_contents($serviceFile, $content);
-        }
 
-        if ($this->options->initd) {
+        } else if ($this->options->initd) {
+
             $content = $this->generateInitD();
             $file = '/etc/init.d/phpbrew-fpm';
 
