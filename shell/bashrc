@@ -251,6 +251,10 @@ function phpbrew ()
                 stop)
                     fpm_stop
                     ;;
+                setup)
+                    command $PHPBREW_OVERRIDE_PHP $BIN $short_option "$@"
+                    exit_status=$?
+                    ;;
                 restart)
                     fpm_stop
                     fpm_start "${@:4}"
@@ -287,7 +291,7 @@ function phpbrew ()
                             --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf --test
                     ;;
                 *)
-                    echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
+                    echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config|setup]"
                     ;;
             esac
             ;;
@@ -329,7 +333,7 @@ function phpbrew ()
         purge)
             if [[ -z "$2" ]]
             then
-                command $BIN help
+                command $PHPBREW_OVERRIDE_PHP $BIN help
             else
               __phpbrew_remove_purge $2 purge
             fi
