@@ -1,6 +1,26 @@
 CHANGES
 =======
 
+### Version 1.22.0
+
+- Added fpm setup command:
+
+    To setup systemctl service config for the current php:
+
+        phpbrew fpm setup --systemctl 
+
+    To setup launchctl service config for the current php:
+
+        phpbrew fpm setup --launchctl
+
+    To setup init.d script for the current php:
+
+        phpbrew fpm setup --initd
+
+    To setup scripts for other php builds:
+
+        phpbrew fpm setup --initd 5.6
+
 ### Version 1.21.6
 
 - Moved dtrace to variant option.

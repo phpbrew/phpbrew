@@ -350,9 +350,6 @@ class VariantBuilder
             if ($prefix) {
                 return "--with-readline=$prefix";
             }
-            if ($prefix = Utils::findIncludePrefix('readline'.DIRECTORY_SEPARATOR.'readline.h')) {
-                return '--with-readline='.$prefix;
-            }
             if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix readline")) {
                     if (file_exists($output)) {
@@ -361,7 +358,9 @@ class VariantBuilder
                     echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                 }
             }
-
+            if ($prefix = Utils::findIncludePrefix('readline'.DIRECTORY_SEPARATOR.'readline.h')) {
+                return '--with-readline='.$prefix;
+            }
             return '--with-readline';
         };
 
@@ -376,9 +375,6 @@ class VariantBuilder
             if ($prefix) {
                 return "--with-libedit=$prefix";
             }
-            if ($prefix = Utils::findIncludePrefix('editline'.DIRECTORY_SEPARATOR.'readline.h')) {
-                return "--with-libedit=$prefix";
-            }
             if ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix libedit")) {
                     if (file_exists($output)) {
@@ -389,7 +385,9 @@ class VariantBuilder
                     echo "prefix of libedit not found, please run 'brew tap homebrew/dupes' to get the formula\n";
                 }
             }
-
+            if ($prefix = Utils::findIncludePrefix('editline'.DIRECTORY_SEPARATOR.'readline.h')) {
+                return "--with-libedit=$prefix";
+            }
             return '--with-libedit';
         };
 
@@ -731,14 +729,17 @@ class VariantBuilder
                         echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                     }
                 }
+
                 if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
                     $options[] = "--with-libxml-dir=$prefix";
                     break;
                 }
+
                 if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
                     $options[] = "--with-libxml-dir=$prefix";
                     break;
                 }
+
                 if ($prefix = Utils::findLibPrefix('libxml2.a')) {
                     $options[] = "--with-libxml-dir=$prefix";
                     break;
