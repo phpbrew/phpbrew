@@ -32,8 +32,21 @@ class SetupCommand extends Command
         $opts->add('stdout', 'output script content in stdout');
     }
 
-    public function execute()
+    public function arguments($args)
     {
+        $args->add('buildName')->optional();
+    }
+
+    public function execute($buildName = null)
+    {
+        if (!$buildName) {
+            $buildName = Config::getCurrentPhpName();
+        }
+
+        if (!$buildName) {
+            throw new Exception("PHPBREW_PHP is not set");
+        }
+
         // TODO: require sudo permission
         if ($this->options->systemctl) {
             $content = $this->generateSystemctlService();
