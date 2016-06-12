@@ -29,7 +29,9 @@ class SetupCommand extends Command
     {
         $opts->add('systemctl', 'generate systemctl service entry');
         $opts->add('initd', 'generate init.d script');
+        $opts->add('launchctl', 'generate plist for launchctl');
         $opts->add('stdout', 'output script content in stdout');
+        
     }
 
     public function arguments($args)
@@ -58,47 +60,99 @@ class SetupCommand extends Command
         // TODO: require sudo permission
         if ($this->options->systemctl) {
             $content = $this->generateSystemctlService($buildName, $fpmBin);
-            $serviceFile = '/lib/systemd/system/phpbrew-fpm.service';
-
-            if (!is_writable($serviceFile)) {
-                $this->logger->error("$serviceFile is not writable.");
-                return;
-            }
 
             if ($this->options->stdout) {
                 echo $content;
                 return;
             }
 
-            $this->logger->info("Writing systemctl service entry: $serviceFile");
-            file_put_contents($serviceFile, $content);
-
-            $this->logger->info("To reload systemctl service:");
-            $this->logger->info("    systemctl daemon-reload");
-
-        } else if ($this->options->initd) {
-
-            $content = $this->generateInitD($buildName, $fpmBin);
-            $file = '/etc/init.d/phpbrew-fpm';
-
+            $file = '/lib/systemd/system/phpbrew-fpm.service';
             if (!is_writable($file)) {
                 $this->logger->error("$file is not writable.");
                 return;
             }
 
+            $this->logger->info("Writing systemctl service entry: $file");
+            file_put_contents($file, $content);
+
+            $this->logger->info("To reload systemctl service:");
+            $this->logger->info("    systemctl daemon-reload");
+
+            $this->logger->info("Ensure that $buildName was built with --fpm-systemd option");
+
+        } else if ($this->options->initd) {
+
+            $content = $this->generateInitD($buildName, $fpmBin);
+
             if ($this->options->stdout) {
                 echo $content;
+                return;
+            }
+
+            $file = '/etc/init.d/phpbrew-fpm';
+            if (!is_writable($file)) {
+                $this->logger->error("$file is not writable.");
                 return;
             }
 
             $this->logger->info("Writing init.d script: $file");
             file_put_contents($file, $content);
 
+        } else if ($this->options->launchctl) {
+
+            $content = $this->generateLaunchctlService($buildName, $fpmBin);
+
+            if ($this->options->stdout) {
+                echo $content;
+                return;
+            }
+
+            $file = '/Library/LaunchDaemons/org.phpbrew.fpm.plist';
+            if (!is_writable($file)) {
+                $this->logger->error("$file is not writable.");
+                return;
+            }
+
+            $this->logger->info("Writing launchctl plist file: $file");
+            file_put_contents($file, $content);
+
         } else {
 
-            $this->logger->info('Please use one of the options [--systemctl, --initd] to setup system fpm service.');
+            $this->logger->info('Please use one of the options [--systemctl, --initd, --launchctl] to setup system fpm service.');
 
         }
+    }
+
+    protected function generateLaunchctlService($buildName, $fpmBin)
+    {
+        $root   = Config::getRoot();
+        $phpdir = "$root/php/$buildName";
+        $pidFile = $phpdir . '/var/run/php-fpm.pid';
+        $config =<<<"EOS"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>KeepAlive</key>
+    <true/>
+    <key>Label</key>
+    <string>phpbrew.fpm</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>$fpmBin</string>
+        <string>--php-ini</string>
+        <string>$phpdir/etc/php.ini</string>
+        <string>--fpm-config</string>
+        <string>$phpdir/etc/php-fpm.conf</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>LaunchOnlyOnce</key>
+    <true/>
+  </dict>
+</plist>
+EOS;
+        return $config;
     }
 
 
@@ -335,6 +389,7 @@ case "\$1" in
 esac
 :
 EOS;
+        return $config;
 
     }
 

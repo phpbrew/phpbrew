@@ -223,7 +223,7 @@ class VariantBuilder
             if ($prefix = Utils::findIncludePrefix('sys/sdt.h')) {
                 return "--enable-dtrace";
             }
-             */
+            */
             return '--enable-dtrace';
         };
 
