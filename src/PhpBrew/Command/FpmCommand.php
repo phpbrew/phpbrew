@@ -29,6 +29,8 @@ class FpmCommand extends Command
     {
         parent::init();
         $this->command('setup');
+        $this->command('start');
+        $this->command('stop');
     }
 
     public function execute() {
