@@ -47,9 +47,17 @@ class SetupCommand extends Command
             throw new Exception("PHPBREW_PHP is not set");
         }
 
+        $root = Config::getRoot();
+        $fpmBin = "$root/php/$buildName/sbin/php-fpm";
+
+        if (!file_exists($fpmBin)) {
+            throw new Exception("$fpmBin doesn't exist.");
+        }
+
+
         // TODO: require sudo permission
         if ($this->options->systemctl) {
-            $content = $this->generateSystemctlService($buildName);
+            $content = $this->generateSystemctlService($buildName, $fpmBin);
             $serviceFile = '/lib/systemd/system/phpbrew-fpm.service';
 
             if (!is_writable($serviceFile)) {
@@ -67,7 +75,7 @@ class SetupCommand extends Command
 
         } else if ($this->options->initd) {
 
-            $content = $this->generateInitD($buildName);
+            $content = $this->generateInitD($buildName, $fpmBin);
             $file = '/etc/init.d/phpbrew-fpm';
 
             if (!is_writable($file)) {
@@ -91,7 +99,7 @@ class SetupCommand extends Command
     }
 
 
-    protected function generateSystemctlService($buildName)
+    protected function generateSystemctlService($buildName, $fpmBin)
     {
         $root   = Config::getRoot();
         $phpdir = "$root/php/$buildName";
@@ -115,7 +123,7 @@ EOS;
     }
 
 
-    protected function generateInitD($buildName)
+    protected function generateInitD($buildName, $fpmBin)
     {
         $root   = Config::getRoot();
         $phpdir = "$root/php/$buildName";
