@@ -103,7 +103,6 @@ class SetupCommand extends Command
     {
         $root   = Config::getRoot();
         $phpdir = "$root/php/$buildName";
-        $fpm    = $phpdir . '/sbin/php-fpm';
         $pidFile = $phpdir . '/var/run/php-fpm.pid';
         $config =<<<"EOS"
 [Unit]
@@ -113,7 +112,7 @@ After=network.target
 [Service]
 Type=notify
 PIDFile=$pidFile
-ExecStart=$phpdir/sbin/php-fpm --nodaemonize --fpm-config $phpdir/etc/php-fpm.conf --pid $pidFile
+ExecStart=$fpmBin --nodaemonize --fpm-config $phpdir/etc/php-fpm.conf --pid $pidFile
 ExecReload=/bin/kill -USR2 \$MAINPID
 
 [Install]
@@ -146,7 +145,7 @@ NAME=phpbrew-fpm
 PHP_VERSION=$buildName
 PHPBREW_ROOT=$root
 CONFFILE=$phpdir/etc/php-fpm.conf
-DAEMON=$phpdir/sbin/php-fpm
+DAEMON=$fpmBin
 DAEMON_ARGS="--daemonize --fpm-config \$CONFFILE"
 PIDFILE=$pidFile
 TIMEOUT=30
