@@ -23,6 +23,9 @@ CHANGES
 
 - Added fpm which command to show which php-fpm will be used.
 
+- The install command now patches the default listen path defined in php-fpm/www.conf 
+  for each different build.
+
 ### Version 1.21.6
 
 - Moved dtrace to variant option.
