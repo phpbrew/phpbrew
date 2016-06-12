@@ -282,6 +282,9 @@ function phpbrew ()
                         nano ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf
                     fi
                     ;;
+                which)
+                    echo $PHPFPM_BIN
+                    ;;
                 help)
                     $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php.ini \
                             --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf --help
@@ -291,7 +294,7 @@ function phpbrew ()
                             --fpm-config ${PHPBREW_ROOT}/php/${_PHP_VERSION}/etc/php-fpm.conf --test
                     ;;
                 *)
-                    echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config|setup]"
+                    echo "Usage: phpbrew fpm [start|stop|restart|module|test|config|setup|info|current|which|help]"
                     ;;
             esac
             ;;
