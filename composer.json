@@ -30,7 +30,7 @@
         "corneltek/phpunit-testmore": "dev-master",
         "corneltek/universal": "~1.3"
     },
-    "extra": { "branch-alias": { "dev-master": "1.21.x-dev" } },
+    "extra": { "branch-alias": { "dev-master": "2.0.x-dev" } },
     "autoload": {
         "psr-4": {
             "PhpBrew\\": "src/PhpBrew/"
