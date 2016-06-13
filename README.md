@@ -316,12 +316,9 @@ $ sudo vim /etc/httpd/conf/httpd.conf
 $ phpbrew list
 ```
 
-
-
 ## The Extension Installer
 
-
-
+See [Extension Installer](https://github.com/phpbrew/phpbrew/wiki/Extension-Installer)
 
 ### Configuring the php.ini for current php version
 
