@@ -21,7 +21,8 @@ What phpbrew can do for you:
 - Install multiple php into system-wide environment.
 - Path detection optimization for HomeBrew and MacPorts.
 
-<img width="600" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
+<img width="500" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
+<img width="500" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/03.png"/>
 
 ## Requirement
 
