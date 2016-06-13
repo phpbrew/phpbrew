@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+### Version 1.22.4
+
+- Fixed extension installer exception with Buildable interface.
+- Added getBuildLogPath() method to Buildable interface.
+- Check sd-daemon.h header for --with-fpm-systemd option.
 
 ### Version 1.22.2
 
