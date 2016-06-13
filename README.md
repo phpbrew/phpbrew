@@ -41,7 +41,7 @@ sudo mv phpbrew /usr/bin/phpbrew
 
 ## QUICK START
 
-Please see [Quick Start](https://github.com/phpbrew/phpbrew/wiki/Quick-Start)
+Please see [Quick Start](https://github.com/phpbrew/phpbrew/wiki/Quick-Start) if you're impatient. :-p
 
 ## GETTING STARTED
 
