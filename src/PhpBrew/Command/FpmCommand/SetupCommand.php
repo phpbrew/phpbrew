@@ -57,6 +57,8 @@ class SetupCommand extends Command
             throw new Exception("PHPBREW_PHP is not set. You should provide the build name in the command.");
         }
 
+        $this->logger->warn("*WARNING* php-fpm --pid option requires php >= 5.6, you need to update your php-fpm.conf for the pid file location.");
+
         $root = Config::getRoot();
         $fpmBin = "$root/php/$buildName/sbin/php-fpm";
 
@@ -219,7 +221,7 @@ PHP_VERSION=$buildName
 PHPBREW_ROOT=$root
 CONFFILE=$phpdir/etc/php-fpm.conf
 DAEMON=$fpmBin
-DAEMON_ARGS="--daemonize --fpm-config \$CONFFILE"
+DAEMON_ARGS="--daemonize --fpm-config \$CONFFILE --pid $pidFile"
 PIDFILE=$pidFile
 TIMEOUT=30
 SCRIPTNAME=/etc/init.d/\$NAME
