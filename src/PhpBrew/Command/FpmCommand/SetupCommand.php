@@ -123,6 +123,9 @@ class SetupCommand extends Command
             $this->logger->info("Writing launchctl plist file: $file");
             file_put_contents($file, $content);
 
+            $this->logger->info("To load the service:");
+            $this->logger->info("    sudo launchctl load $file");
+
         } else {
 
             $this->logger->info('Please use one of the options [--systemctl, --initd, --launchctl] to setup system fpm service.');
