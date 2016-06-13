@@ -211,7 +211,7 @@ class VariantBuilder
 
         $this->variants['fpm'] = function(Build $build, $prefix = null) {
             $opts = array('--enable-fpm');
-            if ($bin = Utils::findBin('systemctl')) {
+            if ($bin = Utils::findBin('systemctl') && Utils::findIncludePrefix('systemd/sd-daemon.h')) {
                 $opts[] = '--with-fpm-systemd';
             }
             return $opts;
