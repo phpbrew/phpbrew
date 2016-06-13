@@ -29,36 +29,81 @@ Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
 before you get started. you need to install some development packages for
 building PHP.
 
-## Installation
-
-Just download it:
+## INSTALL
 
 ```bash
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
+
+# Move phpbrew to somewhere can be found by your $PATH
+sudo mv phpbrew /usr/bin/phpbrew
 ```
 
-Then you can install it into your bin folder:
+## QUICK START
 
-```sh
-sudo mv phpbrew /usr/local/bin/phpbrew
+If you're impatient, you can follow the following steps to get things ready.
+
+**BE SURE TO INSTALL THE REQUIRED PACKAGES**
+
+```bash
+phpbrew init
+
+# I assume you're using bash
+echo '[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc' >> ~/.bashrc
+
+# For the first-time installation, you don't have phpbrew shell function yet.
+source ~/.phpbrew/bashrc
+
+# Fetch the release list from official php site...
+phpbrew update
+
+# List available releases
+phpbrew known
+
+# Brew something out.
+# --debug and --stdout are useful for debugging if the configure script encountered some problems
+phpbrew --debug install --stdout 7.0 as 7.0-dev +default +intl -- # put your extra configure options here, e.g. --with-readline=...
+
+# Set 7.0-dev as default php and switch to it.
+phpbrew switch 7.0-dev
+
+# Install some extensions for php7, please note the command below are for php7
+phpbrew --debug ext install xdebug 2.4.0
+phpbrew --debug ext install github:krakjoe/apcu
+phpbrew --debug ext install github:php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl
+phpbrew --debug ext install github:phpredis/phpredis php7
+
+# Install php 5.6 with the same variant options like 7.0
+phpbrew install 5.6 as 5.6-dev like 7.0-dev
 ```
 
-Be sure to have `/usr/local/bin` in your `$PATH` environment variable.
 
 
-## Setting up
+
+## GETTING STARTED
+
+OK, I assume you have more time to work on this, this is a step-by-step
+tutorial that helps you get started.
+
+### Setting up
 
 Init a bash script for your shell environment:
 
 ```bash
-$ phpbrew init
+phpbrew init
 ```
 
-*Add these lines to your `.bashrc` or `.zshrc` file*:
+Add these lines to your `.bashrc` or `.zshrc` file:
 
 ```bash
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
+```
+
+If you're using system-wide phpbrew, you may setup a shared phpbrew root, for example:
+
+```bash
+mkdir -p /opt/phpbrew
+phpbrew init --root=/opt/phpbrew
 ```
 
 ### Setting up lookup prefix
@@ -69,13 +114,13 @@ options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
 For Homebrew users:
 
 ```bash
-$ phpbrew lookup-prefix homebrew
+phpbrew lookup-prefix homebrew
 ```
 
 For Macports users:
 
 ```bash
-$ phpbrew lookup-prefix macports
+phpbrew lookup-prefix macports
 ```
 
 ## Basic usage
@@ -83,7 +128,8 @@ $ phpbrew lookup-prefix macports
 To list known versions:
 
 ```bash
-$ phpbrew known
+phpbrew known
+
 7.0: 7.0.3, 7.0.2, 7.0.1, 7.0.0 ...
 5.6: 5.6.18, 5.6.17, 5.6.16, 5.6.15, 5.6.14, 5.6.13, 5.6.12, 5.6.11 ...
 5.5: 5.5.32, 5.5.31, 5.5.30, 5.5.29, 5.5.28, 5.5.27, 5.5.26, 5.5.25 ...
