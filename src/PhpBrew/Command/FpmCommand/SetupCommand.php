@@ -53,9 +53,8 @@ class SetupCommand extends Command
         if (!$buildName) {
             $buildName = Config::getCurrentPhpName();
         }
-
         if (!$buildName) {
-            throw new Exception("PHPBREW_PHP is not set");
+            throw new Exception("PHPBREW_PHP is not set. You should provide the build name in the command.");
         }
 
         $root = Config::getRoot();
@@ -64,7 +63,6 @@ class SetupCommand extends Command
         if (!file_exists($fpmBin)) {
             throw new Exception("$fpmBin doesn't exist.");
         }
-
 
         // TODO: require sudo permission
         if ($this->options->systemctl) {
@@ -76,7 +74,7 @@ class SetupCommand extends Command
             }
 
             $file = '/lib/systemd/system/phpbrew-fpm.service';
-            if (!is_writable($file)) {
+            if (!is_writable(dirname($file))) {
                 $this->logger->error("$file is not writable.");
                 return;
             }
@@ -99,7 +97,7 @@ class SetupCommand extends Command
             }
 
             $file = '/etc/init.d/phpbrew-fpm';
-            if (!is_writable($file)) {
+            if (!is_writable(dirname($file))) {
                 $this->logger->error("$file is not writable.");
                 return;
             }
@@ -117,7 +115,7 @@ class SetupCommand extends Command
             }
 
             $file = '/Library/LaunchDaemons/org.phpbrew.fpm.plist';
-            if (!is_writable($file)) {
+            if (!is_writable(dirname($file))) {
                 $this->logger->error("$file is not writable.");
                 return;
             }
