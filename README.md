@@ -41,44 +41,7 @@ sudo mv phpbrew /usr/bin/phpbrew
 
 ## QUICK START
 
-If you're impatient, you can follow the following steps to get things ready.
-
-**BE SURE TO INSTALL THE REQUIRED PACKAGES**
-
-```bash
-phpbrew init
-
-# I assume you're using bash
-echo '[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc' >> ~/.bashrc
-
-# For the first-time installation, you don't have phpbrew shell function yet.
-source ~/.phpbrew/bashrc
-
-# Fetch the release list from official php site...
-phpbrew update
-
-# List available releases
-phpbrew known
-
-# Brew something out.
-# --debug and --stdout are useful for debugging if the configure script encountered some problems
-phpbrew --debug install --stdout 7.0 as 7.0-dev +default +intl -- # put your extra configure options here, e.g. --with-readline=...
-
-# Set 7.0-dev as default php and switch to it.
-phpbrew switch 7.0-dev
-
-# Install some extensions for php7, please note the command below are for php7
-phpbrew --debug ext install xdebug 2.4.0
-phpbrew --debug ext install github:krakjoe/apcu
-phpbrew --debug ext install github:php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl
-phpbrew --debug ext install github:phpredis/phpredis php7
-
-# Install php 5.6 with the same variant options like 7.0
-phpbrew install 5.6 as 5.6-dev like 7.0-dev
-```
-
-
-
+Please see [Quick Start](https://github.com/phpbrew/phpbrew/wiki/Quick-Start)
 
 ## GETTING STARTED
 
