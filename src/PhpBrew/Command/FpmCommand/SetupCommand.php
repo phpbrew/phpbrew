@@ -57,7 +57,7 @@ class SetupCommand extends Command
             throw new Exception("PHPBREW_PHP is not set. You should provide the build name in the command.");
         }
 
-        $this->logger->warn("*WARNING* php-fpm --pid option requires php >= 5.6, you need to update your php-fpm.conf for the pid file location.");
+        fprintf(STDERR, "*WARNING* php-fpm --pid option requires php >= 5.6, you need to update your php-fpm.conf for the pid file location.\n");
 
         $root = Config::getRoot();
         $fpmBin = "$root/php/$buildName/sbin/php-fpm";
