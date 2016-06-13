@@ -80,7 +80,7 @@ class Variant
     }
 
 
-    public function builder(callable $builder)
+    public function builder($builder)
     {
         $this->builder = $builder;
         return $this;
