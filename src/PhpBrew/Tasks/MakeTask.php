@@ -48,6 +48,10 @@ class MakeTask extends BaseTask
         return preg_match('/GNU Make/', shell_exec("$bin --version"));
     }
 
+
+    /**
+     * @param Buildable $build can be PeclExtension or Build object.
+     */
     private function make($path, $target = 'all', $build = null)
     {
         if (!file_exists($path.DIRECTORY_SEPARATOR.'Makefile')) {

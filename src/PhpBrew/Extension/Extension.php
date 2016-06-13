@@ -145,6 +145,11 @@ class Extension implements Buildable
         return $this->sourceDirectory;
     }
 
+    public function getBuildLogPath()
+    {
+        return $this->sourceDirectory.DIRECTORY_SEPARATOR.'build.log';
+    }
+
     public function getSharedLibraryPath()
     {
         return ini_get('extension_dir').DIRECTORY_SEPARATOR.$this->getSharedLibraryName();

@@ -158,7 +158,6 @@ class Build implements Serializable, Buildable
     public function getBuildLogPath()
     {
         $dir = $this->getSourceDirectory().DIRECTORY_SEPARATOR.'build.log';
-
         return $dir;
     }
 

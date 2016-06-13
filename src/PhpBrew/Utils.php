@@ -254,7 +254,6 @@ class Utils
         if ($returnValue !== 0) {
             throw new SystemCommandException("Command failed: $command returns: $lastline", $build);
         }
-
         return $returnValue;
     }
 
