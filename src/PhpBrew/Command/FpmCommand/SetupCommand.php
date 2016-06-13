@@ -106,7 +106,7 @@ class SetupCommand extends Command
             file_put_contents($file, $content);
 
             $this->logger->info("To setup the startup item, remember to run update-rc.d to link the init script:");
-            $this->logger->info("    update-rc.d phpbrew-fpm defaults");
+            $this->logger->info("    sudo update-rc.d phpbrew-fpm defaults");
 
 
         } else if ($this->options->launchctl) {
