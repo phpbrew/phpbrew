@@ -5,12 +5,11 @@ CHANGES
 ### Version 1.22.2
 
 - Refined init command to support --root option.
+- Fixed is_writable check in fpm setup command.
 - Fixed few bugs in fpm setup --initd option, there are some limitation:
   - The generated init.d script depends on lsb-base >= 4.0.
   - If initctl is based on upstart, the init.d script will not be executed.
       To check, please run /sbin/initctl --version in the command-line.
-
-
 
 ### Version 1.22.1
 
