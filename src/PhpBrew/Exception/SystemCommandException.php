@@ -23,7 +23,7 @@ class SystemCommandException extends RuntimeException
     {
         if ($this->logFile) {
             return $this->logFile;
-        } else if ($this->build instanceof Build) {
+        } else if ($this->build) {
             return $this->build->getBuildLogPath();
         }
     }
