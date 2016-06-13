@@ -38,7 +38,7 @@ class SetupCommand extends Command
             "To use this option, be sure to compile PHP with --with-fpm-systemd option." . 
             "Start from 1.22, phpbrew automatically add --with-fpm-systemd when systemd is detected."
         );
-        $opts->add('initd', 'Generate init.d script');
+        $opts->add('initd', 'Generate init.d script. The generated init.d script depends on lsb-base >= 4.0.');
         $opts->add('launchctl', 'Generate plist for launchctl (OS X)');
         $opts->add('stdout', 'Print config in STDOUT instead of writing to the file.');
     }
