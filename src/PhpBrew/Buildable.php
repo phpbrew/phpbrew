@@ -4,8 +4,14 @@ namespace PhpBrew;
 
 interface Buildable
 {
+    /**
+     * @return path return source directory
+     */
     public function getSourceDirectory();
 
+    /**
+     * @return boolean
+     */
     public function isBuildable();
 
     /**
