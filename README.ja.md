@@ -437,13 +437,13 @@ phpbrew fpm config
 ### composerのインストール
 
 ```bash
-$ phpbrew install-composer
+$ phpbrew app get composer
 ```
 
 ### phpunitのインストール
 
 ```bash
-phpbrew install-phpunit
+phpbrew app get phpunit
 ```
 
 ## プロンプトにバージョン情報を表示する
