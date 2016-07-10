@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Command;
 
-
 use PhpBrew\Command\ApacheCommand\BaseCommand;
 use PhpBrew\Utils\ApacheUtils;
 
@@ -35,7 +34,6 @@ class ApacheCommand extends BaseCommand
      */
     public function options($opts)
     {
-
     }
 
     public function execute()

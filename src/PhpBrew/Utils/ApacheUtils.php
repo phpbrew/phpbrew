@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Utils;
 
-
 use Exception;
 use PhpBrew\Utils;
 

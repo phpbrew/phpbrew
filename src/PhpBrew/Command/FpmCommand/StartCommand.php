@@ -16,5 +16,7 @@ class StartCommand extends Command
         return 'Start fpm';
     }
     
-    public function execute() { }
+    public function execute()
+    {
+    }
 }

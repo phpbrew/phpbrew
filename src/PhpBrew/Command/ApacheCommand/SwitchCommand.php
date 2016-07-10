@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Command\ApacheCommand;
 
-
 use Exception;
 use PhpBrew\Config;
 use PhpBrew\Utils;

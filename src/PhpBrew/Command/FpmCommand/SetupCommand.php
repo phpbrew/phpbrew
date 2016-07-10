@@ -33,9 +33,9 @@ class SetupCommand extends Command
     public function options($opts)
     {
         $opts->add('systemctl',
-            "Generate systemd service entry." . 
-            "This option only works for systemd-based Linux." . 
-            "To use this option, be sure to compile PHP with --with-fpm-systemd option." . 
+            "Generate systemd service entry." .
+            "This option only works for systemd-based Linux." .
+            "To use this option, be sure to compile PHP with --with-fpm-systemd option." .
             "Start from 1.22, phpbrew automatically add --with-fpm-systemd when systemd is detected."
         );
         $opts->add('initd', 'Generate init.d script');
@@ -88,9 +88,7 @@ class SetupCommand extends Command
             $this->logger->info("    systemctl daemon-reload");
 
             $this->logger->info("Ensure that $buildName was built with --fpm-systemd option");
-
-        } else if ($this->options->initd) {
-
+        } elseif ($this->options->initd) {
             $content = $this->generateInitD($buildName, $fpmBin);
 
             if ($this->options->stdout) {
@@ -106,9 +104,7 @@ class SetupCommand extends Command
 
             $this->logger->info("Writing init.d script: $file");
             file_put_contents($file, $content);
-
-        } else if ($this->options->launchctl) {
-
+        } elseif ($this->options->launchctl) {
             $content = $this->generateLaunchctlService($buildName, $fpmBin);
 
             if ($this->options->stdout) {
@@ -124,11 +120,8 @@ class SetupCommand extends Command
 
             $this->logger->info("Writing launchctl plist file: $file");
             file_put_contents($file, $content);
-
         } else {
-
             $this->logger->info('Please use one of the options [--systemctl, --initd, --launchctl] to setup system fpm service.');
-
         }
     }
 
@@ -400,7 +393,5 @@ esac
 :
 EOS;
         return $config;
-
     }
-
 }

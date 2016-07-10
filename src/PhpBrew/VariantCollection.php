@@ -23,7 +23,7 @@ class VariantCollection implements ArrayAccess, IteratorAggregate
         return $variant;
     }
 
-    public function offsetGet($key) 
+    public function offsetGet($key)
     {
         if (isset($this->variants[$key])) {
             return $this->variants[$key];

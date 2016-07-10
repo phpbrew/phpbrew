@@ -206,7 +206,7 @@ class VariantBuilder
         $this->variants['xmlrpc'] = '--with-xmlrpc';
 
 
-        $this->variants['fpm'] = function(Build $build, $prefix = null) {
+        $this->variants['fpm'] = function (Build $build, $prefix = null) {
             $opts = array('--enable-fpm');
             if ($bin = Utils::findBin('systemctl')) {
                 $opts[] = '--with-fpm-systemd';
@@ -703,7 +703,7 @@ class VariantBuilder
             if ($bin) {
                 $opts[] = "--with-pgsql=" . dirname($bin);
                 if ($build->hasVariant('pdo')) {
-                   $opts[] = "--with-pdo-pgsql=" . dirname($bin);
+                    $opts[] = "--with-pdo-pgsql=" . dirname($bin);
                 }
                 return $opts;
             }

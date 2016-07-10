@@ -16,5 +16,7 @@ class RestartCommand extends Command
         return 'Restart fpm';
     }
     
-    public function execute() { }
+    public function execute()
+    {
+    }
 }

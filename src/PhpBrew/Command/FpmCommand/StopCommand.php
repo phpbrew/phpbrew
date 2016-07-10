@@ -16,5 +16,7 @@ class StopCommand extends Command
         return 'Stop fpm';
     }
     
-    public function execute() { }
+    public function execute()
+    {
+    }
 }

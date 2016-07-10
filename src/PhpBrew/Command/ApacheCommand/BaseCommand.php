@@ -8,7 +8,6 @@
 
 namespace PhpBrew\Command\ApacheCommand;
 
-
 use CLIFramework\Command;
 use PhpBrew\Config;
 use PhpBrew\Tasks\Apxs2CheckTask;

@@ -1,11 +1,12 @@
 <?php
 namespace PhpBrew;
+
 use PhpBrew\Build;
 
 /**
  * The variant definition schema
  */
-class Variant 
+class Variant
 {
     public $name;
 
@@ -98,7 +99,7 @@ class Variant
             $opt = null;
             if ($this->option) {
                 $opt = $this->option;
-            } else if ($this->defaultOption) {
+            } elseif ($this->defaultOption) {
                 $opt = $this->defaultOption;
             }
             if ($opt) {
@@ -119,7 +120,5 @@ class Variant
         }
         return $options;
     }
-
-
 }
 

@@ -12,13 +12,13 @@ class Apxs2CheckTask extends BaseTask
 
     public function check($build = '')
     {
-        if($build instanceof Build) {
+        if ($build instanceof Build) {
             $apxs = $build->getVariant('apxs2');
 
             $this->apxs = $this->getExecutableApxs($apxs);
             $this->checkModuleDir();
             $this->checkConfigDir();
-        }else{
+        } else {
             $this->apxs = $this->getExecutableApxs();
             $this->checkConfigDir();
         }

@@ -378,9 +378,9 @@ class Utils
         exec("{$editor} {$file} > {$tty}");
     }
 
-    public static function getGlobalLogger() {
+    public static function getGlobalLogger()
+    {
         $container = ServiceContainer::getInstance();
         return $container['logger'];
     }
-
 }
