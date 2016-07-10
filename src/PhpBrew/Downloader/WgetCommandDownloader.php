@@ -41,7 +41,8 @@ class WgetCommandDownloader extends BaseDownloader
 
         $quiet = $this->logger->isQuiet() ? '--quiet' : '';
         $continue = $this->enableContinueAt || $this->options->{'continue'} ? '-c' : '';
-        Utils::system(sprintf('wget --no-check-certificate %s %s %s -N -O %s %s', $continue, $quiet, $proxy, $targetFilePath, $url));
+        Utils::system(sprintf('wget --no-check-certificate %s %s %s -N -O %s %s',
+            $continue, $quiet, $proxy, escapeshellarg($targetFilePath), escapeshellarg($url)));
 
         return true;
     }
