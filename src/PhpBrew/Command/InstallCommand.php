@@ -219,7 +219,7 @@ system-wide phpbrew or this might cause problems.");
             if ($this->options->mirror) {
                 $distUrlPolicy->setMirrorSite($this->options->mirror);
             }
-            $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename']);
+            $distUrl = $distUrlPolicy->buildUrl($versionInfo, $versionInfo['filename']);
         }
 
         // get options and variants for building php

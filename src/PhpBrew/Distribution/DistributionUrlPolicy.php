@@ -18,13 +18,14 @@ class DistributionUrlPolicy
      */
     public function buildUrl($version, $filename)
     {
+        //the historic releases only available at museum
+        if ($version['museum'] || $this->isDistributedAtMuseum($version['version'])) {
+            return 'http://museum.php.net/php5/'.$filename;
+        }
+
         if (!is_null($this->mirrorSite)) {
             // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
             return $this->mirrorSite.'/distributions/'.$filename;
-        }
-
-        if ($this->isDistributedAtMuseum($version)) {
-            return 'http://museum.php.net/php5/'.$filename;
         }
 
         // http://tw1.php.net/distributions/php-5.3.29.tar.bz2.

@@ -203,6 +203,7 @@ class ReleaseList
                         }
                     }
                 }
+                $release['museum'] = isset($v['museum']) && $v['museum'];
                 $releaseVersions["$major.$minor"][$k] = $release;
             }
         }
