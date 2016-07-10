@@ -15,13 +15,13 @@ class InitCommand extends \CLIFramework\Command
     public function options($opts)
     {
         $opts->add('c|config:',
-            'The YAML config file which should be copied into phpbrew home.' . 
+            'The YAML config file which should be copied into phpbrew home.' .
             'The config file is used for creating custom virtual variants. ' .
             'For more details, please see https://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration'
         )->isa('file');
 
         $opts->add('root:',
-            'Override the default PHPBREW_ROOT path setting.' . 
+            'Override the default PHPBREW_ROOT path setting.' .
             'This option is usually used to load system-wide build pool. ' .
             'e.g. phpbrew init --root=/opt/phpbrew '
         )->isa('dir');

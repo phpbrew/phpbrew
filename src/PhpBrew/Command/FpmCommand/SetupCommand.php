@@ -33,15 +33,15 @@ class SetupCommand extends Command
     public function options($opts)
     {
         $opts->add('systemctl',
-            "Generate systemd service entry." . 
-            "This option only works for systemd-based Linux." . 
-            "To use this option, be sure to compile PHP with --with-fpm-systemd option." . 
+            "Generate systemd service entry." .
+            "This option only works for systemd-based Linux." .
+            "To use this option, be sure to compile PHP with --with-fpm-systemd option." .
             "Start from 1.22, phpbrew automatically add --with-fpm-systemd when systemd is detected."
         );
-        $opts->add('initd', 
-            'Generate init.d script. ' . 
-            'The generated init.d script depends on lsb-base >= 4.0.' . 
-            'If initctl is based on upstart, the init.d script will not be executed.' . 
+        $opts->add('initd',
+            'Generate init.d script. ' .
+            'The generated init.d script depends on lsb-base >= 4.0.' .
+            'If initctl is based on upstart, the init.d script will not be executed.' .
             'To check, please run /sbin/initctl --version in the command-line.'
         );
         $opts->add('launchctl', 'Generate plist for launchctl (OS X)');
@@ -93,9 +93,7 @@ class SetupCommand extends Command
             $this->logger->info("    systemctl daemon-reload");
 
             $this->logger->info("Ensure that $buildName was built with --fpm-systemd option");
-
-        } else if ($this->options->initd) {
-
+        } elseif ($this->options->initd) {
             $content = $this->generateInitD($buildName, $fpmBin);
 
             if ($this->options->stdout) {
@@ -115,10 +113,7 @@ class SetupCommand extends Command
 
             $this->logger->info("To setup the startup item, remember to run update-rc.d to link the init script:");
             $this->logger->info("    sudo update-rc.d phpbrew-fpm defaults");
-
-
-        } else if ($this->options->launchctl) {
-
+        } elseif ($this->options->launchctl) {
             $content = $this->generateLaunchctlService($buildName, $fpmBin);
 
             if ($this->options->stdout) {
@@ -137,11 +132,8 @@ class SetupCommand extends Command
 
             $this->logger->info("To load the service:");
             $this->logger->info("    sudo launchctl load $file");
-
         } else {
-
             $this->logger->info('Please use one of the options [--systemctl, --initd, --launchctl] to setup system fpm service.');
-
         }
     }
 
@@ -413,7 +405,5 @@ esac
 :
 EOS;
         return $config;
-
     }
-
 }

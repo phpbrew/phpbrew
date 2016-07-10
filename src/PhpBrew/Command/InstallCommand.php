@@ -422,7 +422,7 @@ system-wide phpbrew or this might cause problems.");
                 // See http://php.net/manual/en/install.fpm.configuration.php for more details
                 $ini = file_get_contents($patchingFile);
                 $this->logger->info("---> Patching default fpm pool listen path to $fpmUnixSocket");
-                $ini = preg_replace('/^listen = .*$/m',"listen = $fpmUnixSocket\n", $ini);
+                $ini = preg_replace('/^listen = .*$/m', "listen = $fpmUnixSocket\n", $ini);
                 file_put_contents($patchingFile, $ini);
                 break;
             }

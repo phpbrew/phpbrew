@@ -33,7 +33,8 @@ class FpmCommand extends Command
         $this->command('stop');
     }
 
-    public function execute() {
+    public function execute()
+    {
     }
 }
 
