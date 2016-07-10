@@ -14,7 +14,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
 
     private $previousPhpBrewHome;
 
-    public $primaryVersion = '5.5.34';
+    public $primaryVersion = '5.5.37';
 
     public function getPrimaryVersion()
     {
