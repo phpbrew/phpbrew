@@ -464,12 +464,12 @@ function _phpbrewrc_load ()
         fi
 
         # check if .phpbrewrc present
-        if [[ -r .phpbrewrc ]]; then
+        if [[ -r "$curr_dir/.phpbrewrc" ]]; then
             # check if it's not the same .phpbrewrc which was previously loaded
             if [[ "$curr_dir" != "$PHPBREW_LAST_RC_DIR" ]]; then
                 __phpbrew_load_user_config
                 PHPBREW_LAST_RC_DIR="$curr_dir"
-                source .phpbrewrc
+                source "$curr_dir/.phpbrewrc"
             fi
             break
         fi
