@@ -11,7 +11,6 @@ use Exception;
 
 class PeclProvider implements Provider
 {
-
     public $site = 'pecl.php.net';
     public $owner = null;
     public $repository = null;

@@ -6,7 +6,6 @@ use PhpBrew\Config;
 
 class GithubProvider implements Provider
 {
-
     public $site = 'github.com';
     public $owner = null;
     public $repository = null;

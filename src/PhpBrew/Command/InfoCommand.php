@@ -60,7 +60,7 @@ class InfoCommand extends \CLIFramework\Command
         foreach (array_filter(
             $extensions,
             function ($n) {
-            return in_array(
+                return in_array(
                 $n,
                 array(
                     'PDO',
