@@ -15,7 +15,6 @@ use RuntimeException;
 
 class PhpCurlDownloader extends BaseDownloader
 {
-
     protected function process($url, $targetFilePath)
     {
         $this->logger->info("Downloading $url via curl extension");

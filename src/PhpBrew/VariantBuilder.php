@@ -6,8 +6,9 @@ use RuntimeException;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\Build;
 
-function first_existing_executable($possiblePaths) {
-    $existingPaths = 
+function first_existing_executable($possiblePaths)
+{
+    $existingPaths =
         array_filter(
             array_filter(
                 array_filter($possiblePaths, "file_exists"),
@@ -19,7 +20,8 @@ function first_existing_executable($possiblePaths) {
     return false;
 }
 
-function first_existing_path($possiblePaths) {
+function first_existing_path($possiblePaths)
+{
     $existingPaths = array_filter($possiblePaths, "file_exists");
     if (!empty($existingPaths)) {
         return realpath($existingPaths[0]);
@@ -27,7 +29,8 @@ function first_existing_path($possiblePaths) {
     return false;
 }
 
-function exec_line($command) {
+function exec_line($command)
+{
     $output = array();
     exec($command, $output, $retval);
     if ($retval === 0) {
@@ -305,7 +308,7 @@ class VariantBuilder
         $this->variants['editline'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return "--with-libedit=$prefix";
-            } else if ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
+            } elseif ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
                 return "--with-libedit=$prefix";
             }
         };
@@ -334,9 +337,9 @@ class VariantBuilder
             $opts = array();
             if ($prefix) {
                 $opts[] = "--with-gd=$prefix";
-            } else if ($prefix = Utils::findIncludePrefix('gd.h')) {
+            } elseif ($prefix = Utils::findIncludePrefix('gd.h')) {
                 $opts[] = "--with-gd=shared,$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
+            } elseif ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix gd")) {
                     $opts[] = "--with-gd=shared,$output";
                 }
@@ -347,7 +350,7 @@ class VariantBuilder
 
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
-            } else if ($bin = Utils::findBin('brew')) {
+            } elseif ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix libjpeg")) {
                     $opts[] = "--with-jpeg-dir=$output";
                 }
@@ -493,7 +496,6 @@ class VariantBuilder
         mysqlnd was added since php 5.3
         */
         $this->variants['mysql'] = function (Build $build, $prefix = 'mysqlnd') {
-
             $opts = array();
             if ($build->compareVersion('7.0') < 0) {
                 $opts[] = "--with-mysql=$prefix";
@@ -557,7 +559,7 @@ class VariantBuilder
             if ($build->hasVariant('pdo')) {
                 if ($bin = Utils::findBin('pg_config')) {
                     $opts[] = "--with-pdo-pgsql=$bin";
-                } else if ($path = first_existing_executable(array(
+                } elseif ($path = first_existing_executable(array(
                         "/opt/local/lib/postgresql95/bin/pg_config",
                         "/opt/local/lib/postgresql94/bin/pg_config",
                         "/opt/local/lib/postgresql93/bin/pg_config",
@@ -569,7 +571,7 @@ class VariantBuilder
                         "/Library/PostgreSQL/9.1/bin/pg_config",
                     ))) {
                     $opts[] = "--with-pdo-pgsql=$path";
-                } else if ($prefix) {
+                } elseif ($prefix) {
                     $opts[] = "--with-pdo-pgsql=$prefix";
                 } else {
                     $opts[] = "--with-pdo-pgsql";

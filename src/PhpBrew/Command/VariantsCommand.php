@@ -5,7 +5,6 @@ use PhpBrew\VariantBuilder;
 
 class VariantsCommand extends \CLIFramework\Command
 {
-
     public function brief()
     {
         return 'List php variants';

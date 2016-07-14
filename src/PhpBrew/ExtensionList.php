@@ -13,8 +13,6 @@ use RuntimeException;
 
 class ExtensionList
 {
-
-
     public function __construct()
     {
     }

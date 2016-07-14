@@ -12,7 +12,6 @@ use GetOptionKit\OptionResult;
 
 class ExtensionDownloader
 {
-
     public $logger;
 
     public $options;

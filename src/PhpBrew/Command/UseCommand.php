@@ -11,7 +11,6 @@ use Exception;
  */
 class UseCommand extends Command
 {
-
     public function arguments($args)
     {
         $args->add('php version')

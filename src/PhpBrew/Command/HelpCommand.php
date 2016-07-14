@@ -5,7 +5,6 @@ use CLIFramework\Command\HelpCommand as BaseHelpCommand;
 
 class HelpCommand extends BaseHelpCommand
 {
-
     public function execute()
     {
         $args = func_get_args();
