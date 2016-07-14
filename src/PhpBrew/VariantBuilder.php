@@ -647,12 +647,15 @@ class VariantBuilder
                     '/opt/local/var/run/mysql54/mysqld.sock',
 
                     '/tmp/mysql.sock', /* homebrew mysql sock */
-                    '/var/run/mysqld/mysql.sock',
+                    '/var/run/mysqld/mysqld.sock', /* ubuntu */
                     '/var/mysql/mysql.sock',
                 );
-                $paths = array_filter($possiblePaths, 'file_exists');
-                if (count($paths) > 0 && file_exists($paths[0])) {
-                    $opts[] = "--with-mysql-sock={$paths[0]}";
+
+                foreach ($possiblePaths as $path) {
+                    if (file_exists($path)) {
+                        $opts[] = '--with-mysql-sock=' . $path;
+                        break;
+                    }
                 }
             }
 
