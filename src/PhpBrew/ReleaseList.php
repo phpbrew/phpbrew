@@ -159,11 +159,6 @@ class ReleaseList
 
     private static function downloadReleaseListFromOfficialSite($version, OptionResult $options = null)
     {
-        if (!extension_loaded('openssl')) {
-            throw new Exception(
-                'openssl extension not found, to download releases file you need openssl.');
-        }
-
         $max = ($options && $options->old) ? 1000 : 100;
         $url = "https://secure.php.net/releases/index.php?json&version={$version}&max={$max}";
 
