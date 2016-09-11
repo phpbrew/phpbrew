@@ -98,6 +98,9 @@ class Console extends Application
 
         // fix bold output so it looks good on light and dark terminals
         $this->getFormatter()->addStyle('bold', array('bold' => 1));
+
+        $this->logger->levelStyles['warn'] = 'yellow';
+        $this->logger->levelStyles['error'] = 'red';
     }
 
     public function brief()
