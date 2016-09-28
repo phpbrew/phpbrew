@@ -489,9 +489,6 @@ function _phpbrewrc_load ()
             break
         fi
         curr_dir=$(dirname $curr_dir)
-        if [[ "$curr_dir" == "/" ]] ; then
-            break
-        fi
     done
     PHPBREW_LAST_DIR="$PWD"
 }
