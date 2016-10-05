@@ -1084,9 +1084,9 @@ class VariantBuilder
             }
         }
 
-        if ($prefix = Utils::findLibPrefix('lib/x86_64-linux-gnu')) {
+        if ($prefix = Utils::findLibPrefix('x86_64-linux-gnu')) {
             $this->addOptions('--with-libdir=lib/x86_64-linux-gnu');
-        } elseif ($prefix = Utils::findLibPrefix('lib/i386-linux-gnu')) {
+        } elseif ($prefix = Utils::findLibPrefix('i386-linux-gnu')) {
             $this->addOptions('--with-libdir=lib/i386-linux-gnu');
         }
 
