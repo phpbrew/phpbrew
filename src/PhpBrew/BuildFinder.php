@@ -24,7 +24,7 @@ class BuildFinder
 
         if ($stripPrefix) {
             $names = array_map(function ($name) {
-                return preg_replace('/^php-(?=(\d+\.\d+\.\d+)$)/', '', $name);
+                return preg_replace('/^php-(?=(\d+\.\d+\.\d+((alpha|beta|RC)\d+)?)$)/', '', $name);
             }, $names);
         }
         uasort($names, 'version_compare'); // ordering version name ascending... 5.5.17, 5.5.12
