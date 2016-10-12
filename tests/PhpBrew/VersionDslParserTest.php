@@ -26,6 +26,7 @@ class ExtensionDslParserTest extends \PHPUnit_Framework_TestCase
             array('github.com:php/php-src@branch', 'https://github.com/php/php-src/archive/branch.tar.gz', 'php-branch'), // explicit branch
             array('git@github.com:php/php-src', 'https://github.com/php/php-src/archive/master.tar.gz', 'php-master'), // implicit branch
             array('git@github.com:php/php-src@branch', 'https://github.com/php/php-src/archive/branch.tar.gz', 'php-branch'), // explicit branch
+            array('git@github.com:php/php-src@php-7.1.0RC3', 'https://github.com/php/php-src/archive/php-7.1.0RC3.tar.gz', 'php-7.1.0RC3'), // tag
 
             // github urls
             array('https://www.github.com/php/php-src', 'https://github.com/php/php-src/archive/master.tar.gz', 'php-master'),
@@ -37,6 +38,7 @@ class ExtensionDslParserTest extends \PHPUnit_Framework_TestCase
             array('github.com:marc/php-src', 'https://github.com/marc/php-src/archive/master.tar.gz', 'php-marc-master'), // implicit branch
             array('git@github.com:marc/php-src', 'https://github.com/marc/php-src/archive/master.tar.gz', 'php-marc-master'),
             array('https://www.github.com/marc/php-src', 'https://github.com/marc/php-src/archive/master.tar.gz', 'php-marc-master'),
+            array('git@github.com:marc/php-src@php-7.1.0RC3', 'https://github.com/marc/php-src/archive/php-7.1.0RC3.tar.gz', 'php-marc-7.1.0RC3'), // tag in fork
 
             // Other URLs
             array('https://www.php.net/~ab/php-7.0.0alpha1.tar.gz', 'https://www.php.net/~ab/php-7.0.0alpha1.tar.gz', 'php-7.0.0alpha1'),
