@@ -24,8 +24,14 @@ class VersionDslParser
         if (preg_match("#https?://(www\.)?github\.com/([0-9a-zA-Z-._]+)/php-src(@([0-9a-zA-Z-._]+))?#", $url, $matches)) {
             $owner = $matches[2];
             $branch = isset($matches[4]) ? $matches[4] : 'master';
+            $version = preg_replace('/^php-/', '', $branch);
+
+            if ($owner !== 'php') {
+                $version = $owner . '-' . $version;
+            }
+
             $result = array(
-                'version' => ($owner === 'php' ? "php-{$branch}" : "php-{$owner}-{$branch}"),
+                'version' => 'php-' . $version,
                 'url' => "https://github.com/{$owner}/php-src/archive/{$branch}.tar.gz",
             );
         }
