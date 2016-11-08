@@ -1,6 +1,7 @@
 OUTPUT        = phpbrew.phar
 TARGET        = phpbrew
 MOVE          = mv -v
+MKDIR         = mkdir -p
 COPY          = cp -v
 SUDOCP        = sudo cp
 INSTALL_PATH  = /usr/local/bin
@@ -19,6 +20,7 @@ phar:
 		--bootstrap scripts/phpbrew-emb.php \
 		$(OUTPUT)
 	$(COPY) $(OUTPUT) $(TARGET)
+	$(MKDIR) build
 	$(COPY) $(OUTPUT) build/phpbrew
 	$(PERMISSION) $(TARGET)
 
