@@ -374,8 +374,9 @@ class VariantBuilder
         $this->variants['editline'] = function (Build $build, $prefix = null) {
             if ($prefix) {
                 return "--with-libedit=$prefix";
-            }
-            if ($bin = Utils::findBin('brew')) {
+            } elseif ($prefix = Utils::findIncludePrefix('editline' . DIRECTORY_SEPARATOR . 'readline.h')) {
+                return "--with-libedit=$prefix";
+            } elseif ($bin = Utils::findBin('brew')) {
                 if ($output = exec_line("$bin --prefix libedit")) {
                     if (file_exists($output)) {
                         return '--with-libedit='.$output;
@@ -384,9 +385,6 @@ class VariantBuilder
                 } else {
                     echo "prefix of libedit not found, please run 'brew tap homebrew/dupes' to get the formula\n";
                 }
-            }
-            if ($prefix = Utils::findIncludePrefix('editline'.DIRECTORY_SEPARATOR.'readline.h')) {
-                return "--with-libedit=$prefix";
             }
             return '--with-libedit';
         };

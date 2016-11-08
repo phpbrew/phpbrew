@@ -66,7 +66,7 @@ class InstallCommand extends Command
             sort($list);
 
             return array_map(function ($n) {
-                return '+'.$n;
+                return '+' . $n;
             }, $list);
         });
     }
