@@ -1,6 +1,17 @@
 CHANGES
 =======
 
+### Version 1.22.6
+- Fixed .phpbrew lookup in parent directories (#775)
+- Improved MySQL socket path detection on Ubuntu
+- Added psysh to app store
+- Removed openssl extension requirement
+- Improved user experience (#799, #807)
+
+### Version 1.22.5
+- Fixed downloading historic version from museum (#769) 
+- Fixed wget downloader failure when some special chars presents
+
 ### Version 1.22.4
 
 - Fixed extension installer exception with Buildable interface.
