@@ -380,7 +380,7 @@ function __phpbrew_remove_purge
     set _PHP_SOURCE_FILE $PHPBREW_ROOT/build/$_PHP_VERSION.tar.bz2
     set _PHP_BUILD_PATH $PHPBREW_ROOT/build/$_PHP_VERSION
 
-    if [ -d $_PHP_BIN_PATH ]; then
+    if [ -d $_PHP_BIN_PATH ]
 
         if begin; [ (count $argv) -ge 2 ]; and [ "$argv[2]" = "purge" ]; end
             rm -f $_PHP_SOURCE_FILE
@@ -436,7 +436,7 @@ function _phpbrewrc_load
         while true
             set prev_fs $curr_fs
             set curr_fs (stat -c %d . ^/dev/null)  # GNU version
-            if [ $status -ne 0 ]; then
+            if [ $status -ne 0 ]
                 # the original curr_fs
                 # set curr_fs (stat -f %d . ^/dev/null)  # BSD version
                 set curr_fs (stat -f %d . >/dev/null ^&1)  # BSD version
