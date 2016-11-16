@@ -428,7 +428,7 @@ phpbrew fpm config
 
 > The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
 >
-> The correspond `php-fpm.conf` is lcoated in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
+> The correspond `php-fpm.conf` is located in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
 > you may copy the default config file to the desired location. e.g.,
 >
 >     cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
