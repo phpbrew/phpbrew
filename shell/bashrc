@@ -47,7 +47,7 @@ fi
 
 [[ -z "$PHPBREW_ROOT" ]] && export PHPBREW_ROOT="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
-[[ -z "$PHPBREW_VERSION_REGEX" ]] && export PHPBREW_VERSION_REGEX="^([[:digit:]]+\.){2}[[:digit:]]+$"
+[[ -z "$PHPBREW_VERSION_REGEX" ]] && export PHPBREW_VERSION_REGEX="^([[:digit:]]+\.){2}[[:digit:]]+((alpha|beta|RC)[[:digit:]]+)?$"
 
 [[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
 [[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
