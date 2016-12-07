@@ -64,6 +64,12 @@ Add these lines to your `.bashrc` or `.zshrc` file:
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 ```
 
+For fish shell users, add following lines to your `~./config/fish/config.fish` file:
+
+```fish
+source ~/.phpbrew/phpbrew.fish
+```
+
 If you're using system-wide phpbrew, you may setup a shared phpbrew root, for example:
 
 ```bash
