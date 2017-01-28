@@ -82,6 +82,9 @@ class Console extends Application
         if (!extension_loaded('curl')) {
             $this->logger->warn('# WARNING: curl extension might be required for fetching data.');
         }
+        if(!extension_loaded('ctype')) {
+            $this->logger->warn('# WARNING: ctype extension might be required for parsing yaml file.');
+        }
 
         if (Utils::isRootlessEnabled()) {
             $this->logger->warn('#WARNING: it seems you are running PHPBrew under MacOS 10.11 or above with rootless enabled. ' .
