@@ -36,7 +36,7 @@ PHPをビルドするための開発用パッケージをインストールす�
 ```bash
 curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
-sudo mv phpbrew /usr/bin/phpbrew
+sudo mv phpbrew /usr/local/bin/phpbrew
 ```
 
 ## 基本的な使い方
