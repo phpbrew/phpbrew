@@ -38,7 +38,7 @@ curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
 
 # Move phpbrew to somewhere can be found by your $PATH
-sudo mv phpbrew /usr/bin/phpbrew
+sudo mv phpbrew /usr/local/bin/phpbrew
 ```
 
 ## QUICK START
@@ -64,7 +64,7 @@ Add these lines to your `.bashrc` or `.zshrc` file:
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 ```
 
-For fish shell users, add following lines to your `~./config/fish/config.fish` file:
+For fish shell users, add following lines to your `~/.config/fish/config.fish` file:
 
 ```fish
 source ~/.phpbrew/phpbrew.fish
