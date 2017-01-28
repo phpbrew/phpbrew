@@ -11,7 +11,7 @@ class BuildFinder
     {
         $path = Config::getRoot().DIRECTORY_SEPARATOR.'php';
         if (!file_exists($path)) {
-            throw new Exception($path.' does not exist.');
+            throw new \Exception($path.' does not exist.');
         }
         $names = scandir($path);
         $names = array_filter($names, function ($name) use ($path) {

@@ -30,13 +30,13 @@ class UseCommand extends Command
     {
         if (!$buildName) {
             // This exception is used for tracing tests
-            throw new Exception('build name is required.');
+            throw new \Exception('build name is required.');
         }
         { // this block is important for tests only
             $root = Config::getRoot();
             $home = Config::getHome();
             if (!file_exists("$root/php/$buildName")) {
-                throw new Exception("build $buildName doesn't exist.");
+                throw new \Exception("build $buildName doesn't exist.");
             }
             putenv("PHPBREW_ROOT=$root");
             putenv("PHPBREW_HOME=$home");

@@ -28,7 +28,7 @@ class RemoveCommand extends Command
     {
         $prefix = Config::getVersionInstallPrefix($buildName);
         if (!file_exists($prefix)) {
-            throw new Exception("$prefix does not exist.");
+            throw new \Exception("$prefix does not exist.");
         }
         $prompter = new \CLIFramework\Prompter();
         $answer = $prompter->ask("Are you sure to delete $buildName?", array('Y', 'n'), 'Y');

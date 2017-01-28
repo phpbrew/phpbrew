@@ -41,7 +41,7 @@ class SelfUpdateCommand extends Command
         $script = realpath($argv[0]);
 
         if (!is_writable($script)) {
-            throw new Exception("$script is not writable.");
+            throw new \Exception("$script is not writable.");
         }
 
         // fetch new version phpbrew

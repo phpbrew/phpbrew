@@ -13,13 +13,13 @@ class DownloadTask extends BaseTask
     public function download($url, $dir, $md5 = null)
     {
         if (!is_writable($dir)) {
-            throw new Exception("Directory is not writable: $dir");
+            throw new \Exception("Directory is not writable: $dir");
         }
 
         $downloader = DownloadFactory::getInstance($this->logger, $this->options);
         $basename = $downloader->resolveDownloadFileName($url);
         if (!$basename) {
-            throw new Exception("Can not parse url: $url");
+            throw new \Exception("Can not parse url: $url");
         }
         $targetFilePath = $dir.DIRECTORY_SEPARATOR.$basename;
 

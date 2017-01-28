@@ -37,7 +37,7 @@ class Config
 
             return $path;
         }
-        throw new Exception('Environment variable PHPBREW_HOME or HOME is required');
+        throw new \Exception('Environment variable PHPBREW_HOME or HOME is required');
     }
 
     public static function setPhpbrewHome($home)
@@ -62,7 +62,7 @@ class Config
         if ($home = getenv('HOME')) {
             return $home.DIRECTORY_SEPARATOR.'.phpbrew';
         }
-        throw new Exception('Environment variable PHPBREW_ROOT is required');
+        throw new \Exception('Environment variable PHPBREW_ROOT is required');
     }
 
     /**
@@ -186,7 +186,7 @@ class Config
         $path = self::getRoot().DIRECTORY_SEPARATOR.'php';
 
         if (!file_exists($path)) {
-            throw new Exception("$path doesn't exist.");
+            throw new \Exception("$path doesn't exist.");
         }
         if ($fp = opendir($path)) {
             while (($item = readdir($fp)) !== false) {
@@ -199,7 +199,7 @@ class Config
             }
             closedir($fp);
         } else {
-            throw new Exception('opendir failed');
+            throw new \Exception('opendir failed');
         }
         rsort($versions);
 
@@ -330,7 +330,7 @@ class Config
         $write[] = self::getRegistryDir();
         foreach ($write as $dir) {
             if (!is_writable($dir)) {
-                throw new Exception("$dir is not writable, please fix the folder permissions.");
+                throw new \Exception("$dir is not writable, please fix the folder permissions.");
             }
         }
     }

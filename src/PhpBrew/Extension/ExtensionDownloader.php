@@ -24,7 +24,7 @@ class ExtensionDownloader
     public function buildGithubTarballUrl($owner, $repos, $version = 'stable')
     {
         if (empty($owner) || empty($repos)) {
-            throw new Exception('Username or Repository invalid.');
+            throw new \Exception('Username or Repository invalid.');
         }
 
         return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->githubSite, $owner, $repos, $version);

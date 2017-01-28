@@ -23,7 +23,7 @@ class GithubProvider implements Provider
     public function buildPackageDownloadUrl($version = 'master')
     {
         if (($this->getOwner() == null) || ($this->getRepository() == null)) {
-            throw new Exception('Username or Repository invalid.');
+            throw new \Exception('Username or Repository invalid.');
         }
 
         return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);

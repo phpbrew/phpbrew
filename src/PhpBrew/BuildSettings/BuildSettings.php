@@ -185,7 +185,7 @@ class BuildSettings
     public function loadVariantInfoFile($variantFile)
     {
         if (!is_readable($variantFile)) {
-            throw new Exception(
+            throw new \Exception(
                 "Can't load variant info! Variants file {$variantFile} is not readable."
             );
         }

@@ -70,7 +70,7 @@ class ReleaseList
         $latestMajor = array_shift($releases);
         $latest = array_shift($latestMajor);
         if (!$latest) {
-            throw new Exception('Latest major version not found.');
+            throw new \Exception('Latest major version not found.');
         }
 
         return $latest['version'];
@@ -127,7 +127,7 @@ class ReleaseList
         $localFilepath = Config::getPHPReleaseListPath();
         $json = json_encode($this->releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         if (false === file_put_contents($localFilepath, $json)) {
-            throw new Exception("Can't store release json file");
+            throw new \Exception("Can't store release json file");
         }
     }
 

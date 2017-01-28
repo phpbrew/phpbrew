@@ -59,7 +59,7 @@ class DownloadCommand extends Command
         $releases = $releaseList->getReleases();
         $versionInfo = $releaseList->getVersion($version);
         if (!$versionInfo) {
-            throw new Exception("Version $version not found.");
+            throw new \Exception("Version $version not found.");
         }
         $version = $versionInfo['version'];
         $distUrl = 'http://www.php.net/get/'.$versionInfo['filename'].'/from/this/mirror';
@@ -77,7 +77,7 @@ class DownloadCommand extends Command
         $targetDir = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
 
         if (!file_exists($targetDir)) {
-            throw new Exception('Download failed.');
+            throw new \Exception('Download failed.');
         }
         $this->logger->info("Done, please look at: $targetDir");
     }

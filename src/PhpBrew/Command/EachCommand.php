@@ -24,7 +24,7 @@ class EachCommand extends \CLIFramework\Command
         $command = trim($command);
 
         if (empty($command)) {
-            throw new Exception('Empty command supplied.');
+            throw new \Exception('Empty command supplied.');
         }
         $this->prompt($command);
         $this->runCommandRecursive($command);
@@ -46,7 +46,7 @@ class EachCommand extends \CLIFramework\Command
         echo $this->formatter->format(']> ', 'transparent');
         $response = fgetc(fopen('php://stdin', 'r'));
         if (preg_match('/n|o/i', $response)) {
-            throw new Exception('Aborted.');
+            throw new \Exception('Aborted.');
         }
     }
 

@@ -18,7 +18,7 @@ class BitbucketProvider implements Provider
     public function buildPackageDownloadUrl($version = 'stable')
     {
         if (($this->getOwner() == null) || ($this->getRepository() == null)) {
-            throw new Exception('Username or Repository invalid.');
+            throw new \Exception('Username or Repository invalid.');
         }
 
         return sprintf('https://%s/%s/%s/get/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
