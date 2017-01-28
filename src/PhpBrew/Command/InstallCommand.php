@@ -211,7 +211,7 @@ system-wide phpbrew or this might cause problems.");
             $version = preg_replace('/^php-/', '', $version);
             $versionInfo = $releaseList->getVersion($version);
             if (!$versionInfo) {
-                throw new Exception("Version $version not found.");
+                throw new \Exception("Version $version not found.");
             }
             $version = $versionInfo['version'];
 

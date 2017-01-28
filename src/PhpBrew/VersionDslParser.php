@@ -39,7 +39,7 @@ class VersionDslParser
         // non github url
         if (!$result && preg_match('#^https?://#', $url)) {
             if (!preg_match('#(php-(\d.\d+.\d+(?:(?:RC|alpha|beta)\d+)?)\.tar\.(?:gz|bz2))#', $url, $matches)) {
-                throw new Exception("Can not find version name from the given URL: $url");
+                throw new \Exception("Can not find version name from the given URL: $url");
             }
 
             $result = array(

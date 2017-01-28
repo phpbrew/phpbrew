@@ -19,7 +19,7 @@ class Apxs2CheckTask extends BaseTask
         }
 
         if (!is_executable($apxs)) {
-            throw new Exception("apxs binary is not executable: $apxs");
+            throw new \Exception("apxs binary is not executable: $apxs");
         }
 
         // use apxs to check module dir permission
@@ -28,7 +28,7 @@ class Apxs2CheckTask extends BaseTask
                 $this->logger->error("Apache module dir $libdir is not writable.\nPlease consider using chmod to change the folder permission:");
                 $this->logger->error("    \$ sudo chmod -R oga+rw $libdir");
                 $this->logger->error('Warnings: the command above is not safe for public systems. please use with discretion.');
-                throw new Exception();
+                throw new \Exception();
             }
         }
 
@@ -38,7 +38,7 @@ class Apxs2CheckTask extends BaseTask
                 $this->logger->error('Please consider using chmod to change the folder permission: ');
                 $this->logger->error("    \$ sudo chmod -R oga+rw $confdir");
                 $this->logger->error('Warnings: the command above is not safe for public systems. please use with discretion.');
-                throw new Exception();
+                throw new \Exception();
             }
         }
     }

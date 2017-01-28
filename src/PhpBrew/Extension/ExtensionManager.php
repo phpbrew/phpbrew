@@ -68,7 +68,7 @@ class ExtensionManager
         $name = $ext->getName();
 
         if (!file_exists($sourceDir)) {
-            throw new Exception("Source directory $sourceDir does not exist.");
+            throw new \Exception("Source directory $sourceDir does not exist.");
         }
 
         // Install local extension

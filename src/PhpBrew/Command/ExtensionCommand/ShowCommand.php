@@ -94,7 +94,7 @@ class ShowCommand extends BaseCommand
             $ext = ExtensionFactory::lookupRecursive($extensionName, array($extDir));
         }
         if (!$ext) {
-            throw new Exception("$extensionName extension not found.");
+            throw new \Exception("$extensionName extension not found.");
         }
         $this->describeExtension($ext);
     }

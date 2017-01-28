@@ -952,7 +952,7 @@ class VariantBuilder
     public function buildVariant(Build $build, $feature, $userValue = null)
     {
         if (!isset($this->variants[ $feature ])) {
-            throw new Exception("Variant '$feature' is not defined.");
+            throw new \Exception("Variant '$feature' is not defined.");
         }
 
         // Skip if we've built it
@@ -1001,7 +1001,7 @@ class VariantBuilder
             } elseif (is_callable($func)) {
                 $disableOptions = (array) call_user_func_array($func, $args);
             } else {
-                throw new Exception('Unsupported variant handler type. neither string nor callable.');
+                throw new \Exception('Unsupported variant handler type. neither string nor callable.');
             }
 
             $resultOptions = array();
@@ -1021,7 +1021,7 @@ class VariantBuilder
             return $resultOptions;
         }
 
-        throw new Exception("Variant $feature is not defined.");
+        throw new \Exception("Variant $feature is not defined.");
     }
 
     public function addOptions($options)

@@ -146,7 +146,7 @@ For example, to install memcached extension for php7, use:
             $provider = $extensionList->exists($extensionName);
 
             if (!$provider) {
-                throw new Exception("Could not find provider for $extensionName.");
+                throw new \Exception("Could not find provider for $extensionName.");
             }
 
             $extensionName = $provider->getPackageName();
@@ -180,7 +180,7 @@ For example, to install memcached extension for php7, use:
                 }
             }
             if (!$ext) {
-                throw new Exception("$extensionName not found.");
+                throw new \Exception("$extensionName not found.");
             }
             $manager->installExtension($ext, $extConfig->options);
         }

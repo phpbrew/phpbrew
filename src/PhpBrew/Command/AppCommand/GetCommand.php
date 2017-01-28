@@ -34,7 +34,7 @@ class GetCommand extends Command
         $apps = AppStore::all();
 
         if (!isset($apps[$appName])) {
-            throw new Exception("App $appName not found.");
+            throw new \Exception("App $appName not found.");
         }
         $app = $apps[$appName];
         $targetDir = Config::getRoot().DIRECTORY_SEPARATOR.'bin';

@@ -47,7 +47,7 @@ class PeclProvider implements Provider
             if ($ret = $downloader->request($stabilityTxtUrl)) {
                 $version = (string) $ret;
             } else {
-                throw new Exception("Can not translate stability {$version} into exact version name.");
+                throw new \Exception("Can not translate stability {$version} into exact version name.");
             }
         }
         $xmlUrl = $url.'/'.$version.'.xml';
@@ -57,7 +57,7 @@ class PeclProvider implements Provider
             $dom->preserveWhiteSpace = false;
             // $dom->resolveExternals = false;
             if (false === $dom->loadXml($ret)) {
-                throw new Exception("Error in XMl document: $url");
+                throw new \Exception("Error in XMl document: $url");
             }
 
             return $dom;
@@ -69,11 +69,11 @@ class PeclProvider implements Provider
     public function buildPackageDownloadUrl($version = 'stable')
     {
         if ($this->getPackageName() == null) {
-            throw new Exception('Repository invalid.');
+            throw new \Exception('Repository invalid.');
         }
         $xml = $this->getPackageXml($this->getPackageName(), $version);
         if (!$xml) {
-            throw new Exception('Unable to fetch package xml');
+            throw new \Exception('Unable to fetch package xml');
         }
         $g = $xml->getElementsByTagName('g');
         $url = $g->item(0)->nodeValue;

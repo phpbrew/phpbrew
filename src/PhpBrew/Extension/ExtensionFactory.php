@@ -300,7 +300,7 @@ class ExtensionFactory
 
             return $ext;
         } else {
-            throw new Exception("Can not parse config.m4: $m4Path");
+            throw new \Exception("Can not parse config.m4: $m4Path");
         }
     }
 
