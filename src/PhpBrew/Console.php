@@ -82,7 +82,7 @@ class Console extends Application
         if (!extension_loaded('curl')) {
             $this->logger->warn('# WARNING: curl extension might be required for fetching data.');
         }
-        if(!extension_loaded('ctype')) {
+        if (!extension_loaded('ctype')) {
             $this->logger->warn('# WARNING: ctype extension might be required for parsing yaml file.');
         }
 
