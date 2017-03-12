@@ -1058,12 +1058,12 @@ if [[ $argument_min_length > 0 ]] ; then
 phpunit
 phpmd
 behat-2.5
-behat-3.5
+behat-3.3
 sami
 phpcs
 pdepend
 onion
-box-2.5
+box-2.7
 phpcov
 phpcpd
 phpdcd
