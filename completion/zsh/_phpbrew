@@ -171,7 +171,7 @@ local ret=1
                   (get)
                         _arguments -w -S -s \
                           '--chmod=[]' \
-                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.5" "sami" "phpcs" "pdepend" "onion" "box-2.5" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
+                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.5" "sami" "phpcs" "phpcbf" "pdepend" "onion" "box-2.5" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
                            && ret=0
                   
                   ;;
