@@ -9,7 +9,7 @@ use CLIFramework\Logger;
  * @large
  * @group extension
  */
-class ExtensionManagerTest extends \PHPUnit_Framework_TestCase
+class ExtensionManagerTest extends \\PHPUnit\Framework\TestCase
 {
     private $manager;
 

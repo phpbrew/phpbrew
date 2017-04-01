@@ -4,7 +4,7 @@ use PhpBrew\PatchUtils;
 /**
  * @small
  */
-class PatchUtilsTest extends PHPUnit_Framework_TestCase
+class PatchUtilsTest extends \PHPUnit\Framework\TestCase
 {
     public function test()
     {

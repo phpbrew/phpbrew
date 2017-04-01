@@ -4,7 +4,7 @@ namespace PhpBrew\Platform;
 /**
  * @small
  */
-class MacTest extends \PHPUnit_Framework_TestCase
+class MacTest extends \\PHPUnit\Framework\TestCase
 {
     private $hardware;
     private $platform;

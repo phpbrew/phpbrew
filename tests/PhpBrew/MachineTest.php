@@ -2,7 +2,7 @@
 
 use PhpBrew\Machine;
 
-class MachineTest extends \PHPUnit_Framework_TestCase
+class MachineTest extends \\PHPUnit\Framework\TestCase
 {
     public function testDetectProcessorNumber()
     {

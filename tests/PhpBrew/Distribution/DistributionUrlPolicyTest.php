@@ -4,7 +4,7 @@ namespace PhpBrew\Distribution;
 /**
  * @small
  */
-class DistributionUrlPolicyTest extends \PHPUnit_Framework_TestCase
+class DistributionUrlPolicyTest extends \\PHPUnit\Framework\TestCase
 {
     public $policy;
 

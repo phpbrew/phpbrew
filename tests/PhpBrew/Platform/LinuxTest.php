@@ -6,7 +6,7 @@ use PhpBrew\Platform\Linux\Distribution;
 /**
  * @small
  */
-class LinuxTest extends \PHPUnit_Framework_TestCase
+class LinuxTest extends \\PHPUnit\Framework\TestCase
 {
     private $hardware;
     private $distribution;

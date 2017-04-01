@@ -4,7 +4,7 @@ namespace PhpBrew\Platform\Linux;
 /**
  * @small
  */
-class UnknownDistributionTest extends \PHPUnit_Framework_TestCase
+class UnknownDistributionTest extends \\PHPUnit\Framework\TestCase
 {
     private $distribution;
 

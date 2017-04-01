@@ -3,7 +3,7 @@
 /**
  * @small
  */
-class CommandBuilderTest extends PHPUnit_Framework_TestCase
+class CommandBuilderTest extends \PHPUnit\Framework\TestCase
 {
     public function test()
     {
