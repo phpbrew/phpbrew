@@ -4,7 +4,7 @@ namespace PhpBrew\Platform;
 /**
  * @small
  */
-class UnixLikeHardwareTest extends \\PHPUnit\Framework\TestCase
+class UnixLikeHardwareTest extends \PHPUnit\Framework\TestCase
 {
     public function testBitnessWhenHardwareIs64Bit()
     {

@@ -4,7 +4,7 @@ namespace PhpBrew\Platform\Linux;
 /**
  * @small
  */
-class CentOSTest extends \\PHPUnit\Framework\TestCase
+class CentOSTest extends \PHPUnit\Framework\TestCase
 {
     private $distribution;
 

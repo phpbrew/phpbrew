@@ -4,7 +4,7 @@ namespace PhpBrew\Platform;
 /**
  * @small
  */
-class UnknownPlatformTest extends \\PHPUnit\Framework\TestCase
+class UnknownPlatformTest extends \PHPUnit\Framework\TestCase
 {
     private $platform;
 

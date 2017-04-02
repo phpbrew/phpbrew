@@ -1,7 +1,7 @@
 <?php
 namespace PhpBrew\BuildSettings;
 
-class DefaultBuildSettingsTest extends \\PHPUnit\Framework\TestCase
+class DefaultBuildSettingsTest extends \PHPUnit\Framework\TestCase
 {
     public function testDefaultEnabledVariants()
     {

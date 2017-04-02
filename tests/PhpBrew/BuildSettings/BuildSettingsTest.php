@@ -4,7 +4,7 @@ namespace PhpBrew\BuildSettings;
 use PhpBrew\Config;
 use PhpBrew\Testing\TemporaryFileFixture;
 
-class BuildSettingsTest extends \\PHPUnit\Framework\TestCase
+class BuildSettingsTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructorWithEnabledVariants()
     {

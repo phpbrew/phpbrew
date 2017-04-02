@@ -4,7 +4,7 @@ namespace PhpBrew\Platform\Linux;
 /**
  * @small
  */
-class DebianTest extends \\PHPUnit\Framework\TestCase
+class DebianTest extends \PHPUnit\Framework\TestCase
 {
     private $distribution;
 

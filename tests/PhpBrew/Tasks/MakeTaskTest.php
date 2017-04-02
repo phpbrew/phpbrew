@@ -8,7 +8,7 @@ use PhpBrew\Buildable;
 /**
  * @small
  */
-class MakeTaskTest extends \\PHPUnit\Framework\TestCase
+class MakeTaskTest extends \PHPUnit\Framework\TestCase
 {
     private $make;
 
