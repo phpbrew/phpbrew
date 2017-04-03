@@ -55,6 +55,13 @@ addons:
     - openssl
     # packages for apxs2 
     - apache2
+before_install:
+- |
+  if [[ ${TRAVIS_PHP_VERSION:0:3} < "5.6" ]]; then  # use phpunit 4.8.35 for 5.3/5.4/5.5
+    composer require phpunit/phpunit ~4; 
+  else # and use 5.7 for 5.6/7.0/7.1
+    composer require phpunit/phpunit ~5; 
+  fi
 install:
 - travis_retry composer install --no-interaction
 before_script:
@@ -68,7 +75,9 @@ before_script:
 - cp -v shell/bashrc .phpbrew/
 script:
 - source shell/bashrc
-- phpunit --exclude-group mayignore
+- phpunit --version
+- which phpunit
+- vendor/bin/phpunit --exclude-group mayignore
 after_success:
 - ccache -s
 - travis_retry php vendor/bin/coveralls -v
