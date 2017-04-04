@@ -4,7 +4,7 @@ use PhpBrew\Version;
 /**
  * @small
  */
-class VersionTest extends PHPUnit_Framework_TestCase
+class VersionTest extends \PHPUnit\Framework\TestCase
 {
     public function testVersionConstructor()
     {

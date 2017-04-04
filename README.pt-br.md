@@ -172,28 +172,46 @@ subcommand to list these variants:
 
 ```bash
 $ phpbrew variants
+
 Variants:
-  all, apxs2, bcmath, bz2, calendar, cgi, cli, ctype, dba, debug, dom, embed,
-  exif, fileinfo, filter, fpm, ftp, gcov, gd, gettext, hash, iconv, icu,
-  imap, intl, ipc, ipv6, json, kerberos, mbregex, mbstring, mcrypt, mhash,
-  mysql, openssl, pcntl, pcre, pdo, pgsql, phar, posix, readline, session,
-  soap, sockets, sqlite, tidy, tokenizer, xml_all, xmlrpc, zip, zlib, gmp
+  all, apxs2, bcmath, bz2, calendar, cgi, cli, ctype, curl, dba, debug, dom,
+  dtrace, editline, embed, exif, fileinfo, filter, fpm, ftp, gcov, gd,
+  gettext, gmp, hash, iconv, icu, imap, inifile, inline, intl, ipc, ipv6,
+  json, kerberos, libgcc, mbregex, mbstring, mcrypt, mhash, mysql, opcache,
+  openssl, pcntl, pcre, pdo, pgsql, phar, phpdbg, posix, readline, session,
+  soap, sockets, sqlite, static, tidy, tokenizer, wddx, xml, xml_all, xmlrpc,
+  zip, zlib, zts
 
 
 Virtual variants:
-  dbs:      sqlite, mysql, pgsql, pdo
-  mb:       mbstring, mbregex
+  dbs:        sqlite, mysql, pgsql, pdo
+
+  mb:         mbstring, mbregex
+
   neutral:
-  default:  filter, dom, bcmath, ctype, mhash, fileinfo, pdo, posix, ipc,
-            pcntl, bz2, zip, cli, json, mbstring, mbregex, calendar, sockets, readline,
-            xml_all
+
+  small:      bz2, cli, dom, filter, ipc, json, mbregex, mbstring, pcre, phar,
+              posix, readline, xml, curl, openssl
+
+  default:    bcmath, bz2, calendar, cli, ctype, dom, fileinfo, filter, ipc,
+              json, mbregex, mbstring, mhash, mcrypt, pcntl, pcre, pdo, phar,
+              posix, readline, sockets, tokenizer, xml, curl, openssl, zip
+
+  everything: dba, ipv6, dom, calendar, wddx, static, inifile, inline, cli,
+              ftp, filter, gcov, zts, json, hash, exif, mbstring, mbregex,
+              libgcc, pdo, posix, embed, sockets, debug, phpdbg, zip, bcmath,
+              fileinfo, ctype, cgi, soap, pcntl, phar, session, tokenizer,
+              opcache, imap, tidy, kerberos, xmlrpc, fpm, dtrace, pcre, mhash,
+              mcrypt, zlib, curl, readline, editline, gd, intl, icu, openssl,
+              mysql, sqlite, pgsql, xml, xml_all, gettext, iconv, bz2, ipc, gmp
+
 
 Using variants to build PHP:
 
-  phpbrew install 5.3.10 +default
-  phpbrew install 5.3.10 +mysql +pdo
-  phpbrew install 5.3.10 +mysql +pdo +apxs2
-  phpbrew install 5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
+  phpbrew install php-5.3.10 +default
+  phpbrew install php-5.3.10 +mysql +pdo
+  phpbrew install php-5.3.10 +mysql +pdo +apxs2
+  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
 ```
 
 To enable one variant, simply add a prefix `+` before the variant name, eg

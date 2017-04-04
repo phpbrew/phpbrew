@@ -5,7 +5,7 @@ use PhpBrew\Build;
 /**
  * @small
  */
-class VariantBuilderTest extends PHPUnit_Framework_TestCase
+class VariantBuilderTest extends \PHPUnit\Framework\TestCase
 {
     public function variantOptionProvider()
     {
