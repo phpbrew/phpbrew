@@ -5,7 +5,7 @@ use PhpBrew\BuildRegister;
 /**
  * @small
  */
-class BuildRegisterTest extends PHPUnit_Framework_TestCase
+class BuildRegisterTest extends \PHPUnit\Framework\TestCase
 {
     public function testBuildRegister()
     {

@@ -4,7 +4,7 @@ use PhpBrew\VariantParser;
 /**
  * @small
  */
-class VariantParserTest extends PHPUnit_Framework_TestCase
+class VariantParserTest extends \PHPUnit\Framework\TestCase
 {
     public function makeArgs($arg)
     {
