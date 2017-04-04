@@ -8,7 +8,7 @@ use PhpBrew\Extension\PeclExtensionInstaller;
 use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Testing\CommandTestCase;
 use PhpBrew\Utils;
-use PHPUnit_Framework_TestCase;
+use \PHPUnit\Framework\TestCase;
 use CLIFramework\Logger;;
 use GetOptionKit\OptionResult;
 use PhpBrew\Extension\Provider\PeclProvider;

@@ -7,7 +7,7 @@ namespace PhpBrew;
  *
  * @small
  */
-class ExtensionDslParserTest extends \PHPUnit_Framework_TestCase
+class ExtensionDslParserTest extends \PHPUnit\Framework\TestCase
 {
     protected $parser;
 

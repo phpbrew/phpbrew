@@ -12,12 +12,12 @@ namespace PhpBrew\Downloader;
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 use PhpBrew\Config;
-use PHPUnit_Framework_TestCase;
+use \PHPUnit\Framework\TestCase;
 
 /**
  * @large
  */
-class DownloaderTest extends PHPUnit_Framework_TestCase
+class DownloaderTest extends \PHPUnit\Framework\TestCase
 {
     public $logger;
 

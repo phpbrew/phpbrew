@@ -4,7 +4,7 @@ use PhpBrew\ReleaseList;
 /**
  * @small
  */
-class ReleaseListTest extends PHPUnit_Framework_TestCase
+class ReleaseListTest extends \PHPUnit\Framework\TestCase
 {
     public $releaseList;
 
