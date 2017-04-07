@@ -126,13 +126,14 @@ function phpbrew
                 set NEW_PHPBREW_PHP_PATH "$PHPBREW_ROOT/php/$_PHP_VERSION"
                 if [ -d $NEW_PHPBREW_PHP_PATH ]
                     if [ $BIN = "phpbrew" ]
-                        set code (command phpbrew env $_PHP_VERSION)
+                        set code (command phpbrew env $_PHP_VERSION | tr '\n' ';')
                     else
-                        set code (eval $BIN env $_PHP_VERSION)
+                        set code (eval $BIN env $_PHP_VERSION | tr '\n' ';')
                     end
                     if [ -z "$code" ]
                         set exit_status 1
                     else
+                        set exit_status 0
                         eval $code
                         __phpbrew_set_path
                     end
