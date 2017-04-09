@@ -74,13 +74,10 @@ class Console extends Application
 
         // We use '#' as the prefix to prevent issue with bash
         if (!extension_loaded('json')) {
-            $this->logger->warn('# WARNING: json extension is required for downloading release info.');
+            $this->logger->warn('# WARNING: json extension is required for parsing release info.');
         }
         if (!extension_loaded('libxml')) {
             $this->logger->warn('# WARNING: libxml extension is required for parsing pecl package file.');
-        }
-        if (!extension_loaded('curl')) {
-            $this->logger->warn('# WARNING: curl extension might be required for fetching data.');
         }
         if (!extension_loaded('ctype')) {
             $this->logger->warn('# WARNING: ctype extension might be required for parsing yaml file.');
