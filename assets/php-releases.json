@@ -9,6 +9,13 @@
 	}
     },
     "5.6": {
+        "5.6.9": {
+            "version": "5.6.9",
+            "filename": "php-5.6.9.tar.bz2",
+            "md5": "561f37377833772ace776143c5687884",
+            "name": "PHP 5.6.9 (tar.bz2)",
+            "date": "14 May 2015"
+        },
         "5.6.8": {
             "version": "5.6.8",
             "filename": "php-5.6.8.tar.bz2",
