@@ -488,7 +488,7 @@ function _phpbrewrc_load ()
             fi
             break
         fi
-        curr_dir=$(dirname $curr_dir)
+        curr_dir=$(dirname "$curr_dir")
     done
     PHPBREW_LAST_DIR="$PWD"
 }
