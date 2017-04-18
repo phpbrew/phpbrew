@@ -147,7 +147,7 @@ function phpbrew ()
                     then
                         exit_status=1
                     else
-                        eval $code
+                        eval "$code"
                         __phpbrew_set_path
                     fi
                 else
