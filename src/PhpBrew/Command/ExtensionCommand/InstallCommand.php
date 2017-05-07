@@ -160,7 +160,7 @@ For example, to install memcached extension for php7, use:
 
                 // not every project has stable branch, using master as default version
                 $args = array_slice(func_get_args(), 1);
-                if (!isset($args[0]) || $args[0] != $extConfig->version) {
+                if (empty($extConfig->version)) {
                     $extConfig->version = $provider->getDefaultVersion();
                 }
 
