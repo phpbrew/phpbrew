@@ -491,11 +491,11 @@ PS1=" \$(phpbrew_current_php_version) \$ "
 - GD拡張を指定してPHPをビルドするには、`libpng dir`と`libjpeg dir`を指定する必要があります。
   例えば、
 
-    $ phpbrew install php-5.4.10 +default +mysql +intl +gettext +apxs2=/usr/bin/apxs2 \
-        -- --with-libdir=lib/x86_64-linux-gnu \
-           --with-gd=shared \
-           --enable-gd-natf \
-           --with-jpeg-dir=/usr \
+    $ phpbrew install php-5.4.10 +default +mysql +intl +gettext +apxs2=/usr/bin/apxs2
+        -- --with-libdir=lib/x86_64-linux-gnu
+           --with-gd=shared 
+           --enable-gd-natf 
+           --with-jpeg-dir=/usr 
            --with-png-dir=/usr
 
 トラブルシューティング
