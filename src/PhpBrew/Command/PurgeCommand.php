@@ -17,6 +17,7 @@ class PurgeCommand extends Command
             ->validValues(function () {
                 return Config::getInstalledPhpVersions();
             })
+            ->multiple()
             ;
     }
 
