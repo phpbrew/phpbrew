@@ -90,19 +90,6 @@ class InstallCommand extends BaseCommand
 
     public function execute($extName, $version = 'stable')
     {
-        if (version_compare(PHP_VERSION, '7.0.0') > 0) {
-            $this->logger->warn(
-"Warning: Some extension won't be able to be built with php7. If the extension
-supports php7 in another branch or new major version, you will need to specify
-the branch name or version name explicitly.
-
-For example, to install memcached extension for php7, use:
-
-    phpbrew ext install github:php-memcached-dev/php-memcached php7 -- --disable-memcached-sasl
-"
-            );
-        }
-
         if (strtolower($extName) === 'apc' && version_compare(PHP_VERSION, '5.6.0') > 0) {
             $this->logger->warn('apc is not compatible with php 5.6+ versions, install apcu instead.');
         }
@@ -160,7 +147,7 @@ For example, to install memcached extension for php7, use:
 
                 // not every project has stable branch, using master as default version
                 $args = array_slice(func_get_args(), 1);
-                if (!isset($args[0]) || $args[0] != $extConfig->version) {
+                if (empty($extConfig->version)) {
                     $extConfig->version = $provider->getDefaultVersion();
                 }
 

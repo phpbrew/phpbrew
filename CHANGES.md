@@ -1,6 +1,17 @@
 CHANGES
 =======
 
+### Version 1.22.7
+- Updated App store (#850)
+- Improved warning messages about environment check
+  - Added check for ctype for parsing yaml file (#819)
+  - Added rootless check and tips for osX 10.11+ (#824)
+  - Removed check for curl extension
+- Fixed fish shell compatibility problems (#810, #860)
+- Fixed --cache-file option escape
+- Improved user experience (#798, #792)
+
+
 ### Version 1.22.6
 - Fixed .phpbrew lookup in parent directories (#775)
 - Improved MySQL socket path detection on Ubuntu

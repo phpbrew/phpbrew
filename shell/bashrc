@@ -147,7 +147,7 @@ function phpbrew ()
                     then
                         exit_status=1
                     else
-                        eval $code
+                        eval "$code"
                         __phpbrew_set_path
                     fi
                 else
@@ -217,7 +217,7 @@ function phpbrew ()
             function fpm_start()
             {
               echo "Starting php-fpm..."
-              local regex="^php-[57]\.2.*"
+              local regex="^php-5\.2.*"
 
               if [[ ${_PHP_VERSION} =~ ${regex} ]]; then
                 ${PHPFPM_BIN} start
@@ -234,7 +234,7 @@ function phpbrew ()
             }
             function fpm_stop()
             {
-              local regex="^php-[57]\.2.*"
+              local regex="^php-5\.2.*"
 
               if [[ ${PHPBREW_PHP} =~ ${regex} ]]; then
                 ${PHPFPM_BIN} stop
@@ -488,7 +488,7 @@ function _phpbrewrc_load ()
             fi
             break
         fi
-        curr_dir=$(dirname $curr_dir)
+        curr_dir=$(dirname "$curr_dir")
     done
     PHPBREW_LAST_DIR="$PWD"
 }
