@@ -51,7 +51,7 @@ class InstallCommand extends BaseCommand
 
     protected function getExtConfig($args)
     {
-        $version = 'stable';
+        $version = null;
         $options = array();
 
         if (count($args) > 0) {
