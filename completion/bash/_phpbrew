@@ -1061,6 +1061,7 @@ behat-2.5
 behat-3.3
 sami
 phpcs
+phpcbf
 pdepend
 onion
 box-2.7
