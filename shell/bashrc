@@ -338,7 +338,9 @@ function phpbrew ()
             then
                 command $PHPBREW_OVERRIDE_PHP $BIN help
             else
-              __phpbrew_remove_purge $2 purge
+                shift
+                __phpbrew_purge "$@"
+                exit_status=$?
             fi
             ;;
         *)
@@ -379,7 +381,19 @@ function __phpbrew_reinit ()
     __phpbrew_set_path
 }
 
-function __phpbrew_remove_purge ()
+function __phpbrew_purge()
+{
+    local result=0
+
+    for arg in "$@"
+    do
+        __phpbrew_purge_build "$arg" || result=$?
+    done
+
+    return $result
+}
+
+function __phpbrew_purge_build ()
 {
     _PHP_VERSION=$1
     if [[ "$_PHP_VERSION" = "$PHPBREW_PHP" ]]
@@ -389,36 +403,18 @@ function __phpbrew_remove_purge ()
     fi
 
     _PHP_BIN_PATH=$PHPBREW_ROOT/php/$_PHP_VERSION
+
+    if [ ! -d $_PHP_BIN_PATH ]; then
+        echo "php version: $_PHP_VERSION not installed."
+        return 1
+    fi
+
     _PHP_SOURCE_FILE=$PHPBREW_ROOT/build/$_PHP_VERSION.tar.bz2
     _PHP_BUILD_PATH=$PHPBREW_ROOT/build/$_PHP_VERSION
 
-    if [ -d $_PHP_BIN_PATH ]; then
+    rm -fr $_PHP_SOURCE_FILE $_PHP_BUILD_PATH $_PHP_BIN_PATH
 
-        if [[ "$2" = "purge" ]]
-        then
-            rm -f $_PHP_SOURCE_FILE
-            rm -fr $_PHP_BUILD_PATH
-            rm -fr $_PHP_BIN_PATH
-
-            echo "php version: $_PHP_VERSION is removed and purged."
-        else
-            rm -f $_PHP_SOURCE_FILE
-            rm -fr $_PHP_BUILD_PATH
-
-            for FILE1 in $_PHP_BIN_PATH/*
-            do
-                if [[ "$FILE1" != "$_PHP_BIN_PATH/etc" ]] && [[ "$FILE1" != "$_PHP_BIN_PATH/var" ]]
-                then
-                    rm -fr $FILE1;
-                fi
-            done
-
-            echo "php version: $_PHP_VERSION is removed."
-        fi
-
-    else
-        echo "php version: $_PHP_VERSION not installed."
-    fi
+    echo "php version: $_PHP_VERSION is removed and purged."
 
     return 0
 }
