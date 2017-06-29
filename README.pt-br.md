@@ -1,14 +1,14 @@
 PHPBrew
 =======
 
-*Leia este documento em outras linguaguens: [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
+*Leia este documento em outros idiomas: [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 
 phpbrew contrói e instala multiplas versões do php no seu diretório $HOME.
 
-Oque phpbrew pode fazer para você:
+O que phpbrew pode fazer para você:
 
 - As configurações são feitas dentro de variaveis, não se preocupe mais com caminhos.
 - Construa php com diferentes variaveis como PDO, mysql, sqlite, debug etc...  
