@@ -74,7 +74,16 @@ class DownloadCommand extends Command
         $distFileDir = Config::getDistFileDir();
 
         $download = new DownloadTask($this->logger, $this->options);
-        $targetDir = $download->download($distUrl, $distFileDir, $versionInfo['md5']);
+        $algo = 'md5';
+        $hash = null;
+        if (isset($versionInfo['sha256'])) {
+            $algo = 'sha256';
+            $hash = $versionInfo['sha256'];
+        } elseif (isset($versionInfo['md5'])) {
+            $algo = 'md5';
+            $hash = $versionInfo['md5'];
+        }
+        $targetDir = $download->download($distUrl, $distFileDir, $algo, $hash);
 
         if (!file_exists($targetDir)) {
             throw new \Exception('Download failed.');

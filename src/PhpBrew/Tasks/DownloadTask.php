@@ -10,7 +10,7 @@ use PhpBrew\Downloader\DownloadFactory;
  */
 class DownloadTask extends BaseTask
 {
-    public function download($url, $dir, $md5 = null)
+    public function download($url, $dir, $algo = 'md5', $hash = null)
     {
         if (!is_writable($dir)) {
             throw new \Exception("Directory is not writable: $dir");
@@ -25,13 +25,13 @@ class DownloadTask extends BaseTask
 
         if (!$this->options->force && file_exists($targetFilePath)) {
             $this->logger->info('Checking distribution checksum...');
-            $md5a = md5_file($targetFilePath);
-            if ($md5 && $md5a != $md5) {
-                $this->logger->warn("Checksum mismatch: $md5a != $md5");
+            $hash2 = hash_file($algo, $targetFilePath);
+            if ($hash && $hash2 != $hash) {
+                $this->logger->warn("Checksum mismatch: $hash2 != $hash");
                 $this->logger->info('Re-Downloading...');
                 $downloader->download($url, $targetFilePath);
             } else {
-                $this->logger->info('Checksum matched: '.$md5);
+                $this->logger->info('Checksum matched: '.$hash);
             }
         } else {
             $downloader->download($url, $targetFilePath);

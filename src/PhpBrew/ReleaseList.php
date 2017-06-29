@@ -193,6 +193,9 @@ class ReleaseList
                         if (isset($source['md5'])) {
                             $release['md5'] = $source['md5'];
                         }
+                        if (isset($source['sha256'])) {
+                            $release['sha256'] = $source['sha256'];
+                        }
                         if (isset($source['date'])) {
                             $release['date'] = $source['date'];
                         }

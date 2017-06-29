@@ -327,7 +327,16 @@ system-wide phpbrew or this might cause problems.");
         $distFileDir = Config::getDistFileDir();
 
         $downloadTask = new DownloadTask($this->logger, $this->options);
-        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, isset($versionInfo['md5']) ? $versionInfo['md5'] : null);
+        $algo = 'md5';
+        $hash = null;
+        if (isset($versionInfo['sha256'])) {
+            $algo = 'sha256';
+            $hash = $versionInfo['sha256'];
+        } elseif (isset($versionInfo['md5'])) {
+            $algo = 'md5';
+            $hash = $versionInfo['md5'];
+        }
+        $targetFilePath = $downloadTask->download($distUrl, $distFileDir, $algo, $hash);
         if (!file_exists($targetFilePath)) {
             throw new SystemCommandException("Download failed, $targetFilePath does not exist.", $build);
         }

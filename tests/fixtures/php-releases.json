@@ -3,7 +3,7 @@
         "5.6.3": {
             "version": "5.6.3",
             "filename": "php-5.6.3.tar.bz2",
-            "md5": "13fb79d464b08392703e311778dd7ec0",
+            "sha256": "8986b20124d14430d795165e47801ef065a38d5855bea39d0d47b13ab9ad4009",
             "name": "PHP 5.6.3 (tar.bz2)",
             "date": "13 Nov 2014"
         },
@@ -13,6 +13,7 @@
             "date": "16 Oct 2014",
             "filename": "php-5.6.2.tar.bz2",
             "md5": "97202449bf4f011c477ff860b173a92a",
+            "sha256": "671dcf1f636410c63bb9eb015c4c180d904f5436f81217be0adbf52da9becdb5",
             "name": "PHP 5.6.2 (tar.bz2)"
         },
         "5.6.1": {
