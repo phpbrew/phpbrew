@@ -203,6 +203,11 @@ function phpbrew ()
             builtin cd $chdir
             return 0
             ;;
+        each)
+            shift
+            __phpbrew_each "$@"
+            exit_status=$?
+            ;;
         fpm)
             if ! [[ -z $3 ]]; then
               _PHP_VERSION=$3
@@ -319,7 +324,6 @@ function phpbrew ()
             unset PHPBREW_PATH
             eval `$BIN env`
             __phpbrew_set_path
-            echo "phpbrew is turned off."
             ;;
         switch-off)
             unset PHPBREW_PHP
@@ -379,6 +383,28 @@ function __phpbrew_reinit ()
     fi
     __phpbrew_update_config $_PHP_VERSION
     __phpbrew_set_path
+}
+
+function __phpbrew_each()
+{
+    local result=0
+
+    current="$PHPBREW_PHP"
+    for build in ${PHPBREW_ROOT}/php/* ; do
+        if [ -x "$build/bin/php" ]; then
+            phpbrew use $(basename "$build")
+            eval "$@" || result=$?
+        fi
+    done;
+
+    if ! [[ -z "$current" ]]
+        then
+            phpbrew use $current
+        else
+            phpbrew off
+    fi
+
+    return $result
 }
 
 function __phpbrew_purge()

@@ -1,6 +1,9 @@
 CHANGES
 =======
 
+### Version 1.23.0
+- Changed the semantics of the `each` command (#888). Prior to this release, the arguments were interpreted as internal PHPBrew command (e.g. `phpbrew each install xdebug` would install the Xdebug extensions on all available builds). As of this release, the command is interpreted as a shell command, i.e. the previously mentioned command will now look like `phpbrew each phpbrew ext install xdebug`. This change opens the possibility to run shell commands like `phpbrew each phpunit` and internal PHPBrew commands implemented in shell like `phpbrew each phpbrew fpm restart`.
+
 ### Version 1.22.7
 - Updated App store (#850)
 - Improved warning messages about environment check
@@ -11,7 +14,6 @@ CHANGES
 - Fixed --cache-file option escape
 - Improved user experience (#798, #792)
 
-
 ### Version 1.22.6
 - Fixed .phpbrew lookup in parent directories (#775)
 - Improved MySQL socket path detection on Ubuntu
@@ -20,7 +22,7 @@ CHANGES
 - Improved user experience (#799, #807)
 
 ### Version 1.22.5
-- Fixed downloading historic version from museum (#769) 
+- Fixed downloading historic version from museum (#769)
 - Fixed wget downloader failure when some special chars presents
 
 ### Version 1.22.4
@@ -40,7 +42,7 @@ CHANGES
 
 ### Version 1.22.1
 
-- The install command now patches the default listen path defined in php-fpm/www.conf 
+- The install command now patches the default listen path defined in php-fpm/www.conf
   for each different build.
 
 - Fixed pgsql base dir finder
@@ -52,7 +54,7 @@ CHANGES
 
     To setup systemctl service config for the current php:
 
-        phpbrew fpm setup --systemctl 
+        phpbrew fpm setup --systemctl
 
     To setup launchctl service config for the current php:
 
@@ -130,7 +132,7 @@ Bash
 
 ### Version 1.21.0 - Wed Apr 27 23:19:33 2016
 
-- Refactored patch classes 
+- Refactored patch classes
 - Supported new diff-based patches and regexp-based patches
 - Added some default options for 5.3, 5.4, 5.5 and 5.6 separately
 - Added BeforeConfigureTask and AfterConfigureTask to separate build phases.
@@ -347,7 +349,7 @@ Development updates:
         +gd=shared should work for Mac OS platform
 
 
-- platform libdir is supported, now supports for include/lib paths under 
+- platform libdir is supported, now supports for include/lib paths under
 
         $prefix/i386-linux-gnu/
         $prefix/x86_64-linux-gnu/
