@@ -175,7 +175,7 @@ $ phpbrew install --old 5.2.13
 To install the next (unstable) version:
 
 ```bash
-$ phpbrew install next as php-7.1.0
+$ phpbrew install next as php-7.1.0-dev
 ```
 
 To install from a github tag:
