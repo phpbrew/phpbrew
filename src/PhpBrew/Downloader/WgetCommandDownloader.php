@@ -33,9 +33,9 @@ class WgetCommandDownloader extends BaseDownloader
         $proxy = '';
         if (!empty($this->options->{'http-proxy'})) {
             if (!empty($this->options->{'http-proxy-auth'})) {
-                $proxy = sprintf('-e use_proxy=on -e http_proxy=%s', $this->options->{'http-proxy'});
-            } else {
                 $proxy = sprintf('-e use_proxy=on -e http_proxy=%s@%s', $this->options->{'http-proxy-auth'}, $this->options->{'http-proxy'});
+            } else {
+                $proxy = sprintf('-e use_proxy=on -e http_proxy=%s', $this->options->{'http-proxy'});
             }
         }
 
