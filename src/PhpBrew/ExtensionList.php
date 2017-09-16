@@ -4,7 +4,7 @@ namespace PhpBrew;
 
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
-use PhpBrew\Extension\Provider;
+use PhpBrew\Extension\Provider\Provider;
 
 class ExtensionList
 {
@@ -17,6 +17,11 @@ class ExtensionList
         $this->options = $options;
     }
 
+    /**
+     * Returns available extension providers
+     *
+     * @return Provider[]
+     */
     public function getProviders()
     {
         static $providers;
@@ -41,6 +46,8 @@ class ExtensionList
                 return $provider;
             }
         }
+
+        return null;
     }
 
     public static function getReadyInstance($branch = 'master', Logger $logger = null, OptionResult $options)
@@ -54,9 +61,14 @@ class ExtensionList
         return $instance;
     }
 
+    /**
+     * Returns provider for the given extension
+     *
+     * @param string $extensionName
+     * @return Provider|null
+     */
     public function exists($extensionName)
     {
-
         // determine which provider support this extension
         $providers = $this->getProviders();
         foreach ($providers as $provider) {
@@ -65,6 +77,6 @@ class ExtensionList
             }
         }
 
-        return false;
+        return null;
     }
 }
