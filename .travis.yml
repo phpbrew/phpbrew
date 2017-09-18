@@ -1,4 +1,5 @@
 language: php
+dist: precise
 services:
 - mysql
 - postgresql
