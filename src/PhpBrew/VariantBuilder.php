@@ -140,6 +140,7 @@ class VariantBuilder
             'pcntl',
             'pcre',
             'pdo',
+            'pear',
             'phar',
             'posix',
             'readline',
@@ -866,6 +867,14 @@ class VariantBuilder
             }
 
             return '--with-gmp'; // let autotool to find it.
+        };
+
+        $this->variants['pear'] = function (Build $build, $prefix = null) {
+            if ($prefix === null) {
+                $prefix = $build->getInstallPrefix() . '/lib/php/pear';
+            }
+
+            return '--with-pear=' . $prefix;
         };
 
         // merge virtual variants with config file
