@@ -95,19 +95,27 @@ class ExtensionManager
             mkdir(dirname($ini), 0755, true);
         }
 
-        // create extension config file
         if (file_exists($ini)) {
-            return;
+            return true;
         }
-        if ($ext->isZend()) {
-            $makefile = file_get_contents("$sourceDir/Makefile");
-            preg_match('/EXTENSION\_DIR\s=\s(.*)/', $makefile, $regs);
-            $content = 'zend_extension='.$ext->getSharedLibraryPath();
-        } else {
-            $content = 'extension='.$ext->getSharedLibraryName();
+
+        // @see https://github.com/php/php-src/commit/0def1ca59a
+        $content = sprintf(
+            '%s=%s' . PHP_EOL,
+            $ext->isZend() ? 'zend_extension' : 'extension',
+            $ext->isZend() && PHP_VERSION_ID < 50500
+                ? $ext->getSharedLibraryPath()
+                : $ext->getSharedLibraryName()
+        );
+
+        // create extension config file
+        if (file_put_contents($ini, $content) === false) {
+            return false;
         }
-        file_put_contents($ini, $content);
+
         $this->logger->debug("{$ini} is created.");
+
+        return true;
     }
 
     public function disable($extensionName)
@@ -153,21 +161,27 @@ class ExtensionManager
             return true;
         }
 
-        if (file_exists($disabled_file)) {
-            $this->disableAntagonists($ext);
+        if (!file_exists($disabled_file)
+            && !(file_exists($ext->getSharedLibraryPath())
+                && $this->createExtensionConfig($ext))
+        ) {
+            $this->logger->info("{$name} extension is not installed. Suggestions:");
+            $this->logger->info("\t\$ phpbrew ext install {$name}");
 
-            if (rename($disabled_file, $enabled_file)) {
-                $this->logger->info("[*] {$name} extension is enabled.");
-
-                return true;
-            }
-            $this->logger->warning("failed to enable {$name} extension.");
+            return false;
         }
 
-        $this->logger->info("{$name} extension is not installed. Suggestions:");
-        $this->logger->info("\t\$ phpbrew ext install {$name}");
+        $this->disableAntagonists($ext);
 
-        return false;
+        if (!rename($disabled_file, $enabled_file)) {
+            $this->logger->warning("failed to enable {$name} extension.");
+
+            return false;
+        }
+
+        $this->logger->info("[*] {$name} extension is enabled.");
+
+        return true;
     }
 
     /**
