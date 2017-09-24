@@ -14,7 +14,7 @@ interface Provider
     public function buildKnownReleasesUrl();
     public function parseKnownReleasesResponse($content);
     public function buildPackageDownloadUrl($version);
-    public function exists($url, $packageName);
+    public function exists($url, $packageName = null);
     public function isBundled($packageName);
 
     public function getDefaultVersion();

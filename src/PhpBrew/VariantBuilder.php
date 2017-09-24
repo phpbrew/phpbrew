@@ -204,10 +204,10 @@ class VariantBuilder
         $this->variants['opcache'] = '--enable-opcache';
 
         $this->variants['imap'] = '--with-imap-ssl';
+        $this->variants['ldap'] = '--with-ldap';
         $this->variants['tidy'] = '--with-tidy';
         $this->variants['kerberos'] = '--with-kerberos';
         $this->variants['xmlrpc'] = '--with-xmlrpc';
-
 
         $this->variants['fpm'] = function (Build $build, $prefix = null) {
             $opts = array('--enable-fpm');
