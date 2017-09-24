@@ -421,6 +421,8 @@ class VariantBuilder
                         echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
                     }
                 }
+            } else {
+                $opts[] = '--with-gd=shared';
             }
 
             $opts[] = '--enable-gd-native-ttf';
