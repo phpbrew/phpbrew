@@ -47,7 +47,7 @@ class Build implements Serializable, Buildable
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
     /**
-     * @var PhpBrew\BuildSettings
+     * @var BuildSettings
      */
     public $settings;
 

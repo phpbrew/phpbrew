@@ -60,9 +60,6 @@ class ConfigureTask extends BaseTask
         $this->debug('Enabled variants: ['.implode(', ', array_keys($build->getVariants())).']');
         $this->debug('Disabled variants: ['.implode(', ', array_keys($build->getDisabledVariants())).']');
 
-        // todo: move to pear variant
-        $args[] = "--with-pear={$prefix}/lib/php";
-
         // Options for specific versions
         // todo: extract to BuildPlan class: PHP53 BuildPlan, PHP54 BuildPlan, PHP55 BuildPlan ?
         if ($build->compareVersion('5.4') == -1) {
