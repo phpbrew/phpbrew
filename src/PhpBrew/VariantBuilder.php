@@ -329,7 +329,7 @@ class VariantBuilder
                 }
             }
 
-            return;
+            return '--with-curl';
         };
 
         /*
