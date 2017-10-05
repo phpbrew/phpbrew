@@ -7,7 +7,7 @@ use PhpBrew\Testing\CommandTestCase;
  */
 class EnvCommandTest extends CommandTestCase
 {
-    public static function setupApplication()
+    public function setupApplication()
     {
         return new PhpBrew\Console;
     }

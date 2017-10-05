@@ -26,7 +26,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
         return $this->primaryVersion;
     }
 
-    public static function setupApplication()
+    public function setupApplication()
     {
         $console = Console::getInstance();
         $console->getLogger()->setQuiet();
