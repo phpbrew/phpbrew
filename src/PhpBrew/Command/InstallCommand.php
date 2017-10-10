@@ -203,9 +203,12 @@ system-wide phpbrew or this might cause problems.");
         if ($info = $versionDslParser->parse($version)) {
             $version = $info['version'];
             $distUrl = $info['url'];
-            // always redownload when installing from github master
+
+            // re-download when installing not from a tag
             // beware to keep this behavior after clean up the TODO below
-            $this->options['force']->setValue(true);
+            $this->options['force']->setValue(
+                empty($info['is_tag'])
+            );
         } else {
             // TODO ↓ clean later ↓ d.d.d versions should be part of the DSL too
             $version = preg_replace('/^php-/', '', $version);
