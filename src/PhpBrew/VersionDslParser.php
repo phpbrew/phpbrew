@@ -15,7 +15,15 @@ class VersionDslParser
 
     public function parse($dsl)
     {
-        $result = false;
+        if (preg_match('/^(php-)?(\d+\.\d+\.\d+(alpha|beta|RC)\d+)$/', $dsl, $matches)) {
+            $version = 'php-' . $matches[2];
+
+            return array(
+                'version' => $version,
+                'url' => $this->buildGitHubUrl('php', $version),
+                'is_tag' => true,
+            );
+        }
 
         // make url
         $url = str_replace(self::$schemes, 'https://github.com/', $dsl);
@@ -30,24 +38,41 @@ class VersionDslParser
                 $version = $owner . '-' . $version;
             }
 
-            $result = array(
+            return array(
                 'version' => 'php-' . $version,
-                'url' => "https://github.com/{$owner}/php-src/archive/{$branch}.tar.gz",
+                'url' => $this->buildGitHubUrl($owner, $branch),
             );
         }
 
         // non github url
-        if (!$result && preg_match('#^https?://#', $url)) {
+        if (preg_match('#^https?://#', $url)) {
             if (!preg_match('#(php-(\d.\d+.\d+(?:(?:RC|alpha|beta)\d+)?)\.tar\.(?:gz|bz2))#', $url, $matches)) {
                 throw new \Exception("Can not find version name from the given URL: $url");
             }
 
-            $result = array(
+            return array(
                 'version' => "php-{$matches[2]}",
                 'url' => $url,
             );
         }
 
-        return $result;
+        return false;
+    }
+
+    /**
+     * Builds the URL of the package on GitHub
+     *
+     * @param string $owner Repository owner
+     * @param string $ref Git commit reference
+     *
+     * @return string
+     */
+    private function buildGitHubUrl($owner, $ref)
+    {
+        return sprintf(
+            'https://github.com/%s/php-src/archive/%s.tar.gz',
+            rawurlencode($owner),
+            rawurlencode($ref)
+        );
     }
 }

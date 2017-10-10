@@ -7,8 +7,11 @@ namespace PhpBrew;
  *
  * @small
  */
-class ExtensionDslParserTest extends \PHPUnit\Framework\TestCase
+class VersionDslParserTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @var VersionDslParser
+     */
     protected $parser;
 
     public function setUp()
@@ -27,6 +30,23 @@ class ExtensionDslParserTest extends \PHPUnit\Framework\TestCase
             array('git@github.com:php/php-src', 'https://github.com/php/php-src/archive/master.tar.gz', 'php-master'), // implicit branch
             array('git@github.com:php/php-src@branch', 'https://github.com/php/php-src/archive/branch.tar.gz', 'php-branch'), // explicit branch
             array('git@github.com:php/php-src@php-7.1.0RC3', 'https://github.com/php/php-src/archive/php-7.1.0RC3.tar.gz', 'php-7.1.0RC3'), // tag
+
+            // pre-release versions without the github: prefix
+            array(
+                'php-7.2.0alpha1',
+                'https://github.com/php/php-src/archive/php-7.2.0alpha1.tar.gz',
+                'php-7.2.0alpha1',
+            ),
+            array(
+                '7.2.0beta2',
+                'https://github.com/php/php-src/archive/php-7.2.0beta2.tar.gz',
+                'php-7.2.0beta2',
+            ),
+            array(
+                'php-7.2.0RC3',
+                'https://github.com/php/php-src/archive/php-7.2.0RC3.tar.gz',
+                'php-7.2.0RC3',
+            ),
 
             // github urls
             array('https://www.github.com/php/php-src', 'https://github.com/php/php-src/archive/master.tar.gz', 'php-master'),
@@ -54,12 +74,9 @@ class ExtensionDslParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testGithubDsl($dsl, $url, $version)
     {
-        $this->assertSame(
-            array(
-                'version' => $version,
-                'url' => $url,
-            ),
-            $this->parser->parse($dsl)
-        );
+        $info = $this->parser->parse($dsl);
+
+        $this->assertSame($version, $info['version']);
+        $this->assertSame($url, $info['url']);
     }
 }
