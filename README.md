@@ -172,15 +172,29 @@ To install older versions (less than 5.3):
 $ phpbrew install --old 5.2.13
 ```
 
+To install the latest patch version of a given release:
+
+```bash
+$ phpbrew install 5.6
+```
+
+To install a pre-release version:
+
+```bash
+$ phpbrew install 7.2.0alpha1
+$ phpbrew install 7.2.0beta2
+$ phpbrew install 7.2.0RC3
+```
+
+To install from a GitHub tag or branch name:
+```bash
+$ phpbrew install github:php/php-src@PHP-7.2 as php-7.2.0-dev
+```
+
 To install the next (unstable) version:
 
 ```bash
-$ phpbrew install next as php-7.1.0-dev
-```
-
-To install from a github tag:
-```bash
-$ phpbrew install github:php/php-src@PHP-7.0 as php-7.0.0
+$ phpbrew install next as php-7.3.0-dev
 ```
 
 ## Cleaning up build directory
