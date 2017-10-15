@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d6e8ea406957fde24f20825b249b5116",
-    "content-hash": "9c42049ab6cdf6d0101f0ced324b6fb0",
+    "content-hash": "acad720b22e34cc4e6c63ba28f762c93",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -14,6 +13,12 @@
                 "type": "git",
                 "url": "https://github.com/c9s/CacheKit.git",
                 "reference": "8ced1f91e4cfa5a3ccb044e6991f9639676baf5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/CacheKit/zipball/8ced1f91e4cfa5a3ccb044e6991f9639676baf5d",
+                "reference": "8ced1f91e4cfa5a3ccb044e6991f9639676baf5d",
+                "shasum": ""
             },
             "require": {
                 "corneltek/serializerkit": "~1",
@@ -28,6 +33,7 @@
                     "CacheKit": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -40,7 +46,7 @@
             ],
             "description": "General cache interface",
             "homepage": "http://github.com/c9s/CacheKit",
-            "time": "2013-12-29 15:53:59"
+            "time": "2013-12-29T15:53:59+00:00"
         },
         {
             "name": "corneltek/class-template",
@@ -83,7 +89,7 @@
             ],
             "description": "Class template Utilities",
             "homepage": "http://github.com/c9s/ClassTemplate",
-            "time": "2015-09-06 05:04:14"
+            "time": "2015-09-06T05:04:14+00:00"
         },
         {
             "name": "corneltek/cliframework",
@@ -145,7 +151,7 @@
                 "getopt",
                 "zsh"
             ],
-            "time": "2016-03-18 13:55:38"
+            "time": "2016-03-18T13:55:38+00:00"
         },
         {
             "name": "corneltek/codegen",
@@ -153,12 +159,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CodeGen.git",
-                "reference": "b2a1835b4a0c63cb5f1c1c0a44176adbbfd46dcd"
+                "reference": "265b089d07e73ebd1a4057a1e760ae519969e245"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CodeGen/zipball/b2a1835b4a0c63cb5f1c1c0a44176adbbfd46dcd",
-                "reference": "b2a1835b4a0c63cb5f1c1c0a44176adbbfd46dcd",
+                "url": "https://api.github.com/repos/c9s/CodeGen/zipball/265b089d07e73ebd1a4057a1e760ae519969e245",
+                "reference": "265b089d07e73ebd1a4057a1e760ae519969e245",
                 "shasum": ""
             },
             "require": {
@@ -193,7 +199,7 @@
             ],
             "description": "PHP Code Generation Library",
             "homepage": "http://github.com/c9s/CodeGen",
-            "time": "2016-03-26 07:10:40"
+            "time": "2016-03-26T06:55:39+00:00"
         },
         {
             "name": "corneltek/curlkit",
@@ -231,7 +237,7 @@
                 "MIT"
             ],
             "description": "Curl Kit",
-            "time": "2016-05-06 15:57:19"
+            "time": "2016-05-06T15:57:19+00:00"
         },
         {
             "name": "corneltek/getoptionkit",
@@ -273,7 +279,7 @@
             ],
             "description": "Powerful command-line option toolkit",
             "homepage": "http://github.com/c9s/GetOptionKit",
-            "time": "2016-02-16 10:41:32"
+            "time": "2016-02-16T10:41:32+00:00"
         },
         {
             "name": "corneltek/pearx",
@@ -316,7 +322,7 @@
             ],
             "description": "PEAR channel client",
             "homepage": "http://github.com/c9s/PEARX",
-            "time": "2016-04-28 13:52:51"
+            "time": "2016-04-28T13:52:51+00:00"
         },
         {
             "name": "corneltek/serializerkit",
@@ -325,6 +331,12 @@
                 "type": "git",
                 "url": "https://github.com/c9s/php-SerializerKit.git",
                 "reference": "d6f222c252fcf5f7dde788173ceb4a41a92136dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/c9s/php-SerializerKit/zipball/d6f222c252fcf5f7dde788173ceb4a41a92136dd",
+                "reference": "d6f222c252fcf5f7dde788173ceb4a41a92136dd",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
@@ -339,19 +351,20 @@
                     "SerializerKit": "src"
                 }
             },
-            "time": "2013-12-01 14:32:14"
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2013-12-01T14:32:14+00:00"
         },
         {
             "name": "corneltek/universal",
             "version": "1.7.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/c9s/Universal.git",
+                "url": "https://github.com/corneltek/Universal.git",
                 "reference": "7815546cc524f6eac84d8f7620510e9277252d78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/Universal/zipball/7815546cc524f6eac84d8f7620510e9277252d78",
+                "url": "https://api.github.com/repos/corneltek/Universal/zipball/7815546cc524f6eac84d8f7620510e9277252d78",
                 "reference": "7815546cc524f6eac84d8f7620510e9277252d78",
                 "shasum": ""
             },
@@ -381,7 +394,7 @@
             ],
             "description": "Universal library for PHP",
             "homepage": "http://github.com/c9s/Universal",
-            "time": "2015-11-07 10:32:02"
+            "time": "2015-11-07T10:32:02+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -448,7 +461,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2015-11-06 14:35:42"
+            "time": "2015-11-06T14:35:42+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -494,7 +507,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2015-09-11 15:10:35"
+            "time": "2015-09-11T15:10:35+00:00"
         },
         {
             "name": "symfony/class-loader",
@@ -547,7 +560,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-30 10:37:34"
+            "time": "2016-03-30T10:37:34+00:00"
         },
         {
             "name": "symfony/finder",
@@ -596,7 +609,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-10 10:53:53"
+            "time": "2016-03-10T10:53:53+00:00"
         },
         {
             "name": "symfony/polyfill-apcu",
@@ -649,7 +662,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-03-03 16:49:40"
+            "time": "2016-03-03T16:49:40+00:00"
         },
         {
             "name": "symfony/process",
@@ -698,7 +711,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-14 15:22:22"
+            "time": "2016-04-14T15:22:22+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -747,7 +760,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-29 19:00:15"
+            "time": "2016-03-29T19:00:15+00:00"
         },
         {
             "name": "twig/twig",
@@ -808,7 +821,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-01-25 21:22:18"
+            "time": "2016-01-25T21:22:18+00:00"
         }
     ],
     "packages-dev": [
@@ -836,7 +849,7 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-02-28 04:55:50"
+            "time": "2014-02-28T04:55:50+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -931,7 +944,8 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-03-18 18:23:50"
+            "abandoned": "guzzlehttp/guzzle",
+            "time": "2015-03-18T18:23:50+00:00"
         },
         {
             "name": "psr/log",
@@ -969,7 +983,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2012-12-21T11:40:51+00:00"
         },
         {
             "name": "satooshi/php-coveralls",
@@ -1027,7 +1041,7 @@
                 "github",
                 "test"
             ],
-            "time": "2016-01-20 17:35:46"
+            "time": "2016-01-20T17:35:46+00:00"
         },
         {
             "name": "symfony/config",
@@ -1080,7 +1094,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-20 18:52:26"
+            "time": "2016-04-20T18:52:26+00:00"
         },
         {
             "name": "symfony/console",
@@ -1140,7 +1154,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-26 12:00:47"
+            "time": "2016-04-26T12:00:47+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1200,7 +1214,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-05 16:36:54"
+            "time": "2016-04-05T16:36:54+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -1249,7 +1263,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-12 18:01:21"
+            "time": "2016-04-12T18:01:21+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1308,7 +1322,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-01-20T09:13:37+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -1357,7 +1371,7 @@
             ],
             "description": "Symfony Stopwatch Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-04 07:54:35"
+            "time": "2016-03-04T07:54:35+00:00"
         }
     ],
     "aliases": [],
