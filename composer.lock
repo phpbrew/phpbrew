@@ -287,12 +287,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbrew/PEARX.git",
-                "reference": "6be60c1a328ca17ec57c011b51cfbb40d9857ff0"
+                "reference": "2d361b36e9230390701fd7db46eecd3b13527e25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/6be60c1a328ca17ec57c011b51cfbb40d9857ff0",
-                "reference": "6be60c1a328ca17ec57c011b51cfbb40d9857ff0",
+                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/2d361b36e9230390701fd7db46eecd3b13527e25",
+                "reference": "2d361b36e9230390701fd7db46eecd3b13527e25",
                 "shasum": ""
             },
             "require": {
@@ -301,7 +301,8 @@
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "corneltek/phpunit-testmore": "dev-master"
+                "corneltek/phpunit-testmore": "dev-master",
+                "phpunit/phpunit": "^5.7"
             },
             "type": "library",
             "autoload": {
@@ -322,7 +323,7 @@
             ],
             "description": "PEAR channel client",
             "homepage": "http://github.com/c9s/PEARX",
-            "time": "2016-04-28T13:52:51+00:00"
+            "time": "2017-06-24T05:53:19+00:00"
         },
         {
             "name": "corneltek/serializerkit",
