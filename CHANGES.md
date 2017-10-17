@@ -1,6 +1,25 @@
 CHANGES
 =======
 
+### Version 1.22.9
+- Added support for php pre-release versions, including alpha, beta and RC (#915) 
+- Improved the "ext enable" command (#911)
+  - Added support for bundled shared extension / pre-built extension
+  - Generate absolute path for zend extension for php lower than 5.5 
+- Fixed proxy auth problem for wget downloader (#897)
+- Fixed problems when installing packages with os or architecture dependency (#917, phpbrew/PEARX#8)
+- Added the LDAP variant (#906)
+- Use bundled GD if no prefix provided (#907)
+- Fixed cURL extension being silently dropped if dependencies not found (#913)
+
+
+### Version 1.22.8
+- Use sha256 instead of md5 for newer release (#884)
+- Implemented purging multiple PHP builds at one time (#881)
+- Added phpcbf to App store (#853)
+- Improved user experience (#880)
+
+
 ### Version 1.22.7
 - Updated App store (#850)
 - Improved warning messages about environment check
