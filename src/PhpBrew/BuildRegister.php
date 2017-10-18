@@ -17,7 +17,8 @@ class BuildRegister
     public function register(Build $build)
     {
         $file = $this->baseDir.DIRECTORY_SEPARATOR.$build->getName();
-        $build->writeFile($file);
+
+        return $build->writeFile($file);
     }
 
     public function deregister(Build $build)

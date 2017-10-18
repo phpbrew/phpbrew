@@ -362,7 +362,13 @@ class Build implements Serializable, Buildable
 
     public function writeFile($file)
     {
-        file_put_contents($file, $this->serialize());
+        $dir = dirname($file);
+
+        if (!is_dir($dir) && !mkdir($dir, 0755, true)) {
+            return false;
+        }
+
+        return file_put_contents($file, $this->serialize()) !== false;
     }
 
     public function loadFile($file)
