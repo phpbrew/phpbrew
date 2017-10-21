@@ -26,26 +26,19 @@ class KnownCommandTest extends CommandTestCase {
 
     }
 
-    public function testGithubPackage() {
-        try {
-            $logger = new Logger;
-            $logger->setQuiet();
+    public function testGithubPackage()
+    {
+        $logger = new Logger;
+        $logger->setQuiet();
 
-            $provider = new GithubProvider();
-            $provider->setOwner('phalcon');
-            $provider->setRepository('cphalcon');
-            $provider->setPackageName('phalcon');
+        $provider = new GithubProvider();
+        $provider->setOwner('phalcon');
+        $provider->setRepository('cphalcon');
+        $provider->setPackageName('phalcon');
 
-            $extensionDownloader = new ExtensionDownloader($logger, new OptionResult);
-            $versionList = $extensionDownloader->knownReleases($provider);
-            $this->assertNotCount(0, $versionList);
-
-        } catch (\CurlKit\CurlException $e) {
-
-            $this->markTestIncomplete($e->getMessage());
-
-        }
-
+        $extensionDownloader = new ExtensionDownloader($logger, new OptionResult);
+        $versionList = $extensionDownloader->knownReleases($provider);
+        $this->assertNotCount(0, $versionList);
     }
 
     public function testBitbucketPackage() {
