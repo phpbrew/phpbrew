@@ -207,19 +207,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CurlKit.git",
-                "reference": "176906d7f3b3e61f1f2b6cb6eb0a703ced14940b"
+                "reference": "e9a117e6de320a4c630f511b72401b6e9f5b2a6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/176906d7f3b3e61f1f2b6cb6eb0a703ced14940b",
-                "reference": "176906d7f3b3e61f1f2b6cb6eb0a703ced14940b",
+                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/e9a117e6de320a4c630f511b72401b6e9f5b2a6d",
+                "reference": "e9a117e6de320a4c630f511b72401b6e9f5b2a6d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "corneltek/phpunit-testmore": "dev-master"
+                "corneltek/phpunit-testmore": "dev-master",
+                "phpunit/phpunit": "^4.0||^5.0"
             },
             "type": "library",
             "extra": {
@@ -237,7 +238,7 @@
                 "MIT"
             ],
             "description": "Curl Kit",
-            "time": "2016-05-06T15:57:19+00:00"
+            "time": "2017-10-21T05:15:03+00:00"
         },
         {
             "name": "corneltek/getoptionkit",
