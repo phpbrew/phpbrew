@@ -240,7 +240,8 @@ class VariantBuilder
                     if (file_exists($prefix)) {
                         return array('--with-pcre-regex', "--with-pcre-dir=$prefix");
                     }
-                    echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
+
+                    printf('Homebrew prefix "%s" doesn\'t exist' . PHP_EOL, $prefix);
                 }
             }
 
