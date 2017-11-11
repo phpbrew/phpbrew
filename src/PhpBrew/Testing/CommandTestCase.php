@@ -76,16 +76,13 @@ abstract class CommandTestCase extends BaseCommandTestCase
             if ($this->debug) {
                 fwrite(STDERR, $args.PHP_EOL);
             }
+
             ob_start();
-            $this->assertTrue($ret = parent::runCommand($args));
+            $ret = parent::runCommand($args);
             $output = ob_get_contents();
             ob_end_clean();
-            if ($ret === false) {
-                echo '[' , implode(' ', $args), ']', PHP_EOL;
-                echo '===================================', PHP_EOL;
-                echo $output, PHP_EOL;
-                echo '===================================', PHP_EOL;
-            }
+
+            $this->assertTrue($ret, $output);
         } catch (\CurlKit\CurlException $e) {
             $this->markTestIncomplete($e->getMessage());
         }
