@@ -376,12 +376,4 @@ class Utils
         $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
         exec("{$editor} {$file} > {$tty}");
     }
-
-    public static function isRootlessEnabled()
-    {
-        return PlatformInfo::getInstance()->isMac() &&
-            !is_writeable('/bin');
-        // following directories are restricted if rootless enabled (osX 10.11+):
-        // /System, /bin, /sbin, /usr (except /usr/bin)
-    }
 }

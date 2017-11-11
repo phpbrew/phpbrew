@@ -82,11 +82,6 @@ class Console extends Application
         if (!extension_loaded('ctype')) {
             $this->logger->warn('# WARNING: ctype extension might be required for parsing yaml file.');
         }
-
-        if (Utils::isRootlessEnabled()) {
-            $this->logger->warn('#WARNING: it seems you are running PHPBrew under MacOS 10.11 or above with rootless enabled. ' .
-                'it\'s recommended turn off rootless before your continue, or you may experience some issues.');
-        }
     }
 
     public function configure()
