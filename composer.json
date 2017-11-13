@@ -25,6 +25,7 @@
         "symfony/yaml": "^2.3"
     },
     "require-dev": {
+        "phpunit/phpunit": "^4.8||^5.7",
         "satooshi/php-coveralls": "~1.0",
         "corneltek/phpunit-testmore": "dev-master",
         "corneltek/universal": "~1.3"
