@@ -83,6 +83,7 @@ cache:
   - ".phpbrew/distfiles"
   - ".phpbrew/cache"
   - "$HOME/.ccache"
+  - "$HOME/.composer/cache"
 before_deploy:
 - make build
 deploy:
