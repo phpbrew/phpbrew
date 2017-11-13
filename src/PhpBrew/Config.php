@@ -139,9 +139,9 @@ class Config
         return self::getRoot().DIRECTORY_SEPARATOR.'php';
     }
 
-    public static function getVersionInstallPrefix($version)
+    public static function getVersionInstallPrefix($buildName)
     {
-        return self::getInstallPrefix().DIRECTORY_SEPARATOR.$version;
+        return self::getInstallPrefix().DIRECTORY_SEPARATOR.$buildName;
     }
 
     /**

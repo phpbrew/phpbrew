@@ -43,10 +43,10 @@ class InstallCommandTest extends CommandTestCase
     /**
      * @depends testInstallCommand
      */
-    public function testUseCommand()
+    public function testEnvCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $this->assertCommandSuccess("phpbrew use php-{$versionName}");
+        $this->assertCommandSuccess("phpbrew env php-{$versionName}");
     }
 
     /**
