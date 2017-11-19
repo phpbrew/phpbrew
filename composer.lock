@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "76b751b677d00bd18ab19d85dfeb3430",
+    "content-hash": "c93584446e4c365f4a42a5924ffd3b1d",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -93,16 +93,16 @@
         },
         {
             "name": "corneltek/cliframework",
-            "version": "dev-master",
+            "version": "3.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CLIFramework.git",
-                "reference": "df9139a84c8aee2cd6952632c31bdfab4855f22f"
+                "reference": "5a902ba54cb19e944bbf14eb1c8522c921e3217e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/df9139a84c8aee2cd6952632c31bdfab4855f22f",
-                "reference": "df9139a84c8aee2cd6952632c31bdfab4855f22f",
+                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/5a902ba54cb19e944bbf14eb1c8522c921e3217e",
+                "reference": "5a902ba54cb19e944bbf14eb1c8522c921e3217e",
                 "shasum": ""
             },
             "require": {
@@ -117,6 +117,7 @@
             },
             "require-dev": {
                 "corneltek/phpunit-testmore": "dev-master",
+                "phpunit/phpunit": "^5.7",
                 "satooshi/php-coveralls": "^1"
             },
             "type": "library",
@@ -151,7 +152,7 @@
                 "getopt",
                 "zsh"
             ],
-            "time": "2016-03-18T13:55:38+00:00"
+            "time": "2017-11-08T01:09:58+00:00"
         },
         {
             "name": "corneltek/codegen",
