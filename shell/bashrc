@@ -7,7 +7,7 @@
 # PHPBrew defaults:
 # PHPBREW_HOME: contains the phpbrew config (for users)
 # PHPBREW_ROOT: contains installed php(s) and php source files.
-# PHPBREW_SKIP_INIT: if you need to skip loading config from the init file. 
+# PHPBREW_SKIP_INIT: if you need to skip loading config from the init file.
 # PHPBREW_PHP:  the current php version.
 # PHPBREW_PATH: the bin path of the current php.
 
@@ -19,7 +19,7 @@ function __phpbrew_set_path()
     [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
     if [[ -n $PHPBREW_ROOT ]] ; then
-        export PATH_WITHOUT_PHPBREW=$(AR=(); for i in `echo $PATH|tr ':' ' '` ; do [[ `expr "$i" : "$PHPBREW_ROOT" 2>/dev/null` -eq 0 ]] && AR+=($i); done; echo "${AR[*]}"|tr ' ' ':';)
+        export PATH_WITHOUT_PHPBREW=$(p=$(echo $PATH | tr ":" "\n" | grep -v "^$PHPBREW_ROOT" | tr "\n" ":"); echo ${p%:})
     else
         export PATH_WITHOUT_PHPBREW=$PATH
     fi
@@ -103,7 +103,7 @@ function __phpbrew_set_lookup_prefix ()
 
 function phpbrew ()
 {
-    # Check bin/phpbrew if we are in PHPBrew source directory, 
+    # Check bin/phpbrew if we are in PHPBrew source directory,
     # This is only for development
     if [[ -e bin/phpbrew ]] ; then
         BIN='bin/phpbrew'
@@ -370,7 +370,7 @@ function __phpbrew_update_config ()
     . "$PHPBREW_HOME/init"
 }
 
-function __phpbrew_reinit () 
+function __phpbrew_reinit ()
 {
     if [[ -z "$1" ]] ; then
         local _PHP_VERSION=""
@@ -466,7 +466,7 @@ fi
 # the _phpbrewrc_load will be called after *every simple command* executed in bash,
 # this will make the start up process slower if you have many commands to be run in your .bashrc or .zshrc
 # so this function simply compares the directory and return if nothing neccessary to do.
-# 
+#
 # here is the description of trap from bash manual page:
 #
 #   If one of the signals is DEBUG, the list of COMMANDS is executed after
