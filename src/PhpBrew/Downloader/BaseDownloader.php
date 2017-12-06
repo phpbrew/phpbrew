@@ -20,7 +20,7 @@ abstract class BaseDownloader
     public function __construct(Logger $logger, OptionResult $options)
     {
         $this->logger = $logger;
-        $this->options = $options;
+        $this->options = $options;Throwing the correct
     }
 
     /**
@@ -36,7 +36,7 @@ abstract class BaseDownloader
         if (empty($targetFilePath)) {
             $targetFilePath = tempnam(sys_get_temp_dir(), 'phpbrew_');
             if ($targetFilePath === false) {
-                throw new RuntimeException('Fail to create temp file');
+                throw new \RuntimeException('Fail to create temp file');
             }
         } else {
             if (!file_exists($targetFilePath)) {
