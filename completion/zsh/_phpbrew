@@ -90,6 +90,8 @@ local ret=1
     purge:'Remove installed php version and config files.'
     off:'Temporarily go back to the system php'
     switch-off:'Definitely go back to the system php'
+    system:'Get or set the internally used PHP binary'
+    system-off:'Use the currently effective PHP binary internally'
   )
   _describe -t commands 'command' commands && ret=0
     ;;
@@ -505,6 +507,15 @@ local ret=1
         
         ;;
         (switch-off)
+        
+        ;;
+        (system)
+            _arguments -w -S -s \
+              ':php version:{___phpbrewmeta "php version" system arg 0 suggestions}' \
+               && ret=0
+        
+        ;;
+        (system-off)
         
         ;;
       esac

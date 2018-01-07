@@ -58,6 +58,9 @@ class Console extends Application
         $this->command('off');
         $this->command('switch-off', 'PhpBrew\Command\SwitchOffCommand');
 
+        $this->command('system');
+        $this->command('system-off');
+
         $this->configure();
 
         // We use '#' as the prefix to prevent issue with bash

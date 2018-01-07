@@ -30,24 +30,38 @@ class EnvCommand extends BaseCommand
             $buildName = getenv('PHPBREW_PHP');
         }
 
-        // $currentVersion;
-        $root = Config::getRoot();
-        $home = Config::getHome();
-        $lookup = getenv('PHPBREW_LOOKUP_PREFIX');
+        $this->export('PHPBREW_ROOT', Config::getRoot());
+        $this->export('PHPBREW_HOME', Config::getHome());
 
-        $this->logger->writeln("export PHPBREW_ROOT=$root");
-        $this->logger->writeln("export PHPBREW_HOME=$home");
-        $this->logger->writeln("export PHPBREW_LOOKUP_PREFIX=$lookup");
+        $this->replicate('PHPBREW_LOOKUP_PREFIX');
 
         if ($buildName !== false) {
-            // checking php version existence
             $targetPhpBinPath = Config::getVersionBinPath($buildName);
+
+            // checking php version existence
             if (is_dir($targetPhpBinPath)) {
-                echo 'export PHPBREW_PHP=' . $buildName . "\n";
-                echo 'export PHPBREW_PATH=' . ($buildName ? Config::getVersionBinPath($buildName) : '') . "\n";
+                $this->export('PHPBREW_PHP', $buildName);
+                $this->export('PHPBREW_PATH', $targetPhpBinPath);
             }
         }
+
+        $this->replicate('PHPBREW_SYSTEM_PHP');
+
         $this->logger->writeln('# Run this command to configure your shell:');
-        $this->logger->writeln('# # eval "$(phpbrew env)"');
+        $this->logger->writeln('# eval "$(phpbrew env)"');
+    }
+
+    private function export($varName, $value)
+    {
+        $this->logger->writeln(sprintf('export %s=%s', $varName, $value));
+    }
+
+    private function replicate($varName)
+    {
+        $value = getenv($varName);
+
+        if ($value !== false && $value !== '') {
+            $this->export($varName, $value);
+        }
     }
 }
