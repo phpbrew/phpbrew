@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+### Version 1.23.1
+- Use default cURL timeouts in Downloader to avoid accidental installation failures (c9s/CurlKit#3).
+- Fixed a PHP notice in --debug mode (#919).
+- Improved handling of invalid arguments in `phpbrew use` (#822).
+- Removed the warning about rootless mode in macOS (#879).
+- Fixed handling failure to create a temporary file (#937).
+- Fixed handling `$PATH`s containing whitespaces (#823).
+
 ### Version 1.23.0
 - Changed the semantics of the `each` command (#888). Prior to this release, the arguments were interpreted as internal PHPBrew command (e.g. `phpbrew each install xdebug` would install the Xdebug extensions on all available builds). As of this release, the command is interpreted as a shell command, i.e. the previously mentioned command will now look like `phpbrew each phpbrew ext install xdebug`. This change opens the possibility to run shell commands like `phpbrew each phpunit` and internal PHPBrew commands implemented in shell like `phpbrew each phpbrew fpm restart`.
 - Added support for php pre-release versions, including alpha, beta and RC (#915) 
