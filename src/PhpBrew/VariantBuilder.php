@@ -427,7 +427,9 @@ class VariantBuilder
                 $opts[] = '--with-gd=shared';
             }
 
-            $opts[] = '--enable-gd-native-ttf';
+            if ($build->compareVersion('5.5') < 0) {
+                $opts[] = '--enable-gd-native-ttf';
+            }
 
             if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
                 $opts[] = "--with-jpeg-dir=$prefix";
