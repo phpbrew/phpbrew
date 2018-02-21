@@ -136,7 +136,6 @@ class VariantBuilder
             'mbregex',
             'mbstring',
             'mhash',
-            'mcrypt',
             'pcntl',
             'pcre',
             'pdo',
