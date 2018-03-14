@@ -6,3 +6,4 @@
 tags
 /build/logs
 *.phar
+.DS_Store
