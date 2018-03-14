@@ -348,12 +348,6 @@ $ sudo vim /etc/httpd/conf/httpd.conf
 # LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.20.so
 ```
 
-## List installed PHP
-
-```bash
-$ phpbrew list
-```
-
 ## The Extension Installer
 
 See [Extension Installer](https://github.com/phpbrew/phpbrew/wiki/Extension-Installer)
@@ -384,6 +378,12 @@ $ phpbrew self-update
 ```
 
 ## The Installed PHP(s)
+
+To list all installed php(s), you could run:
+
+```bash
+$ phpbrew list
+```
 
 The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.20 is located at:
 
