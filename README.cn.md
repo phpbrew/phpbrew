@@ -12,23 +12,23 @@ phpbrew 是一个构建、安装多版本 PHP 到用户根目录的工具。
 
 phpbrew 能做什么？
 
-- 易于配置环境变量，无需担心路径问题。
-- 支持使用不同参数编译 PHP，例如：PDO，Mysql，sqlite，debug 等等...
-- 编译 Apache php 模块，且支持多版本。
-- 易于将 PHP 安装到用户根目录，无需 root 权限。
-- 易于切换版本，兼容 bash / zsh shell。
-- 自动特性检测。
-- 易于安装、启用 PHP 扩展到当前环境。
-- 支持在系统全局环境安装多版本 PHP。
-- 优化 HomeBrew 和 MacPorts 的路径检测。
+- 配置选项简化为「Variants」，无需担心路径问题。
+- 支持使用 PDO，Mysql，sqlite，debug 等不同「Variants」编译 PHP。
+- 针对不同版本，分别编译 apache php 模块，互不冲突。
+- 无需 root 权限将 PHP 安装到用户根目录。
+- 集成至 bash / zsh shell 等，易于切换版本。
+- 支持自动特性检测。
+- 易于安装、启用 PHP 扩展。
+- 支持在系统环境下安装多个 PHP。
+- 路径检测针对 HomeBrew 以及 MacPorts 进行了优化。
 
 <img width="500" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/01.png"/>
 <img width="500" src="https://raw.github.com/phpbrew/phpbrew/master/screenshots/03.png"/>
 
 ## 安装需求
 
-在开始之前，请先查看：[Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)。
-你需要先安装部分开发包用于编译 PHP。
+在开始之前，请先查看：[Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)（英文）。
+确保已安装依赖包的开发版本用于编译 PHP。
 
 ## 安装
 
@@ -46,17 +46,17 @@ sudo mv phpbrew /usr/local/bin/phpbrew
 
 ## 开始使用
 
-接下来，假定你有充足的时间来学习，这将会是一个循序前进的教程来教会你如何配置 phpbrew。
+接下来，我们假定你有充足的时间来学习，这将会是一个循序前进的教程——教你如何配置 phpbrew。
 
 ### 初始设置
 
-初始化当前环境：
+首先，初始化 Bash Shell 脚本：
 
 ```bash
 phpbrew init
 ```
 
-在 `.bashrc` 或 `.zshrc` 文件增加如下行：
+接着在 `.bashrc` 或 `.zshrc` 文件增加如下行：
 
 ```bash
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
@@ -68,7 +68,7 @@ phpbrew init
 source ~/.phpbrew/phpbrew.fish
 ```
 
-若你在使用系统全局环境的 phpbrew，你或许需要设置共享的 phpbrew 根目录，例如：
+若需要在系统全局（非用户目录）使用 phpbrew，请设置共享的 phpbrew 根目录，例如：
 
 ```bash
 mkdir -p /opt/phpbrew
@@ -77,7 +77,7 @@ phpbrew init --root=/opt/phpbrew
 
 ### 库路径设置
 
-你需要设置一个默认前缀用于查找库文件，可选值：`macports`，`homebrew`，`debian`，`ubuntu` 或是自定义路径。
+其次，请设置用于查找库文件的默认前缀，可选值：`macports`，`homebrew`，`debian`，`ubuntu` 或是自定义路径。
 
 对于 Homebrew 用户：
 
@@ -105,19 +105,19 @@ phpbrew known
 5.3: 5.3.29, 5.3.28 ...
 ```
 
-也可以列出更多次要版本：
+列出更多次要版本：
 
 ```bash
 $ phpbrew known --more
 ```
 
-更新已发布信息：
+刷新 PHP 发布信息：
 
 ```bash
 $ phpbrew update
 ```
 
-获取旧版本（低于5.4）：
+刷新旧版本（低于5.4）：
 
 > 请注意：我们不保证能够正确编译 PHP 官方停止维护的版本，请不要提交关于编译旧版本的 Issus，此类 Issue 将不会修复。
 
@@ -147,13 +147,13 @@ $ phpbrew install 5.4.0 +default
 $ phpbrew install -j $(nproc) 5.4.0 +default
 ```
 
-包含测试：
+测试环境：
 
 ```bash
 $ phpbrew install --test 5.4.0
 ```
 
-包含调试信息：
+测试环境，且包含调试信息：
 
 ```bash
 $ phpbrew -d install --test 5.4.0
@@ -165,7 +165,7 @@ $ phpbrew -d install --test 5.4.0
 $ phpbrew install --old 5.2.13
 ```
 
-安装给定主版本的最新补丁包：
+安装给定主版本的最新次要版本：
 
 ```bash
 $ phpbrew install 5.6
@@ -197,13 +197,15 @@ $ phpbrew install next as php-7.3.0-dev
 $ phpbrew clean php-5.4.0
 ```
 
-## 参数
+## Variants
 
-PHPBrew 已经为你整理好配置选项，你只需简单地指定某个参数名即可，phpbrew 会自动在配置过程中检测引用目录、编译选项。
+PHPBrew 已经将配置选项整理、合并为「Variants」，你只需简单地指定某个 Variant 即可，phpbrew 会自动在配置过程中检测引用目录、编译选项等。
 
-PHPBrew 提供了一些默认参数，以及一些虚拟参数。「默认参数」已经引用绝大多数公共参数；「虚拟参数」引用多个实际的参数，你可以使用一个虚拟参数一次性启用多个参数。
+PHPBrew 提供默认的 Variant ，以及一些虚拟 Variants。
+「Default Variant」包含绝大多数公共 Variants；
+「Virtual Variants」可包含多个 Variants，使用一个虚拟 Variant 即可一次性启用多个 Variants。
 
-只需要执行`variants`子命令，即可列出这些参数：
+只需执行`variants`子命令，即可列出它们：
 
 ```bash
 $ phpbrew variants
@@ -249,15 +251,15 @@ Using variants to build PHP:
   phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
 ```
 
-在参数前添加`+`前缀，代表启用此参数，例如：
+在 Variant 前添加`+`前缀，代表启用此 Variant，例如：
 
     +mysql
 
-在参数前添加`-`前缀，代表禁用此参数，例如：
+在 Variant 前添加`-`前缀，代表禁用此 Variant，例如：
 
     -mysql
 
-举个例子。假设你需要使用默认参数，并启用数据库支持（mysql，sqlite，postgresql）编译 PHP，只需执行：
+举个例子，假设你使用默认 Variant，并且需要启用数据库支持（mysql，sqlite，postgresql）编译 PHP，只需执行：
 
 ```bash
 $ phpbrew install 5.4.5 +default+dbs
@@ -273,13 +275,13 @@ $ phpbrew install 5.3.10 +mysql+debug+pgsql +apxs2
 $ phpbrew install 5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
 ```
 
-使用 pgsql (PostgreSQL) 扩展编译 PHP：
+将 pgsql (PostgreSQL) 扩展编译进 PHP：
 
 ```bash
 $ phpbrew install 5.4.1 +pgsql+pdo
 ```
 
-若你的 Mac 上已经安装 postgresql，也可以使用特定目录编译 pgsql 扩展：
+若你的 Mac 上已经安装 postgresql，也可以指定特定目录编译 pgsql 扩展：
 
 ```bash
 $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
@@ -287,26 +289,26 @@ $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
 
 pgsql 的路径即为`pg_config`所在目录，你可以在`/opt/local/lib/postgresql91/bin`找到它。
 
-另外，你可以使用`neutral`参数来纯净编译 PHP：
+另外，你可以使用名为`neutral`的 Variant 来纯净编译 PHP：
 
 ```bash
 $ phpbrew install 5.4.1 +neutral
 ```
 
-`neutral`意味着 phpbrew 不会增加包括`--disable-all`在内的任何额外编译参数，但部分用于支持安装`pear`的参数（例如`--enable-libxml`）依旧会被添加。
+`neutral`意味着 phpbrew 不会增加包括`--disable-all`在内的任何额外编译参数，但部分用于安装`pear`的参数（例如`--enable-libxml`）依旧会被添加。
 
-更多细节，请移步 [PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki)（英文）。
+更多细节，请移步：[PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki)（英文）。
 
-## 更多配置选项
+## 拓展配置选项
 
-你可以执行如下命令，支持更多拓展配置：
+更多拓展配置变量，你可以执行如下命令：
 
 ```bash
 $ phpbrew install 5.3.10 +mysql +sqlite -- \
     --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
 ```
 
-## 切换版本
+## 切换 PHP 版本
 
 临时切换 PHP 版本：
 
@@ -334,12 +336,6 @@ $ sudo vim /etc/httpd/conf/httpd.conf
 # LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.20.so
 ```
 
-## 列出已安装的 PHP
-
-```bash
-$ phpbrew list
-```
-
 ## 扩展安装器
 
 请查看：[Extension Installer](https://github.com/phpbrew/phpbrew/wiki/Extension-Installer)（英文）。
@@ -352,7 +348,7 @@ $ phpbrew list
 $ phpbrew config
 ```
 
-若需要切换编辑器，可执行如下命令指定 EDITOR 环境变量：
+如需切换编辑器，可执行如下命令指定 EDITOR 环境变量：
 
 ```bash
 export EDITOR=vim
@@ -361,13 +357,19 @@ phpbrew config
 
 ## 升级 phpbrew
 
-只需执行 `self-update` 即可从 GitHub 的 `master` 分支安装 phpbrew 最新版本。
+执行 `self-update` 即可从 GitHub 的 `master` 分支安装 phpbrew 最新版本。
 
 ```bash
 $ phpbrew self-update
 ```
 
 ## 已安装的 PHP
+
+列出已安装的 PHP：
+
+```bash
+$ phpbrew list
+```
 
 你可以在 `~/.phpbrew/php` 目录找到已安装的 PHP。例如，5.4.20 版本位于：
 
@@ -415,7 +417,7 @@ $ phpbrew var-dir
 
 ## PHP FPM
 
-phpbrew 同样提供一些有用的命令用于管理 php-fpm。使用它们之前，请确认在编译时启用了 `+fpm` 参数。
+phpbrew 内置一些有用的命令用于管理 php-fpm。使用它们之前，请确认在 PHP 编译时启用了 `+fpm`。
 
 启动 php-fpm：
 
@@ -460,7 +462,7 @@ phpbrew fpm config
 
 ## 安装拓展应用
 
-phpbrew 提供部分常用应用命令。
+phpbrew 内置了部分应用命令。
 
 ### 安装 Composer
 
@@ -541,6 +543,13 @@ A: 截至目前，你可以安装 php-5.x.x 并重命名其目录 /Users/phpbrew
 --------
 
 请查看：[LICENSE](LICENSE) 文件。
+
+翻译
+--------
+- [@wi1dcard](https://github.com/wi1dcard)
+- Waiting for you...
+
+希望大家共同参与到翻译工作中；如有不当，烦请指正！
 
 
 [t-link]: https://travis-ci.org/phpbrew/phpbrew "Travis Build"
