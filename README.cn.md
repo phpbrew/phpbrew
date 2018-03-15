@@ -13,7 +13,7 @@ phpbrew 是一个构建、安装多版本 PHP 到用户根目录的工具。
 phpbrew 能做什么？
 
 - 配置选项简化为「Variants」，无需担心路径问题。
-- 支持使用 PDO，Mysql，sqlite，debug 等不同「Variants」编译 PHP。
+- 支持使用 PDO，mysql，sqlite，debug 等不同「Variants」编译 PHP。
 - 针对不同版本，分别编译 apache php 模块，互不冲突。
 - 无需 root 权限将 PHP 安装到用户根目录。
 - 集成至 bash / zsh shell 等，易于切换版本。
@@ -46,7 +46,7 @@ sudo mv phpbrew /usr/local/bin/phpbrew
 
 ## 开始使用
 
-接下来，我们假定你有充足的时间来学习，这将会是一个循序前进的教程——教你如何配置 phpbrew。
+接下来，我们假定你有充足的时间来学习，这将会是一个循序渐进的教程——教你如何配置 phpbrew。
 
 ### 初始设置
 
@@ -77,7 +77,7 @@ phpbrew init --root=/opt/phpbrew
 
 ### 库路径设置
 
-其次，请设置用于查找库文件的默认前缀，可选值：`macports`，`homebrew`，`debian`，`ubuntu` 或是自定义路径。
+其次，请设置用于查找库文件的默认前缀，可选值有 `macports`，`homebrew`，`debian`，`ubuntu` 或是自定义路径。
 
 对于 Homebrew 用户：
 
@@ -147,7 +147,7 @@ $ phpbrew install 5.4.0 +default
 $ phpbrew install -j $(nproc) 5.4.0 +default
 ```
 
-测试环境：
+编译完成后执行测试用例：
 
 ```bash
 $ phpbrew install --test 5.4.0
@@ -159,19 +159,19 @@ $ phpbrew install --test 5.4.0
 $ phpbrew -d install --test 5.4.0
 ```
 
-安装老版本（低于5.3）：
+安装旧版本（低于5.3）：
 
 ```bash
 $ phpbrew install --old 5.2.13
 ```
 
-安装给定主版本的最新次要版本：
+安装给定主要版本的最新次要版本：
 
 ```bash
 $ phpbrew install 5.6
 ```
 
-安装预发布版本：
+安装预览版本：
 
 ```bash
 $ phpbrew install 7.2.0alpha1
@@ -179,7 +179,7 @@ $ phpbrew install 7.2.0beta2
 $ phpbrew install 7.2.0RC3
 ```
 
-通过指定 GitHub tag 或 branch 安装：
+通过指定的 GitHub tag 或 branch 安装：
 
 ```bash
 $ phpbrew install github:php/php-src@PHP-7.2 as php-7.2.0-dev
@@ -301,7 +301,7 @@ $ phpbrew install 5.4.1 +neutral
 
 ## 拓展配置选项
 
-更多拓展配置变量，你可以执行如下命令：
+如果想要传递更多拓展配置变量，你可以这么做：
 
 ```bash
 $ phpbrew install 5.3.10 +mysql +sqlite -- \
@@ -322,7 +322,7 @@ $ phpbrew use 5.4.22
 $ phpbrew switch 5.4.18
 ```
 
-停止服务：
+关闭 phpbrew：
 
 ```bash
 $ phpbrew off
@@ -380,8 +380,6 @@ $ phpbrew list
     ~/.phpbrew/php/5.4.20/etc/php.ini
 
 而 PHP 扩展的配置文件位于：
-
-Extension configuration files should be put in:
 
     ~/.phpbrew/php/5.4.20/var/db
     ~/.phpbrew/php/5.4.20/var/db/xdebug.ini
@@ -462,7 +460,7 @@ phpbrew fpm config
 
 ## 安装拓展应用
 
-phpbrew 内置了部分应用命令。
+phpbrew 内置了用来获取部分 PHP 应用的 app 命令。
 
 ### 安装 Composer
 
@@ -547,6 +545,7 @@ A: 截至目前，你可以安装 php-5.x.x 并重命名其目录 /Users/phpbrew
 翻译
 --------
 - [@wi1dcard](https://github.com/wi1dcard)
+- [@蝦米](https://github.com/jhdxr)
 - Waiting for you...
 
 希望大家共同参与到翻译工作中；如有不当，烦请指正！
