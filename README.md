@@ -1,7 +1,7 @@
 PHPBrew
 =======
 
-*Read this in other languages:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
+*Read this in other languages:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md), [中文](README.cn.md).*
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
@@ -187,6 +187,7 @@ $ phpbrew install 7.2.0RC3
 ```
 
 To install from a GitHub tag or branch name:
+
 ```bash
 $ phpbrew install github:php/php-src@PHP-7.2 as php-7.2.0-dev
 ```
@@ -299,19 +300,16 @@ $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
 
 The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
 
-
 To build PHP with neutral compile options, you can specify `neutral` virtual variant, which means that phpbrew
 doesn't add any additional compile options including `--disable-all`. But some options(for example `--enable-libxml`)
-are still automatically added to support `pear`  installation.
+are still automatically added to support `pear` installation.
 You can build PHP with `neutral`:
 
 ```bash
 $ phpbrew install 5.4.1 +neutral
 ```
 
-
 For more details, please check out [PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki).
-
 
 ## Extra Configure Options
 
@@ -350,12 +348,6 @@ $ sudo vim /etc/httpd/conf/httpd.conf
 # LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.20.so
 ```
 
-## List installed PHP
-
-```bash
-$ phpbrew list
-```
-
 ## The Extension Installer
 
 See [Extension Installer](https://github.com/phpbrew/phpbrew/wiki/Extension-Installer)
@@ -386,6 +378,12 @@ $ phpbrew self-update
 ```
 
 ## The Installed PHP(s)
+
+To list all installed php(s), you could run:
+
+```bash
+$ phpbrew list
+```
 
 The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.20 is located at:
 
@@ -474,7 +472,6 @@ phpbrew fpm config
 >
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
-
 ## Installing Extra Apps
 
 phpbrew provides app command to fetch some php apps.
@@ -539,7 +536,7 @@ FAQ
 
 Q: How do I have the same version with different compile option?
 
-A: Currently, you can install php5.x.x and rename the /Users/phpbrew/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.3.3
+A: Currently, you can install php-5.x.x and rename the /Users/phpbrew/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.x.x
 
 
 
