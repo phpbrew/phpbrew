@@ -39,7 +39,7 @@ end
 function __phpbrew_load_user_config
     # load user-defined config
     if [ -f $PHPBREW_HOME/init ]
-        . $PHPBREW_HOME/init
+        source $PHPBREW_HOME/init
         set -gx PATH $PHPBREW_PATH $PATH
     end
 end
@@ -290,7 +290,7 @@ function phpbrew
 
         case rehash
             echo "Rehashing..."
-            . ~/.phpbrew/phpbrew.fish
+            source ~/.phpbrew/phpbrew.fish
 
         case purge
             if [ (count $argv) -ge 2 ]
@@ -353,7 +353,7 @@ function __phpbrew_update_config
     else
         eval $BIN env $VERSION >> "$PHPBREW_HOME/init"
     end
-    . "$PHPBREW_HOME/init"
+    source "$PHPBREW_HOME/init"
 end
 
 function __phpbrew_reinit
