@@ -421,7 +421,7 @@ function phpbrew_current_php_version
   end
 end
 
-if begin ; [ -n "$PHPBREW_SET_PROMPT" ]; and [ "$PHPBREW_SET_PROMPT" == "1" ]; end
+if begin ; [ -n "$PHPBREW_SET_PROMPT" ]; and [ "$PHPBREW_SET_PROMPT" = "1" ]; end
     # export PS1="\w > \u@\h [$(phpbrew_current_php_version)]\n\\$ "
     # non supports in fish now
 end
@@ -444,7 +444,7 @@ function _phpbrewrc_load
             end
 
             # check if top level directory or filesystem boundary is reached
-            if begin; [ "$PWD" == '/' ]; or [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; end
+            if begin; [ "$PWD" = '/' ]; or [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; end
                 set -e PHPBREW_LAST_RC_DIR
                 __phpbrew_load_user_config
                 break
