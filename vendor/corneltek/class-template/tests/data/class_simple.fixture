@@ -1,0 +1,18 @@
+<?php
+namespace Foo;
+class Bar2
+{
+    public $record = 'Product';
+    public $fields = array (
+      0 => 'lang',
+      1 => 'name',
+    );
+    public function getTwo()
+    {
+        return 2;
+    }
+    public function getFoo($i)
+    {
+        return $i;
+    }
+}

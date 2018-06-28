@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         backupGlobals="false"
+         colors="true"
+         stopOnFailure="true"
+         stopOnError="false"
+         verbose="true">
+
+  <php>
+  </php>
+  <testsuites>
+
+
+    <testsuite name="ClassTemplate">
+        <directory suffix="Test.php">tests/ClassTemplate</directory>
+        <exclude>
+            <file>tests/ClassTemplate/ClassDeclareTraitTest.php</file>
+        </exclude>
+    </testsuite>
+
+    <testsuite name="ClassTrait">
+        <file>tests/ClassTemplate/ClassDeclareTraitTest.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>

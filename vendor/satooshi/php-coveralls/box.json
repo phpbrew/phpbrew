@@ -1,0 +1,23 @@
+{
+  "alias": "coveralls.phar",
+  "chmod": "0755",
+  "directories": ["src"],
+  "compactors": [
+    "Herrera\\Box\\Compactor\\Php"
+  ],
+  "extract": true,
+  "files": [
+    "LICENSE"
+  ],
+  "finder": [
+    {
+      "name": ["*.php", "*.pem"],
+      "exclude": ["tests"],
+      "in": ["vendor"]
+    }
+  ],
+  "git-version": "package_version",
+  "main": "bin/coveralls",
+  "output": "build/artifacts/coveralls.phar",
+  "stub": true
+}

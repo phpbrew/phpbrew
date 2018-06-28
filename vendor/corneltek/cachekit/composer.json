@@ -1,0 +1,26 @@
+{
+    "name": "corneltek\/cachekit",
+    "homepage": "http:\/\/github.com\/c9s\/CacheKit",
+    "description": "General cache interface",
+    "require": {
+        "php": ">=5.3.0",
+        "corneltek\/serializerkit": "~1"
+    },
+    "require-dev": {
+        "corneltek\/phpunit-testmore": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yo-An Lin",
+            "email": "cornelius.howl@gmail.com",
+            "homepage": "http:\/\/c9s.me"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "CacheKit": "src"
+        }
+    },
+    "version": "1.0.0"
+}

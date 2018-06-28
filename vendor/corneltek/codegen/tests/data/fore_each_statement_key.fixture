@@ -1,0 +1,4 @@
+foreach ($iterator as $key => $item) {
+    $item;
+    $key;
+}

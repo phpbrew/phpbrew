@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+if( ! extension_loaded('bcompiler') ) {
+    die('bcompiler extension is required.');
+}
+
+if( count($argv) < 2 ) {
+    die("Usage: phpbc [path1 path2 path3 ...]\n");
+}
+
+$dirs = array_splice($argv,1);
+foreach( $dirs as $dir ) {
+    // compile
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir),
+                                                RecursiveIteratorIterator::CHILD_FIRST);
+    $examine = true;
+    foreach ($iterator as $path) {
+        if( $path->isFile() ) {
+            if( $path->getExtension() !== 'php' )
+                continue;
+
+            echo "Compiling PHP " , $path , "\n";
+            $bytePath = str_replace( '.php', '.phpb', $path->__toString() );
+            $fh = fopen( $bytePath , 'w');
+            bcompiler_write_header($fh) || die('bcompiler: write header failed.');
+            bcompiler_write_file($fh, $path->__toString() ) || die('bcompiler: write file failed.');
+            bcompiler_write_footer($fh) || die('bcompiler: write footer failed.');
+            fclose($fh);
+
+            if( $examine ) {
+                echo "Examing $bytePath ...\n";
+                $fp = fopen($bytePath,'r');
+                bcompiler_read( $fp ) || die('bcompiler: read failed.');
+                fclose($fp);
+            }
+        }
+    }
+}
+

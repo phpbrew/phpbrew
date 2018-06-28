@@ -1,0 +1,3 @@
+foreach ($iterator as $item) {
+    $item;
+}

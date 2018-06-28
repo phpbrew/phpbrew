@@ -1,0 +1,10 @@
+<?php
+class InjectFoo {
+    public $value = 2;
+    public function __toString() {
+        return $this->getValue();
+    }
+#boundary start 5677952cb61a640d71ee74355bdb87f9
+
+#boundary end 5677952cb61a640d71ee74355bdb87f9
+}

@@ -1,0 +1,27 @@
+{
+    "name": "corneltek/class-template",
+    "homepage": "http://github.com/c9s/ClassTemplate",
+    "description": "Class template Utilities",
+    "version": "2.1.2",
+    "require": {
+        "php": ">=5.3.0",
+        "corneltek/codegen": "^2",
+        "twig/twig": "^1"
+    },
+    "require-dev": {
+        "corneltek/phpunit-testmore": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yo-An Lin",
+            "email": "yoanlin93@gmail.com",
+            "homepage": "http://c9s.me"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ClassTemplate\\": "src/ClassTemplate/"
+        }
+    }
+}

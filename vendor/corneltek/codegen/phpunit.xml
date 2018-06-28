@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         backupGlobals="false"
+         colors="true"
+         stopOnFailure="true"
+         stopOnError="false"
+         verbose="true">
+  <testsuites>
+    <testsuite name="CodeGen">
+        <directory suffix="Test.php">tests/CodeGen</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

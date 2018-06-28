@@ -1,0 +1,52 @@
+language: php
+
+matrix:
+    include:
+        - php: 5.3.3
+          env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
+        - php: 5.3
+          env: 'BOX=yes'
+        - php: 5.4
+        - php: 5.5
+        - php: 5.6
+        - php: 7.0
+          env: CHECKS=yes
+        - php: hhvm
+
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+install:
+    - mkdir -p build/logs
+    - mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
+    - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
+    - if [ "$CHECKS" = "yes" ]; then travis_retry composer install-devtools; fi;
+
+script:
+    - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+    - phpunit
+    - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+    - if [ "$CHECKS" = "yes" ]; then composer sca; fi;
+
+after_success:
+    - bin/coveralls -v --exclude-no-stmt
+
+before_deploy:
+    - if [ "${BOX}" = "yes" ]; then curl -LSs http://box-project.github.io/box2/installer.php | php; fi;
+    - if [ "${BOX}" = "yes" ]; then composer update --no-dev --no-interaction ${COMPOSER_FLAGS}; fi;
+    - if [ "${BOX}" = "yes" ]; then php -d phar.readonly=false box.phar build; fi;
+
+deploy:
+    provider: releases
+    api_key:
+        secure: EH3xkaLCQIK4YToB4pFHz4L9Uhjh1eG5tG2i94OP6R3KVfmC3fugSTQSchKwlkJYdTl/Uj7Px0YUr0H0FeCvmi4lVai/NEM2PGthv6s6bO69MmivKhjkceqgcuDSDHsu/eNb0+4VC6jC7g6vGfTeKNUj17QQgLyFyG1kFN5xqbM=
+    file: build/artifacts/coveralls.phar
+    skip_cleanup: true
+    on:
+        repo: satooshi/php-coveralls
+        tags: true
+        all_branches: true
+        condition: $BOX = yes

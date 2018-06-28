@@ -1,0 +1,3 @@
+if (isset($foo['key']['key2'][0])) {
+    $foo = 30;
+}

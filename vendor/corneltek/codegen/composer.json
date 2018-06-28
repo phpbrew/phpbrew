@@ -1,0 +1,27 @@
+{
+    "name": "corneltek/codegen",
+    "homepage": "http://github.com/c9s/CodeGen",
+    "description": "PHP Code Generation Library",
+    "require": {
+        "php": ">=5.3.0",
+        "doctrine/inflector": "*",
+        "twig/twig": "^1 >=1.21"
+    },
+    "require-dev": {
+        "corneltek/phpunit-testmore": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yo-An Lin",
+            "email": "yoanlin93@gmail.com",
+            "homepage": "http://c9s.me"
+        }
+    ],
+    "extra": { "branch-alias": { "dev-master": "2.8.x-dev" } },
+    "autoload": {
+        "psr-4": {
+            "CodeGen\\": "src/CodeGen/"
+        }
+    }
+}

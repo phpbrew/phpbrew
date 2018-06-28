@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://phpdox.de/config" silent="false">
+    <project name="GetOptionKit" source="src" workdir="build/phpdox">
+        <collector publiconly="false">
+            <include mask="*.php" />
+            <exclude mask="*Autoload.php" />
+        </collector>
+
+        <generator output="build">
+            <build engine="html" enabled="true" output="api"/>
+            <build engine="graph" enabled="true" output="graph">
+                <dot executable="/usr/bin/dot" render="true" format="png" />
+            </build>
+        </generator>
+    </project>
+</phpdox>

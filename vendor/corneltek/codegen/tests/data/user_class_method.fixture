@@ -1,0 +1,7 @@
+class FooClass
+{
+    public function run($a, $b)
+    {
+        return $a + $b;
+    }
+}

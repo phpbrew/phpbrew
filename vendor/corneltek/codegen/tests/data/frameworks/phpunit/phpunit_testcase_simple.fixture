@@ -1,0 +1,9 @@
+class MyAppSimpleTest
+    extends PHPUnit_Framework_TestCase
+{
+    public function testSimple()
+    {
+        $this->assertEquals(10, 10);
+        $this->assertEquals(10, 10);
+    }
+}

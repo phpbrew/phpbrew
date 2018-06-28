@@ -1,0 +1,15 @@
+{
+    "require": {
+        "php": ">=5.3.6",
+        "ext-json": "*",
+        "ext-simplexml": "*",
+        "apigen/apigen": "^2.8",
+        "fabpot/php-cs-fixer": "^1.11",
+        "pdepend/pdepend": "^2.2",
+        "phpmd/phpmd": "^2.3",
+        "sebastian/finder-facade": "^1.1",
+        "sebastian/phpcpd": "^1.4",
+        "squizlabs/php_codesniffer": "^1.4",
+        "theseer/fdomdocument": "^1.6"
+    }
+}

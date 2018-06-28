@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.10" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0               http://pear.php.net/dtd/tasks-1.0.xsd               http://pear.php.net/dtd/package-2.0               http://pear.php.net/dtd/package-2.0.xsd">
+  <name>Universal</name>
+  <channel>pear.corneltek.com</channel>
+  <summary>Universal PHP Library</summary>
+  <description>Universal PHP Library</description>
+  <lead>
+    <name>Yo-An Lin</name>
+    <user/>
+    <email>cornelius.howl@gmail.com</email>
+    <active>yes</active>
+  </lead>
+  <date>2012-10-20</date>
+  <time>00:22:47</time>
+  <version>
+    <release>1.3.1</release>
+    <api>1.3.1</api>
+  </version>
+  <stability>
+    <release>stable</release>
+    <api>stable</api>
+  </stability>
+  <license>PHP</license>
+  <notes>-</notes>
+  <contents>
+    <dir name="/">
+      <file name="tests/bootstrap.php" role="test" md5sum="bbba1757577fcdde93c35ec0143b7a53"/>
+      <file name="tests/data/cat.jpg" role="test" md5sum="8ac0c103985355e168a8a82ae0aa6c02"/>
+      <file name="tests/data/cat.txt" role="test" md5sum="cae78661f93d71cb9c8063d20eb49614"/>
+      <file name="tests/data/cat2.txt" role="test" md5sum="2feb58ce968973263c41aa937529bc5b"/>
+      <file name="tests/helpers.php" role="test" md5sum="b5e0733acd23bf976409fbe22191062f"/>
+      <file name="tests/lib/Foo/Bar.php" role="test" md5sum="5f8f23b743db5afaeffc09002c2913eb"/>
+      <file name="tests/lib/Foo/Foo.php" role="test" md5sum="c0de68180ed4c4d58791dfcf50b72da3"/>
+      <file name="tests/Universal/ClassLoader/BasePathClassLoaderTest.php" role="test" md5sum="a16187aac04bfd9c9cc7b1e35bd6e396"/>
+      <file name="tests/Universal/Container/ObjectContainerTest.php" role="test" md5sum="eae22a9b5bca27ac7cce76c66012be21"/>
+      <file name="tests/Universal/Event/PhpEventTest.php" role="test" md5sum="66b4e6a331c81a42a50c16dd04b50a18"/>
+      <file name="tests/Universal/Http/CookieTest.php" role="test" md5sum="9437019ee969e96e1d919fb520040315"/>
+      <file name="tests/Universal/Http/FilesParameterTest.php" role="test" md5sum="1a478a204ad3420a4730d813391ee321"/>
+      <file name="tests/Universal/Http/HttpResponseTest.php" role="test" md5sum="68b6b54cd1977475871eb0c12863ad21"/>
+      <file name="tests/Universal/Requirement/RequirementTest.php" role="test" md5sum="ae823109f36b73a103cf20de49b2bc86"/>
+      <file name="tests/UniversalClassLoader/SplClassLoaderTest.php" role="test" md5sum="ce71c53629c0b5f8098fb54ba23dd9f6"/>
+      <file name="src/Universal/ClassLoader/ApcClassLoader.php" role="php" md5sum="adc0e3c635ff84737c5da1d1fefd9473"/>
+      <file name="src/Universal/ClassLoader/BasePathClassLoader.php" role="php" md5sum="04e696852d93857b388e7fcc28401594"/>
+      <file name="src/Universal/ClassLoader/BytecodeClassLoader.php" role="php" md5sum="f31ffb9b57d5453de621f0b8a6b29686"/>
+      <file name="src/Universal/ClassLoader/PathIncluder.php" role="php" md5sum="dc8c2c90c8ae9e87fa78f776a4b7f508"/>
+      <file name="src/Universal/ClassLoader/SplClassLoader.php" role="php" md5sum="617f0811a259a2986a5148a541a18f57"/>
+      <file name="src/Universal/Container/ObjectContainer.php" role="php" md5sum="aed4a79e95e1e3952fb55cfb54a9e106"/>
+      <file name="src/Universal/Event/PhpEvent.php" role="php" md5sum="02e646f2ea2b87c1cdbf0fa9c6e292e4"/>
+      <file name="src/Universal/FileSystem/PathUtils.php" role="php" md5sum="91c0c341683b82f7997363fee165a3bb"/>
+      <file name="src/Universal/Http/Cookie.php" role="php" md5sum="7d8d76ec1f505a73042c5c37b25dc463"/>
+      <file name="src/Universal/Http/File.php" role="php" md5sum="a6317b8b0d08018446a15c00223dc2fb"/>
+      <file name="src/Universal/Http/FilesParameter.php" role="php" md5sum="84b0bc73cea3f558ca802a42701ba185"/>
+      <file name="src/Universal/Http/HttpRequest.php" role="php" md5sum="9729a986980e03fd90ff03bd61217909"/>
+      <file name="src/Universal/Http/HttpResponse.php" role="php" md5sum="a129d6ddbd0837bf6e58459842821efc"/>
+      <file name="src/Universal/Http/Parameter.php" role="php" md5sum="4715fa1f1998b0ec0f12ba2bb52cf21a"/>
+      <file name="src/Universal/Http/PutHandle.php" role="php" md5sum="b689e8c38911d88802b96eeffc70da99"/>
+      <file name="src/Universal/Http/StreamResponse.php" role="php" md5sum="ac18b31f078ab62c48da795a93474a8e"/>
+      <file name="src/Universal/Requirement/Requirement.php" role="php" md5sum="d4994ed4847e02d4af06b9a542d384c7"/>
+      <file name="Changes.md" role="doc" md5sum="32950b0efe3160809c7a669aaeb67d4e"/>
+      <file name="README.md" role="doc" md5sum="26534a78b2b912c027544bda387e3940"/>
+      <file name="REF.md" role="doc" md5sum="ad778c0a94993cf81fd02d03eef3952a"/>
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.3</min>
+      </php>
+      <pearinstaller>
+        <min>1.4</min>
+      </pearinstaller>
+    </required>
+  </dependencies>
+  <phprelease>
+    <filelist>
+      <install name="tests/bootstrap.php" as="bootstrap.php"/>
+      <install name="tests/data/cat.jpg" as="data/cat.jpg"/>
+      <install name="tests/data/cat.txt" as="data/cat.txt"/>
+      <install name="tests/data/cat2.txt" as="data/cat2.txt"/>
+      <install name="tests/helpers.php" as="helpers.php"/>
+      <install name="tests/lib/Foo/Bar.php" as="lib/Foo/Bar.php"/>
+      <install name="tests/lib/Foo/Foo.php" as="lib/Foo/Foo.php"/>
+      <install name="tests/Universal/ClassLoader/BasePathClassLoaderTest.php" as="Universal/ClassLoader/BasePathClassLoaderTest.php"/>
+      <install name="tests/Universal/Container/ObjectContainerTest.php" as="Universal/Container/ObjectContainerTest.php"/>
+      <install name="tests/Universal/Event/PhpEventTest.php" as="Universal/Event/PhpEventTest.php"/>
+      <install name="tests/Universal/Http/CookieTest.php" as="Universal/Http/CookieTest.php"/>
+      <install name="tests/Universal/Http/FilesParameterTest.php" as="Universal/Http/FilesParameterTest.php"/>
+      <install name="tests/Universal/Http/HttpResponseTest.php" as="Universal/Http/HttpResponseTest.php"/>
+      <install name="tests/Universal/Requirement/RequirementTest.php" as="Universal/Requirement/RequirementTest.php"/>
+      <install name="tests/UniversalClassLoader/SplClassLoaderTest.php" as="UniversalClassLoader/SplClassLoaderTest.php"/>
+      <install name="src/Universal/ClassLoader/ApcClassLoader.php" as="Universal/ClassLoader/ApcClassLoader.php"/>
+      <install name="src/Universal/ClassLoader/BasePathClassLoader.php" as="Universal/ClassLoader/BasePathClassLoader.php"/>
+      <install name="src/Universal/ClassLoader/BytecodeClassLoader.php" as="Universal/ClassLoader/BytecodeClassLoader.php"/>
+      <install name="src/Universal/ClassLoader/PathIncluder.php" as="Universal/ClassLoader/PathIncluder.php"/>
+      <install name="src/Universal/ClassLoader/SplClassLoader.php" as="Universal/ClassLoader/SplClassLoader.php"/>
+      <install name="src/Universal/Container/ObjectContainer.php" as="Universal/Container/ObjectContainer.php"/>
+      <install name="src/Universal/Event/PhpEvent.php" as="Universal/Event/PhpEvent.php"/>
+      <install name="src/Universal/FileSystem/PathUtils.php" as="Universal/FileSystem/PathUtils.php"/>
+      <install name="src/Universal/Http/Cookie.php" as="Universal/Http/Cookie.php"/>
+      <install name="src/Universal/Http/File.php" as="Universal/Http/File.php"/>
+      <install name="src/Universal/Http/FilesParameter.php" as="Universal/Http/FilesParameter.php"/>
+      <install name="src/Universal/Http/HttpRequest.php" as="Universal/Http/HttpRequest.php"/>
+      <install name="src/Universal/Http/HttpResponse.php" as="Universal/Http/HttpResponse.php"/>
+      <install name="src/Universal/Http/Parameter.php" as="Universal/Http/Parameter.php"/>
+      <install name="src/Universal/Http/PutHandle.php" as="Universal/Http/PutHandle.php"/>
+      <install name="src/Universal/Http/StreamResponse.php" as="Universal/Http/StreamResponse.php"/>
+      <install name="src/Universal/Requirement/Requirement.php" as="Universal/Requirement/Requirement.php"/>
+      <install name="Changes.md" as="Changes.md"/>
+      <install name="README.md" as="README.md"/>
+      <install name="REF.md" as="REF.md"/>
+    </filelist>
+  </phprelease>
+</package>
