@@ -1,5 +1,6 @@
 /tmp
 /build
+vendor
 .onion
 .phpbrew
 tags

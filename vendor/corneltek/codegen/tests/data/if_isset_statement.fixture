@@ -1,3 +1,0 @@
-if (isset($foo['key'])) {
-    $foo = 30;
-}

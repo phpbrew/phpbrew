@@ -1,3 +1,0 @@
-$this->doSomething(123, 'foo', new SplObjectStorage, array (
-  'name' => 'hack',
-))
