@@ -1065,6 +1065,8 @@ phpcbf
 pdepend
 onion
 box-2.7
+psysh
+phpdoc
 phpcov
 phpcpd
 phpdcd

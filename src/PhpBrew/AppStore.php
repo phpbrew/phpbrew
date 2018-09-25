@@ -19,6 +19,7 @@ class AppStore
             'onion'     => array('url' => 'https://raw.githubusercontent.com/phpbrew/Onion/master/onion', 'as' => 'onion'),
             'box-2.7'   => array('url' => 'https://github.com/box-project/box2/releases/download/2.7.5/box-2.7.5.phar', 'as' => 'box'),
             'psysh'     => array('url' => 'https://git.io/psysh', 'as' => 'psysh'),
+            'phpdoc'    => array('url' => 'http://www.phpdoc.org/phpDocumentor.phar', 'as' => 'phpdoc'),
         );
         $phpunitapps = explode(' ', 'phpunit phpcov phpcpd phpdcd phptok phploc');
         foreach ($phpunitapps as $phpunitapp) {
