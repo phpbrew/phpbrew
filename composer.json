@@ -28,7 +28,8 @@
         "phpunit/phpunit": "^4.8||^5.7",
         "satooshi/php-coveralls": "~1.0",
         "corneltek/phpunit-testmore": "dev-master",
-        "corneltek/universal": "~1.3"
+        "corneltek/universal": "~1.3",
+        "php-vcr/php-vcr": "^1.4"
     },
     "extra": { "branch-alias": { "dev-master": "1.22.x-dev" } },
     "autoload": {
