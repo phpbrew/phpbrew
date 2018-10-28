@@ -515,6 +515,20 @@ function _phpbrewrc_load ()
     PHPBREW_LAST_DIR="$PWD"
 }
 
-if [[ (-n "$BASH_VERSION" || -n "$ZSH_VERSION") && -n "$PHPBREW_RC_ENABLE" ]]; then
-    trap "_phpbrewrc_load" DEBUG
+if [[ -n "$PHPBREW_RC_ENABLE" ]]; then
+    if [[ -n "$BASH_VERSION" ]]; then
+        trap "_phpbrewrc_load" DEBUG
+    fi
+
+    # zsh has easy-to-extend cd hooks, so we migth as well use them instead
+    # of running _phpbrewrc_load after EVERY command.
+    if [[ -n "$ZSH_VERSION" ]]; then
+        if [[ -n "$chpwd_functions" ]]; then
+            if [[ ${chpwd_functions[(ie)_phpbrewrc_load]} -gt ${#chpwd_functions} ]]; then
+                chpwd_functions+=_phpbrewrc_load
+            fi
+        else
+            chpwd_functions=( _phpbrewrc_load )
+        fi
+    fi
 fi
