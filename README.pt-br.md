@@ -54,7 +54,7 @@ Inicie um script no seu ambiente (Terminal) shell
 $ phpbrew init
 ```
 
-Então adicione essas linhas para seu arquivo `.bashrc` ou `.zshrc` :
+Então adicione essas linhas para seu arquivo `.bashrc` ou `.zshrc` ou `.bash_profile`:
 
 ```bash
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
