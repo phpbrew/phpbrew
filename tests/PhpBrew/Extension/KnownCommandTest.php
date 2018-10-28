@@ -2,6 +2,7 @@
 
 namespace PhpBrew\Extension;
 
+use VCR\VCR;
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
 use PhpBrew\Extension\Provider\BitbucketProvider;
@@ -10,6 +11,20 @@ use PhpBrew\Extension\Provider\PeclProvider;
 use PhpBrew\Testing\CommandTestCase;
 
 class KnownCommandTest extends CommandTestCase {
+
+    public function setUp() {
+        parent::setUp();
+
+        VCR::turnOn();
+        VCR::insertCassette('KnownCommandTest');
+    }
+
+    public function tearDown() {
+        parent::tearDown();
+
+        VCR::eject();
+        VCR::turnOff();
+    }
 
     public function testPeclPackage() {
 
@@ -59,4 +74,4 @@ class KnownCommandTest extends CommandTestCase {
     }
 
 }
- 
+
