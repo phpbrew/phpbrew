@@ -9,9 +9,10 @@
 namespace PhpBrew\Downloader;
 
 
+use PhpBrew\Config;
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
-use PhpBrew\Config;
+use PhpBrew\Testing\VCRAdapter;
 use \PHPUnit\Framework\TestCase;
 
 /**
@@ -25,13 +26,25 @@ class DownloaderTest extends \PHPUnit\Framework\TestCase
     {
         $this->logger = Logger::getInstance();
         $this->logger->setQuiet();
+
+        VCRAdapter::enableVCR($this);
     }
 
+    public function tearDown() {
+        VCRAdapter::disableVCR();
+    }
+
+    /**
+     * @group cantVCR
+     */
     public function testDownloadByWgetCommand()
     {
         $this->_test('PhpBrew\Downloader\WgetCommandDownloader');
     }
 
+    /**
+     * @group cantVCR
+     */
     public function testDownloadByCurlCommand()
     {
         $this->_test('PhpBrew\Downloader\CurlCommandDownloader');

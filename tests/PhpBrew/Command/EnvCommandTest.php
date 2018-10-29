@@ -2,7 +2,6 @@
 use PhpBrew\Testing\CommandTestCase;
 
 /**
- * @large
  * @group command
  */
 class EnvCommandTest extends CommandTestCase

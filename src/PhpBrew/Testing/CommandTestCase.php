@@ -2,9 +2,10 @@
 
 namespace PhpBrew\Testing;
 
-use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
 use PhpBrew\Console;
 use GetOptionKit\Option;
+use PhpBrew\Testing\VCRAdapter;
+use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
@@ -15,6 +16,11 @@ abstract class CommandTestCase extends BaseCommandTestCase
     private $previousPhpBrewHome;
 
     public $primaryVersion = '5.5.37';
+
+    /**
+     * You need to set this to true in each subclass you want to use VCR in.
+     */
+    public $usesVCR = false;
 
     public function getPrimaryVersion()
     {
@@ -53,6 +59,10 @@ abstract class CommandTestCase extends BaseCommandTestCase
             $option->setValue(true);
             $options->set('no-progress', $option);
         }
+
+        if ($this->usesVCR) {
+            VCRAdapter::enableVCR($this);
+        }
     }
 
     /*
@@ -67,6 +77,10 @@ abstract class CommandTestCase extends BaseCommandTestCase
         }
         if ($this->previousPhpBrewHome !== null) {
             // putenv('PHPBREW_HOME=' . $this->previousPhpBrewHome);
+        }
+
+        if ($this->usesVCR) {
+            VCRAdapter::disableVCR();
         }
     }
 

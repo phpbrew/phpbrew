@@ -7,16 +7,19 @@ use PhpBrew\BuildFinder;
 /**
  * The install command tests are heavy.
  *
- * Don't catch the exceptions, the system command exception 
+ * Don't catch the exceptions, the system command exception
  * will show up the error message.
  *
  * Build output will be shown when assertion failed.
  *
  * @large
  * @group command
+ * @group cantVCR
  */
 class InstallCommandTest extends CommandTestCase
 {
+    public $usesVCR = false;
+
     /**
      * @group install
      */

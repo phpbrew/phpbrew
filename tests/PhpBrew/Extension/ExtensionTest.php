@@ -1,10 +1,12 @@
 <?php
 namespace PhpBrew\Extension;
-use PhpBrew\Extension\ExtensionFactory;
+
+use PhpBrew\Testing\VCRAdapter;
+use \PHPUnit\Framework\TestCase;
+use PhpBrew\Extension\Extension;
 use PhpBrew\Extension\M4Extension;
 use PhpBrew\Extension\PeclExtension;
-use PhpBrew\Extension\Extension;
-use \PHPUnit\Framework\TestCase;
+use PhpBrew\Extension\ExtensionFactory;
 
 /**
  * ExtensionTest
@@ -14,6 +16,16 @@ use \PHPUnit\Framework\TestCase;
  */
 class ExtensionTest extends \PHPUnit\Framework\TestCase
 {
+    public function setUp()
+    {
+        VCRAdapter::enableVCR($this);
+    }
+
+    public function tearDown()
+    {
+        VCRAdapter::disableVCR();
+    }
+
     /**
      * We use getenv to get the path of extension directory because in data provider method
      * the path member is not setup yet.

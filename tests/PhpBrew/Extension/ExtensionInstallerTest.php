@@ -1,17 +1,17 @@
 <?php
-namespace PhpBrew\Extension;
+use PhpBrew\Utils;
 use PhpBrew\Config;
 use PhpBrew\Extension;
-use PhpBrew\Extension\ExtensionManager;
-use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\PeclExtensionInstaller;
-use PhpBrew\Extension\ExtensionDownloader;
-use PhpBrew\Testing\CommandTestCase;
-use PhpBrew\Utils;
-use \PHPUnit\Framework\TestCase;
 use CLIFramework\Logger;;
 use GetOptionKit\OptionResult;
+use PhpBrew\Testing\VCRAdapter;
+use \PHPUnit\Framework\TestCase;
+use PhpBrew\Testing\CommandTestCase;
+use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Extension\ExtensionManager;
+use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\Provider\PeclProvider;
+use PhpBrew\Extension\PeclExtensionInstaller;
 
 /**
  * NOTE: This depends on an existing installed php build. we need to ensure
@@ -29,6 +29,9 @@ class ExtensionInstallerTest extends CommandTestCase
         $this->runCommand("phpbrew use php-{$versionName}");
     }
 
+    /**
+     * @group cantVCR
+     */
     public function testPackageUrl()
     {
         $logger = new Logger;

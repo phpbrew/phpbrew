@@ -7,6 +7,8 @@ use PhpBrew\Testing\CommandTestCase;
  */
 class KnownCommandTest extends CommandTestCase
 {
+    public $usesVCR = true;
+
     /**
      * @outputBuffering enabled
      * @group mayignore
