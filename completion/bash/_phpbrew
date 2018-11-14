@@ -1205,7 +1205,8 @@ phpcov
 phpcpd
 phpdcd
 phptok
-phploc" -- $cur) )
+phploc
+php-cs-fixer" -- $cur) )
       return
       ;;
   esac

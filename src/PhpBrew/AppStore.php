@@ -31,7 +31,11 @@ class AppStore
                 'as' => 'box',
             ),
             'psysh'     => array('url' => 'https://psysh.org/psysh', 'as' => 'psysh'),
-            'phpdoc'    => array('url' => 'http://www.phpdoc.org/phpDocumentor.phar', 'as' => 'phpdoc')
+            'php-cs-fixer' => array(
+                'url' => 'https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar',
+                'as' => 'php-cs-fixer',
+            ),
+            'phpdoc'    => array('url' => 'http://www.phpdoc.org/phpDocumentor.phar', 'as' => 'phpdoc'),
         );
         $phpunitapps = explode(' ', 'phpunit phpcov phpcpd phpdcd phptok phploc');
         foreach ($phpunitapps as $phpunitapp) {
