@@ -50,6 +50,9 @@ class KnownCommandTest extends CommandTestCase {
         $provider->setOwner('phalcon');
         $provider->setRepository('cphalcon');
         $provider->setPackageName('phalcon');
+        if(getenv('github-token')) { //load token from travis-ci
+            $provider->setAuth(getenv('github-token'));
+        }
 
         $extensionDownloader = new ExtensionDownloader($logger, new OptionResult);
         $versionList = $extensionDownloader->knownReleases($provider);
