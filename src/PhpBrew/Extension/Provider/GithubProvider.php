@@ -6,6 +6,7 @@ use Exception;
 
 class GithubProvider implements Provider
 {
+    public $auth = null;
     public $site = 'github.com';
     public $owner = null;
     public $repository = null;
@@ -28,6 +29,23 @@ class GithubProvider implements Provider
 
         return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
     }
+
+    /**
+     * @return string
+     */
+    public function getAuth()
+    {
+        return $this->auth;
+    }
+
+    /**
+     * @param string $auth
+     */
+    public function setAuth($auth)
+    {
+        $this->auth = $auth;
+    }
+
 
     public function getOwner()
     {
@@ -78,7 +96,7 @@ class GithubProvider implements Provider
 
     public function buildKnownReleasesUrl()
     {
-        return sprintf('https://api.github.com/repos/%s/%s/tags', $this->getOwner(), $this->getRepository());
+        return sprintf('https://%sapi.github.com/repos/%s/%s/tags', ($this->auth ? $this->auth . '@' : ''), $this->getOwner(), $this->getRepository());
     }
 
     public function parseKnownReleasesResponse($content)
@@ -122,8 +140,8 @@ class GithubProvider implements Provider
 
     public function postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
-        $targetPkgDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getPackageName();
-        $extractDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getRepository().'-*';
+        $targetPkgDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getPackageName();
+        $extractDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getRepository() . '-*';
 
         $cmds = array(
             "rm -rf $targetPkgDir",
