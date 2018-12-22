@@ -11,31 +11,32 @@ class ReleaseListTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->releaseList = new ReleaseList;
-        $this->releaseList->loadJsonFile('tests/fixtures/php-releases.json');
+        $this->releaseList->loadJsonFile(__DIR__.'/../fixtures/php-releases.json');
     }
 
     public function testGetVersions()
     {
-        $versions = $this->releaseList->getVersions("5.3");
+        $versions = $this->releaseList->getVersions("7.2");
         $this->assertSame(
-            $versions['5.6.0'],
+            $versions['7.2.0'],
             array(
-                'version' => "5.6.0",
-                'announcement' => "https://php.net/releases/5_6_0.php",
-                'date' => "28 Aug 2014",
-                'filename' => "php-5.6.0.tar.bz2",
-                'sha256' => "097af1be34fc73965e6f8401fd10e73eb56e1969ed4ffd691fb7e91606d0fc09",
-                'name' => "PHP 5.6.0 (tar.bz2)",
+                'version' => "7.2.0",
+                'announcement' => "https://php.net/releases/7_2_0.php",
+                'date' => "30 Nov 2017",
+                'filename' => "php-7.2.0.tar.bz2",
+                'name' => "PHP 7.2.0 (tar.bz2)",
+                'sha256' => "2bfefae4226b9b97879c9d33078e50bdb5c17f45ff6e255951062a529720c64a",
+                'museum' => false
             )
         );
     }
 
     public function versionDataProvider() {
         return array(
-            array("5.3", "5.3.29"),
-            array("5.4", "5.4.35"),
-            array("5.5", "5.5.19"),
-            array("5.6", "5.6.3"),
+            array("7.3", "7.3.0"),
+            array("7.2", "7.2.13"),
+            array("5.4", "5.4.45"),
+            array("5.6", "5.6.39"),
         );
     }
 
