@@ -21,7 +21,7 @@ class ReleaseListTest extends \PHPUnit\Framework\TestCase
             $versions['5.3.0'],
             array(
                 'version' => "5.3.0",
-                'announcement' => "http://php.net/releases/5_3_0.php",
+                'announcement' => "https://php.net/releases/5_3_0.php",
                 'date' => "30 June 2009",
                 'filename' => "php-5.3.0.tar.bz2",
                 'md5' => "846760cd655c98dfd86d6d97c3d964b0",

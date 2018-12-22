@@ -20,7 +20,7 @@ class DistributionUrlPolicy
     {
         //the historic releases only available at museum
         if ($museum || $this->isDistributedAtMuseum($version)) {
-            return 'http://museum.php.net/php5/'.$filename;
+            return 'https://museum.php.net/php5/'.$filename;
         }
 
         if (!is_null($this->mirrorSite)) {
@@ -29,7 +29,7 @@ class DistributionUrlPolicy
         }
 
         // http://tw1.php.net/distributions/php-5.3.29.tar.bz2.
-        return 'http://www.php.net/get/'.$filename.'/from/this/mirror';
+        return 'https://secure.php.net/get/'.$filename.'/from/this/mirror';
     }
 
     private function isDistributedAtMuseum($version)

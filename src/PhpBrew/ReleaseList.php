@@ -180,7 +180,7 @@ class ReleaseList
                 list($o, $major, $minor) = $matches;
                 $release = array('version' => $k);
                 if (isset($v['announcement']['English'])) {
-                    $release['announcement'] = 'http://php.net'.$v['announcement']['English'];
+                    $release['announcement'] = 'https://php.net'.$v['announcement']['English'];
                 }
 
                 if (isset($v['date'])) {

@@ -140,7 +140,7 @@ class PeclProvider implements Provider
 
     public function buildKnownReleasesUrl()
     {
-        return sprintf('http://pecl.php.net/rest/r/%s/allreleases.xml', $this->getPackageName());
+        return sprintf('https://pecl.php.net/rest/r/%s/allreleases.xml', $this->getPackageName());
     }
 
     public function parseKnownReleasesResponse($content)
