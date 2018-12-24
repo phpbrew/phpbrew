@@ -62,8 +62,9 @@ class DownloadCommand extends Command
             throw new \Exception("Version $version not found.");
         }
         $version = $versionInfo['version'];
-        $distUrl = 'http://www.php.net/get/'.$versionInfo['filename'].'/from/this/mirror';
+        $distUrl = 'https://secure.php.net/get/'.$versionInfo['filename'].'/from/this/mirror';
         if ($mirrorSite = $this->options->mirror) {
+            //fixme mirror sites usually doesn't support https, maybe need a warning here
             // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
             $distUrl = $mirrorSite.'/distributions/'.$versionInfo['filename'];
         }
