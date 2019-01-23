@@ -14,7 +14,7 @@ use PhpBrew\BuildFinder;
  *
  * @large
  * @group command
- * @group cantVCR
+ * @group noVCR
  */
 class InstallCommandTest extends CommandTestCase
 {

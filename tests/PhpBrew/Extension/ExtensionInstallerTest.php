@@ -30,7 +30,7 @@ class ExtensionInstallerTest extends CommandTestCase
     }
 
     /**
-     * @group cantVCR
+     * @group noVCR
      */
     public function testPackageUrl()
     {

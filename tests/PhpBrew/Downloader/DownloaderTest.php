@@ -35,7 +35,7 @@ class DownloaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @group cantVCR
+     * @group noVCR
      */
     public function testDownloadByWgetCommand()
     {
@@ -43,7 +43,7 @@ class DownloaderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @group cantVCR
+     * @group noVCR
      */
     public function testDownloadByCurlCommand()
     {
