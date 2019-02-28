@@ -7,6 +7,8 @@ use PhpBrew\Testing\CommandTestCase;
  */
 class UpdateCommandTest extends CommandTestCase
 {
+    public $usesVCR = true;
+
     /**
      * @outputBuffering enabled
      */

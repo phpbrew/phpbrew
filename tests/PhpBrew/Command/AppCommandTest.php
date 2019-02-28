@@ -2,7 +2,9 @@
 use PhpBrew\Testing\CommandTestCase;
 
 /**
+ * @large
  * @group command
+ * @group noVCR
  */
 class AppCommandTest extends CommandTestCase
 {

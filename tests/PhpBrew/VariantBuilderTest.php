@@ -4,6 +4,7 @@ use PhpBrew\Build;
 
 /**
  * @small
+ * @group macosIncompatible
  */
 class VariantBuilderTest extends \PHPUnit\Framework\TestCase
 {

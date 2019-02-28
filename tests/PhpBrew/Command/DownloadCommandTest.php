@@ -4,6 +4,7 @@ use PhpBrew\Testing\CommandTestCase;
 /**
  * @large
  * @group command
+ * @group noVCR
  */
 class DownloadCommandTest extends CommandTestCase
 {

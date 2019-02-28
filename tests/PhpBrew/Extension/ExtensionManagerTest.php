@@ -1,7 +1,9 @@
 <?php
 namespace PhpBrew\Extension;
+
 use PhpBrew\Buildable;
 use CLIFramework\Logger;
+use PhpBrew\Testing\VCRAdapter;
 
 /**
  * ExtensionManagerTest
@@ -18,6 +20,13 @@ class ExtensionManagerTest extends \PHPUnit\Framework\TestCase
         $logger = new Logger();
         $logger->setQuiet();
         $this->manager = new ExtensionManager($logger);
+
+        VCRAdapter::enableVCR($this);
+    }
+
+    public function tearDown()
+    {
+        VCRAdapter::disableVCR();
     }
 
     public function testCleanExtension()
