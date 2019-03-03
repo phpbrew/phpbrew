@@ -22,9 +22,4 @@ class SwitchCommand extends VirtualCommand
     {
         return 'Switch default php version.';
     }
-
-    public function execute($version = null)
-    {
-        $this->logger->warning("You should not see this, if you see this, it means you didn't load the ~/.phpbrew/bashrc script, please check if bashrc is sourced in your shell.");
-    }
 }
