@@ -2,21 +2,12 @@
 
 namespace PhpBrew\Command\FpmCommand;
 
-use PhpBrew\Config;
-use PhpBrew\Downloader\DownloadFactory;
-use PhpBrew\Build;
-use CLIFramework\Command;
-use PhpBrew\Exception\SystemCommandException;
-use Exception;
+use PhpBrew\Command\VirtualCommand;
 
-class StartCommand extends Command
+class StartCommand extends VirtualCommand
 {
     public function brief()
     {
-        return 'Start fpm';
-    }
-    
-    public function execute()
-    {
+        return 'Start FPM server';
     }
 }
