@@ -21,6 +21,10 @@ class DownloadCommandTest extends CommandTestCase
      */
     public function testDownloadCommand($versionName)
     {
+        if (getenv('TRAVIS')) {
+            $this->markTestSkipped('Skip heavy test on Travis');
+        }
+
         $this->assertCommandSuccess("phpbrew init");
         $this->assertCommandSuccess("phpbrew -q download $versionName");
         $this->assertCommandSuccess("phpbrew -q download $versionName"); // redownload should just check the checksum instead of extracting it.

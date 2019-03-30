@@ -43,6 +43,10 @@ class KnownCommandTest extends CommandTestCase {
 
     public function testGithubPackage()
     {
+        if (getenv('TRAVIS')) {
+            $this->markTestSkipped('Avoid bugging GitHub on Travis since the test is likely to fail because of a 403');
+        }
+
         $logger = new Logger;
         $logger->setQuiet();
 
