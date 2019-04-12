@@ -174,7 +174,7 @@ class InstallCommand extends Command
         if (extension_loaded('posix') && posix_getuid() === 0) {
             $this->logger->warn(
 "*WARNING* You're running phpbrew as root/sudo. Unless you're going to install
-system-wide phpbrew or this might cause problems.");
+system-wide phpbrew, this might cause problems.");
             sleep(3);
         }
         $distUrl = null;
