@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "edefee90d25e57e01f0f404a03a8e93a",
+    "content-hash": "081a076e4d3bc3581a5b4b76529b3630",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CurlKit.git",
-                "reference": "e9a117e6de320a4c630f511b72401b6e9f5b2a6d"
+                "reference": "675b4a93737c318cfffbad5c4f084a0325c4c2ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/e9a117e6de320a4c630f511b72401b6e9f5b2a6d",
-                "reference": "e9a117e6de320a4c630f511b72401b6e9f5b2a6d",
+                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/675b4a93737c318cfffbad5c4f084a0325c4c2ed",
+                "reference": "675b4a93737c318cfffbad5c4f084a0325c4c2ed",
                 "shasum": ""
             },
             "require": {
@@ -239,7 +239,7 @@
                 "MIT"
             ],
             "description": "Curl Kit",
-            "time": "2017-10-21T05:15:03+00:00"
+            "time": "2019-04-08T10:37:57+00:00"
         },
         {
             "name": "corneltek/getoptionkit",
