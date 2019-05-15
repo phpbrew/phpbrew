@@ -18,7 +18,7 @@ class AppStore
             'pdepend'   => array('url' => 'http://static.pdepend.org/php/latest/pdepend.phar',      'as' => 'pdepend'),
             'onion'     => array('url' => 'https://raw.githubusercontent.com/phpbrew/Onion/master/onion', 'as' => 'onion'),
             'box-2.7'   => array('url' => 'https://github.com/box-project/box2/releases/download/2.7.5/box-2.7.5.phar', 'as' => 'box'),
-            'psysh'     => array('url' => 'https://git.io/psysh', 'as' => 'psysh'),
+            'psysh'     => array('url' => 'https://psysh.org/psysh', 'as' => 'psysh'),
         );
         $phpunitapps = explode(' ', 'phpunit phpcov phpcpd phpdcd phptok phploc');
         foreach ($phpunitapps as $phpunitapp) {
