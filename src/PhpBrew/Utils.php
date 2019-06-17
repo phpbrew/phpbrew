@@ -263,7 +263,7 @@ class Utils
      *
      * @param string $bin binary name
      *
-     * @return string the path
+     * @return string|null The path or NULL if the path does not exist
      */
     public static function findBin($bin)
     {
@@ -279,7 +279,26 @@ class Utils
             }
         }
 
-        return;
+        return null;
+    }
+
+    /**
+     * Finds prefix using the given finders.
+     *
+     * @param  PrefixFinder[] $prefixFinders
+     * @return string|null
+     */
+    public static function findPrefix(array $prefixFinders)
+    {
+        foreach ($prefixFinders as $prefixFinder) {
+            $prefix = $prefixFinder->findPrefix();
+
+            if ($prefix !== null) {
+                return $prefix;
+            }
+        }
+
+        return null;
     }
 
     public static function pipeExecute($command)

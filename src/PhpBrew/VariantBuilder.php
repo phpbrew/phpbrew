@@ -4,7 +4,8 @@ namespace PhpBrew;
 
 use Exception;
 use PhpBrew\Exception\OopsException;
-
+use PhpBrew\PrefixFinder\BrewPrefixFinder;
+use PhpBrew\PrefixFinder\IncludePrefixFinder;
 
 function first_existing_executable($possiblePaths)
 {
@@ -409,49 +410,50 @@ class VariantBuilder
          * @see https://github.com/phpbrew/phpbrew/issues/461
          */
         $this->variants['gd'] = function (Build $build, $prefix = null) {
-            $opts = array();
-            if ($prefix) {
-                $opts[] = "--with-gd=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('gd.h')) {
-                $opts[] = "--with-gd=shared,$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix gd")) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-gd=shared,$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
-                }
-            } else {
-                $opts[] = '--with-gd=shared';
+            if ($prefix === null) {
+                $prefix = Utils::findPrefix(array(
+                    new IncludePrefixFinder('gd.h'),
+                    new BrewPrefixFinder('gd'),
+                ));
             }
+
+            if ($build->compareVersion('7.4') < 0) {
+                $flag = '--with-gd';
+            } else {
+                $flag = '--enable-gd';
+            }
+
+            $value = 'shared';
+
+            if ($prefix !== null) {
+                $value .= ',' . $prefix;
+            }
+
+            $opts = array(sprintf('%s=%s', $flag, $value));
 
             if ($build->compareVersion('5.5') < 0) {
                 $opts[] = '--enable-gd-native-ttf';
             }
 
-            if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
-                $opts[] = "--with-jpeg-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix libjpeg")) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-jpeg-dir=$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
+            if (($prefix = Utils::findPrefix(array(
+                new IncludePrefixFinder('jpeglib.h'),
+                new BrewPrefixFinder('libjpeg'),
+            ))) !== null) {
+                if ($build->compareVersion('7.4') < 0) {
+                    $flag = '--with-jpeg-dir';
+                } else {
+                    $flag = '--with-jpeg';
                 }
+
+                $opts[] = sprintf('%s=%s', $flag, $prefix);
             }
 
-            if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
-                $opts[] = "--with-png-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix libpng")) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-png-dir=$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
-                }
+            if ($build->compareVersion('7.4') < 0 && ($prefix = Utils::findPrefix(array(
+                new IncludePrefixFinder('png.h'),
+                new IncludePrefixFinder('libpng12/pngconf.h'),
+                new BrewPrefixFinder('libpng'),
+            ))) !== null) {
+                $opts[] = '--with-png-dir=' . $prefix;
             }
 
             // the freetype-dir option does not take prefix as its value,
@@ -459,18 +461,18 @@ class VariantBuilder
             //
             // from configure:
             //   for path in $i/include/freetype2/freetype/freetype.h
-            if ($prefix = Utils::findIncludePrefix('freetype2/freetype.h')) {
-                $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('freetype2/freetype/freetype.h')) {
-                $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix freetype", $output, $retval)) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-freetype-dir=$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
+            if (($prefix = Utils::findPrefix(array(
+                new IncludePrefixFinder('freetype2/freetype.h'),
+                new IncludePrefixFinder('freetype2/freetype/freetype.h'),
+                new BrewPrefixFinder('freetype'),
+            ))) !== null) {
+                if ($build->compareVersion('7.4') < 0) {
+                    $flag = '--with-freetype-dir';
+                } else {
+                    $flag = '--with-freetype';
                 }
+
+                $opts[] = sprintf('%s=%s', $flag, $prefix);
             }
 
             return $opts;
