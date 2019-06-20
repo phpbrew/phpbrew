@@ -164,4 +164,31 @@ class VariantBuilderTest extends \PHPUnit\Framework\TestCase
         });
         $this->assertEquals(array(), $actual);
     }
+
+    /**
+     * @param string $version
+     * @param string $expected
+     *
+     * @dataProvider libXmlProvider
+     */
+    public function testLibXml($version, $expected)
+    {
+        $build = new Build($version);
+        $build->enableVariant('xml');
+
+        $builder = new VariantBuilder();
+        $options = $builder->build($build);
+
+        $this->assertContains($expected, $options);
+    }
+
+    public static function libXmlProvider()
+    {
+        return array(
+            array('7.3.0', '--enable-libxml'),
+
+            // see https://github.com/php/php-src/pull/4037
+            array('7.4.0-dev', '--with-libxml'),
+        );
+    }
 }

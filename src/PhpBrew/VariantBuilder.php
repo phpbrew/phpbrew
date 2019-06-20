@@ -727,13 +727,21 @@ class VariantBuilder
         $this->variants['xml'] = function (Build $build) {
             $options = array(
                 '--enable-dom',
-                '--enable-libxml',
+            );
+
+            if ($build->compareVersion('7.4') < 0) {
+                $options[] = '--enable-libxml';
+            } else {
+                $options[] = '--with-libxml';
+            }
+
+            $options = array_merge($options, array(
                 '--enable-simplexml',
                 '--enable-xml',
                 '--enable-xmlreader',
                 '--enable-xmlwriter',
                 '--with-xsl',
-            );
+            ));
 
             do {
                 if ($bin = Utils::findBin('brew')) {
