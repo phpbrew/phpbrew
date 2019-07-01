@@ -73,7 +73,11 @@ class BitbucketProvider implements Provider
 
     public function buildKnownReleasesUrl()
     {
-        return sprintf('https://bitbucket.org/api/1.0/repositories/%s/%s/tags/', $this->getOwner(), $this->getRepository());
+        return sprintf(
+            'https://bitbucket.org/api/2.0/repositories/%s/%s/refs/tags',
+            rawurlencode($this->getOwner()),
+            rawurlencode($this->getRepository())
+        );
     }
 
     public function parseKnownReleasesResponse($content)
