@@ -199,7 +199,7 @@ class Utils
             }
         }
 
-        return;
+        return null;
     }
 
     public static function findIncludePrefix()
@@ -221,6 +221,8 @@ class Utils
 
     /**
      * @param string $package
+     *
+     * @return string|null
      */
     public static function getPkgConfigPrefix($package)
     {
@@ -234,11 +236,9 @@ class Utils
                     return $path;
                 }
             }
-
-            return false;
         }
 
-        return false;
+        return null;
     }
 
     public static function system($command, $logger = null, $build = null)
