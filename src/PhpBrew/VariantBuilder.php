@@ -188,7 +188,14 @@ class VariantBuilder
         $this->variants['debug'] = '--enable-debug';
         $this->variants['phpdbg'] = '--enable-phpdbg';
 
-        $this->variants['zip'] = '--enable-zip';
+        $this->variants['zip'] = function (Build $build) {
+            if ($build->compareVersion('7.4') < 0) {
+                return '--enable-zip';
+            }
+
+            return '--with-zip';
+        };
+
         $this->variants['bcmath'] = '--enable-bcmath';
         $this->variants['fileinfo'] = '--enable-fileinfo';
         $this->variants['ctype'] = '--enable-ctype';
