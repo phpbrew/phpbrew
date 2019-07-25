@@ -229,6 +229,10 @@ class VariantBuilder
         };
 
         $this->variants['pcre'] = function (Build $build, $prefix = null) {
+            if ($build->compareVersion('7.4') >= 0) {
+                return array();
+            }
+
             if ($prefix) {
                 return array('--with-pcre-regex', "--with-pcre-dir=$prefix");
             }
@@ -1097,8 +1101,11 @@ class VariantBuilder
                 '--enable-session',
                 '--enable-short-tags',
                 '--enable-tokenizer',
-                '--with-pcre-regex',
             );
+
+            if ($build->compareVersion('7.4') < 0) {
+                $this->addOptions('--with-pcre-regex');
+            }
 
             if ($prefix = Utils::findIncludePrefix('zlib.h')) {
                 $this->addOptions('--with-zlib='.$prefix);
