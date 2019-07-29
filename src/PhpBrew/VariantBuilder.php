@@ -511,6 +511,10 @@ class VariantBuilder
         $this->variants['intl'] = function (Build $build) {
             $opts = array('--enable-intl');
 
+            if ($build->compareVersion('7.4') >= 0) {
+                return $opts;
+            }
+
             // If icu variant is not set, and --with-icu-dir could not been found in the extra options
             $icuOption = $build->settings->grepExtraOptionsByPattern('#--with-icu-dir#');
             if (!$build->settings->isEnabledVariant('icu') || empty($icuOption)) {
