@@ -6,6 +6,8 @@ use Exception;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\PrefixFinder\BrewPrefixFinder;
 use PhpBrew\PrefixFinder\IncludePrefixFinder;
+use PhpBrew\PrefixFinder\LibPrefixFinder;
+use PhpBrew\PrefixFinder\PkgConfigPrefixFinder;
 
 function first_existing_executable($possiblePaths)
 {
@@ -744,6 +746,15 @@ class VariantBuilder
 
             if ($build->compareVersion('7.4') < 0) {
                 $options[] = '--enable-libxml';
+
+                if (($prefix = Utils::findPrefix(array(
+                    new BrewPrefixFinder('libxml2'),
+                    new PkgConfigPrefixFinder('libxml'),
+                    new IncludePrefixFinder('libxml2/libxml/globals.h'),
+                    new LibPrefixFinder('libxml2.a'),
+                ))) !== null) {
+                    $options[] = '--with-libxml-dir=' . $prefix;
+                }
             } else {
                 $options[] = '--with-libxml';
             }
@@ -755,35 +766,6 @@ class VariantBuilder
                 '--enable-xmlwriter',
                 '--with-xsl',
             ));
-
-            do {
-                if ($bin = Utils::findBin('brew')) {
-                    // for brew, it could be "/usr/local/opt/libxml2"
-                    // or "/usr/local/Cellar/libxml2/2.9.3" before install.
-                    if ($output = exec_line("$bin --prefix libxml2")) {
-                        if (file_exists($output)) {
-                            $options[] = "--with-libxml-dir=$output";
-                            break;
-                        }
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
-                }
-
-                if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
-                    $options[] = "--with-libxml-dir=$prefix";
-                    break;
-                }
-
-                if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
-                    $options[] = "--with-libxml-dir=$prefix";
-                    break;
-                }
-
-                if ($prefix = Utils::findLibPrefix('libxml2.a')) {
-                    $options[] = "--with-libxml-dir=$prefix";
-                    break;
-                }
-            } while (0);
 
             return $options;
         };
