@@ -16,7 +16,7 @@ class EnvCommand extends \CLIFramework\Command
         $args->add('installed php')
             ->optional()
             ->validValues(function () {
-                return \PhpBrew\Config::getInstalledPhpVersions();
+                return array_merge(\PhpBrew\BuildFinder::findMatchedBuilds(), array(''));
             })
             ;
     }

@@ -25,5 +25,11 @@ class EnvCommandTest extends CommandTestCase
         $this->assertCommandSuccess("phpbrew env");
     }
 
-
+    /**
+     * @outputBuffering enabled
+     */
+    public function testEnvCommandEmptyArg()
+    {
+        $this->assertCommandSuccess("phpbrew env ");
+    }
 }
