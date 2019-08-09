@@ -4,7 +4,10 @@ namespace PhpBrew;
 
 use Exception;
 use PhpBrew\Exception\OopsException;
-
+use PhpBrew\PrefixFinder\BrewPrefixFinder;
+use PhpBrew\PrefixFinder\IncludePrefixFinder;
+use PhpBrew\PrefixFinder\LibPrefixFinder;
+use PhpBrew\PrefixFinder\PkgConfigPrefixFinder;
 
 function first_existing_executable($possiblePaths)
 {
@@ -187,7 +190,14 @@ class VariantBuilder
         $this->variants['debug'] = '--enable-debug';
         $this->variants['phpdbg'] = '--enable-phpdbg';
 
-        $this->variants['zip'] = '--enable-zip';
+        $this->variants['zip'] = function (Build $build) {
+            if ($build->compareVersion('7.4') < 0) {
+                return '--enable-zip';
+            }
+
+            return '--with-zip';
+        };
+
         $this->variants['bcmath'] = '--enable-bcmath';
         $this->variants['fileinfo'] = '--enable-fileinfo';
         $this->variants['ctype'] = '--enable-ctype';
@@ -228,6 +238,10 @@ class VariantBuilder
         };
 
         $this->variants['pcre'] = function (Build $build, $prefix = null) {
+            if ($build->compareVersion('7.4') >= 0) {
+                return array();
+            }
+
             if ($prefix) {
                 return array('--with-pcre-regex', "--with-pcre-dir=$prefix");
             }
@@ -409,49 +423,50 @@ class VariantBuilder
          * @see https://github.com/phpbrew/phpbrew/issues/461
          */
         $this->variants['gd'] = function (Build $build, $prefix = null) {
-            $opts = array();
-            if ($prefix) {
-                $opts[] = "--with-gd=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('gd.h')) {
-                $opts[] = "--with-gd=shared,$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix gd")) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-gd=shared,$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
-                }
-            } else {
-                $opts[] = '--with-gd=shared';
+            if ($prefix === null) {
+                $prefix = Utils::findPrefix(array(
+                    new IncludePrefixFinder('gd.h'),
+                    new BrewPrefixFinder('gd'),
+                ));
             }
+
+            if ($build->compareVersion('7.4') < 0) {
+                $flag = '--with-gd';
+            } else {
+                $flag = '--enable-gd';
+            }
+
+            $value = 'shared';
+
+            if ($prefix !== null) {
+                $value .= ',' . $prefix;
+            }
+
+            $opts = array(sprintf('%s=%s', $flag, $value));
 
             if ($build->compareVersion('5.5') < 0) {
                 $opts[] = '--enable-gd-native-ttf';
             }
 
-            if ($prefix = Utils::findIncludePrefix('jpeglib.h')) {
-                $opts[] = "--with-jpeg-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix libjpeg")) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-jpeg-dir=$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
+            if (($prefix = Utils::findPrefix(array(
+                new IncludePrefixFinder('jpeglib.h'),
+                new BrewPrefixFinder('libjpeg'),
+            ))) !== null) {
+                if ($build->compareVersion('7.4') < 0) {
+                    $flag = '--with-jpeg-dir';
+                } else {
+                    $flag = '--with-jpeg';
                 }
+
+                $opts[] = sprintf('%s=%s', $flag, $prefix);
             }
 
-            if ($prefix = Utils::findIncludePrefix('png.h', 'libpng12/pngconf.h')) {
-                $opts[] = "--with-png-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix libpng")) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-png-dir=$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
-                }
+            if ($build->compareVersion('7.4') < 0 && ($prefix = Utils::findPrefix(array(
+                new IncludePrefixFinder('png.h'),
+                new IncludePrefixFinder('libpng12/pngconf.h'),
+                new BrewPrefixFinder('libpng'),
+            ))) !== null) {
+                $opts[] = '--with-png-dir=' . $prefix;
             }
 
             // the freetype-dir option does not take prefix as its value,
@@ -459,18 +474,18 @@ class VariantBuilder
             //
             // from configure:
             //   for path in $i/include/freetype2/freetype/freetype.h
-            if ($prefix = Utils::findIncludePrefix('freetype2/freetype.h')) {
-                $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ($prefix = Utils::findIncludePrefix('freetype2/freetype/freetype.h')) {
-                $opts[] = "--with-freetype-dir=$prefix";
-            } elseif ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix freetype", $output, $retval)) {
-                    if (file_exists($output)) {
-                        $opts[] = "--with-freetype-dir=$output";
-                    } else {
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
+            if (($prefix = Utils::findPrefix(array(
+                new IncludePrefixFinder('freetype2/freetype.h'),
+                new IncludePrefixFinder('freetype2/freetype/freetype.h'),
+                new BrewPrefixFinder('freetype'),
+            ))) !== null) {
+                if ($build->compareVersion('7.4') < 0) {
+                    $flag = '--with-freetype-dir';
+                } else {
+                    $flag = '--with-freetype';
                 }
+
+                $opts[] = sprintf('%s=%s', $flag, $prefix);
             }
 
             return $opts;
@@ -495,6 +510,10 @@ class VariantBuilder
         */
         $this->variants['intl'] = function (Build $build) {
             $opts = array('--enable-intl');
+
+            if ($build->compareVersion('7.4') >= 0) {
+                return $opts;
+            }
 
             // If icu variant is not set, and --with-icu-dir could not been found in the extra options
             $icuOption = $build->settings->grepExtraOptionsByPattern('#--with-icu-dir#');
@@ -727,42 +746,30 @@ class VariantBuilder
         $this->variants['xml'] = function (Build $build) {
             $options = array(
                 '--enable-dom',
-                '--enable-libxml',
+            );
+
+            if ($build->compareVersion('7.4') < 0) {
+                $options[] = '--enable-libxml';
+
+                if (($prefix = Utils::findPrefix(array(
+                    new BrewPrefixFinder('libxml2'),
+                    new PkgConfigPrefixFinder('libxml'),
+                    new IncludePrefixFinder('libxml2/libxml/globals.h'),
+                    new LibPrefixFinder('libxml2.a'),
+                ))) !== null) {
+                    $options[] = '--with-libxml-dir=' . $prefix;
+                }
+            } else {
+                $options[] = '--with-libxml';
+            }
+
+            $options = array_merge($options, array(
                 '--enable-simplexml',
                 '--enable-xml',
                 '--enable-xmlreader',
                 '--enable-xmlwriter',
                 '--with-xsl',
-            );
-
-            do {
-                if ($bin = Utils::findBin('brew')) {
-                    // for brew, it could be "/usr/local/opt/libxml2"
-                    // or "/usr/local/Cellar/libxml2/2.9.3" before install.
-                    if ($output = exec_line("$bin --prefix libxml2")) {
-                        if (file_exists($output)) {
-                            $options[] = "--with-libxml-dir=$output";
-                            break;
-                        }
-                        echo "homebrew prefix '$output' doesn't exist. you forgot to install?\n";
-                    }
-                }
-
-                if ($prefix = Utils::getPkgConfigPrefix('libxml')) {
-                    $options[] = "--with-libxml-dir=$prefix";
-                    break;
-                }
-
-                if ($prefix = Utils::findIncludePrefix('libxml2/libxml/globals.h')) {
-                    $options[] = "--with-libxml-dir=$prefix";
-                    break;
-                }
-
-                if ($prefix = Utils::findLibPrefix('libxml2.a')) {
-                    $options[] = "--with-libxml-dir=$prefix";
-                    break;
-                }
-            } while (0);
+            ));
 
             return $options;
         };
@@ -1087,8 +1094,11 @@ class VariantBuilder
                 '--enable-session',
                 '--enable-short-tags',
                 '--enable-tokenizer',
-                '--with-pcre-regex',
             );
+
+            if ($build->compareVersion('7.4') < 0) {
+                $this->addOptions('--with-pcre-regex');
+            }
 
             if ($prefix = Utils::findIncludePrefix('zlib.h')) {
                 $this->addOptions('--with-zlib='.$prefix);

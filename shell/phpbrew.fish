@@ -170,7 +170,7 @@ function phpbrew
                     set chdir $PHPBREW_ROOT/php/$PHPBREW_PHP/var
                 case etc
                     set chdir $PHPBREW_ROOT/php/$PHPBREW_PHP/etc
-                cas dist
+                case dist
                     set chdir $PHPBREW_ROOT/php/$PHPBREW_PHP
                 case build
                     set chdir $PHPBREW_ROOT/build/$PHPBREW_PHP
@@ -426,53 +426,48 @@ if begin ; [ -n "$PHPBREW_SET_PROMPT" ]; and [ "$PHPBREW_SET_PROMPT" = "1" ]; en
     # non supports in fish now
 end
 
-function _phpbrewrc_load
-    # check if working dir has changed
-    if [ "$PWD" != "$PHPBREW_LAST_DIR" ]
-        set -l curr_dir "$PWD"
-        set -l prev_dir "$OLDPWD"
-        set -l curr_fs 0
-        set -l prev_fs 0
+function _phpbrewrc_load --on-variable PWD --description 'Load configuration based on .phpbrewrc'
+    set -q PHPBREW_RC_ENABLE
+    or return
 
-        while true
-            set prev_fs $curr_fs
-            set curr_fs (stat -c %d . ^/dev/null)  # GNU version
-            if [ $status -ne 0 ]
-                # the original curr_fs
-                # set curr_fs (stat -f %d . ^/dev/null)  # BSD version
-                set curr_fs (stat -f %d . >/dev/null ^&1)  # BSD version
-            end
+    status --is-command-substitution;
+    and return
 
-            # check if top level directory or filesystem boundary is reached
-            if begin; [ "$PWD" = '/' ]; or [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; end
-                set -e PHPBREW_LAST_RC_DIR
-                __phpbrew_load_user_config
-                break
-            end
+    set curr_dir "$PWD"
+    set prev_dir ""
+    set curr_fs 0
+    set prev_fs 0
 
-            # check if .phpbrewrc present
-            if [ -r .phpbrewrc ]
-                # check if it's not the same .phpbrewrc which was previously loaded
-                if [ "$PWD" != "$PHPBREW_LAST_RC_DIR" ]
-                    __phpbrew_load_user_config
-                    set PHPBREW_LAST_RC_DIR "$PWD"
-                    source .phpbrewrc
-                end
-                break
-            end
-
-            cd .. ^ /dev/null ; or break
+    while [ -n "$curr_dir" -a -d "$curr_dir" ]
+        set prev_fs $curr_fs
+        set curr_fs (stat -c %d "$curr_dir" ^/dev/null)  # GNU version
+        if [ $status -ne 0 ]
+            set curr_fs (stat -f %d "$curr_dir" >/dev/null ^&1)  # BSD version
         end
 
-        cd "$curr_dir"
-        set OLDPWD "$prev_dir"
+        # check if top level directory or filesystem boundary is reached
+        if begin; [ "$curr_dir" = "/" ]; or [ -z "$PHPBREW_RC_DISCOVERY_ACROSS_FILESYSTEM" -a $prev_fs -ne 0 -a $curr_fs -ne $prev_fs ]; end
+            # check if there's a previously loaded .phpbrewrc
+            if [ ! -z "$PHPBREW_LAST_RC_DIR" ]
+                set -e PHPBREW_LAST_RC_DIR
+                __phpbrew_load_user_config
+            end
+            break
+        end
+
+        # check if .phpbrewrc present
+        if [ -r "$curr_dir/.phpbrewrc" ]
+            # check if it's not the same .phpbrewrc which was previously loaded
+            if [ "$curr_dir" != "$PHPBREW_LAST_RC_DIR" ]
+                __phpbrew_load_user_config
+                set -g PHPBREW_LAST_RC_DIR "$curr_dir"
+                source "$curr_dir/.phpbrewrc"
+            end
+            break
+        end
+
+        set curr_dir (dirname "$curr_dir")
     end
-
-    set PHPBREW_LAST_DIR "$PWD"
-end
-
-if begin ; [ -n "$BASH_VERSION" ]; and [ -z "$PHPBREW_RC_DISABLE" ]; end
-    trap "_phpbrewrc_load" DEBUG
 end
 
 ###

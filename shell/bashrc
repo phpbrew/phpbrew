@@ -479,15 +479,15 @@ function _phpbrewrc_load ()
         return
     fi
     local curr_dir="$PWD"
-    local prev_dir="$OLDPWD"
+    local prev_dir=""
     local curr_fs=0
     local prev_fs=0
 
     while [[ -n "$curr_dir" && -d "$curr_dir" ]] ; do
         prev_fs=$curr_fs
-        curr_fs=$(stat -c %d . 2>/dev/null)  # GNU version
+        curr_fs=$(stat -c %d "$curr_dir" 2>/dev/null)  # GNU version
         if [ $? -ne 0 ]; then
-            curr_fs=$(stat -f %d . 2>/dev/null)  # BSD version
+            curr_fs=$(stat -f %d "$curr_dir" 2>/dev/null)  # BSD version
         fi
 
         # check if top level directory or filesystem boundary is reached
