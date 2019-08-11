@@ -5,6 +5,8 @@ namespace PhpBrew\Tasks;
 use PhpBrew\Exception\SystemCommandException;
 use PhpBrew\Build;
 use PhpBrew\Patches\Apache2ModuleNamePatch;
+use PhpBrew\Patches\FreeTypePatch;
+use PhpBrew\PatchKit\Patch;
 
 /**
  * Task run before 'configure'.
@@ -20,10 +22,9 @@ class BeforeConfigureTask extends BaseTask
     {
         if (!file_exists($build->getSourceDirectory().DIRECTORY_SEPARATOR.'configure')) {
             $this->debug("configure file not found, running './buildconf --force'...");
-            $lastline = system('./buildconf --force', $status);
-            if ($status !== 0) {
-                throw new SystemCommandException("buildconf error: $lastline", $build);
-            }
+
+            $buildConf = new BuildConfTask($this->logger);
+            $buildConf->run($build);
         }
 
         foreach ((array) $this->options->patch as $patchPath) {
@@ -51,14 +52,33 @@ class BeforeConfigureTask extends BaseTask
 
         if (!$this->options->{'no-patch'}) {
             $this->logger->info('===> Checking patches...');
-            $patches = array();
-            $patches[] = new Apache2ModuleNamePatch();
+
+            $freeTypePatch = new FreeTypePatch();
+            $freeTypePatched = false;
+
+            /** @var Patch[] $patches */
+            $patches = array(
+                new Apache2ModuleNamePatch(),
+                $freeTypePatch,
+            );
+
             foreach ($patches as $patch) {
                 $this->logger->info('Checking patch for '.$patch->desc());
                 if ($patch->match($build, $this->logger)) {
                     $patched = $patch->apply($build, $this->logger);
                     $this->logger->info("$patched changes patched.");
+
+                    if ($patch === $freeTypePatch) {
+                        $freeTypePatched = $patched;
+                    }
                 }
+            }
+
+            if ($freeTypePatched) {
+                $this->logger->info('GD extension was patched, need to run buildconf');
+
+                $buildConf = new BuildConfTask($this->logger);
+                $buildConf->run($build);
             }
         }
     }
