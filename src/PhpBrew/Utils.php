@@ -78,34 +78,6 @@ class Utils
         return;
     }
 
-    public static function findLibDir()
-    {
-        $prefixes = array(
-            '/opt',
-            '/opt/local',
-            '/usr',
-            '/usr/local',
-        );
-
-        if ($pathStr = getenv('PHPBREW_LOOKUP_PREFIX')) {
-            $paths = explode(':', $pathStr);
-
-            foreach ($paths as $path) {
-                $prefixes[] = $path;
-            }
-        }
-
-        $prefixes = array_reverse($prefixes);
-
-        foreach ($prefixes as $prefix) {
-            if ($arch = self::detectArch($prefix)) {
-                return "lib/$arch";
-            }
-        }
-
-        return;
-    }
-
     public static function detectArch($prefix)
     {
         /*
@@ -128,13 +100,10 @@ class Utils
             'lib/x86_64-kfreebsd-gnu', // FreeBSD
             'lib/i386-linux-gnu',
         );
-        foreach ($multiArchs as $archName) {
-            if (file_exists("$prefix/$archName")) {
-                return $archName;
-            }
-        }
 
-        return;
+        return array_filter($multiArchs, function ($archName) use ($prefix) {
+            return file_exists($prefix . '/' . $archName);
+        });
     }
 
     public static function getLookupPrefixes()
@@ -154,9 +123,9 @@ class Utils
             }
         }
 
-        // if there is lib path, insert it to the end.
+        // append detected lib paths to the end
         foreach ($prefixes as $prefix) {
-            if ($arch = self::detectArch($prefix)) {
+            foreach (self::detectArch($prefix) as $arch) {
                 $prefixes[] = "$prefix/$arch";
             }
         }
