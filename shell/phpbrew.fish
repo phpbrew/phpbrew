@@ -334,10 +334,9 @@ function __phpbrew_set_path
     if [ -z "$PHPBREW_PATH" ]
         set -gx PATH $PHPBREW_BIN $PATH_WITHOUT_PHPBREW
     else
-      #set -gx PATH $PHPBREW_PATH $PHPBREW_BIN $PATH_WITHOUT_PHPBREW
         set -gx PATH $PHPBREW_PATH $PHPBREW_BIN $PATH_WITHOUT_PHPBREW
+        return 0
     end
-    # echo "PATH => $PATH"
 end
 
 function __phpbrew_update_config
