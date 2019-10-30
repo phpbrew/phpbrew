@@ -509,7 +509,14 @@ function __fish_phpbrew_installed_version
     else
         command phpbrew list | cut -d '-' -f 2 | sed 's/ //g'
     end
+end
 
+function __fish_phpbrew_installed_build
+    if [ -e bin/phpbrew ]
+        command bin/phpbrew list | sed 's/[\* ]//g'
+    else
+        command phpbrew list | sed 's/[\* ]//g'
+    end
 end
 
 function __fish_phpbrew_known_app
@@ -555,7 +562,7 @@ complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a ctags -d "Run ctags 
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a list-ini -d "List loaded ini config files."
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a self-update -d "Self-update, default to master version"
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a remove -d "Remove installed php build."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a purge -d "Remove installed php version and config files."
+complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a purge -d "Remove installed php build and config files."
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a off -d "Temporarily go back to the system php"
 complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a switch-off -d "Definitely go back to the system php"
 
@@ -568,8 +575,8 @@ complete -f -c phpbrew -n '__fish_phpbrew_using_command switch' -a '(__fish_phpb
 complete -f -c phpbrew -n '__fish_phpbrew_using_command cd' -a '(__fish_phpbrew_installed_version)' -d " installed version"
 complete -f -c phpbrew -n '__fish_phpbrew_using_command env' -a '(__fish_phpbrew_installed_version)' -d " installed version"
 complete -f -c phpbrew -n '__fish_phpbrew_using_command path' -a '(__fish_phpbrew_installed_version)' -d " installed version"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command remove' -a '(__fish_phpbrew_installed_version)' -d " installed version"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command purge' -a '(__fish_phpbrew_installed_version)' -d " installed version"
+complete -f -c phpbrew -n '__fish_phpbrew_using_command remove' -a '(__fish_phpbrew_installed_build)' -d " installed build"
+complete -f -c phpbrew -n '__fish_phpbrew_using_command purge' -a '(__fish_phpbrew_installed_build)' -d " installed build"
 
 #app store
 complete -f -c phpbrew -n '__fish_phpbrew_using_command app' -a list -d "list all available app"
