@@ -287,7 +287,7 @@ $ sudo vim /etc/httpd/conf/httpd.conf
 $ phpbrew list
 ```
 
-##PHP拡張のインストーラー
+## PHP拡張のインストーラー
 
 PHP拡張を簡単にインストールすることもできます。PHPのソースコードと一緒に配布されているものやPECLで配布されているのどちらにも対応しています。
 
@@ -404,7 +404,7 @@ PHPのvarディレクトリに移動します。
 $ phpbrew var-dir
 ```
 
-##PHPFPM
+## PHPFPM
 
 phpbrewはfpmを管理するための便利なサブコマンドも提供しています。
 それらを使うには、phpをビルドする際に`+fpm`を有効化しておくことを覚えておいてください。
