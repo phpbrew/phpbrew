@@ -18,11 +18,6 @@ class AppCommand extends Command
         return 'php app store';
     }
 
-    public function options($opts)
-    {
-        $opts->add('l|list', 'Show app list.');
-    }
-
     public function init()
     {
         parent::init();

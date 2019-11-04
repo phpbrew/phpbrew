@@ -123,11 +123,11 @@ class InstallCommand extends Command
             ->isa('dir')
             ;
 
-        $opts->add('root', 'specify phpbrew root instead of PHPBREW_ROOT');
+        $opts->add('root', 'Specify PHPBrew root instead of PHPBREW_ROOT');
 
-        $opts->add('home', 'specify phpbrew home instead of PHPBREW_HOME');
+        $opts->add('home', 'Specify PHPBrew home instead of PHPBREW_HOME');
 
-        $opts->add('no-config-cache', 'do not use config.cache for configure script.');
+        $opts->add('no-config-cache', 'Do not use config.cache for configure script.');
 
         $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. '
             .'By default phpbrew will run `make clean` before running the configure script '

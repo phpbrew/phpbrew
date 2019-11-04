@@ -22,7 +22,7 @@ class ShowCommand extends BaseCommand
 
     public function options($opts)
     {
-        $opts->add('download', 'download the extensino source if extension not found.');
+        $opts->add('download', 'Download the extension source if extension not found.');
     }
 
     public function arguments($args)

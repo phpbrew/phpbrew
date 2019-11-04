@@ -22,7 +22,7 @@ class SetupCommand extends Command
 {
     public function brief()
     {
-        return 'generate and setup fpm startup config';
+        return 'Generate and setup FPM startup config';
     }
 
     public function usage()
@@ -33,19 +33,19 @@ class SetupCommand extends Command
     public function options($opts)
     {
         $opts->add('systemctl',
-            "Generate systemd service entry." .
-            "This option only works for systemd-based Linux." .
-            "To use this option, be sure to compile PHP with --with-fpm-systemd option." .
+            "Generate systemd service entry. " .
+            "This option only works for systemd-based Linux. " .
+            "To use this option, be sure to compile PHP with --with-fpm-systemd option. " .
             "Start from 1.22, phpbrew automatically add --with-fpm-systemd when systemd is detected."
         );
         $opts->add('initd',
             'Generate init.d script. ' .
-            'The generated init.d script depends on lsb-base >= 4.0.' .
-            'If initctl is based on upstart, the init.d script will not be executed.' .
+            'The generated init.d script depends on lsb-base >= 4.0. ' .
+            'If initctl is based on upstart, the init.d script will not be executed. ' .
             'To check, please run /sbin/initctl --version in the command-line.'
         );
         $opts->add('launchctl', 'Generate plist for launchctl (OS X)');
-        $opts->add('stdout', 'Print config in STDOUT instead of writing to the file.');
+        $opts->add('stdout', 'Print config to STDOUT instead of writing to the file.');
     }
 
     public function arguments($args)
