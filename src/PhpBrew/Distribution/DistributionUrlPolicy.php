@@ -6,12 +6,6 @@ use PhpBrew\Version;
 
 class DistributionUrlPolicy
 {
-    private $mirrorSite;
-
-    public function setMirrorSite($mirrorSite)
-    {
-        $this->mirrorSite = $mirrorSite;
-    }
 
     /**
      * Returns the distribution url for the version.
@@ -23,13 +17,7 @@ class DistributionUrlPolicy
             return 'https://museum.php.net/php5/'.$filename;
         }
 
-        if (!is_null($this->mirrorSite)) {
-            // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
-            return $this->mirrorSite.'/distributions/'.$filename;
-        }
-
-        // http://tw1.php.net/distributions/php-5.3.29.tar.bz2.
-        return 'https://secure.php.net/get/'.$filename.'/from/this/mirror';
+        return 'https://www.php.net/distributions/'.$filename;
     }
 
     private function isDistributedAtMuseum($version)

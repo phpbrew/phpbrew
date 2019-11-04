@@ -4,6 +4,7 @@ namespace PhpBrew\Command;
 
 use Exception;
 use PhpBrew\Config;
+use PhpBrew\Distribution\DistributionUrlPolicy;
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
@@ -47,7 +48,7 @@ class DownloadCommand extends Command
     {
         $opts->add('f|force', 'Force extraction');
         $opts->add('old', 'enable old phps (less than 5.3)');
-        $opts->add('mirror:', 'Use mirror specific site.');
+        $opts->add('mirror:', '[deprecated] Use mirror specific site.');
 
         DownloadFactory::addOptionsForCommand($opts);
     }
@@ -62,12 +63,11 @@ class DownloadCommand extends Command
             throw new \Exception("Version $version not found.");
         }
         $version = $versionInfo['version'];
-        $distUrl = 'https://secure.php.net/get/'.$versionInfo['filename'].'/from/this/mirror';
-        if ($mirrorSite = $this->options->mirror) {
-            //fixme mirror sites usually doesn't support https, maybe need a warning here
-            // http://tw1.php.net/distributions/php-5.3.29.tar.bz2
-            $distUrl = $mirrorSite.'/distributions/'.$versionInfo['filename'];
+        $distUrlPolicy = new DistributionUrlPolicy();
+        if ($this->options->mirror) {
+            $this->logger->warn('php.net has retired the mirror program, hence --mirror option has been deprecated and will be removed in the future.');
         }
+        $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename'], $versionInfo['museum']);
 
         $prepare = new PrepareDirectoryTask($this->logger, $this->options);
         $prepare->run();
