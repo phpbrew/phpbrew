@@ -1772,8 +1772,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["--test"]="1" ["--name"]="1" ["--mirror"]="1" ["--post-clean"]="1" ["--production"]="1" ["--build-dir"]="1" ["--root"]="1" ["--home"]="1" ["--no-clean"]="1" ["--no-patch"]="1" ["--no-configure"]="1" ["--no-install"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--old"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--user-config"]="1" ["--connect-timeout"]="1" ["-f"]="1" ["--force"]="1" ["-d"]="1" ["--dryrun"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" ["--stdout"]="1" )
-options_require_value=(["--name"]="1" ["--mirror"]="1" ["--build-dir"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" )
+options=(["--test"]="1" ["--name"]="1" ["--post-clean"]="1" ["--production"]="1" ["--build-dir"]="1" ["--root"]="1" ["--home"]="1" ["--no-clean"]="1" ["--no-patch"]="1" ["--no-configure"]="1" ["--no-install"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--old"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--user-config"]="1" ["--connect-timeout"]="1" ["-f"]="1" ["--force"]="1" ["-d"]="1" ["--dryrun"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" ["--stdout"]="1" )
+options_require_value=(["--name"]="1" ["--build-dir"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" )
 local argument_min_length=2
 
     # Get the command name chain of the current input, e.g.

@@ -204,7 +204,6 @@ local ret=1
             _arguments -w -S -s \
               '--test[Run tests after the installation.]' \
               '--name=[The name of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`]' \
-              '--mirror=[Use specified mirror site. phpbrew will download the files from \[mirror\]/distributions/*]' \
               '--post-clean[Run make clean after the installation.]' \
               '--production[Use production configuration file. this installer will copy the php-production.ini into the etc directory.]' \
               '--build-dir=[Specify the build directory. the distribution tarball will be extracted to the directory you specified instead of $PHPBREW_ROOT/build/{name}.]:dir:_directories' \
@@ -366,7 +365,6 @@ local ret=1
             _arguments -w -S -s \
               '(-f --force)'{-f,--force}'[Force extraction]' \
               '--old[enable old phps (less than 5.3)]' \
-              '--mirror=[Use mirror specific site.]' \
               '--connect-timeout=[The system aborts the command if downloading of a php version not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
               ':version:{___phpbrewmeta "version" download arg 0 suggestions}' \
                && ret=0

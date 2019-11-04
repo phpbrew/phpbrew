@@ -111,7 +111,7 @@ class InstallCommand extends Command
         $opts->add('name:', 'The name of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`')
             ->valueName('name');
 
-        $opts->add('mirror:', 'Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*');
+        $opts->add('mirror:', '[deprecated] Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*');
 
         $opts->add('post-clean', 'Run make clean after the installation.');
 
@@ -220,7 +220,7 @@ system-wide phpbrew, this might cause problems.");
 
             $distUrlPolicy = new DistributionUrlPolicy();
             if ($this->options->mirror) {
-                $distUrlPolicy->setMirrorSite($this->options->mirror);
+                $this->logger->warn('php.net has retired the mirror program, hence --mirror option has been deprecated and will be removed in the future.');
             }
             $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename'], $versionInfo['museum']);
         }
