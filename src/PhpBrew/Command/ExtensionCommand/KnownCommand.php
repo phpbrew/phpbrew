@@ -2,12 +2,14 @@
 
 namespace PhpBrew\Command\ExtensionCommand;
 
+use CLIFramework\Command;
+use GetOptionKit\OptionSpecCollection;
 use PhpBrew\Config;
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\ExtensionList;
 
-class KnownCommand extends \CLIFramework\Command
+class KnownCommand extends Command
 {
     public function usage()
     {
@@ -20,7 +22,7 @@ class KnownCommand extends \CLIFramework\Command
     }
 
     /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
+     * @param OptionSpecCollection $opts
      */
     public function options($opts)
     {
@@ -31,12 +33,12 @@ class KnownCommand extends \CLIFramework\Command
     {
         $args->add('extensions')
             ->suggestions(function () {
-                $extdir = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
 
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                        return $d != '.' && $d != '..' && is_dir($extdir.DIRECTORY_SEPARATOR.$d);
+                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
                     }
                 );
             });

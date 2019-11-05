@@ -2,6 +2,8 @@
 
 namespace PhpBrew;
 
+use Exception;
+
 class BuildFinder
 {
     /**
@@ -9,13 +11,20 @@ class BuildFinder
      */
     public static function findInstalledBuilds($stripPrefix = true)
     {
-        $path = Config::getRoot().DIRECTORY_SEPARATOR.'php';
+        $path = Config::getRoot() . DIRECTORY_SEPARATOR . 'php';
         if (!file_exists($path)) {
-            throw new \Exception($path.' does not exist.');
+            throw new Exception($path . ' does not exist.');
         }
         $names = scandir($path);
         $names = array_filter($names, function ($name) use ($path) {
-            return $name != '.' && $name != '..' && file_exists($path.DIRECTORY_SEPARATOR.$name.DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'php');
+            return $name != '.'
+                && $name != '..'
+                && file_exists(
+                $path
+                    . DIRECTORY_SEPARATOR . $name
+                    . DIRECTORY_SEPARATOR . 'bin'
+                    . DIRECTORY_SEPARATOR . 'php'
+            );
         });
 
         if ($names == null || empty($names)) {
@@ -28,7 +37,9 @@ class BuildFinder
             }, $names);
         }
         uasort($names, 'version_compare'); // ordering version name ascending... 5.5.17, 5.5.12
-        return array_reverse($names);  // make it descending... since there is no sort function for user-define in reverse order.
+
+        // make it descending... since there is no sort function for user-define in reverse order.
+        return array_reverse($names);
     }
 
     /**

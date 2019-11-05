@@ -2,21 +2,9 @@
 
 namespace PhpBrew\Command\FpmCommand;
 
-use PhpBrew\Config;
-use PhpBrew\Downloader\DownloadFactory;
-use PhpBrew\VariantParser;
-use PhpBrew\VariantBuilder;
-use PhpBrew\Tasks\DownloadTask;
-use PhpBrew\Build;
-use PhpBrew\ReleaseList;
-use PhpBrew\VersionDslParser;
-use PhpBrew\BuildSettings\DefaultBuildSettings;
-use PhpBrew\Distribution\DistributionUrlPolicy;
-use CLIFramework\ValueCollection;
 use CLIFramework\Command;
-use PhpBrew\Exception\SystemCommandException;
 use Exception;
-
+use PhpBrew\Config;
 
 class SetupCommand extends Command
 {
@@ -32,13 +20,15 @@ class SetupCommand extends Command
 
     public function options($opts)
     {
-        $opts->add('systemctl',
+        $opts->add(
+            'systemctl',
             "Generate systemd service entry. " .
             "This option only works for systemd-based Linux. " .
             "To use this option, be sure to compile PHP with --with-fpm-systemd option. " .
             "Start from 1.22, phpbrew automatically add --with-fpm-systemd when systemd is detected."
         );
-        $opts->add('initd',
+        $opts->add(
+            'initd',
             'Generate init.d script. ' .
             'The generated init.d script depends on lsb-base >= 4.0. ' .
             'If initctl is based on upstart, the init.d script will not be executed. ' .
@@ -59,16 +49,20 @@ class SetupCommand extends Command
             $buildName = Config::getCurrentPhpName();
         }
         if (!$buildName) {
-            throw new \Exception("PHPBREW_PHP is not set. You should provide the build name in the command.");
+            throw new Exception("PHPBREW_PHP is not set. You should provide the build name in the command.");
         }
 
-        fprintf(STDERR, "*WARNING* php-fpm --pid option requires php >= 5.6, you need to update your php-fpm.conf for the pid file location.\n");
+        fprintf(
+            STDERR,
+            "*WARNING* php-fpm --pid option requires php >= 5.6. "
+            . "You need to update your php-fpm.conf for the pid file location.\n"
+        );
 
         $root = Config::getRoot();
         $fpmBin = "$root/php/$buildName/sbin/php-fpm";
 
         if (!file_exists($fpmBin)) {
-            throw new \Exception("$fpmBin doesn't exist.");
+            throw new Exception("$fpmBin doesn't exist.");
         }
 
         // TODO: require sudo permission
@@ -133,7 +127,9 @@ class SetupCommand extends Command
             $this->logger->info("To load the service:");
             $this->logger->info("    sudo launchctl load $file");
         } else {
-            $this->logger->info('Please use one of the options [--systemctl, --initd, --launchctl] to setup system fpm service.');
+            $this->logger->info(
+                'Please use one of the options [--systemctl, --initd, --launchctl] to setup system fpm service.'
+            );
         }
     }
 
@@ -142,7 +138,7 @@ class SetupCommand extends Command
         $root   = Config::getRoot();
         $phpdir = "$root/php/$buildName";
         $pidFile = $phpdir . '/var/run/php-fpm.pid';
-        $config =<<<"EOS"
+        $config = <<<"EOS"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -176,7 +172,7 @@ EOS;
         $root   = Config::getRoot();
         $phpdir = "$root/php/$buildName";
         $pidFile = $phpdir . '/var/run/php-fpm.pid';
-        $config =<<<"EOS"
+        $config = <<<"EOS"
 [Unit]
 Description=The PHPBrew FastCGI Process Manager
 After=network.target
@@ -199,7 +195,7 @@ EOS;
         $root   = Config::getRoot();
         $phpdir = "$root/php/$buildName";
         $pidFile = $phpdir . '/var/run/php-fpm.pid';
-        $config =<<<"EOS"
+        $config = <<<"EOS"
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          phpbrew-fpm

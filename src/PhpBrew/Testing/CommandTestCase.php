@@ -2,10 +2,9 @@
 
 namespace PhpBrew\Testing;
 
-use PhpBrew\Console;
-use GetOptionKit\Option;
-use PhpBrew\Testing\VCRAdapter;
 use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
+use GetOptionKit\Option;
+use PhpBrew\Console;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
@@ -54,7 +53,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
         // putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
         // putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
 
-        if ($options = \PhpBrew\Console::getInstance()->options) {
+        if ($options = Console::getInstance()->options) {
             $option = new Option('no-progress');
             $option->setValue(true);
             $options->set('no-progress', $option);
@@ -88,7 +87,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
     {
         try {
             if ($this->debug) {
-                fwrite(STDERR, $args.PHP_EOL);
+                fwrite(STDERR, $args . PHP_EOL);
             }
 
             ob_start();

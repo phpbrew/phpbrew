@@ -1,14 +1,17 @@
 <?php
 
-use PhpBrew\Machine;
+namespace PhpBrew\Tests;
 
-class MachineTest extends \PHPUnit\Framework\TestCase
+use PhpBrew\Machine;
+use PHPUnit\Framework\TestCase;
+
+class MachineTest extends TestCase
 {
     public function testDetectProcessorNumber()
     {
         $machine = new MachineForTest();
         if (!$machine->detectProcessorNumber()) {
-            return $this->markTestSkipped('processor number detect failed.');
+            $this->markTestSkipped('processor number detect failed.');
         }
 
         ok($machine->detectProcessorNumber() > 0);

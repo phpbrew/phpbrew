@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -23,8 +26,9 @@ class AppCommandTest extends CommandTestCase
     public function testAppGetCommand()
     {
         if (getenv('TRAVIS')) {
-            return $this->markTestSkipped('skip app get command test on travis');
+            $this->markTestSkipped('skip app get command test on travis');
         }
+
         $this->assertCommandSuccess("phpbrew app get phpunit");
     }
 }

@@ -2,8 +2,8 @@
 
 namespace PhpBrew\Command\AppCommand;
 
-use PhpBrew\AppStore;
 use CLIFramework\Command;
+use PhpBrew\AppStore;
 
 class ListCommand extends Command
 {

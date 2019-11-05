@@ -2,7 +2,9 @@
 
 namespace PhpBrew\Command;
 
-class InfoCommand extends \CLIFramework\Command
+use CLIFramework\Command;
+
+class InfoCommand extends Command
 {
     public function brief()
     {
@@ -17,7 +19,7 @@ class InfoCommand extends \CLIFramework\Command
     public function header($text)
     {
         $f = $this->logger->formatter;
-        echo $f->format($text."\n", 'strong_white');
+        echo $f->format($text . "\n", 'strong_white');
     }
 
     public function execute()
@@ -58,26 +60,28 @@ class InfoCommand extends \CLIFramework\Command
         echo "\n";
 
         $this->header('Database Extensions');
-        foreach (array_filter(
-            $extensions,
-            function ($n) {
-                return in_array(
-                $n,
-                array(
-                    'PDO',
-                    'pdo_mysql',
-                    'pdo_pgsql',
-                    'pdo_sqlite',
-                    'pgsql',
-                    'mysqli',
-                    'mysql',
-                    'oci8',
-                    'sqlite3',
-                    'mysqlnd',
-                )
-            );
-            }
-        ) as $extName) {
+        foreach (
+            array_filter(
+                $extensions,
+                function ($n) {
+                    return in_array(
+                        $n,
+                        array(
+                        'PDO',
+                        'pdo_mysql',
+                        'pdo_pgsql',
+                        'pdo_sqlite',
+                        'pgsql',
+                        'mysqli',
+                        'mysql',
+                        'oci8',
+                        'sqlite3',
+                        'mysqlnd',
+                        )
+                    );
+                }
+            ) as $extName
+        ) {
             $this->logger->info($extName, 1);
         }
     }

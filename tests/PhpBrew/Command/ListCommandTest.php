@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -10,9 +13,8 @@ class ListCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      */
-    public function testListCommand() {
+    public function testListCommand()
+    {
         $this->assertCommandSuccess("phpbrew list");
     }
-
-
 }

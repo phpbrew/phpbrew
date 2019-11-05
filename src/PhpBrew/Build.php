@@ -2,8 +2,8 @@
 
 namespace PhpBrew;
 
-use Serializable;
 use PhpBrew\BuildSettings\BuildSettings;
+use Serializable;
 
 /**
  * A build object contains version information,
@@ -152,12 +152,12 @@ class Build implements Serializable, Buildable
 
     public function isBuildable()
     {
-        return file_exists($this->sourceDirectory.DIRECTORY_SEPARATOR.'Makefile');
+        return file_exists($this->sourceDirectory . DIRECTORY_SEPARATOR . 'Makefile');
     }
 
     public function getBuildLogPath()
     {
-        $dir = $this->getSourceDirectory().DIRECTORY_SEPARATOR.'build.log';
+        $dir = $this->getSourceDirectory() . DIRECTORY_SEPARATOR . 'build.log';
         return $dir;
     }
 
@@ -168,12 +168,12 @@ class Build implements Serializable, Buildable
 
     public function getBinDirectory()
     {
-        return $this->installPrefix.DIRECTORY_SEPARATOR.'bin';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'bin';
     }
 
     public function getEtcDirectory()
     {
-        $etc = $this->installPrefix.DIRECTORY_SEPARATOR.'etc';
+        $etc = $this->installPrefix . DIRECTORY_SEPARATOR . 'etc';
         if (!file_exists($etc)) {
             mkdir($etc, 0755, true);
         }
@@ -183,12 +183,12 @@ class Build implements Serializable, Buildable
 
     public function getVarDirectory()
     {
-        return $this->installPrefix.DIRECTORY_SEPARATOR.'var';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var';
     }
 
     public function getVarConfigDirectory()
     {
-        return $this->installPrefix.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'db';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
     public function getInstallPrefix()
@@ -201,12 +201,12 @@ class Build implements Serializable, Buildable
      */
     public function getCurrentConfigScanPath()
     {
-        return $this->installPrefix.DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'db';
+        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
     public function getPath($subpath)
     {
-        return $this->installPrefix.DIRECTORY_SEPARATOR.$subpath;
+        return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
     }
 
     /**
@@ -229,7 +229,7 @@ class Build implements Serializable, Buildable
                     $names[] = $n;
                 } else {
                     $v = preg_replace('#\W+#', '_', $v);
-                    $str = $n.'='.$v;
+                    $str = $n . '=' . $v;
                     $names[] = $str;
                 }
             }
@@ -246,7 +246,7 @@ class Build implements Serializable, Buildable
 
     public function getSourceExtensionDirectory()
     {
-        return $this->sourceDirectory.DIRECTORY_SEPARATOR.'ext';
+        return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
 
     public function setBuildSettings(BuildSettings $settings)
@@ -259,7 +259,7 @@ class Build implements Serializable, Buildable
         // also contains the variant info,
         // but for backward compatibility, we still need a method to handle
         // the variant info file..
-        $variantFile = $this->getInstallPrefix().DIRECTORY_SEPARATOR.'phpbrew.variants';
+        $variantFile = $this->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         if (file_exists($variantFile)) {
             $this->settings->loadVariantInfoFile($variantFile);
         }
@@ -329,7 +329,7 @@ class Build implements Serializable, Buildable
     public function getStateFile()
     {
         if ($dir = $this->getInstallPrefix()) {
-            return $dir.DIRECTORY_SEPARATOR.'phpbrew_status';
+            return $dir . DIRECTORY_SEPARATOR . 'phpbrew_status';
         }
     }
 

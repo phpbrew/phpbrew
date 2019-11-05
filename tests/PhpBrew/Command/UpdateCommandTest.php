@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**

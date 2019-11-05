@@ -2,10 +2,11 @@
 
 namespace PhpBrew\Command;
 
-use PhpBrew\Config;
+use CLIFramework\Command;
 use PhpBrew\CommandBuilder;
+use PhpBrew\Config;
 
-class CtagsCommand extends \CLIFramework\Command
+class CtagsCommand extends Command
 {
     public function brief()
     {
@@ -16,7 +17,7 @@ class CtagsCommand extends \CLIFramework\Command
     {
         $args->add('installed versions')
             ->validValues(function () {
-                return \PhpBrew\Config::getInstalledPhpVersions();
+                return Config::getInstalledPhpVersions();
             })
             ;
     }
@@ -31,22 +32,27 @@ class CtagsCommand extends \CLIFramework\Command
         $home = Config::getHome();
 
         if ($versionName) {
-            $sourceDir = Config::getBuildDir().DIRECTORY_SEPARATOR.$versionName;
+            $sourceDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $versionName;
         } else {
             if (!getenv('PHPBREW_PHP')) {
-                $this->logger->error('Error: PHPBREW_PHP environment variable is not defined.');
-                $this->logger->error('  This command requires you specify a PHP version from your build list.');
-                $this->logger->error("  And it looks like you haven't switched to a version from the builds that were built with PHPBrew.");
-                $this->logger->error('Suggestion: Please install at least one PHP with your prefered version and switch to it.');
+                $this->logger->error(<<<EOF
+Error: PHPBREW_PHP environment variable is not defined.
+  This command requires you specify a PHP version from your build list.
+  And it looks like you haven't switched to a version from the builds that were built with PHPBrew.
+Suggestion: Please install at least one PHP with your preferred version and switch to it.
+EOF
+                );
 
-                return false;
+                return;
             }
             $sourceDir = Config::getCurrentBuildDir();
         }
         if (!file_exists($sourceDir)) {
-            return $this->logger->error("$sourceDir does not exist.");
+            $this->logger->error("$sourceDir does not exist.");
+
+            return;
         }
-        $this->logger->info('Scanning '.$sourceDir);
+        $this->logger->info('Scanning ' . $sourceDir);
 
         $cmd = new CommandBuilder('ctags');
         $cmd->arg('-R');
@@ -54,9 +60,9 @@ class CtagsCommand extends \CLIFramework\Command
         $cmd->arg('-h');
         $cmd->arg('.c.h.cpp');
 
-        $cmd->arg($sourceDir.DIRECTORY_SEPARATOR.'main');
-        $cmd->arg($sourceDir.DIRECTORY_SEPARATOR.'ext');
-        $cmd->arg($sourceDir.DIRECTORY_SEPARATOR.'Zend');
+        $cmd->arg($sourceDir . DIRECTORY_SEPARATOR . 'main');
+        $cmd->arg($sourceDir . DIRECTORY_SEPARATOR . 'ext');
+        $cmd->arg($sourceDir . DIRECTORY_SEPARATOR . 'Zend');
 
         foreach ($args as $a) {
             $cmd->arg($a);

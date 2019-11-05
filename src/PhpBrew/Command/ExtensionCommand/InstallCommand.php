@@ -3,11 +3,12 @@
 namespace PhpBrew\Command\ExtensionCommand;
 
 use Exception;
+use GetOptionKit\OptionSpecCollection;
 use PhpBrew\Config;
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Extension\ExtensionDownloader;
-use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\ExtensionList;
 use PhpBrew\Utils;
 
@@ -24,7 +25,7 @@ class InstallCommand extends BaseCommand
     }
 
     /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
+     * @param OptionSpecCollection $opts
      */
     public function options($opts)
     {
@@ -38,12 +39,12 @@ class InstallCommand extends BaseCommand
     {
         $args->add('extensions')
             ->suggestions(function () {
-                $extdir = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
 
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                        return $d != '.' && $d != '..' && is_dir($extdir.DIRECTORY_SEPARATOR.$d);
+                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
                     }
                 );
             });
@@ -76,11 +77,15 @@ class InstallCommand extends BaseCommand
         parent::prepare();
 
         $buildDir = Config::getCurrentBuildDir();
-        $extDir = $buildDir.DIRECTORY_SEPARATOR.'ext';
+        $extDir = $buildDir . DIRECTORY_SEPARATOR . 'ext';
         if (!is_dir($extDir)) {
             $this->logger->error("Error: The ext directory '$extDir' does not exist.");
-            $this->logger->error("It looks like you don't have the PHP source in $buildDir or you didn't extract the tarball.");
-            $this->logger->error('Suggestion: Please install at least one PHP with your prefered version and switch to it.');
+            $this->logger->error(
+                "It looks like you don't have the PHP source in $buildDir or you didn't extract the tarball."
+            );
+            $this->logger->error(
+                'Suggestion: Please install at least one PHP with your prefered version and switch to it.'
+            );
 
             return false;
         }
@@ -95,15 +100,27 @@ class InstallCommand extends BaseCommand
         }
 
         // Detect protocol
-        if ((preg_match('#^git://#', $extName) || preg_match('#\.git$#', $extName)) && !preg_match('#github|bitbucket#', $extName)) {
+        if (
+            (preg_match('#^git://#', $extName) || preg_match('#\.git$#', $extName))
+            && !preg_match('#github|bitbucket#', $extName)
+        ) {
             $pathinfo = pathinfo($extName);
             $repoUrl = $extName;
             $extName = $pathinfo['filename'];
-            $extDir = Config::getBuildDir().DIRECTORY_SEPARATOR.Config::getCurrentPhpName().DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR.$extName;
+            $extDir = Config::getBuildDir()
+                . DIRECTORY_SEPARATOR
+                . Config::getCurrentPhpName()
+                . DIRECTORY_SEPARATOR
+                . 'ext'
+                . DIRECTORY_SEPARATOR
+                . $extName;
+
             if (!file_exists($extDir)) {
                 passthru("git clone $repoUrl $extDir", $ret);
                 if ($ret != 0) {
-                    return $this->logger->error('Clone failed.');
+                    $this->logger->error('Clone failed.');
+
+                    return;
                 }
             }
         }
@@ -133,7 +150,7 @@ class InstallCommand extends BaseCommand
             $provider = $extensionList->exists($extensionName);
 
             if (!$provider) {
-                throw new \Exception("Could not find provider for $extensionName.");
+                throw new Exception("Could not find provider for $extensionName.");
             }
 
             $extensionName = $provider->getPackageName();
@@ -144,7 +161,6 @@ class InstallCommand extends BaseCommand
 
             // Extension not found, use pecl to download it.
             if (!$ext || $always_redownload) {
-
                 // not every project has stable branch, using master as default version
                 $args = array_slice(func_get_args(), 1);
                 if (empty($extConfig->version)) {
@@ -167,7 +183,7 @@ class InstallCommand extends BaseCommand
                 }
             }
             if (!$ext) {
-                throw new \Exception("$extensionName not found.");
+                throw new Exception("$extensionName not found.");
             }
             $manager->installExtension($ext, $extConfig->options);
         }

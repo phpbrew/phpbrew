@@ -1,8 +1,10 @@
 <?php
-use PhpBrew\Testing\CommandTestCase;
-use PhpBrew\Machine;
-use PhpBrew\Config;
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\BuildFinder;
+use PhpBrew\Machine;
+use PhpBrew\Testing\CommandTestCase;
 
 /**
  * The install command tests are heavy.
@@ -33,6 +35,7 @@ class InstallCommandTest extends CommandTestCase
     /**
      * @depends testKnownCommand
      * @group install
+     * @group mayignore
      */
     public function testInstallCommand()
     {
@@ -76,7 +79,9 @@ class InstallCommandTest extends CommandTestCase
             $this->markTestSkipped('Skip heavy test on Travis');
         }
 
-        $this->assertCommandSuccess("phpbrew --debug install --dryrun github:php/php-src@PHP-7.0 as php-7.0.0 +cli+posix");
+        $this->assertCommandSuccess(
+            'phpbrew --debug install --dryrun github:php/php-src@PHP-7.0 as php-7.0.0 +cli+posix'
+        );
     }
 
     /**

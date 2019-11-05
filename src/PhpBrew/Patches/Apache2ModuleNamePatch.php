@@ -2,10 +2,10 @@
 
 namespace PhpBrew\Patches;
 
+use CLIFramework\Logger;
 use PhpBrew\Buildable;
 use PhpBrew\PatchKit\Patch;
 use PhpBrew\PatchKit\RegExpPatchRule;
-use CLIFramework\Logger;
 
 class Apache2ModuleNamePatch extends Patch
 {
@@ -40,19 +40,22 @@ class Apache2ModuleNamePatch extends Patch
             ->always()
             ->replaces(
                 '#libphp\$PHP_MAJOR_VERSION\.#',
-                'libphp$PHP_VERSION.');
+                'libphp$PHP_VERSION.'
+            );
 
         $rules[] = RegExpPatchRule::files(array('configure'))
             ->always()
             ->replaces(
                 '#libs/libphp[57].(so|la)#',
-                'libs/libphp\$PHP_VERSION.$1');
+                'libs/libphp\$PHP_VERSION.$1'
+            );
 
         $rules[] = RegExpPatchRule::files(array('Makefile.global'))
             ->always()
             ->replaces(
                 '#libphp\$\(PHP_MAJOR_VERSION\)#',
-                'libphp$(PHP_VERSION)');
+                'libphp$(PHP_VERSION)'
+            );
 
         return $rules;
     }

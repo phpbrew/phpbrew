@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -13,7 +16,8 @@ class KnownCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @group mayignore
      */
-    public function testCommand() {
+    public function testCommand()
+    {
         $this->assertCommandSuccess('phpbrew --quiet known');
     }
 
@@ -21,14 +25,16 @@ class KnownCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @group mayignore
      */
-    public function testMoreOption() {
+    public function testMoreOption()
+    {
         $this->assertCommandSuccess('phpbrew --quiet known --more');
     }
 
     /**
      * @outputBuffering enabled
      */
-    public function testOldMoreOption() {
+    public function testOldMoreOption()
+    {
         $this->assertCommandSuccess('phpbrew --quiet known --old --more');
     }
 

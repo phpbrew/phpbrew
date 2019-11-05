@@ -1,4 +1,5 @@
 <?php
+
 /**
 Please DO NOT modify this file directly.
 */
@@ -7,7 +8,7 @@ namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class MigratingFromHomebrewPhpToPhpbrewTopic  extends GitHubTopic
+class MigratingFromHomebrewPhpToPhpbrewTopic extends GitHubTopic
 {
     public $id = 'migrating-from-homebrew-php-to-phpbrew';
     public $url = 'https://github.com/phpbrew/phpbrew/wiki/Migrating-from-homebrew-php-to-phpbrew.md';

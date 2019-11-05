@@ -124,7 +124,7 @@ class Version
      */
     public function getCanonicalizedVersionName()
     {
-        return $this->dist.'-'.$this->version;
+        return $this->dist . '-' . $this->version;
     }
 
     public function __toString()

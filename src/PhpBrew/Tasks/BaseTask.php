@@ -7,6 +7,9 @@ use GetOptionKit\OptionResult;
 
 abstract class BaseTask
 {
+    /**
+     * @var Logger
+     */
     public $logger;
 
     public $options;
@@ -53,6 +56,5 @@ abstract class BaseTask
     public function __destruct()
     {
         $this->finishedAt = microtime(true);
-        // $this->logger->debug("---> Task " . get_class($this) . " finished in " . round(($this->finishedAt - $this->startedAt) / 1000,2) . 'ms' );
     }
 }

@@ -2,9 +2,9 @@
 
 namespace PhpBrew\Tasks;
 
-use PhpBrew\Exception\SystemCommandException;
-use PhpBrew\CommandBuilder;
 use PhpBrew\Build;
+use PhpBrew\CommandBuilder;
+use PhpBrew\Exception\SystemCommandException;
 
 /**
  * Task to run `make`.

@@ -1,10 +1,14 @@
 <?php
-namespace PhpBrew\Platform;
+
+namespace PhpBrew\Tests\Platform;
+
+use PhpBrew\Platform\UnknownPlatform;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class UnknownPlatformTest extends \PHPUnit\Framework\TestCase
+class UnknownPlatformTest extends TestCase
 {
     private $platform;
 

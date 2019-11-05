@@ -2,12 +2,12 @@
 
 namespace PhpBrew\Command;
 
-use PhpBrew\Config;
-use PhpBrew\Extension\ExtensionFactory;
-use PhpBrew\Extension\M4Extension;
-use PhpBrew\Extension\Extension;
 use Exception;
 use PhpBrew\Command\ExtensionCommand\BaseCommand;
+use PhpBrew\Config;
+use PhpBrew\Extension\Extension;
+use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Extension\M4Extension;
 
 class ExtensionCommand extends BaseCommand
 {
@@ -48,7 +48,8 @@ class ExtensionCommand extends BaseCommand
 
     public function describeExtension(Extension $ext)
     {
-        $this->logger->write(sprintf(' [%s] %-12s %-12s',
+        $this->logger->write(sprintf(
+            ' [%s] %-12s %-12s',
             extension_loaded($ext->getExtensionName()) ? '*' : ' ',
             $ext->getExtensionName(),
             phpversion($ext->getExtensionName())
@@ -66,12 +67,13 @@ class ExtensionCommand extends BaseCommand
             if ($ext instanceof M4Extension) {
                 $options = $ext->getConfigureOptions();
                 if (!empty($options)) {
-                    $this->logger->info($padding.'Configure options:');
+                    $this->logger->info($padding . 'Configure options:');
                     foreach ($options as $option) {
-                        $this->logger->info($padding.'  '
-                            .sprintf('%-32s %s',
-                                $option->option.($option->valueHint ? '[='.$option->valueHint.']' : ''),
-                                $option->desc));
+                        $this->logger->info($padding . '  ' . sprintf(
+                            '%-32s %s',
+                            $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
+                            $option->desc
+                        ));
                     }
                 }
             }
@@ -81,7 +83,7 @@ class ExtensionCommand extends BaseCommand
     public function execute()
     {
         $buildDir = Config::getCurrentBuildDir();
-        $extDir = $buildDir.DIRECTORY_SEPARATOR.'ext';
+        $extDir = $buildDir . DIRECTORY_SEPARATOR . 'ext';
 
         // list for extensions which are not enabled
         $extensions = array();
@@ -96,9 +98,9 @@ class ExtensionCommand extends BaseCommand
                 if ($extName == '.' || $extName == '..') {
                     continue;
                 }
-                $dir = $extDir.DIRECTORY_SEPARATOR.$extName;
+                $dir = $extDir . DIRECTORY_SEPARATOR . $extName;
                 foreach ($lookupDirectories as $lookupDirectory) {
-                    $extensionDir = $dir.(empty($lookupDirectory) ? '' : DIRECTORY_SEPARATOR.$lookupDirectory);
+                    $extensionDir = $dir . (empty($lookupDirectory) ? '' : DIRECTORY_SEPARATOR . $lookupDirectory);
                     if ($m4files = ExtensionFactory::configM4Exists($extensionDir)) {
                         $this->logger->debug("Loading extension information $extName from $extensionDir");
 

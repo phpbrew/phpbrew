@@ -3,8 +3,8 @@
 namespace PhpBrew\Command\ExtensionCommand;
 
 use PhpBrew\Config;
-use PhpBrew\Utils;
 use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Utils;
 
 class ConfigCommand extends BaseCommand
 {
@@ -19,7 +19,7 @@ class ConfigCommand extends BaseCommand
             ->suggestions(function () {
                 return array_map(function ($path) {
                     return basename(basename($path, '.disabled'), '.ini');
-                }, glob(Config::getCurrentPhpDir().'/var/db/*.{ini,disabled}', GLOB_BRACE));
+                }, glob(Config::getCurrentPhpDir() . '/var/db/*.{ini,disabled}', GLOB_BRACE));
             });
     }
 
@@ -35,7 +35,9 @@ class ConfigCommand extends BaseCommand
             $file .= '.disabled'; // try with ini.disabled file
             $this->logger->info("Looking for {$file} file...");
             if (!file_exists($file)) {
-                $this->logger->warn("Sorry, I can't find the ini file for the requested extension: \"{$extensionName}\".");
+                $this->logger->warn(
+                    "Sorry, I can't find the ini file for the requested extension: \"{$extensionName}\"."
+                );
 
                 return;
             }

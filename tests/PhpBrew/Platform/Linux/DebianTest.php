@@ -1,10 +1,14 @@
 <?php
-namespace PhpBrew\Platform\Linux;
+
+namespace PhpBrew\Tests\Platform\Linux;
+
+use PhpBrew\Platform\Linux\Debian;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class DebianTest extends \PHPUnit\Framework\TestCase
+class DebianTest extends TestCase
 {
     private $distribution;
 

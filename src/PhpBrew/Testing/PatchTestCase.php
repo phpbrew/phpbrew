@@ -2,16 +2,16 @@
 
 namespace PhpBrew\Testing;
 
+use PHPUnit_Framework_TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use PHPUnit_Framework_TestCase;
 
 abstract class PatchTestCase extends PHPUnit_Framework_TestCase
 {
     protected function setupBuildDirectory($version)
     {
         $sourceDirectory = getenv('PHPBREW_BUILD_PHP_DIR');
-        $sourceFixtureDirectory = getenv('PHPBREW_FIXTURES_PHP_DIR').DIRECTORY_SEPARATOR.$version;
+        $sourceFixtureDirectory = getenv('PHPBREW_FIXTURES_PHP_DIR') . DIRECTORY_SEPARATOR . $version;
 
         $source = $sourceFixtureDirectory;
         $dest = $sourceDirectory;
@@ -19,14 +19,15 @@ abstract class PatchTestCase extends PHPUnit_Framework_TestCase
         if (!file_exists($dest)) {
             mkdir($dest, 0755, true);
         }
-        $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST);
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0755, true);
+                mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName(), 0755, true);
             } else {
-                copy($item, $dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName());
+                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
             }
         }
     }

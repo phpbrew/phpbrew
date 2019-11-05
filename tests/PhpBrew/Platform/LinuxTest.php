@@ -1,12 +1,16 @@
 <?php
-namespace PhpBrew\Platform;
 
+namespace PhpBrew\Tests\Platform;
+
+use PhpBrew\Platform\Hardware;
+use PhpBrew\Platform\Linux;
 use PhpBrew\Platform\Linux\Distribution;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class LinuxTest extends \PHPUnit\Framework\TestCase
+class LinuxTest extends TestCase
 {
     private $hardware;
     private $distribution;

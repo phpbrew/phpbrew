@@ -1,10 +1,14 @@
 <?php
+
+namespace PhpBrew\Tests;
+
 use PhpBrew\VariantParser;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class VariantParserTest extends \PHPUnit\Framework\TestCase
+class VariantParserTest extends TestCase
 {
     public function makeArgs($arg)
     {
@@ -76,7 +80,9 @@ class VariantParserTest extends \PHPUnit\Framework\TestCase
 
     public function testVariantUserValueContainsVersion()
     {
-        $variants = $this->makeArgs('+openssl=/usr/local/Cellar/openssl/1.0.2e +gettext=/usr/local/Cellar/gettext/0.19.7');
+        $variants = $this->makeArgs(
+            '+openssl=/usr/local/Cellar/openssl/1.0.2e +gettext=/usr/local/Cellar/gettext/0.19.7'
+        );
         $expected = array(
             'enabled_variants' => array(
                 'openssl' => '/usr/local/Cellar/openssl/1.0.2e',

@@ -2,9 +2,9 @@
 
 namespace PhpBrew\Tasks;
 
-use PhpBrew\Exception\SystemCommandException;
 use PhpBrew\Build;
 use PhpBrew\CommandBuilder;
+use PhpBrew\Exception\SystemCommandException;
 
 /**
  * Task to run `make test`.
@@ -25,7 +25,7 @@ class TestTask extends BaseTask
         $cmd->setStdout($this->options->{'stdout'});
 
         putenv('NO_INTERACTION=1');
-        $this->debug(''.$cmd);
+        $this->debug('' . $cmd);
         $code = $cmd->execute($lastline);
         if ($code !== 0) {
             throw new SystemCommandException("Test failed: $lastline", $build);

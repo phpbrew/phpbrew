@@ -2,31 +2,32 @@
 
 namespace PhpBrew\Command;
 
-use PhpBrew\Config;
-use PhpBrew\Downloader\DownloadFactory;
-use PhpBrew\VariantParser;
-use PhpBrew\VariantBuilder;
-use PhpBrew\Tasks\DownloadTask;
-use PhpBrew\Tasks\PrepareDirectoryTask;
-use PhpBrew\Tasks\MakeTask;
-use PhpBrew\Tasks\InstallTask;
-use PhpBrew\Tasks\ExtractTask;
-use PhpBrew\Tasks\BeforeConfigureTask;
-use PhpBrew\Tasks\ConfigureTask;
-use PhpBrew\Tasks\AfterConfigureTask;
-use PhpBrew\Tasks\BuildTask;
-use PhpBrew\Tasks\DSymTask;
-use PhpBrew\Tasks\TestTask;
-use PhpBrew\Build;
-use PhpBrew\ReleaseList;
-use PhpBrew\VersionDslParser;
-use PhpBrew\BuildSettings\DefaultBuildSettings;
-use PhpBrew\Distribution\DistributionUrlPolicy;
-use CLIFramework\ValueCollection;
 use CLIFramework\Command;
-use PhpBrew\Exception\SystemCommandException;
+use CLIFramework\ValueCollection;
 use Exception;
-use PhpBrew\PatchKit\RegExpPatchRule;
+use GetOptionKit\OptionCollection;
+use PhpBrew\Build;
+use PhpBrew\BuildSettings\DefaultBuildSettings;
+use PhpBrew\Config;
+use PhpBrew\Distribution\DistributionUrlPolicy;
+use PhpBrew\Downloader\DownloadFactory;
+use PhpBrew\Exception\SystemCommandException;
+use PhpBrew\ReleaseList;
+use PhpBrew\Tasks\AfterConfigureTask;
+use PhpBrew\Tasks\BeforeConfigureTask;
+use PhpBrew\Tasks\BuildTask;
+use PhpBrew\Tasks\ConfigureTask;
+use PhpBrew\Tasks\DownloadTask;
+use PhpBrew\Tasks\DSymTask;
+use PhpBrew\Tasks\ExtractTask;
+use PhpBrew\Tasks\InstallTask;
+use PhpBrew\Tasks\MakeTask;
+use PhpBrew\Tasks\PrepareDirectoryTask;
+use PhpBrew\Tasks\TestTask;
+use PhpBrew\VariantBuilder;
+use PhpBrew\VariantParser;
+use PhpBrew\VersionDslParser;
+use SplFileInfo;
 
 class InstallCommand extends Command
 {
@@ -102,24 +103,35 @@ class InstallCommand extends Command
     }
 
     /**
-     * @param \GetOptionKit\OptionCollection $opts
+     * @param OptionCollection $opts
      */
     public function options($opts)
     {
         $opts->add('test', 'Run tests after the installation.');
 
-        $opts->add('name:', 'The name of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`')
+        $opts->add(
+            'name:',
+            'The name of the installation. '
+            . 'By default the installed path is equal to the release version name (php-5.x.x), '
+            . 'however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`'
+        )
             ->valueName('name');
 
-        $opts->add('mirror:', '[deprecated] Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*');
+        $opts->add(
+            'mirror:',
+            '[deprecated] Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*'
+        );
 
         $opts->add('post-clean', 'Run make clean after the installation.');
 
-        $opts->add('production', 'Use production configuration file. this installer will copy the php-production.ini into the etc directory.');
+        $opts->add(
+            'production',
+            'Use production configuration file. this installer will copy the php-production.ini into the etc directory.'
+        );
 
         $opts->add('build-dir:', 'Specify the build directory. '
-            .'the distribution tarball will be extracted to the directory you specified '
-            .'instead of $PHPBREW_ROOT/build/{name}.')
+            . 'the distribution tarball will be extracted to the directory you specified '
+            . 'instead of $PHPBREW_ROOT/build/{name}.')
             ->isa('dir')
             ;
 
@@ -130,8 +142,8 @@ class InstallCommand extends Command
         $opts->add('no-config-cache', 'Do not use config.cache for configure script.');
 
         $opts->add('no-clean', 'Do not clean previously compiled objects before building PHP. '
-            .'By default phpbrew will run `make clean` before running the configure script '
-            .'to ensure everything is cleaned up.')
+            . 'By default phpbrew will run `make clean` before running the configure script '
+            . 'to ensure everything is cleaned up.')
             ;
 
         $opts->add('no-patch', 'Do not apply any patch');
@@ -140,7 +152,11 @@ class InstallCommand extends Command
 
         $opts->add('no-install', 'Do not install, just run build the target');
 
-        $opts->add('n|nice:', 'Runs build processes at an altered scheduling priority. The priority can be adjusted over a range of -20 (the highest) to 20 (the lowest).')
+        $opts->add(
+            'n|nice:',
+            'Runs build processes at an altered scheduling priority. '
+            . 'The priority can be adjusted over a range of -20 (the highest) to 20 (the lowest).'
+        )
             ->valueName('priority');
 
         $opts->add('patch+:', 'Apply patch before build.')
@@ -158,7 +174,11 @@ class InstallCommand extends Command
 
         $opts->add('d|dryrun', 'Do not build, but run through all the tasks.');
 
-        $opts->add('like:', 'Inherit variants from an existing build. This option would require an existing build directory from the {version}.')
+        $opts->add(
+            'like:',
+            'Inherit variants from an existing build. '
+            . 'This option would require an existing build directory from the {version}.'
+        )
             ->valueName('version');
 
         $opts->add('j|jobs:', 'Specifies the number of jobs to run build simultaneously (make -jN).')
@@ -173,8 +193,9 @@ class InstallCommand extends Command
     {
         if (extension_loaded('posix') && posix_getuid() === 0) {
             $this->logger->warn(
-"*WARNING* You're running phpbrew as root/sudo. Unless you're going to install
-system-wide phpbrew, this might cause problems.");
+                "*WARNING* You're running phpbrew as root/sudo. Unless you're going to install "
+                . "system-wide phpbrew, this might cause problems."
+            );
             sleep(3);
         }
         $distUrl = null;
@@ -214,13 +235,16 @@ system-wide phpbrew, this might cause problems.");
             $version = preg_replace('/^php-/', '', $version);
             $versionInfo = $releaseList->getVersion($version);
             if (!$versionInfo) {
-                throw new \Exception("Version $version not found.");
+                throw new Exception("Version $version not found.");
             }
             $version = $versionInfo['version'];
 
             $distUrlPolicy = new DistributionUrlPolicy();
             if ($this->options->mirror) {
-                $this->logger->warn('php.net has retired the mirror program, hence --mirror option has been deprecated and will be removed in the future.');
+                $this->logger->warn(
+                    'php.net has retired the mirror program, '
+                    . 'hence --mirror option has been deprecated and will be removed in the future.'
+                );
             }
             $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename'], $versionInfo['museum']);
         }
@@ -238,7 +262,7 @@ system-wide phpbrew, this might cause problems.");
         if ($this->options->patch) {
             $patchPaths = array();
             foreach ($this->options->patch as $patch) {
-                /* @var \SplFileInfo $patch */
+                /* @var SplFileInfo $patch */
                 $patchPath = realpath($patch);
                 if ($patchPath !== false) {
                     $patchPaths[(string) $patch] = $patchPath;
@@ -251,7 +275,7 @@ system-wide phpbrew, this might cause problems.");
         // Initialize the build object, contains the information to build php.
         $build = new Build($version, $buildAs);
 
-        $installPrefix = Config::getInstallPrefix().DIRECTORY_SEPARATOR.$build->getName();
+        $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         if (!file_exists($installPrefix)) {
             mkdir($installPrefix, 0755, true);
         }
@@ -267,19 +291,19 @@ system-wide phpbrew, this might cause problems.");
 
         $msg = "===> phpbrew will now build {$build->getVersion()}";
         if ($buildLike) {
-            $msg .= ' using variants from '.$buildLike;
+            $msg .= ' using variants from ' . $buildLike;
         }
         if (isset($semanticOptions['using'])) {
-            $msg .= ' plus custom variants: '.implode(', ', $semanticOptions['using']);
+            $msg .= ' plus custom variants: ' . implode(', ', $semanticOptions['using']);
             $args = array_merge($args, $semanticOptions['using']);
         }
         if ($buildAs) {
-            $msg .= ' as '.$buildAs;
+            $msg .= ' as ' . $buildAs;
         }
         $this->logger->info($msg);
 
         if (!empty($args)) {
-            $this->logger->debug("---> Parsing variants from command arguments '".implode(' ', $args)."'");
+            $this->logger->debug("---> Parsing variants from command arguments '" . implode(' ', $args) . "'");
         }
 
         // ['extra_options'] => the extra options to be passed to ./configure command
@@ -291,8 +315,11 @@ system-wide phpbrew, this might cause problems.");
         // assume +default variant if no build config is given and warn about that
         if (!$variantInfo['enabled_variants']) {
             $build->setBuildSettings(new DefaultBuildSettings());
-            $this->logger->notice("You haven't set any variant. A default set of extensions will be installed for the minimum requirement:");
-            $this->logger->notice('['.implode(', ', array_keys($build->getVariants())).']');
+            $this->logger->notice(
+                "You haven't set any variant. "
+                . 'A default set of extensions will be installed for the minimum requirement:'
+            );
+            $this->logger->notice('[' . implode(', ', array_keys($build->getVariants())) . ']');
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
         }
 
@@ -310,7 +337,7 @@ system-wide phpbrew, this might cause problems.");
         $this->logger->info('===> Loading and resolving variants...');
         $removedVariants = $build->loadVariantInfo($variantInfo);
         if (!empty($removedVariants)) {
-            $this->logger->debug('Removed variants: '.implode(',', $removedVariants));
+            $this->logger->debug('Removed variants: ' . implode(',', $removedVariants));
         }
 
         {
@@ -353,19 +380,21 @@ system-wide phpbrew, this might cause problems.");
         unset($extractTask);
 
         // Update build source directory
-        $this->logger->debug('Source Directory: '.realpath($targetDir));
+        $this->logger->debug('Source Directory: ' . realpath($targetDir));
         $build->setSourceDirectory($targetDir);
 
-        if (!$this->options->{'no-clean'} && file_exists($targetDir.DIRECTORY_SEPARATOR.'Makefile')) {
+        if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->info('Found existing Makefile, running make clean to ensure everything will be rebuilt.');
-            $this->logger->info("You can append --no-clean option after the install command if you don't want to rebuild.");
+            $this->logger->info(
+                "You can append --no-clean option after the install command if you don't want to rebuild."
+            );
             $clean->clean($build);
         }
 
         // Change directory to the downloaded source directory.
         chdir($targetDir);
         // Write variants info.
-        $variantInfoFile = $build->getInstallPrefix().DIRECTORY_SEPARATOR.'phpbrew.variants';
+        $variantInfoFile = $build->getInstallPrefix() . DIRECTORY_SEPARATOR . 'phpbrew.variants';
         $this->logger->debug("Writing variant info to $variantInfoFile");
         if (false === $build->writeVariantInfoFile($variantInfoFile)) {
             $this->logger->warn("Can't store variant info.");
@@ -443,11 +472,11 @@ system-wide phpbrew, this might cause problems.");
 
         $this->logger->info('---> Creating php.ini');
         $phpConfigPath = $build->getSourceDirectory()
-             .DIRECTORY_SEPARATOR.($this->options->production ? 'php.ini-production' : 'php.ini-development');
+             . DIRECTORY_SEPARATOR . ($this->options->production ? 'php.ini-production' : 'php.ini-development');
         $this->logger->info("---> Copying $phpConfigPath ");
 
         if (file_exists($phpConfigPath) && !$this->options->dryrun) {
-            $targetConfigPath = $etcDirectory.DIRECTORY_SEPARATOR.'php.ini';
+            $targetConfigPath = $etcDirectory . DIRECTORY_SEPARATOR . 'php.ini';
 
             if (file_exists($targetConfigPath)) {
                 $this->logger->notice("Found existing $targetConfigPath.");
@@ -468,16 +497,25 @@ system-wide phpbrew, this might cause problems.");
                     // Replace current timezone
                     if ($timezone = ini_get('date.timezone')) {
                         $this->logger->info("---> Found date.timezone, patching config timezone with $timezone");
-                        $configContent = preg_replace('/^;?date.timezone\s*=\s*.*/im', "date.timezone = $timezone", $configContent);
+                        $configContent = preg_replace(
+                            '/^;?date.timezone\s*=\s*.*/im',
+                            "date.timezone = $timezone",
+                            $configContent
+                        );
                     }
                     $patched = true;
                 }
+
                 if (!isset($config['phar']['readonly'])) {
                     $pharReadonly = ini_get('phar.readonly');
                     // 0 or "" means readonly is disabled manually
                     if (!$pharReadonly) {
                         $this->logger->info('---> Disabling phar.readonly option.');
-                        $configContent = preg_replace('/^;?phar.readonly\s*=\s*.*/im', 'phar.readonly = 0', $configContent);
+                        $configContent = preg_replace(
+                            '/^;?phar.readonly\s*=\s*.*/im',
+                            'phar.readonly = 0',
+                            $configContent
+                        );
                     }
                 }
 
@@ -507,7 +545,7 @@ system-wide phpbrew, this might cause problems.");
             system('pear config-set auto_discover 1');
         }
 
-        $this->logger->debug('Source directory: '.$targetDir);
+        $this->logger->debug('Source directory: ' . $targetDir);
 
         $buildName = $build->getName();
 
@@ -533,7 +571,7 @@ EOT;
 
         // If the bashrc file is not found, it means 'init' command didn't get
         // a chance to be executed.
-        if (!file_exists(Config::getHome().DIRECTORY_SEPARATOR.'bashrc')) {
+        if (!file_exists(Config::getHome() . DIRECTORY_SEPARATOR . 'bashrc')) {
             echo <<<EOT
 
 * WARNING:

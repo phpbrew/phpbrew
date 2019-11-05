@@ -54,7 +54,7 @@ class MakeTask extends BaseTask
      */
     private function make($path, $target = 'all', $build = null)
     {
-        if (!file_exists($path.DIRECTORY_SEPARATOR.'Makefile')) {
+        if (!file_exists($path . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->error("Makefile not found in path $path");
 
             return false;
@@ -89,10 +89,10 @@ class MakeTask extends BaseTask
 
         $cmd[] = escapeshellarg($target);
         if (!$this->logger->isDebug() && $this->buildLogPath) {
-            $cmd[] = ' >> '.escapeshellarg($this->buildLogPath).' 2>&1';
+            $cmd[] = ' >> ' . escapeshellarg($this->buildLogPath) . ' 2>&1';
         }
 
-        $this->logger->info("===> Running make $target: ".implode(' ', $cmd));
+        $this->logger->info("===> Running make $target: " . implode(' ', $cmd));
 
         return Utils::system($cmd, $this->logger, $build) === 0;
     }

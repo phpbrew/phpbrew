@@ -2,11 +2,11 @@
 
 namespace PhpBrew\Command\AppCommand;
 
-use PhpBrew\Downloader\DownloadFactory;
-use PhpBrew\Config;
-use PhpBrew\AppStore;
 use CLIFramework\Command;
 use Exception;
+use PhpBrew\AppStore;
+use PhpBrew\Config;
+use PhpBrew\Downloader\DownloadFactory;
 
 class GetCommand extends Command
 {
@@ -35,11 +35,12 @@ class GetCommand extends Command
         $apps = AppStore::all();
 
         if (!isset($apps[$appName])) {
-            throw new \Exception("App $appName not found.");
+            throw new Exception("App $appName not found.");
         }
+
         $app = $apps[$appName];
-        $targetDir = Config::getRoot().DIRECTORY_SEPARATOR.'bin';
-        $target = $targetDir.DIRECTORY_SEPARATOR.$app['as'];
+        $targetDir = Config::getRoot() . DIRECTORY_SEPARATOR . 'bin';
+        $target = $targetDir . DIRECTORY_SEPARATOR . $app['as'];
 
         DownloadFactory::getInstance($this->logger, $this->options)->download($app['url'], $target);
 

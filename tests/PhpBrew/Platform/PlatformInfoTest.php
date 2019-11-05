@@ -1,10 +1,14 @@
 <?php
-namespace PhpBrew\Platform;
+
+namespace PhpBrew\Tests\Platform;
+
+use PhpBrew\Platform\PlatformInfo;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class PlatformInfoTest extends \PHPUnit\Framework\TestCase
+class PlatformInfoTest extends TestCase
 {
     public function testCreateMacPlatform()
     {

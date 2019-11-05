@@ -3,7 +3,6 @@
 namespace PhpBrew\Command\ExtensionCommand;
 
 use PhpBrew\Config;
-use PhpBrew\Extension;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
 
@@ -23,12 +22,12 @@ class CleanCommand extends BaseCommand
     {
         $args->add('extensions')
             ->suggestions(function () {
-                $extdir = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
 
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                        return $d != '.' && $d != '..' && is_dir($extdir.DIRECTORY_SEPARATOR.$d);
+                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
                     }
                 );
             });

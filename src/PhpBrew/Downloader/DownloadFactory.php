@@ -1,10 +1,4 @@
 <?php
-/**
- * Downloader Factory.
- *
- * @date 2015/12/30
- * @author: xiami, yoanlin
- */
 
 namespace PhpBrew\Downloader;
 
@@ -74,7 +68,8 @@ class DownloadFactory
             $downloader = array_keys(self::$availableDownloaders);
         }
 
-        //if --downloader presents, we will use it as the first choice, even if the caller specific downloader by alias/array
+        //if --downloader presents, we will use it as the first choice,
+        //even if the caller specific downloader by alias/array
         if ($options->has('downloader')) {
             $logger->info("Found --downloader option, try to use {$options->downloader} as default downloader.");
             $downloader = array_merge(array($options->downloader), $downloader);
@@ -98,7 +93,10 @@ class DownloadFactory
             ->valueName('Proxy host[:port]');
         $opts->add('http-proxy-auth:', 'HTTP proxy authentication')
             ->valueName('Proxy username:password');
-        $opts->add('connect-timeout:', 'Connection timeout')
+        $opts->add(
+            'connect-timeout:',
+            'Connection timeout'
+        )
             ->valueName('Timeout in seconds');
 
         return $opts;

@@ -2,7 +2,6 @@
 
 namespace PhpBrew\Tasks;
 
-use PhpBrew\Exception\SystemCommandException;
 use PhpBrew\Build;
 use PhpBrew\Patches\Apache2ModuleNamePatch;
 use PhpBrew\Patches\FreeTypePatch;
@@ -20,7 +19,7 @@ class BeforeConfigureTask extends BaseTask
 
     public function run(Build $build)
     {
-        if (!file_exists($build->getSourceDirectory().DIRECTORY_SEPARATOR.'configure')) {
+        if (!file_exists($build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running './buildconf --force'...");
 
             $buildConf = new BuildConfTask($this->logger);
@@ -46,7 +45,7 @@ class BeforeConfigureTask extends BaseTask
 
         // let's apply patch for libphp{php version}.so (apxs)
         if ($build->isEnabledVariant('apxs2')) {
-            $apxs2Checker = new \PhpBrew\Tasks\Apxs2CheckTask($this->logger);
+            $apxs2Checker = new Apxs2CheckTask($this->logger);
             $apxs2Checker->check($build, $this->options);
         }
 
@@ -63,7 +62,7 @@ class BeforeConfigureTask extends BaseTask
             );
 
             foreach ($patches as $patch) {
-                $this->logger->info('Checking patch for '.$patch->desc());
+                $this->logger->info('Checking patch for ' . $patch->desc());
                 if ($patch->match($build, $this->logger)) {
                     $patched = $patch->apply($build, $this->logger);
                     $this->logger->info("$patched changes patched.");

@@ -2,12 +2,13 @@
 
 namespace PhpBrew\Extension;
 
+use CLIFramework\Logger;
+use Exception;
+use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Extension\Provider\Provider;
 use PhpBrew\Utils;
-use CLIFramework\Logger;
-use GetOptionKit\OptionResult;
 
 class ExtensionDownloader
 {
@@ -24,7 +25,7 @@ class ExtensionDownloader
     public function buildGithubTarballUrl($owner, $repos, $version = 'stable')
     {
         if (empty($owner) || empty($repos)) {
-            throw new \Exception('Username or Repository invalid.');
+            throw new Exception('Username or Repository invalid.');
         }
 
         return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->githubSite, $owner, $repos, $version);
@@ -35,22 +36,24 @@ class ExtensionDownloader
         $url = $provider->buildPackageDownloadUrl($version);
         $basename = $provider->resolveDownloadFileName($version);
         $distDir = Config::getDistFileDir();
-        $targetFilePath = $distDir.DIRECTORY_SEPARATOR.$basename;
+        $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
         DownloadFactory::getInstance($this->logger, $this->options)->download($url, $targetFilePath);
         $info = pathinfo($basename);
 
-        $currentPhpExtensionDirectory = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+        $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
 
         // tar -C ~/.phpbrew/build/php-5.5.8/ext -xvf ~/.phpbrew/distfiles/memcache-2.2.7.tgz
-        $extensionDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$provider->getPackageName();
+        $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $provider->getPackageName();
         if (!file_exists($extensionDir)) {
             mkdir($extensionDir, 0755, true);
         }
 
         $this->logger->info("===> Extracting to $currentPhpExtensionDirectory...");
 
-        $cmds = array_merge($provider->extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath),
-            $provider->postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath));
+        $cmds = array_merge(
+            $provider->extractPackageCommands($currentPhpExtensionDirectory, $targetFilePath),
+            $provider->postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
+        );
 
         foreach ($cmds as $cmd) {
             $this->logger->debug($cmd);
@@ -71,11 +74,11 @@ class ExtensionDownloader
 
     public function renameSourceDirectory(Extension $ext)
     {
-        $currentPhpExtensionDirectory = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+        $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
         $extName = $ext->getExtensionName();
         $name = $ext->getName();
-        $extensionDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$extName;
-        $extensionExtractDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$name;
+        $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $extName;
+        $extensionExtractDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $name;
 
         if ($name != $extName) {
             $this->logger->info("===> Rename source directory to $extensionDir...");

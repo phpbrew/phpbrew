@@ -35,7 +35,7 @@ class PatchPHP
 
     public function getPatchFilename()
     {
-        return ($this->patchName ?: uniqid()).'.patch';
+        return ($this->patchName ?: uniqid()) . '.patch';
     }
 
     /**

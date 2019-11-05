@@ -1,12 +1,16 @@
 <?php
-use PhpBrew\VariantBuilder;
+
+namespace PhpBrew\Tests;
+
 use PhpBrew\Build;
+use PhpBrew\VariantBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  * @group macosIncompatible
  */
-class VariantBuilderTest extends \PHPUnit\Framework\TestCase
+class VariantBuilderTest extends TestCase
 {
     public function variantOptionProvider()
     {
@@ -50,7 +54,7 @@ class VariantBuilderTest extends \PHPUnit\Framework\TestCase
             $k = explode('=', $variant, 2);
 
             if (getenv('TRAVIS') && in_array($k[0], array("apxs2","gd","editline"))) {
-                return $this->markTestSkipped("Travis CI doesn't support {$k[0]}.");
+                $this->markTestSkipped("Travis CI doesn't support {$k[0]}.");
             }
 
             if (count($k) == 2) {
@@ -60,7 +64,7 @@ class VariantBuilderTest extends \PHPUnit\Framework\TestCase
             }
         }
         $build->resolveVariants();
-        $variantBuilder = new VariantBuilder;
+        $variantBuilder = new VariantBuilder();
         $options = $variantBuilder->build($build);
 
         $patterns = (array) $optionPattern;
@@ -71,35 +75,35 @@ class VariantBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function test()
     {
-        $variants = new VariantBuilder;
+        $variants = new VariantBuilder();
         $build = new Build('5.3.0');
         $build->enableVariant('debug');
         $build->enableVariant('sqlite');
         $build->enableVariant('xml_all');
-        $build->enableVariant('apxs2','/opt/local/apache2/apxs2');
+        $build->enableVariant('apxs2', '/opt/local/apache2/apxs2');
 
         $build->disableVariant('sqlite');
         $build->disableVariant('mysql');
         $build->resolveVariants();
         $options = $variants->build($build);
-        ok( in_array('--enable-debug',$options) );
-        ok( in_array('--enable-libxml',$options) );
-        ok( in_array('--enable-simplexml',$options) );
+        ok(in_array('--enable-debug', $options));
+        ok(in_array('--enable-libxml', $options));
+        ok(in_array('--enable-simplexml', $options));
 
-        ok( in_array('--with-apxs2=/opt/local/apache2/apxs2',$options) );
+        ok(in_array('--with-apxs2=/opt/local/apache2/apxs2', $options));
 
-        ok( in_array('--without-sqlite3',$options) );
-        ok( in_array('--without-mysql',$options) );
-        ok( in_array('--without-mysqli',$options) );
-        ok( in_array('--disable-all',$options) );
+        ok(in_array('--without-sqlite3', $options));
+        ok(in_array('--without-mysql', $options));
+        ok(in_array('--without-mysqli', $options));
+        ok(in_array('--disable-all', $options));
     }
 
     public function testEverything()
     {
-        $variants = new PhpBrew\VariantBuilder;
+        $variants = new VariantBuilder();
         ok($variants);
 
-        $build = new PhpBrew\Build('5.6.0');
+        $build = new Build('5.6.0');
         $build->enableVariant('everything');
         $build->disableVariant('openssl');
         $build->resolveVariants();
@@ -114,26 +118,26 @@ class VariantBuilderTest extends \PHPUnit\Framework\TestCase
 
     public function testMysqlPdoVariant()
     {
-        $variants = new PhpBrew\VariantBuilder;
+        $variants = new VariantBuilder();
         ok($variants);
 
-        $build = new PhpBrew\Build('5.3.0');
+        $build = new Build('5.3.0');
         $build->enableVariant('pdo');
         $build->enableVariant('mysql');
         $build->enableVariant('sqlite');
         $build->resolveVariants();
 
         $options = $variants->build($build);
-        $this->assertContains('--enable-pdo',$options);
-        $this->assertContains('--with-mysql=mysqlnd',$options);
-        $this->assertContains('--with-mysqli=mysqlnd',$options);
-        $this->assertContains('--with-pdo-mysql=mysqlnd',$options);
-        $this->assertContains('--with-pdo-sqlite',$options);
+        $this->assertContains('--enable-pdo', $options);
+        $this->assertContains('--with-mysql=mysqlnd', $options);
+        $this->assertContains('--with-mysqli=mysqlnd', $options);
+        $this->assertContains('--with-pdo-mysql=mysqlnd', $options);
+        $this->assertContains('--with-pdo-sqlite', $options);
     }
 
     public function testAllVariant()
     {
-        $variants = new VariantBuilder;
+        $variants = new VariantBuilder();
         $build = new Build('5.3.0');
         $build->enableVariant('all');
         $build->disableVariant('mysql');
@@ -141,9 +145,9 @@ class VariantBuilderTest extends \PHPUnit\Framework\TestCase
         $build->resolveVariants();
 
         $options = $variants->build($build);
-        $this->assertContains('--enable-all',$options);
-        $this->assertContains('--without-apxs2',$options);
-        $this->assertContains('--without-mysql',$options);
+        $this->assertContains('--enable-all', $options);
+        $this->assertContains('--without-apxs2', $options);
+        $this->assertContains('--without-mysql', $options);
     }
 
     /**
@@ -151,7 +155,7 @@ class VariantBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testNeutralVirtualVariant()
     {
-        $variants = new VariantBuilder;
+        $variants = new VariantBuilder();
         $build = new Build('5.3.0');
         // $build->setVersion('5.3.0');
         $build->enableVariant('neutral');

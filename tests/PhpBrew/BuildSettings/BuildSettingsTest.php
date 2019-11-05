@@ -1,10 +1,11 @@
 <?php
-namespace PhpBrew\BuildSettings;
 
-use PhpBrew\Config;
-use PhpBrew\Testing\TemporaryFileFixture;
+namespace PhpBrew\Tests\BuildSettings;
 
-class BuildSettingsTest extends \PHPUnit\Framework\TestCase
+use PhpBrew\BuildSettings\BuildSettings;
+use PHPUnit\Framework\TestCase;
+
+class BuildSettingsTest extends TestCase
 {
     public function testConstructorWithEnabledVariants()
     {

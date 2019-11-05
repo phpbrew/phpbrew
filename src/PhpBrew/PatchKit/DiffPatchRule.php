@@ -2,8 +2,8 @@
 
 namespace PhpBrew\PatchKit;
 
-use PhpBrew\Buildable;
 use CLIFramework\Logger;
+use PhpBrew\Buildable;
 
 /**
  * DiffPatchRule implements a diff based patch rule.
@@ -67,7 +67,7 @@ class DiffPatchRule
             }
         }
 
-        $diffFile = $dir.DIRECTORY_SEPARATOR.$basename;
+        $diffFile = $dir . DIRECTORY_SEPARATOR . $basename;
         if (false === file_put_contents($diffFile, $content)) {
             $logger->error("Can not write file to $diffFile");
 
@@ -75,7 +75,14 @@ class DiffPatchRule
         }
 
         $logger->info("---> Patching from {$diffFile} ...");
-        $lastline = system('patch --forward --directory '.escapeshellarg($dir)." --backup -p{$this->strip} < ".escapeshellarg($diffFile), $retval);
+        $lastline = system(
+            'patch --forward --directory '
+                . escapeshellarg($dir)
+                . " --backup -p{$this->strip} < "
+                . escapeshellarg($diffFile),
+            $retval
+        );
+
         if ($retval !== 0) {
             $logger->error("patch failed: $lastline");
 

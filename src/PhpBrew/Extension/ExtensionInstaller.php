@@ -3,10 +3,10 @@
 namespace PhpBrew\Extension;
 
 use CLIFramework\Logger;
-use PhpBrew\Config;
-use PhpBrew\Utils;
-use PhpBrew\Tasks\MakeTask;
 use GetOptionKit\OptionResult;
+use PhpBrew\Config;
+use PhpBrew\Tasks\MakeTask;
+use PhpBrew\Utils;
 
 class ExtensionInstaller
 {
@@ -17,14 +17,14 @@ class ExtensionInstaller
     public function __construct(Logger $logger, OptionResult $options = null)
     {
         $this->logger = $logger;
-        $this->options = $options ?: new \GetOptionKit\OptionResult();
+        $this->options = $options ?: new OptionResult();
     }
 
     public function install(Extension $ext, array $configureOptions = array())
     {
         $sourceDir = $ext->getSourceDirectory();
         $pwd = getcwd();
-        $buildLogPath = $sourceDir.DIRECTORY_SEPARATOR.'build.log';
+        $buildLogPath = $sourceDir . DIRECTORY_SEPARATOR . 'build.log';
         $make = new MakeTask($this->logger, $this->options);
 
         $make->setBuildLogPath($buildLogPath);
@@ -40,8 +40,8 @@ class ExtensionInstaller
             $clean->clean($ext);
         }
 
-        if ($ext->getConfigM4File() !== 'config.m4' && !file_exists($sourceDir.DIRECTORY_SEPARATOR.'config.m4')) {
-            symlink($ext->getConfigM4File(), $sourceDir.DIRECTORY_SEPARATOR.'config.m4');
+        if ($ext->getConfigM4File() !== 'config.m4' && !file_exists($sourceDir . DIRECTORY_SEPARATOR . 'config.m4')) {
+            symlink($ext->getConfigM4File(), $sourceDir . DIRECTORY_SEPARATOR . 'config.m4');
         }
 
         // If the php version is specified, we should get phpize with the correct version.
@@ -58,11 +58,11 @@ class ExtensionInstaller
         $phpConfig = Config::getCurrentPhpConfigBin();
         if (file_exists($phpConfig)) {
             $this->logger->debug("Appending argument: --with-php-config=$phpConfig");
-            $escapeOptions[] = '--with-php-config='.$phpConfig;
+            $escapeOptions[] = '--with-php-config=' . $phpConfig;
         }
 
         // Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1');
-        $cmd = './configure '.implode(' ', $escapeOptions);
+        $cmd = './configure ' . implode(' ', $escapeOptions);
         if (!$this->logger->isDebug()) {
             $cmd .= " >> $buildLogPath 2>&1";
         }
@@ -86,7 +86,7 @@ class ExtensionInstaller
         }
 
         // TODO: use getSharedLibraryPath()
-        $this->logger->debug('Installed extension library: '.$ext->getSharedLibraryPath());
+        $this->logger->debug('Installed extension library: ' . $ext->getSharedLibraryPath());
 
         // Try to find the installed path by pattern
         // Installing shared extensions: /Users/c9s/.phpbrew/php/php-5.4.10/lib/php/extensions/debug-non-zts-20100525/

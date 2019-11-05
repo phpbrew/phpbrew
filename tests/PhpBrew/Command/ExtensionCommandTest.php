@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -7,7 +10,8 @@ use PhpBrew\Testing\CommandTestCase;
  */
 class ExtensionCommandTest extends CommandTestCase
 {
-    public function extensionNameProvider() {
+    public function extensionNameProvider()
+    {
         return array(
             array('APCu', 'latest'),
             array('xdebug', 'latest'),
@@ -18,7 +22,8 @@ class ExtensionCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @dataProvider extensionNameProvider
      */
-    public function testExtInstallCommand($extensionName, $extensionVersion) {
+    public function testExtInstallCommand($extensionName, $extensionVersion)
+    {
         $this->markTestSkipped("This test can not be run against system php");
         $this->assertTrue($this->runCommandWithStdout("phpbrew ext install $extensionName $extensionVersion"));
     }
@@ -28,7 +33,8 @@ class ExtensionCommandTest extends CommandTestCase
      * @dataProvider extensionNameProvider
      * @depends testExtInstallCommand
      */
-    public function testExtShowCommand($extensionName, $extensionVersion) {
+    public function testExtShowCommand($extensionName, $extensionVersion)
+    {
         $this->assertTrue($this->runCommandWithStdout("phpbrew ext show $extensionName"));
     }
 
@@ -39,7 +45,8 @@ class ExtensionCommandTest extends CommandTestCase
      * @dataProvider extensionNameProvider
      * @depends testExtInstallCommand
      */
-    public function testExtCleanCommand($extensionName, $extensionVersion) {
+    public function testExtCleanCommand($extensionName, $extensionVersion)
+    {
         $this->assertTrue($this->runCommandWithStdout("phpbrew ext clean $extensionName"));
     }
 
@@ -47,9 +54,8 @@ class ExtensionCommandTest extends CommandTestCase
      * @outputBuffering enabled
      * @depends testExtInstallCommand
      */
-    public function testExtListCommand() {
+    public function testExtListCommand()
+    {
         $this->assertTrue($this->runCommandWithStdout('phpbrew ext --show-path --show-options'));
     }
-
-
 }

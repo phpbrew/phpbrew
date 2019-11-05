@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -8,7 +11,8 @@ use PhpBrew\Testing\CommandTestCase;
 class PathCommandTest extends CommandTestCase
 {
 
-    public function argumentsProvider() {
+    public function argumentsProvider()
+    {
 
         return array(
             array("build",   "#\.phpbrew/build/.+#"),
@@ -26,7 +30,8 @@ class PathCommandTest extends CommandTestCase
      * @dataProvider argumentsProvider
      * @depends testUseLatestPHP
      */
-    public function testPathCommand($arg, $pattern) {
+    public function testPathCommand($arg, $pattern)
+    {
         ob_start();
         $this->runCommandWithStdout("phpbrew path $arg");
         $path = ob_get_clean();

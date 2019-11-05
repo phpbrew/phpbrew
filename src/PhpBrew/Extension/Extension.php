@@ -2,8 +2,8 @@
 
 namespace PhpBrew\Extension;
 
-use PhpBrew\Config;
 use PhpBrew\Buildable;
+use PhpBrew\Config;
 
 class Extension implements Buildable
 {
@@ -87,7 +87,7 @@ class Extension implements Buildable
             return $this->sharedLibraryName;
         }
 
-        return strtolower($this->extensionName).'.so'; // for windows it might be a DLL.
+        return strtolower($this->extensionName) . '.so'; // for windows it might be a DLL.
     }
 
     public function setExtensionName($name)
@@ -116,19 +116,19 @@ class Extension implements Buildable
 
     public function getConfigM4Path()
     {
-        return $this->sourceDirectory.DIRECTORY_SEPARATOR.$this->configM4File;
+        return $this->sourceDirectory . DIRECTORY_SEPARATOR . $this->configM4File;
     }
 
     public function findConfigM4File($dir)
     {
-        $configM4Path = $dir.DIRECTORY_SEPARATOR.'config.m4';
+        $configM4Path = $dir . DIRECTORY_SEPARATOR . 'config.m4';
         if (file_exists($configM4Path)) {
             return 'config.m4';
         }
 
         for ($i = 0; $i < 10; ++$i) {
             $filename = "config{$i}.m4";
-            $configM4Path = $dir.DIRECTORY_SEPARATOR.$filename;
+            $configM4Path = $dir . DIRECTORY_SEPARATOR . $filename;
             if (file_exists($configM4Path)) {
                 return $filename;
             }
@@ -137,7 +137,7 @@ class Extension implements Buildable
 
     public function isBuildable()
     {
-        return file_exists($this->sourceDirectory.DIRECTORY_SEPARATOR.'Makefile');
+        return file_exists($this->sourceDirectory . DIRECTORY_SEPARATOR . 'Makefile');
     }
 
     public function getSourceDirectory()
@@ -147,17 +147,17 @@ class Extension implements Buildable
 
     public function getBuildLogPath()
     {
-        return $this->sourceDirectory.DIRECTORY_SEPARATOR.'build.log';
+        return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'build.log';
     }
 
     public function getSharedLibraryPath()
     {
-        return ini_get('extension_dir').DIRECTORY_SEPARATOR.$this->getSharedLibraryName();
+        return ini_get('extension_dir') . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
     }
 
     public function getConfigFilePath()
     {
-        return Config::getCurrentPhpConfigScanPath().'/'.$this->getName().'.ini';
+        return Config::getCurrentPhpConfigScanPath() . '/' . $this->getName() . '.ini';
     }
 
     /**

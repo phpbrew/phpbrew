@@ -1,4 +1,8 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
+use PhpBrew\Console;
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -8,10 +12,11 @@ class EnvCommandTest extends CommandTestCase
 {
     public function setupApplication()
     {
-        return new PhpBrew\Console;
+        return new Console();
     }
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
         putenv('PHPBREW_ROOT=' . getcwd() . '/.phpbrew');
@@ -24,6 +29,4 @@ class EnvCommandTest extends CommandTestCase
     {
         $this->assertCommandSuccess("phpbrew env");
     }
-
-
 }

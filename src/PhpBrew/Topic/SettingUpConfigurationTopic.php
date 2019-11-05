@@ -1,4 +1,5 @@
 <?php
+
 /**
 Please DO NOT modify this file directly.
 */
@@ -7,7 +8,7 @@ namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class SettingUpConfigurationTopic  extends GitHubTopic
+class SettingUpConfigurationTopic extends GitHubTopic
 {
     public $id = 'setting-up-configuration';
     public $url = 'https://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration.md';

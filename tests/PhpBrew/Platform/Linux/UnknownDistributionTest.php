@@ -1,10 +1,14 @@
 <?php
-namespace PhpBrew\Platform\Linux;
+
+namespace PhpBrew\Tests\Platform\Linux;
+
+use PhpBrew\Platform\Linux\UnknownDistribution;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class UnknownDistributionTest extends \PHPUnit\Framework\TestCase
+class UnknownDistributionTest extends TestCase
 {
     private $distribution;
 
@@ -28,4 +32,3 @@ class UnknownDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->distribution->isCentOS());
     }
 }
-

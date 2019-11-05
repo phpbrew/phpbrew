@@ -2,10 +2,10 @@
 
 namespace PhpBrew\Tasks;
 
-use PhpBrew\Exception\SystemCommandException;
+use PhpBrew\Build;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
-use PhpBrew\Build;
+use PhpBrew\Exception\SystemCommandException;
 
 /**
  * Task to run `make`.
@@ -41,10 +41,10 @@ class ConfigureTask extends BaseTask
 
         if (!$this->options->{'no-config-cache'}) {
             // $args[] = "-C"; // project wise cache (--config-cache)
-            $args[] = '--cache-file='.Config::getCacheDir().DIRECTORY_SEPARATOR.'config.cache';
+            $args[] = '--cache-file=' . Config::getCacheDir() . DIRECTORY_SEPARATOR . 'config.cache';
         }
 
-        $args[] = '--prefix='.$prefix;
+        $args[] = '--prefix=' . $prefix;
         if ($this->options->{'user-config'}) {
             $args[] = "--with-config-file-path={$prefix}/etc";
             $args[] = "--with-config-file-scan-dir={$prefix}/var/db";
@@ -57,8 +57,8 @@ class ConfigureTask extends BaseTask
             $args = array_merge($args, $variantOptions);
         }
 
-        $this->debug('Enabled variants: ['.implode(', ', array_keys($build->getVariants())).']');
-        $this->debug('Disabled variants: ['.implode(', ', array_keys($build->getDisabledVariants())).']');
+        $this->debug('Enabled variants: [' . implode(', ', array_keys($build->getVariants())) . ']');
+        $this->debug('Disabled variants: [' . implode(', ', array_keys($build->getDisabledVariants())) . ']');
 
         // Options for specific versions
         // todo: extract to BuildPlan class: PHP53 BuildPlan, PHP54 BuildPlan, PHP55 BuildPlan ?
@@ -79,7 +79,7 @@ class ConfigureTask extends BaseTask
 
         $buildLogPath = $build->getBuildLogPath();
         if (file_exists($buildLogPath)) {
-            $newPath = $buildLogPath.'.'.filemtime($buildLogPath);
+            $newPath = $buildLogPath . '.' . filemtime($buildLogPath);
             $this->info("Found existing build.log, renaming it to $newPath");
             rename($buildLogPath, $newPath);
         }

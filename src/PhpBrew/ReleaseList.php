@@ -3,8 +3,8 @@
 namespace PhpBrew;
 
 use CLIFramework\Logger;
-use GetOptionKit\OptionResult;
 use Exception;
+use GetOptionKit\OptionResult;
 use PhpBrew\Downloader\DownloadFactory;
 use RuntimeException;
 
@@ -52,7 +52,7 @@ class ReleaseList
 
             return $releases;
         } else {
-            throw new RuntimeException("Can't decode release json, invalid JSON string: ".substr($json, 0, 125));
+            throw new RuntimeException("Can't decode release json, invalid JSON string: " . substr($json, 0, 125));
         }
     }
 
@@ -70,7 +70,7 @@ class ReleaseList
         $latestMajor = array_shift($releases);
         $latest = array_shift($latestMajor);
         if (!$latest) {
-            throw new \Exception('Latest major version not found.');
+            throw new Exception('Latest major version not found.');
         }
 
         return $latest['version'];
@@ -127,7 +127,7 @@ class ReleaseList
         $localFilepath = Config::getPHPReleaseListPath();
         $json = json_encode($this->releases, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         if (false === file_put_contents($localFilepath, $json)) {
-            throw new \Exception("Can't store release json file");
+            throw new Exception("Can't store release json file");
         }
     }
 
@@ -180,7 +180,7 @@ class ReleaseList
                 list($o, $major, $minor) = $matches;
                 $release = array('version' => $k);
                 if (isset($v['announcement']['English'])) {
-                    $release['announcement'] = 'https://php.net'.$v['announcement']['English'];
+                    $release['announcement'] = 'https://php.net' . $v['announcement']['English'];
                 }
 
                 if (isset($v['date'])) {

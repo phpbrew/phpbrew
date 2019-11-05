@@ -1,4 +1,5 @@
 <?php
+
 /**
 Please DO NOT modify this file directly.
 */
@@ -7,7 +8,7 @@ namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class PHPBrewJATopic  extends GitHubTopic
+class PHPBrewJATopic extends GitHubTopic
 {
     public $id = 'phpbrew-ja';
     public $url = 'https://github.com/phpbrew/phpbrew/wiki/PHPBrew JA 日語指引.md';
