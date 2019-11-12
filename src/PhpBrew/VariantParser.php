@@ -2,12 +2,6 @@
 
 namespace PhpBrew;
 
-use Exception;
-
-class InvalidVariantSyntaxException extends Exception
-{
-}
-
 class VariantParser
 {
     public static function splitVariantValue($str)
@@ -42,7 +36,9 @@ class VariantParser
 
             if ($arg[0] === '+' || $arg[0] === '-') {
                 if (substr($arg, 0, 2) === '--') {
-                    throw new InvalidVariantSyntaxException("Invalid variant syntax exception start with '--': ".$arg);
+                    throw new InvalidVariantSyntaxException(
+                        "Invalid variant syntax exception start with '--': " . $arg
+                    );
                 }
                 preg_match_all('#[+-][\w_]+(=[\"\'\.\/\w_-]+)?#', $arg, $variantStrings);
 
@@ -56,7 +52,7 @@ class VariantParser
                             $a = self::splitVariantValue(substr($str, 1));
                             $disabledVariants = array_merge($disabledVariants, $a);
                         } else {
-                            throw new InvalidVariantSyntaxException($str.' is invalid syntax');
+                            throw new InvalidVariantSyntaxException($str . ' is invalid syntax');
                         }
                     }
                 }
@@ -80,16 +76,16 @@ class VariantParser
         $out = '';
 
         foreach ($info['enabled_variants'] as $k => $v) {
-            $out .= ' +'.$k;
+            $out .= ' +' . $k;
             if (!is_bool($v)) {
-                $out .= '='.$v.' ';
+                $out .= '=' . $v . ' ';
             }
         }
         if (!empty($info['disabled_variants'])) {
-            $out .= ' -'.implode('-', array_keys($info['disabled_variants']));
+            $out .= ' -' . implode('-', array_keys($info['disabled_variants']));
         }
         if (!empty($info['extra_options'])) {
-            $out .= ' -- '.implode(' ', $info['extra_options']);
+            $out .= ' -- ' . implode(' ', $info['extra_options']);
         }
 
         return $out;

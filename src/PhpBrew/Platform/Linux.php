@@ -2,9 +2,8 @@
 
 namespace PhpBrew\Platform;
 
-use PhpBrew\Platform\Linux\Distribution;
-use PhpBrew\Platform\Linux\Debian;
 use PhpBrew\Platform\Linux\CentOS;
+use PhpBrew\Platform\Linux\Debian;
 use PhpBrew\Platform\Linux\UnknownDistribution;
 
 class Linux implements Platform

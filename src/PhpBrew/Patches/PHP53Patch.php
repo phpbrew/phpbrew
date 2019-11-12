@@ -2,49 +2,10 @@
 
 namespace PhpBrew\Patches;
 
-use PhpBrew\Buildable;
-use PhpBrew\PatchKit\Patch;
-use PhpBrew\PatchKit\DiffPatchRule;
 use CLIFramework\Logger;
-
-class GistContent
-{
-    public $userId;
-
-    public $gistId;
-
-    public $revision;
-
-    public $filename;
-
-    public function __construct($userId, $gistId, $filename = null, $revision = null)
-    {
-        $this->userId = $userId;
-        $this->gistId = $gistId;
-        $this->filename = $filename;
-        $this->revision = $revision;
-    }
-
-    public static function url($userId, $gistId, $filename = null, $revision = null)
-    {
-        $gist = new self($userId, $gistId, $filename, $revision);
-
-        return $gist->__toString();
-    }
-
-    public function __toString()
-    {
-        $url = "https://gist.githubusercontent.com/{$this->userId}/{$this->gistId}/raw";
-        if ($this->revision) {
-            $url .= "/{$this->revision}";
-        }
-        if ($this->filename) {
-            $url .= "/{$this->filename}";
-        }
-
-        return $url;
-    }
-}
+use PhpBrew\Buildable;
+use PhpBrew\PatchKit\DiffPatchRule;
+use PhpBrew\PatchKit\Patch;
 
 class PHP53Patch extends Patch
 {
@@ -63,7 +24,14 @@ class PHP53Patch extends Patch
     {
         $rules = array();
         // The patch only works for php5.3.29
-        $rules[] = DiffPatchRule::from(GistContent::url('javian', 'bfcbd5bc5874ee9c539fb3d642cdce3e', 'multi-sapi-5.3.29-homebrew.patch', 'bf079cc68ec76290f02f57981ae85b20a06dd428'))
+        $rules[] = DiffPatchRule::from(
+            GistContent::url(
+                'javian',
+                'bfcbd5bc5874ee9c539fb3d642cdce3e',
+                'multi-sapi-5.3.29-homebrew.patch',
+                'bf079cc68ec76290f02f57981ae85b20a06dd428',
+            )
+        )
             ->strip(1)
             ->sha256('3c3157bc5c4346108a398798b84dbbaa13409c43d3996bea2ddacb3277e0cee2');
 

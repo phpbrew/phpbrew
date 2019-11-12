@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xiami
- * Date: 2015/12/30
- * Time: 11:55.
- */
 
 namespace PhpBrew\Downloader;
 
 use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
+use RuntimeException;
 
 abstract class BaseDownloader
 {
@@ -29,14 +24,14 @@ abstract class BaseDownloader
      *
      * @return bool|string if download successfully, return target file path, otherwise return false.
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function download($url, $targetFilePath = null)
     {
         if (empty($targetFilePath)) {
             $targetFilePath = tempnam(sys_get_temp_dir(), 'phpbrew_');
             if ($targetFilePath === false) {
-                throw new \RuntimeException('Fail to create temp file');
+                throw new RuntimeException('Fail to create temp file');
             }
         } else {
             if (!file_exists($targetFilePath)) {
@@ -44,7 +39,7 @@ abstract class BaseDownloader
             }
         }
         if (!is_writable($targetFilePath)) {
-            throw new \RuntimeException("Target path ($targetFilePath) is not writable!");
+            throw new RuntimeException("Target path ($targetFilePath) is not writable!");
         }
         if ($this->process($url, $targetFilePath)) {
             $this->logger->debug("$url => $targetFilePath");
@@ -58,7 +53,7 @@ abstract class BaseDownloader
     /**
      * fetch the remote content.
      *
-     * @param $url the url to be downloaded
+     * @param string $url The url to be downloaded
      *
      * @return bool|string return content if download successfully, otherwise false is returned
      *

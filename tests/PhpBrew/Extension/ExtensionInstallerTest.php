@@ -1,17 +1,14 @@
 <?php
-use PhpBrew\Utils;
-use PhpBrew\Config;
-use PhpBrew\Extension;
-use CLIFramework\Logger;;
+
+namespace PhpBrew\Tests\Extension;
+
+use CLIFramework\Logger;
 use GetOptionKit\OptionResult;
-use PhpBrew\Testing\VCRAdapter;
-use \PHPUnit\Framework\TestCase;
-use PhpBrew\Testing\CommandTestCase;
+use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
-use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\Provider\PeclProvider;
-use PhpBrew\Extension\PeclExtensionInstaller;
+use PhpBrew\Testing\CommandTestCase;
 
 /**
  * NOTE: This depends on an existing installed php build. we need to ensure
@@ -23,7 +20,8 @@ use PhpBrew\Extension\PeclExtensionInstaller;
 class ExtensionInstallerTest extends CommandTestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $versionName = $this->getPrimaryVersion();
         $this->runCommand("phpbrew use php-{$versionName}");
@@ -34,10 +32,10 @@ class ExtensionInstallerTest extends CommandTestCase
      */
     public function testPackageUrl()
     {
-        $logger = new Logger;
+        $logger = new Logger();
         $logger->setQuiet();
-        $peclProvider = new PeclProvider($logger, new OptionResult);
-        $downloader = new ExtensionDownloader($logger, new OptionResult);
+        $peclProvider = new PeclProvider($logger, new OptionResult());
+        $downloader = new ExtensionDownloader($logger, new OptionResult());
         $peclProvider->setPackageName('APCu');
         $extractPath = $downloader->download($peclProvider, 'latest');
         $this->assertFileExists($extractPath);
@@ -62,11 +60,11 @@ class ExtensionInstallerTest extends CommandTestCase
             $this->markTestSkipped('skip extension build test');
             return;
         }
-        $logger = new Logger;
+        $logger = new Logger();
         $logger->setDebug();
         $manager = new ExtensionManager($logger);
-        $peclProvider = new PeclProvider;
-        $downloader = new ExtensionDownloader($logger, new OptionResult);
+        $peclProvider = new PeclProvider();
+        $downloader = new ExtensionDownloader($logger, new OptionResult());
         $peclProvider->setPackageName($extensionName);
         $downloader->download($peclProvider, $extensionVersion);
         $ext = ExtensionFactory::lookup($extensionName);

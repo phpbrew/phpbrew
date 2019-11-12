@@ -1,14 +1,19 @@
 <?php
 
+namespace PhpBrew\Tests;
+
+use PhpBrew\CommandBuilder;
+use PHPUnit\Framework\TestCase;
+
 /**
  * @small
  */
-class CommandBuilderTest extends \PHPUnit\Framework\TestCase
+class CommandBuilderTest extends TestCase
 {
     public function test()
     {
         ob_start();
-        $cmd = new PhpBrew\CommandBuilder('ls');
+        $cmd = new CommandBuilder('ls');
         $this->assertEquals(0, $cmd->execute());
         ob_end_clean();
     }
@@ -18,7 +23,7 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetCommand($appendLog, $stdout, $logPath, $expected)
     {
-        $cmd = new PhpBrew\CommandBuilder('ls');
+        $cmd = new CommandBuilder('ls');
         $cmd->setAppendLog($appendLog);
         $cmd->setStdout($stdout);
         $cmd->setLogPath($logPath);

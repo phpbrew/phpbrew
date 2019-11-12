@@ -14,7 +14,7 @@ class DefaultConfigTask extends BaseTask
         $phpConfigFile = $options->production ? 'php.ini-production' : 'php.ini-development';
 
         $this->logger->info(
-            '---> Copying config file for '.$options->production ? 'production' : 'development'
+            '---> Copying config file for ' . $options->production ? 'production' : 'development'
         );
 
         if (file_exists($phpConfigFile)) {
@@ -28,7 +28,7 @@ class DefaultConfigTask extends BaseTask
                 mkdir($dir, 0755, true);
             }
 
-            $targetConfigPath = Config::getVersionEtcPath($version).DIRECTORY_SEPARATOR.'php.ini';
+            $targetConfigPath = Config::getVersionEtcPath($version) . DIRECTORY_SEPARATOR . 'php.ini';
 
             if (file_exists($targetConfigPath)) {
                 $this->logger->notice("$targetConfigPath exists, do not overwrite.");

@@ -1,4 +1,5 @@
 <?php
+
 /**
 Please DO NOT modify this file directly.
 */
@@ -7,7 +8,7 @@ namespace PhpBrew\Topic;
 
 use CLIFramework\Topic\GitHubTopic;
 
-class ContributionTopic  extends GitHubTopic
+class ContributionTopic extends GitHubTopic
 {
     public $id = 'contribution';
     public $url = 'https://github.com/phpbrew/phpbrew/wiki/Contribution.md';

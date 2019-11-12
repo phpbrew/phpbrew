@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -9,7 +12,8 @@ use PhpBrew\Testing\CommandTestCase;
 class DownloadCommandTest extends CommandTestCase
 {
 
-    public function versionDataProvider() {
+    public function versionDataProvider()
+    {
         return array(
             array('5.5'),
             array('5.5.15'),
@@ -28,7 +32,9 @@ class DownloadCommandTest extends CommandTestCase
 
         $this->assertCommandSuccess("phpbrew init");
         $this->assertCommandSuccess("phpbrew -q download $versionName");
-        $this->assertCommandSuccess("phpbrew -q download $versionName"); // redownload should just check the checksum instead of extracting it.
+
+        // re-download should just check the checksum instead of extracting it
+        $this->assertCommandSuccess("phpbrew -q download $versionName");
         $this->assertCommandSuccess("phpbrew -q download -f $versionName");
     }
 }

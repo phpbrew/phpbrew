@@ -3,8 +3,8 @@
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;
-use PhpBrew\Utils;
 use PhpBrew\Config;
+use PhpBrew\Utils;
 
 class ConfigCommand extends Command
 {

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xiami
- * Date: 2015/12/30
- * Time: 11:59.
- */
 
 namespace PhpBrew\Downloader;
 

@@ -25,7 +25,7 @@ class DisableCommand extends BaseCommand
 
                 return array_map(function ($path) use ($extension) {
                     return basename($path, $extension);
-                }, glob(Config::getCurrentPhpDir()."/var/db/*{$extension}"));
+                }, glob(Config::getCurrentPhpDir() . "/var/db/*{$extension}"));
             });
     }
 

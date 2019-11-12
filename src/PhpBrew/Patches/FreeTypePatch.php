@@ -2,10 +2,10 @@
 
 namespace PhpBrew\Patches;
 
+use CLIFramework\Logger;
 use PhpBrew\Buildable;
 use PhpBrew\PatchKit\DiffPatchRule;
 use PhpBrew\PatchKit\Patch;
-use CLIFramework\Logger;
 
 /**
  * As of recently, freetype-config has been removed in favor of pkg-config. It has been fixed in PHP 7.4beta1

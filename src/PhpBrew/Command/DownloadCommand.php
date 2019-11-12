@@ -2,15 +2,16 @@
 
 namespace PhpBrew\Command;
 
+use CLIFramework\Command;
+use CLIFramework\ValueCollection;
 use Exception;
+use GetOptionKit\OptionSpecCollection;
 use PhpBrew\Config;
 use PhpBrew\Distribution\DistributionUrlPolicy;
 use PhpBrew\Downloader\DownloadFactory;
+use PhpBrew\ReleaseList;
 use PhpBrew\Tasks\DownloadTask;
 use PhpBrew\Tasks\PrepareDirectoryTask;
-use PhpBrew\ReleaseList;
-use CLIFramework\Command;
-use CLIFramework\ValueCollection;
 
 class DownloadCommand extends Command
 {
@@ -42,7 +43,7 @@ class DownloadCommand extends Command
     }
 
     /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
+     * @param OptionSpecCollection $opts
      */
     public function options($opts)
     {
@@ -60,12 +61,15 @@ class DownloadCommand extends Command
         $releases = $releaseList->getReleases();
         $versionInfo = $releaseList->getVersion($version);
         if (!$versionInfo) {
-            throw new \Exception("Version $version not found.");
+            throw new Exception("Version $version not found.");
         }
         $version = $versionInfo['version'];
         $distUrlPolicy = new DistributionUrlPolicy();
         if ($this->options->mirror) {
-            $this->logger->warn('php.net has retired the mirror program, hence --mirror option has been deprecated and will be removed in the future.');
+            $this->logger->warn(
+                'php.net has retired the mirror program, '
+                . 'hence --mirror option has been deprecated and will be removed in the future.'
+            );
         }
         $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename'], $versionInfo['museum']);
 
@@ -87,7 +91,7 @@ class DownloadCommand extends Command
         $targetDir = $download->download($distUrl, $distFileDir, $algo, $hash);
 
         if (!file_exists($targetDir)) {
-            throw new \Exception('Download failed.');
+            throw new Exception('Download failed.');
         }
         $this->logger->info("Done, please look at: $targetDir");
     }

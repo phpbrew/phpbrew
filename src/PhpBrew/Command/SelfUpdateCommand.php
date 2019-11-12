@@ -2,10 +2,11 @@
 
 namespace PhpBrew\Command;
 
+use CLIFramework\Command;
 use Exception;
+use GetOptionKit\OptionSpecCollection;
 use PhpBrew\Downloader\DownloadFactory;
 use RuntimeException;
-use CLIFramework\Command;
 
 class SelfUpdateCommand extends Command
 {
@@ -20,7 +21,7 @@ class SelfUpdateCommand extends Command
     }
 
     /**
-     * @param \GetOptionKit\OptionSpecCollection $opts
+     * @param OptionSpecCollection $opts
      */
     public function options($opts)
     {
@@ -41,7 +42,7 @@ class SelfUpdateCommand extends Command
         $script = realpath($argv[0]);
 
         if (!is_writable($script)) {
-            throw new \Exception("$script is not writable.");
+            throw new Exception("$script is not writable.");
         }
 
         // fetch new version phpbrew
@@ -49,8 +50,12 @@ class SelfUpdateCommand extends Command
         $url = "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/phpbrew";
 
         //download to a tmp file first
-        $downloader = DownloadFactory::getInstance($this->logger, $this->options,
-            array(DownloadFactory::METHOD_CURL, DownloadFactory::METHOD_WGET)); //the phar file is large so we prefer the commands rather than extensions.
+        //the phar file is large so we prefer the commands rather than extensions.
+        $downloader = DownloadFactory::getInstance(
+            $this->logger,
+            $this->options,
+            array(DownloadFactory::METHOD_CURL, DownloadFactory::METHOD_WGET)
+        );
         $tempFile = $downloader->download($url);
 
         if ($tempFile === false) {
@@ -69,7 +74,7 @@ class SelfUpdateCommand extends Command
         }
 
         $this->logger->info('Version updated.');
-        system($script.' init');
-        system($script.' --version');
+        system($script . ' init');
+        system($script . ' --version');
     }
 }

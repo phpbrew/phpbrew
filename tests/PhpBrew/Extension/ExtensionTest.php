@@ -1,12 +1,10 @@
 <?php
-namespace PhpBrew\Extension;
 
-use PhpBrew\Testing\VCRAdapter;
-use \PHPUnit\Framework\TestCase;
-use PhpBrew\Extension\Extension;
-use PhpBrew\Extension\M4Extension;
-use PhpBrew\Extension\PeclExtension;
+namespace PhpBrew\Tests\Extension;
+
 use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Testing\VCRAdapter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ExtensionTest
@@ -14,7 +12,7 @@ use PhpBrew\Extension\ExtensionFactory;
  * @large
  * @group extension
  */
-class ExtensionTest extends \PHPUnit\Framework\TestCase
+class ExtensionTest extends TestCase
 {
     public function setUp()
     {
@@ -96,11 +94,12 @@ class ExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($ext->isZend());
     }
 
-    public function extensionNameProvider() {
+    public function extensionNameProvider()
+    {
         $extNames = scandir(getenv('PHPBREW_EXTENSION_DIR'));
         $data = array();
 
-        foreach( $extNames as $extName) {
+        foreach ($extNames as $extName) {
             if ($extName == "." || $extName == "..") {
                 continue;
             }
@@ -113,7 +112,8 @@ class ExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider extensionNameProvider
      */
-    public function testGenericExtensionMetaInformation($extName) {
+    public function testGenericExtensionMetaInformation($extName)
+    {
         $ext = ExtensionFactory::lookup($extName, array(getenv('PHPBREW_EXTENSION_DIR')));
         $this->assertInstanceOf('PhpBrew\Extension\Extension', $ext);
         $this->assertNotEmpty($ext->getName());

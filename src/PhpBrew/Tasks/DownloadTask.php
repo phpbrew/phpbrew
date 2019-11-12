@@ -13,15 +13,15 @@ class DownloadTask extends BaseTask
     public function download($url, $dir, $algo = 'md5', $hash = null)
     {
         if (!is_writable($dir)) {
-            throw new \Exception("Directory is not writable: $dir");
+            throw new Exception("Directory is not writable: $dir");
         }
 
         $downloader = DownloadFactory::getInstance($this->logger, $this->options);
         $basename = $downloader->resolveDownloadFileName($url);
         if (!$basename) {
-            throw new \Exception("Can not parse url: $url");
+            throw new Exception("Can not parse url: $url");
         }
-        $targetFilePath = $dir.DIRECTORY_SEPARATOR.$basename;
+        $targetFilePath = $dir . DIRECTORY_SEPARATOR . $basename;
 
         if (!$this->options->force && file_exists($targetFilePath)) {
             $this->logger->info('Checking distribution checksum...');
@@ -31,7 +31,7 @@ class DownloadTask extends BaseTask
                 $this->logger->info('Re-Downloading...');
                 $downloader->download($url, $targetFilePath);
             } else {
-                $this->logger->info('Checksum matched: '.$hash);
+                $this->logger->info('Checksum matched: ' . $hash);
             }
         } else {
             $downloader->download($url, $targetFilePath);

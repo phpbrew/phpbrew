@@ -1,11 +1,14 @@
 <?php
+
+namespace PhpBrew\Tests;
+
 use PhpBrew\Utils;
-use PhpBrew\Config;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class UtilsTest extends \PHPUnit\Framework\TestCase
+class UtilsTest extends TestCase
 {
     public function test()
     {
@@ -19,8 +22,8 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
 
     public function testFindIcuPkgData()
     {
-        return $this->markTestSkipped('icu/pkgdata.inc is not found on Ubuntu Linux');
-        $this->assertNotNull(Utils::findLibPrefix('icu/pkgdata.inc','icu/Makefile.inc'));
+        $this->markTestSkipped('icu/pkgdata.inc is not found on Ubuntu Linux');
+        $this->assertNotNull(Utils::findLibPrefix('icu/pkgdata.inc', 'icu/Makefile.inc'));
     }
 
     public function testPrefix()

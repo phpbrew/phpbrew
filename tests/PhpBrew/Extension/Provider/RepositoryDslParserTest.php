@@ -1,6 +1,9 @@
 <?php
 
-namespace PhpBrew\Extension\Provider;
+namespace PhpBrew\Tests\Extension\Provider;
+
+use PhpBrew\Extension\Provider\RepositoryDslParser;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ExtensionDslParserTest
@@ -8,20 +11,20 @@ namespace PhpBrew\Extension\Provider;
  * @small
  * @group extension
  */
-class ExtensionDslParserTest extends \PHPUnit\Framework\TestCase
+class ExtensionDslParserTest extends TestCase
 {
     protected $parser;
 
     public function setUp()
     {
-        $this->parser = new RepositoryDslParser;
+        $this->parser = new RepositoryDslParser();
     }
 
-    public function DslProvider()
+    public static function dslProvider()
     {
         return array(
             // pecl
-            array('xdebug', 'pecl', null, 'xdebug'), // standard pecl package namce
+            array('xdebug', 'pecl', null, 'xdebug'), // standard pecl package name
             array('APCu', 'pecl', null, 'APCu'), // pecl package name with mixed uppercase/lowercase
             array('com_dotnet', 'pecl', null, 'com_dotnet'), // pecl package name with _
             // github
@@ -29,22 +32,28 @@ class ExtensionDslParserTest extends \PHPUnit\Framework\TestCase
             array('git@github.com:foo/bar', 'github', 'foo', 'bar'), // long github dsl
             array('http://github.com/foo/bar', 'github', 'foo', 'bar'), // raw http guthub url
             array('https://github.com/foo/bar', 'github', 'foo', 'bar'), // raw https guthub url
-            array('https://www.github.com/foo/bar', 'github', 'foo', 'bar'), // somebody really likes to type githubs urls...
+
+            // somebody really likes to type GitHub URLs...
+            array('https://www.github.com/foo/bar', 'github', 'foo', 'bar'),
             // bitbucket
             array('bitbucket:foo/bar', 'bitbucket', 'foo', 'bar'), // short bitbucket dsl
             array('git@bitbucket.org:foo/bar', 'bitbucket', 'foo', 'bar'), // long bitbucket dsl
             array('http://bitbucket.org/foo/bar', 'bitbucket', 'foo', 'bar'), // raw http bitbucket url
             array('https://bitbucket.org/foo/bar', 'bitbucket', 'foo', 'bar'), // raw https bitbucket url
-            array('http://www.bitbucket.org/foo/bar', 'bitbucket', 'foo', 'bar'), // somebody really likes to type bitbuckets urls...
+
+            // somebody really likes to type BitBuckets URLs...
+            array('http://www.bitbucket.org/foo/bar', 'bitbucket', 'foo', 'bar'),
             // user is feeling luky and finds extension that is not on github or bitbucket
             array('http://luky.feelings.org/foo/bar', 'luky', 'foo', 'bar'), // raw http luky url
             array('https://luky.feelings.org/foo/bar', 'luky', 'foo', 'bar'), // raw https luky url
-            array('http://www.luky.feelings.org/foo/bar', 'luky', 'foo', 'bar'), // somebody is really luky if this ext compiles...
+
+            // somebody is really luky if this ext compiles...
+            array('http://www.luky.feelings.org/foo/bar', 'luky', 'foo', 'bar'),
         );
     }
 
     /**
-     * @dataProvider DslProvider
+     * @dataProvider dslProvider
      */
     public function testGithubDsl($dsl, $repo, $owner, $package)
     {

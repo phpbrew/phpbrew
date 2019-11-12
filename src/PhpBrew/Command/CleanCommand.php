@@ -2,11 +2,11 @@
 
 namespace PhpBrew\Command;
 
-use PhpBrew\Tasks\MakeTask;
+use CLIFramework\Command;
 use PhpBrew\Build;
 use PhpBrew\Config;
+use PhpBrew\Tasks\MakeTask;
 use PhpBrew\Utils;
-use CLIFramework\Command;
 
 class CleanCommand extends Command
 {
@@ -29,19 +29,19 @@ class CleanCommand extends Command
     {
         $args->add('installed php')
             ->validValues(function () {
-                return \PhpBrew\Config::getInstalledPhpVersions();
+                return Config::getInstalledPhpVersions();
             })
             ;
     }
 
     public function execute($version)
     {
-        $buildDir = Config::getBuildDir().DIRECTORY_SEPARATOR.$version;
+        $buildDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $version;
         if ($this->options->all) {
             if (!file_exists($buildDir)) {
-                $this->logger->info('Source directory '.$buildDir.' does not exist.');
+                $this->logger->info('Source directory ' . $buildDir . ' does not exist.');
             } else {
-                $this->logger->info('Source directory '.$buildDir.' found, deleting...');
+                $this->logger->info('Source directory ' . $buildDir . ' found, deleting...');
                 Utils::recursive_unlink($buildDir, $this->logger);
             }
         } else {

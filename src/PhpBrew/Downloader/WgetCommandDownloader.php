@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xiami
- * Date: 2015/12/30
- * Time: 12:02.
- */
 
 namespace PhpBrew\Downloader;
 
 use PhpBrew\Utils;
+use RuntimeException;
 
 class WgetCommandDownloader extends BaseDownloader
 {
@@ -24,7 +19,7 @@ class WgetCommandDownloader extends BaseDownloader
      *
      * @return bool|string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function process($url, $targetFilePath)
     {
@@ -33,7 +28,11 @@ class WgetCommandDownloader extends BaseDownloader
         $proxy = '';
         if (!empty($this->options->{'http-proxy'})) {
             if (!empty($this->options->{'http-proxy-auth'})) {
-                $proxy = sprintf('-e use_proxy=on -e http_proxy=%s@%s', $this->options->{'http-proxy-auth'}, $this->options->{'http-proxy'});
+                $proxy = sprintf(
+                    '-e use_proxy=on -e http_proxy=%s@%s',
+                    $this->options->{'http-proxy-auth'},
+                    $this->options->{'http-proxy'}
+                );
             } else {
                 $proxy = sprintf('-e use_proxy=on -e http_proxy=%s', $this->options->{'http-proxy'});
             }
@@ -41,8 +40,14 @@ class WgetCommandDownloader extends BaseDownloader
 
         $quiet = $this->logger->isQuiet() ? '--quiet' : '';
         $continue = $this->enableContinueAt || $this->options->{'continue'} ? '-c' : '';
-        Utils::system(sprintf('wget --no-check-certificate %s %s %s -N -O %s %s',
-            $continue, $quiet, $proxy, escapeshellarg($targetFilePath), escapeshellarg($url)));
+        Utils::system(sprintf(
+            'wget --no-check-certificate %s %s %s -N -O %s %s',
+            $continue,
+            $quiet,
+            $proxy,
+            escapeshellarg($targetFilePath),
+            escapeshellarg($url)
+        ));
 
         return true;
     }

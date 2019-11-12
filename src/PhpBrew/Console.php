@@ -2,13 +2,13 @@
 
 namespace PhpBrew;
 
-use CLIFramework\Application;
-use CLIFramework\Exception\CommandNotFoundException;
-use CLIFramework\Exception\CommandArgumentNotEnoughException;
-use CLIFramework\ExceptionPrinter\ProductionExceptionPrinter;
-use CLIFramework\ExceptionPrinter\DevelopmentExceptionPrinter;
-use Exception;
 use BadMethodCallException;
+use CLIFramework\Application;
+use CLIFramework\Exception\CommandArgumentNotEnoughException;
+use CLIFramework\Exception\CommandNotFoundException;
+use CLIFramework\ExceptionPrinter\DevelopmentExceptionPrinter;
+use CLIFramework\ExceptionPrinter\ProductionExceptionPrinter;
+use Exception;
 use PhpBrew\Exception\SystemCommandException;
 
 class Console extends Application
@@ -116,23 +116,26 @@ class Console extends Application
             $this->logger->error($e->getMessage());
             $this->logger->writeln('Expected argument prototypes:');
             foreach ($e->getCommand()->getAllCommandPrototype() as $p) {
-                $this->logger->writeln("\t".$p);
+                $this->logger->writeln("\t" . $p);
             }
             $this->logger->newline();
         } catch (CommandNotFoundException $e) {
-            $this->logger->error($e->getMessage().' available commands are: '.implode(', ', $e->getCommand()->getVisibleCommandList()));
+            $this->logger->error(
+                $e->getMessage()
+                . ' available commands are: '
+                . implode(', ', $e->getCommand()->getVisibleCommandList())
+            );
             $this->logger->newline();
 
             $this->logger->writeln('Please try the command below to see the details:');
             $this->logger->newline();
-            $this->logger->writeln("\t".$this->getProgramName().' help ');
+            $this->logger->writeln("\t" . $this->getProgramName() . ' help ');
             $this->logger->newline();
         } catch (SystemCommandException $e) {
-
             // Todo: detect $lastline for library missing here...
 
             $buildLog = $e->getLogFile();
-            $this->logger->error('Error: '.trim($e->getMessage()));
+            $this->logger->error('Error: ' . trim($e->getMessage()));
 
             if (file_exists($buildLog)) {
                 $this->logger->error('The last 5 lines in the log file:');

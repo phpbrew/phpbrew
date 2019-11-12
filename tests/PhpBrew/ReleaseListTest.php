@@ -1,17 +1,21 @@
 <?php
+
+namespace PhpBrew\Tests;
+
 use PhpBrew\ReleaseList;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class ReleaseListTest extends \PHPUnit\Framework\TestCase
+class ReleaseListTest extends TestCase
 {
     public $releaseList;
 
     public function setUp()
     {
-        $this->releaseList = new ReleaseList;
-        $this->releaseList->loadJsonFile(__DIR__.'/../fixtures/php-releases.json');
+        $this->releaseList = new ReleaseList();
+        $this->releaseList->loadJsonFile(__DIR__ . '/../fixtures/php-releases.json');
     }
 
     public function testGetVersions()
@@ -31,7 +35,8 @@ class ReleaseListTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function versionDataProvider() {
+    public function versionDataProvider()
+    {
         return array(
             array("7.3", "7.3.0"),
             array("7.2", "7.2.13"),

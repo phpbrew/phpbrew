@@ -14,10 +14,10 @@ class DistributionUrlPolicy
     {
         //the historic releases only available at museum
         if ($museum || $this->isDistributedAtMuseum($version)) {
-            return 'https://museum.php.net/php5/'.$filename;
+            return 'https://museum.php.net/php5/' . $filename;
         }
 
-        return 'https://www.php.net/distributions/'.$filename;
+        return 'https://www.php.net/distributions/' . $filename;
     }
 
     private function isDistributedAtMuseum($version)

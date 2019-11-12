@@ -1,4 +1,7 @@
 <?php
+
+namespace PhpBrew\Tests\Command;
+
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -10,9 +13,8 @@ class VariantsCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      */
-    public function testVariantsCommand() {
+    public function testVariantsCommand()
+    {
         $this->assertCommandSuccess("phpbrew variants");
     }
-
-
 }

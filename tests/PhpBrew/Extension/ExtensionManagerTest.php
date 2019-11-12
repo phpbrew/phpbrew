@@ -1,9 +1,12 @@
 <?php
-namespace PhpBrew\Extension;
 
-use PhpBrew\Buildable;
+namespace PhpBrew\Tests\Extension;
+
 use CLIFramework\Logger;
+use PhpBrew\Extension\ExtensionFactory;
+use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\Testing\VCRAdapter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ExtensionManagerTest
@@ -11,7 +14,7 @@ use PhpBrew\Testing\VCRAdapter;
  * @large
  * @group extension
  */
-class ExtensionManagerTest extends \PHPUnit\Framework\TestCase
+class ExtensionManagerTest extends TestCase
 {
     private $manager;
 

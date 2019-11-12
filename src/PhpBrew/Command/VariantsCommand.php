@@ -2,9 +2,10 @@
 
 namespace PhpBrew\Command;
 
+use CLIFramework\Command;
 use PhpBrew\VariantBuilder;
 
-class VariantsCommand extends \CLIFramework\Command
+class VariantsCommand extends Command
 {
     public function brief()
     {
@@ -26,7 +27,7 @@ class VariantsCommand extends \CLIFramework\Command
             $newLine .= $c;
 
             if ($lineX > 68 && $c === ' ') {
-                $newLine .= "\n".$indent;
+                $newLine .= "\n" . $indent;
                 $lineX = 0;
             }
         }
@@ -47,7 +48,7 @@ class VariantsCommand extends \CLIFramework\Command
         echo "Virtual variants: \n";
 
         foreach ($variants->virtualVariants as $name => $subvars) {
-            echo $this->wrapLine("$name: ".implode(', ', $subvars)) , "\n";
+            echo $this->wrapLine("$name: " . implode(', ', $subvars)) , "\n";
         }
 
         echo "\n\n";

@@ -2,11 +2,11 @@
 
 namespace PhpBrew\Extension;
 
-use Exception;
 use CLIFramework\Logger;
-use PhpBrew\Utils;
+use Exception;
 use PhpBrew\Config;
 use PhpBrew\Tasks\MakeTask;
+use PhpBrew\Utils;
 
 class ExtensionManager
 {
@@ -32,9 +32,9 @@ class ExtensionManager
     public function purgeExtension(Extension $ext)
     {
         if ($sourceDir = $ext->getSourceDirectory()) {
-            $currentPhpExtensionDirectory = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+            $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
             $extName = $ext->getExtensionName();
-            $extensionDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$extName;
+            $extensionDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $extName;
             if (file_exists($extensionDir)) {
                 Utils::system("rm -rvf $extensionDir");
             }
@@ -68,7 +68,7 @@ class ExtensionManager
         $name = $ext->getName();
 
         if (!file_exists($sourceDir)) {
-            throw new \Exception("Source directory $sourceDir does not exist.");
+            throw new Exception("Source directory $sourceDir does not exist.");
         }
 
         // Install local extension
@@ -88,7 +88,7 @@ class ExtensionManager
     public function createExtensionConfig(Extension $ext)
     {
         $sourceDir = $ext->getSourceDirectory();
-        $ini = $ext->getConfigFilePath().'.disabled';
+        $ini = $ext->getConfigFilePath() . '.disabled';
         $this->logger->info("===> Creating config file {$ini}");
 
         if (!file_exists(dirname($ini))) {
@@ -154,16 +154,17 @@ class ExtensionManager
         $name = $ext->getExtensionName();
         $this->logger->info("===> Enabling extension $name");
         $enabled_file = $ext->getConfigFilePath();
-        $disabled_file = $enabled_file.'.disabled';
+        $disabled_file = $enabled_file . '.disabled';
         if (file_exists($enabled_file) && ($ext->isLoaded() && !$this->hasConflicts($ext))) {
             $this->logger->info("[*] {$name} extension is already enabled.");
 
             return true;
         }
 
-        if (!file_exists($disabled_file)
+        if (
+            !file_exists($disabled_file)
             && !(file_exists($ext->getSharedLibraryPath())
-                && $this->createExtensionConfig($ext))
+            && $this->createExtensionConfig($ext))
         ) {
             $this->logger->info("{$name} extension is not installed. Suggestions:");
             $this->logger->info("\t\$ phpbrew ext install {$name}");
@@ -193,7 +194,7 @@ class ExtensionManager
     {
         $name = $ext->getExtensionName();
         $enabled_file = $ext->getConfigFilePath();
-        $disabled_file = $enabled_file.'.disabled';
+        $disabled_file = $enabled_file . '.disabled';
 
         if (file_exists($disabled_file)) {
             $this->logger->info("[ ] {$name} extension is already disabled.");
@@ -221,7 +222,7 @@ class ExtensionManager
         $name = $ext->getName();
         if (isset($this->conflicts[$name])) {
             $conflicts = $this->conflicts[$name];
-            $this->logger->info('===> Applying conflicts resolution ('.implode(', ', $conflicts).'):');
+            $this->logger->info('===> Applying conflicts resolution (' . implode(', ', $conflicts) . '):');
             foreach ($conflicts as $extensionName) {
                 $ext = ExtensionFactory::lookup($extensionName);
                 $this->disableExtension($ext);

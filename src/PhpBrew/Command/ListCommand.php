@@ -2,10 +2,11 @@
 
 namespace PhpBrew\Command;
 
+use CLIFramework\Command;
 use PhpBrew\Config;
 use PhpBrew\VariantParser;
 
-class ListCommand extends \CLIFramework\Command
+class ListCommand extends Command
 {
     public function brief()
     {
@@ -49,8 +50,8 @@ class ListCommand extends \CLIFramework\Command
             }
 
             // TODO: use Build class to get the variants
-            if ($this->options->variants && file_exists($versionPrefix.DIRECTORY_SEPARATOR.'phpbrew.variants')) {
-                $info = unserialize(file_get_contents($versionPrefix.DIRECTORY_SEPARATOR.'phpbrew.variants'));
+            if ($this->options->variants && file_exists($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants')) {
+                $info = unserialize(file_get_contents($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
                 echo '    Variants: ';
                 echo wordwrap(VariantParser::revealCommandArguments($info), 75, " \\\n              ");
                 echo "\n";

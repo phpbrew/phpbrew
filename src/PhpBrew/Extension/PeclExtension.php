@@ -19,13 +19,13 @@ class PeclExtension extends Extension
 
         if ($n = strtolower($pkg->getProvidesExtension())) {
             $this->setExtensionName($n);
-            $this->setSharedLibraryName($n.'.so');
+            $this->setSharedLibraryName($n . '.so');
         }
 
         if ($options = $pkg->getConfigureOptions()) {
             $this->configureOptions = array();
             foreach ($options as $option) {
-                $this->addConfigureOption(new ConfigureOption('--'.$option->name, $option->prompt, $option->default));
+                $this->addConfigureOption(new ConfigureOption('--' . $option->name, $option->prompt, $option->default));
             }
         }
     }

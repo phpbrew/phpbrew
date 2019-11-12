@@ -2,9 +2,8 @@
 
 namespace PhpBrew\Exception;
 
-use RuntimeException;
-use PhpBrew\Build;
 use PhpBrew\Buildable;
+use RuntimeException;
 
 class SystemCommandException extends RuntimeException
 {

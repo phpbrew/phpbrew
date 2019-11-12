@@ -2,8 +2,8 @@
 
 namespace PhpBrew\PatchKit;
 
-use PhpBrew\Buildable;
 use CLIFramework\Logger;
+use PhpBrew\Buildable;
 
 /**
  * RegExpPatchRule implements a pcre_replace based patch rule.
@@ -118,7 +118,7 @@ class RegExpPatchRule implements PatchRule
     public function backup(Buildable $build, Logger $logger)
     {
         foreach ($this->files as $file) {
-            $path = $build->getSourceDirectory().DIRECTORY_SEPARATOR.$file;
+            $path = $build->getSourceDirectory() . DIRECTORY_SEPARATOR . $file;
             if (!file_exists($path)) {
                 $logger->error("file $path doesn't exist in the build directory.");
                 continue;
@@ -129,7 +129,7 @@ class RegExpPatchRule implements PatchRule
 
     protected function backupFile($path)
     {
-        $bakPath = $path.'.'.time().'.bak';
+        $bakPath = $path . '.' . time() . '.bak';
         copy($path, $bakPath);
     }
 
@@ -137,7 +137,7 @@ class RegExpPatchRule implements PatchRule
     {
         $patched = 0;
         foreach ($this->files as $file) {
-            $path = $build->getSourceDirectory().DIRECTORY_SEPARATOR.$file;
+            $path = $build->getSourceDirectory() . DIRECTORY_SEPARATOR . $file;
             if (!file_exists($path)) {
                 $logger->error("file $path doesn't exist in the build directory.");
                 continue;

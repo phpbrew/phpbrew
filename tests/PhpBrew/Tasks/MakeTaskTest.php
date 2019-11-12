@@ -1,14 +1,17 @@
 <?php
-namespace PhpBrew\Tasks;
 
-use GetOptionKit\OptionResult;
+namespace PhpBrew\Tests\Tasks;
+
 use CLIFramework\Logger;
+use GetOptionKit\OptionResult;
 use PhpBrew\Buildable;
+use PhpBrew\Tasks\MakeTask;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class MakeTaskTest extends \PHPUnit\Framework\TestCase
+class MakeTaskTest extends TestCase
 {
     private $make;
 
@@ -72,7 +75,7 @@ class MakeTaskTestBuild implements Buildable
     {
         return null;
     }
-    
+
     public function isBuildable()
     {
         return true;
@@ -90,7 +93,7 @@ class MakeTaskTestNoSuchFileBuild implements Buildable
     {
         return null;
     }
-    
+
     public function isBuildable()
     {
         return false;

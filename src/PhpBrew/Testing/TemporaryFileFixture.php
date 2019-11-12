@@ -59,7 +59,7 @@ class TemporaryFileFixture
     public function withFile($destFileName, $callback)
     {
         $contents = file_get_contents($this->sourcePath);
-        $destPath = $this->temporaryDirectory.DIRECTORY_SEPARATOR.$destFileName;
+        $destPath = $this->temporaryDirectory . DIRECTORY_SEPARATOR . $destFileName;
 
         $this->caller->assertFileExists($this->sourcePath);
         file_put_contents($destPath, $contents);

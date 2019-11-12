@@ -2,11 +2,11 @@
 
 namespace PhpBrew\Extension;
 
-use PhpBrew\Config;
-use PEARX\PackageXml\Parser as PackageXmlParser;
 use Exception;
-use RecursiveIteratorIterator;
+use PEARX\PackageXml\Parser as PackageXmlParser;
+use PhpBrew\Config;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * This factory class handles the extension information.
@@ -20,12 +20,12 @@ class ExtensionFactory
     public static function configM4Exists($extensionDir)
     {
         $files = array();
-        $configM4Path = $extensionDir.DIRECTORY_SEPARATOR.'config.m4';
+        $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . 'config.m4';
         if (file_exists($configM4Path)) {
             $files[] = $configM4Path;
         }
         for ($i = 0; $i < 10; ++$i) {
-            $configM4Path = $extensionDir.DIRECTORY_SEPARATOR."config{$i}.m4";
+            $configM4Path = $extensionDir . DIRECTORY_SEPARATOR . "config{$i}.m4";
             if (file_exists($configM4Path)) {
                 $files[] = $configM4Path;
             }
@@ -36,7 +36,7 @@ class ExtensionFactory
 
     public static function createFromDirectory($packageName, $extensionDir)
     {
-        $packageXmlPath = $extensionDir.DIRECTORY_SEPARATOR.'package.xml';
+        $packageXmlPath = $extensionDir . DIRECTORY_SEPARATOR . 'package.xml';
 
         // If the package.xml exists, we may get the configureoptions for configuring the Makefile
         // and use the provided extension name to enable the extension.
@@ -84,7 +84,10 @@ class ExtensionFactory
     {
         if ($fallback) {
             // Always push the PHP source directory to the end of the list for the fallback.
-            $lookupDirs[] = Config::getBuildDir().DIRECTORY_SEPARATOR.Config::getCurrentPhpName().DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR.$packageName;
+            $lookupDirs[] = Config::getBuildDir()
+                . DIRECTORY_SEPARATOR . Config::getCurrentPhpName()
+                . DIRECTORY_SEPARATOR . 'ext'
+                . DIRECTORY_SEPARATOR . $packageName;
         }
 
         foreach ($lookupDirs as $lookupDir) {
@@ -122,7 +125,7 @@ class ExtensionFactory
     {
         if ($fallback) {
             // Always push the PHP source directory to the end of the list for the fallback.
-            $lookupDirectories[] = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+            $lookupDirectories[] = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
         }
 
         foreach ($lookupDirectories as $lookupDir) {
@@ -130,7 +133,7 @@ class ExtensionFactory
                 continue;
             }
 
-            $extensionDir = $lookupDir.DIRECTORY_SEPARATOR.$packageName;
+            $extensionDir = $lookupDir . DIRECTORY_SEPARATOR . $packageName;
             if ($ext = self::createFromDirectory($packageName, $extensionDir)) {
                 return $ext;
             }
@@ -148,7 +151,8 @@ class ExtensionFactory
         $m4 = file_get_contents($m4Path);
 
         // PHP_NEW_EXTENSION(extname, sources [, shared [, sapi_class [, extra-cflags [, cxx [, zend_ext]]]]])
-        if (preg_match('/PHP_NEW_EXTENSION \( \s* 
+        if (
+            preg_match('/PHP_NEW_EXTENSION \( \s* 
                 \[?
                     (\w+)   # The extension name
                 \]?
@@ -175,11 +179,12 @@ class ExtensionFactory
                         )?
                     )?
                 )?
-                /x', $m4, $matches)) {
+                /x', $m4, $matches)
+        ) {
             $fullmatched = array_shift($matches);
             $ext = new M4Extension($packageName);
             $ext->setExtensionName($matches[0]);
-            $ext->setSharedLibraryName($matches[0].'.so');
+            $ext->setSharedLibraryName($matches[0] . '.so');
             if (isset($matches[6]) && strpos($matches[6], 'yes') !== false) {
                 $ext->setZend(true);
             }
@@ -189,7 +194,8 @@ class ExtensionFactory
             PHP_ARG_ENABLE(calendar,whether to enable calendar conversion support,
             [  --enable-calendar       Enable support for calendar conversion])
             */
-            if (preg_match_all('/
+            if (
+                preg_match_all('/
                 PHP_ARG_ENABLE\(
                     \s*([^,]*)
                     (?:
@@ -207,13 +213,14 @@ class ExtensionFactory
                                 \s* 
                             \]
                         )?
-                    )?/x', $m4, $allMatches)) {
+                    )?/x', $m4, $allMatches)
+            ) {
                 for ($i = 0; $i < count($allMatches[0]); ++$i) {
                     $name = $allMatches[1][$i];
                     $desc = $allMatches[2][$i];
                     $option = $allMatches[3][$i];
                     $optionDesc = $allMatches[4][$i];
-                    $ext->addConfigureOption(new ConfigureOption($option ?: '--enable-'.$name, $desc ?: $optionDesc));
+                    $ext->addConfigureOption(new ConfigureOption($option ?: '--enable-' . $name, $desc ?: $optionDesc));
                 }
             }
 
@@ -230,7 +237,8 @@ class ExtensionFactory
                 --with-yaml[[=DIR]]
                 --with-mysql-sock[=SOCKPATH]
             */
-            if (preg_match_all('/
+            if (
+                preg_match_all('/
                 PHP_ARG_WITH\(
                     \s*
 
@@ -275,7 +283,8 @@ class ExtensionFactory
                                 )?
                             )?
                         )?
-                    )?/x', $m4, $allMatches)) {
+                    )?/x', $m4, $allMatches)
+            ) {
                 // Parsing the M4 statement:
                 //
                 //   dnl PHP_ARG_WITH(arg-name, check message, help text[, default-val[, extension-or-not]])
@@ -290,7 +299,12 @@ class ExtensionFactory
 
                     $defaultValue = $allMatches[6][$i];
 
-                    $opt = new ConfigureOption(($option ?: '--with-'.$name), ($desc ?: $optionDesc), $optionValueHint);
+                    $opt = new ConfigureOption(
+                        ($option ?: '--with-' . $name),
+                        ($desc ?: $optionDesc),
+                        $optionValueHint
+                    );
+
                     if ($defaultValue) {
                         $opt->setDefaultValue($opt);
                     }
@@ -300,7 +314,7 @@ class ExtensionFactory
 
             return $ext;
         } else {
-            throw new \Exception("Can not parse config.m4: $m4Path");
+            throw new Exception("Can not parse config.m4: $m4Path");
         }
     }
 
@@ -320,7 +334,7 @@ class ExtensionFactory
             $sourceDirectory = dirname($packageXmlPath);
             $m4dir = dirname($m4path);
             if ($m4dir != '.') {
-                $sourceDirectory .= DIRECTORY_SEPARATOR.$m4dir;
+                $sourceDirectory .= DIRECTORY_SEPARATOR . $m4dir;
             }
             $ext->setSourceDirectory($sourceDirectory);
         } else {

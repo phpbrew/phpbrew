@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xiami
- * Date: 2015/12/30
- * Time: 12:05.
- */
 
 namespace PhpBrew\Downloader;
-
-use RuntimeException;
 
 class PhpStreamDownloader extends BaseDownloader
 {

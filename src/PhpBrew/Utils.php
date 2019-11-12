@@ -4,7 +4,6 @@ namespace PhpBrew;
 
 use CLIFramework\Logger;
 use PhpBrew\Exception\SystemCommandException;
-use PhpBrew\Platform\PlatformInfo;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -27,7 +26,7 @@ class Utils
     public static function canonicalizeBuildName($version)
     {
         if (!preg_match('/^php-/', $version)) {
-            return 'php-'.$version;
+            return 'php-' . $version;
         }
 
         return $version;
@@ -62,13 +61,13 @@ class Utils
         $prefixes = self::getLookupPrefixes();
 
         foreach ($prefixes as $prefix) {
-            $binPath = $prefix.DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.$bin;
+            $binPath = $prefix . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $bin;
 
             if (file_exists($binPath)) {
                 return $binPath;
             }
 
-            $binPath = $prefix.DIRECTORY_SEPARATOR.'sbin'.DIRECTORY_SEPARATOR.$bin;
+            $binPath = $prefix . DIRECTORY_SEPARATOR . 'sbin' . DIRECTORY_SEPARATOR . $bin;
 
             if (file_exists($binPath)) {
                 return $binPath;
@@ -144,7 +143,7 @@ class Utils
         $prefixes = self::getLookupPrefixes();
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $path = $prefix.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.$file;
+                $path = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
                 if (file_exists($path)) {
                     return $prefix;
                 }
@@ -161,7 +160,7 @@ class Utils
 
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $p = $prefix.DIRECTORY_SEPARATOR.$file;
+                $p = $prefix . DIRECTORY_SEPARATOR . $file;
                 if (file_exists($p)) {
                     return $prefix;
                 }
@@ -178,7 +177,7 @@ class Utils
 
         foreach ($prefixes as $prefix) {
             foreach ($files as $file) {
-                $path = $prefix.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.$file;
+                $path = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
                 if (file_exists($path)) {
                     return $prefix;
                 }
@@ -196,7 +195,7 @@ class Utils
     public static function getPkgConfigPrefix($package)
     {
         if (self::findBin('pkg-config')) {
-            $cmd = 'pkg-config --variable=prefix '.$package;
+            $cmd = 'pkg-config --variable=prefix ' . $package;
             $process = new Process($cmd);
             $code = $process->run();
             if (intval($code) === 0) {
@@ -217,7 +216,7 @@ class Utils
         }
 
         if ($logger) {
-            $logger->debug('Running Command:'.$command);
+            $logger->debug('Running Command:' . $command);
         }
 
         $lastline = system($command, $returnValue);
@@ -240,7 +239,7 @@ class Utils
         $paths = explode(PATH_SEPARATOR, $path);
 
         foreach ($paths as $path) {
-            $f = $path.DIRECTORY_SEPARATOR.$bin;
+            $f = $path . DIRECTORY_SEPARATOR . $bin;
             // realpath will handle file existence or symbolic link automatically
             $f = realpath($f);
             if ($f !== false) {
@@ -310,9 +309,10 @@ class Utils
 
             if ($fp !== false) {
                 while ($file = readdir($fp)) {
-                    if ($file === '.'
+                    if (
+                        $file === '.'
                         || $file === '..'
-                        || is_file($buildDir.DIRECTORY_SEPARATOR.$file)
+                        || is_file($buildDir . DIRECTORY_SEPARATOR . $file)
                     ) {
                         continue;
                     }
@@ -332,7 +332,7 @@ class Utils
             }
 
             if ($hasPrefix == true && $foundVersion !== false) {
-                $foundVersion = 'php-'.$foundVersion;
+                $foundVersion = 'php-' . $foundVersion;
             }
         }
 
@@ -344,7 +344,7 @@ class Utils
         $directoryIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
         $it = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($it as $file) {
-            $logger->debug('Deleting '.$file->getPathname());
+            $logger->debug('Deleting ' . $file->getPathname());
             if ($file->isDir()) {
                 rmdir($file->getPathname());
             } else {

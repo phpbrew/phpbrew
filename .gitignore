@@ -3,6 +3,7 @@
 /build
 .onion
 .phpbrew
+.phpcs.cache
 tags
 /build/logs
 *.phar

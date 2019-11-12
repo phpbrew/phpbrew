@@ -1,13 +1,18 @@
 <?php
 
+namespace PhpBrew\Tests;
+
+use PhpBrew\Build;
+use PHPUnit\Framework\TestCase;
+
 /**
  * @small
  */
-class BuildTest extends \PHPUnit\Framework\TestCase
+class BuildTest extends TestCase
 {
     public function testBuildAPI()
     {
-        $build = new PhpBrew\Build('5.3.1');
+        $build = new Build('5.3.1');
 
         $build->setVersion('5.3.1');
         $build->enableVariant('debug');
@@ -18,20 +23,20 @@ class BuildTest extends \PHPUnit\Framework\TestCase
         $build->disableVariant('mysql');
         $build->resolveVariants();
 
-        Same( 1 , $build->compareVersion('5.3.0') );
-        Same( 1 , $build->compareVersion('5.3') );
-        Same( -1 , $build->compareVersion('5.4.0') );
-        Same( -1 , $build->compareVersion('5.4') );
+        Same(1, $build->compareVersion('5.3.0'));
+        Same(1, $build->compareVersion('5.3'));
+        Same(-1, $build->compareVersion('5.4.0'));
+        Same(-1, $build->compareVersion('5.4'));
         Same('php-5.3.1-debug-icu-dev', $build->getIdentifier());
     }
 
     public function testNeutralVirtualVariant()
     {
-        $build = new PhpBrew\Build('5.5.0');
+        $build = new Build('5.5.0');
         $build->setVersion('5.5.0');
         $build->enableVariant('neutral');
         $build->resolveVariants();
 
-        $this->assertTrue($build->hasVariant('neutral') );
+        $this->assertTrue($build->hasVariant('neutral'));
     }
 }

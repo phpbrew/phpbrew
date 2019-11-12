@@ -2,10 +2,11 @@
 
 namespace PhpBrew\Command;
 
+use CLIFramework\Command;
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Tasks\FetchReleaseListTask;
 
-class UpdateCommand extends \CLIFramework\Command
+class UpdateCommand extends Command
 {
     public function brief()
     {
@@ -32,7 +33,7 @@ class UpdateCommand extends \CLIFramework\Command
             }
             $versionList = array_keys($versions);
             $this->logger->writeln($this->formatter->format("{$majorVersion}: ", 'yellow')
-                .count($versionList).' releases');
+                . count($versionList) . ' releases');
         }
         $this->logger->info('===> Done');
     }

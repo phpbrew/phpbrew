@@ -5,8 +5,9 @@ namespace PhpBrew\Command;
 /*
  * @codeCoverageIgnore
  */
-use Exception;
 use CLIFramework\Command;
+use CLIFramework\Prompter;
+use Exception;
 use PhpBrew\Config;
 use PhpBrew\Utils;
 
@@ -28,9 +29,9 @@ class RemoveCommand extends Command
     {
         $prefix = Config::getVersionInstallPrefix($buildName);
         if (!file_exists($prefix)) {
-            throw new \Exception("$prefix does not exist.");
+            throw new Exception("$prefix does not exist.");
         }
-        $prompter = new \CLIFramework\Prompter();
+        $prompter = new Prompter();
         $answer = $prompter->ask("Are you sure to delete $buildName?", array('Y', 'n'), 'Y');
         if (strtolower($answer) == 'y') {
             Utils::recursive_unlink($prefix, $this->logger);

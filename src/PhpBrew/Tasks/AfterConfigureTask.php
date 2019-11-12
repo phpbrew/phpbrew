@@ -26,7 +26,7 @@ class AfterConfigureTask extends BaseTask
             $patches[] = new IntlWith64bitPatch();
             $patches[] = new OpenSSLDSOPatch();
             foreach ($patches as $patch) {
-                $this->logger->info('Checking patch for '.$patch->desc());
+                $this->logger->info('Checking patch for ' . $patch->desc());
                 if ($patch->match($build, $this->logger)) {
                     $patched = $patch->apply($build, $this->logger);
                     $this->logger->info("$patched changes patched.");

@@ -2,11 +2,11 @@
 
 namespace PhpBrew\Command\ExtensionCommand;
 
+use Exception;
 use PhpBrew\Config;
 use PhpBrew\Extension\Extension;
-use PhpBrew\Extension\PeclExtension;
 use PhpBrew\Extension\ExtensionFactory;
-use Exception;
+use PhpBrew\Extension\PeclExtension;
 
 class ShowCommand extends BaseCommand
 {
@@ -29,12 +29,12 @@ class ShowCommand extends BaseCommand
     {
         $args->add('extension')
             ->suggestions(function () {
-                $extdir = Config::getBuildDir().'/'.Config::getCurrentPhpName().'/ext';
+                $extdir = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
 
                 return array_filter(
                     scandir($extdir),
                     function ($d) use ($extdir) {
-                        return $d != '.' && $d != '..' && is_dir($extdir.DIRECTORY_SEPARATOR.$d);
+                        return $d != '.' && $d != '..' && is_dir($extdir . DIRECTORY_SEPARATOR . $d);
                     }
                 );
             });
@@ -64,9 +64,11 @@ class ShowCommand extends BaseCommand
             $this->logger->writeln(sprintf('%20s: ', 'Configure Options'));
             $this->logger->newline();
             foreach ($options as $option) {
-                $this->logger->writeln(sprintf('        %-32s %s',
-                        $option->option.($option->valueHint ? '[='.$option->valueHint.']' : ''),
-                        $option->desc));
+                $this->logger->writeln(sprintf(
+                    '        %-32s %s',
+                    $option->option . ($option->valueHint ? '[=' . $option->valueHint . ']' : ''),
+                    $option->desc
+                ));
                 $this->logger->newline();
             }
         }
@@ -94,7 +96,7 @@ class ShowCommand extends BaseCommand
             $ext = ExtensionFactory::lookupRecursive($extensionName, array($extDir));
         }
         if (!$ext) {
-            throw new \Exception("$extensionName extension not found.");
+            throw new Exception("$extensionName extension not found.");
         }
         $this->describeExtension($ext);
     }

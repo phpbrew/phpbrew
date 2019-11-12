@@ -1,10 +1,14 @@
 <?php
-namespace PhpBrew\Distribution;
+
+namespace PhpBrew\Tests\Distribution;
+
+use PhpBrew\Distribution\DistributionUrlPolicy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class DistributionUrlPolicyTest extends \PHPUnit\Framework\TestCase
+class DistributionUrlPolicyTest extends TestCase
 {
     public $policy;
 
@@ -25,7 +29,8 @@ class DistributionUrlPolicyTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function versionDataProvider() {
+    public function versionDataProvider()
+    {
         return array(
             array("5.3.29", "php-5.3.29.tar.bz2", "https://museum.php.net/php5/php-5.3.29.tar.bz2", true),
             array("5.4.7", "php-5.4.7.tar.bz2", "https://museum.php.net/php5/php-5.4.7.tar.bz2", true),

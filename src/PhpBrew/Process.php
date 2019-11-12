@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Symfony package.
  *
@@ -9,6 +10,8 @@
  */
 
 namespace PhpBrew;
+
+use RuntimeException;
 
 /**
  * Process is a thin wrapper around proc_* functions to ease
@@ -44,7 +47,7 @@ class Process
      * @param int    $timeout     The timeout in seconds
      * @param array  $options     An array of options for proc_open
      *
-     * @throws \RuntimeException When proc_open is not installed
+     * @throws RuntimeException When proc_open is not installed
      *
      * @api
      */
@@ -57,7 +60,7 @@ class Process
         array $options = array()
     ) {
         if (!function_exists('proc_open')) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'The Process class relies on proc_open, which is not available on your PHP installation.'
             );
         }
@@ -97,7 +100,7 @@ class Process
      *
      * @return int The exit status code
      *
-     * @throws \RuntimeException When process can't be launch or is stopped
+     * @throws RuntimeException When process can't be launch or is stopped
      *
      * @api
      */
@@ -125,7 +128,7 @@ class Process
         $process = proc_open($this->commandline, $descriptors, $pipes, $this->cwd, $this->env, $this->options);
 
         if (!is_resource($process)) {
-            throw new \RuntimeException('Unable to launch a new process.');
+            throw new RuntimeException('Unable to launch a new process.');
         }
 
         foreach ($pipes as $pipe) {
@@ -157,7 +160,7 @@ class Process
             } elseif ($n === 0) {
                 proc_terminate($process);
 
-                throw new \RuntimeException('The process timed out.');
+                throw new RuntimeException('The process timed out.');
             }
 
             if ($w) {
@@ -199,7 +202,9 @@ class Process
         $exitCode = proc_close($process);
 
         if ($this->status['signaled']) {
-            throw new \RuntimeException(sprintf('The process stopped because of a "%s" signal.', $this->status['stopsig']));
+            throw new RuntimeException(
+                sprintf('The process stopped because of a "%s" signal.', $this->status['stopsig'])
+            );
         }
 
         //The exit code returned by the process (which is only meaningful if

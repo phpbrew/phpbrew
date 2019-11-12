@@ -2,6 +2,8 @@
 
 namespace PhpBrew\Extension\Provider;
 
+use Exception;
+
 class BitbucketProvider implements Provider
 {
     public $site = 'bitbucket.org';
@@ -18,10 +20,16 @@ class BitbucketProvider implements Provider
     public function buildPackageDownloadUrl($version = 'stable')
     {
         if (($this->getOwner() == null) || ($this->getRepository() == null)) {
-            throw new \Exception('Username or Repository invalid.');
+            throw new Exception('Username or Repository invalid.');
         }
 
-        return sprintf('https://%s/%s/%s/get/%s.tar.gz', $this->site, $this->getOwner(), $this->getRepository(), $version);
+        return sprintf(
+            'https://%s/%s/%s/get/%s.tar.gz',
+            $this->site,
+            $this->getOwner(),
+            $this->getRepository(),
+            $version
+        );
     }
 
     public function getOwner()
@@ -119,8 +127,13 @@ class BitbucketProvider implements Provider
 
     public function postExtractPackageCommands($currentPhpExtensionDirectory, $targetFilePath)
     {
-        $targetPkgDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getPackageName();
-        $extractDir = $currentPhpExtensionDirectory.DIRECTORY_SEPARATOR.$this->getOwner().'-'.$this->getRepository().'-*';
+        $targetPkgDir = $currentPhpExtensionDirectory . DIRECTORY_SEPARATOR . $this->getPackageName();
+        $extractDir = $currentPhpExtensionDirectory
+            . DIRECTORY_SEPARATOR
+            . $this->getOwner()
+            . '-'
+            . $this->getRepository()
+            . '-*';
 
         $cmds = array(
             "rm -rf $targetPkgDir",

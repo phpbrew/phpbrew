@@ -1,10 +1,14 @@
 <?php
-namespace PhpBrew\Platform;
+
+namespace PhpBrew\Tests\Platform;
+
+use PhpBrew\Platform\UnixLikeHardware;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class UnixLikeHardwareTest extends \PHPUnit\Framework\TestCase
+class UnixLikeHardwareTest extends TestCase
 {
     public function testBitnessWhenHardwareIs64Bit()
     {

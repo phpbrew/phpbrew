@@ -1,10 +1,14 @@
 <?php
-namespace PhpBrew\Platform\Linux;
+
+namespace PhpBrew\Tests\Platform\Linux;
+
+use PhpBrew\Platform\Linux\CentOS;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @small
  */
-class CentOSTest extends \PHPUnit\Framework\TestCase
+class CentOSTest extends TestCase
 {
     private $distribution;
 
