@@ -12,12 +12,12 @@ class GetCommand extends Command
 {
     public function brief()
     {
-        return 'get php app';
+        return 'Get PHP application';
     }
 
     public function options($opts)
     {
-        $opts->add('chmod:');
+        $opts->add('chmod:', 'Set downloaded file mode');
         DownloadFactory::addOptionsForCommand($opts);
     }
 
@@ -25,6 +25,7 @@ class GetCommand extends Command
     {
         $apps = AppStore::all();
         $args->add('app-name')
+            ->desc('Application name')
             ->validValues(array_keys($apps))
             ;
     }

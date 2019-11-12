@@ -7,10 +7,9 @@
 # PHPBrew defaults:
 # PHPBREW_HOME: contains the phpbrew config (for users)
 # PHPBREW_ROOT: contains installed php(s) and php source files.
-# PHPBREW_SKIP_INIT: if you need to skip loading config from the init file. 
+# PHPBREW_SKIP_INIT: if you need to skip loading config from the init file.
 # PHPBREW_PHP:  the current php version.
 # PHPBREW_PATH: the bin path of the current php.
-
 
 # export alias for bourne shell compatibility.
 # From PR https://github.com/fish-shell/fish-shell/pull/1833
@@ -32,7 +31,6 @@ if not functions --query export
           end
   end
 end
-
 
 [ -z "$PHPBREW_HOME" ]; and set -gx PHPBREW_HOME "$HOME/.phpbrew"
 
@@ -89,7 +87,7 @@ function __phpbrew_set_lookup_prefix
 end
 
 function phpbrew
-    # Check bin/phpbrew if we are in PHPBrew source directory, 
+    # Check bin/phpbrew if we are in PHPBrew source directory,
     # This is only for development
     if [ -e bin/phpbrew ]
         set -g BIN 'bin/phpbrew'
@@ -472,115 +470,335 @@ end
 ###
 # phpbrew completions
 ###
+function __fish_phpbrew_command
+    set -l tokens (commandline -opc)
+    test (count $tokens) -le 1; and return 1
+    set -l command
+
+    for token in $tokens[2..-1]
+        switch $token
+            case "-*"
+            case "*"
+                set -a command "$token"
+        end
+    end
+
+    test (count $command) -eq 0; and return 1
+
+    for token in $command
+        echo $token
+    end
+end
+
 function __fish_phpbrew_needs_command
-  set cmd (commandline -opc)
-  if [ (count $cmd) -eq 1 -a $cmd[1] = 'phpbrew' ]
-    return 0
-  end
-  return 1
+    not __fish_phpbrew_command >/dev/null
 end
 
 function __fish_phpbrew_using_command
-  set cmd (commandline -opc)
-  if begin;  [ (count $argv) -gt 1 ]; and [ (count $cmd) -gt 2 ]; end
-    if begin; [ $argv[1] = $cmd[2] ]; and [ $argv[2] = $cmd[3] ]; end
-      return 0
-    end
-  end
-  if begin;  [ (count $argv) -eq 1 ]; and [ (count $cmd) -gt 1 ]; end
-    if [ $argv[1] = $cmd[2] ]
-      return 0
-    end
-  end
-  return 1
-end
+    set -l expected
+    set -l position 0
+    set -l multiple
 
-function __fish_phpbrew_known_version
-    if [ -e bin/phpbrew ]
-       command bin/phpbrew known | grep -v 'You can run' | sed 's/ //g'| sed 's/\.\.\.//g'| cut -d ':' -f 2| tr ',' \n
+    for arg in $argv
+        switch $arg
+            case "--position=*"
+                string replace -- "--position=" "" "$arg" | read position
+            case "--multiple"
+                set multiple yes
+            case "*"
+                set -a expected "$arg"
+        end
+    end
+
+    set -l exp_count (count $expected)
+    set exp_count (math "$exp_count+$position")
+
+    set -l actual (__fish_phpbrew_command)
+
+    if [ -n "$multiple" ]
+        if [ (count $actual) -lt $exp_count ]
+            return 1
+        end
     else
-       command phpbrew known | grep -v 'You can run' | sed 's/ //g'| sed 's/\.\.\.//g'| cut -d ':' -f 2| tr ',' \n
+        if [ (count $actual) -ne $exp_count ]
+            return 1
+        end
     end
+
+    set -l slice $actual[1..(count $expected)]
+
+    test "$slice" = "$expected"
 end
 
-function __fish_phpbrew_installed_version
-    if [ -e bin/phpbrew ]
-        command bin/phpbrew list | cut -d '-' -f 2 | sed 's/ //g'
-    else
-        command phpbrew list | cut -d '-' -f 2 | sed 's/ //g'
-    end
+function __fish_phpbrew_arg_meta
+    command phpbrew meta --flat $argv[1] arg $argv[2] $argv[3] | grep -v "^#"
 end
 
-function __fish_phpbrew_installed_build
-    if [ -e bin/phpbrew ]
-        command bin/phpbrew list | sed 's/[\* ]//g'
-    else
-        command phpbrew list | sed 's/[\* ]//g'
-    end
-end
-
-function __fish_phpbrew_known_app
-if [ -e bin/phpbrew ]
-        command bin/phpbrew app list | cut -d '-' -f 1 | sed 's/ //g'
-    else
-        command phpbrew app list | cut -d '-' -f 1 | sed 's/ //g'
-    end
-end
-
-
-#
-complete -f -c phpbrew -s v -l verbose -d "Print verbose message."
-complete -f -c phpbrew -s d -l debug -d "Print debug message."
-complete -f -c phpbrew -s q -l quite -d "Be quite."
-complete -f -c phpbrew -s h -l help -d "Show help."
-complete -f -c phpbrew -l version -d "Show version."
-complete -f -c phpbrew -s p -l profile -d "Display timing and memory usage information."
-complete -f -c phpbrew -l no-interact -d "Do not ask any interactive question."
-complete -f -c phpbrew -l no-progress -d "Do not display progress bar."
+# top level options
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -s v -l verbose -d "Print verbose message"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -s d -l debug -d "Print debug message"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -s q -l quiet -d "Be quiet"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -s h -l help -d "Show help"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l version -d "Show version"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -s p -l profile -d "Display timing and memory usage information"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l log-path -d "The path of a log file"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l no-interact -d "Do not ask any interactive question"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l no-progress -d "Do not display progress bar"
 
 # commands
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a help -d "show help message of a command"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a app -d "php app store"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a init -d "Initialize phpbrew config file."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a known -d "List known PHP versions"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a install -d "Install php"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a list -d "List installed PHPs"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a use -d "Use php, switch version temporarily"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a switch -d "Switch default php version."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a each -d "Iterate and run a given command over all php versions managed by PHPBrew."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a config -d "Edit your current php.ini in your favorite $EDITOR"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a info -d "Show current php information"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a env -d "Export environment variables"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a extension -d "List extensions or execute extension subcommands"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a variants -d "List php variants"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a path -d "Show paths of the current PHP."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a cd -d "Change to directories"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a download -d "Download php"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a clean -d "Clean up the source directory of a PHP distribution"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a update -d "Update PHP release source file"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a ctags -d "Run ctags at current php source dir for extension development."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a list-ini -d "List loaded ini config files."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a self-update -d "Self-update, default to master version"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a remove -d "Remove installed php build."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a purge -d "Remove installed php build and config files."
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a off -d "Temporarily go back to the system php"
-complete -f -c phpbrew -n '__fish_phpbrew_needs_command' -a switch-off -d "Definitely go back to the system php"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a app -d "php app store"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a archive -d "Build executable phar file from composer.json"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a bash -d "This command generate a bash completion script automatically"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a cd -d "Change to directories"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a clean -d "Clean up the source directory of a PHP distribution"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a compile -d "compile current source into Phar format library file"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a config -d "Edit your current php.ini in your favorite $EDITOR"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a ctags -d "Run ctags at current php source dir for extension development"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a download -d "Download php"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a each -d "Iterate and run a given shell command over all php versions managed by PHPBrew"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a env -d "Export environment variables"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a ext -d "List extensions or execute extension subcommands"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a fpm -d "fpm commands"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a github:build-topics -d "Build topic classes from the wiki of a GitHub Project"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a help -d "Show help message of a command"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a info -d "Show current php information"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a init -d "Initialize phpbrew config file"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a install -d "Install php"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a known -d "List known PHP versions"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a list -d "List installed PHPs"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a list-ini -d "List loaded ini config files"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a meta -d "Return the meta data of a commands"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a off -d "Temporarily go back to the system php"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a path -d "Show paths of the current PHP"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a purge -d "Remove installed php version and config files"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a remove -d "Remove installed php build"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a self-update -d "Self-update, default to master version"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a switch -d "Switch default php version"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a switch-off -d "Definitely go back to the system php"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a update -d "Update PHP release source file"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a use -d "Use php, switch version temporarily"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a variants -d "List php variants"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a zsh -d "This function generate a zsh-completion script automatically"
+
+# app
+complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a get -d "Get PHP application"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a list -d "List PHP applications"
+
+# app get
+complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l chmod -d "Set downloaded file mode"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command app get" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l connect-timeout -d "Connection timeout"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -a "(__fish_phpbrew_arg_meta app.app.get 0 valid-values)" -d "Application name"
+
+# archive
+complete -x -c phpbrew -n "__fish_phpbrew_using_command archive" -s d -l working-dir -d "If specified, use the given directory as working directory"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command archive" -s c -l composer -d "The composer.json file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command archive" -l vendor -d "Vendor directory name"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -l bootstrap -d "bootstrap or executable php file"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -l executable -d "make the phar file executable"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -s c -l compress -d "compress type: gz, bz2"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -l no-compress -d "do not compress phar file"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -l add -d "add a path respectively"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -l exclude -d "exclude pattern"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -l no-classloader -d "do not embed a built-in classloader in the generated phar file"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command archive" -l app-bootstrap -d "Include CLIFramework bootstrap script"
+
+# bash
+complete -x -c phpbrew -n "__fish_phpbrew_using_command bash" -l bind -d "bind complete to command"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command bash" -l program -d "programe name"
+
+# cd
+complete -x -c phpbrew -n "__fish_phpbrew_using_command cd" -a "(__fish_phpbrew_arg_meta cd 0 valid-values)"
+
+# clean
+complete -f -c phpbrew -n "__fish_phpbrew_using_command clean" -s a -l all -d "Remove all the files in the source directory of the PHP distribution"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command clean" -a "(__fish_phpbrew_arg_meta clean 0 valid-values)"
+
+# compile
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -l classloader -d "embed classloader source file"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -l bootstrap -d "bootstrap or executable source file"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -l executable -d "is a executable script \?"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -l lib -d "library path"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -l include -d "include path"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -l exclude -d "exclude pattern"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command compile" -l output -d "output"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -s c -l compress -d "phar file compress type: gz, bz2"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command compile" -l no-compress -d "do not compress phar file"
+
+# ctags
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ctags" -a "(__fish_phpbrew_arg_meta ctags 0 valid-values)"
+
+# download
+complete -f -c phpbrew -n "__fish_phpbrew_using_command download" -s f -l force -d "Force extraction"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command download" -l old -d "enable old phps \(less than 5.3\)"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l mirror -d "Use mirror specific site"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command download" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l connect-timeout -d "Connection timeout"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -a "(__fish_phpbrew_arg_meta download 0 suggestions)"
+
+# env
+complete -f -c phpbrew -n "__fish_phpbrew_using_command env" -a "(__fish_phpbrew_arg_meta env 0 valid-values)"
+
+# ext
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -s so -l show-options -d "Show extension configure options"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -s sp -l show-path -d "Show extension config.m4 path"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -a clean -d "Clean up the compiled objects in the extension source directory"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -a config -d "Edit extension-specific configuration file"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -a disable -d "Disable PHP extension"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -a enable -d "Enable PHP extension"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -a install -d "Install PHP extension"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -a known -d "List known versions"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext" -a show -d "Show information of a PHP extension"
+
+# ext clean
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext clean" -s p -l purge -d "Remove all the source files"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext clean" -a "(__fish_phpbrew_arg_meta extension.clean 0 suggestions)"
+
+# ext config
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext config" -a "(__fish_phpbrew_arg_meta extension.config 0 suggestions)"
+
+# ext disable
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext disable" -a "(__fish_phpbrew_arg_meta extension.disable 0 suggestions)"
+
+# ext enable
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext enable" -a "(__fish_phpbrew_arg_meta extension.enable 0 suggestions)"
+
+# ext install
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext install" -l pecl -d "Try to download from PECL even when ext source is bundled with php-src"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext install" -l redownload -d "Force to redownload extension source even if it is already available"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext install" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext install" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext install" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext install" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext install" -l connect-timeout -d "Connection timeout"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext install" -a "(__fish_phpbrew_arg_meta extension.install 0 suggestions)"
+
+# ext known
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext known" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext known" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext known" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext known" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext known" -l connect-timeout -d "Connection timeout"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext known" -a "(__fish_phpbrew_arg_meta extension.known 0 suggestions)"
+
+# ext show
+complete -f -c phpbrew -n "__fish_phpbrew_using_command ext show" -l download -d "Download the extension source if extension not found"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command ext show" -a "(__fish_phpbrew_arg_meta extension.show 0 suggestions)"
+
+# fpm
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm" -a restart -d "Restart FPM server"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm" -a setup -d "Generate and setup FPM startup config"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm" -a start -d "Start FPM server"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm" -a stop -d "Stop FPM server"
+
+# fpm setup
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm setup" -l systemctl -d "Generate systemd service entry"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm setup" -l initd -d "Generate init.d script"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm setup" -l launchctl -d "Generate plist for launchctl \(OS X\)"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command fpm setup" -l stdout -d "Print config to STDOUT instead of writing to the file"
+
+# github:build-topics
+complete -x -c phpbrew -n "__fish_phpbrew_using_command github:build-topics" -l ns -d "Class namespace"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command github:build-topics" -l dir -d "Output directory"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command github:build-topics" -l update -d "Update wiki repository"
+
+# help
+complete -f -c phpbrew -n "__fish_phpbrew_using_command help" -l dev -d "Show development commands"
+
+# init
+complete -x -c phpbrew -n "__fish_phpbrew_using_command init" -s c -l config -d "The YAML config file which should be copied into phpbrew home.The config file is used for creating custom virtual variants"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command init" -l root -d "Override the default PHPBREW_ROOT path setting.This option is usually used to load system-wide build pool"
 
 # install
-complete -f -c phpbrew -n '__fish_phpbrew_using_command install' -a '(__fish_phpbrew_known_version)' -d " version"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l test -d "Run tests after the installation"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l name -d "The name of the installation"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l mirror -d "Use specified mirror site"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l post-clean -d "Run make clean after the installation"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l production -d "Use production configuration file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l build-dir -d "Specify the build directory"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l root -d "Specify PHPBrew root instead of PHPBREW_ROOT"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l home -d "Specify PHPBrew home instead of PHPBREW_HOME"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l no-config-cache -d "Do not use config.cache for configure script"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l no-clean -d "Do not clean previously compiled objects before building PHP"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l no-patch -d "Do not apply any patch"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l no-configure -d "Do not run configure script"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l no-install -d "Do not install, just run build the target"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -s n -l nice -d "Runs build processes at an altered scheduling priority"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l patch -d "Apply patch before build"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l old -d "Install phpbrew incompatible phps \(< 5.3\)"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l user-config -d "Allow users create their own config file \(php.ini or extension config init files\)"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l connect-timeout -d "Connection timeout"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -s f -l force -d "Force the installation \(redownloads source\)"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -s d -l dryrun -d "Do not build, but run through all the tasks"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l like -d "Inherit variants from an existing build"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -s j -l jobs -d "Specifies the number of jobs to run build simultaneously \(make -jN\)"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l stdout -d "Outputs install logs to stdout"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l sudo -d "sudo to run install command"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -a "(__fish_phpbrew_arg_meta install 0 suggestions)"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command install --position=1 --multiple" -a "(__fish_phpbrew_arg_meta install 1 suggestions)"
 
-# use / switch / cd /env / path / remove /purge
-complete -f -c phpbrew -n '__fish_phpbrew_using_command use' -a '(__fish_phpbrew_installed_version)' -d " installed version"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command switch' -a '(__fish_phpbrew_installed_version)' -d " installed version"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command cd' -a '(__fish_phpbrew_installed_version)' -d " installed version"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command env' -a '(__fish_phpbrew_installed_version)' -d " installed version"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command path' -a '(__fish_phpbrew_installed_version)' -d " installed version"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command remove' -a '(__fish_phpbrew_installed_build)' -d " installed build"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command purge' -a '(__fish_phpbrew_installed_build)' -d " installed build"
+# known
+complete -f -c phpbrew -n "__fish_phpbrew_using_command known" -s m -l more -d "Show more older versions"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command known" -s o -l old -d "List old phps \(less than 5.3\)"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command known" -s u -l update -d "Update release list"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command known" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command known" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command known" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command known" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command known" -l connect-timeout -d "Connection timeout"
 
-#app store
-complete -f -c phpbrew -n '__fish_phpbrew_using_command app' -a list -d "list all available app"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command app' -a get -d "fetch and install app"
-complete -f -c phpbrew -n '__fish_phpbrew_using_command app get' -a '(__fish_phpbrew_known_app)' -d "app"
+# list
+complete -f -c phpbrew -n "__fish_phpbrew_using_command list" -s d -l dir -d "Show php directories"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command list" -s v -l variants -d "Show used variants"
 
-exit 0
+# meta
+complete -f -c phpbrew -n "__fish_phpbrew_using_command meta" -l flat -d "flat list format"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command meta" -l zsh -d "output for zsh"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command meta" -l bash -d "output for bash"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command meta" -l json -d "output in JSON format \(un-implemented\)"
+
+# path
+complete -x -c phpbrew -n "__fish_phpbrew_using_command path" -a "(__fish_phpbrew_arg_meta path 0 valid-values)"
+
+# purge
+complete -x -c phpbrew -n "__fish_phpbrew_using_command purge --multiple" -a "(__fish_phpbrew_arg_meta purge 0 valid-values)"
+
+# remove
+complete -x -c phpbrew -n "__fish_phpbrew_using_command remove" -a "(__fish_phpbrew_arg_meta remove 0 valid-values)"
+
+# self-update
+complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command self-update" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l connect-timeout -d "Connection timeout"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -a "(__fish_phpbrew_arg_meta self-update 0 suggestions)"
+
+# switch
+complete -x -c phpbrew -n "__fish_phpbrew_using_command switch" -a "(__fish_phpbrew_arg_meta switch 0 valid-values)"
+
+# update
+complete -f -c phpbrew -n "__fish_phpbrew_using_command update" -s o -l old -d "List old phps \(less than 5.3\)"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command update" -l official -d "Unserialize release information from official site \(using `unserialize` function\)"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command update" -l downloader -d "Use alternative downloader"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command update" -l continue -d "Continue getting a partially downloaded file"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command update" -l http-proxy -d "HTTP proxy address"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command update" -l http-proxy-auth -d "HTTP proxy authentication"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command update" -l connect-timeout -d "Connection timeout"
+
+# use
+complete -x -c phpbrew -n "__fish_phpbrew_using_command use" -a "(__fish_phpbrew_arg_meta use 0 valid-values)"
+
+# zsh
+complete -x -c phpbrew -n "__fish_phpbrew_using_command zsh" -l bind -d "bind complete to command"
+complete -x -c phpbrew -n "__fish_phpbrew_using_command zsh" -l program -d "programe name"

@@ -9,7 +9,7 @@ class ListCommand extends Command
 {
     public function brief()
     {
-        return 'list php apps';
+        return 'List PHP applications';
     }
 
     public function execute()

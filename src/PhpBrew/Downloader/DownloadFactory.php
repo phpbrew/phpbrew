@@ -92,14 +92,14 @@ class DownloadFactory
 
     public static function addOptionsForCommand(OptionCollection $opts)
     {
-        $opts->add('downloader:', 'Specify downloader instead of the default downloader.');
-        $opts->add('continue', 'Continue getting a partially-downloaded file.');
-        $opts->add('http-proxy:', 'The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55:8080')
-            ->valueName('proxy host');
-        $opts->add('http-proxy-auth:', 'The HTTP Proxy Auth to download PHP distributions. user:pass')
-            ->valueName('user:pass');
-        $opts->add('connect-timeout:', 'Overrides the CONNECT_TIMEOUT env variable and aborts if download takes longer than specified.')
-            ->valueName('seconds');
+        $opts->add('downloader:', 'Use alternative downloader.');
+        $opts->add('continue', 'Continue getting a partially downloaded file.');
+        $opts->add('http-proxy:', 'HTTP proxy address')
+            ->valueName('Proxy host[:port]');
+        $opts->add('http-proxy-auth:', 'HTTP proxy authentication')
+            ->valueName('Proxy username:password');
+        $opts->add('connect-timeout:', 'Connection timeout')
+            ->valueName('Timeout in seconds');
 
         return $opts;
     }

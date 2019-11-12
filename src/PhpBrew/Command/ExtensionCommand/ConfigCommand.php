@@ -3,7 +3,6 @@
 namespace PhpBrew\Command\ExtensionCommand;
 
 use PhpBrew\Config;
-use PhpBrew\Extension;
 use PhpBrew\Utils;
 use PhpBrew\Extension\ExtensionFactory;
 
@@ -11,7 +10,7 @@ class ConfigCommand extends BaseCommand
 {
     public function brief()
     {
-        return 'phpbrew ext config [extension name]';
+        return 'Edit extension-specific configuration file';
     }
 
     public function arguments($args)

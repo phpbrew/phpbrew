@@ -28,7 +28,7 @@ class InstallCommand extends BaseCommand
      */
     public function options($opts)
     {
-        $opts->add('pecl', 'Try to download from pecl even when ext source is bundled with php-src.');
+        $opts->add('pecl', 'Try to download from PECL even when ext source is bundled with php-src.');
         $opts->add('redownload', 'Force to redownload extension source even if it is already available.');
 
         DownloadFactory::addOptionsForCommand($opts);

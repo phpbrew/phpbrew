@@ -8,6 +8,6 @@ class StopCommand extends VirtualCommand
 {
     public function brief()
     {
-        return 'Stop FPM Server';
+        return 'Stop FPM server';
     }
 }
