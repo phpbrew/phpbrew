@@ -814,6 +814,140 @@ local argument_min_length=0
         fi
     fi
 };
+___phpbrew_complete_archive ()
+{
+local comp_prefix=___phpbrew
+
+        local cur words cword prev
+        _get_comp_words_by_ref -n =: cur words cword prev
+
+        local command_signature=$1
+        local command_index=$2
+
+        ((command_index++))
+
+        # Output application command alias mapping 
+        # aliases[ alias ] = command
+        declare -A subcommand_alias
+
+        # Define the command names
+        declare -A subcommands
+
+        declare -A subcommand_signs
+
+        # option names defines the available options of this command
+        declare -A options
+        # options_require_value: defines the required completion type for each
+        # option that requires a value.
+        declare -A options_require_value
+        subcommands=()
+subcommand_alias=()
+subcommand_signs=()
+options=(["-d"]="1" ["--working-dir"]="1" ["-c"]="1" ["--composer"]="1" ["--vendor"]="1" ["--bootstrap"]="1" ["--executable"]="1" ["--compress"]="1" ["--no-compress"]="1" ["--add"]="1" ["--exclude"]="1" ["--no-classloader"]="1" ["--app-bootstrap"]="1" )
+options_require_value=(["-d"]="1" ["--working-dir"]="1" ["-c"]="1" ["--composer"]="1" ["--vendor"]="1" ["--bootstrap"]="1" ["--add"]="1" ["--exclude"]="1" )
+local argument_min_length=1
+
+    # Get the command name chain of the current input, e.g.
+    # 
+    #     app asset install [arg1] [arg2] [arg3]
+    #     app commit add
+    #  
+    # The subcommand dispatch should be done in the command complete function,
+    # not in the root completion function. 
+    # We should pass the argument index to the complete function.
+
+    # command_index=1 start from the first argument, not the application name
+    # Find the command position
+    local argument_index=0
+    local i
+    local command
+    local found_options=0
+
+    # echo "[DEBUG] command_index: [$command_signature] [$command_index]"
+
+    while [ $command_index -lt $cword ]; do
+        i="${words[command_index]}"
+        case "$i" in
+            # Ignore options
+            --=*) found_options=1 ;;
+            --*) found_options=1 ;;
+            -*) found_options=1 ;;
+            *)
+                # looks like my command, that's break the loop and dispatch to the next complete function
+                if [[ -n "$i" && -n "${subcommands[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ -n "$i" && -n "${subcommand_alias[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ $command_index -gt 1 ]] ; then
+                    # If the command is not found, check if the previous argument is an option expecting a value
+                    # or it is an argument
+
+                    # the previous argument (might be)
+                    p="${words[command_index-1]}"
+
+                    # not an option value, push to the argument list
+                    if [[ -z "${options_require_value[$p]}" ]] ; then
+                        # echo "[DEBUG] argument_index++ because of [$i]"
+                        ((argument_index++))
+                    fi
+                fi
+            ;;
+        esac
+        ((command_index++))
+    done
+
+    # If the first command name is not found, we do complete...
+    if [[ -z "$command" ]] ; then
+        case "$cur" in
+            # If the current argument $cur looks like an option, then we should complete
+            -*)
+                __mycomp "${!options[*]}"
+                return
+            ;;
+            *)
+                # The argument here can be an option value. e.g. --output-dir /tmp
+                # The the previous one...
+                if [[ -n "$prev" && -n "${options_require_value[$prev]}" ]] ; then
+                    # TODO: local complete_type="${options_require_value[$prev]"}
+                  __complete_meta "$command_signature" "opt" "${prev##*(-)}" "valid-values"
+          return
+      fi
+      # If the command requires at least $argument_min_length to run, we check the argument
+if [[ $argument_min_length > 0 ]] ; then
+  case $argument_index in
+      0)
+      ;;
+  esac
+  fi
+
+                # If there is no argument support, then user is supposed to give a subcommand name or an option
+                __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
+                return
+            ;;
+        esac
+
+    else
+        # We just found the first command, we are going to dispatch the completion handler to the next level...
+        # Rewrite command alias to command name to get the correct response
+        if [[ -n "${subcommand_alias[$command]}" ]] ; then
+            command="${subcommand_alias[$command]}"
+        fi
+
+        if [[ -n "${subcommand_signs[$command]}" ]] ; then
+            local suffix="${subcommand_signs[$command]}"
+            local completion_func="${comp_prefix}_complete_${suffix//-/_}"
+
+            # Declare the completion function name and dispatch rest arguments to the complete function
+            command_signature="${command_signature}.${command}"
+            declare -f $completion_func >/dev/null && \
+                $completion_func $command_signature $command_index && return
+        else
+            echo "Command '$command' not found"
+        fi
+    fi
+};
 ___phpbrew_complete_github:build-topics ()
 {
 local comp_prefix=___phpbrew
@@ -979,8 +1113,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["--chmod"]="1" )
-options_require_value=(["--chmod"]="1" )
+options=(["--chmod"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--chmod"]="1" ["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
@@ -1257,10 +1391,10 @@ local comp_prefix=___phpbrew
         # options_require_value: defines the required completion type for each
         # option that requires a value.
         declare -A options_require_value
-        subcommands=(["get"]="get php app" ["list"]="list php apps" )
+        subcommands=(["get"]="Get PHP application" ["list"]="List PHP applications" )
 subcommand_alias=()
 subcommand_signs=(["get"]="app.get" ["list"]="app.list" )
-options=(["-l"]="1" ["--list"]="1" )
+options=()
 options_require_value=()
 local argument_min_length=0
 
@@ -1385,10 +1519,10 @@ local comp_prefix=___phpbrew
         # options_require_value: defines the required completion type for each
         # option that requires a value.
         declare -A options_require_value
-        subcommands=(["get"]="get php app" ["list"]="list php apps" )
+        subcommands=(["get"]="Get PHP application" ["list"]="List PHP applications" )
 subcommand_alias=()
 subcommand_signs=(["get"]="app.get" ["list"]="app.list" )
-options=(["-l"]="1" ["--list"]="1" )
+options=()
 options_require_value=()
 local argument_min_length=0
 
@@ -1516,8 +1650,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["-c"]="1" ["--config"]="1" )
-options_require_value=(["-c"]="1" ["--config"]="1" )
+options=(["-c"]="1" ["--config"]="1" ["--root"]="1" )
+options_require_value=(["-c"]="1" ["--config"]="1" ["--root"]="1" )
 local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
@@ -1644,8 +1778,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["-m"]="1" ["--more"]="1" ["-o"]="1" ["--old"]="1" ["-u"]="1" ["--update"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
-options_require_value=(["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options=(["-m"]="1" ["--more"]="1" ["-o"]="1" ["--old"]="1" ["-u"]="1" ["--update"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
@@ -1772,8 +1906,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["--test"]="1" ["--name"]="1" ["--post-clean"]="1" ["--production"]="1" ["--build-dir"]="1" ["--root"]="1" ["--home"]="1" ["--no-clean"]="1" ["--no-patch"]="1" ["--no-configure"]="1" ["--no-install"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--old"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--user-config"]="1" ["--connect-timeout"]="1" ["-f"]="1" ["--force"]="1" ["-d"]="1" ["--dryrun"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" ["--stdout"]="1" )
-options_require_value=(["--name"]="1" ["--build-dir"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" )
+options=(["--test"]="1" ["--name"]="1" ["--mirror"]="1" ["--post-clean"]="1" ["--production"]="1" ["--build-dir"]="1" ["--root"]="1" ["--home"]="1" ["--no-config-cache"]="1" ["--no-clean"]="1" ["--no-patch"]="1" ["--no-configure"]="1" ["--no-install"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--old"]="1" ["--user-config"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" ["-f"]="1" ["--force"]="1" ["-d"]="1" ["--dryrun"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" ["--stdout"]="1" ["--sudo"]="1" )
+options_require_value=(["--name"]="1" ["--mirror"]="1" ["--build-dir"]="1" ["-n"]="1" ["--nice"]="1" ["--patch"]="1" ["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" ["--like"]="1" ["-j"]="1" ["--jobs"]="1" )
 local argument_min_length=2
 
     # Get the command name chain of the current input, e.g.
@@ -2312,9 +2446,9 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["-d"]="1" ["--debug"]="1" ["-y"]="1" ["--assumeyes"]="1" )
+options=()
 options_require_value=()
-local argument_min_length=1
+local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
     # 
@@ -2384,12 +2518,6 @@ local argument_min_length=1
           return
       fi
       # If the command requires at least $argument_min_length to run, we check the argument
-if [[ $argument_min_length > 0 ]] ; then
-  case $argument_index in
-      0)
-      ;;
-  esac
-  fi
 
                 # If there is no argument support, then user is supposed to give a subcommand name or an option
                 __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
@@ -2777,6 +2905,8 @@ local argument_min_length=1
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
       0)
+      __complete_meta "$command_signature" "arg" 0 "valid-values"
+      return
       ;;
   esac
   fi
@@ -2972,8 +3102,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["--pecl"]="1" ["--redownload"]="1" )
-options_require_value=()
+options=(["--pecl"]="1" ["--redownload"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
@@ -3652,8 +3782,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=()
-options_require_value=()
+options=(["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
@@ -3785,7 +3915,7 @@ local comp_prefix=___phpbrew
         # options_require_value: defines the required completion type for each
         # option that requires a value.
         declare -A options_require_value
-        subcommands=(["enable"]="Enable PHP extension" ["install"]="Install PHP extension" ["disable"]="Disable PHP extension" ["config"]="phpbrew ext config [extension name]" ["clean"]="Clean up the compiled objects in the extension source directory." ["show"]="Show information of a PHP extension" ["known"]="List known versions" )
+        subcommands=(["enable"]="Enable PHP extension" ["install"]="Install PHP extension" ["disable"]="Disable PHP extension" ["config"]="Edit extension-specific configuration file" ["clean"]="Clean up the compiled objects in the extension source directory." ["show"]="Show information of a PHP extension" ["known"]="List known versions" )
 subcommand_alias=()
 subcommand_signs=(["enable"]="extension.enable" ["install"]="extension.install" ["disable"]="extension.disable" ["config"]="extension.config" ["clean"]="extension.clean" ["show"]="extension.show" ["known"]="extension.known" )
 options=(["-so"]="1" ["--show-options"]="1" ["-sp"]="1" ["--show-path"]="1" )
@@ -3913,7 +4043,7 @@ local comp_prefix=___phpbrew
         # options_require_value: defines the required completion type for each
         # option that requires a value.
         declare -A options_require_value
-        subcommands=(["enable"]="Enable PHP extension" ["install"]="Install PHP extension" ["disable"]="Disable PHP extension" ["config"]="phpbrew ext config [extension name]" ["clean"]="Clean up the compiled objects in the extension source directory." ["show"]="Show information of a PHP extension" ["known"]="List known versions" )
+        subcommands=(["enable"]="Enable PHP extension" ["install"]="Install PHP extension" ["disable"]="Disable PHP extension" ["config"]="Edit extension-specific configuration file" ["clean"]="Clean up the compiled objects in the extension source directory." ["show"]="Show information of a PHP extension" ["known"]="List known versions" )
 subcommand_alias=()
 subcommand_signs=(["enable"]="extension.enable" ["install"]="extension.install" ["disable"]="extension.disable" ["config"]="extension.config" ["clean"]="extension.clean" ["show"]="extension.show" ["known"]="extension.known" )
 options=(["-so"]="1" ["--show-options"]="1" ["-sp"]="1" ["--show-path"]="1" )
@@ -4464,8 +4594,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["-f"]="1" ["--force"]="1" ["--old"]="1" ["--mirror"]="1" ["--connect-timeout"]="1" )
-options_require_value=(["--mirror"]="1" ["--connect-timeout"]="1" )
+options=(["-f"]="1" ["--force"]="1" ["--old"]="1" ["--mirror"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--mirror"]="1" ["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
@@ -4736,8 +4866,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["-o"]="1" ["--old"]="1" ["--official"]="1" ["--connect-timeout"]="1" )
-options_require_value=(["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options=(["-o"]="1" ["--old"]="1" ["--official"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
@@ -4971,6 +5101,780 @@ if [[ $argument_min_length > 0 ]] ; then
         fi
     fi
 };
+___phpbrew_complete_fpm.restart ()
+{
+local comp_prefix=___phpbrew
+
+        local cur words cword prev
+        _get_comp_words_by_ref -n =: cur words cword prev
+
+        local command_signature=$1
+        local command_index=$2
+
+        ((command_index++))
+
+        # Output application command alias mapping 
+        # aliases[ alias ] = command
+        declare -A subcommand_alias
+
+        # Define the command names
+        declare -A subcommands
+
+        declare -A subcommand_signs
+
+        # option names defines the available options of this command
+        declare -A options
+        # options_require_value: defines the required completion type for each
+        # option that requires a value.
+        declare -A options_require_value
+        subcommands=()
+subcommand_alias=()
+subcommand_signs=()
+options=()
+options_require_value=()
+local argument_min_length=0
+
+    # Get the command name chain of the current input, e.g.
+    # 
+    #     app asset install [arg1] [arg2] [arg3]
+    #     app commit add
+    #  
+    # The subcommand dispatch should be done in the command complete function,
+    # not in the root completion function. 
+    # We should pass the argument index to the complete function.
+
+    # command_index=1 start from the first argument, not the application name
+    # Find the command position
+    local argument_index=0
+    local i
+    local command
+    local found_options=0
+
+    # echo "[DEBUG] command_index: [$command_signature] [$command_index]"
+
+    while [ $command_index -lt $cword ]; do
+        i="${words[command_index]}"
+        case "$i" in
+            # Ignore options
+            --=*) found_options=1 ;;
+            --*) found_options=1 ;;
+            -*) found_options=1 ;;
+            *)
+                # looks like my command, that's break the loop and dispatch to the next complete function
+                if [[ -n "$i" && -n "${subcommands[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ -n "$i" && -n "${subcommand_alias[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ $command_index -gt 1 ]] ; then
+                    # If the command is not found, check if the previous argument is an option expecting a value
+                    # or it is an argument
+
+                    # the previous argument (might be)
+                    p="${words[command_index-1]}"
+
+                    # not an option value, push to the argument list
+                    if [[ -z "${options_require_value[$p]}" ]] ; then
+                        # echo "[DEBUG] argument_index++ because of [$i]"
+                        ((argument_index++))
+                    fi
+                fi
+            ;;
+        esac
+        ((command_index++))
+    done
+
+    # If the first command name is not found, we do complete...
+    if [[ -z "$command" ]] ; then
+        case "$cur" in
+            # If the current argument $cur looks like an option, then we should complete
+            -*)
+                __mycomp "${!options[*]}"
+                return
+            ;;
+            *)
+                # The argument here can be an option value. e.g. --output-dir /tmp
+                # The the previous one...
+                if [[ -n "$prev" && -n "${options_require_value[$prev]}" ]] ; then
+                    # TODO: local complete_type="${options_require_value[$prev]"}
+                  __complete_meta "$command_signature" "opt" "${prev##*(-)}" "valid-values"
+          return
+      fi
+      # If the command requires at least $argument_min_length to run, we check the argument
+
+                # If there is no argument support, then user is supposed to give a subcommand name or an option
+                __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
+                return
+            ;;
+        esac
+
+    else
+        # We just found the first command, we are going to dispatch the completion handler to the next level...
+        # Rewrite command alias to command name to get the correct response
+        if [[ -n "${subcommand_alias[$command]}" ]] ; then
+            command="${subcommand_alias[$command]}"
+        fi
+
+        if [[ -n "${subcommand_signs[$command]}" ]] ; then
+            local suffix="${subcommand_signs[$command]}"
+            local completion_func="${comp_prefix}_complete_${suffix//-/_}"
+
+            # Declare the completion function name and dispatch rest arguments to the complete function
+            command_signature="${command_signature}.${command}"
+            declare -f $completion_func >/dev/null && \
+                $completion_func $command_signature $command_index && return
+        else
+            echo "Command '$command' not found"
+        fi
+    fi
+};
+___phpbrew_complete_fpm.setup ()
+{
+local comp_prefix=___phpbrew
+
+        local cur words cword prev
+        _get_comp_words_by_ref -n =: cur words cword prev
+
+        local command_signature=$1
+        local command_index=$2
+
+        ((command_index++))
+
+        # Output application command alias mapping 
+        # aliases[ alias ] = command
+        declare -A subcommand_alias
+
+        # Define the command names
+        declare -A subcommands
+
+        declare -A subcommand_signs
+
+        # option names defines the available options of this command
+        declare -A options
+        # options_require_value: defines the required completion type for each
+        # option that requires a value.
+        declare -A options_require_value
+        subcommands=()
+subcommand_alias=()
+subcommand_signs=()
+options=(["--systemctl"]="1" ["--initd"]="1" ["--launchctl"]="1" ["--stdout"]="1" )
+options_require_value=()
+local argument_min_length=1
+
+    # Get the command name chain of the current input, e.g.
+    # 
+    #     app asset install [arg1] [arg2] [arg3]
+    #     app commit add
+    #  
+    # The subcommand dispatch should be done in the command complete function,
+    # not in the root completion function. 
+    # We should pass the argument index to the complete function.
+
+    # command_index=1 start from the first argument, not the application name
+    # Find the command position
+    local argument_index=0
+    local i
+    local command
+    local found_options=0
+
+    # echo "[DEBUG] command_index: [$command_signature] [$command_index]"
+
+    while [ $command_index -lt $cword ]; do
+        i="${words[command_index]}"
+        case "$i" in
+            # Ignore options
+            --=*) found_options=1 ;;
+            --*) found_options=1 ;;
+            -*) found_options=1 ;;
+            *)
+                # looks like my command, that's break the loop and dispatch to the next complete function
+                if [[ -n "$i" && -n "${subcommands[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ -n "$i" && -n "${subcommand_alias[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ $command_index -gt 1 ]] ; then
+                    # If the command is not found, check if the previous argument is an option expecting a value
+                    # or it is an argument
+
+                    # the previous argument (might be)
+                    p="${words[command_index-1]}"
+
+                    # not an option value, push to the argument list
+                    if [[ -z "${options_require_value[$p]}" ]] ; then
+                        # echo "[DEBUG] argument_index++ because of [$i]"
+                        ((argument_index++))
+                    fi
+                fi
+            ;;
+        esac
+        ((command_index++))
+    done
+
+    # If the first command name is not found, we do complete...
+    if [[ -z "$command" ]] ; then
+        case "$cur" in
+            # If the current argument $cur looks like an option, then we should complete
+            -*)
+                __mycomp "${!options[*]}"
+                return
+            ;;
+            *)
+                # The argument here can be an option value. e.g. --output-dir /tmp
+                # The the previous one...
+                if [[ -n "$prev" && -n "${options_require_value[$prev]}" ]] ; then
+                    # TODO: local complete_type="${options_require_value[$prev]"}
+                  __complete_meta "$command_signature" "opt" "${prev##*(-)}" "valid-values"
+          return
+      fi
+      # If the command requires at least $argument_min_length to run, we check the argument
+if [[ $argument_min_length > 0 ]] ; then
+  case $argument_index in
+      0)
+      ;;
+  esac
+  fi
+
+                # If there is no argument support, then user is supposed to give a subcommand name or an option
+                __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
+                return
+            ;;
+        esac
+
+    else
+        # We just found the first command, we are going to dispatch the completion handler to the next level...
+        # Rewrite command alias to command name to get the correct response
+        if [[ -n "${subcommand_alias[$command]}" ]] ; then
+            command="${subcommand_alias[$command]}"
+        fi
+
+        if [[ -n "${subcommand_signs[$command]}" ]] ; then
+            local suffix="${subcommand_signs[$command]}"
+            local completion_func="${comp_prefix}_complete_${suffix//-/_}"
+
+            # Declare the completion function name and dispatch rest arguments to the complete function
+            command_signature="${command_signature}.${command}"
+            declare -f $completion_func >/dev/null && \
+                $completion_func $command_signature $command_index && return
+        else
+            echo "Command '$command' not found"
+        fi
+    fi
+};
+___phpbrew_complete_fpm.start ()
+{
+local comp_prefix=___phpbrew
+
+        local cur words cword prev
+        _get_comp_words_by_ref -n =: cur words cword prev
+
+        local command_signature=$1
+        local command_index=$2
+
+        ((command_index++))
+
+        # Output application command alias mapping 
+        # aliases[ alias ] = command
+        declare -A subcommand_alias
+
+        # Define the command names
+        declare -A subcommands
+
+        declare -A subcommand_signs
+
+        # option names defines the available options of this command
+        declare -A options
+        # options_require_value: defines the required completion type for each
+        # option that requires a value.
+        declare -A options_require_value
+        subcommands=()
+subcommand_alias=()
+subcommand_signs=()
+options=()
+options_require_value=()
+local argument_min_length=0
+
+    # Get the command name chain of the current input, e.g.
+    # 
+    #     app asset install [arg1] [arg2] [arg3]
+    #     app commit add
+    #  
+    # The subcommand dispatch should be done in the command complete function,
+    # not in the root completion function. 
+    # We should pass the argument index to the complete function.
+
+    # command_index=1 start from the first argument, not the application name
+    # Find the command position
+    local argument_index=0
+    local i
+    local command
+    local found_options=0
+
+    # echo "[DEBUG] command_index: [$command_signature] [$command_index]"
+
+    while [ $command_index -lt $cword ]; do
+        i="${words[command_index]}"
+        case "$i" in
+            # Ignore options
+            --=*) found_options=1 ;;
+            --*) found_options=1 ;;
+            -*) found_options=1 ;;
+            *)
+                # looks like my command, that's break the loop and dispatch to the next complete function
+                if [[ -n "$i" && -n "${subcommands[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ -n "$i" && -n "${subcommand_alias[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ $command_index -gt 1 ]] ; then
+                    # If the command is not found, check if the previous argument is an option expecting a value
+                    # or it is an argument
+
+                    # the previous argument (might be)
+                    p="${words[command_index-1]}"
+
+                    # not an option value, push to the argument list
+                    if [[ -z "${options_require_value[$p]}" ]] ; then
+                        # echo "[DEBUG] argument_index++ because of [$i]"
+                        ((argument_index++))
+                    fi
+                fi
+            ;;
+        esac
+        ((command_index++))
+    done
+
+    # If the first command name is not found, we do complete...
+    if [[ -z "$command" ]] ; then
+        case "$cur" in
+            # If the current argument $cur looks like an option, then we should complete
+            -*)
+                __mycomp "${!options[*]}"
+                return
+            ;;
+            *)
+                # The argument here can be an option value. e.g. --output-dir /tmp
+                # The the previous one...
+                if [[ -n "$prev" && -n "${options_require_value[$prev]}" ]] ; then
+                    # TODO: local complete_type="${options_require_value[$prev]"}
+                  __complete_meta "$command_signature" "opt" "${prev##*(-)}" "valid-values"
+          return
+      fi
+      # If the command requires at least $argument_min_length to run, we check the argument
+
+                # If there is no argument support, then user is supposed to give a subcommand name or an option
+                __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
+                return
+            ;;
+        esac
+
+    else
+        # We just found the first command, we are going to dispatch the completion handler to the next level...
+        # Rewrite command alias to command name to get the correct response
+        if [[ -n "${subcommand_alias[$command]}" ]] ; then
+            command="${subcommand_alias[$command]}"
+        fi
+
+        if [[ -n "${subcommand_signs[$command]}" ]] ; then
+            local suffix="${subcommand_signs[$command]}"
+            local completion_func="${comp_prefix}_complete_${suffix//-/_}"
+
+            # Declare the completion function name and dispatch rest arguments to the complete function
+            command_signature="${command_signature}.${command}"
+            declare -f $completion_func >/dev/null && \
+                $completion_func $command_signature $command_index && return
+        else
+            echo "Command '$command' not found"
+        fi
+    fi
+};
+___phpbrew_complete_fpm.stop ()
+{
+local comp_prefix=___phpbrew
+
+        local cur words cword prev
+        _get_comp_words_by_ref -n =: cur words cword prev
+
+        local command_signature=$1
+        local command_index=$2
+
+        ((command_index++))
+
+        # Output application command alias mapping 
+        # aliases[ alias ] = command
+        declare -A subcommand_alias
+
+        # Define the command names
+        declare -A subcommands
+
+        declare -A subcommand_signs
+
+        # option names defines the available options of this command
+        declare -A options
+        # options_require_value: defines the required completion type for each
+        # option that requires a value.
+        declare -A options_require_value
+        subcommands=()
+subcommand_alias=()
+subcommand_signs=()
+options=()
+options_require_value=()
+local argument_min_length=0
+
+    # Get the command name chain of the current input, e.g.
+    # 
+    #     app asset install [arg1] [arg2] [arg3]
+    #     app commit add
+    #  
+    # The subcommand dispatch should be done in the command complete function,
+    # not in the root completion function. 
+    # We should pass the argument index to the complete function.
+
+    # command_index=1 start from the first argument, not the application name
+    # Find the command position
+    local argument_index=0
+    local i
+    local command
+    local found_options=0
+
+    # echo "[DEBUG] command_index: [$command_signature] [$command_index]"
+
+    while [ $command_index -lt $cword ]; do
+        i="${words[command_index]}"
+        case "$i" in
+            # Ignore options
+            --=*) found_options=1 ;;
+            --*) found_options=1 ;;
+            -*) found_options=1 ;;
+            *)
+                # looks like my command, that's break the loop and dispatch to the next complete function
+                if [[ -n "$i" && -n "${subcommands[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ -n "$i" && -n "${subcommand_alias[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ $command_index -gt 1 ]] ; then
+                    # If the command is not found, check if the previous argument is an option expecting a value
+                    # or it is an argument
+
+                    # the previous argument (might be)
+                    p="${words[command_index-1]}"
+
+                    # not an option value, push to the argument list
+                    if [[ -z "${options_require_value[$p]}" ]] ; then
+                        # echo "[DEBUG] argument_index++ because of [$i]"
+                        ((argument_index++))
+                    fi
+                fi
+            ;;
+        esac
+        ((command_index++))
+    done
+
+    # If the first command name is not found, we do complete...
+    if [[ -z "$command" ]] ; then
+        case "$cur" in
+            # If the current argument $cur looks like an option, then we should complete
+            -*)
+                __mycomp "${!options[*]}"
+                return
+            ;;
+            *)
+                # The argument here can be an option value. e.g. --output-dir /tmp
+                # The the previous one...
+                if [[ -n "$prev" && -n "${options_require_value[$prev]}" ]] ; then
+                    # TODO: local complete_type="${options_require_value[$prev]"}
+                  __complete_meta "$command_signature" "opt" "${prev##*(-)}" "valid-values"
+          return
+      fi
+      # If the command requires at least $argument_min_length to run, we check the argument
+
+                # If there is no argument support, then user is supposed to give a subcommand name or an option
+                __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
+                return
+            ;;
+        esac
+
+    else
+        # We just found the first command, we are going to dispatch the completion handler to the next level...
+        # Rewrite command alias to command name to get the correct response
+        if [[ -n "${subcommand_alias[$command]}" ]] ; then
+            command="${subcommand_alias[$command]}"
+        fi
+
+        if [[ -n "${subcommand_signs[$command]}" ]] ; then
+            local suffix="${subcommand_signs[$command]}"
+            local completion_func="${comp_prefix}_complete_${suffix//-/_}"
+
+            # Declare the completion function name and dispatch rest arguments to the complete function
+            command_signature="${command_signature}.${command}"
+            declare -f $completion_func >/dev/null && \
+                $completion_func $command_signature $command_index && return
+        else
+            echo "Command '$command' not found"
+        fi
+    fi
+};
+___phpbrew_complete_fpm ()
+{
+local comp_prefix=___phpbrew
+
+        local cur words cword prev
+        _get_comp_words_by_ref -n =: cur words cword prev
+
+        local command_signature=$1
+        local command_index=$2
+
+        ((command_index++))
+
+        # Output application command alias mapping 
+        # aliases[ alias ] = command
+        declare -A subcommand_alias
+
+        # Define the command names
+        declare -A subcommands
+
+        declare -A subcommand_signs
+
+        # option names defines the available options of this command
+        declare -A options
+        # options_require_value: defines the required completion type for each
+        # option that requires a value.
+        declare -A options_require_value
+        subcommands=(["restart"]="Restart FPM server" ["setup"]="Generate and setup FPM startup config" ["start"]="Start FPM server" ["stop"]="Stop FPM server" )
+subcommand_alias=()
+subcommand_signs=(["restart"]="fpm.restart" ["setup"]="fpm.setup" ["start"]="fpm.start" ["stop"]="fpm.stop" )
+options=()
+options_require_value=()
+local argument_min_length=0
+
+    # Get the command name chain of the current input, e.g.
+    # 
+    #     app asset install [arg1] [arg2] [arg3]
+    #     app commit add
+    #  
+    # The subcommand dispatch should be done in the command complete function,
+    # not in the root completion function. 
+    # We should pass the argument index to the complete function.
+
+    # command_index=1 start from the first argument, not the application name
+    # Find the command position
+    local argument_index=0
+    local i
+    local command
+    local found_options=0
+
+    # echo "[DEBUG] command_index: [$command_signature] [$command_index]"
+
+    while [ $command_index -lt $cword ]; do
+        i="${words[command_index]}"
+        case "$i" in
+            # Ignore options
+            --=*) found_options=1 ;;
+            --*) found_options=1 ;;
+            -*) found_options=1 ;;
+            *)
+                # looks like my command, that's break the loop and dispatch to the next complete function
+                if [[ -n "$i" && -n "${subcommands[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ -n "$i" && -n "${subcommand_alias[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ $command_index -gt 1 ]] ; then
+                    # If the command is not found, check if the previous argument is an option expecting a value
+                    # or it is an argument
+
+                    # the previous argument (might be)
+                    p="${words[command_index-1]}"
+
+                    # not an option value, push to the argument list
+                    if [[ -z "${options_require_value[$p]}" ]] ; then
+                        # echo "[DEBUG] argument_index++ because of [$i]"
+                        ((argument_index++))
+                    fi
+                fi
+            ;;
+        esac
+        ((command_index++))
+    done
+
+    # If the first command name is not found, we do complete...
+    if [[ -z "$command" ]] ; then
+        case "$cur" in
+            # If the current argument $cur looks like an option, then we should complete
+            -*)
+                __mycomp "${!options[*]}"
+                return
+            ;;
+            *)
+                # The argument here can be an option value. e.g. --output-dir /tmp
+                # The the previous one...
+                if [[ -n "$prev" && -n "${options_require_value[$prev]}" ]] ; then
+                    # TODO: local complete_type="${options_require_value[$prev]"}
+                  __complete_meta "$command_signature" "opt" "${prev##*(-)}" "valid-values"
+          return
+      fi
+      # If the command requires at least $argument_min_length to run, we check the argument
+
+                # If there is no argument support, then user is supposed to give a subcommand name or an option
+                __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
+                return
+            ;;
+        esac
+
+    else
+        # We just found the first command, we are going to dispatch the completion handler to the next level...
+        # Rewrite command alias to command name to get the correct response
+        if [[ -n "${subcommand_alias[$command]}" ]] ; then
+            command="${subcommand_alias[$command]}"
+        fi
+
+        if [[ -n "${subcommand_signs[$command]}" ]] ; then
+            local suffix="${subcommand_signs[$command]}"
+            local completion_func="${comp_prefix}_complete_${suffix//-/_}"
+
+            # Declare the completion function name and dispatch rest arguments to the complete function
+            command_signature="${command_signature}.${command}"
+            declare -f $completion_func >/dev/null && \
+                $completion_func $command_signature $command_index && return
+        else
+            echo "Command '$command' not found"
+        fi
+    fi
+};
+___phpbrew_complete_fpm ()
+{
+local comp_prefix=___phpbrew
+
+        local cur words cword prev
+        _get_comp_words_by_ref -n =: cur words cword prev
+
+        local command_signature=$1
+        local command_index=$2
+
+        ((command_index++))
+
+        # Output application command alias mapping 
+        # aliases[ alias ] = command
+        declare -A subcommand_alias
+
+        # Define the command names
+        declare -A subcommands
+
+        declare -A subcommand_signs
+
+        # option names defines the available options of this command
+        declare -A options
+        # options_require_value: defines the required completion type for each
+        # option that requires a value.
+        declare -A options_require_value
+        subcommands=(["restart"]="Restart FPM server" ["setup"]="Generate and setup FPM startup config" ["start"]="Start FPM server" ["stop"]="Stop FPM server" )
+subcommand_alias=()
+subcommand_signs=(["restart"]="fpm.restart" ["setup"]="fpm.setup" ["start"]="fpm.start" ["stop"]="fpm.stop" )
+options=()
+options_require_value=()
+local argument_min_length=0
+
+    # Get the command name chain of the current input, e.g.
+    # 
+    #     app asset install [arg1] [arg2] [arg3]
+    #     app commit add
+    #  
+    # The subcommand dispatch should be done in the command complete function,
+    # not in the root completion function. 
+    # We should pass the argument index to the complete function.
+
+    # command_index=1 start from the first argument, not the application name
+    # Find the command position
+    local argument_index=0
+    local i
+    local command
+    local found_options=0
+
+    # echo "[DEBUG] command_index: [$command_signature] [$command_index]"
+
+    while [ $command_index -lt $cword ]; do
+        i="${words[command_index]}"
+        case "$i" in
+            # Ignore options
+            --=*) found_options=1 ;;
+            --*) found_options=1 ;;
+            -*) found_options=1 ;;
+            *)
+                # looks like my command, that's break the loop and dispatch to the next complete function
+                if [[ -n "$i" && -n "${subcommands[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ -n "$i" && -n "${subcommand_alias[$i]}" ]] ; then
+                    command="$i"
+                    break
+                elif [[ $command_index -gt 1 ]] ; then
+                    # If the command is not found, check if the previous argument is an option expecting a value
+                    # or it is an argument
+
+                    # the previous argument (might be)
+                    p="${words[command_index-1]}"
+
+                    # not an option value, push to the argument list
+                    if [[ -z "${options_require_value[$p]}" ]] ; then
+                        # echo "[DEBUG] argument_index++ because of [$i]"
+                        ((argument_index++))
+                    fi
+                fi
+            ;;
+        esac
+        ((command_index++))
+    done
+
+    # If the first command name is not found, we do complete...
+    if [[ -z "$command" ]] ; then
+        case "$cur" in
+            # If the current argument $cur looks like an option, then we should complete
+            -*)
+                __mycomp "${!options[*]}"
+                return
+            ;;
+            *)
+                # The argument here can be an option value. e.g. --output-dir /tmp
+                # The the previous one...
+                if [[ -n "$prev" && -n "${options_require_value[$prev]}" ]] ; then
+                    # TODO: local complete_type="${options_require_value[$prev]"}
+                  __complete_meta "$command_signature" "opt" "${prev##*(-)}" "valid-values"
+          return
+      fi
+      # If the command requires at least $argument_min_length to run, we check the argument
+
+                # If there is no argument support, then user is supposed to give a subcommand name or an option
+                __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
+                return
+            ;;
+        esac
+
+    else
+        # We just found the first command, we are going to dispatch the completion handler to the next level...
+        # Rewrite command alias to command name to get the correct response
+        if [[ -n "${subcommand_alias[$command]}" ]] ; then
+            command="${subcommand_alias[$command]}"
+        fi
+
+        if [[ -n "${subcommand_signs[$command]}" ]] ; then
+            local suffix="${subcommand_signs[$command]}"
+            local completion_func="${comp_prefix}_complete_${suffix//-/_}"
+
+            # Declare the completion function name and dispatch rest arguments to the complete function
+            command_signature="${command_signature}.${command}"
+            declare -f $completion_func >/dev/null && \
+                $completion_func $command_signature $command_index && return
+        else
+            echo "Command '$command' not found"
+        fi
+    fi
+};
 ___phpbrew_complete_list-ini ()
 {
 local comp_prefix=___phpbrew
@@ -5128,8 +6032,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=()
-options_require_value=()
+options=(["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options_require_value=(["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
@@ -5474,7 +6378,7 @@ local argument_min_length=1
       # If the command requires at least $argument_min_length to run, we check the argument
 if [[ $argument_min_length > 0 ]] ; then
   case $argument_index in
-      0)
+      *)
       __complete_meta "$command_signature" "arg" 0 "valid-values"
       return
       ;;
@@ -5538,7 +6442,7 @@ subcommand_alias=()
 subcommand_signs=()
 options=()
 options_require_value=()
-local argument_min_length=1
+local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
     # 
@@ -5608,12 +6512,6 @@ local argument_min_length=1
           return
       fi
       # If the command requires at least $argument_min_length to run, we check the argument
-if [[ $argument_min_length > 0 ]] ; then
-  case $argument_index in
-      0)
-      ;;
-  esac
-  fi
 
                 # If there is no argument support, then user is supposed to give a subcommand name or an option
                 __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
@@ -5672,7 +6570,7 @@ subcommand_alias=()
 subcommand_signs=()
 options=()
 options_require_value=()
-local argument_min_length=1
+local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
     # 
@@ -5742,12 +6640,6 @@ local argument_min_length=1
           return
       fi
       # If the command requires at least $argument_min_length to run, we check the argument
-if [[ $argument_min_length > 0 ]] ; then
-  case $argument_index in
-      0)
-      ;;
-  esac
-  fi
 
                 # If there is no argument support, then user is supposed to give a subcommand name or an option
                 __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
@@ -5801,9 +6693,9 @@ local comp_prefix=___phpbrew
         # options_require_value: defines the required completion type for each
         # option that requires a value.
         declare -A options_require_value
-        subcommands=(["help"]="Show help message of a command" ["zsh"]="This function generate a zsh-completion script automatically" ["bash"]="This command generate a bash completion script automatically" ["meta"]="Return the meta data of a commands." ["compile"]="compile current source into Phar format library file." ["github:build-topics"]="Build topic classes from the wiki of a GitHub Project." ["app"]="php app store" ["init"]="Initialize phpbrew config file." ["known"]="List known PHP versions" ["install"]="Install php" ["list"]="List installed PHPs" ["use"]="Use php, switch version temporarily" ["switch"]="Switch default php version." ["each"]="Iterate and run a given command over all php versions managed by PHPBrew." ["config"]="Edit your current php.ini in your favorite $EDITOR" ["info"]="Show current php information" ["env"]="Export environment variables" ["extension"]="List extensions or execute extension subcommands" ["variants"]="List php variants" ["path"]="Show paths of the current PHP." ["cd"]="Change to directories" ["download"]="Download php" ["clean"]="Clean up the source directory of a PHP distribution" ["update"]="Update PHP release source file" ["ctags"]="Run ctags at current php source dir for extension development." ["list-ini"]="List loaded ini config files." ["self-update"]="Self-update, default to master version" ["remove"]="Remove installed php build." ["purge"]="Remove installed php version and config files." ["off"]="Temporarily go back to the system php" ["switch-off"]="Definitely go back to the system php" )
-subcommand_alias=(["i"]="install" ["ins"]="install" ["ext"]="extension" )
-subcommand_signs=(["help"]="help" ["zsh"]="zsh" ["bash"]="bash" ["meta"]="meta" ["compile"]="compile" ["github:build-topics"]="github:build-topics" ["app"]="app" ["init"]="init" ["known"]="known" ["install"]="install" ["list"]="list" ["use"]="use" ["switch"]="switch" ["each"]="each" ["config"]="config" ["info"]="info" ["env"]="env" ["extension"]="extension" ["variants"]="variants" ["path"]="path" ["cd"]="cd" ["download"]="download" ["clean"]="clean" ["update"]="update" ["ctags"]="ctags" ["list-ini"]="list-ini" ["self-update"]="self-update" ["remove"]="remove" ["purge"]="purge" ["off"]="off" ["switch-off"]="switch-off" )
+        subcommands=(["help"]="Show help message of a command" ["zsh"]="This function generate a zsh-completion script automatically" ["bash"]="This command generate a bash completion script automatically" ["meta"]="Return the meta data of a commands." ["compile"]="compile current source into Phar format library file." ["archive"]="Build executable phar file from composer.json" ["github:build-topics"]="Build topic classes from the wiki of a GitHub Project." ["app"]="php app store" ["init"]="Initialize phpbrew config file." ["known"]="List known PHP versions" ["install"]="Install php" ["list"]="List installed PHPs" ["use"]="Use php, switch version temporarily" ["switch"]="Switch default php version." ["each"]="Iterate and run a given shell command over all php versions managed by PHPBrew." ["config"]="Edit your current php.ini in your favorite $EDITOR" ["info"]="Show current php information" ["env"]="Export environment variables" ["extension"]="List extensions or execute extension subcommands" ["variants"]="List php variants" ["path"]="Show paths of the current PHP." ["cd"]="Change to directories" ["download"]="Download php" ["clean"]="Clean up the source directory of a PHP distribution" ["update"]="Update PHP release source file" ["ctags"]="Run ctags at current php source dir for extension development." ["fpm"]="fpm commands" ["list-ini"]="List loaded ini config files." ["self-update"]="Self-update, default to master version" ["remove"]="Remove installed php build." ["purge"]="Remove installed php version and config files." ["off"]="Temporarily go back to the system php" ["switch-off"]="Definitely go back to the system php" )
+subcommand_alias=(["a"]="archive" ["ar"]="archive" ["i"]="install" ["ins"]="install" ["ext"]="extension" )
+subcommand_signs=(["help"]="help" ["zsh"]="zsh" ["bash"]="bash" ["meta"]="meta" ["compile"]="compile" ["archive"]="archive" ["github:build-topics"]="github:build-topics" ["app"]="app" ["init"]="init" ["known"]="known" ["install"]="install" ["list"]="list" ["use"]="use" ["switch"]="switch" ["each"]="each" ["config"]="config" ["info"]="info" ["env"]="env" ["extension"]="extension" ["variants"]="variants" ["path"]="path" ["cd"]="cd" ["download"]="download" ["clean"]="clean" ["update"]="update" ["ctags"]="ctags" ["fpm"]="fpm" ["list-ini"]="list-ini" ["self-update"]="self-update" ["remove"]="remove" ["purge"]="purge" ["off"]="off" ["switch-off"]="switch-off" )
 options=(["-v"]="1" ["--verbose"]="1" ["-d"]="1" ["--debug"]="1" ["-q"]="1" ["--quiet"]="1" ["-h"]="1" ["--help"]="1" ["--version"]="1" ["-p"]="1" ["--profile"]="1" ["--log-path"]="1" ["--no-interact"]="1" ["--no-progress"]="1" )
 options_require_value=()
 local argument_min_length=0

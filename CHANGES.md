@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+### Version 1.24.0
+
+Please see the [release notes](https://github.com/phpbrew/phpbrew/releases) on GitHub.
+
 ### Version 1.23.1
 - Use default cURL timeouts in Downloader to avoid accidental installation failures (c9s/CurlKit#3).
 - Fixed a PHP notice in --debug mode (#919).

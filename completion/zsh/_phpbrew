@@ -62,6 +62,7 @@ local ret=1
     bash:'This command generate a bash completion script automatically'
     meta:'Return the meta data of a commands.'
     compile:'compile current source into Phar format library file.'
+    archive:'Build executable phar file from composer.json'
     github:build-topics:'Build topic classes from the wiki of a GitHub Project.'
     app:'php app store'
     init:'Initialize phpbrew config file.'
@@ -70,7 +71,7 @@ local ret=1
     list:'List installed PHPs'
     use:'Use php, switch version temporarily'
     switch:'Switch default php version.'
-    each:'Iterate and run a given command over all php versions managed by PHPBrew.'
+    each:'Iterate and run a given shell command over all php versions managed by PHPBrew.'
     config:'Edit your current php.ini in your favorite $EDITOR'
     info:'Show current php information'
     env:'Export environment variables'
@@ -82,6 +83,7 @@ local ret=1
     clean:'Clean up the source directory of a PHP distribution'
     update:'Update PHP release source file'
     ctags:'Run ctags at current php source dir for extension development.'
+    fpm:'fpm commands'
     list-ini:'List loaded ini config files.'
     self-update:'Self-update, default to master version'
     remove:'Remove installed php build.'
@@ -141,6 +143,23 @@ local ret=1
                && ret=0
         
         ;;
+        (archive)
+            _arguments -w -S -s \
+              '(-d --working-dir)'{-d,--working-dir=}'[If specified, use the given directory as working directory.]:dir:_directories' \
+              '(-c --composer)'{-c,--composer=}'[The composer.json file. If --working-dir is ignored, dirname of the composer.json will be used.]:file:_files' \
+              '--vendor=[Vendor directory name]' \
+              '--bootstrap[bootstrap or executable php file]:file:_files' \
+              '--executable[make the phar file executable]:boolean' \
+              '(-c --compress)'{-c,--compress}'[compress type\: gz, bz2]::("gz" "bz2")' \
+              '--no-compress[do not compress phar file.]' \
+              '--add=[add a path respectively]' \
+              '--exclude=[exclude pattern]' \
+              '--no-classloader[do not embed a built-in classloader in the generated phar file.]' \
+              '--app-bootstrap[Include CLIFramework bootstrap script.]' \
+              ':phar-file' \
+               && ret=0
+        
+        ;;
         (github:build-topics)
             _arguments -w -S -s \
               '--ns=[Class namespace]' \
@@ -153,15 +172,14 @@ local ret=1
         ;;
         (app)
             _arguments -C \
-              '(-l --list)'{-l,--list}'[Show app list.]' \
               ': :->cmds' \
               '*:: :->option-or-argument' \
                && return
             case $state in
               (cmds)
             local commands; commands=(
-              get:'get php app'
-              list:'list php apps'
+              get:'Get PHP application'
+              list:'List PHP applications'
             )
             _describe -t commands 'command' commands && ret=0
               ;;
@@ -170,8 +188,13 @@ local ret=1
                 case $line[1] in
                   (get)
                         _arguments -w -S -s \
-                          '--chmod=[]' \
-                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.5" "sami" "phpcs" "phpcbf" "pdepend" "onion" "box-2.7" "phpdoc" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
+                          '--chmod=[Set downloaded file mode]' \
+                          '--downloader=[Use alternative downloader.]' \
+                          '--continue[Continue getting a partially downloaded file.]' \
+                          '--http-proxy=[HTTP proxy address]' \
+                          '--http-proxy-auth=[HTTP proxy authentication]' \
+                          '--connect-timeout=[Connection timeout]' \
+                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.3" "sami" "phpcs" "phpcbf" "pdepend" "onion" "box-2.7" "psysh" "phpdoc" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
                            && ret=0
                   
                   ;;
@@ -185,7 +208,8 @@ local ret=1
         ;;
         (init)
             _arguments -w -S -s \
-              '(-c --config)'{-c,--config=}'[The config file which should be used.]' \
+              '(-c --config)'{-c,--config=}'[The YAML config file which should be copied into phpbrew home.The config file is used for creating custom virtual variants. For more details, please see https\://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration]:file:_files' \
+              '--root=[Override the default PHPBREW_ROOT path setting.This option is usually used to load system-wide build pool. e.g. phpbrew init --root=/opt/phpbrew ]:dir:_directories' \
                && ret=0
         
         ;;
@@ -194,9 +218,11 @@ local ret=1
               '(-m --more)'{-m,--more}'[Show more older versions]' \
               '(-o --old)'{-o,--old}'[List old phps (less than 5.3)]' \
               '(-u --update)'{-u,--update}'[Update release list]' \
-              '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
-              '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
-              '--connect-timeout=[The system aborts the command if downloading of the versions list not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
+              '--downloader=[Use alternative downloader.]' \
+              '--continue[Continue getting a partially downloaded file.]' \
+              '--http-proxy=[HTTP proxy address]' \
+              '--http-proxy-auth=[HTTP proxy authentication]' \
+              '--connect-timeout=[Connection timeout]' \
                && ret=0
         
         ;;
@@ -204,11 +230,13 @@ local ret=1
             _arguments -w -S -s \
               '--test[Run tests after the installation.]' \
               '--name=[The name of the installation. By default the installed path is equal to the release version name (php-5.x.x), however you can specify a custom name instead of the default `php-5.x.x`. For example, `myphp-5.3.2-dbg`]' \
+              '--mirror=[\[deprecated\] Use specified mirror site. phpbrew will download the files from \[mirror\]/distributions/*]' \
               '--post-clean[Run make clean after the installation.]' \
               '--production[Use production configuration file. this installer will copy the php-production.ini into the etc directory.]' \
               '--build-dir=[Specify the build directory. the distribution tarball will be extracted to the directory you specified instead of $PHPBREW_ROOT/build/{name}.]:dir:_directories' \
-              '--root[specify phpbrew root instead of PHPBREW_ROOT]' \
-              '--home[specify phpbrew home instead of PHPBREW_HOME]' \
+              '--root[Specify PHPBrew root instead of PHPBREW_ROOT]' \
+              '--home[Specify PHPBrew home instead of PHPBREW_HOME]' \
+              '--no-config-cache[Do not use config.cache for configure script.]' \
               '--no-clean[Do not clean previously compiled objects before building PHP. By default phpbrew will run `make clean` before running the configure script to ensure everything is cleaned up.]' \
               '--no-patch[Do not apply any patch]' \
               '--no-configure[Do not run configure script]' \
@@ -216,15 +244,18 @@ local ret=1
               '(-n --nice)'{-n,--nice=}'[Runs build processes at an altered scheduling priority. The priority can be adjusted over a range of -20 (the highest) to 20 (the lowest).]' \
               '--patch=[Apply patch before build.]:file:_files' \
               '--old[Install phpbrew incompatible phps (< 5.3)]' \
-              '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
-              '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               '--user-config[Allow users create their own config file (php.ini or extension config init files)]' \
-              '--connect-timeout=[The system aborts the command if downloading of a php version not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
+              '--downloader=[Use alternative downloader.]' \
+              '--continue[Continue getting a partially downloaded file.]' \
+              '--http-proxy=[HTTP proxy address]' \
+              '--http-proxy-auth=[HTTP proxy authentication]' \
+              '--connect-timeout=[Connection timeout]' \
               '(-f --force)'{-f,--force}'[Force the installation (redownloads source).]' \
               '(-d --dryrun)'{-d,--dryrun}'[Do not build, but run through all the tasks.]' \
               '--like=[Inherit variants from an existing build. This option would require an existing build directory from the {version}.]' \
               '(-j --jobs)'{-j,--jobs=}'[Specifies the number of jobs to run build simultaneously (make -jN).]' \
               '--stdout[Outputs install logs to stdout.]' \
+              '--sudo[sudo to run install command.]' \
               ':version:{___phpbrewmeta "version" install arg 0 suggestions}' \
               '*:variants:{___phpbrewmeta "variants" install arg 1 suggestions}' \
                && ret=0
@@ -250,11 +281,6 @@ local ret=1
         
         ;;
         (each)
-            _arguments -w -S -s \
-              '(-d --debug)'{-d,--debug}'[Show debug information]' \
-              '(-y --assumeyes)'{-y,--assumeyes}'[now confirmation]' \
-              ':command' \
-               && ret=0
         
         ;;
         (config)
@@ -265,7 +291,7 @@ local ret=1
         ;;
         (env)
             _arguments -w -S -s \
-              ':buildName' \
+              ':installed php:{___phpbrewmeta "installed php" env arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -282,7 +308,7 @@ local ret=1
               enable:'Enable PHP extension'
               install:'Install PHP extension'
               disable:'Disable PHP extension'
-              config:'phpbrew ext config [extension name]'
+              config:'Edit extension-specific configuration file'
               clean:'Clean up the compiled objects in the extension source directory.'
               show:'Show information of a PHP extension'
               known:'List known versions'
@@ -300,8 +326,13 @@ local ret=1
                   ;;
                   (install)
                         _arguments -w -S -s \
-                          '--pecl[Try to download from pecl even when ext source is bundled with php-src.]' \
+                          '--pecl[Try to download from PECL even when ext source is bundled with php-src.]' \
                           '--redownload[Force to redownload extension source even if it is already available.]' \
+                          '--downloader=[Use alternative downloader.]' \
+                          '--continue[Continue getting a partially downloaded file.]' \
+                          '--http-proxy=[HTTP proxy address]' \
+                          '--http-proxy-auth=[HTTP proxy authentication]' \
+                          '--connect-timeout=[Connection timeout]' \
                           ':extensions:{___phpbrewmeta "extensions" extension.install arg 0 suggestions}' \
                            && ret=0
                   
@@ -327,13 +358,18 @@ local ret=1
                   ;;
                   (show)
                         _arguments -w -S -s \
-                          '--download[download the extensino source if extension not found.]' \
+                          '--download[Download the extension source if extension not found.]' \
                           ':extension:{___phpbrewmeta "extension" extension.show arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
                   (known)
                         _arguments -w -S -s \
+                          '--downloader=[Use alternative downloader.]' \
+                          '--continue[Continue getting a partially downloaded file.]' \
+                          '--http-proxy=[HTTP proxy address]' \
+                          '--http-proxy-auth=[HTTP proxy authentication]' \
+                          '--connect-timeout=[Connection timeout]' \
                           ':extensions:{___phpbrewmeta "extensions" extension.known arg 0 suggestions}' \
                            && ret=0
                   
@@ -365,7 +401,12 @@ local ret=1
             _arguments -w -S -s \
               '(-f --force)'{-f,--force}'[Force extraction]' \
               '--old[enable old phps (less than 5.3)]' \
-              '--connect-timeout=[The system aborts the command if downloading of a php version not starts during this limit. This option overrides a value of CONNECT_TIMEOUT environment variable.]' \
+              '--mirror=[\[deprecated\] Use mirror specific site.]' \
+              '--downloader=[Use alternative downloader.]' \
+              '--continue[Continue getting a partially downloaded file.]' \
+              '--http-proxy=[HTTP proxy address]' \
+              '--http-proxy-auth=[HTTP proxy authentication]' \
+              '--connect-timeout=[Connection timeout]' \
               ':version:{___phpbrewmeta "version" download arg 0 suggestions}' \
                && ret=0
         
@@ -379,11 +420,13 @@ local ret=1
         ;;
         (update)
             _arguments -w -S -s \
-              '--http-proxy=[The HTTP Proxy to download PHP distributions. e.g. --http-proxy=22.33.44.55\:8080]' \
-              '--http-proxy-auth=[The HTTP Proxy Auth to download PHP distributions. user\:pass]' \
               '(-o --old)'{-o,--old}'[List old phps (less than 5.3)]' \
               '--official[Unserialize release information from official site (using `unserialize` function).]' \
-              '--connect-timeout=[Overrides the CONNECT_TIMEOUT env variable and aborts if download takes longer than specified.]' \
+              '--downloader=[Use alternative downloader.]' \
+              '--continue[Continue getting a partially downloaded file.]' \
+              '--http-proxy=[HTTP proxy address]' \
+              '--http-proxy-auth=[HTTP proxy authentication]' \
+              '--connect-timeout=[Connection timeout]' \
                && ret=0
         
         ;;
@@ -393,11 +436,58 @@ local ret=1
                && ret=0
         
         ;;
+        (fpm)
+            _arguments -C \
+              ': :->cmds' \
+              '*:: :->option-or-argument' \
+               && return
+            case $state in
+              (cmds)
+            local commands; commands=(
+              restart:'Restart FPM server'
+              setup:'Generate and setup FPM startup config'
+              start:'Start FPM server'
+              stop:'Stop FPM server'
+            )
+            _describe -t commands 'command' commands && ret=0
+              ;;
+              (option-or-argument)
+                curcontext=${curcontext%:*}-$line[1]:
+                case $line[1] in
+                  (restart)
+                  
+                  ;;
+                  (setup)
+                        _arguments -w -S -s \
+                          '--systemctl[Generate systemd service entry. This option only works for systemd-based Linux. To use this option, be sure to compile PHP with --with-fpm-systemd option. Start from 1.22, phpbrew automatically add --with-fpm-systemd when systemd is detected.]' \
+                          '--initd[Generate init.d script. The generated init.d script depends on lsb-base >= 4.0. If initctl is based on upstart, the init.d script will not be executed. To check, please run /sbin/initctl --version in the command-line.]' \
+                          '--launchctl[Generate plist for launchctl (OS X)]' \
+                          '--stdout[Print config to STDOUT instead of writing to the file.]' \
+                          ':buildName' \
+                           && ret=0
+                  
+                  ;;
+                  (start)
+                  
+                  ;;
+                  (stop)
+                  
+                  ;;
+                esac
+                ;;
+              esac
+        
+        ;;
         (list-ini)
         
         ;;
         (self-update)
             _arguments -w -S -s \
+              '--downloader=[Use alternative downloader.]' \
+              '--continue[Continue getting a partially downloaded file.]' \
+              '--http-proxy=[HTTP proxy address]' \
+              '--http-proxy-auth=[HTTP proxy authentication]' \
+              '--connect-timeout=[Connection timeout]' \
               ':branch:{___phpbrewmeta "branch" self-update arg 0 suggestions}' \
                && ret=0
         
@@ -410,20 +500,14 @@ local ret=1
         ;;
         (purge)
             _arguments -w -S -s \
-              ':installed php:{___phpbrewmeta "installed php" purge arg 0 valid-values}' \
+              '*:installed php:{___phpbrewmeta "installed php" purge arg 0 valid-values}' \
                && ret=0
         
         ;;
         (off)
-            _arguments -w -S -s \
-              ':version' \
-               && ret=0
         
         ;;
         (switch-off)
-            _arguments -w -S -s \
-              ':version' \
-               && ret=0
         
         ;;
       esac
