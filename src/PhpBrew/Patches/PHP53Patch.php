@@ -29,7 +29,7 @@ class PHP53Patch extends Patch
                 'javian',
                 'bfcbd5bc5874ee9c539fb3d642cdce3e',
                 'multi-sapi-5.3.29-homebrew.patch',
-                'bf079cc68ec76290f02f57981ae85b20a06dd428',
+                'bf079cc68ec76290f02f57981ae85b20a06dd428'
             )
         )
             ->strip(1)
