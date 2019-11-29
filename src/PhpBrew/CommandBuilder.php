@@ -122,7 +122,7 @@ class CommandBuilder
                 $cmd[] = '2>&1';
             } elseif ($this->logPath) {
                 $cmd[] = $this->append ? '>>' : '>';
-                $cmd[] = $this->logPath;
+                $cmd[] = escapeshellarg($this->logPath);
                 $cmd[] = '2>&1';
             }
         }
