@@ -20,7 +20,7 @@
         "corneltek/cliframework": "3.0.x-dev",
         "corneltek/class-template": "^2",
         "corneltek/pearx": "dev-master",
-        "corneltek/curlkit": "@dev",
+        "corneltek/curlkit": "dev-master#9e85064c3a8a642292a8f6122792d2b5b24f7b02",
         "symfony/process": "^2.3",
         "symfony/yaml": "^2.3"
     },

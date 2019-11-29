@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "edefee90d25e57e01f0f404a03a8e93a",
+    "content-hash": "9a85b36c450eaeb7c3794c2a9b2ae4ad",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -93,16 +93,16 @@
         },
         {
             "name": "corneltek/cliframework",
-            "version": "3.0.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CLIFramework.git",
-                "reference": "5a902ba54cb19e944bbf14eb1c8522c921e3217e"
+                "reference": "df9139a84c8aee2cd6952632c31bdfab4855f22f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/5a902ba54cb19e944bbf14eb1c8522c921e3217e",
-                "reference": "5a902ba54cb19e944bbf14eb1c8522c921e3217e",
+                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/df9139a84c8aee2cd6952632c31bdfab4855f22f",
+                "reference": "df9139a84c8aee2cd6952632c31bdfab4855f22f",
                 "shasum": ""
             },
             "require": {
@@ -117,7 +117,6 @@
             },
             "require-dev": {
                 "corneltek/phpunit-testmore": "dev-master",
-                "phpunit/phpunit": "^5.7",
                 "satooshi/php-coveralls": "^1"
             },
             "type": "library",
@@ -152,7 +151,7 @@
                 "getopt",
                 "zsh"
             ],
-            "time": "2017-11-08T01:09:58+00:00"
+            "time": "2016-03-18T13:55:38+00:00"
         },
         {
             "name": "corneltek/codegen",
@@ -208,12 +207,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CurlKit.git",
-                "reference": "e9a117e6de320a4c630f511b72401b6e9f5b2a6d"
+                "reference": "9e85064c3a8a642292a8f6122792d2b5b24f7b02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/e9a117e6de320a4c630f511b72401b6e9f5b2a6d",
-                "reference": "e9a117e6de320a4c630f511b72401b6e9f5b2a6d",
+                "url": "https://api.github.com/repos/c9s/CurlKit/zipball/9e85064c3a8a642292a8f6122792d2b5b24f7b02",
+                "reference": "9e85064c3a8a642292a8f6122792d2b5b24f7b02",
                 "shasum": ""
             },
             "require": {
@@ -239,7 +238,7 @@
                 "MIT"
             ],
             "description": "Curl Kit",
-            "time": "2017-10-21T05:15:03+00:00"
+            "time": "2019-04-08T10:25:02+00:00"
         },
         {
             "name": "corneltek/getoptionkit",
@@ -1595,6 +1594,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
