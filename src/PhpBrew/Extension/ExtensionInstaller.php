@@ -48,24 +48,20 @@ class ExtensionInstaller
         $this->logger->info('===> Phpize...');
         Utils::system("phpize > $buildLogPath 2>&1", $this->logger);
 
-        // here we don't want to use closure, because
-        // 5.2 does not support closure. We haven't decided whether to
-        // support 5.2 yet.
-        $escapeOptions = array_map('escapeshellarg', $configureOptions);
-
         $this->logger->info('===> Configuring...');
 
         $phpConfig = Config::getCurrentPhpConfigBin();
         if (file_exists($phpConfig)) {
             $this->logger->debug("Appending argument: --with-php-config=$phpConfig");
-            $escapeOptions[] = '--with-php-config=' . $phpConfig;
+            $configureOptions[] = '--with-php-config=' . $phpConfig;
         }
 
-        // Utils::system('./configure ' . join(' ', $escapeOptions) . ' >> build.log 2>&1');
-        $cmd = './configure ' . implode(' ', $escapeOptions);
+        $cmd = './configure ' . implode(' ', array_map('escapeshellarg', $configureOptions));
+
         if (!$this->logger->isDebug()) {
-            $cmd .= " >> $buildLogPath 2>&1";
+            $cmd .= ' >> ' . escapeshellarg($buildLogPath) . ' 2>&1';
         }
+
         Utils::system($cmd, $this->logger);
 
         $this->logger->info('===> Building...');
