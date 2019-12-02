@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a85b36c450eaeb7c3794c2a9b2ae4ad",
+    "content-hash": "ef5020a1edc2f4adbac68b3c39325f8b",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -97,12 +97,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CLIFramework.git",
-                "reference": "df9139a84c8aee2cd6952632c31bdfab4855f22f"
+                "reference": "2650a53433854d43b91955e8f967c62ce07869d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/df9139a84c8aee2cd6952632c31bdfab4855f22f",
-                "reference": "df9139a84c8aee2cd6952632c31bdfab4855f22f",
+                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/2650a53433854d43b91955e8f967c62ce07869d7",
+                "reference": "2650a53433854d43b91955e8f967c62ce07869d7",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "getopt",
                 "zsh"
             ],
-            "time": "2016-03-18T13:55:38+00:00"
+            "time": "2018-02-08T01:22:59+00:00"
         },
         {
             "name": "corneltek/codegen",
