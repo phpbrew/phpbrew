@@ -101,7 +101,7 @@ class RegExpPatchRule implements PatchRule
             }
         }
 
-        return implode($lines, PHP_EOL);
+        return implode(PHP_EOL, $lines);
     }
 
     /**
