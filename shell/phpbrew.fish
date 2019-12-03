@@ -48,7 +48,7 @@ end
 
 [ -z "$PHPBREW_ROOT" ]; and set -gx PHPBREW_ROOT "$HOME/.phpbrew"
 [ -z "$PHPBREW_BIN" ]; and set -gx PHPBREW_BIN "$PHPBREW_HOME/bin"
-[ -z "$PHPBREW_VERSION_REGEX" ]; and set -gx PHPBREW_VERSION_REGEX '^([[:digit:]]+\.){2}[[:digit:]]+$'
+[ -z "$PHPBREW_VERSION_REGEX" ]; and set -gx PHPBREW_VERSION_REGEX '^([[:digit:]]+\.){2}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$'
 
 [ ! -d "$PHPBREW_ROOT" ]; and mkdir $PHPBREW_ROOT
 [ ! -d "$PHPBREW_HOME" ]; and mkdir $PHPBREW_HOME
@@ -136,7 +136,7 @@ function phpbrew
                         __phpbrew_set_path
                     end
                 else
-                    echo "php version: $_PHP_VERSION not exists."
+                    echo "PHP version $_PHP_VERSION is not installed."
                 end
             end
         case cd-src
