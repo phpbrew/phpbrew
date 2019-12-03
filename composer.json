@@ -17,7 +17,7 @@
         "bin/phpbrew"
     ],
     "require": {
-        "corneltek/cliframework": "3.0.x-dev",
+        "corneltek/cliframework": "dev-master#2650a53433854d43b91955e8f967c62ce07869d7",
         "corneltek/class-template": "^2",
         "corneltek/pearx": "dev-master",
         "corneltek/curlkit": "dev-master#9e85064c3a8a642292a8f6122792d2b5b24f7b02",
