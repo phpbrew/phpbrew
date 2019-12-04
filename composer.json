@@ -19,8 +19,8 @@
     "require": {
         "corneltek/cliframework": "dev-master#2650a53433854d43b91955e8f967c62ce07869d7",
         "corneltek/class-template": "^2",
-        "corneltek/pearx": "dev-master",
-        "corneltek/curlkit": "dev-master#9e85064c3a8a642292a8f6122792d2b5b24f7b02",
+        "corneltek/pearx": "^1.3.4",
+        "corneltek/curlkit": "^1.0.11",
         "symfony/process": "^2.3",
         "symfony/yaml": "^2.3"
     },
