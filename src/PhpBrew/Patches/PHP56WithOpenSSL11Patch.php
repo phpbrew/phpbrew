@@ -16,8 +16,10 @@ class PHP56WithOpenSSL11Patch extends Patch
 
     public function match(Buildable $build, Logger $logger)
     {
-        return version_compare($build->getVersion(), '5.6') === 0
-            && version_compare($build->getVersion(), '5.6.31') >= 0 // patch only works for 5.6.31 and up
+        $buildVersion = $build->getVersion();
+
+        return substr($buildVersion, 0, 4) === '5.6.'
+            && version_compare($buildVersion, '5.6.31') >= 0 // patch only works for 5.6.31 and up
             && $build->isEnabledVariant('openssl');
     }
 
