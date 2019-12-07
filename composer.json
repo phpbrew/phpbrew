@@ -26,7 +26,7 @@
         "corneltek/class-template": "^2",
         "corneltek/pearx": "^1.3.4",
         "corneltek/curlkit": "^1.0.11",
-        "symfony/process": "^2.3",
+        "symfony/process": "^2.8",
         "symfony/yaml": "^2.3"
     },
     "require-dev": {

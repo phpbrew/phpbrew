@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fb86ec9512987c31f58de407f2c3048",
+    "content-hash": "f5a605f547d90984382cc2a8e1eda0d7",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -668,16 +668,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.8.5",
+            "version": "v2.8.52",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "1276bd9be89be039748cf753a2137f4ef149cd74"
+                "reference": "c3591a09c78639822b0b290d44edb69bf9f05dc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/1276bd9be89be039748cf753a2137f4ef149cd74",
-                "reference": "1276bd9be89be039748cf753a2137f4ef149cd74",
+                "url": "https://api.github.com/repos/symfony/process/zipball/c3591a09c78639822b0b290d44edb69bf9f05dc8",
+                "reference": "c3591a09c78639822b0b290d44edb69bf9f05dc8",
                 "shasum": ""
             },
             "require": {
@@ -713,7 +713,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-14T15:22:22+00:00"
+            "time": "2018-11-11T11:18:13+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -888,12 +888,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/PHPUnit_TestMore.git",
-                "reference": "48ac47406bfd16188a9016cbee3e2a52100941d8"
+                "reference": "1b3728bfbc23c7ac89836fbec9a0b2aab6be8c9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/PHPUnit_TestMore/zipball/48ac47406bfd16188a9016cbee3e2a52100941d8",
-                "reference": "48ac47406bfd16188a9016cbee3e2a52100941d8",
+                "url": "https://api.github.com/repos/c9s/PHPUnit_TestMore/zipball/1b3728bfbc23c7ac89836fbec9a0b2aab6be8c9f",
+                "reference": "1b3728bfbc23c7ac89836fbec9a0b2aab6be8c9f",
                 "shasum": ""
             },
             "require": {
@@ -902,11 +902,11 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/PHPUnit/TestMore.php"
+                    "TestMore.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-02-28T04:55:50+00:00"
+            "time": "2017-03-09T16:13:38+00:00"
         },
         {
             "name": "doctrine/instantiator",
