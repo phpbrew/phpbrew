@@ -9,6 +9,13 @@ use PhpBrew\PatchKit\RegExpPatchRule;
 
 class Apache2ModuleNamePatch extends Patch
 {
+    private $targetPhpVersion;
+
+    public function __construct($targetPhpVersion)
+    {
+        $this->targetPhpVersion = $targetPhpVersion;
+    }
+
     public function desc()
     {
         return 'replace apache php module name with custom version name';
@@ -50,7 +57,13 @@ class Apache2ModuleNamePatch extends Patch
                 'libs/libphp\$PHP_VERSION.$1'
             );
 
-        $rules[] = RegExpPatchRule::files(array('Makefile.global'))
+        $makefile = 'Makefile.global';
+
+        if (version_compare($this->targetPhpVersion, '7.4') >= 0) {
+            $makefile = 'build/Makefile.global';
+        }
+
+        $rules[] = RegExpPatchRule::files(array($makefile))
             ->always()
             ->replaces(
                 '#libphp\$\(PHP_MAJOR_VERSION\)#',

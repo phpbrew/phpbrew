@@ -57,7 +57,7 @@ class BeforeConfigureTask extends BaseTask
 
             /** @var Patch[] $patches */
             $patches = array(
-                new Apache2ModuleNamePatch(),
+                new Apache2ModuleNamePatch($build->getVersion()),
                 $freeTypePatch,
             );
 
