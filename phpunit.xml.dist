@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="tests/bootstrap.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
          backupGlobals="false"
-         stopOnFailure="false"
-         stopOnError="false"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         convertErrorsToExceptions="true"
          colors="true"
-         verbose="true">
+         verbose="true"
+>
 
     <php>
       <ini name="safe_mode_allowed_env_var" value="PHP_,PHPBREW"/>
@@ -22,54 +20,9 @@
     </php>
 
     <testsuites>
-        <testsuite name="All">
-            <file>tests/PhpBrew/BuildRegisterTest.php</file>
-            <file>tests/PhpBrew/BuildTest.php</file>
-            <file>tests/PhpBrew/CommandBuilderTest.php</file>
-            <file>tests/PhpBrew/ConfigTest.php</file>
-            <file>tests/PhpBrew/MachineTest.php</file>
-            <file>tests/PhpBrew/PatchUtilsTest.php</file>
-            <file>tests/PhpBrew/ReleaseListTest.php</file>
-            <file>tests/PhpBrew/UtilsTest.php</file>
-            <file>tests/PhpBrew/VariantBuilderTest.php</file>
-            <file>tests/PhpBrew/VariantParserTest.php</file>
-            <file>tests/PhpBrew/VersionDslParserTest.php</file>
-            <file>tests/PhpBrew/VersionTest.php</file>
-
-            <!-- run install command tests before all tests -->
-            <file>tests/PhpBrew/Command/KnownCommandTest.php</file>
-            <file>tests/PhpBrew/Command/InstallCommandTest.php</file>
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="PHPBrew">
+            <directory>tests</directory>
         </testsuite>
-
-        <testsuite name="Core">
-          <file>tests/PhpBrew/BuildRegisterTest.php</file>
-          <file>tests/PhpBrew/BuildTest.php</file>
-          <file>tests/PhpBrew/CommandBuilderTest.php</file>
-          <file>tests/PhpBrew/ConfigTest.php</file>
-          <file>tests/PhpBrew/MachineTest.php</file>
-          <file>tests/PhpBrew/PatchUtilsTest.php</file>
-          <file>tests/PhpBrew/ReleaseListTest.php</file>
-          <file>tests/PhpBrew/UtilsTest.php</file>
-          <file>tests/PhpBrew/VariantBuilderTest.php</file>
-          <file>tests/PhpBrew/VariantParserTest.php</file>
-          <file>tests/PhpBrew/VersionDslParserTest.php</file>
-          <file>tests/PhpBrew/VersionTest.php</file>
-          <directory suffix="Test.php">tests/PhpBrew/Platform</directory>
-          <directory suffix="Test.php">tests/PhpBrew/Distribution</directory>
-          <directory suffix="Test.php">tests/PhpBrew/Downloader</directory>
-          <directory suffix="Test.php">tests/PhpBrew/PatchKit</directory>
-          <directory suffix="Test.php">tests/PhpBrew/Patches</directory>
-        </testsuite>
-
-        <testsuite name="Command">
-            <directory suffix="Test.php">tests/PhpBrew/Command</directory>
-        </testsuite>
-
-        <testsuite name="Extension">
-            <directory suffix="Test.php">tests/PhpBrew/Extension</directory>
-        </testsuite>
-
     </testsuites>
 
     <filter>
@@ -80,24 +33,5 @@
         </exclude>
       </whitelist>
     </filter>
-
-    <logging>
-
-        <log type="tap" target="build/logs/report.tap" />
-
-        <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
-
-        <log type="coverage-html" 
-            target="build/coverage" 
-            charset="UTF-8" 
-            yui="true" 
-            highlight="true"
-            lowUpperBound="35" 
-            highLowerBound="70"/>
-
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
-        <log type="coverage-clover" target="build/logs/clover.xml" />
-        <log type="coverage-crap4j" target="build/logs/crap4j.xml"/>
-    </logging>
 
 </phpunit>
