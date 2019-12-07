@@ -73,8 +73,9 @@ before_script:
 - rm phpbrew
 - cp -v shell/bashrc .phpbrew/
 script:
-- source shell/bashrc
-- vendor/bin/phpunit --exclude-group mayignore
+  - source shell/bashrc
+  - mkdir -p build/logs
+  - vendor/bin/phpunit --exclude-group mayignore --coverage-clover build/logs/clover.xml
 after_success:
 - ccache -s
 - travis_retry php vendor/bin/coveralls -v
