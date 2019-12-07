@@ -1,5 +1,10 @@
 language: php
 dist: precise
+
+branches:
+  only:
+    - master
+
 services:
 - mysql
 - postgresql
