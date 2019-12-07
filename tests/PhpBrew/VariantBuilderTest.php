@@ -27,19 +27,19 @@ class VariantBuilderTest extends TestCase
             array(array('mysql', 'pdo'),  '#--with-pdo-mysql#'),
             array(array('pgsql', 'pdo'),  '#--with-pdo-pgsql#'),
             array(array('default'),       '#..#'),
-            array(array('mcrypt'),        '#--with-mcrypt=#'),
-            array(array('openssl'),       '#--with-openssl=#'),
-            array(array('zlib'),          '#--with-zlib=#'),
-            array(array('curl'),          '#--with-curl=#'),
-            array(array('readline'),      '#--with-readline=#'),
-            array(array('editline'),      '#--with-libedit=#'),
-            array(array('gettext'),       '#--with-gettext=#'),
+            array(array('mcrypt'),        '#--with-mcrypt#'),
+            array(array('openssl'),       '#--with-openssl#'),
+            array(array('zlib'),          '#--with-zlib#'),
+            array(array('curl'),          '#--with-curl#'),
+            array(array('readline'),      '#--with-readline#'),
+            array(array('editline'),      '#--with-libedit#'),
+            array(array('gettext'),       '#--with-gettext#'),
             array(array('ipc'),           array('#--enable-shmop#','#--enable-sysvshm#')),
-            array(array('gmp'),           '#--with-gmp=#'),
-            array(array('mhash'),         '#--with-mhash=#'),
+            array(array('gmp'),           '#--with-gmp#'),
+            array(array('mhash'),         '#--with-mhash#'),
             array(array('iconv'),         '#--with-iconv#'),
             array(array('bz2'),           '#--with-bz2#'),
-            array(array('gd'),            array('#--with-gd=#', '#--with-png-dir#', '#--with-jpeg-dir#')),
+            array(array('gd'),            array('#--with-gd#', '#--with-png-dir#', '#--with-jpeg-dir#')),
         );
     }
 
@@ -86,22 +86,22 @@ class VariantBuilderTest extends TestCase
         $build->disableVariant('mysql');
         $build->resolveVariants();
         $options = $variants->build($build);
-        ok(in_array('--enable-debug', $options));
-        ok(in_array('--enable-libxml', $options));
-        ok(in_array('--enable-simplexml', $options));
 
-        ok(in_array('--with-apxs2=/opt/local/apache2/apxs2', $options));
+        $this->assertContains('--enable-debug', $options);
+        $this->assertContains('--enable-libxml', $options);
+        $this->assertContains('--enable-simplexml', $options);
 
-        ok(in_array('--without-sqlite3', $options));
-        ok(in_array('--without-mysql', $options));
-        ok(in_array('--without-mysqli', $options));
-        ok(in_array('--disable-all', $options));
+        $this->assertContains('--with-apxs2=/opt/local/apache2/apxs2', $options);
+
+        $this->assertContains('--without-sqlite3', $options);
+        $this->assertContains('--without-mysql', $options);
+        $this->assertContains('--without-mysqli', $options);
+        $this->assertContains('--disable-all', $options);
     }
 
     public function testEverything()
     {
         $variants = new VariantBuilder();
-        ok($variants);
 
         $build = new Build('5.6.0');
         $build->enableVariant('everything');
@@ -119,7 +119,6 @@ class VariantBuilderTest extends TestCase
     public function testMysqlPdoVariant()
     {
         $variants = new VariantBuilder();
-        ok($variants);
 
         $build = new Build('5.3.0');
         $build->enableVariant('pdo');
