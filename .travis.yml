@@ -60,8 +60,9 @@ addons:
     # packages for apxs2
     - apache2
 install:
-- composer install --no-interaction
-- composer update phpunit/phpunit --with-dependencies
+  - composer install
+  - composer config --unset platform
+  - composer update phpunit/phpunit --with-dependencies
 before_script:
 # see if ccache is working
 - export USE_CCACHE=1

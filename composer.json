@@ -13,6 +13,11 @@
             "homepage": "https://github.com/marcioAlmada/"
         }
     ],
+    "config" : {
+        "platform": {
+            "php": "5.3.9"
+        }
+    },
     "bin": [
         "bin/phpbrew"
     ],
