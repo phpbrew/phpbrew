@@ -23,16 +23,6 @@ class InstallCommandTest extends CommandTestCase
     public $usesVCR = false;
 
     /**
-     * @group install
-     */
-    public function testKnownCommand()
-    {
-        $this->assertCommandSuccess("phpbrew init");
-        $this->assertCommandSuccess("phpbrew known --update");
-    }
-
-
-    /**
      * @depends testKnownCommand
      * @group install
      * @group mayignore
@@ -42,6 +32,9 @@ class InstallCommandTest extends CommandTestCase
         if (getenv('TRAVIS')) {
             $this->markTestSkipped('Skip heavy test on Travis');
         }
+
+        $this->assertCommandSuccess("phpbrew init");
+        $this->assertCommandSuccess("phpbrew known --update");
 
         $versionName = $this->getPrimaryVersion();
         $processorNumber = Machine::getInstance()->detectProcessorNumber();

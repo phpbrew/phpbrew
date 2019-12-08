@@ -32,6 +32,10 @@ class ExtensionInstallerTest extends CommandTestCase
      */
     public function testPackageUrl()
     {
+        if (getenv('TRAVIS')) {
+            $this->markTestSkipped('Skipping since VCR cannot properly record this request');
+        }
+
         $logger = new Logger();
         $logger->setQuiet();
         $peclProvider = new PeclProvider($logger, new OptionResult());
