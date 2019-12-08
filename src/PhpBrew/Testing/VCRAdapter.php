@@ -22,6 +22,6 @@ class VCRAdapter
     {
         $classname_parts = explode('\\', get_class($testInstance));
 
-        return join(array_slice($classname_parts, -2, 2), '/');
+        return join('/', array_slice($classname_parts, -2, 2));
     }
 }

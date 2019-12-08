@@ -1,3 +1,4 @@
+/tests/fixtures/vcr_cassettes
 /tmp
 /vendor/
 /build
