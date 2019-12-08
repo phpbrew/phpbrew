@@ -12,34 +12,44 @@ use PhpBrew\Testing\PatchTestCase;
  */
 class Apache2ModuleNamePatchTest extends PatchTestCase
 {
-    public function testPatch()
+
+    public function versionProvider()
+    {
+        return array(
+            array('5.5.17', 107, '/Makefile.global'),
+            array('7.4.0', 25, '/build/Makefile.global')
+        );
+    }
+
+    /**
+     * @dataProvider versionProvider
+     */
+    public function testPatchVersion($version, $expectedPatchedCount, $makefile)
     {
         $logger = new Logger();
         $logger->setQuiet();
 
-        $fromVersion = '5.5.17';
-        $sourceFixtureDirectory = getenv('PHPBREW_FIXTURES_PHP_DIR') . DIRECTORY_SEPARATOR . $fromVersion;
         $sourceDirectory = getenv('PHPBREW_BUILD_PHP_DIR');
 
         if (!is_dir($sourceDirectory)) {
             $this->markTestSkipped("$sourceDirectory does not exist.");
         }
 
-        $this->setupBuildDirectory($fromVersion);
+        $this->setupBuildDirectory($version);
 
-        $build = new Build($fromVersion);
+        $build = new Build($version);
         $build->setSourceDirectory($sourceDirectory);
         $build->enableVariant('apxs2');
         $this->assertTrue($build->hasVariant('apxs2'), 'apxs2 enabled');
 
-        $patch = new Apache2ModuleNamePatch();
+        $patch = new Apache2ModuleNamePatch($version);
         $matched = $patch->match($build, $logger);
         $this->assertTrue($matched, 'patch matched');
         $patchedCount = $patch->apply($build, $logger);
-        $this->assertEquals(107, $patchedCount);
 
-        $sourceExpectedDirectory = getenv('PHPBREW_EXPECTED_PHP_DIR') . DIRECTORY_SEPARATOR . '5.5.17-apxs-patch';
-        $this->assertFileEquals($sourceExpectedDirectory . '/Makefile.global', $sourceDirectory . '/Makefile.global');
+        $sourceExpectedDirectory = getenv('PHPBREW_EXPECTED_PHP_DIR') . DIRECTORY_SEPARATOR . $version.'-apxs-patch';
+        $this->assertEquals($expectedPatchedCount, $patchedCount);
+        $this->assertFileEquals($sourceExpectedDirectory . $makefile, $sourceDirectory . $makefile);
         $this->assertFileEquals($sourceExpectedDirectory . '/configure', $sourceDirectory . '/configure');
     }
 }
