@@ -12,10 +12,6 @@
         <exclude name="PSR12.Properties.ConstantVisibility.NotFound"/>
     </rule>
 
-    <rule ref="Generic.Files.LineLength.TooLong">
-        <exclude-pattern>src/PhpBrew/Topic/*</exclude-pattern>
-    </rule>
-
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
