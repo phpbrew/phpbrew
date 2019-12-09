@@ -1,3 +1,0 @@
-build/* linguist-documentation
-composer.lock binary merge=theirs
-phpbrew binary merge-theirs

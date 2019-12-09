@@ -1,9 +1,3 @@
-/tmp
-/vendor/
-/build
-.onion
+/vendor
 .phpbrew
 .phpcs.cache
-tags
-/build/logs
-*.phar
