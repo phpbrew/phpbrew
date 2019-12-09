@@ -33,14 +33,14 @@ desenvolvimento php.
 Faça isso:
 
 ```bash
-curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
-chmod +x phpbrew
+curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
+chmod +x phpbrew.phar
 ```
 
 Instale dento da pasta bin do seu sistema:
 
 ```sh
-sudo mv phpbrew /usr/local/bin/phpbrew
+sudo mv phpbrew.phar /usr/local/bin/phpbrew
 ```
 
 Confirme se `/usr/local/bin` está nas `$PATH` variaveis de ambiente do sistema.

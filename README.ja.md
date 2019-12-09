@@ -34,9 +34,10 @@ PHPをビルドするための開発用パッケージをインストールす�
 ダウンロードするだけ:
 
 ```bash
-curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
-chmod +x phpbrew
-sudo mv phpbrew /usr/local/bin/phpbrew
+curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
+chmod +x phpbrew.phar
+
+sudo mv phpbrew.phar /usr/local/bin/phpbrew
 ```
 
 ## 基本的な使い方

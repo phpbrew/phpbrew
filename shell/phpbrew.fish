@@ -777,7 +777,6 @@ complete -f -c phpbrew -n "__fish_phpbrew_using_command self-update" -l continue
 complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l http-proxy -d "HTTP proxy address"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l http-proxy-auth -d "HTTP proxy authentication"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l connect-timeout -d "Connection timeout"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -a "(__fish_phpbrew_arg_meta self-update 0 suggestions)"
 
 # switch
 complete -x -c phpbrew -n "__fish_phpbrew_using_command switch" -a "(__fish_phpbrew_arg_meta switch 0 valid-values)"
