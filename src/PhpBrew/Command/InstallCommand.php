@@ -117,11 +117,6 @@ class InstallCommand extends Command
         )
             ->valueName('name');
 
-        $opts->add(
-            'mirror:',
-            '[deprecated] Use specified mirror site. phpbrew will download the files from [mirror]/distributions/*'
-        );
-
         $opts->add('post-clean', 'Run make clean after the installation.');
 
         $opts->add(
@@ -240,12 +235,6 @@ class InstallCommand extends Command
             $version = $versionInfo['version'];
 
             $distUrlPolicy = new DistributionUrlPolicy();
-            if ($this->options->mirror) {
-                $this->logger->warn(
-                    'php.net has retired the mirror program, '
-                    . 'hence --mirror option has been deprecated and will be removed in the future.'
-                );
-            }
             $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename'], $versionInfo['museum']);
         }
 
