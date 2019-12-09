@@ -58,18 +58,6 @@ class Console extends Application
         $this->command('off');
         $this->command('switch-off', 'PhpBrew\Command\SwitchOffCommand');
 
-        $this->topics(array(
-            'contribution' => 'PhpBrew\\Topic\\ContributionTopic',
-            'cookbook' => 'PhpBrew\\Topic\\CookbookTopic',
-            'home' => 'PhpBrew\\Topic\\HomeTopic',
-            'migrating-from-homebrew-php-to-phpbrew' => 'PhpBrew\\Topic\\MigratingFromHomebrewPhpToPhpbrewTopic',
-            'phpbrew-ja' => 'PhpBrew\\Topic\\PHPBrewJATopic',
-            'release-process' => 'PhpBrew\\Topic\\ReleaseProcessTopic',
-            'requirement' => 'PhpBrew\\Topic\\RequirementTopic',
-            'setting-up-configuration' => 'PhpBrew\\Topic\\SettingUpConfigurationTopic',
-            'troubleshooting' => 'PhpBrew\\Topic\\TroubleshootingTopic',
-        ));
-
         $this->configure();
 
         // We use '#' as the prefix to prevent issue with bash
