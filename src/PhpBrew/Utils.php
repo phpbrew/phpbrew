@@ -132,27 +132,6 @@ class Utils
         return array_reverse($prefixes);
     }
 
-    /**
-     * Return the actual header file path from the lookup prefixes.
-     *
-     * @return string full qualified header file path
-     */
-    public static function findIncludePath()
-    {
-        $files = func_get_args();
-        $prefixes = self::getLookupPrefixes();
-        foreach ($prefixes as $prefix) {
-            foreach ($files as $file) {
-                $path = $prefix . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . $file;
-                if (file_exists($path)) {
-                    return $prefix;
-                }
-            }
-        }
-
-        return;
-    }
-
     public static function findLibPrefix()
     {
         $files = func_get_args();
@@ -269,61 +248,6 @@ class Utils
         }
 
         return null;
-    }
-
-    public static function startsWith($haystack, $needle)
-    {
-        return $needle === '' || strpos($haystack, $needle) === 0;
-    }
-
-    public static function endsWith($haystack, $needle)
-    {
-        return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
-    }
-
-    public static function findLatestPhpVersion($version = null)
-    {
-        $foundVersion = false;
-        $buildDir = Config::getBuildDir();
-        $hasPrefix = self::startsWith($version, 'php-');
-
-        if (is_dir($buildDir)) {
-            if ($hasPrefix == true) {
-                $version = str_replace('php-', '', $version);
-            }
-
-            $fp = opendir($buildDir);
-
-            if ($fp !== false) {
-                while ($file = readdir($fp)) {
-                    if (
-                        $file === '.'
-                        || $file === '..'
-                        || is_file($buildDir . DIRECTORY_SEPARATOR . $file)
-                    ) {
-                        continue;
-                    }
-
-                    $curVersion = strtolower(preg_replace('/^[\D]*-/', '', $file));
-
-                    if (self::startsWith($curVersion, $version) && version_compare($curVersion, $foundVersion, '>=')) {
-                        $foundVersion = $curVersion;
-
-                        if (version_compare($foundVersion, $version, '=')) {
-                            break;
-                        }
-                    }
-                }
-
-                closedir($fp);
-            }
-
-            if ($hasPrefix == true && $foundVersion !== false) {
-                $foundVersion = 'php-' . $foundVersion;
-            }
-        }
-
-        return $foundVersion;
     }
 
     public static function recursive_unlink($path, Logger $logger)

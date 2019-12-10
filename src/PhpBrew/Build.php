@@ -39,11 +39,6 @@ class Build implements Serializable, Buildable
      */
     public $installPrefix;
 
-    /**
-     * @var string the directory that contains php.ini file.
-     */
-    protected $configDirectory;
-
     public $phpEnvironment = self::ENV_DEVELOPMENT;
 
     /**
@@ -88,16 +83,6 @@ class Build implements Serializable, Buildable
         $this->osRelease = php_uname('r');
     }
 
-    public function setOSName($osName)
-    {
-        $this->osName = $osName;
-    }
-
-    public function setOSRelease($osRelease)
-    {
-        $this->osRelease = $osRelease;
-    }
-
     public function setName($name)
     {
         $this->name = $name;
@@ -121,16 +106,6 @@ class Build implements Serializable, Buildable
     public function compareVersion($version)
     {
         return version_compare($this->version, $version);
-    }
-
-    public function setConfigDirectory($directory)
-    {
-        $this->configDirectory = $directory;
-    }
-
-    public function getConfigDirectory()
-    {
-        return $this->configDirectory;
     }
 
     /**
@@ -181,27 +156,9 @@ class Build implements Serializable, Buildable
         return $etc;
     }
 
-    public function getVarDirectory()
-    {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var';
-    }
-
-    public function getVarConfigDirectory()
-    {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
-    }
-
     public function getInstallPrefix()
     {
         return $this->installPrefix;
-    }
-
-    /**
-     * Returns {prefix}/var/db path.
-     */
-    public function getCurrentConfigScanPath()
-    {
-        return $this->installPrefix . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
     }
 
     public function getPath($subpath)
@@ -242,11 +199,6 @@ class Build implements Serializable, Buildable
         }
 
         return implode('-', $names);
-    }
-
-    public function getSourceExtensionDirectory()
-    {
-        return $this->sourceDirectory . DIRECTORY_SEPARATOR . 'ext';
     }
 
     public function setBuildSettings(BuildSettings $settings)
@@ -369,12 +321,6 @@ class Build implements Serializable, Buildable
         }
 
         return file_put_contents($file, $this->serialize()) !== false;
-    }
-
-    public function loadFile($file)
-    {
-        $serialized = file_get_contents($file);
-        $this->unserialize($serialized);
     }
 
     public function __call($m, $a)

@@ -12,11 +12,6 @@ use PhpBrew\PatchKit\Patch;
  */
 class BeforeConfigureTask extends BaseTask
 {
-    public function setLogPath($path)
-    {
-        $this->logPath = $path;
-    }
-
     public function run(Build $build)
     {
         if (!file_exists($build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {

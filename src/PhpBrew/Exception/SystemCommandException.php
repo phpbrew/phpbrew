@@ -26,9 +26,4 @@ class SystemCommandException extends RuntimeException
             return $this->build->getBuildLogPath();
         }
     }
-
-    public function getBuild()
-    {
-        return $this->build;
-    }
 }

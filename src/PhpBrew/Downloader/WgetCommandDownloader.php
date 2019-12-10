@@ -9,11 +9,6 @@ class WgetCommandDownloader extends BaseDownloader
 {
     protected $enableContinueAt = false;
 
-    public function enableContinueAtOption()
-    {
-        $this->enableContinueAt = true;
-    }
-
     /**
      * @param string $url
      *

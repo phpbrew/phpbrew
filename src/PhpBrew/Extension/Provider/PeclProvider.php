@@ -3,7 +3,6 @@
 namespace PhpBrew\Extension\Provider;
 
 use CLIFramework\Logger;
-use CurlKit\CurlDownloader;
 use DOMDocument;
 use Exception;
 use GetOptionKit\OptionResult;
@@ -38,7 +37,6 @@ class PeclProvider implements Provider
         $baseUrl = $channel->getRestBaseUrl();
         $url = "$baseUrl/r/" . strtolower($packageName);
 
-        $downloader = new CurlDownloader();
         $downloader = DownloadFactory::getInstance($this->logger, $this->options);
 
         // translate version name into numbers

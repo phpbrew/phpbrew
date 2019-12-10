@@ -13,11 +13,6 @@ use PhpBrew\Patches\PHP56WithOpenSSL11Patch;
  */
 class AfterConfigureTask extends BaseTask
 {
-    public function setLogPath($path)
-    {
-        $this->logPath = $path;
-    }
-
     public function run(Build $build)
     {
         if (!$this->options->{'no-patch'}) {

@@ -170,16 +170,6 @@ class Extension implements Buildable
         return extension_loaded($this->extensionName);
     }
 
-    /**
-     * Checks if extension.so file is in place.
-     *
-     * @return bool
-     */
-    public function isInstalled()
-    {
-        return file_exists($this->getSharedLibraryPath());
-    }
-
     public function addConfigureOption(ConfigureOption $opt)
     {
         $this->configureOptions[] = $opt;

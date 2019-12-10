@@ -93,21 +93,6 @@ class BuildSettings
         return isset($this->variants[$name]);
     }
 
-    public function removeDisabledVariant($name)
-    {
-        unset($this->disabledVariants[$name]);
-    }
-
-    /**
-     * Set enabled variants.
-     *
-     * @param array $variants
-     */
-    public function setVariants($variants)
-    {
-        $this->variants = $variants;
-    }
-
     /**
      * Check if we've enabled the variant.
      *
@@ -158,16 +143,6 @@ class BuildSettings
         }
 
         return;
-    }
-
-    public function setExtraOptions(array $options)
-    {
-        $this->extraOptions = $options;
-    }
-
-    public function appendExtraOptions($option)
-    {
-        $this->extraOptions[] = $option;
     }
 
     public function getExtraOptions()

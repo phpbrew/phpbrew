@@ -3,6 +3,7 @@
 namespace PhpBrew\Command;
 
 use Exception;
+use GetOptionKit\OptionCollection;
 use PhpBrew\Command\ExtensionCommand\BaseCommand;
 use PhpBrew\Config;
 use PhpBrew\Extension\Extension;
@@ -38,7 +39,7 @@ class ExtensionCommand extends BaseCommand
     }
 
     /**
-     * @param GetOptionKit\OptionCollection $opts
+     * @param OptionCollection $opts
      */
     public function options($opts)
     {

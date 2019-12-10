@@ -30,11 +30,6 @@ class PeclExtension extends Extension
         }
     }
 
-    public function getPackage()
-    {
-        return $this->package;
-    }
-
     public function findConfigM4FileFromPackageXml()
     {
         if ($contents = $this->package->getContents()) {

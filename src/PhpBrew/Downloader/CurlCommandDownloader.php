@@ -6,18 +6,10 @@ use PhpBrew\Utils;
 
 class CurlCommandDownloader extends BaseDownloader
 {
-    protected $enableContinueAt = false;
-
-    public function enableContinueAtOption()
-    {
-        $this->enableContinueAt = true;
-    }
-
     protected function process($url, $targetFilePath)
     {
         $this->logger->info('downloading via curl command');
         //todo proxy setting
-        $silent = $this->logger->isQuiet() ? '--silent ' : '';
         $command = array('curl');
 
         if ($proxy = $this->options->{'http-proxy'}) {
@@ -27,9 +19,10 @@ class CurlCommandDownloader extends BaseDownloader
             $this->logger->warn('http proxy is not support by this download.');
         }
 
-        if ($this->enableContinueAt || $this->options->{'continue'}) {
+        if ($this->options->{'continue'}) {
             $command[] = '-C -';
         }
+
         $command[] = '-L';
         if ($this->logger->isQuiet()) {
             $command[] = '--silent';

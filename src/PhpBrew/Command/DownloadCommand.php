@@ -5,7 +5,7 @@ namespace PhpBrew\Command;
 use CLIFramework\Command;
 use CLIFramework\ValueCollection;
 use Exception;
-use GetOptionKit\OptionSpecCollection;
+use GetOptionKit\OptionCollection;
 use PhpBrew\Config;
 use PhpBrew\Distribution\DistributionUrlPolicy;
 use PhpBrew\Downloader\DownloadFactory;
@@ -43,7 +43,7 @@ class DownloadCommand extends Command
     }
 
     /**
-     * @param OptionSpecCollection $opts
+     * @param OptionCollection $opts
      */
     public function options($opts)
     {
@@ -57,7 +57,6 @@ class DownloadCommand extends Command
     {
         $version = preg_replace('/^php-/', '', $version);
         $releaseList = ReleaseList::getReadyInstance($this->options);
-        $releases = $releaseList->getReleases();
         $versionInfo = $releaseList->getVersion($version);
         if (!$versionInfo) {
             throw new Exception("Version $version not found.");

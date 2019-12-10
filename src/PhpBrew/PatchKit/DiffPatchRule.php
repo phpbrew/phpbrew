@@ -40,10 +40,6 @@ class DiffPatchRule
         return new self($diffFile);
     }
 
-    public function backup(Buildable $build, Logger $logger)
-    {
-    }
-
     public function apply(Buildable $build, Logger $logger)
     {
         $dir = $build->getSourceDirectory();

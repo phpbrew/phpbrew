@@ -177,7 +177,7 @@ class ReleaseList
         $releaseVersions = array();
         foreach ($obj as $k => $v) {
             if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
-                list($o, $major, $minor) = $matches;
+                list(, $major, $minor) = $matches;
                 $release = array('version' => $k);
                 if (isset($v['announcement']['English'])) {
                     $release['announcement'] = 'https://php.net' . $v['announcement']['English'];
@@ -206,7 +206,7 @@ class ReleaseList
             }
         }
 
-        foreach ($releaseVersions as $key => &$versions) {
+        foreach ($releaseVersions as $key => $_) {
             uksort($releaseVersions[$key], function ($a, $b) {
                 return version_compare($b, $a);
             });

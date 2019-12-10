@@ -3,7 +3,6 @@
 namespace PhpBrew\Extension;
 
 use CLIFramework\Logger;
-use Exception;
 use GetOptionKit\OptionResult;
 use PhpBrew\Config;
 use PhpBrew\Downloader\DownloadFactory;
@@ -22,15 +21,6 @@ class ExtensionDownloader
         $this->options = $options;
     }
 
-    public function buildGithubTarballUrl($owner, $repos, $version = 'stable')
-    {
-        if (empty($owner) || empty($repos)) {
-            throw new Exception('Username or Repository invalid.');
-        }
-
-        return sprintf('https://%s/%s/%s/archive/%s.tar.gz', $this->githubSite, $owner, $repos, $version);
-    }
-
     public function download(Provider $provider, $version = 'stable')
     {
         $url = $provider->buildPackageDownloadUrl($version);
@@ -38,7 +28,6 @@ class ExtensionDownloader
         $distDir = Config::getDistFileDir();
         $targetFilePath = $distDir . DIRECTORY_SEPARATOR . $basename;
         DownloadFactory::getInstance($this->logger, $this->options)->download($url, $targetFilePath);
-        $info = pathinfo($basename);
 
         $currentPhpExtensionDirectory = Config::getBuildDir() . '/' . Config::getCurrentPhpName() . '/ext';
 

@@ -137,7 +137,6 @@ class SetupCommand extends Command
     {
         $root   = Config::getRoot();
         $phpdir = "$root/php/$buildName";
-        $pidFile = $phpdir . '/var/run/php-fpm.pid';
         $config = <<<"EOS"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

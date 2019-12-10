@@ -12,30 +12,10 @@ use PhpBrew\Exception\SystemCommandException;
  */
 class ConfigureTask extends BaseTask
 {
-    public $optimizationLevel;
-
-    public function setLogPath($path)
-    {
-        $this->logPath = $path;
-    }
-
-    public function setOptimizationLevel($optimizationLevel)
-    {
-        $this->optimizationLevel = $optimizationLevel;
-    }
-
     public function run(Build $build, $variantOptions)
     {
         $extra = $build->getExtraOptions();
         $prefix = $build->getInstallPrefix();
-
-        // append cflags
-        if ($this->optimizationLevel) {
-            $o = $this->optimizationLevel;
-            $cflags = getenv('CFLAGS');
-            putenv("CFLAGS=$cflags -O$o");
-            $_ENV['CFLAGS'] = "$cflags -O$o";
-        }
 
         $args = array();
 

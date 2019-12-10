@@ -389,8 +389,6 @@ class InstallCommand extends Command
             $this->logger->warn("Can't store variant info.");
         }
 
-        $buildLogFile = $build->getBuildLogPath();
-
         if (!$this->options->{'no-configure'}) {
             $configureTask = new BeforeConfigureTask($this->logger, $this->options);
             $configureTask->run($build);
@@ -478,7 +476,6 @@ class InstallCommand extends Command
             if (!$this->options->{'no-patch'}) {
                 $config = parse_ini_file($targetConfigPath, true);
                 $configContent = file_get_contents($targetConfigPath);
-                $patched = false;
 
                 if (!isset($config['date']['timezone'])) {
                     $this->logger->info('---> Found date.timezone is not set, patching...');
@@ -492,7 +489,6 @@ class InstallCommand extends Command
                             $configContent
                         );
                     }
-                    $patched = true;
                 }
 
                 if (!isset($config['phar']['readonly'])) {

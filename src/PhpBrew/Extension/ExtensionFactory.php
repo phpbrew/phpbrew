@@ -181,7 +181,7 @@ class ExtensionFactory
                 )?
                 /x', $m4, $matches)
         ) {
-            $fullmatched = array_shift($matches);
+            array_shift($matches);
             $ext = new M4Extension($packageName);
             $ext->setExtensionName($matches[0]);
             $ext->setSharedLibraryName($matches[0] . '.so');
