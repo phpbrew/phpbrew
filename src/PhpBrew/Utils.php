@@ -194,19 +194,21 @@ class Utils
      */
     public static function getPkgConfigPrefix($package)
     {
-        if (self::findBin('pkg-config')) {
-            $cmd = 'pkg-config --variable=prefix ' . $package;
-            $process = new Process($cmd);
-            $code = $process->run();
-            if (intval($code) === 0) {
-                $path = trim($process->getOutput());
-                if (file_exists($path)) {
-                    return $path;
-                }
-            }
+        if (!self::findBin('pkg-config')) {
+            return null;
         }
 
-        return null;
+        $path = exec('pkg-config --variable=prefix ' . escapeshellarg($package) . ' 2>/dev/null', $_, $ret);
+
+        if ($ret !== 0) {
+            return null;
+        }
+
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        return $path;
     }
 
     public static function system($command, $logger = null, $build = null)

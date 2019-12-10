@@ -12,11 +12,11 @@ matrix:
   fast_finish: true
   allow_failures:
   - php: nightly
-# env:
-#   matrix:
-#   - TEST_SUITE=Core
-#   - TEST_SUITE=Command
-#   - TEST_SUITE=Extension
+
+env:
+  global:
+    - MAKEFLAGS=-j$(nproc)
+
 php:
 - 5.3
 - 5.4

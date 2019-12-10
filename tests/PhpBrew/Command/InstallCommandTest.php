@@ -3,7 +3,6 @@
 namespace PhpBrew\Tests\Command;
 
 use PhpBrew\BuildFinder;
-use PhpBrew\Machine;
 use PhpBrew\Testing\CommandTestCase;
 
 /**
@@ -37,9 +36,7 @@ class InstallCommandTest extends CommandTestCase
         $this->assertCommandSuccess("phpbrew known --update");
 
         $versionName = $this->getPrimaryVersion();
-        $processorNumber = Machine::getInstance()->detectProcessorNumber();
-        $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew install $jobs php-{$versionName} +cli+posix+intl+gd");
+        $this->assertCommandSuccess("phpbrew install php-{$versionName} +cli+posix+intl+gd");
         $this->assertListContains("php-{$versionName}");
     }
 
@@ -84,9 +81,7 @@ class InstallCommandTest extends CommandTestCase
     public function testInstallAsCommand()
     {
         $versionName = $this->getPrimaryVersion();
-        $processorNumber = Machine::getInstance()->detectProcessorNumber();
-        $jobs = is_numeric($processorNumber) ? "--jobs $processorNumber" : "";
-        $this->assertCommandSuccess("phpbrew install {$jobs} php-{$versionName} as myphp +cli+soap");
+        $this->assertCommandSuccess("phpbrew install php-{$versionName} as myphp +cli+soap");
         $this->assertListContains("myphp");
     }
 
