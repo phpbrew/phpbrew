@@ -49,7 +49,6 @@ class DownloadCommand extends Command
     {
         $opts->add('f|force', 'Force extraction');
         $opts->add('old', 'enable old phps (less than 5.3)');
-        $opts->add('mirror:', '[deprecated] Use mirror specific site.');
 
         DownloadFactory::addOptionsForCommand($opts);
     }
@@ -65,12 +64,6 @@ class DownloadCommand extends Command
         }
         $version = $versionInfo['version'];
         $distUrlPolicy = new DistributionUrlPolicy();
-        if ($this->options->mirror) {
-            $this->logger->warn(
-                'php.net has retired the mirror program, '
-                . 'hence --mirror option has been deprecated and will be removed in the future.'
-            );
-        }
         $distUrl = $distUrlPolicy->buildUrl($version, $versionInfo['filename'], $versionInfo['museum']);
 
         $prepare = new PrepareDirectoryTask($this->logger, $this->options);

@@ -629,7 +629,6 @@ complete -x -c phpbrew -n "__fish_phpbrew_using_command ctags" -a "(__fish_phpbr
 # download
 complete -f -c phpbrew -n "__fish_phpbrew_using_command download" -s f -l force -d "Force extraction"
 complete -f -c phpbrew -n "__fish_phpbrew_using_command download" -l old -d "enable old phps \(less than 5.3\)"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l mirror -d "Use mirror specific site"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l downloader -d "Use alternative downloader"
 complete -f -c phpbrew -n "__fish_phpbrew_using_command download" -l continue -d "Continue getting a partially downloaded file"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command download" -l http-proxy -d "HTTP proxy address"
@@ -713,7 +712,6 @@ complete -x -c phpbrew -n "__fish_phpbrew_using_command init" -l root -d "Overri
 # install
 complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l test -d "Run tests after the installation"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l name -d "The name of the installation"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l mirror -d "Use specified mirror site"
 complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l post-clean -d "Run make clean after the installation"
 complete -f -c phpbrew -n "__fish_phpbrew_using_command install" -l production -d "Use production configuration file"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command install" -l build-dir -d "Specify the build directory"
