@@ -2,8 +2,6 @@
 
 namespace PhpBrew\Distribution;
 
-use PhpBrew\Version;
-
 class DistributionUrlPolicy
 {
 
@@ -22,20 +20,6 @@ class DistributionUrlPolicy
 
     private function isDistributedAtMuseum($version)
     {
-        $version = new Version($version);
-
-        if ($version->getMajorVersion() > 5) {
-            return false;
-        }
-
-        if ($version->getMinorVersion() > 4) {
-            return false;
-        }
-
-        if ($version->getMinorVersion() === 4) {
-            return $version->getPatchVersion() <= 21;
-        }
-
-        return true;
+        return version_compare($version, '5.4.21', '<=');
     }
 }
