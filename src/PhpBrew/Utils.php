@@ -271,21 +271,6 @@ class Utils
         return null;
     }
 
-    public static function pipeExecute($command)
-    {
-        $proc = proc_open(
-            $command,
-            array(
-                array('pipe', 'r'), // stdin
-                array('pipe', 'w'), // stdout
-                array('pipe', 'w'), // stderr
-            ),
-            $pipes
-        );
-
-        return stream_get_contents($pipes[1]);
-    }
-
     public static function startsWith($haystack, $needle)
     {
         return $needle === '' || strpos($haystack, $needle) === 0;
