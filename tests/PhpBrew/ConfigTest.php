@@ -263,10 +263,12 @@ class ConfigTest extends TestCase
 
     public function putEnv($key, $value)
     {
-        if (is_null($value)) {
-            ok(putenv($key));
-        } else {
-            ok(putenv("$key=$value"));
+        $setting = $key;
+
+        if ($value !== null) {
+            $setting .= '=' . $value;
         }
+
+        $this->assertTrue(putenv($setting));
     }
 }

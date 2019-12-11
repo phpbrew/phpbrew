@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f07532d438b931d0cb610ddc79f728e6",
+    "content-hash": "bc18e330eef8dcce8354aabcc8f1a27f",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -891,32 +891,6 @@
                 "validation"
             ],
             "time": "2018-06-11T17:15:25+00:00"
-        },
-        {
-            "name": "corneltek/phpunit-testmore",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/c9s/PHPUnit_TestMore.git",
-                "reference": "1b3728bfbc23c7ac89836fbec9a0b2aab6be8c9f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/c9s/PHPUnit_TestMore/zipball/1b3728bfbc23c7ac89836fbec9a0b2aab6be8c9f",
-                "reference": "1b3728bfbc23c7ac89836fbec9a0b2aab6be8c9f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "TestMore.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2017-03-09T16:13:38+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -2484,8 +2458,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "corneltek/cliframework": 20,
-        "corneltek/phpunit-testmore": 20
+        "corneltek/cliframework": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
