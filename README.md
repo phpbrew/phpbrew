@@ -34,11 +34,11 @@ building PHP.
 ## INSTALL
 
 ```bash
-curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
-chmod +x phpbrew
+curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
+chmod +x phpbrew.phar
 
-# Move phpbrew to somewhere can be found by your $PATH
-sudo mv phpbrew /usr/local/bin/phpbrew
+# Move the file to some directory within your $PATH
+sudo mv phpbrew.phar /usr/local/bin/phpbrew
 ```
 
 ## QUICK START

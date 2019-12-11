@@ -486,7 +486,6 @@ local ret=1
               '--http-proxy=[HTTP proxy address]' \
               '--http-proxy-auth=[HTTP proxy authentication]' \
               '--connect-timeout=[Connection timeout]' \
-              ':branch:{___phpbrewmeta "branch" self-update arg 0 suggestions}' \
                && ret=0
         
         ;;

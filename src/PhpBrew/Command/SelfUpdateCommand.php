@@ -4,7 +4,7 @@ namespace PhpBrew\Command;
 
 use CLIFramework\Command;
 use Exception;
-use GetOptionKit\OptionSpecCollection;
+use GetOptionKit\OptionCollection;
 use PhpBrew\Downloader\DownloadFactory;
 use RuntimeException;
 
@@ -21,22 +21,14 @@ class SelfUpdateCommand extends Command
     }
 
     /**
-     * @param OptionSpecCollection $opts
+     * @param OptionCollection $opts
      */
     public function options($opts)
     {
         DownloadFactory::addOptionsForCommand($opts);
     }
 
-    public function arguments($args)
-    {
-        $args->add('branch')->suggestions(function () {
-            /* TODO: maybe fetch tags and remote branches from github? */
-            return array('master', 'develop');
-        });
-    }
-
-    public function execute($branch = 'master')
+    public function execute()
     {
         global $argv;
         $script = realpath($argv[0]);
@@ -46,8 +38,8 @@ class SelfUpdateCommand extends Command
         }
 
         // fetch new version phpbrew
-        $this->logger->info("Updating phpbrew $script from $branch...");
-        $url = "https://raw.githubusercontent.com/phpbrew/phpbrew/$branch/phpbrew";
+        $this->logger->info("Updating phpbrew $script...");
+        $url = 'https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar';
 
         //download to a tmp file first
         //the phar file is large so we prefer the commands rather than extensions.
@@ -65,12 +57,8 @@ class SelfUpdateCommand extends Command
         //todo we can check the hash here in order to make sure we have download the phar successfully
 
         //move the tmp file to executable path
-        $code = rename($tempFile, $script);
-        if ($code === false) { //fallback to system move
-            $code = system("mv -f $tempFile, $script");
-            if (!$code == 0) {
-                throw new RuntimeException('Update Failed', 3);
-            }
+        if (!rename($tempFile, $script)) {
+            throw new RuntimeException('Update Failed', 3);
         }
 
         $this->logger->info('Version updated.');

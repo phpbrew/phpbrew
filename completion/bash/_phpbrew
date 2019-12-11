@@ -6035,7 +6035,7 @@ subcommand_alias=()
 subcommand_signs=()
 options=(["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 options_require_value=(["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
-local argument_min_length=1
+local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
     # 
@@ -6105,14 +6105,6 @@ local argument_min_length=1
           return
       fi
       # If the command requires at least $argument_min_length to run, we check the argument
-if [[ $argument_min_length > 0 ]] ; then
-  case $argument_index in
-      0)
-      __complete_meta "$command_signature" "arg" 0 "suggestions"
-      return
-      ;;
-  esac
-  fi
 
                 # If there is no argument support, then user is supposed to give a subcommand name or an option
                 __mycomp "${!options[*]} ${!subcommands[*]} ${!subcommand_alias[*]}"
