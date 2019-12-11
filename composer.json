@@ -29,7 +29,6 @@
         "symfony/yaml": "^2.8"
     },
     "require-dev": {
-        "corneltek/phpunit-testmore": "dev-master",
         "php-coveralls/php-coveralls": "^1.1",
         "php-vcr/php-vcr": "^1.4",
         "phpunit/phpunit": "^4.8||^5.7"
