@@ -161,20 +161,6 @@ class Config
         return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'bin';
     }
 
-    public static function putPathEnvFor($buildName)
-    {
-        $root = self::getRoot();
-        $buildDir = $root . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $buildName;
-
-        // re-build path
-        $paths = explode(PATH_SEPARATOR, getenv('PATH'));
-        $paths = array_filter($paths, function ($p) use ($root) {
-            return strpos($p, $root) === false;
-        });
-        array_unshift($paths, $buildDir . DIRECTORY_SEPARATOR . 'bin');
-        putenv('PATH=' . implode(PATH_SEPARATOR, $paths));
-    }
-
     /**
      * XXX: This method is now deprecated. use findMatchedBuilds insteads.
      *
@@ -241,18 +227,6 @@ class Config
         return self::getRoot() . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . self::getCurrentPhpName();
     }
 
-    // XXX: needs to be removed.
-    public static function useSystemPhpVersion()
-    {
-        self::$currentPhpVersion = null;
-    }
-
-    // XXX: needs to be removed.
-    public static function setPhpVersion($phpVersion)
-    {
-        self::$currentPhpVersion = 'php-' . $phpVersion;
-    }
-
     /**
      * getCurrentPhpName return the current php version from
      * self::$currentPhpVersion or from environment variable `PHPBREW_PHP`.
@@ -288,16 +262,6 @@ class Config
         return Yaml::parse(file_get_contents($configFile));
     }
 
-    public static function getProxyConfig()
-    {
-        $configFile = self::getRoot() . DIRECTORY_SEPARATOR . 'proxy.yaml';
-        if (!file_exists($configFile)) {
-            return false;
-        }
-
-        return Yaml::parse(file_get_contents($configFile));
-    }
-
     public static function getConfigParam($param = null)
     {
         $config = self::getConfig();
@@ -306,40 +270,5 @@ class Config
         }
 
         return $config;
-    }
-
-    public static function initDirectories($buildName = null)
-    {
-        $dirs = array();
-        $dirs[] = self::getRoot();
-        $dirs[] = self::getHome();
-        $dirs[] = self::getVariantsDir();
-        $dirs[] = self::getBuildDir();
-        $dirs[] = self::getCacheDir();
-        $dirs[] = self::getDistFileDir();
-        $dirs[] = self::getRegistryDir();
-        if ($buildName) {
-            $dirs[] = self::getCurrentBuildDir($buildName);
-            $dirs[] = self::getCurrentBuildDir($buildName) . DIRECTORY_SEPARATOR . 'ext';
-            $dirs[] = self::getInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'db';
-        }
-        foreach ($dirs as $dir) {
-            if (!file_exists($dir)) {
-                mkdir($dir, 0755, true);
-            }
-        }
-
-        $write = array();
-        $write[] = self::getHome();
-        $write[] = self::getVariantsDir();
-        $write[] = self::getBuildDir();
-        $write[] = self::getCacheDir();
-        $write[] = self::getDistFileDir();
-        $write[] = self::getRegistryDir();
-        foreach ($write as $dir) {
-            if (!is_writable($dir)) {
-                throw new Exception("$dir is not writable, please fix the folder permissions.");
-            }
-        }
     }
 }

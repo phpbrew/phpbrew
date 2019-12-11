@@ -29,16 +29,6 @@ abstract class BaseTask
         }
     }
 
-    public function setLogger($logger)
-    {
-        $this->logger = $logger;
-    }
-
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-
     public function info($msg)
     {
         if ($this->logger) {

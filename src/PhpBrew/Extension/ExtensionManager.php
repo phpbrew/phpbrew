@@ -87,7 +87,6 @@ class ExtensionManager
 
     public function createExtensionConfig(Extension $ext)
     {
-        $sourceDir = $ext->getSourceDirectory();
         $ini = $ext->getConfigFilePath() . '.disabled';
         $this->logger->info("===> Creating config file {$ini}");
 

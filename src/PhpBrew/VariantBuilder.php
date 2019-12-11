@@ -26,16 +26,6 @@ function first_existing_executable($possiblePaths)
     return false;
 }
 
-function first_existing_path($possiblePaths)
-{
-    $existingPaths = array_filter($possiblePaths, 'file_exists');
-    if (!empty($existingPaths)) {
-        return realpath($existingPaths[0]);
-    }
-
-    return false;
-}
-
 function exec_line($command)
 {
     $output = array();

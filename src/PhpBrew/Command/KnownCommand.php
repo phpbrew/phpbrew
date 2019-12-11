@@ -32,7 +32,6 @@ class KnownCommand extends Command
     {
         $releaseList = new ReleaseList();
 
-        $releases = array();
         //always fetch list from remote when --old presents, because the local file may not contain the old versions
         // and --old is seldom used.
         if (!$releaseList->foundLocalReleaseList() || $this->options->update || $this->options->old) {

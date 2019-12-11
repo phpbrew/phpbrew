@@ -23,7 +23,7 @@ class Apxs2CheckTask extends BaseTask
         }
 
         // use apxs to check module dir permission
-        if ($apxs && $libdir = trim(Utils::pipeExecute("$apxs -q LIBEXECDIR"))) {
+        if ($apxs && $libdir = exec("$apxs -q LIBEXECDIR")) {
             if (false === is_writable($libdir)) {
                 $this->logger->error(
                     <<<EOF
@@ -38,7 +38,7 @@ EOF
             }
         }
 
-        if ($apxs && $confdir = trim(Utils::pipeExecute("$apxs -q SYSCONFDIR"))) {
+        if ($apxs && $confdir = exec("$apxs -q SYSCONFDIR")) {
             if (false === is_writable($confdir)) {
                 $this->logger->error(
                     <<<EOF

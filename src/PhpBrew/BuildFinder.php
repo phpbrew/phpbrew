@@ -53,28 +53,4 @@ class BuildFinder
             return preg_match("/^$buildNameRE/i", $build);
         });
     }
-
-    /**
-     * @return string[] build names
-     */
-    public static function findFirstMatchedBuild($buildNameRE = '', $stripPrefix = true)
-    {
-        $builds = self::findInstalledBuilds($stripPrefix);
-        foreach ($builds as $build) {
-            if (preg_match("/$buildNameRE/i", $build)) {
-                return $build;
-            }
-        }
-    }
-
-    /**
-     * @return string[] build names
-     */
-    public static function findLatestBuild($stripPrefix = true)
-    {
-        $builds = self::findInstalledBuilds($stripPrefix);
-        if (!empty($builds)) {
-            return $builds[0]; // latest
-        }
-    }
 }

@@ -27,10 +27,6 @@ class CtagsCommand extends Command
         $args = func_get_args();
         array_shift($args);
 
-        // $currentVersion;
-        $root = Config::getRoot();
-        $home = Config::getHome();
-
         if ($versionName) {
             $sourceDir = Config::getBuildDir() . DIRECTORY_SEPARATOR . $versionName;
         } else {

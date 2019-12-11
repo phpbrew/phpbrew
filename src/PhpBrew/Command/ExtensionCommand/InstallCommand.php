@@ -127,7 +127,7 @@ class InstallCommand extends BaseCommand
 
         // Expand extensionset from config
         $extensions = array();
-        if (Utils::startsWith($extName, '+')) {
+        if (substr($extName, 0, 1) === '+') {
             $config = Config::getConfigParam('extensions');
             $extName = ltrim($extName, '+');
             if (isset($config[$extName])) {
@@ -161,8 +161,6 @@ class InstallCommand extends BaseCommand
 
             // Extension not found, use pecl to download it.
             if (!$ext || $always_redownload) {
-                // not every project has stable branch, using master as default version
-                $args = array_slice(func_get_args(), 1);
                 if (empty($extConfig->version)) {
                     $extConfig->version = $provider->getDefaultVersion();
                 }

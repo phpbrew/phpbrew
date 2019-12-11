@@ -66,8 +66,6 @@ abstract class PatchTestCase extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $sourceDirectory = getenv('PHPBREW_BUILD_PHP_DIR');
-
         // don't clean up if the test failed.
         if ($this->hasFailed()) {
             return;

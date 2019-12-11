@@ -23,11 +23,6 @@ class RegExpPatchRule implements PatchRule
     private $replacement;
 
     /**
-     * @var callable|bool
-     */
-    private $predictor;
-
-    /**
      * @param string $files
      */
     public function __construct(array $files)

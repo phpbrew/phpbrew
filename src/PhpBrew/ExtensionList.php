@@ -37,30 +37,6 @@ class ExtensionList
         return $providers;
     }
 
-    public function getProviderByName($providerName)
-    {
-        $providers = $this->getProviders();
-
-        foreach ($providers as $provider) {
-            if ($provider::getName() == $providerName) {
-                return $provider;
-            }
-        }
-
-        return null;
-    }
-
-    public static function getReadyInstance($branch = 'master', Logger $logger = null, OptionResult $options)
-    {
-        static $instance;
-        if ($instance) {
-            return $instance;
-        }
-        $instance = new self($logger, $options);
-
-        return $instance;
-    }
-
     /**
      * Returns provider for the given extension
      *
