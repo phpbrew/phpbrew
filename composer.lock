@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc18e330eef8dcce8354aabcc8f1a27f",
+    "content-hash": "6c3b9a739368527e7e8c2dca13ce6ba2",
     "packages": [
         {
             "name": "corneltek/cachekit",
