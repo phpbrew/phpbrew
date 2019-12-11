@@ -8,7 +8,7 @@ use PhpBrew\Buildable;
 /**
  * DiffPatchRule implements a diff based patch rule.
  */
-class DiffPatchRule
+class DiffPatchRule implements PatchRule
 {
     protected $diffFile;
 
@@ -38,6 +38,10 @@ class DiffPatchRule
     public static function from($diffFile)
     {
         return new self($diffFile);
+    }
+
+    public function backup(Buildable $build, Logger $logger)
+    {
     }
 
     public function apply(Buildable $build, Logger $logger)

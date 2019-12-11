@@ -17,7 +17,7 @@ class VariantBuilderTest extends TestCase
         return array(
             array(array('debug'),  '#--enable-debug#'),
             array(array('intl'),   '#--enable-intl#'),
-            array(array('apxs2'),  '#--with-apxs2=\S+#'),
+            array(array('apxs2'),  '#--with-apxs2#'),
             array(array('sqlite'), '#--with-sqlite#'),
             array(array('mysql'),  '#--with-mysqli#'),
             array(array('pgsql'),  '#--with-pgsql#'),

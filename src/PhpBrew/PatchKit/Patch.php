@@ -22,7 +22,7 @@ abstract class Patch
     /**
      * rules method returns the array of PatchRule class.
      *
-     * @return array<PatchRule>
+     * @return PatchRule[]
      */
     abstract public function rules();
 

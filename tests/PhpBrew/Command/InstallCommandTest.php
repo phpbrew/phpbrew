@@ -22,7 +22,6 @@ class InstallCommandTest extends CommandTestCase
     public $usesVCR = false;
 
     /**
-     * @depends testKnownCommand
      * @group install
      * @group mayignore
      */
