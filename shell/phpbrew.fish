@@ -541,7 +541,7 @@ complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l no-interact -d "Do n
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l no-progress -d "Do not display progress bar"
 
 # commands
-complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a app -d "php app store"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a app -d "[deprecated] php app store"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a archive -d "Build executable phar file from composer.json"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a bash -d "This command generate a bash completion script automatically"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a cd -d "Change to directories"
@@ -576,8 +576,8 @@ complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a variants -d "List ph
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a zsh -d "This function generate a zsh-completion script automatically"
 
 # app
-complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a get -d "Get PHP application"
-complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a list -d "List PHP applications"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a get -d "[deprecated] Get PHP application"
+complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a list -d "[deprecated] List PHP applications"
 
 # app get
 complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l chmod -d "Set downloaded file mode"
