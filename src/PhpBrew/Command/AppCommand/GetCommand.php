@@ -12,7 +12,7 @@ class GetCommand extends Command
 {
     public function brief()
     {
-        return 'Get PHP application';
+        return '[deprecated] Get PHP application';
     }
 
     public function options($opts)
@@ -32,6 +32,11 @@ class GetCommand extends Command
 
     public function execute($appName)
     {
+        $this->logger->warn(
+            'The app command and its subcommands are deprecated and will be removed in the future.' . PHP_EOL
+            . 'Please consider switching to PHIVE (https://phar.io/).'
+        );
+
         $apps = AppStore::all();
 
         if (!isset($apps[$appName])) {

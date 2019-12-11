@@ -15,7 +15,7 @@ class AppCommand extends Command
 
     public function brief()
     {
-        return 'php app store';
+        return '[deprecated] php app store';
     }
 
     public function init()

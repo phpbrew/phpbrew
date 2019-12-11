@@ -64,7 +64,7 @@ local ret=1
     compile:'compile current source into Phar format library file.'
     archive:'Build executable phar file from composer.json'
     github:build-topics:'Build topic classes from the wiki of a GitHub Project.'
-    app:'php app store'
+    app:'[deprecated] php app store'
     init:'Initialize phpbrew config file.'
     known:'List known PHP versions'
     install:'Install php'
@@ -178,8 +178,8 @@ local ret=1
             case $state in
               (cmds)
             local commands; commands=(
-              get:'Get PHP application'
-              list:'List PHP applications'
+              get:'[deprecated] Get PHP application'
+              list:'[deprecated] List PHP applications'
             )
             _describe -t commands 'command' commands && ret=0
               ;;
@@ -194,7 +194,7 @@ local ret=1
                           '--http-proxy=[HTTP proxy address]' \
                           '--http-proxy-auth=[HTTP proxy authentication]' \
                           '--connect-timeout=[Connection timeout]' \
-                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.3" "sami" "phpcs" "phpcbf" "pdepend" "onion" "box-2.7" "psysh" "phpdoc" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc" "php-cs-fixer")' \
+                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.3" "sami" "phpcs" "phpcbf" "pdepend" "onion" "box-2.7" "psysh" "php-cs-fixer" "phpdoc" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
                            && ret=0
                   
                   ;;
