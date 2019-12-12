@@ -82,8 +82,9 @@ script:
   - mkdir -p build/logs
   - vendor/bin/phpunit --exclude-group mayignore --coverage-clover build/logs/clover.xml
 after_success:
-- ccache -s
-- travis_retry php vendor/bin/coveralls -v
+  - ccache -s
+  - wget https://github.com/php-coveralls/php-coveralls/releases/download/v1.1.0/coveralls.phar
+  - travis_retry php coveralls.phar -v
 cache:
   apt: true
   ccache: true
