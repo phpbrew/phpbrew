@@ -13,7 +13,6 @@ class PathCommandTest extends CommandTestCase
 
     public function argumentsProvider()
     {
-
         return array(
             array("build",   "#\.phpbrew/build/.+#"),
             array("ext-src", "#\.phpbrew/build/.+/ext$#"),
@@ -28,10 +27,11 @@ class PathCommandTest extends CommandTestCase
     /**
      * @outputBuffering enabled
      * @dataProvider argumentsProvider
-     * @depends testUseLatestPHP
      */
     public function testPathCommand($arg, $pattern)
     {
+        putenv('PHPBREW_PHP=7.4.0');
+
         ob_start();
         $this->runCommandWithStdout("phpbrew path $arg");
         $path = ob_get_clean();
