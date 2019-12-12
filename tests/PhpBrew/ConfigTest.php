@@ -15,11 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ConfigTest extends TestCase
 {
-    public function test()
-    {
-        Config::getInstalledPhpVersions();
-    }
-
     /**
      * @expectedException \Exception
      */

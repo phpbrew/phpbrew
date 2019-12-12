@@ -35,6 +35,6 @@ class ExtensionManagerTest extends TestCase
     public function testCleanExtension()
     {
         $ext = ExtensionFactory::lookup('xdebug', array(getenv('PHPBREW_EXTENSION_DIR')));
-        $this->manager->cleanExtension($ext);
+        $this->assertTrue($this->manager->cleanExtension($ext));
     }
 }

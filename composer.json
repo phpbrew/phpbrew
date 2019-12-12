@@ -31,7 +31,7 @@
     "require-dev": {
         "php-coveralls/php-coveralls": "^1.1",
         "php-vcr/php-vcr": "^1.4",
-        "phpunit/phpunit": "^4.8||^5.7"
+        "phpunit/phpunit": "^4.8||^5.7||^6.5"
     },
     "extra": { "branch-alias": { "dev-master": "1.22.x-dev" } },
     "autoload": {
