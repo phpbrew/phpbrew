@@ -2,65 +2,100 @@
 
 namespace PhpBrew\Tests;
 
+use CLIFramework\Logger;
 use PhpBrew\VariantParser;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @small
- */
 class VariantParserTest extends TestCase
 {
-    public function makeArgs($arg)
-    {
-        return VariantParser::parseCommandArguments(preg_split('#\s+#', $arg));
-    }
-
     public function test()
     {
-        $info = $this->makeArgs('+pdo+sqlite+debug'
-                . '+apxs=/opt/local/apache2/bin/apxs+calendar'
-                . '-mysql'
-                . ' -- --with-icu-dir /opt/local');
-
-        $this->assertNotEmpty($info['enabled_variants']);
-        $this->assertNotEmpty($info['disabled_variants']);
-
-        $this->assertTrue($info['enabled_variants']['pdo']);
-        $this->assertTrue($info['enabled_variants']['sqlite']);
-        $this->assertTrue($info['disabled_variants']['mysql']);
-        $this->assertEquals($info['extra_options'], array('--with-icu-dir', '/opt/local'));
+        $this->assertEquals(array(
+            'enabled_variants' => array(
+                'pdo' => true,
+                'sqlite' => true,
+                'debug' => true,
+                'apxs' => '/opt/local/apache2/bin/apxs',
+                'calendar' => true,
+            ),
+            'disabled_variants' => array(
+                'mysql' => true,
+            ),
+            'extra_options' => array(
+                '--with-icu-dir',
+                '/opt/local',
+            ),
+        ), $this->parse(array(
+            '+pdo+sqlite+debug+apxs=/opt/local/apache2/bin/apxs+calendar-mysql',
+            '--',
+            '--with-icu-dir',
+            '/opt/local',
+        )));
     }
 
     public function testVariantAll()
     {
-        $info = $this->makeArgs('+all -apxs2 -mysql');
-
-        $this->assertNotEmpty($info['enabled_variants']);
-        $this->assertNotEmpty($info['disabled_variants']);
-
-        $this->assertTrue($info['enabled_variants']['all']);
-        $this->assertTrue($info['disabled_variants']['mysql']);
-        $this->assertTrue($info['disabled_variants']['apxs2']);
-    }
-
-    public function variantGroupOverloadProvider()
-    {
-        return array(
-            array('+default +openssl=/usr', array('openssl' => '/usr')), // overrides default variant value
-            array('+openssl=/usr +default', array('openssl' => '/usr')), // order must be irrelevant
-            array('+default -openssl', array()), // negative variant
-            array('-openssl +default', array()), // negative variant precedence
-            array('+default -openssl=/usr', array()), // negative variant with an overridden value
-        );
+        $this->assertEquals(array(
+            'enabled_variants' => array(
+                'all' => true,
+            ),
+            'disabled_variants' => array(
+                'apxs2' => true,
+                'mysql' => true,
+            ),
+            'extra_options' => array(),
+        ), $this->parse(array(
+            '+all',
+            '-apxs2',
+            '-mysql',
+        )));
     }
 
     /**
      * @dataProvider variantGroupOverloadProvider
      */
-    public function testVariantGroupOverload($arg, array $variant)
+    public function testVariantGroupOverload(array $args, array $expectedEnabledVariants)
     {
-        $info = $this->makeArgs($arg);
-        $this->assertArraySubset($variant, $info['enabled_variants']);
+        $info = $this->parse($args);
+        $this->assertEquals($expectedEnabledVariants, $info['enabled_variants']);
+    }
+
+    public static function variantGroupOverloadProvider()
+    {
+        return array(
+            'overrides default variant value' => array(
+                array('+default', '+openssl=/usr'),
+                array(
+                    'default' => true,
+                    'openssl' => '/usr',
+                ),
+            ),
+            'order must be irrelevant' => array(
+                array('+openssl=/usr', '+default'),
+                array(
+                    'openssl' => '/usr',
+                    'default' => true,
+                ),
+            ),
+            'negative variant' => array(
+                array('+default', '-openssl'),
+                array(
+                    'default' => true,
+                ),
+            ),
+            'negative variant precedence' => array(
+                array('-openssl', '+default'),
+                array(
+                    'default' => true,
+                ),
+            ),
+            'negative variant with an overridden value' => array(
+                array('+default', '-openssl=/usr'),
+                array(
+                    'default' => true,
+                ),
+            ),
+        );
     }
 
     /**
@@ -68,28 +103,70 @@ class VariantParserTest extends TestCase
      */
     public function testBug495()
     {
-        $variants = $this->makeArgs('+gmp=/path/x86_64-linux-gnu -openssl-xdebug');
-        $expected = array(
+        $this->assertEquals(array(
             'enabled_variants' => array(
                 'gmp' => '/path/x86_64-linux-gnu'
             ),
-            'disabled_variants' => array('openssl' => true, 'xdebug' => true)
-        );
-        $this->assertArraySubset($expected, $variants);
+            'disabled_variants' => array(
+                'openssl' => true,
+                'xdebug' => true,
+            ),
+            'extra_options' => array(),
+        ), $this->parse(array(
+            '+gmp=/path/x86_64-linux-gnu',
+            '-openssl-xdebug',
+        )));
     }
 
     public function testVariantUserValueContainsVersion()
     {
-        $variants = $this->makeArgs(
-            '+openssl=/usr/local/Cellar/openssl/1.0.2e +gettext=/usr/local/Cellar/gettext/0.19.7'
-        );
-        $expected = array(
+        $this->assertEquals(array(
             'enabled_variants' => array(
                 'openssl' => '/usr/local/Cellar/openssl/1.0.2e',
                 'gettext' => '/usr/local/Cellar/gettext/0.19.7',
             ),
-        );
+            'disabled_variants' => array(),
+            'extra_options' => array(),
+        ), $this->parse(array(
+            '+openssl=/usr/local/Cellar/openssl/1.0.2e',
+            '+gettext=/usr/local/Cellar/gettext/0.19.7',
+        )));
+    }
 
-        $this->assertArraySubset($expected, $variants);
+    /**
+     * @dataProvider revealCommandArgumentsProvider
+     */
+    public function testRevealCommandArguments(array $info, $expected)
+    {
+        $this->assertEquals($expected, VariantParser::revealCommandArguments($info));
+    }
+
+    public static function revealCommandArgumentsProvider()
+    {
+        return array(
+            array(
+                array(
+                    'enabled_variants' => array(
+                        'mysql' => true,
+                        'openssl' => '/usr',
+                    ),
+                    'disabled_variants' => array(
+                        'apxs2' => true,
+                    ),
+                    'extra_options' => array(
+                        '--with-icu-dir=/usr'
+                    ),
+                ),
+                '+mysql +openssl=/usr -apxs2 -- --with-icu-dir=/usr',
+            ),
+        );
+    }
+
+    private function parse(array $args)
+    {
+        $logger = new Logger();
+        $logger->setQuiet();
+
+        return VariantParser::parseCommandArguments($args, $logger);
     }
 }
