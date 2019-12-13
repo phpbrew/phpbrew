@@ -8,19 +8,27 @@ use PhpBrew\Buildable;
 /**
  * DiffPatchRule implements a diff based patch rule.
  */
-class DiffPatchRule implements PatchRule
+final class DiffPatchRule implements PatchRule
 {
-    protected $diffFile;
+    /**
+     * @var string
+     */
+    private $patch;
 
-    protected $strip = 0;
+    /**
+     * @var int
+     */
+    private $strip = 0;
 
-    protected $sha256;
-
-    public function __construct($diffFile)
+    private function __construct()
     {
-        $this->diffFile = $diffFile;
     }
 
+    /**
+     * @param int $level
+     *
+     * @return $this
+     */
     public function strip($level)
     {
         $this->strip = $level;
@@ -28,16 +36,15 @@ class DiffPatchRule implements PatchRule
         return $this;
     }
 
-    public function sha256($checksum)
+    /**
+     * @param string $patch The path contents
+     */
+    public static function fromPatch($patch)
     {
-        $this->sha256 = $checksum;
+        $instance = new self();
+        $instance->patch = $patch;
 
-        return $this;
-    }
-
-    public static function from($diffFile)
-    {
-        return new self($diffFile);
+        return $instance;
     }
 
     public function backup(Buildable $build, Logger $logger)
@@ -46,48 +53,44 @@ class DiffPatchRule implements PatchRule
 
     public function apply(Buildable $build, Logger $logger)
     {
-        $dir = $build->getSourceDirectory();
+        $logger->info('---> Applying patch...');
 
-        $logger->info("---> Fetching patch from {$this->diffFile} ...");
-
-        $content = file_get_contents($this->diffFile);
-        $basename = basename($this->diffFile);
-        if (!$basename) {
-            $basename = tempnam('/tmp', 'patch');
-        }
-
-        if ($this->sha256) {
-            $contentSha256 = hash('sha256', $content);
-
-            $logger->debug("Checking checksum {$contentSha256} != {$this->sha256}");
-            if ($this->sha256 !== $contentSha256) {
-                $logger->error("Checksum mismatched {$contentSha256} != {$this->sha256}");
-
-                return;
-            }
-        }
-
-        $diffFile = $dir . DIRECTORY_SEPARATOR . $basename;
-        if (false === file_put_contents($diffFile, $content)) {
-            $logger->error("Can not write file to $diffFile");
-
-            return false;
-        }
-
-        $logger->info("---> Patching from {$diffFile} ...");
-        $lastline = system(
-            'patch --forward --directory '
-                . escapeshellarg($dir)
-                . " --backup -p{$this->strip} < "
-                . escapeshellarg($diffFile),
-            $retval
+        $process = proc_open(
+            sprintf('patch --forward --backup -p%d', $this->strip),
+            array(
+                array('pipe', 'r'),
+                array('pipe', 'w'),
+                array('pipe', 'w'),
+            ),
+            $pipes,
+            $build->getSourceDirectory()
         );
 
-        if ($retval !== 0) {
-            $logger->error("patch failed: $lastline");
-
-            return false;
+        if (fwrite($pipes[0], $this->patch) === false) {
+            return 0;
         }
+
+        fclose($pipes[0]);
+
+        $output = stream_get_contents($pipes[1]);
+
+        if ($output !== '') {
+            $logger->info($output);
+        }
+
+        $error = stream_get_contents($pipes[2]);
+
+        if ($error !== '') {
+            $logger->error($error);
+        }
+
+        if (proc_close($process) !== 0) {
+            $logger->error('Patch failed');
+
+            return 0;
+        }
+
+        $logger->info('Done.');
 
         return 1;
     }
