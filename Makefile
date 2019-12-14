@@ -1,63 +1,32 @@
-OUTPUT        = phpbrew.phar
 TARGET        = phpbrew
-MOVE          = mv -v
-MKDIR         = mkdir -p
-COPY          = cp -v
+SIGNATURE     = $(TARGET).asc
 SUDOCP        = sudo cp
 INSTALL_PATH  = /usr/local/bin
-PERMISSION    = chmod +x
 TEST          = phpunit
 
-.PHONY: build phar
+$(TARGET): vendor $(shell find bin/ shell/ src/ -type f) box.json.dist .git/HEAD
+	box compile
+	touch -c $@
 
-phar:
-	php bin/phpbrew archive --executable \
-		--exclude Tests \
-		--exclude CHANGELOG\|README \
-		--exclude phpunit.xml \
-		--no-compress \
-		--add shell \
-		--bootstrap scripts/phpbrew-emb.php \
-		$(OUTPUT)
-	$(COPY) $(OUTPUT) $(TARGET)
-	$(MKDIR) build
-	$(COPY) $(OUTPUT) build/phpbrew
-	$(PERMISSION) $(TARGET)
+vendor: composer.lock
+	composer install
+	touch $@
 
-build: phar
+.PHONY: sign
+sign: $(SIGNATURE)
 
-sign: build
-	gpg --armor --detach-sign build/phpbrew
+$(SIGNATURE): $(TARGET)
+	gpg --armor --detach-sign $(TARGET)
 
-install:
-		$(SUDOCP) $(TARGET) $(INSTALL_PATH)
-
-update:
-		composer update
+install: $(TARGET)
+	$(SUDOCP) $(TARGET) $(INSTALL_PATH)
 
 update/completion:
-		bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew
-		bin/phpbrew bash --bind phpbrew --program phpbrew > completion/bash/_phpbrew
+	bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew
+	bin/phpbrew bash --bind phpbrew --program phpbrew > completion/bash/_phpbrew
 
 test:
-		$(TEST)
-
-test/quick:
-		$(TEST) --group small
-
-test/extension:
-		$(TEST) --group extension
-
-test/extension-installer:
-	php bin/phpbrew --debug ext install openssl
-	php bin/phpbrew --debug ext install opcache
-	php bin/phpbrew --debug ext install xdebug
-	php bin/phpbrew --debug ext install soap
-
-test/see-coverage:
-	xdg-open build/logs/coverage/index.html
+	$(TEST)
 
 clean:
-	rm -rf build
 	git checkout -- $(TARGET)
-

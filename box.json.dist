@@ -1,0 +1,13 @@
+{
+    "output": "phpbrew",
+    "compression": "GZ",
+    "compactors": [
+        "KevinGH\\Box\\Compactor\\Json",
+        "KevinGH\\Box\\Compactor\\Php"
+    ],
+    "check-requirements": false,
+    "force-autodiscovery": true,
+    "directories": [
+        "shell"
+    ]
+}
