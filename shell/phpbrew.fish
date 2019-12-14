@@ -180,6 +180,9 @@ function phpbrew
             cd $chdir
             return 0
 
+        case each
+            __phpbrew_each $argv[2..-1]
+
         case fpm
             if [ (count $argv) -ge 3 ]
               set -g _PHP_VERSION $argv[3]
@@ -276,7 +279,6 @@ function phpbrew
             set -e PHPBREW_PATH
             eval (eval $BIN env)
             __phpbrew_set_path
-            echo "phpbrew is turned off."
 
         case switch-off
             set -e PHPBREW_PHP
@@ -358,6 +360,29 @@ end
 function __phpbrew_reinit
     __phpbrew_update_config $argv
     __phpbrew_set_path
+end
+
+function __phpbrew_each
+    set result 0
+
+    if set -q PHPBREW_PHP
+        set current $PHPBREW_PHP
+    end
+
+    for build in $PHPBREW_ROOT/php/*
+        if test -x $build/bin/php
+            phpbrew use (basename $build)
+            eval $argv || set result $status
+        end
+    end;
+
+    if set -q current
+        phpbrew use $current
+    else
+        phpbrew off
+    end
+
+    return $result
 end
 
 function __phpbrew_remove_purge
