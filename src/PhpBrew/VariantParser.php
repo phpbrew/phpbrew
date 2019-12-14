@@ -2,6 +2,8 @@
 
 namespace PhpBrew;
 
+use CLIFramework\Logger;
+
 class VariantParser
 {
     public static function splitVariantValue($str)
@@ -15,7 +17,14 @@ class VariantParser
         return array($str => true);
     }
 
-    public static function parseCommandArguments(array $args)
+    /**
+     * @param string[] $args
+     *
+     * @return array
+     *
+     * @throws InvalidVariantSyntaxException
+     */
+    public static function parseCommandArguments(array $args, Logger $logger)
     {
         $extra = array();
         $enabledVariants = array();
@@ -44,6 +53,12 @@ class VariantParser
 
                 if (isset($variantStrings[0])) {
                     $variantStrings = array_filter($variantStrings[0]);
+
+                    if (count($variantStrings) > 1) {
+                        $logger->warn('The usage of multiple variants in one command line argument is deprecated.');
+                        $logger->warn('Please provide them as individual arguments: ' . implode(' ', $variantStrings));
+                    }
+
                     foreach ($variantStrings as $str) {
                         if ($str[0] == '+') {
                             $a = self::splitVariantValue(substr($str, 1));
@@ -73,21 +88,28 @@ class VariantParser
      */
     public static function revealCommandArguments(array $info)
     {
-        $out = '';
+        $args = array();
 
         foreach ($info['enabled_variants'] as $k => $v) {
-            $out .= ' +' . $k;
+            $arg = '+' . $k;
+
             if (!is_bool($v)) {
-                $out .= '=' . $v . ' ';
+                $arg .= '=' . $v;
             }
-        }
-        if (!empty($info['disabled_variants'])) {
-            $out .= ' -' . implode('-', array_keys($info['disabled_variants']));
-        }
-        if (!empty($info['extra_options'])) {
-            $out .= ' -- ' . implode(' ', $info['extra_options']);
+
+            $args[] = $arg;
         }
 
-        return $out;
+        if (!empty($info['disabled_variants'])) {
+            foreach ($info['disabled_variants'] as $k => $_) {
+                $args[] = '-' . $k;
+            }
+        }
+
+        if (!empty($info['extra_options'])) {
+            $args = array_merge($args, array('--'), $info['extra_options']);
+        }
+
+        return implode(' ', $args);
     }
 }
