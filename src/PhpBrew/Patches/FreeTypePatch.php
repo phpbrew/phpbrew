@@ -26,6 +26,8 @@ class FreeTypePatch extends Patch
 
     /**
      * @link https://git.archlinux.org/svntogit/packages.git/commit/?id=65fd0dc1649537b7fd1d539b769251aacec88719
+     *
+     * @codeCoverageIgnore
      */
     public function rules()
     {
