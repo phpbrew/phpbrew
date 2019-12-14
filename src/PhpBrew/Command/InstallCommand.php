@@ -7,7 +7,6 @@ use CLIFramework\ValueCollection;
 use Exception;
 use GetOptionKit\OptionCollection;
 use PhpBrew\Build;
-use PhpBrew\BuildSettings\DefaultBuildSettings;
 use PhpBrew\Config;
 use PhpBrew\Distribution\DistributionUrlPolicy;
 use PhpBrew\Downloader\DownloadFactory;
@@ -301,14 +300,14 @@ class InstallCommand extends Command
         $variantInfo = VariantParser::parseCommandArguments($args, $this->logger);
         $build->loadVariantInfo($variantInfo); // load again
 
-        // assume +default variant if no build config is given and warn about that
+        // assume +default variant if no build config is given
         if (!$variantInfo['enabled_variants']) {
-            $build->setBuildSettings(new DefaultBuildSettings());
+            $build->settings->enableVariant('default');
             $this->logger->notice(
-                "You haven't set any variant. "
-                . 'A default set of extensions will be installed for the minimum requirement:'
+                "You haven't enabled any variants. The default variant will be enabled: "
             );
-            $this->logger->notice('[' . implode(', ', array_keys($build->getVariants())) . ']');
+            $builder = new VariantBuilder();
+            $this->logger->notice('[' . implode(', ', $builder->virtualVariants['default']) . ']');
             $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
         }
 
