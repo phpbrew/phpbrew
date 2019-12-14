@@ -24,6 +24,8 @@ class PHP53Patch extends Patch
      * phpcs:disable Generic.Files.LineLength.TooLong
      *
      * @link https://gist.github.com/javian/bfcbd5bc5874ee9c539fb3d642cdce3e
+     *
+     * @codeCoverageIgnore
      */
     public function rules()
     {

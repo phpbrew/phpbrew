@@ -27,6 +27,8 @@ class PHP56WithOpenSSL11Patch extends Patch
      * phpcs:disable Generic.Files.LineLength.TooLong
      *
      * @link https://github.com/php/php-src/pull/2667
+     *
+     * @codeCoverageIgnore
      */
     public function rules()
     {
