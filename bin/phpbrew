@@ -1,18 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-if (PHP_VERSION_ID < 70200) {
-    fwrite(
-        STDERR,
-        sprintf(
-            'This version of PHPBrew is supported on PHP 7.2.0 or newer' . PHP_EOL .
-            'You are using PHP %s (%s).' . PHP_EOL,
-            PHP_VERSION,
-            PHP_BINARY
-        )
-    );
-
-    die(1);
+if (PHP_VERSION_ID < 70200 && function_exists('posix_isatty') && posix_isatty(STDOUT)) {
+    fwrite(STDOUT, "\033[33mWarning! The usage of PHP older than 7.2.0 as the interpreter is deprecated.\n");
+    fwrite(STDOUT, "Please set the system interpreter using \033[0m'phpbrew system <version>'\033[33m.\n");
+    fwrite(STDOUT, "See https://github.com/phpbrew/phpbrew/wiki/System-Interpreter for details.\033[0m\n");
 }
 
 $includeIfExists = function($file)

@@ -183,9 +183,6 @@ function phpbrew
             else
                 set PHP_BUILD (__phpbrew_normalize_build $argv[2])
 
-                __phpbrew_can_use_build $PHP_BUILD
-                or return 1
-
                 # checking if php source exists
                 set NEW_PHPBREW_PHP_PATH "$PHPBREW_ROOT/php/$PHP_BUILD"
                 if [ -d $NEW_PHPBREW_PHP_PATH ]
@@ -212,9 +209,6 @@ function phpbrew
                 echo "Please specify the php version."
             else
                 set -l build (__phpbrew_normalize_build $argv[2])
-
-                __phpbrew_can_use_build $build
-                or return 1
 
                 __phpbrew_reinit $build
             end
