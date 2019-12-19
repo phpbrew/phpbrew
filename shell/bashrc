@@ -14,7 +14,6 @@
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
-[[ -z "$PHPBREW_VERSION_REGEX" ]] && export PHPBREW_VERSION_REGEX="^([[:digit:]]+\.){2}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$"
 
 # The minimal PHP version that PhpBrew supports as interpreter
 MIN_PHP_VERSION="7.2.0"
@@ -43,7 +42,7 @@ function __phpbrew_php_exec()
 # Normalizes a PHP build by adding the "php-" prefix if it's missing
 function __phpbrew_normalize_build()
 {
-    if [[ ! -d "$PHPBREW_ROOT/php/$1" && "$1" =~ $PHPBREW_VERSION_REGEX ]] ; then
+    if [[ ! -d "$PHPBREW_ROOT/php/$1" && "$1" =~ "^([[:digit:]]+\.){2}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$" ]] ; then
         echo "php-$1"
     else
         echo "$1"
@@ -111,10 +110,12 @@ function __phpbrew_set_path()
 {
     [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
 
+    local PATH_WITHOUT_PHPBREW
+
     if [[ -n $PHPBREW_ROOT ]] ; then
-        export PATH_WITHOUT_PHPBREW=$(p=$(echo $PATH | tr ":" "\n" | grep -v "^$PHPBREW_ROOT" | tr "\n" ":"); echo ${p%:})
+        PATH_WITHOUT_PHPBREW=$(p=$(echo $PATH | tr ":" "\n" | grep -v "^$PHPBREW_ROOT" | tr "\n" ":"); echo ${p%:})
     else
-        export PATH_WITHOUT_PHPBREW=$PATH
+        PATH_WITHOUT_PHPBREW=$PATH
     fi
 
     if [[ -z "$PHPBREW_PATH" ]]
