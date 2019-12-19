@@ -4,29 +4,21 @@ dist: precise
 branches:
   only:
     - master
+    - 2.0
 
 services:
 - mysql
 - postgresql
 matrix:
   fast_finish: true
-  allow_failures:
-  - php: nightly
 
 env:
   global:
     - MAKEFLAGS=-j$(nproc)
 
 php:
-- 5.3
-- 5.4
-- 5.5
-- 5.6
-- 7.0
-- 7.1
 - 7.2
 - 7.3
-# - nightly
 sudo: required
 addons:
   apt:
