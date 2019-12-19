@@ -10,6 +10,7 @@
 # PHPBREW_SKIP_INIT: if you need to skip loading config from the init file.
 # PHPBREW_PHP:  the current php version.
 # PHPBREW_PATH: the bin path of the current php.
+# PHPBREW_SYSTEM_PHP: the path to the system php binary.
 
 # export alias for bourne shell compatibility.
 # From PR https://github.com/fish-shell/fish-shell/pull/1833
@@ -55,10 +56,84 @@ end
 
 [ ! -d $PHPBREW_BIN ]; and mkdir -p $PHPBREW_BIN
 
-function __wget_as
-    set -l url $argv[1]
-    set -l target $argv[2]
-    wget --no-check-certificate -c $url -O $target
+# The minimal PHP version that PhpBrew supports as interpreter
+set MIN_PHP_VERSION    "7.2.0"
+set MIN_PHP_VERSION_ID 70200
+
+# Executes the given command via the PHP implementation
+function __phpbrew_php_exec
+    # Force the usage of the system PHP interpreter if it's set
+    if set -q PHPBREW_SYSTEM_PHP
+        set cmd $PHPBREW_SYSTEM_PHP
+    end
+
+    # Check if we are in a PHPBrew source directory (this is only for development)
+    if [ -e bin/phpbrew ]
+        set -a cmd bin/phpbrew
+    else
+        set -a cmd (which phpbrew)
+    end
+
+    command $cmd $argv
+end
+
+# Normalizes a PHP build by adding the "php-" prefix if it's missing
+function __phpbrew_normalize_build
+    if begin ; [ ! -d "$PHPBREW_ROOT/php/$argv" ]; and echo $argv | egrep -q -e $PHPBREW_VERSION_REGEX; end
+        echo "php-$argv"
+    else
+        echo $argv
+    end
+end
+
+# Returns the PHP binary path for a given version
+function __phpbrew_get_version_bin
+    if not string match -q "/*" $argv
+        set -l build (__phpbrew_normalize_build $argv)
+        echo "$PHPBREW_ROOT/php/$build/bin/php"
+    else
+        echo $argv
+    end
+end
+
+# Validates the PHP binary that is to be used as interpreter
+function __phpbrew_validate_interpreter
+    if [ -d $argv[1] ]
+        echo $argv[1] "is a directory"
+        return 1
+    end
+
+    if [ ! -f $argv[1] ]
+        echo $argv[1] "not found"
+        return 1
+    end
+
+    if [ ! -x $argv[1] ]
+        echo $argv[1] "is not executable"
+        return 1
+    end
+
+    set PHP_VERSION_ID (command $argv[1] -r "echo PHP_VERSION_ID;")
+    or return 1
+
+    if [ $PHP_VERSION_ID -lt $MIN_PHP_VERSION_ID ]
+        echo "Only PHP $MIN_PHP_VERSION or newer can be used as PHPBrew interpreter"
+        return 1
+    end
+end
+
+# Checks whether the given PHP build can be currently used or switched to
+function __phpbrew_can_use_build
+    if set -q PHPBREW_SYSTEM_PHP
+        # Can use any version since the system interpreter is set
+        return
+    end
+
+    if not __phpbrew_validate_interpreter (__phpbrew_get_version_bin $argv[1])
+        echo "The system interpreter is not currently set"
+        echo "Please execute 'phpbrew system' using PHP $MIN_PHP_VERSION or newer before using an older one"
+        return 1
+    end
 end
 
 function __phpbrew_set_lookup_prefix
@@ -87,14 +162,6 @@ function __phpbrew_set_lookup_prefix
 end
 
 function phpbrew
-    # Check bin/phpbrew if we are in PHPBrew source directory,
-    # This is only for development
-    if [ -e bin/phpbrew ]
-        set -g BIN 'bin/phpbrew'
-    else
-        set -g BIN 'phpbrew'
-    end
-
     set exit_status
     set short_option
     # export SHELL
@@ -114,20 +181,13 @@ function phpbrew
                     echo "Currently using $PHPBREW_PHP"
                 end
             else
-                if begin ; [ ! -d "$PHPBREW_ROOT/php/$argv[2]" ]; and echo $argv[2] | egrep -q -e $PHPBREW_VERSION_REGEX; end
-                    set _PHP_VERSION "php-$argv[2]"
-                else
-                    set _PHP_VERSION $argv[2]
-                end
+                set PHP_BUILD (__phpbrew_normalize_build $argv[2])
 
-                # checking php version exists?
-                set NEW_PHPBREW_PHP_PATH "$PHPBREW_ROOT/php/$_PHP_VERSION"
+                # checking if php source exists
+                set NEW_PHPBREW_PHP_PATH "$PHPBREW_ROOT/php/$PHP_BUILD"
                 if [ -d $NEW_PHPBREW_PHP_PATH ]
-                    if [ $BIN = "phpbrew" ]
-                        set code (command phpbrew env $_PHP_VERSION | grep -v '^#' | tr '\n' ';')
-                    else
-                        set code (eval $BIN env $_PHP_VERSION | grep -v '^#' | tr '\n' ';')
-                    end
+                    set code (__phpbrew_php_exec env $PHP_BUILD | grep -v '^#' | tr '\n' ';')
+
                     if [ -z "$code" ]
                         set exit_status 1
                     else
@@ -136,7 +196,7 @@ function phpbrew
                         __phpbrew_set_path
                     end
                 else
-                    echo "PHP version $_PHP_VERSION is not installed."
+                    echo "PHP version $PHP_BUILD is not installed."
                 end
             end
         case cd-src
@@ -148,7 +208,9 @@ function phpbrew
             if [ (count $argv) -eq 1 ]
                 echo "Please specify the php version."
             else
-                __phpbrew_reinit $argv[2]
+                set -l build (__phpbrew_normalize_build $argv[2])
+
+                __phpbrew_reinit $build
             end
         case lookup-prefix
             if [ (count $argv) -eq 1 ]
@@ -185,14 +247,14 @@ function phpbrew
 
         case fpm
             if [ (count $argv) -ge 3 ]
-              set -g _PHP_VERSION $argv[3]
+              set -g PHP_BUILD $argv[3]
             else
-              set -g _PHP_VERSION $PHPBREW_PHP
+              set -g PHP_BUILD $PHPBREW_PHP
             end
 
-            mkdir -p $PHPBREW_ROOT/php/$_PHP_VERSION/var/run
-            set -g PHPFPM_BIN $PHPBREW_ROOT/php/$_PHP_VERSION/sbin/php-fpm
-            set -g PHPFPM_PIDFILE $PHPBREW_ROOT/php/$_PHP_VERSION/var/run/php-fpm.pid
+            mkdir -p $PHPBREW_ROOT/php/$PHP_BUILD/var/run
+            set -g PHPFPM_BIN $PHPBREW_ROOT/php/$PHP_BUILD/sbin/php-fpm
+            set -g PHPFPM_PIDFILE $PHPBREW_ROOT/php/$PHP_BUILD/var/run/php-fpm.pid
 
             function fpm_start
               echo "Starting php-fpm..."
@@ -205,10 +267,10 @@ function phpbrew
               end
 
 
-              if echo $_PHP_VERSION | egrep -q -e $regex
+              if echo $PHP_BUILD | egrep -q -e $regex
                 eval $PHPFPM_BIN start
               else
-                 eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --pid $PHPFPM_PIDFILE $_PHPFPM_APPEND
+                 eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --pid $PHPFPM_PIDFILE $_PHPFPM_APPEND
               end
 
               if [ "$status" != "0" ]
@@ -219,7 +281,7 @@ function phpbrew
             function fpm_stop
               set -l regex '^php-5\.2.*'
 
-              if echo $_PHP_VERSION | egrep -q -e $regex
+              if echo $PHP_BUILD | egrep -q -e $regex
                 eval $PHPFPM_BIN stop
               else if [ -e $PHPFPM_PIDFILE ]
                 echo "Stopping php-fpm..."
@@ -239,53 +301,58 @@ function phpbrew
                     fpm_stop
                     fpm_start $argv
               case module
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf -m | less
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf -m | less
               case info
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf -i
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf -i
               case config
                     if [ -n "$EDITOR" ]
-                        eval $EDITOR $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf
+                        eval $EDITOR $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf
                     else
                         echo "Please set EDITOR environment variable for your favor."
-                        nano $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf
+                        nano $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf
                     end
               case help
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --help
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --help
               case test
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$_PHP_VERSION/etc/php-fpm.conf --test
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --test
               case '*'
                     echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
-            end
-
-        case env
-            # we don't check php path here, you should check path before you
-            # use env command to output the environment config.
-            [ (count $argv) -ge 2 ]; and set -gx PHPBREW_PHP $argv[2]
-
-            echo "export PHPBREW_ROOT=$PHPBREW_ROOT";
-            echo "export PHPBREW_HOME=$PHPBREW_HOME";
-
-            if [ -n "$PHPBREW_LOOKUP_PREFIX" ]
-                echo "export PHPBREW_LOOKUP_PREFIX=$PHPBREW_LOOKUP_PREFIX";
-            end
-
-            if [ -n "$PHPBREW_PHP" ]
-                echo "export PHPBREW_PHP=$PHPBREW_PHP";
-                echo "export PHPBREW_PATH=$PHPBREW_ROOT/php/$PHPBREW_PHP/bin";
             end
 
         case off
             set -e PHPBREW_PHP
             set -e PHPBREW_PATH
-            eval (eval $BIN env)
+            eval (__phpbrew_php_exec env)
             __phpbrew_set_path
 
         case switch-off
             set -e PHPBREW_PHP
             set -e PHPBREW_PATH
-            eval (eval $BIN env)
+            eval (__phpbrew_php_exec env)
             __phpbrew_reinit
             echo "phpbrew is switched off."
+
+        case system
+            if [ (count $argv) -lt 2 ]
+                __phpbrew_php_exec system
+            else
+                set -l bin (__phpbrew_get_version_bin $argv[2])
+                __phpbrew_validate_interpreter $bin
+                or return 1
+
+                set -gx PHPBREW_SYSTEM_PHP $bin
+                __phpbrew_update_config
+            end
+
+        case system-off
+            if not __phpbrew_validate_interpreter (which php)
+                echo "The currently used PHP build $PHPBREW_PHP cannot be used as PhpBrew interpreter"
+                echo "Please execute `phpbrew switch` using PHP $MIN_PHP_VERSION or newer before switching the system interpreter off"
+                return 1
+            end
+
+            set -e PHPBREW_SYSTEM_PHP
+            __phpbrew_update_config
 
         case rehash
             echo "Rehashing..."
@@ -293,33 +360,21 @@ function phpbrew
 
         case purge
             if [ (count $argv) -ge 2 ]
-              __phpbrew_remove_purge $argv[2] purge
+              __phpbrew_purge $argv[2] purge
             else
-                if [ $BIN = "phpbrew" ]
-                    command phpbrew BIN help
-                else
-                    eval $BIN help
-                end
+                __phpbrew_php_exec help
             end
 
         case '*'
-            if [ $BIN = "phpbrew" ]
-                if [ -z "$short_option" ]
-                  command phpbrew $argv
-                else
-                  command phpbrew $short_option $argv
-                end
+            if [ -z "$short_option" ]
+                __phpbrew_php_exec $argv
             else
-                if [ -z "$short_option" ]
-                  eval $BIN $argv
-                else
-                  eval $BIN $short_option $argv
-                end
+                __phpbrew_php_exec $short_option $argv
             end
             set exit_status $status
             ;;
     end
-    # hash -r
+
     return $exit_status
 end
 
@@ -339,19 +394,9 @@ function __phpbrew_set_path
 end
 
 function __phpbrew_update_config
-    set cmd $BIN env
-
-    if [ (count $argv) -ge 1 ]
-        if begin; [ ! -d "$PHPBREW_ROOT/php/$argv" ]; and echo $argv | egrep -q -e $PHPBREW_VERSION_REGEX ; end
-            set -a cmd "php-$argv"
-        else
-            set -a cmd $argv
-        end
-    end
-
     begin
         echo "# DO NOT EDIT THIS FILE"
-        command $cmd
+        __phpbrew_php_exec env $argv
     end > "$PHPBREW_HOME/init"
 
     source "$PHPBREW_HOME/init"
@@ -385,18 +430,24 @@ function __phpbrew_each
     return $result
 end
 
-function __phpbrew_remove_purge
-    if [ (count $argv) -ge 1 ]
-      set _PHP_VERSION $argv[1]
-    end
-    if [ "$_PHP_VERSION" = "$PHPBREW_PHP" ]
-        echo "php version: $_PHP_VERSION is already in used."
+function __phpbrew_purge
+    set -l PHP_BUILD (__phpbrew_normalize_build $argv[1])
+
+    if [ "$PHP_BUILD" = "$PHPBREW_PHP" ]
+        echo "php version: $PHP_BUILD is already in use."
         return 1
     end
 
-    set _PHP_BIN_PATH $PHPBREW_ROOT/php/$_PHP_VERSION
-    set _PHP_SOURCE_FILE $PHPBREW_ROOT/build/$_PHP_VERSION.tar.bz2
-    set _PHP_BUILD_PATH $PHPBREW_ROOT/build/$_PHP_VERSION
+    set -l bin (__phpbrew_get_version_bin $PHP_BUILD)
+
+    if [ "$bin" = "$PHPBREW_SYSTEM_PHP" ]
+        echo "PHP build $PHP_BUILD is used as the system interpreter"
+        return 1
+    end
+
+    set _PHP_BIN_PATH $PHPBREW_ROOT/php/$PHP_BUILD
+    set _PHP_SOURCE_FILE $PHPBREW_ROOT/build/$PHP_BUILD.tar.bz2
+    set _PHP_BUILD_PATH $PHPBREW_ROOT/build/$PHP_BUILD
 
     if [ -d $_PHP_BIN_PATH ]
 
@@ -404,7 +455,7 @@ function __phpbrew_remove_purge
             rm -f $_PHP_SOURCE_FILE
             rm -fr $_PHP_BUILD_PATH
             rm -fr $_PHP_BIN_PATH
-            echo "php version: $_PHP_VERSION is removed and purged."
+            echo "php version: $PHP_BUILD is removed and purged."
         else
             rm -f $_PHP_SOURCE_FILE
             rm -fr $_PHP_BUILD_PATH
@@ -415,11 +466,11 @@ function __phpbrew_remove_purge
                 end
             end
 
-            echo "php version: $_PHP_VERSION is removed."
+            echo "php version: $PHP_BUILD is removed."
         end
 
     else
-        echo "php version: $_PHP_VERSION not installed."
+        echo "php version: $PHP_BUILD not installed."
     end
 
     return 0
@@ -551,7 +602,7 @@ function __fish_phpbrew_using_command
 end
 
 function __fish_phpbrew_arg_meta
-    command phpbrew meta --flat $argv[1] arg $argv[2] $argv[3] | grep -v "^#"
+    __phpbrew_php_exec meta --flat $argv[1] arg $argv[2] $argv[3] | grep -v "^#"
 end
 
 # top level options
@@ -595,6 +646,8 @@ complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a remove -d "Remove in
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a self-update -d "Self-update, default to master version"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a switch -d "Switch default php version"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a switch-off -d "Definitely go back to the system php"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a system -d "Get or set the internally used PHP binary"
+complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a system-off -d "Use the currently effective PHP binary internally"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a update -d "Update PHP release source file"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a use -d "Use php, switch version temporarily"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a variants -d "List php variants"
@@ -803,6 +856,9 @@ complete -x -c phpbrew -n "__fish_phpbrew_using_command self-update" -l connect-
 
 # switch
 complete -x -c phpbrew -n "__fish_phpbrew_using_command switch" -a "(__fish_phpbrew_arg_meta switch 0 valid-values)"
+
+# system
+complete -x -c phpbrew -n "__fish_phpbrew_using_command system" -a "(__fish_phpbrew_arg_meta system 0 suggestions)"
 
 # update
 complete -f -c phpbrew -n "__fish_phpbrew_using_command update" -s o -l old -d "List old phps \(less than 5.3\)"
