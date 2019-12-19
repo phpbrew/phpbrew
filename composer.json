@@ -36,5 +36,7 @@
         "psr-4": {
             "PhpBrew\\": "src/PhpBrew/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
