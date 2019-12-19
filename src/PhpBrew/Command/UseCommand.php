@@ -11,9 +11,9 @@ class UseCommand extends VirtualCommand
 {
     public function arguments($args)
     {
-        $args->add('php version')
+        $args->add('PHP version')
             ->validValues(function () {
-                return BuildFinder::findInstalledBuilds();
+                return BuildFinder::findInstalledVersions();
             })
             ;
     }

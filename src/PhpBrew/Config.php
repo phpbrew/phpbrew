@@ -161,45 +161,6 @@ class Config
         return self::getVersionInstallPrefix($buildName) . DIRECTORY_SEPARATOR . 'bin';
     }
 
-    /**
-     * XXX: This method is now deprecated. use findMatchedBuilds insteads.
-     *
-     * @deprecated
-     */
-    public static function getInstalledPhpVersions()
-    {
-        $versions = array();
-        $path = self::getRoot() . DIRECTORY_SEPARATOR . 'php';
-
-        if (!file_exists($path)) {
-            throw new Exception("$path doesn't exist.");
-        }
-        if ($fp = opendir($path)) {
-            while (($item = readdir($fp)) !== false) {
-                if ($item == '.' || $item == '..') {
-                    continue;
-                }
-
-                if (
-                    file_exists(
-                        $path
-                        . DIRECTORY_SEPARATOR . $item
-                        . DIRECTORY_SEPARATOR . 'bin'
-                        . DIRECTORY_SEPARATOR . 'php'
-                    )
-                ) {
-                    $versions[] = $item;
-                }
-            }
-            closedir($fp);
-        } else {
-            throw new Exception('opendir failed');
-        }
-        rsort($versions);
-
-        return $versions;
-    }
-
     public static function getCurrentPhpConfigBin()
     {
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'php-config';

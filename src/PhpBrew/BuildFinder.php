@@ -2,21 +2,20 @@
 
 namespace PhpBrew;
 
-use Exception;
-
 class BuildFinder
 {
     /**
-     * @return string[]
+     * @return string[] PHP builds
      */
-    public static function findInstalledBuilds($stripPrefix = true)
+    public static function findInstalledBuilds()
     {
         $path = Config::getRoot() . DIRECTORY_SEPARATOR . 'php';
+
         if (!file_exists($path)) {
-            throw new Exception($path . ' does not exist.');
+            return array();
         }
-        $names = scandir($path);
-        $names = array_filter($names, function ($name) use ($path) {
+
+        $names = array_filter(scandir($path), function ($name) use ($path) {
             return $name != '.'
                 && $name != '..'
                 && file_exists(
@@ -27,15 +26,6 @@ class BuildFinder
             );
         });
 
-        if ($names == null || empty($names)) {
-            return array();
-        }
-
-        if ($stripPrefix) {
-            $names = array_map(function ($name) {
-                return preg_replace('/^php-(?=(\d+\.\d+\.\d+(-dev|((alpha|beta|RC)\d+))?)$)/', '', $name);
-            }, $names);
-        }
         uasort($names, 'version_compare'); // ordering version name ascending... 5.5.17, 5.5.12
 
         // make it descending... since there is no sort function for user-define in reverse order.
@@ -43,14 +33,12 @@ class BuildFinder
     }
 
     /**
-     * @return string[] build names
+     * @return string[] PHP versions
      */
-    public static function findMatchedBuilds($buildNameRE = '', $stripPrefix = true)
+    public static function findInstalledVersions()
     {
-        $builds = self::findInstalledBuilds($stripPrefix);
-
-        return array_filter($builds, function ($build) use ($buildNameRE) {
-            return preg_match("/^$buildNameRE/i", $build);
-        });
+        return array_map(function ($name) {
+            return preg_replace('/^php-(?=(\d+\.\d+\.\d+(-dev|((alpha|beta|RC)\d+))?)$)/', '', $name);
+        }, self::findInstalledBuilds());
     }
 }

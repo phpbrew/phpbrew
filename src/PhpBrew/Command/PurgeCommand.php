@@ -4,18 +4,19 @@ namespace PhpBrew\Command;
 
 use CLIFramework\Command;
 use Exception;
+use PhpBrew\BuildFinder;
 use PhpBrew\Config;
 
 /**
  * @codeCoverageIgnore
  */
-class PurgeCommand extends Command
+class PurgeCommand extends VirtualCommand
 {
     public function arguments($args)
     {
-        $args->add('installed php')
+        $args->add('PHP build')
             ->validValues(function () {
-                return Config::getInstalledPhpVersions();
+                return BuildFinder::findInstalledBuilds();
             })
             ->multiple()
             ;
@@ -24,10 +25,5 @@ class PurgeCommand extends Command
     public function brief()
     {
         return 'Remove installed php version and config files.';
-    }
-
-    public function execute($version = null)
-    {
-        throw new Exception('You should not see this, please check if phpbrew bashrc is sourced in your shell.');
     }
 }

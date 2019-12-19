@@ -11,9 +11,9 @@ class SwitchCommand extends VirtualCommand
 {
     public function arguments($args)
     {
-        $args->add('installed php')
+        $args->add('PHP version')
             ->validValues(function () {
-                return BuildFinder::findMatchedBuilds();
+                return BuildFinder::findInstalledVersions();
             })
             ;
     }
