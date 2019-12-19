@@ -139,6 +139,7 @@ class VariantBuilder
             'posix',
             'readline',
             'sockets',
+            'sodium',
             'tokenizer',
             'xml',
             'curl',
@@ -548,6 +549,27 @@ class VariantBuilder
         $this->variants['icu'] = function (Build $build, $val = null) {
             if ($val) {
                 return '--with-icu-dir=' . $val;
+            }
+        };
+
+        $this->variants['sodium'] = function (Build $build, $prefix = null) {
+            if ($build->compareVersion('7.2') < 0) {
+                echo "Sodium is available as a core extension since PHP 7.2.0. Please use 'phpbrew ext install sodium' to install it from PECL\n";
+            }
+
+            if ($prefix === null) {
+                $prefix = Utils::findPrefix(array(
+                    new BrewPrefixFinder('libsodium'),
+                    new PkgConfigPrefixFinder('libsodium'),
+                    new IncludePrefixFinder('sodium.h'),
+                    new LibPrefixFinder('libsodium.a'),
+                ));
+            }
+
+            if ($prefix !== null) {
+                return '--with-sodium=' . $prefix;
+            } else {
+                return '--with-sodium';
             }
         };
 
