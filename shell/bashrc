@@ -42,7 +42,7 @@ function __phpbrew_php_exec()
 # Normalizes a PHP build by adding the "php-" prefix if it's missing
 function __phpbrew_normalize_build()
 {
-    if [[ ! -d "$PHPBREW_ROOT/php/$1" && "$1" =~ "^([[:digit:]]+\.){2}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$" ]] ; then
+    if [[ ! -d "$PHPBREW_ROOT/php/$1" && "$1" =~ ^([[:digit:]]+\.){2}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$ ]] ; then
         echo "php-$1"
     else
         echo "$1"
