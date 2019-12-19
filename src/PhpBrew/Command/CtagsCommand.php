@@ -3,6 +3,7 @@
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;
+use PhpBrew\BuildFinder;
 use PhpBrew\CommandBuilder;
 use PhpBrew\Config;
 
@@ -15,9 +16,9 @@ class CtagsCommand extends Command
 
     public function arguments($args)
     {
-        $args->add('installed versions')
+        $args->add('PHP build')
             ->validValues(function () {
-                return Config::getInstalledPhpVersions();
+                return BuildFinder::findInstalledBuilds();
             })
             ;
     }

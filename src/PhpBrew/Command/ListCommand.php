@@ -3,6 +3,7 @@
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;
+use PhpBrew\BuildFinder;
 use PhpBrew\Config;
 use PhpBrew\VariantParser;
 
@@ -21,27 +22,27 @@ class ListCommand extends Command
 
     public function execute()
     {
-        $versions = Config::getInstalledPhpVersions();
-        $currentVersion = Config::getCurrentPhpName();
+        $builds = BuildFinder::findInstalledBuilds();
+        $currentBuild = Config::getCurrentPhpName();
 
-        if (empty($versions)) {
-            return $this->logger->notice('Please install at least one PHP with your prefered version.');
+        if (empty($builds)) {
+            return $this->logger->notice('Please install at least one PHP with your preferred version.');
         }
 
-        if ($currentVersion === false or !in_array($currentVersion, $versions)) {
+        if ($currentBuild === false or !in_array($currentBuild, $builds)) {
             $this->logger->writeln('* (system)');
         }
 
-        foreach ($versions as $version) {
-            $versionPrefix = Config::getVersionInstallPrefix($version);
+        foreach ($builds as $build) {
+            $versionPrefix = Config::getVersionInstallPrefix($build);
 
-            if ($currentVersion == $version) {
+            if ($currentBuild === $build) {
                 $this->logger->writeln(
-                    $this->formatter->format(sprintf('* %-15s', $version), 'bold')
+                    $this->formatter->format(sprintf('* %-15s', $build), 'bold')
                 );
             } else {
                 $this->logger->writeln(
-                    $this->formatter->format(sprintf('  %-15s', $version), 'bold')
+                    $this->formatter->format(sprintf('  %-15s', $build), 'bold')
                 );
             }
 

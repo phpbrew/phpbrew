@@ -95,7 +95,6 @@ class InstallCommandTest extends CommandTestCase
 
     protected function assertListContains($string)
     {
-        $this->assertNotEmpty(BuildFinder::findInstalledBuilds(false), 'findInstalledBuilds');
-        $this->assertContains($string, BuildFinder::findInstalledBuilds(false));
+        $this->assertContains($string, BuildFinder::findInstalledBuilds());
     }
 }

@@ -4,6 +4,7 @@ namespace PhpBrew\Command;
 
 use CLIFramework\Command;
 use PhpBrew\Build;
+use PhpBrew\BuildFinder;
 use PhpBrew\Config;
 use PhpBrew\Tasks\MakeTask;
 use PhpBrew\Utils;
@@ -27,9 +28,9 @@ class CleanCommand extends Command
 
     public function arguments($args)
     {
-        $args->add('installed php')
+        $args->add('PHP build')
             ->validValues(function () {
-                return Config::getInstalledPhpVersions();
+                return BuildFinder::findInstalledBuilds();
             })
             ;
     }

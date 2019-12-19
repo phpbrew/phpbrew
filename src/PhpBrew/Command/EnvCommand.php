@@ -3,6 +3,7 @@
 namespace PhpBrew\Command;
 
 use CLIFramework\Command as BaseCommand;
+use PhpBrew\BuildFinder;
 use PhpBrew\Config;
 
 class EnvCommand extends BaseCommand
@@ -14,10 +15,10 @@ class EnvCommand extends BaseCommand
 
     public function arguments($args)
     {
-        $args->add('installed php')
+        $args->add('PHP build')
             ->optional()
             ->validValues(function () {
-                return Config::getInstalledPhpVersions();
+                return BuildFinder::findInstalledBuilds();
             })
             ;
     }
