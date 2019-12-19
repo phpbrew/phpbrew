@@ -206,6 +206,8 @@ function phpbrew ()
             else
                 local PHP_BUILD=$(__phpbrew_normalize_build $2)
 
+                __phpbrew_can_use_build $PHP_BUILD || return 1
+
                 # checking if php source exists
                 NEW_PHPBREW_PHP_PATH="$PHPBREW_ROOT/php/$PHP_BUILD"
                 if [ -d $NEW_PHPBREW_PHP_PATH ]; then
@@ -234,6 +236,8 @@ function phpbrew ()
                 echo "Please specify the php version."
             else
                 local PHP_BUILD=$(__phpbrew_normalize_build $2)
+
+                __phpbrew_can_use_build $PHP_BUILD || return 1
 
                 __phpbrew_reinit $PHP_BUILD
             fi
