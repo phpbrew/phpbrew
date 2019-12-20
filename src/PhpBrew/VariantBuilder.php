@@ -554,7 +554,8 @@ class VariantBuilder
 
         $this->variants['sodium'] = function (Build $build, $prefix = null) {
             if ($build->compareVersion('7.2') < 0) {
-                echo "Sodium is available as a core extension since PHP 7.2.0. Please use 'phpbrew ext install sodium' to install it from PECL\n";
+                echo 'Sodium is available as a core extension since PHP 7.2.0.' . PHP_EOL;
+                echo "Please use 'phpbrew ext install sodium' to install it from PECL." . PHP_EOL;
             }
 
             if ($prefix === null) {
