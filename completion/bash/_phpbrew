@@ -4867,7 +4867,7 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=(["-o"]="1" ["--old"]="1" ["--official"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
+options=(["-o"]="1" ["--old"]="1" ["--downloader"]="1" ["--continue"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 options_require_value=(["--downloader"]="1" ["--http-proxy"]="1" ["--http-proxy-auth"]="1" ["--connect-timeout"]="1" )
 local argument_min_length=0
 

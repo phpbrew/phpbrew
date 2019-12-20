@@ -421,7 +421,6 @@ local ret=1
         (update)
             _arguments -w -S -s \
               '(-o --old)'{-o,--old}'[List old phps (less than 5.3)]' \
-              '--official[Unserialize release information from official site (using `unserialize` function).]' \
               '--downloader=[Use alternative downloader.]' \
               '--continue[Continue getting a partially downloaded file.]' \
               '--http-proxy=[HTTP proxy address]' \
