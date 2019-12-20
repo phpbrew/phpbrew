@@ -271,13 +271,13 @@ local ret=1
         ;;
         (use)
             _arguments -w -S -s \
-              ':php version:{___phpbrewmeta "php version" use arg 0 valid-values}' \
+              ':PHP version:{___phpbrewmeta "PHP version" use arg 0 valid-values}' \
                && ret=0
         
         ;;
         (switch)
             _arguments -w -S -s \
-              ':installed php:{___phpbrewmeta "installed php" switch arg 0 valid-values}' \
+              ':PHP version:{___phpbrewmeta "PHP version" switch arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -292,7 +292,7 @@ local ret=1
         ;;
         (env)
             _arguments -w -S -s \
-              ':installed php:{___phpbrewmeta "installed php" env arg 0 valid-values}' \
+              ':PHP build:{___phpbrewmeta "PHP build" env arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -414,7 +414,7 @@ local ret=1
         (clean)
             _arguments -w -S -s \
               '(-a --all)'{-a,--all}'[Remove all the files in the source directory of the PHP distribution.]' \
-              ':installed php:{___phpbrewmeta "installed php" clean arg 0 valid-values}' \
+              ':PHP build:{___phpbrewmeta "PHP build" clean arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -431,7 +431,7 @@ local ret=1
         ;;
         (ctags)
             _arguments -w -S -s \
-              ':installed versions:{___phpbrewmeta "installed versions" ctags arg 0 valid-values}' \
+              ':PHP build:{___phpbrewmeta "PHP build" ctags arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -498,7 +498,7 @@ local ret=1
         ;;
         (purge)
             _arguments -w -S -s \
-              '*:installed php:{___phpbrewmeta "installed php" purge arg 0 valid-values}' \
+              '*:PHP build:{___phpbrewmeta "PHP build" purge arg 0 valid-values}' \
                && ret=0
         
         ;;
