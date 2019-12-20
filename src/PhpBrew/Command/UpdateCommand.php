@@ -17,8 +17,6 @@ class UpdateCommand extends Command
     {
         $opts->add('o|old', 'List old phps (less than 5.3)');
 
-        $opts->add('official', 'Unserialize release information from official site (using `unserialize` function).');
-
         DownloadFactory::addOptionsForCommand($opts);
     }
 

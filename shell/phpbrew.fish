@@ -868,7 +868,6 @@ complete -x -c phpbrew -n "__fish_phpbrew_using_command system" -a "(__fish_phpb
 
 # update
 complete -f -c phpbrew -n "__fish_phpbrew_using_command update" -s o -l old -d "List old phps \(less than 5.3\)"
-complete -f -c phpbrew -n "__fish_phpbrew_using_command update" -l official -d "Unserialize release information from official site \(using `unserialize` function\)"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command update" -l downloader -d "Use alternative downloader"
 complete -f -c phpbrew -n "__fish_phpbrew_using_command update" -l continue -d "Continue getting a partially downloaded file"
 complete -x -c phpbrew -n "__fish_phpbrew_using_command update" -l http-proxy -d "HTTP proxy address"
