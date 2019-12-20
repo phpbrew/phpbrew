@@ -1200,13 +1200,13 @@ pdepend
 onion
 box-2.7
 psysh
+php-cs-fixer
 phpdoc
 phpcov
 phpcpd
 phpdcd
 phptok
-phploc
-php-cs-fixer" -- $cur) )
+phploc" -- $cur) )
       return
       ;;
   esac
