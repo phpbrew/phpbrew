@@ -47,7 +47,7 @@ class Apache2ModuleNamePatchTest extends PatchTestCase
         $this->assertTrue($matched, 'patch matched');
         $patchedCount = $patch->apply($build, $logger);
 
-        $sourceExpectedDirectory = getenv('PHPBREW_EXPECTED_PHP_DIR') . DIRECTORY_SEPARATOR . $version.'-apxs-patch';
+        $sourceExpectedDirectory = getenv('PHPBREW_EXPECTED_PHP_DIR') . DIRECTORY_SEPARATOR . $version . '-apxs-patch';
         $this->assertEquals($expectedPatchedCount, $patchedCount);
         $this->assertFileEquals($sourceExpectedDirectory . $makefile, $sourceDirectory . $makefile);
         $this->assertFileEquals($sourceExpectedDirectory . '/configure', $sourceDirectory . '/configure');

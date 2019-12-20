@@ -19,11 +19,11 @@ class BuildFinder
             return $name != '.'
                 && $name != '..'
                 && file_exists(
-                $path
+                    $path
                     . DIRECTORY_SEPARATOR . $name
                     . DIRECTORY_SEPARATOR . 'bin'
                     . DIRECTORY_SEPARATOR . 'php'
-            );
+                );
         });
 
         uasort($names, 'version_compare'); // ordering version name ascending... 5.5.17, 5.5.12
