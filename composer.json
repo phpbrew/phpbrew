@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "php-vcr/php-vcr": "^1.4",
-        "phpunit/phpunit": "^4.8||^5.7||^6.5||^7.5",
+        "phpunit/phpunit": "^7.5",
         "squizlabs/php_codesniffer": "^3.5"
     },
     "extra": { "branch-alias": { "dev-master": "1.22.x-dev" } },
