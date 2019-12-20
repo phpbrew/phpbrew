@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61b0be8416c029a3e3aaa73e077df9e2",
+    "content-hash": "95f37e0bb894e38afec7c38e77e3d1ea",
     "packages": [
         {
             "name": "corneltek/cachekit",
@@ -1925,9 +1925,11 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.2"
+    },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "5.3.9"
+        "php": "7.2.0"
     }
 }
