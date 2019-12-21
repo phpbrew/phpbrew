@@ -4,50 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82fd75e4ecbf452ee9a7723ec7c1961b",
+    "content-hash": "c803cb86f71bb95a74a4858e6df6c114",
     "packages": [
-        {
-            "name": "corneltek/cachekit",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/c9s/CacheKit.git",
-                "reference": "8ced1f91e4cfa5a3ccb044e6991f9639676baf5d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CacheKit/zipball/8ced1f91e4cfa5a3ccb044e6991f9639676baf5d",
-                "reference": "8ced1f91e4cfa5a3ccb044e6991f9639676baf5d",
-                "shasum": ""
-            },
-            "require": {
-                "corneltek/serializerkit": "~1",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "corneltek/phpunit-testmore": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "CacheKit": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Yo-An Lin",
-                    "email": "cornelius.howl@gmail.com",
-                    "homepage": "http://c9s.me"
-                }
-            ],
-            "description": "General cache interface",
-            "homepage": "http://github.com/c9s/CacheKit",
-            "time": "2013-12-29T15:53:59+00:00"
-        },
         {
             "name": "corneltek/class-template",
             "version": "2.1.2",
@@ -284,24 +242,24 @@
         },
         {
             "name": "corneltek/pearx",
-            "version": "1.3.4",
+            "version": "1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpbrew/PEARX.git",
-                "reference": "3874d016f483ddd5003351824134d60d315825d6"
+                "reference": "2c5b5da4abd46bae9585f0f4ceeeaad2651e5cf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/3874d016f483ddd5003351824134d60d315825d6",
-                "reference": "3874d016f483ddd5003351824134d60d315825d6",
+                "url": "https://api.github.com/repos/phpbrew/PEARX/zipball/2c5b5da4abd46bae9585f0f4ceeeaad2651e5cf6",
+                "reference": "2c5b5da4abd46bae9585f0f4ceeeaad2651e5cf6",
                 "shasum": ""
             },
             "require": {
-                "corneltek/cachekit": "^1",
                 "corneltek/curlkit": "^1.0.11",
                 "php": ">=5.3.0"
             },
             "require-dev": {
+                "corneltek/cachekit": "^1",
                 "corneltek/phpunit-testmore": "dev-master",
                 "phpunit/phpunit": "^4.8||^5.7"
             },
@@ -324,37 +282,7 @@
             ],
             "description": "PEAR channel client",
             "homepage": "http://github.com/phpbrew/PEARX",
-            "time": "2019-12-04T01:21:52+00:00"
-        },
-        {
-            "name": "corneltek/serializerkit",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/c9s/php-SerializerKit.git",
-                "reference": "d6f222c252fcf5f7dde788173ceb4a41a92136dd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/c9s/php-SerializerKit/zipball/d6f222c252fcf5f7dde788173ceb4a41a92136dd",
-                "reference": "d6f222c252fcf5f7dde788173ceb4a41a92136dd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "symfony/yaml": "~2"
-            },
-            "require-dev": {
-                "corneltek/phpunit-testmore": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "SerializerKit": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2013-12-01T14:32:14+00:00"
+            "time": "2019-12-21T06:37:25+00:00"
         },
         {
             "name": "corneltek/universal",
