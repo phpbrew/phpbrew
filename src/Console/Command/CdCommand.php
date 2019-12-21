@@ -2,9 +2,7 @@
 
 namespace PHPBrew\Command;
 
-/*
- * @codeCoverageIgnore
- */
+use PHPBrew\Console\Command\VirtualCommand;
 
 class CdCommand extends VirtualCommand
 {

@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use PHPBrew\Console\Application;
+
 if (PHP_VERSION_ID < 70200) {
     fwrite(
         STDERR,
@@ -15,24 +17,28 @@ if (PHP_VERSION_ID < 70200) {
     die(1);
 }
 
-$includeIfExists = function($file)
-{
-    return file_exists($file) ? include $file : false;
-};
-
-if (
-    (!$loader = $includeIfExists(__DIR__.'/../vendor/autoload.php'))
-    && (!$loader = $includeIfExists(__DIR__.'/../../../autoload.php'))
-) {
-    echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
-        'curl -sS https://getcomposer.org/installer | php'.PHP_EOL.
-        'php composer.phar install'.PHP_EOL;
-    exit(1);
-}
-
-$console = PHPBrew\Console::getInstance();
-if (isset($argv)) {
-    if (!$console->runWithTry($argv)) {
-        exit(-1);
+(static function () : void {
+    foreach ([
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/../../../autoload.php',
+    ] as $autoload) {
+        if (file_exists($autoload)) {
+            require $autoload;
+            return;
+        }
     }
-}
+
+    echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL
+        . 'curl -sS https://getcomposer.org/installer | php' . PHP_EOL
+        . 'php composer.phar install' . PHP_EOL;
+    exit(1);
+})();
+
+(function () {
+    /* @var $container ContainerInterface */
+    $container = require __DIR__ . '/../etc/container.php';
+
+    $container
+        ->get(Application::class)
+        ->run();
+})();
