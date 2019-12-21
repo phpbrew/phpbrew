@@ -30,7 +30,7 @@ if (
     exit(1);
 }
 
-$console = PhpBrew\Console::getInstance();
+$console = PHPBrew\Console::getInstance();
 if (isset($argv)) {
     if (!$console->runWithTry($argv)) {
         exit(-1);

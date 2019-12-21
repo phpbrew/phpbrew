@@ -36,7 +36,7 @@
     "extra": { "branch-alias": { "dev-master": "1.22.x-dev" } },
     "autoload": {
         "psr-4": {
-            "PhpBrew\\": "src/PhpBrew/"
+            "PHPBrew\\": "src/"
         }
     }
 }

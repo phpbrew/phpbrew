@@ -15,7 +15,7 @@
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
 [[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
 
-# The minimal PHP version that PhpBrew supports as interpreter
+# The minimal PHP version that PHPBrew supports as interpreter
 MIN_PHP_VERSION="7.2.0"
 MIN_PHP_VERSION_ID=70200
 
@@ -405,7 +405,7 @@ function phpbrew ()
             __phpbrew_validate_interpreter "$(which php)"
 
             if [[ $? -ne 0 ]] ; then
-                echo "The currently used PHP build $PHPBREW_PHP cannot be used as PhpBrew interpreter"
+                echo "The currently used PHP build $PHPBREW_PHP cannot be used as PHPBrew interpreter"
                 echo "Please execute `phpbrew switch` using PHP $MIN_PHP_VERSION or newer before switching the system interpreter off"
                 return 1
             fi
