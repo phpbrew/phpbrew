@@ -63,7 +63,7 @@ function __phpbrew_load_user_config
     end
 end
 
-# The minimal PHP version that PhpBrew supports as interpreter
+# The minimal PHP version that PHPBrew supports as interpreter
 set MIN_PHP_VERSION    "7.2.0"
 set MIN_PHP_VERSION_ID 70200
 
@@ -359,7 +359,7 @@ function phpbrew
 
         case system-off
             if not __phpbrew_validate_interpreter (which php)
-                echo "The currently used PHP build $PHPBREW_PHP cannot be used as PhpBrew interpreter"
+                echo "The currently used PHP build $PHPBREW_PHP cannot be used as PHPBrew interpreter"
                 echo "Please execute `phpbrew switch` using PHP $MIN_PHP_VERSION or newer before switching the system interpreter off"
                 return 1
             end

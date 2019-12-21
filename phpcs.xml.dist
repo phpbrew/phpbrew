@@ -17,6 +17,6 @@
     </rule>
 
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <exclude-pattern>src/PhpBrew/Utils.php</exclude-pattern>
+        <exclude-pattern>src/Utils.php</exclude-pattern>
     </rule>
 </ruleset>
