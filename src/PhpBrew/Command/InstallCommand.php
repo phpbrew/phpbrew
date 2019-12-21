@@ -371,6 +371,9 @@ class InstallCommand extends Command
         $this->logger->debug('Source Directory: ' . realpath($targetDir));
         $build->setSourceDirectory($targetDir);
 
+        // Update PKG_CONFIG_PATH gathered from VariantBuilder to build environment
+        $build->putPkgConfigPathsEnv();
+
         if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->info('Found existing Makefile, running make clean to ensure everything will be rebuilt.');
             $this->logger->info(

@@ -61,6 +61,13 @@ class Build implements Serializable, Buildable
     public $osRelease;
 
     /**
+     * PKG_CONFIG_PATH for build environment
+     *
+     * @var array<string,true>
+     */
+    private $pkgConfigPaths = array();
+
+    /**
      * Construct a Build object,.
      *
      * A build object contains the information of all build options, prefix, paths... etc
@@ -81,6 +88,28 @@ class Build implements Serializable, Buildable
         $this->setBuildSettings(new BuildSettings());
         $this->osName = php_uname('s');
         $this->osRelease = php_uname('r');
+    }
+
+    public function getPkgConfigPaths()
+    {
+        return array_keys($this->pkgConfigPaths);
+    }
+
+    public function addPkgConfigPath($path)
+    {
+        $this->pkgConfigPaths[$path] = true;
+    }
+
+    public function putPkgConfigPathsEnv()
+    {
+        $paths = $this->getPkgConfigPaths();
+        $currentPkgConfigPath = getenv('PKG_CONFIG_PATH');
+
+        if ($currentPkgConfigPath !== '' && $currentPkgConfigPath !== false) {
+            $currentPaths = explode(PATH_SEPARATOR, $currentPkgConfigPath);
+            $paths = array_unique(array_merge($paths, $currentPaths));
+        }
+        putenv('PKG_CONFIG_PATH=' . implode(PATH_SEPARATOR, $paths));
     }
 
     public function setName($name)

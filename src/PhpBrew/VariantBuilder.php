@@ -295,44 +295,47 @@ class VariantBuilder
             return '--with-mcrypt'; // let autotool to find it.
         };
 
-        $this->variants['zlib'] = function (Build $build, $prefix = null) {
-            if ($prefix) {
-                return "--with-zlib=$prefix";
-            }
-            if ($prefix = Utils::findIncludePrefix('zlib.h')) {
-                return "--with-zlib=$prefix";
-            }
+        $this->variants['zlib'] = function (Build $build, $val = null) {
+            $prefix = Utils::findPrefix(array(
+                new BrewPrefixFinder('zlib'),
+                new IncludePrefixFinder('zlib.h'),
+            ));
 
-            return;
-        };
+            if ($build->compareVersion('7.4') < 0) {
+                if ($val) {
+                    return '--with-zlib=' . $val;
+                }
 
-        $this->variants['curl'] = function (Build $build, $prefix = null) {
-            if ($prefix) {
-                return "--with-curl=$prefix";
-            }
-
-            if ($prefix = Utils::findIncludePrefix('curl/curl.h')) {
-                return "--with-curl=$prefix";
-            }
-
-            if ($prefix = Utils::getPkgConfigPrefix('libcurl')) {
-                return "--with-curl=$prefix";
-            }
-
-            if ($bin = Utils::findBin('brew')) {
-                if ($prefix = exec_line("$bin --prefix curl")) {
-                    if (file_exists($prefix)) {
-                        return "--with-curl=$prefix";
-                    }
-                    echo "homebrew prefix '$prefix' doesn't exist. you forgot to install?\n";
+                if ($prefix !== null) {
+                    return '--with-zlib=' . $prefix;
+                }
+            } else {
+                if ($prefix !== null) {
+                    $build->addPkgConfigPath($prefix . '/lib/pkgconfig');
                 }
             }
-            if ($bin = Utils::findBin('curl-config')) {
-                if ($prefix = exec_line("$bin --prefix")) {
-                    if (file_exists($prefix)) {
-                        return "--with-curl=$prefix";
-                    }
-                    echo "homebrew prefix '$prefix' doesn't exist. you forgot to install?\n";
+
+            return '--with-zlib';
+        };
+
+        $this->variants['curl'] = function (Build $build, $val = null) {
+            $prefix = Utils::findPrefix(array(
+                new BrewPrefixFinder('curl'),
+                new PkgConfigPrefixFinder('libcurl'),
+                new IncludePrefixFinder('curl/curl.h'),
+            ));
+
+            if ($build->compareVersion('7.4') < 0) {
+                if ($val) {
+                    return '--with-curl=' . $val;
+                }
+
+                if ($prefix !== null) {
+                    return '--with-curl=' . $prefix;
+                }
+            } else {
+                if ($prefix !== null) {
+                    $build->addPkgConfigPath($prefix . '/lib/pkgconfig');
                 }
             }
 
@@ -583,37 +586,25 @@ class VariantBuilder
          * On ubuntu you need to install libssl-dev
          */
         $this->variants['openssl'] = function (Build $build, $val = null) {
-            if ($val) {
-                return "--with-openssl=$val";
-            }
+            $prefix = Utils::findPrefix(array(
+                new BrewPrefixFinder('openssl'),
+                new PkgConfigPrefixFinder('openssl'),
+                new IncludePrefixFinder('openssl/opensslv.h'),
+            ));
 
-            if ($prefix = Utils::findIncludePrefix('openssl/opensslv.h')) {
-                return "--with-openssl=$prefix";
-            }
+            if ($build->compareVersion('7.4') < 0) {
+                if ($val) {
+                    return '--with-openssl=' . $val;
+                }
 
-            // Special detection and fallback for homebrew openssl
-            // @see https://github.com/phpbrew/phpbrew/issues/607
-            if ($bin = Utils::findBin('brew')) {
-                if ($output = exec_line("$bin --prefix openssl")) {
-                    if (file_exists($output)) {
-                        return "--with-openssl=$output";
-                    }
-                    echo "prefix $output doesn't exist.";
+                if ($prefix !== null) {
+                    return '--with-openssl=' . $prefix;
+                }
+            } else {
+                if ($prefix !== null) {
+                    $build->addPkgConfigPath($prefix . '/lib/pkgconfig');
                 }
             }
-
-            if ($prefix = Utils::getPkgConfigPrefix('openssl')) {
-                return "--with-openssl=$prefix";
-            }
-
-            $possiblePrefixes = array('/usr/local/opt/openssl');
-            $foundPrefixes = array_filter($possiblePrefixes, 'file_exists');
-            if (count($foundPrefixes) > 0) {
-                return '--with-openssl=' . $foundPrefixes[0];
-            }
-
-            // This will create openssl.so file for dynamic loading.
-            echo 'Compiling with openssl=shared, please install libssl-dev or openssl header files if you need';
 
             return '--with-openssl';
         };
@@ -767,21 +758,25 @@ class VariantBuilder
                 '--enable-dom',
             );
 
-            if ($build->compareVersion('7.4') < 0) {
-                $options[] = '--enable-libxml';
-
-                if (
-                    ($prefix = Utils::findPrefix(array(
+            $prefix = Utils::findPrefix(array(
                     new BrewPrefixFinder('libxml2'),
                     new PkgConfigPrefixFinder('libxml'),
                     new IncludePrefixFinder('libxml2/libxml/globals.h'),
                     new LibPrefixFinder('libxml2.a'),
-                    ))) !== null
-                ) {
+            ));
+
+            if ($build->compareVersion('7.4') < 0) {
+                $options[] = '--enable-libxml';
+
+                if ($prefix !== null) {
                     $options[] = '--with-libxml-dir=' . $prefix;
                 }
             } else {
                 $options[] = '--with-libxml';
+
+                if ($prefix !== null) {
+                    $build->addPkgConfigPath($prefix . '/lib/pkgconfig');
+                }
             }
 
             $options = array_merge($options, array(
