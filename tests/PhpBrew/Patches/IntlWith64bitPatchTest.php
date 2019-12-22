@@ -29,7 +29,7 @@ class IntlWith64bitPatchTest extends PatchTestCase
         $build = new Build($fromVersion);
         $build->setSourceDirectory($sourceDirectory);
         $build->enableVariant('intl');
-        $this->assertTrue($build->hasVariant('intl'), 'intl enabled');
+        $this->assertTrue($build->isEnabledVariant('intl'));
 
         $patch = new IntlWith64bitPatch();
         $matched = $patch->match($build, $logger);

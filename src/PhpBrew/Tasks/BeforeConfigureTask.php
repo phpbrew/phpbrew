@@ -3,6 +3,7 @@
 namespace PhpBrew\Tasks;
 
 use PhpBrew\Build;
+use PhpBrew\ConfigureParameters;
 use PhpBrew\Patches\Apache2ModuleNamePatch;
 use PhpBrew\Patches\FreeTypePatch;
 use PhpBrew\PatchKit\Patch;
@@ -12,7 +13,7 @@ use PhpBrew\PatchKit\Patch;
  */
 class BeforeConfigureTask extends BaseTask
 {
-    public function run(Build $build)
+    public function run(Build $build, ConfigureParameters $parameters)
     {
         if (!file_exists($build->getSourceDirectory() . DIRECTORY_SEPARATOR . 'configure')) {
             $this->debug("configure file not found, running './buildconf --force'...");
@@ -41,7 +42,7 @@ class BeforeConfigureTask extends BaseTask
         // let's apply patch for libphp{php version}.so (apxs)
         if ($build->isEnabledVariant('apxs2')) {
             $apxs2Checker = new Apxs2CheckTask($this->logger);
-            $apxs2Checker->check($build, $this->options);
+            $apxs2Checker->check($parameters);
         }
 
         if (!$this->options->{'no-patch'}) {

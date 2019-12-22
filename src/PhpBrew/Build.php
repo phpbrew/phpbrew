@@ -9,12 +9,18 @@ use Serializable;
  * A build object contains version information,
  * variant configuration,
  * paths and an build identifier (BuildId).
+ *
+ * @method array getEnabledVariants()
+ * @method array getDisabledVariants()
+ * @method bool isEnabledVariant(string $variant)
+ * @method array getExtraOptions()
+ * @method enableVariant(string $variant, string $value = null)
+ * @method disableVariant(string $variant)
+ * @method removeVariant(string $variant)
+ * @method array resolveVariants()
  */
 class Build implements Serializable, Buildable
 {
-    const ENV_PRODUCTION = 0;
-    const ENV_DEVELOPMENT = 1;
-
     /**
      * States that describe finished task.
      */
@@ -39,8 +45,6 @@ class Build implements Serializable, Buildable
      */
     public $installPrefix;
 
-    public $phpEnvironment = self::ENV_DEVELOPMENT;
-
     /**
      * @var BuildSettings
      */
@@ -61,13 +65,6 @@ class Build implements Serializable, Buildable
     public $osRelease;
 
     /**
-     * PKG_CONFIG_PATH for build environment
-     *
-     * @var array<string,true>
-     */
-    private $pkgConfigPaths = array();
-
-    /**
      * Construct a Build object,.
      *
      * A build object contains the information of all build options, prefix, paths... etc
@@ -80,36 +77,14 @@ class Build implements Serializable, Buildable
     {
         $this->version = $version;
         $this->name = $name ? $name : Utils::canonicalizeBuildName($version);
+
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);
-        } else {
-            // TODO: find the install prefix automatically
         }
+
         $this->setBuildSettings(new BuildSettings());
         $this->osName = php_uname('s');
         $this->osRelease = php_uname('r');
-    }
-
-    public function getPkgConfigPaths()
-    {
-        return array_keys($this->pkgConfigPaths);
-    }
-
-    public function addPkgConfigPath($path)
-    {
-        $this->pkgConfigPaths[$path] = true;
-    }
-
-    public function putPkgConfigPathsEnv()
-    {
-        $paths = $this->getPkgConfigPaths();
-        $currentPkgConfigPath = getenv('PKG_CONFIG_PATH');
-
-        if ($currentPkgConfigPath !== '' && $currentPkgConfigPath !== false) {
-            $currentPaths = explode(PATH_SEPARATOR, $currentPkgConfigPath);
-            $paths = array_unique(array_merge($paths, $currentPaths));
-        }
-        putenv('PKG_CONFIG_PATH=' . implode(PATH_SEPARATOR, $paths));
     }
 
     public function setName($name)
@@ -193,41 +168,6 @@ class Build implements Serializable, Buildable
     public function getPath($subpath)
     {
         return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
-    }
-
-    /**
-     * Returns a build identifier.
-     */
-    public function getIdentifier()
-    {
-        $names = array('php');
-
-        $names[] = $this->version;
-
-        if ($variants = $this->getVariants()) {
-            $keys = array_keys($variants);
-            sort($keys);
-
-            foreach ($keys as $n) {
-                $v = $this->getVariant($n);
-
-                if (is_bool($v)) {
-                    $names[] = $n;
-                } else {
-                    $v = preg_replace('#\W+#', '_', $v);
-                    $str = $n . '=' . $v;
-                    $names[] = $str;
-                }
-            }
-        }
-
-        if ($this->phpEnvironment === self::ENV_PRODUCTION) {
-            $names[] = 'prod';
-        } elseif ($this->phpEnvironment === self::ENV_DEVELOPMENT) {
-            $names[] = 'dev';
-        }
-
-        return implode('-', $names);
     }
 
     public function setBuildSettings(BuildSettings $settings)

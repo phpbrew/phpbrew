@@ -15,61 +15,132 @@ class VariantBuilderTest extends TestCase
     public function variantOptionProvider()
     {
         return array(
-            array(array('debug'),  '#--enable-debug#'),
-            array(array('intl'),   '#--enable-intl#'),
-            array(array('apxs2'),  '#--with-apxs2#'),
-            array(array('sqlite'), '#--with-sqlite#'),
-            array(array('mysql'),  '#--with-mysqli#'),
-            array(array('pgsql'),  '#--with-pgsql#'),
-            array(array('xml'),    array('#--enable-(dom|libxml|simplexml)#', '#--with-libxml-dir#')),
-
-            array(array('sqlite', 'pdo'), '#--with-pdo-sqlite#'),
-            array(array('mysql', 'pdo'),  '#--with-pdo-mysql#'),
-            array(array('pgsql', 'pdo'),  '#--with-pdo-pgsql#'),
-            array(array('default'),       '#..#'),
-            array(array('mcrypt'),        '#--with-mcrypt#'),
-            array(array('openssl'),       '#--with-openssl#'),
-            array(array('zlib'),          '#--with-zlib#'),
-            array(array('curl'),          '#--with-curl#'),
-            array(array('readline'),      '#--with-readline#'),
-            array(array('editline'),      '#--with-libedit#'),
-            array(array('gettext'),       '#--with-gettext#'),
-            array(array('ipc'),           array('#--enable-shmop#','#--enable-sysvshm#')),
-            array(array('gmp'),           '#--with-gmp#'),
-            array(array('mhash'),         '#--with-mhash#'),
-            array(array('iconv'),         '#--with-iconv#'),
-            array(array('bz2'),           '#--with-bz2#'),
-            array(array('gd'),            array('#--with-gd#', '#--with-png-dir#', '#--with-jpeg-dir#')),
+            'apxs2' => array(
+                array('apxs2'),
+                array('--with-apxs2'),
+            ),
+            'bz2' => array(
+                array('bz2'),
+                array('--with-bz2'),
+            ),
+            'curl' => array(
+                array('curl'),
+                array('--with-curl'),
+            ),
+            'debug' => array(
+                array('debug'),
+                array('--enable-debug'),
+            ),
+            'editline' => array(
+                array('editline'),
+                array('--with-libedit'),
+            ),
+            'gd' => array(
+                array('gd'),
+                array(
+                    '--with-gd',
+                    '--with-png-dir',
+                    '--with-jpeg-dir',
+                ),
+            ),
+            'gettext' => array(
+                array('gettext'),
+                array('--with-gettext'),
+            ),
+            'gmp' => array(
+                array('gmp'),
+                array('--with-gmp'),
+            ),
+            'iconv' => array(
+                array('iconv'),
+                array('--with-iconv'),
+            ),
+            'intl' => array(
+                array('intl'),
+                array('--enable-intl'),
+            ),
+            'ipc' => array(
+                array('ipc'),
+                array(
+                    '--enable-shmop',
+                    '--enable-sysvshm',
+                ),
+            ),
+            'mcrypt' => array(
+                array('mcrypt'),
+                array('--with-mcrypt'),
+            ),
+            'mhash' => array(
+                array('mhash'),
+                array('--with-mhash'),
+            ),
+            'mysql' => array(
+                array('mysql'),
+                array('--with-mysqli'),
+            ),
+            'openssl' => array(
+                array('openssl'),
+                array('--with-openssl'),
+            ),
+            'pdo-mysql' => array(
+                array('mysql', 'pdo'),
+                array('--with-pdo-mysql'),
+            ),
+            'pdo-pgsql' => array(
+                array('pgsql', 'pdo'),
+                array('--with-pdo-pgsql'),
+            ),
+            'pdo-sqlite' => array(
+                array('sqlite', 'pdo'),
+                array('--with-pdo-sqlite'),
+            ),
+            'pgsql' => array(
+                array('pgsql'),
+                array('--with-pgsql'),
+            ),
+            'readline' => array(
+                array('readline'),
+                array('--with-readline'),
+            ),
+            'sqlite' => array(
+                array('sqlite'),
+                array('--with-sqlite3'),
+            ),
+            'xml' => array(
+                array('xml'),
+                array(
+                    '--enable-dom',
+                    '--enable-libxml',
+                    '--enable-simplexml',
+                    '--with-libxml-dir',
+                ),
+            ),
+            'zlib' => array(
+                array('zlib'),
+                array('--with-zlib'),
+            ),
         );
     }
-
 
     /**
      * @dataProvider variantOptionProvider
      */
-    public function testVariantOption(array $variants, $optionPattern)
+    public function testVariantOption(array $variants, $expectedOptions)
     {
         $build = new Build('5.5.0');
         foreach ($variants as $variant) {
-            $k = explode('=', $variant, 2);
-
-            if (getenv('TRAVIS') && in_array($k[0], array("apxs2","gd","editline"))) {
-                $this->markTestSkipped("Travis CI doesn't support {$k[0]}.");
+            if (getenv('TRAVIS') && in_array($variant, array("apxs2", "gd", "editline"))) {
+                $this->markTestSkipped("Travis CI doesn't support $variant}.");
             }
 
-            if (count($k) == 2) {
-                $build->enableVariant($k[0], $k[1]);
-            } else {
-                $build->enableVariant($k[0]);
-            }
+            $build->enableVariant($variant);
         }
         $build->resolveVariants();
         $variantBuilder = new VariantBuilder();
-        $options = $variantBuilder->build($build);
+        $options = $variantBuilder->build($build)->getOptions();
 
-        $patterns = (array) $optionPattern;
-        foreach ($patterns as $p) {
-            $this->assertNotEmpty(preg_grep($p, $options));
+        foreach ($expectedOptions as $expectedOption) {
+            $this->assertArrayHasKey($expectedOption, $options);
         }
     }
 
@@ -79,24 +150,25 @@ class VariantBuilderTest extends TestCase
         $build = new Build('5.3.0');
         $build->enableVariant('debug');
         $build->enableVariant('sqlite');
-        $build->enableVariant('xml_all');
+        $build->enableVariant('xml');
         $build->enableVariant('apxs2', '/opt/local/apache2/apxs2');
 
         $build->disableVariant('sqlite');
         $build->disableVariant('mysql');
         $build->resolveVariants();
-        $options = $variants->build($build);
+        $options = $variants->build($build)->getOptions();
 
-        $this->assertContains('--enable-debug', $options);
-        $this->assertContains('--enable-libxml', $options);
-        $this->assertContains('--enable-simplexml', $options);
+        $this->assertArrayHasKey('--enable-debug', $options);
+        $this->assertArrayHasKey('--enable-libxml', $options);
+        $this->assertArrayHasKey('--enable-simplexml', $options);
 
-        $this->assertContains('--with-apxs2=/opt/local/apache2/apxs2', $options);
+        $this->assertArrayHasKey('--with-apxs2', $options);
+        $this->assertSame('/opt/local/apache2/apxs2', $options['--with-apxs2']);
 
-        $this->assertContains('--without-sqlite3', $options);
-        $this->assertContains('--without-mysql', $options);
-        $this->assertContains('--without-mysqli', $options);
-        $this->assertContains('--disable-all', $options);
+        $this->assertArrayHasKey('--without-sqlite3', $options);
+        $this->assertArrayHasKey('--without-mysql', $options);
+        $this->assertArrayHasKey('--without-mysqli', $options);
+        $this->assertArrayHasKey('--disable-all', $options);
     }
 
     public function testEverything()
@@ -108,13 +180,12 @@ class VariantBuilderTest extends TestCase
         $build->disableVariant('openssl');
         $build->resolveVariants();
 
-        $options = $variants->build($build);
+        $options = $variants->build($build)->getOptions();
 
-        $this->assertNotContains('--enable-all', $options);
-        $this->assertNotContains('--with-apxs2=/usr/bin/apxs', $options);
-        $this->assertNotContains('--with-openssl=/usr', $options);
+        $this->assertArrayNotHasKey('--enable-all', $options);
+        $this->assertArrayNotHasKey('--with-apxs2', $options);
+        $this->assertArrayNotHasKey('--with-openssl', $options);
     }
-
 
     public function testMysqlPdoVariant()
     {
@@ -126,12 +197,15 @@ class VariantBuilderTest extends TestCase
         $build->enableVariant('sqlite');
         $build->resolveVariants();
 
-        $options = $variants->build($build);
-        $this->assertContains('--enable-pdo', $options);
-        $this->assertContains('--with-mysql=mysqlnd', $options);
-        $this->assertContains('--with-mysqli=mysqlnd', $options);
-        $this->assertContains('--with-pdo-mysql=mysqlnd', $options);
-        $this->assertContains('--with-pdo-sqlite', $options);
+        $options = $variants->build($build)->getOptions();
+        $this->assertArrayHasKey('--enable-pdo', $options);
+        $this->assertArrayHasKey('--with-mysql', $options);
+        $this->assertSame('mysqlnd', $options['--with-mysql']);
+        $this->assertArrayHasKey('--with-mysqli', $options);
+        $this->assertSame('mysqlnd', $options['--with-mysqli']);
+        $this->assertArrayHasKey('--with-pdo-mysql', $options);
+        $this->assertSame('mysqlnd', $options['--with-pdo-mysql']);
+        $this->assertArrayHasKey('--with-pdo-sqlite', $options);
     }
 
     public function testAllVariant()
@@ -143,10 +217,10 @@ class VariantBuilderTest extends TestCase
         $build->disableVariant('apxs2');
         $build->resolveVariants();
 
-        $options = $variants->build($build);
-        $this->assertContains('--enable-all', $options);
-        $this->assertContains('--without-apxs2', $options);
-        $this->assertContains('--without-mysql', $options);
+        $options = $variants->build($build)->getOptions();
+        $this->assertArrayHasKey('--enable-all', $options);
+        $this->assertArrayHasKey('--without-apxs2', $options);
+        $this->assertArrayHasKey('--without-mysql', $options);
     }
 
     /**
@@ -160,12 +234,11 @@ class VariantBuilderTest extends TestCase
         $build->enableVariant('neutral');
         $build->resolveVariants();
 
-        $options = $variants->build($build);
-        // ignore `--with-libdir` because this option should be set depending on client environments.
-        $actual = array_filter($options, function ($option) {
-            return !preg_match("/^--with-libdir/", $option);
-        });
-        $this->assertEquals(array(), $actual);
+        $options = $variants->build($build)->getOptions();
+        // ignore `--with-libdir` because this option should be set depending on client environments
+        unset($options['--with-libdir']);
+
+        $this->assertEquals(array(), $options);
     }
 
     /**
@@ -180,9 +253,9 @@ class VariantBuilderTest extends TestCase
         $build->enableVariant('xml');
 
         $builder = new VariantBuilder();
-        $options = $builder->build($build);
+        $options = $builder->build($build)->getOptions();
 
-        $this->assertContains($expected, $options);
+        $this->assertArrayHasKey($expected, $options);
     }
 
     public static function libXmlProvider()
@@ -207,9 +280,9 @@ class VariantBuilderTest extends TestCase
         $build->enableVariant('zip');
 
         $builder = new VariantBuilder();
-        $options = $builder->build($build);
+        $options = $builder->build($build)->getOptions();
 
-        $this->assertContains($expected, $options);
+        $this->assertArrayHasKey($expected, $options);
     }
 
     public static function zipProvider()

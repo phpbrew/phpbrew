@@ -12,14 +12,14 @@ class VariantParserTest extends TestCase
     {
         $this->assertEquals(array(
             'enabled_variants' => array(
-                'pdo' => true,
-                'sqlite' => true,
-                'debug' => true,
+                'pdo' => null,
+                'sqlite' => null,
+                'debug' => null,
                 'apxs' => '/opt/local/apache2/bin/apxs',
-                'calendar' => true,
+                'calendar' => null,
             ),
             'disabled_variants' => array(
-                'mysql' => true,
+                'mysql' => null,
             ),
             'extra_options' => array(
                 '--with-icu-dir',
@@ -37,11 +37,11 @@ class VariantParserTest extends TestCase
     {
         $this->assertEquals(array(
             'enabled_variants' => array(
-                'all' => true,
+                'all' => null,
             ),
             'disabled_variants' => array(
-                'apxs2' => true,
-                'mysql' => true,
+                'apxs2' => null,
+                'mysql' => null,
             ),
             'extra_options' => array(),
         ), $this->parse(array(
@@ -66,7 +66,7 @@ class VariantParserTest extends TestCase
             'overrides default variant value' => array(
                 array('+default', '+openssl=/usr'),
                 array(
-                    'default' => true,
+                    'default' => null,
                     'openssl' => '/usr',
                 ),
             ),
@@ -74,25 +74,25 @@ class VariantParserTest extends TestCase
                 array('+openssl=/usr', '+default'),
                 array(
                     'openssl' => '/usr',
-                    'default' => true,
+                    'default' => null,
                 ),
             ),
             'negative variant' => array(
                 array('+default', '-openssl'),
                 array(
-                    'default' => true,
+                    'default' => null,
                 ),
             ),
             'negative variant precedence' => array(
                 array('-openssl', '+default'),
                 array(
-                    'default' => true,
+                    'default' => null,
                 ),
             ),
             'negative variant with an overridden value' => array(
                 array('+default', '-openssl=/usr'),
                 array(
-                    'default' => true,
+                    'default' => null,
                 ),
             ),
         );
@@ -108,8 +108,8 @@ class VariantParserTest extends TestCase
                 'gmp' => '/path/x86_64-linux-gnu'
             ),
             'disabled_variants' => array(
-                'openssl' => true,
-                'xdebug' => true,
+                'openssl' => null,
+                'xdebug' => null,
             ),
             'extra_options' => array(),
         ), $this->parse(array(

@@ -8,6 +8,7 @@ use Exception;
 use GetOptionKit\OptionCollection;
 use PhpBrew\Build;
 use PhpBrew\Config;
+use PhpBrew\ConfigureParameters;
 use PhpBrew\Distribution\DistributionUrlPolicy;
 use PhpBrew\Downloader\DownloadFactory;
 use PhpBrew\Exception\SystemCommandException;
@@ -323,15 +324,10 @@ class InstallCommand extends Command
         }
 
         $this->logger->info('===> Loading and resolving variants...');
-        $removedVariants = $build->loadVariantInfo($variantInfo);
-        if (!empty($removedVariants)) {
-            $this->logger->debug('Removed variants: ' . implode(',', $removedVariants));
-        }
+        $build->loadVariantInfo($variantInfo);
 
-        {
-            $prepareTask = new PrepareDirectoryTask($this->logger, $this->options);
-            $prepareTask->run($build);
-        }
+        $prepareTask = new PrepareDirectoryTask($this->logger, $this->options);
+        $prepareTask->run($build);
 
         // Move to to build directory, because we are going to download distribution.
         $buildDir = $this->options->{'build-dir'} ?: Config::getBuildDir();
@@ -339,8 +335,39 @@ class InstallCommand extends Command
             mkdir($buildDir, 0755, true);
         }
 
+        $parameters = new ConfigureParameters();
+
+        if (!$this->options->{'no-config-cache'}) {
+            $parameters = $parameters->withOption('--cache-file', Config::getCacheDir() . '/config.cache');
+        }
+
+        $prefix = $build->getInstallPrefix();
+
+        $parameters = $parameters
+            ->withOption('--prefix', $prefix)
+            ->withOption('--with-config-file-path', $prefix . '/etc')
+            ->withOption('--with-config-file-scan-dir', $prefix . '/var/db');
+
+        // Options for specific versions
+        // todo: extract to BuildPlan class: PHP53 BuildPlan, PHP54 BuildPlan, PHP55 BuildPlan ?
+        if ($build->compareVersion('5.4') == -1) {
+            // copied from https://github.com/Homebrew/homebrew-php/blob/master/Formula/php53.rb
+            $parameters = $parameters
+                ->withOption('--enable-sqlite-utf8')
+                ->withOption('--enable-zend-multibyte');
+        } elseif ($build->compareVersion('5.6') == -1) {
+            $parameters = $parameters->withOption('--enable-zend-signals');
+        }
+
         $variantBuilder = new VariantBuilder();
-        $configureOptions = $variantBuilder->build($build);
+        $parameters = $variantBuilder->build($build, $parameters);
+
+        $pkgConfigPaths = getenv('PKG_CONFIG_PATH');
+        if ($pkgConfigPaths !== '' && $pkgConfigPaths !== false) {
+            foreach (explode(PATH_SEPARATOR, $pkgConfigPaths) as $pkgConfigPath) {
+                $parameters = $parameters->withPkgConfigPath($pkgConfigPath);
+            }
+        }
 
         $distFileDir = Config::getDistFileDir();
 
@@ -371,9 +398,6 @@ class InstallCommand extends Command
         $this->logger->debug('Source Directory: ' . realpath($targetDir));
         $build->setSourceDirectory($targetDir);
 
-        // Update PKG_CONFIG_PATH gathered from VariantBuilder to build environment
-        $build->putPkgConfigPathsEnv();
-
         if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
             $this->logger->info('Found existing Makefile, running make clean to ensure everything will be rebuilt.');
             $this->logger->info(
@@ -393,11 +417,11 @@ class InstallCommand extends Command
 
         if (!$this->options->{'no-configure'}) {
             $configureTask = new BeforeConfigureTask($this->logger, $this->options);
-            $configureTask->run($build);
+            $configureTask->run($build, $parameters);
             unset($configureTask); // trigger __destruct
 
             $configureTask = new ConfigureTask($this->logger, $this->options);
-            $configureTask->run($build, $configureOptions);
+            $configureTask->run($build, $parameters);
             unset($configureTask); // trigger __destruct
 
             $configureTask = new AfterConfigureTask($this->logger, $this->options);

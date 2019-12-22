@@ -7,13 +7,19 @@ use Exception;
 class BuildSettings
 {
     /**
-     * TODO: should be renamed to enabledVariants.
+     * @var array<string,string|null>
      */
-    public $variants = array();
+    private $enabledVariants = array();
 
-    public $disabledVariants = array();
+    /**
+     * @var array<string,null>
+     */
+    private $disabledVariants = array();
 
-    public $extraOptions = array();
+    /**
+     * @var array<string>
+     */
+    private $extraOptions = array();
 
     public function __construct(array $settings = array())
     {
@@ -31,7 +37,7 @@ class BuildSettings
     public function toArray()
     {
         return array(
-            'enabled_variants' => $this->variants,
+            'enabled_variants' => $this->enabledVariants,
             'disabled_variants' => $this->disabledVariants,
             'extra_options' => $this->extraOptions,
         );
@@ -46,7 +52,7 @@ class BuildSettings
 
     public function enableVariant($name, $value = null)
     {
-        $this->variants[$name] = $value ?: true;
+        $this->enabledVariants[$name] = $value;
     }
 
     public function disableVariants(array $settings)
@@ -63,7 +69,7 @@ class BuildSettings
      */
     public function disableVariant($name)
     {
-        $this->disabledVariants[$name] = true;
+        $this->disabledVariants[$name] = null;
     }
 
     /**
@@ -72,53 +78,30 @@ class BuildSettings
      */
     public function resolveVariants()
     {
-        $removed = array();
-        foreach ($this->disabledVariants as $n => $true) {
-            if ($this->hasVariant($n)) {
-                $this->removeVariant($n);
-                $removed[] = $n;
-            }
+        foreach ($this->disabledVariants as $name => $_) {
+            $this->removeVariant($name);
         }
-
-        return $removed;
-    }
-
-    public function isDisabledVariant($name)
-    {
-        return isset($this->disabledVariants[$name]);
     }
 
     public function isEnabledVariant($name)
     {
-        return isset($this->variants[$name]);
-    }
-
-    /**
-     * Check if we've enabled the variant.
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasVariant($name)
-    {
-        return isset($this->variants[$name]);
+        return array_key_exists($name, $this->enabledVariants);
     }
 
     /**
      * Remove enabled variant.
      */
-    public function removeVariant($variantName)
+    public function removeVariant($name)
     {
-        unset($this->variants[$variantName]);
+        unset($this->enabledVariants[$name]);
     }
 
     /**
      * Get enabled variants.
      */
-    public function getVariants()
+    public function getEnabledVariants()
     {
-        return $this->variants;
+        return $this->enabledVariants;
     }
 
     /**
@@ -129,31 +112,9 @@ class BuildSettings
         return $this->disabledVariants;
     }
 
-    /**
-     * Returns variant user value.
-     *
-     * @param string $n variant name
-     *
-     * @return string variant value
-     */
-    public function getVariant($n)
-    {
-        if (isset($this->variants[$n])) {
-            return $this->variants[$n];
-        }
-
-        return;
-    }
-
     public function getExtraOptions()
     {
         return $this->extraOptions;
-    }
-
-    public function grepExtraOptionsByPattern($pattern)
-    {
-        // preg_grep is available since PHP4
-        return preg_grep($pattern, $this->extraOptions);
     }
 
     /**
@@ -168,35 +129,39 @@ class BuildSettings
         }
         $variantInfo = unserialize(file_get_contents($variantFile));
 
-        return $this->loadVariantInfo($variantInfo);
+        $this->loadVariantInfo($variantInfo);
     }
 
     public function writeVariantInfoFile($variantInfoFile)
     {
         return file_put_contents($variantInfoFile, serialize(array(
-            'enabled_variants' => $this->variants,
+            'enabled_variants' => $this->enabledVariants,
             'disabled_variants' => $this->disabledVariants,
             'extra_options' => array_unique($this->extraOptions),
         )));
     }
 
-    public function loadVariantInfo(array $variantInfo, $reset = false)
+    public function loadVariantInfo(array $variantInfo)
     {
-        if ($reset) {
-            $this->variants = array();
-            $this->disabledVariants = array();
-            $this->extraOptions = array();
-        }
         if (isset($variantInfo['enabled_variants'])) {
-            $this->enableVariants($variantInfo['enabled_variants']);
+            foreach ($variantInfo['enabled_variants'] as $variant => $value) {
+                if ($value === true) {
+                    // TRUE no longer indicates the absence of a prefix, NULL does
+                    $this->enableVariant($variant);
+                } else {
+                    $this->enableVariant($variant, $value);
+                }
+            }
         }
+
         if (isset($variantInfo['disabled_variants'])) {
             $this->disableVariants($variantInfo['disabled_variants']);
         }
+
         if (isset($variantInfo['extra_options'])) {
             $this->extraOptions = array_unique(array_merge($this->extraOptions, $variantInfo['extra_options']));
         }
 
-        return $this->resolveVariants(); // Remove the enabled variants
+        $this->resolveVariants();
     }
 }
