@@ -844,30 +844,37 @@ class VariantBuilder
             return '--with-gettext';
         };
 
-        $this->variants['iconv'] = function (Build $build, $prefix = null) {
-            if ($prefix) {
-                return "--with-iconv=$prefix";
+        $this->variants['iconv'] = function (Build $build, $val = null) {
+            if ($val) {
+                return '--with-iconv=' . $val;
             }
-            /*
-             * php can't be compile with --with-iconv=/usr because it uses giconv
-             *
-             * https://bugs.php.net/bug.php?id=48451
-             *
-            // detect include path for iconv.h
-            if ( $prefix = Utils::find_include_prefix('giconv.h', 'iconv.h') ) {
-                return "--with-iconv=$prefix";
+
+            $prefix = Utils::findPrefix(array(
+                new BrewPrefixFinder('libiconv')
+                // php can't be compile with --with-iconv=/usr because it uses giconv
+                // https://bugs.php.net/bug.php?id=48451
+                // new IncludePrefixFinder('giconv.h', 'iconv.h')
+            ));
+
+            if ($prefix !== null) {
+                return '--with-iconv=' . $prefix;
             }
-            */
+
             return '--with-iconv';
         };
 
-        $this->variants['bz2'] = function ($build, $prefix = null) {
-            if ($prefix) {
-                return "--with-bz2=$prefix";
+        $this->variants['bz2'] = function (Build $build, $val = null) {
+            if ($val) {
+                return '--with-bz2=' . $val;
             }
 
-            if ($prefix = Utils::findIncludePrefix('bzlib.h')) {
-                return "--with-bz2=$prefix";
+            $prefix = Utils::findPrefix(array(
+                new BrewPrefixFinder('bzip2'),
+                new IncludePrefixFinder('bzlib.h'),
+            ));
+
+            if ($prefix !== null) {
+                return '--with-bz2=' . $prefix;
             }
 
             return '--with-bz2';
