@@ -3,14 +3,13 @@
 namespace PhpBrew;
 
 use PhpBrew\BuildSettings\BuildSettings;
-use Serializable;
 
 /**
  * A build object contains version information,
  * variant configuration,
  * paths and an build identifier (BuildId).
  */
-class Build implements Serializable, Buildable
+class Build implements Buildable
 {
     const ENV_PRODUCTION = 0;
     const ENV_DEVELOPMENT = 1;
@@ -246,22 +245,6 @@ class Build implements Serializable, Buildable
         }
     }
 
-    public function __set_state($data)
-    {
-        $build = new self($this->version);
-        $build->import($data);
-
-        return $build;
-    }
-
-    /**
-     * XXX: Make sure Serializable interface works for php 5.3.
-     */
-    public function serialize()
-    {
-        return serialize($this->export());
-    }
-
     /**
      * Find a installed build by name,
      * currently a $name is a php version, but in future we may have customized
@@ -280,19 +263,6 @@ class Build implements Serializable, Buildable
         }
 
         return;
-    }
-
-    public function unserialize($serialized)
-    {
-        $data = unserialize($serialized);
-        $this->import($data);
-    }
-
-    public function import($data)
-    {
-        foreach ($data as $key => $value) {
-            $this->{$key} = $value;
-        }
     }
 
     /**
@@ -334,22 +304,6 @@ class Build implements Serializable, Buildable
         }
 
         return self::STATE_NONE;
-    }
-
-    public function export()
-    {
-        return get_object_vars($this);
-    }
-
-    public function writeFile($file)
-    {
-        $dir = dirname($file);
-
-        if (!is_dir($dir) && !mkdir($dir, 0755, true)) {
-            return false;
-        }
-
-        return file_put_contents($file, $this->serialize()) !== false;
     }
 
     public function __call($m, $a)
