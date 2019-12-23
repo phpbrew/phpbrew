@@ -30,16 +30,6 @@ Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
 before you get started. you need to install some development packages for
 building PHP.
 
-## INSTALL
-
-```bash
-curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
-chmod +x phpbrew.phar
-
-# Move the file to some directory within your $PATH
-sudo mv phpbrew.phar /usr/local/bin/phpbrew
-```
-
 ## QUICK START
 
 Please see [Quick Start](https://github.com/phpbrew/phpbrew/wiki/Quick-Start) if you're impatient. :-p
@@ -49,7 +39,15 @@ Please see [Quick Start](https://github.com/phpbrew/phpbrew/wiki/Quick-Start) if
 OK, I assume you have more time to work on this, this is a step-by-step
 tutorial that helps you get started.
 
-### Setting up
+### Installation
+
+```bash
+curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
+chmod +x phpbrew.phar
+
+# Move the file to some directory within your $PATH
+sudo mv phpbrew.phar /usr/local/bin/phpbrew
+```
 
 Init a bash script for your shell environment:
 
