@@ -40,7 +40,7 @@ class Apache2ModuleNamePatchTest extends PatchTestCase
         $build = new Build($version);
         $build->setSourceDirectory($sourceDirectory);
         $build->enableVariant('apxs2');
-        $this->assertTrue($build->hasVariant('apxs2'), 'apxs2 enabled');
+        $this->assertTrue($build->isEnabledVariant('apxs2'));
 
         $patch = new Apache2ModuleNamePatch($version);
         $matched = $patch->match($build, $logger);
