@@ -1189,64 +1189,6 @@ index a78a8fb10f82..6c3ae3cde80a 100644
  
  	if (len >= 0) {
  		data[len] = 0;
-diff --git a/ext/openssl/tests/bug41033.phpt b/ext/openssl/tests/bug41033.phpt
-index 4aeae66f4136..50c78fee8411 100644
---- a/ext/openssl/tests/bug41033.phpt
-+++ b/ext/openssl/tests/bug41033.phpt
-@@ -13,11 +13,11 @@ $pub = 'file://' . dirname(__FILE__) . '/' . 'bug41033pub.pem';
- 
- $prkeyid = openssl_get_privatekey($prv, "1234");
- $ct = "Hello I am some text!";
--openssl_sign($ct, $signature, $prkeyid, OPENSSL_ALGO_DSS1);
-+openssl_sign($ct, $signature, $prkeyid, OPENSSL_VERSION_NUMBER < 0x10100000 ? OPENSSL_ALGO_DSS1 : OPENSSL_ALGO_SHA1);
- echo "Signature: ".base64_encode($signature) . "\n";
- 
- $pukeyid = openssl_get_publickey($pub);
--$valid = openssl_verify($ct, $signature, $pukeyid, OPENSSL_ALGO_DSS1);
-+$valid = openssl_verify($ct, $signature, $pukeyid, OPENSSL_VERSION_NUMBER < 0x10100000 ? OPENSSL_ALGO_DSS1 : OPENSSL_ALGO_SHA1);
- echo "Signature validity: " . $valid . "\n";
- 
- 
-diff --git a/ext/openssl/tests/bug66501.phpt b/ext/openssl/tests/bug66501.phpt
-index 7ad5e21749ff..c2146ab3b901 100644
---- a/ext/openssl/tests/bug66501.phpt
-+++ b/ext/openssl/tests/bug66501.phpt
-@@ -16,7 +16,7 @@ AwEHoUQDQgAEPq4hbIWHvB51rdWr8ejrjWo4qVNWVugYFtPg/xLQw0mHkIPZ4DvK
- sqOTOnMoezkbSmVVMuwz9flvnqHGmQvmug==
- -----END EC PRIVATE KEY-----';
- $key = openssl_pkey_get_private($pkey);
--$res = openssl_sign($data ='alpha', $sign, $key, 'ecdsa-with-SHA1');
-+$res = openssl_sign($data ='alpha', $sign, $key, OPENSSL_VERSION_NUMBER < 0x10100000 ? 'ecdsa-with-SHA1' : 'SHA1');
- var_dump($res);
- --EXPECTF--
- bool(true)
-diff --git a/ext/openssl/tests/openssl_error_string_basic.phpt b/ext/openssl/tests/openssl_error_string_basic.phpt
-index 82f3099264ea..d94048d6ba3b 100644
---- a/ext/openssl/tests/openssl_error_string_basic.phpt
-+++ b/ext/openssl/tests/openssl_error_string_basic.phpt
-@@ -105,7 +105,7 @@ expect_openssl_errors('openssl_private_decrypt', ['04065072']);
- // public encrypt and decrypt with failed padding check and padding
- @openssl_public_encrypt("data", $crypted, $public_key_file, 1000);
- @openssl_public_decrypt("data", $crypted, $public_key_file);
--expect_openssl_errors('openssl_private_(en|de)crypt padding', ['0906D06C', '04068076', '0407006A', '04067072']);
-+expect_openssl_errors('openssl_private_(en|de)crypt padding', OPENSSL_VERSION_NUMBER < 0x10100000 ? ['0906D06C', '04068076', '0407006A', '04067072'] : ['0906D06C', '04068076', '04067072']);
- 
- // X509
- echo "X509 errors\n";
-diff --git a/ext/openssl/tests/sni_server.phpt b/ext/openssl/tests/sni_server.phpt
-index d44a69f549e6..ef23258cee8f 100644
---- a/ext/openssl/tests/sni_server.phpt
-+++ b/ext/openssl/tests/sni_server.phpt
-@@ -27,6 +27,9 @@ CODE;
- $clientCode = <<<'CODE'
-     $flags = STREAM_CLIENT_CONNECT;
-     $ctxArr = [
-+        'verify_peer'  => false,
-+        'verify_peer_name' => false,
-+        'allow_self_signed' => true,
-         'cafile' => __DIR__ . '/sni_server_ca.pem',
-         'capture_peer_cert' => true
-     ];
 diff --git a/ext/openssl/xp_ssl.c b/ext/openssl/xp_ssl.c
 index d5490331d634..c2d477c1db2b 100644
 --- a/ext/openssl/xp_ssl.c
@@ -1349,16 +1291,6 @@ index 828be8f9a23f..06e4e55da7af 100644
  #endif
  
  			*signature_len = phar_hex_str((const char*)sig, sig_len, signature TSRMLS_CC);
-
-From 076c5a96b9730110f20fab62ec27cb830ea19272 Mon Sep 17 00:00:00 2001
-From: zsalab <zsalab@zettasystem.com>
-Date: Tue, 1 Aug 2017 15:38:30 +0200
-Subject: [PATCH 2/2] Improved compatibility for legacy OpenSSL
-
----
- ext/openssl/openssl.c | 2 ++
- 1 file changed, 2 insertions(+)
-
 diff --git a/ext/openssl/openssl.c b/ext/openssl/openssl.c
 index 6c3ae3cde80a..b53114cdf34d 100644
 --- a/ext/openssl/openssl.c
