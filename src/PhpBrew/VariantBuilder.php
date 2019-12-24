@@ -158,7 +158,25 @@ class VariantBuilder
         $this->variants['json'] = '--enable-json';
         $this->variants['hash'] = '--enable-hash';
         $this->variants['exif'] = '--enable-exif';
-        $this->variants['mbstring'] = '--enable-mbstring';
+
+        $this->variants['mbstring'] = function (ConfigureParameters $params, Build $build, $value) {
+            $params = $params->withOption('--enable-mbstring');
+
+            if ($build->compareVersion('5.4') >= 0 && !$build->isDisabledVariant('mbregex')) {
+                $prefix = Utils::findPrefix(array(
+                    new UserProvidedPrefix($value),
+                    new IncludePrefixFinder('oniguruma.h'),
+                    new BrewPrefixFinder('oniguruma'),
+                ));
+
+                if ($prefix !== null) {
+                    $params = $params->withOption('--with-onig', $prefix);
+                }
+            }
+
+            return $params;
+        };
+
         $this->variants['mbregex'] = '--enable-mbregex';
         $this->variants['libgcc'] = '--enable-libgcc';
 
