@@ -66,14 +66,6 @@ class Config
     }
 
     /**
-     * Variants is private, so we use HOME path.
-     */
-    public static function getVariantsDir()
-    {
-        return self::getHome() . DIRECTORY_SEPARATOR . 'variants';
-    }
-
-    /**
      * cache directory for configure.
      */
     public static function getCacheDir()
@@ -87,11 +79,6 @@ class Config
     public static function getBuildDir()
     {
         return self::getRoot() . DIRECTORY_SEPARATOR . 'build';
-    }
-
-    public static function getRegistryDir()
-    {
-        return self::getRoot() . DIRECTORY_SEPARATOR . 'registry';
     }
 
     public static function getCurrentBuildDir()
