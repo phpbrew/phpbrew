@@ -88,6 +88,11 @@ class BuildSettings
         return array_key_exists($name, $this->enabledVariants);
     }
 
+    public function isDisabledVariant($name)
+    {
+        return array_key_exists($name, $this->disabledVariants);
+    }
+
     /**
      * Remove enabled variant.
      */
