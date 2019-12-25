@@ -25,7 +25,7 @@ class Console extends Application
     public function init()
     {
         parent::init();
-        $this->command('app');
+
         $this->command('init');
         $this->command('known');
         $this->command('install');

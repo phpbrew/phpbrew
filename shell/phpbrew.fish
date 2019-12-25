@@ -48,9 +48,9 @@ function __phpbrew_set_path
     end
 
     if set -q PHPBREW_PATH
-        set -gx PATH $PHPBREW_PATH $PHPBREW_BIN $PATH_WITHOUT_PHPBREW
+        set -gx PATH $PHPBREW_PATH $PATH_WITHOUT_PHPBREW
     else
-        set -gx PATH $PHPBREW_BIN $PATH_WITHOUT_PHPBREW
+        set -gx PATH $PATH_WITHOUT_PHPBREW
         return 0
     end
 end
@@ -601,12 +601,9 @@ if [ -z "$PHPBREW_SKIP_INIT" ]
 end
 
 [ -z "$PHPBREW_ROOT" ]; and set -gx PHPBREW_ROOT "$HOME/.phpbrew"
-[ -z "$PHPBREW_BIN" ]; and set -gx PHPBREW_BIN "$PHPBREW_HOME/bin"
 
 [ ! -d "$PHPBREW_ROOT" ]; and mkdir $PHPBREW_ROOT
 [ ! -d "$PHPBREW_HOME" ]; and mkdir $PHPBREW_HOME
-
-[ ! -d $PHPBREW_BIN ]; and mkdir -p $PHPBREW_BIN
 
 # top level options
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -s v -l verbose -d "Print verbose message"
@@ -620,7 +617,6 @@ complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l no-interact -d "Do n
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -l no-progress -d "Do not display progress bar"
 
 # commands
-complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a app -d "[deprecated] php app store"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a archive -d "Build executable phar file from composer.json"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a bash -d "This command generate a bash completion script automatically"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a cd -d "Change to directories"
@@ -655,19 +651,6 @@ complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a update -d "Update PH
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a use -d "Use php, switch version temporarily"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a variants -d "List php variants"
 complete -f -c phpbrew -n "__fish_phpbrew_needs_command" -a zsh -d "This function generate a zsh-completion script automatically"
-
-# app
-complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a get -d "[deprecated] Get PHP application"
-complete -f -c phpbrew -n "__fish_phpbrew_using_command app" -a list -d "[deprecated] List PHP applications"
-
-# app get
-complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l chmod -d "Set downloaded file mode"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l downloader -d "Use alternative downloader"
-complete -f -c phpbrew -n "__fish_phpbrew_using_command app get" -l continue -d "Continue getting a partially downloaded file"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l http-proxy -d "HTTP proxy address"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l http-proxy-auth -d "HTTP proxy authentication"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -l connect-timeout -d "Connection timeout"
-complete -x -c phpbrew -n "__fish_phpbrew_using_command app get" -a "(__fish_phpbrew_arg_meta app.app.get 0 valid-values)" -d "Application name"
 
 # archive
 complete -x -c phpbrew -n "__fish_phpbrew_using_command archive" -s d -l working-dir -d "If specified, use the given directory as working directory"

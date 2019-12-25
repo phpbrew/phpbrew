@@ -13,7 +13,6 @@
 # PHPBREW_SYSTEM_PHP: the path to the system php binary.
 
 [[ -z "$PHPBREW_HOME" ]] && export PHPBREW_HOME="$HOME/.phpbrew"
-[[ -z "$PHPBREW_BIN" ]] && export PHPBREW_BIN="$PHPBREW_HOME/bin"
 
 # The minimal PHP version that PhpBrew supports as interpreter
 MIN_PHP_VERSION="7.2.0"
@@ -120,9 +119,9 @@ function __phpbrew_set_path()
 
     if [[ -z "$PHPBREW_PATH" ]]
     then
-        export PATH=$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+        export PATH=$PATH_WITHOUT_PHPBREW
     else
-        export PATH=$PHPBREW_PATH:$PHPBREW_BIN:$PATH_WITHOUT_PHPBREW
+        export PATH=$PHPBREW_PATH:$PATH_WITHOUT_PHPBREW
     fi
 }
 
@@ -141,7 +140,6 @@ fi
 
 [[ -e "$PHPBREW_ROOT" ]] || mkdir $PHPBREW_ROOT
 [[ -e "$PHPBREW_HOME" ]] || mkdir $PHPBREW_HOME
-[[ -e "$PHPBREW_BIN"  ]] || mkdir -p $PHPBREW_BIN
 
 # When setting lookup prefix, the alias name will be translated into the real
 # path.
