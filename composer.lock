@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8293be07a1cf68aef44c238bb0e8fe64",
+    "content-hash": "4bf7bceda9fb98a0b0fc13a69c349c5c",
     "packages": [
         {
             "name": "corneltek/class-template",
@@ -201,16 +201,16 @@
         },
         {
             "name": "corneltek/getoptionkit",
-            "version": "2.5.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/GetOptionKit.git",
-                "reference": "076cc41051d6417bf9304fe92f8d9793edac9910"
+                "reference": "4534eeef636ec20efb2908a215ad8481eaba7370"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/076cc41051d6417bf9304fe92f8d9793edac9910",
-                "reference": "076cc41051d6417bf9304fe92f8d9793edac9910",
+                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/4534eeef636ec20efb2908a215ad8481eaba7370",
+                "reference": "4534eeef636ec20efb2908a215ad8481eaba7370",
                 "shasum": ""
             },
             "require": {
@@ -218,12 +218,12 @@
             },
             "require-dev": {
                 "corneltek/phpunit-testmore": "dev-master",
-                "satooshi/php-coveralls": "^1"
+                "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5.x-dev"
+                    "dev-master": "2.3.x-dev"
                 }
             },
             "autoload": {
@@ -243,7 +243,7 @@
             ],
             "description": "Powerful command-line option toolkit",
             "homepage": "http://github.com/c9s/GetOptionKit",
-            "time": "2016-07-18T07:44:29+00:00"
+            "time": "2016-05-12T02:37:54+00:00"
         },
         {
             "name": "corneltek/pearx",
