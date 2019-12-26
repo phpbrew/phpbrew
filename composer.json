@@ -29,6 +29,9 @@
         "php": "^7.2",
         "symfony/yaml": "^2.8"
     },
+    "conflict": {
+        "corneltek/getoptionkit": ">=2.4.0"
+    },
     "require-dev": {
         "php-vcr/php-vcr": "^1.4",
         "phpunit/phpunit": "^7.5",
