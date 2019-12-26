@@ -66,13 +66,6 @@ class ConfigTest extends TestCase
         });
     }
 
-    public function testGetVariants()
-    {
-        $this->withEnv(array(), function ($self) {
-            $self->assertStringEndsWith('.phpbrew/variants', Config::getVariantsDir());
-        });
-    }
-
     public function testGetBuildDir()
     {
         $this->withEnv(array(), function ($self) {

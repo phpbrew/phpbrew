@@ -64,7 +64,7 @@ before_script:
 - export PATH=/usr/lib/ccache:$PATH
 - phpenv rehash
 - export PATH=$PATH:$PWD/vendor/bin/
-- mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/registry .phpbrew/php
+- mkdir -p -v .phpbrew/build .phpbrew/distfiles .phpbrew/php
 - rm phpbrew
 - cp -v shell/bashrc .phpbrew/
 script:

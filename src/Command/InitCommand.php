@@ -48,7 +48,6 @@ class InitCommand extends Command
         $paths = array();
         $paths[] = $home;
         $paths[] = $root;
-        $paths[] = $root . DIRECTORY_SEPARATOR . 'register';
         $paths[] = $buildDir;
         $paths[] = $buildPrefix;
         foreach ($paths as $p) {

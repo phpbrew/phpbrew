@@ -3,7 +3,6 @@
 namespace PHPBrew\Extension\Provider;
 
 use CLIFramework\Logger;
-use DOMDocument;
 use Exception;
 use GetOptionKit\OptionResult;
 use PEARX\Channel as PeclChannel;
@@ -31,8 +30,14 @@ class PeclProvider implements Provider
         return 'pecl';
     }
 
-    protected function getPackageXml($packageName, $version)
+    public function buildPackageDownloadUrl($version = 'stable')
     {
+        $packageName = $this->getPackageName();
+
+        if ($packageName === null) {
+            throw new Exception('Repository invalid.');
+        }
+
         $channel = new PeclChannel($this->site);
         $baseUrl = $channel->getRestBaseUrl();
         $url = "$baseUrl/r/" . strtolower($packageName);
@@ -48,35 +53,22 @@ class PeclProvider implements Provider
                 throw new Exception("Can not translate stability {$version} into exact version name.");
             }
         }
+
         $xmlUrl = $url . '/' . $version . '.xml';
-        if ($ret = $downloader->request($xmlUrl)) {
-            $dom = new DOMDocument('1.0');
-            $dom->strictErrorChecking = false;
-            $dom->preserveWhiteSpace = false;
-            // $dom->resolveExternals = false;
-            if (false === $dom->loadXml($ret)) {
-                throw new Exception("Error in XMl document: $url");
-            }
+        $ret = $downloader->request($xmlUrl);
 
-            return $dom;
-        }
-
-        return false;
-    }
-
-    public function buildPackageDownloadUrl($version = 'stable')
-    {
-        if ($this->getPackageName() == null) {
-            throw new Exception('Repository invalid.');
-        }
-        $xml = $this->getPackageXml($this->getPackageName(), $version);
-        if (!$xml) {
+        if ($ret === false) {
             throw new Exception('Unable to fetch package xml');
         }
-        $g = $xml->getElementsByTagName('g');
-        $url = $g->item(0)->nodeValue;
+
+        $xml = simplexml_load_string($ret);
+
+        if ($xml === false) {
+            throw new Exception("Error in XMl document: $url");
+        }
+
         // just use tgz format file.
-        return $url . '.tgz';
+        return $xml->g . '.tgz';
     }
 
     public function getOwner()
@@ -143,16 +135,14 @@ class PeclProvider implements Provider
 
     public function parseKnownReleasesResponse($content)
     {
-        // convert xml to array
         $xml = simplexml_load_string($content);
-        $json = json_encode($xml);
-        $info2 = json_decode($json, true);
+        $releases = array();
 
-        $versionList = array_map(function ($version) {
-            return $version['v'];
-        }, $info2['r']);
+        foreach ($xml->r as $r) {
+            $releases[] = (string) $r->v;
+        }
 
-        return $versionList;
+        return $releases;
     }
 
     public function getDefaultVersion()

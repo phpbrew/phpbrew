@@ -64,7 +64,6 @@ local ret=1
     compile:'compile current source into Phar format library file.'
     archive:'Build executable phar file from composer.json'
     github:build-topics:'Build topic classes from the wiki of a GitHub Project.'
-    app:'[deprecated] php app store'
     init:'Initialize phpbrew config file.'
     known:'List known PHP versions'
     install:'Install php'
@@ -172,42 +171,6 @@ local ret=1
                && ret=0
         
         ;;
-        (app)
-            _arguments -C \
-              ': :->cmds' \
-              '*:: :->option-or-argument' \
-               && return
-            case $state in
-              (cmds)
-            local commands; commands=(
-              get:'[deprecated] Get PHP application'
-              list:'[deprecated] List PHP applications'
-            )
-            _describe -t commands 'command' commands && ret=0
-              ;;
-              (option-or-argument)
-                curcontext=${curcontext%:*}-$line[1]:
-                case $line[1] in
-                  (get)
-                        _arguments -w -S -s \
-                          '--chmod=[Set downloaded file mode]' \
-                          '--downloader=[Use alternative downloader.]' \
-                          '--continue[Continue getting a partially downloaded file.]' \
-                          '--http-proxy=[HTTP proxy address]' \
-                          '--http-proxy-auth=[HTTP proxy authentication]' \
-                          '--connect-timeout=[Connection timeout]' \
-                          ':app-name:("composer" "phpunit" "phpmd" "behat-2.5" "behat-3.3" "sami" "phpcs" "phpcbf" "pdepend" "onion" "box-2.7" "psysh" "php-cs-fixer" "phpdoc" "phpcov" "phpcpd" "phpdcd" "phptok" "phploc")' \
-                           && ret=0
-                  
-                  ;;
-                  (list)
-                  
-                  ;;
-                esac
-                ;;
-              esac
-        
-        ;;
         (init)
             _arguments -w -S -s \
               '(-c --config)'{-c,--config=}'[The YAML config file which should be copied into phpbrew home.The config file is used for creating custom virtual variants. For more details, please see https\://github.com/phpbrew/phpbrew/wiki/Setting-up-Configuration]:file:_files' \
@@ -271,13 +234,13 @@ local ret=1
         ;;
         (use)
             _arguments -w -S -s \
-              ':php version:{___phpbrewmeta "php version" use arg 0 valid-values}' \
+              ':PHP version:{___phpbrewmeta "PHP version" use arg 0 valid-values}' \
                && ret=0
         
         ;;
         (switch)
             _arguments -w -S -s \
-              ':installed php:{___phpbrewmeta "installed php" switch arg 0 valid-values}' \
+              ':PHP version:{___phpbrewmeta "PHP version" switch arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -292,7 +255,7 @@ local ret=1
         ;;
         (env)
             _arguments -w -S -s \
-              ':installed php:{___phpbrewmeta "installed php" env arg 0 valid-values}' \
+              ':PHP build:{___phpbrewmeta "PHP build" env arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -414,14 +377,13 @@ local ret=1
         (clean)
             _arguments -w -S -s \
               '(-a --all)'{-a,--all}'[Remove all the files in the source directory of the PHP distribution.]' \
-              ':installed php:{___phpbrewmeta "installed php" clean arg 0 valid-values}' \
+              ':PHP build:{___phpbrewmeta "PHP build" clean arg 0 valid-values}' \
                && ret=0
         
         ;;
         (update)
             _arguments -w -S -s \
               '(-o --old)'{-o,--old}'[List old phps (less than 5.3)]' \
-              '--official[Unserialize release information from official site (using `unserialize` function).]' \
               '--downloader=[Use alternative downloader.]' \
               '--continue[Continue getting a partially downloaded file.]' \
               '--http-proxy=[HTTP proxy address]' \
@@ -432,7 +394,7 @@ local ret=1
         ;;
         (ctags)
             _arguments -w -S -s \
-              ':installed versions:{___phpbrewmeta "installed versions" ctags arg 0 valid-values}' \
+              ':PHP build:{___phpbrewmeta "PHP build" ctags arg 0 valid-values}' \
                && ret=0
         
         ;;
@@ -499,7 +461,7 @@ local ret=1
         ;;
         (purge)
             _arguments -w -S -s \
-              '*:installed php:{___phpbrewmeta "installed php" purge arg 0 valid-values}' \
+              '*:PHP build:{___phpbrewmeta "PHP build" purge arg 0 valid-values}' \
                && ret=0
         
         ;;

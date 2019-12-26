@@ -8,6 +8,7 @@ namespace PHPBrew\Command;
 use CLIFramework\Command;
 use CLIFramework\Prompter;
 use Exception;
+use PHPBrew\BuildFinder;
 use PHPBrew\Config;
 use PHPBrew\Utils;
 
@@ -21,7 +22,9 @@ class RemoveCommand extends Command
     public function arguments($args)
     {
         $args->add('installed php')
-            ->validValues('PHPBrew\\Config::getInstalledPhpVersions')
+            ->validValues(function () {
+                return BuildFinder::findInstalledBuilds();
+            })
             ;
     }
 

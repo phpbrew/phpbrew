@@ -1,6 +1,6 @@
 TARGET        = phpbrew
 SIGNATURE     = $(TARGET).asc
-SUDOCP        = sudo cp
+CP            = cp
 INSTALL_PATH  = /usr/local/bin
 TEST          = phpunit
 
@@ -19,7 +19,7 @@ $(SIGNATURE): $(TARGET)
 	gpg --armor --detach-sign $(TARGET)
 
 install: $(TARGET)
-	$(SUDOCP) $(TARGET) $(INSTALL_PATH)
+	$(CP) $(TARGET) $(INSTALL_PATH)
 
 update/completion:
 	bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew

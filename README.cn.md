@@ -5,7 +5,6 @@ PHPBrew
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
-[![StyleCI](https://styleci.io/repos/2468290/shield?style=flat)](https://styleci.io/repos/2468290)
 [![Gitter](https://badges.gitter.im/phpbrew/phpbrew.svg)](https://gitter.im/phpbrew/phpbrew?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 phpbrew 是一个构建、安装多版本 PHP 到用户根目录的工具。
@@ -205,51 +204,7 @@ PHPBrew 提供默认的 Variant ，以及一些虚拟 Variants。
 「Default Variant」包含绝大多数公共 Variants；
 「Virtual Variants」可包含多个 Variants，使用一个虚拟 Variant 即可一次性启用多个 Variants。
 
-只需执行`variants`子命令，即可列出它们：
-
-```bash
-$ phpbrew variants
-
-Variants:
-  all, apxs2, bcmath, bz2, calendar, cgi, cli, ctype, curl, dba, debug, dom,
-  dtrace, editline, embed, exif, fileinfo, filter, fpm, ftp, gcov, gd,
-  gettext, gmp, hash, iconv, icu, imap, inifile, inline, intl, ipc, ipv6,
-  json, kerberos, libgcc, mbregex, mbstring, mcrypt, mhash, mysql, opcache,
-  openssl, pcntl, pcre, pdo, pgsql, phar, phpdbg, posix, readline, session,
-  soap, sockets, sqlite, static, tidy, tokenizer, wddx, xml, xml_all, xmlrpc,
-  zip, zlib, zts
-
-
-Virtual variants:
-  dbs:        sqlite, mysql, pgsql, pdo
-
-  mb:         mbstring, mbregex
-
-  neutral:
-
-  small:      bz2, cli, dom, filter, ipc, json, mbregex, mbstring, pcre, phar,
-              posix, readline, xml, curl, openssl
-
-  default:    bcmath, bz2, calendar, cli, ctype, dom, fileinfo, filter, ipc,
-              json, mbregex, mbstring, mhash, mcrypt, pcntl, pcre, pdo, phar,
-              posix, readline, sockets, tokenizer, xml, curl, openssl, zip
-
-  everything: dba, ipv6, dom, calendar, wddx, static, inifile, inline, cli,
-              ftp, filter, gcov, zts, json, hash, exif, mbstring, mbregex,
-              libgcc, pdo, posix, embed, sockets, debug, phpdbg, zip, bcmath,
-              fileinfo, ctype, cgi, soap, pcntl, phar, session, tokenizer,
-              opcache, imap, tidy, kerberos, xmlrpc, fpm, dtrace, pcre, mhash,
-              mcrypt, zlib, curl, readline, editline, gd, intl, icu, openssl,
-              mysql, sqlite, pgsql, xml, xml_all, gettext, iconv, bz2, ipc, gmp
-
-
-Using variants to build PHP:
-
-  phpbrew install php-5.3.10 +default
-  phpbrew install php-5.3.10 +mysql +pdo
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
-```
+只需执行`variants`子命令，即可列出它们。
 
 在 Variant 前添加`+`前缀，代表启用此 Variant，例如：
 

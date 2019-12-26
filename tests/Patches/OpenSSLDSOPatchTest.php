@@ -22,7 +22,6 @@ class OpenSSLDSOPatchTest extends PatchTestCase
         $logger->setQuiet();
 
         $fromVersion = '5.5.17';
-        $sourceFixtureDirectory = getenv('PHPBREW_FIXTURES_PHP_DIR') . DIRECTORY_SEPARATOR . $fromVersion;
         $sourceDirectory = getenv('PHPBREW_BUILD_PHP_DIR');
 
         $this->setupBuildDirectory($fromVersion);
@@ -30,8 +29,7 @@ class OpenSSLDSOPatchTest extends PatchTestCase
         $build = new Build($fromVersion);
         $build->setSourceDirectory($sourceDirectory);
         $build->enableVariant('openssl');
-        $this->assertTrue($build->hasVariant('openssl'), 'openssl enabled');
-
+        $this->assertTrue($build->isEnabledVariant('openssl'));
 
         $patch = new OpenSSLDSOPatch();
         $matched = $patch->match($build, $logger);

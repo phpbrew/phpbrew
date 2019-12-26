@@ -14,7 +14,7 @@ class PrepareDirectoryTask extends BaseTask
         $dirs[] = Config::getHome();
         $dirs[] = Config::getBuildDir();
         $dirs[] = Config::getDistFileDir();
-        $dirs[] = Config::getVariantsDir();
+
         if ($build) {
             $dirs[] = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         }

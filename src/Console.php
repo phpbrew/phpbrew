@@ -14,7 +14,7 @@ use PHPBrew\Exception\SystemCommandException;
 class Console extends Application
 {
     const NAME = 'phpbrew';
-    const VERSION = '1.24.1';
+    const VERSION = '1.25.0';
 
     public function options($opts)
     {
@@ -25,7 +25,7 @@ class Console extends Application
     public function init()
     {
         parent::init();
-        $this->command('app');
+
         $this->command('init');
         $this->command('known');
         $this->command('install');

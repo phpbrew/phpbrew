@@ -9,12 +9,12 @@ class VariantParser
     public static function splitVariantValue($str)
     {
         if (strpos($str, '=') !== false) {
-            list($name, $val) = explode('=', $str);
+            list($name, $val) = explode('=', $str, 2);
 
             return array($name => $val);
         }
 
-        return array($str => true);
+        return array($str => null);
     }
 
     /**

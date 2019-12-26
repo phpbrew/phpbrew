@@ -145,50 +145,7 @@ PHPBrewは`default`バリアントといくつかの「仮想バリアント」(
 `default`バリアントは最もよく使われているバリアントを含んでいます。
 仮想バリアントはいくつものバリアントのセットを定義するもので、ひとつの仮想バリアントを使用するだけで、一度に複数のバリアントを有効化します。
 
-これらのバリアントに何が含まれているかを調べるには、`variants`サブコマンドを実行して一覧を表示します:
-
-```bash
-$ phpbrew variants
-Variants:
-  all, apxs2, bcmath, bz2, calendar, cgi, cli, ctype, curl, dba, debug, dom,
-  dtrace, editline, embed, exif, fileinfo, filter, fpm, ftp, gcov, gd,
-  gettext, gmp, hash, iconv, icu, imap, inifile, inline, intl, ipc, ipv6,
-  json, kerberos, libgcc, mbregex, mbstring, mcrypt, mhash, mysql, opcache,
-  openssl, pcntl, pcre, pdo, pgsql, phar, phpdbg, posix, readline, session,
-  soap, sockets, sqlite, static, tidy, tokenizer, wddx, xml, xml_all, xmlrpc,
-  zip, zlib, zts
-
-
-Virtual variants:
-  dbs:        sqlite, mysql, pgsql, pdo
-
-  mb:         mbstring, mbregex
-
-  neutral:
-
-  small:      bz2, cli, dom, filter, ipc, json, mbregex, mbstring, pcre, phar,
-              posix, readline, xml, curl, openssl
-
-  default:    bcmath, bz2, calendar, cli, ctype, dom, fileinfo, filter, ipc,
-              json, mbregex, mbstring, mhash, mcrypt, pcntl, pcre, pdo, phar,
-              posix, readline, sockets, tokenizer, xml, curl, openssl, zip
-
-  everything: dba, ipv6, dom, calendar, wddx, static, inifile, inline, cli,
-              ftp, filter, gcov, zts, json, hash, exif, mbstring, mbregex,
-              libgcc, pdo, posix, embed, sockets, debug, phpdbg, zip, bcmath,
-              fileinfo, ctype, cgi, soap, pcntl, phar, session, tokenizer,
-              opcache, imap, tidy, kerberos, xmlrpc, fpm, dtrace, pcre, mhash,
-              mcrypt, zlib, curl, readline, editline, gd, intl, icu, openssl,
-              mysql, sqlite, pgsql, xml, xml_all, gettext, iconv, bz2, ipc, gmp
-
-
-Using variants to build PHP:
-
-  phpbrew install php-5.3.10 +default
-  phpbrew install php-5.3.10 +mysql +pdo
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
-```
+これらのバリアントに何が含まれているかを調べるには、`variants`サブコマンドを実行して一覧を表示します。
 
 バリアントを有効化するには、`+`をバリアント名の前に付けます。
 例えば、

@@ -3,18 +3,24 @@
 namespace PHPBrew;
 
 use PHPBrew\BuildSettings\BuildSettings;
-use Serializable;
 
 /**
  * A build object contains version information,
  * variant configuration,
  * paths and an build identifier (BuildId).
+ *
+ * @method array getEnabledVariants()
+ * @method array getDisabledVariants()
+ * @method bool isEnabledVariant(string $variant)
+ * @method bool isDisabledVariant(string $variant)
+ * @method array getExtraOptions()
+ * @method enableVariant(string $variant, string $value = null)
+ * @method disableVariant(string $variant)
+ * @method removeVariant(string $variant)
+ * @method array resolveVariants()
  */
-class Build implements Serializable, Buildable
+class Build implements Buildable
 {
-    const ENV_PRODUCTION = 0;
-    const ENV_DEVELOPMENT = 1;
-
     /**
      * States that describe finished task.
      */
@@ -38,8 +44,6 @@ class Build implements Serializable, Buildable
      * @var string the directory that contains bin/php, var/..., includes/
      */
     public $installPrefix;
-
-    public $phpEnvironment = self::ENV_DEVELOPMENT;
 
     /**
      * @var BuildSettings
@@ -73,11 +77,11 @@ class Build implements Serializable, Buildable
     {
         $this->version = $version;
         $this->name = $name ? $name : Utils::canonicalizeBuildName($version);
+
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);
-        } else {
-            // TODO: find the install prefix automatically
         }
+
         $this->setBuildSettings(new BuildSettings());
         $this->osName = php_uname('s');
         $this->osRelease = php_uname('r');
@@ -166,41 +170,6 @@ class Build implements Serializable, Buildable
         return $this->installPrefix . DIRECTORY_SEPARATOR . $subpath;
     }
 
-    /**
-     * Returns a build identifier.
-     */
-    public function getIdentifier()
-    {
-        $names = array('php');
-
-        $names[] = $this->version;
-
-        if ($variants = $this->getVariants()) {
-            $keys = array_keys($variants);
-            sort($keys);
-
-            foreach ($keys as $n) {
-                $v = $this->getVariant($n);
-
-                if (is_bool($v)) {
-                    $names[] = $n;
-                } else {
-                    $v = preg_replace('#\W+#', '_', $v);
-                    $str = $n . '=' . $v;
-                    $names[] = $str;
-                }
-            }
-        }
-
-        if ($this->phpEnvironment === self::ENV_PRODUCTION) {
-            $names[] = 'prod';
-        } elseif ($this->phpEnvironment === self::ENV_DEVELOPMENT) {
-            $names[] = 'dev';
-        }
-
-        return implode('-', $names);
-    }
-
     public function setBuildSettings(BuildSettings $settings)
     {
         $this->settings = $settings;
@@ -215,22 +184,6 @@ class Build implements Serializable, Buildable
         if (file_exists($variantFile)) {
             $this->settings->loadVariantInfoFile($variantFile);
         }
-    }
-
-    public function __set_state($data)
-    {
-        $build = new self($this->version);
-        $build->import($data);
-
-        return $build;
-    }
-
-    /**
-     * XXX: Make sure Serializable interface works for php 5.3.
-     */
-    public function serialize()
-    {
-        return serialize($this->export());
     }
 
     /**
@@ -251,19 +204,6 @@ class Build implements Serializable, Buildable
         }
 
         return;
-    }
-
-    public function unserialize($serialized)
-    {
-        $data = unserialize($serialized);
-        $this->import($data);
-    }
-
-    public function import($data)
-    {
-        foreach ($data as $key => $value) {
-            $this->{$key} = $value;
-        }
     }
 
     /**
@@ -305,22 +245,6 @@ class Build implements Serializable, Buildable
         }
 
         return self::STATE_NONE;
-    }
-
-    public function export()
-    {
-        return get_object_vars($this);
-    }
-
-    public function writeFile($file)
-    {
-        $dir = dirname($file);
-
-        if (!is_dir($dir) && !mkdir($dir, 0755, true)) {
-            return false;
-        }
-
-        return file_put_contents($file, $this->serialize()) !== false;
     }
 
     public function __call($m, $a)

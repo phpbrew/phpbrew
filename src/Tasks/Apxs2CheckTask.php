@@ -3,17 +3,19 @@
 namespace PHPBrew\Tasks;
 
 use Exception;
-use PHPBrew\Build;
+use PHPBrew\ConfigureParameters;
 use PHPBrew\Utils;
 
 class Apxs2CheckTask extends BaseTask
 {
-    public function check(Build $build)
+    public function check(ConfigureParameters $parameters)
     {
-        $apxs = $build->getVariant('apxs2');
+        $options = $parameters->getOptions();
 
-        // trying to find apxs binary in case it wasn't explicitly specified (+apxs variant without path)
-        if ($apxs === true) {
+        if (isset($options['--with-apxs2'])) {
+            $apxs = $options['--with-apxs2'];
+        } else {
+            // trying to find apxs binary in case it wasn't explicitly specified (+apxs variant without path)
             $apxs = Utils::findbin('apxs');
             $this->logger->debug("Found apxs2 binary: $apxs");
         }
@@ -23,7 +25,7 @@ class Apxs2CheckTask extends BaseTask
         }
 
         // use apxs to check module dir permission
-        if ($apxs && $libdir = exec("$apxs -q LIBEXECDIR")) {
+        if ($libdir = exec("$apxs -q LIBEXECDIR")) {
             if (false === is_writable($libdir)) {
                 $this->logger->error(
                     <<<EOF
@@ -38,7 +40,7 @@ EOF
             }
         }
 
-        if ($apxs && $confdir = exec("$apxs -q SYSCONFDIR")) {
+        if ($confdir = exec("$apxs -q SYSCONFDIR")) {
             if (false === is_writable($confdir)) {
                 $this->logger->error(
                     <<<EOF

@@ -5,7 +5,6 @@ PHPBrew
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
-[![StyleCI](https://styleci.io/repos/2468290/shield?style=flat)](https://styleci.io/repos/2468290)
 [![Gitter](https://badges.gitter.im/phpbrew/phpbrew.svg)](https://gitter.im/phpbrew/phpbrew?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 phpbrew builds and installs multiple version php(s) in your $HOME directory.
@@ -31,16 +30,6 @@ Please see [Requirement](https://github.com/phpbrew/phpbrew/wiki/Requirement)
 before you get started. you need to install some development packages for
 building PHP.
 
-## INSTALL
-
-```bash
-curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
-chmod +x phpbrew.phar
-
-# Move the file to some directory within your $PATH
-sudo mv phpbrew.phar /usr/local/bin/phpbrew
-```
-
 ## QUICK START
 
 Please see [Quick Start](https://github.com/phpbrew/phpbrew/wiki/Quick-Start) if you're impatient. :-p
@@ -50,7 +39,15 @@ Please see [Quick Start](https://github.com/phpbrew/phpbrew/wiki/Quick-Start) if
 OK, I assume you have more time to work on this, this is a step-by-step
 tutorial that helps you get started.
 
-### Setting up
+### Installation
+
+```bash
+curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
+chmod +x phpbrew.phar
+
+# Move the file to some directory within your $PATH
+sudo mv phpbrew.phar /usr/local/bin/phpbrew
+```
 
 Init a bash script for your shell environment:
 
@@ -214,58 +211,14 @@ to the default variants, which includes the most commonly used variants,
 to the virtual variants, which defines a variant set, you may use one virtual variant
 to enable multiple variants at one time.
 
-To check out what is included in these variants, simply run `variants`
-subcommand to list these variants:
+To check out what is included in these variants, run `phpbrew variants`
+to list these variants.
 
-```bash
-$ phpbrew variants
-
-Variants:
-  all, apxs2, bcmath, bz2, calendar, cgi, cli, ctype, curl, dba, debug, dom,
-  dtrace, editline, embed, exif, fileinfo, filter, fpm, ftp, gcov, gd,
-  gettext, gmp, hash, iconv, icu, imap, inifile, inline, intl, ipc, ipv6,
-  json, kerberos, libgcc, mbregex, mbstring, mcrypt, mhash, mysql, opcache,
-  openssl, pcntl, pcre, pdo, pgsql, phar, phpdbg, posix, readline, session,
-  soap, sockets, sqlite, static, tidy, tokenizer, wddx, xml, xml_all, xmlrpc,
-  zip, zlib, zts
-
-
-Virtual variants:
-  dbs:        sqlite, mysql, pgsql, pdo
-
-  mb:         mbstring, mbregex
-
-  neutral:
-
-  small:      bz2, cli, dom, filter, ipc, json, mbregex, mbstring, pcre, phar,
-              posix, readline, xml, curl, openssl
-
-  default:    bcmath, bz2, calendar, cli, ctype, dom, fileinfo, filter, ipc,
-              json, mbregex, mbstring, mhash, mcrypt, pcntl, pcre, pdo, phar,
-              posix, readline, sockets, tokenizer, xml, curl, openssl, zip
-
-  everything: dba, ipv6, dom, calendar, wddx, static, inifile, inline, cli,
-              ftp, filter, gcov, zts, json, hash, exif, mbstring, mbregex,
-              libgcc, pdo, posix, embed, sockets, debug, phpdbg, zip, bcmath,
-              fileinfo, ctype, cgi, soap, pcntl, phar, session, tokenizer,
-              opcache, imap, tidy, kerberos, xmlrpc, fpm, dtrace, pcre, mhash,
-              mcrypt, zlib, curl, readline, editline, gd, intl, icu, openssl,
-              mysql, sqlite, pgsql, xml, xml_all, gettext, iconv, bz2, ipc, gmp
-
-
-Using variants to build PHP:
-
-  phpbrew install php-5.3.10 +default
-  phpbrew install php-5.3.10 +mysql +pdo
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2
-  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2
-```
-
-To enable one variant, simply add a prefix `+` before the variant name, eg
+To enable one variant, add a prefix `+` before the variant name, eg
 
     +mysql
 
-To disable one variant, simply add a prefix `-` before the variant name.
+To disable one variant, add a prefix `-` before the variant name.
 
     -debug
 
