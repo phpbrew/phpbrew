@@ -162,7 +162,7 @@ class VariantBuilder
         $this->variants['mbstring'] = function (ConfigureParameters $params, Build $build, $value) {
             $params = $params->withOption('--enable-mbstring');
 
-            if ($build->compareVersion('5.4') >= 0 && !$build->isDisabledVariant('mbregex')) {
+            if ($build->compareVersion('7.4') >= 0 && !$build->isDisabledVariant('mbregex')) {
                 $prefix = Utils::findPrefix(array(
                     new UserProvidedPrefix($value),
                     new IncludePrefixFinder('oniguruma.h'),
