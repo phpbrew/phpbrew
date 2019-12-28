@@ -3,6 +3,7 @@
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;
+use PhpBrew\UsePhpFunctionWrapper;
 
 class InfoCommand extends Command
 {
@@ -25,10 +26,11 @@ class InfoCommand extends Command
     public function execute()
     {
         $this->header('Version');
-        echo 'PHP-', phpversion(), "\n\n";
+        UsePhpFunctionWrapper::execute('phpversion()', $output) ? $version = $output : $version = '';
+        echo 'PHP-', $version, "\n\n";
 
         $this->header('Constants');
-        $constants = get_defined_constants();
+        UsePhpFunctionWrapper::execute('get_defined_constants()', $output) ? $constants = $output : $constants = array();
 
         if (isset($constants['PHP_PREFIX'])) {
             echo 'PHP Prefix: ', $constants['PHP_PREFIX'], "\n";
@@ -39,7 +41,8 @@ class InfoCommand extends Command
         if (isset($constants['DEFAULT_INCLUDE_PATH'])) {
             echo 'PHP Default Include path: ', $constants['DEFAULT_INCLUDE_PATH'], "\n";
         }
-        echo 'PHP Include path: ', get_include_path(), "\n";
+        UsePhpFunctionWrapper::execute('get_include_path()', $output) ? $includePath = $output : $includePath = '';
+        echo 'PHP Include path: ', $includePath, "\n";
         echo "\n";
 
         // DEFAULT_INCLUDE_PATH
@@ -49,12 +52,13 @@ class InfoCommand extends Command
         // zend_version
 
         $this->header('General Info');
-        phpinfo(INFO_GENERAL);
+        UsePhpFunctionWrapper::execute('phpinfo(INFO_GENERAL)', $output, true) ? $info = $output : $info = '';
+        echo $info;
         echo "\n";
 
         $this->header('Extensions');
 
-        $extensions = get_loaded_extensions();
+        UsePhpFunctionWrapper::execute('get_loaded_extensions()', $output) ? $extensions = $output : $extensions = array();
         $this->logger->info(implode(', ', $extensions));
 
         echo "\n";

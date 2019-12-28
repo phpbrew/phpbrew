@@ -5,6 +5,7 @@ namespace PhpBrew\Command;
 use CLIFramework\Command;
 use PhpBrew\Config;
 use PhpBrew\Utils;
+use PhpBrew\UsePhpFunctionWrapper;
 
 class ConfigCommand extends Command
 {
@@ -15,7 +16,7 @@ class ConfigCommand extends Command
 
     public function execute()
     {
-        $file = $this->getCurrentPhpLoadedIniFile();
+        UsePhpFunctionWrapper::execute('php_ini_loaded_file()', $output) ? $file = $output : $file = '';
         if (!file_exists($file)) {
             $php = Config::getCurrentPhpName();
             $this->logger->warn("Sorry, I can't find the {$file} file for php {$php}.");
@@ -24,21 +25,5 @@ class ConfigCommand extends Command
         }
 
         Utils::editor($file);
-    }
-
-    private function getCurrentPhpLoadedIniFile()
-    {
-        $cmd  = Config::getCurrentPhpBin() . '/php';
-        $options = ' -r ';
-        $code = '"echo php_ini_loaded_file();"';
-
-        exec($cmd . $options . $code, $output, $retVal);
-        if ($retVal) {
-            return false;
-        }
-
-        $file = $output[0];
-
-        return $file;
     }
 }

@@ -3,7 +3,7 @@
 namespace PhpBrew\Command;
 
 use CLIFramework\Command;
-use PhpBrew\Config;
+use PhpBrew\UsePhpFunctionWrapper;
 
 class ListIniCommand extends Command
 {
@@ -14,31 +14,15 @@ class ListIniCommand extends Command
 
     public function execute()
     {
-        if ($files = $this->getCurrentPhpScannedIniFiles()) {
+        UsePhpFunctionWrapper::execute('php_ini_scanned_files()', $output) ? $filelist = $output : $filelist = '';
+        if ($filelist) {
             echo "Loaded ini files:\n";
-            if (count($files) > 0) {
+            if (strlen($filelist) > 0) {
+                $files = explode(',', $filelist);
                 foreach ($files as $file) {
-                    echo ' - ' . $file . "\n";
+                    echo ' - ' . trim($file) . "\n";
                 }
             }
         }
-    }
-
-    private function getCurrentPhpScannedIniFiles()
-    {
-        $cmd  = Config::getCurrentPhpBin() . '/php';
-        $options = ' -r ';
-        $code = '"echo php_ini_scanned_files();"';
-
-        exec($cmd . $options . $code, $output, $retVal);
-        if ($retVal) {
-            return false;
-        }
-
-        foreach ($output as $file) {
-            $files[] = str_replace(',', '', $file);
-        }
-
-        return $files;
     }
 }
