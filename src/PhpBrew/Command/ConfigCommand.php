@@ -16,7 +16,9 @@ class ConfigCommand extends Command
 
     public function execute()
     {
-        UsePhpFunctionWrapper::execute('php_ini_loaded_file()', $output) ? $file = $output : $file = '';
+        UsePhpFunctionWrapper::execute('php_ini_loaded_file()', $output)
+            ? $file = $output
+            : $file = '';
         if (!file_exists($file)) {
             $php = Config::getCurrentPhpName();
             $this->logger->warn("Sorry, I can't find the {$file} file for php {$php}.");

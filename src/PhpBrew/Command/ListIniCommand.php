@@ -14,7 +14,9 @@ class ListIniCommand extends Command
 
     public function execute()
     {
-        UsePhpFunctionWrapper::execute('php_ini_scanned_files()', $output) ? $filelist = $output : $filelist = '';
+        UsePhpFunctionWrapper::execute('php_ini_scanned_files()', $output)
+            ? $filelist = $output
+            : $filelist = '';
         if ($filelist) {
             echo "Loaded ini files:\n";
             if (strlen($filelist) > 0) {

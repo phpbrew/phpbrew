@@ -26,11 +26,15 @@ class InfoCommand extends Command
     public function execute()
     {
         $this->header('Version');
-        UsePhpFunctionWrapper::execute('phpversion()', $output) ? $version = $output : $version = '';
+        UsePhpFunctionWrapper::execute('phpversion()', $output)
+            ? $version = $output
+            : $version = '';
         echo 'PHP-', $version, "\n\n";
 
         $this->header('Constants');
-        UsePhpFunctionWrapper::execute('get_defined_constants()', $output) ? $constants = $output : $constants = array();
+        UsePhpFunctionWrapper::execute('get_defined_constants()', $output)
+            ? $constants = $output
+            : $constants = array();
 
         if (isset($constants['PHP_PREFIX'])) {
             echo 'PHP Prefix: ', $constants['PHP_PREFIX'], "\n";
@@ -41,7 +45,9 @@ class InfoCommand extends Command
         if (isset($constants['DEFAULT_INCLUDE_PATH'])) {
             echo 'PHP Default Include path: ', $constants['DEFAULT_INCLUDE_PATH'], "\n";
         }
-        UsePhpFunctionWrapper::execute('get_include_path()', $output) ? $includePath = $output : $includePath = '';
+        UsePhpFunctionWrapper::execute('get_include_path()', $output)
+            ? $includePath = $output
+            : $includePath = '';
         echo 'PHP Include path: ', $includePath, "\n";
         echo "\n";
 
@@ -52,13 +58,17 @@ class InfoCommand extends Command
         // zend_version
 
         $this->header('General Info');
-        UsePhpFunctionWrapper::execute('phpinfo(INFO_GENERAL)', $output, true) ? $info = $output : $info = '';
+        UsePhpFunctionWrapper::execute('phpinfo(INFO_GENERAL)', $output, true)
+            ? $info = $output
+            : $info = '';
         echo $info;
         echo "\n";
 
         $this->header('Extensions');
 
-        UsePhpFunctionWrapper::execute('get_loaded_extensions()', $output) ? $extensions = $output : $extensions = array();
+        UsePhpFunctionWrapper::execute('get_loaded_extensions()', $output)
+            ? $extensions = $output
+            : $extensions = array();
         $this->logger->info(implode(', ', $extensions));
 
         echo "\n";

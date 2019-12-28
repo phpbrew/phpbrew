@@ -1,6 +1,7 @@
 <?php
 
 namespace PhpBrew;
+
 use PhpBrew\Config;
 
 class UsePhpFunctionWrapper
@@ -20,9 +21,9 @@ class UsePhpFunctionWrapper
         $process = proc_open($command, $descriptorspec, $pipes);
 
         if ($passthru) {
-            $code = '<?php ' . $func  .'; ?>';
+            $code = '<?php ' . $func  . '; ?>';
         } else {
-            $code = '<?php echo serialize(' . $func  .'); ?>';
+            $code = '<?php echo serialize(' . $func  . '); ?>';
         }
 
         if (is_resource($process)) {
