@@ -373,6 +373,9 @@ function phpbrew ()
                     ;;
             esac
             ;;
+        info)
+            __phpbrew_php_exec info | php
+            ;;
         off)
             unset PHPBREW_PHP
             unset PHPBREW_PATH

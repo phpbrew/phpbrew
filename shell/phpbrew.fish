@@ -330,6 +330,9 @@ function phpbrew
                     echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
             end
 
+        case info
+            __phpbrew_php_exec info | php
+
         case off
             set -e PHPBREW_PHP
             set -e PHPBREW_PATH
