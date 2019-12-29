@@ -273,6 +273,8 @@ class Utils
     {
         $tty = exec('tty');
         $editor = escapeshellarg(getenv('EDITOR') ?: 'nano');
-        exec("{$editor} {$file} > {$tty}");
+        exec("{$editor} {$file} > {$tty}", $_, $ret);
+
+        return $ret;
     }
 }

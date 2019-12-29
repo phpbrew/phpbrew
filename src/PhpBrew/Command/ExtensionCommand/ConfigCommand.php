@@ -39,9 +39,10 @@ class ConfigCommand extends BaseCommand
                     "Sorry, I can't find the ini file for the requested extension: \"{$extensionName}\"."
                 );
 
-                return;
+                return false;
             }
         }
-        Utils::editor($file);
+
+        return Utils::editor($file) === 0;
     }
 }

@@ -180,9 +180,20 @@ function __phpbrew_set_lookup_prefix ()
     esac
 }
 
+# Edit the current PHP's php.ini in $EDITOR
+function __phpbrew_edit_ini()
+{
+    local ini="$(php -r "echo php_ini_loaded_file();")"
+
+    if [[ $? -ne 0 ]] ; then
+        return 1
+    fi
+
+    command "${EDITOR:-nano}" "$ini"
+}
+
 function phpbrew ()
 {
-    local exit_status
     local short_option
     if [[ `echo $1 | awk 'BEGIN{FS=""}{print $1}'` = '-' ]]
     then
@@ -218,6 +229,9 @@ function phpbrew ()
             if [[ -d $SOURCE_DIR ]] ; then
                 builtin cd $SOURCE_DIR
             fi
+            ;;
+        config)
+            __phpbrew_edit_ini
             ;;
         switch)
             if [[ -z "$2" ]]; then
@@ -264,7 +278,6 @@ function phpbrew ()
         each)
             shift
             __phpbrew_each "$@"
-            exit_status=$?
             ;;
         fpm)
             if ! [[ -z $3 ]]; then
@@ -316,7 +329,6 @@ function phpbrew ()
                     ;;
                 setup)
                     __phpbrew_php_exec $short_option "$@"
-                    exit_status=$?
                     ;;
                 restart)
                     fpm_stop
@@ -360,6 +372,9 @@ function phpbrew ()
                     echo "Usage: phpbrew fpm [start|stop|restart|module|test|config|setup|info|current|which|help]"
                     ;;
             esac
+            ;;
+        info)
+            __phpbrew_php_exec info | php
             ;;
         off)
             unset PHPBREW_PHP
@@ -409,16 +424,20 @@ function phpbrew ()
             else
                 shift
                 __phpbrew_purge "$@"
-                exit_status=$?
             fi
             ;;
         *)
             __phpbrew_php_exec $short_option "$@"
-            exit_status=$?
             ;;
     esac
+
+    local status=$?
+
+    if [[ $status -ne 0 ]]; then
+        return $status
+    fi
+
     hash -r
-    return ${exit_status:-0}
 }
 
 function __phpbrew_update_config ()
