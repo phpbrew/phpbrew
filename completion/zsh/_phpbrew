@@ -72,7 +72,7 @@ local ret=1
     switch:'Switch default php version.'
     each:'Iterate and run a given shell command over all php versions managed by PHPBrew.'
     config:'Edit your current php.ini in your favorite $EDITOR'
-    info:'Show current php information'
+    info:'Show current PHP information'
     env:'Export environment variables'
     extension:'List extensions or execute extension subcommands'
     variants:'List php variants'
