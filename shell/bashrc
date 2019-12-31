@@ -437,10 +437,10 @@ function phpbrew ()
             ;;
     esac
 
-    local status=$?
+    local exit_status=$?
 
-    if [[ $status -ne 0 ]]; then
-        return $status
+    if [[ $exit_status -ne 0 ]]; then
+        return $exit_status
     fi
 
     hash -r
