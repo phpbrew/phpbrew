@@ -27,7 +27,13 @@ function __phpbrew_php_exec()
     if [[ -e bin/phpbrew ]] ; then
         cmd=bin/phpbrew
     else
-        cmd=$(which phpbrew)
+        # If in Zsh, use the `whence' builtin instead of `which' to avoid
+        # the resolution of `phpbrew' to the function declared in this file
+        if command -v whence > /dev/null ; then
+            cmd=$(whence -p phpbrew)
+        else
+            cmd=$(which phpbrew)
+        fi
     fi
 
     # Force the usage of the system PHP interpreter if it's set
