@@ -168,8 +168,18 @@ function __phpbrew_set_lookup_prefix
     end
 end
 
+# Edit the current PHP's php.ini in $EDITOR
+function __phpbrew_edit_ini
+    set -l ini (php -r "echo php_ini_loaded_file();");
+    or return 1
+
+    set -q EDITOR;
+    or set -l EDITOR nano
+
+    command $EDITOR $ini
+end
+
 function phpbrew
-    set exit_status
     set short_option
     # export SHELL
     if [ (echo $argv[1] | awk 'BEGIN{FS=""}{print $1}') = '-' ]
@@ -204,6 +214,8 @@ function phpbrew
             if [ -d $SOURCE_DIR ]
                 cd $SOURCE_DIR
             end
+        case config
+            __phpbrew_edit_ini
         case 'switch'
             if [ (count $argv) -eq 1 ]
                 echo "Please specify the php version."
@@ -318,6 +330,9 @@ function phpbrew
                     echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
             end
 
+        case info
+            __phpbrew_php_exec info | php
+
         case off
             set -e PHPBREW_PHP
             set -e PHPBREW_PATH
@@ -370,11 +385,8 @@ function phpbrew
             else
                 __phpbrew_php_exec $short_option $argv
             end
-            set exit_status $status
             ;;
     end
-
-    return $exit_status
 end
 
 function __phpbrew_update_config
