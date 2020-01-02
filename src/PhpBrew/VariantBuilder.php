@@ -126,7 +126,6 @@ class VariantBuilder
             'posix',
             'readline',
             'sockets',
-            'sodium',
             'tokenizer',
             'xml',
             'curl',
