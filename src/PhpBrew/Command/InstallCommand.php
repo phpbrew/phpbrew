@@ -298,7 +298,7 @@ class InstallCommand extends Command
         // ['extra_options'] => the extra options to be passed to ./configure command
         // ['enabled_variants'] => enabeld variants
         // ['disabled_variants'] => disabled variants
-        $variantInfo = VariantParser::parseCommandArguments($args, $this->logger);
+        $variantInfo = VariantParser::parseCommandArguments($args);
         $build->loadVariantInfo($variantInfo); // load again
 
         // assume +default variant if no build config is given
