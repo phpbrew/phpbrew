@@ -2,21 +2,8 @@
 
 namespace PhpBrew;
 
-use CLIFramework\Logger;
-
 class VariantParser
 {
-    public static function splitVariantValue($str)
-    {
-        if (strpos($str, '=') !== false) {
-            list($name, $val) = explode('=', $str, 2);
-
-            return array($name => $val);
-        }
-
-        return array($str => null);
-    }
-
     /**
      * @param string[] $args
      *
@@ -24,56 +11,49 @@ class VariantParser
      *
      * @throws InvalidVariantSyntaxException
      */
-    public static function parseCommandArguments(array $args, Logger $logger)
+    public static function parseCommandArguments(array $args)
     {
         $extra = array();
         $enabledVariants = array();
         $disabledVariants = array();
 
-        // split variant strings
-        $startExtra = false;
-        foreach ($args as $arg) {
+        while (true) {
+            $arg = array_shift($args);
+
+            if ($arg === null) {
+                break;
+            }
+
+            if ($arg === '') {
+                throw new InvalidVariantSyntaxException('Variant cannot be empty');
+            }
+
             if ($arg === '--') {
-                $startExtra = true;
-                continue;
+                $extra = $args;
+                break;
             }
 
-            if ($startExtra) {
-                $extra[] = $arg;
-                continue;
+            $operator = substr($arg, 0, 1);
+
+            switch ($operator) {
+                case '+':
+                    $target =& $enabledVariants;
+                    break;
+                case '-':
+                    $target =& $disabledVariants;
+                    break;
+                default:
+                    throw new InvalidVariantSyntaxException('Variant must start with a + or -');
             }
 
-            if ($arg[0] === '+' || $arg[0] === '-') {
-                if (substr($arg, 0, 2) === '--') {
-                    throw new InvalidVariantSyntaxException(
-                        "Invalid variant syntax exception start with '--': " . $arg
-                    );
-                }
-                preg_match_all('#[+-][\w_]+(=[\"\'\.\/\w_-]+)?#', $arg, $variantStrings);
+            $variant            = substr($arg, 1);
+            list($name, $value) = array_pad(explode('=', $variant, 2), 2, null);
 
-                if (isset($variantStrings[0])) {
-                    $variantStrings = array_filter($variantStrings[0]);
-
-                    if (count($variantStrings) > 1) {
-                        $logger->warn('The usage of multiple variants in one command line argument is deprecated.');
-                        $logger->warn('Please provide them as individual arguments: ' . implode(' ', $variantStrings));
-                    }
-
-                    foreach ($variantStrings as $str) {
-                        if ($str[0] == '+') {
-                            $a = self::splitVariantValue(substr($str, 1));
-                            $enabledVariants = array_merge($enabledVariants, $a);
-                        } elseif ($str[0] == '-') {
-                            $a = self::splitVariantValue(substr($str, 1));
-                            $disabledVariants = array_merge($disabledVariants, $a);
-                        } else {
-                            throw new InvalidVariantSyntaxException($str . ' is invalid syntax');
-                        }
-                    }
-                }
-            } else {
-                throw new InvalidVariantSyntaxException("Unsupported variant syntax: $arg");
+            if ($name === '') {
+                throw new InvalidVariantSyntaxException('Variant name cannot be empty');
             }
+
+            $target[$name] = $value;
         }
 
         return array(

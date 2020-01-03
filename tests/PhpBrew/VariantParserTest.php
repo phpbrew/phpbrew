@@ -2,7 +2,7 @@
 
 namespace PhpBrew\Tests;
 
-use CLIFramework\Logger;
+use Cassandra\Exception\InvalidSyntaxException;
 use PhpBrew\VariantParser;
 use PHPUnit\Framework\TestCase;
 
@@ -22,14 +22,17 @@ class VariantParserTest extends TestCase
                 'mysql' => null,
             ),
             'extra_options' => array(
-                '--with-icu-dir',
-                '/opt/local',
+                '--with-icu-dir=/opt/local',
             ),
         ), $this->parse(array(
-            '+pdo+sqlite+debug+apxs=/opt/local/apache2/bin/apxs+calendar-mysql',
+            '+pdo',
+            '+sqlite',
+            '+debug',
+            '+apxs=/opt/local/apache2/bin/apxs',
+            '+calendar',
+            '-mysql',
             '--',
-            '--with-icu-dir',
-            '/opt/local',
+            '--with-icu-dir=/opt/local',
         )));
     }
 
@@ -114,7 +117,8 @@ class VariantParserTest extends TestCase
             'extra_options' => array(),
         ), $this->parse(array(
             '+gmp=/path/x86_64-linux-gnu',
-            '-openssl-xdebug',
+            '-openssl',
+            '-xdebug',
         )));
     }
 
@@ -162,11 +166,42 @@ class VariantParserTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider invalidSyntaxProvider
+     * @requires PHPUnit 5.2
+     */
+    public function testInvalidSyntax(array $args, $expectedMessage)
+    {
+        $this->expectException('PhpBrew\\InvalidVariantSyntaxException');
+        $this->expectExceptionMessage($expectedMessage);
+
+        $this->parse($args);
+    }
+
+    public static function invalidSyntaxProvider()
+    {
+        return array(
+            'Empty argument' => array(
+                array(''),
+                'Variant cannot be empty',
+            ),
+            'Empty variant name' => array(
+                array('+'),
+                'Variant name cannot be empty',
+            ),
+            'Empty variant name with value' => array(
+                array('-='),
+                'Variant name cannot be empty',
+            ),
+            'Invalid operator' => array(
+                array('~'),
+                'Variant must start with a + or -',
+            ),
+        );
+    }
+
     private function parse(array $args)
     {
-        $logger = new Logger();
-        $logger->setQuiet();
-
-        return VariantParser::parseCommandArguments($args, $logger);
+        return VariantParser::parseCommandArguments($args);
     }
 }
