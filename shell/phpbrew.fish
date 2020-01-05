@@ -606,6 +606,7 @@ function __fish_phpbrew_arg_meta
     __phpbrew_php_exec meta --flat $argv[1] arg $argv[2] $argv[3] | grep -v "^#"
 end
 
+[ -z "$PHPBREW_ROOT" ]; and set -gx PHPBREW_ROOT "$HOME/.phpbrew"
 [ -z "$PHPBREW_HOME" ]; and set -gx PHPBREW_HOME "$HOME/.phpbrew"
 
 if [ -z "$PHPBREW_SKIP_INIT" ]
