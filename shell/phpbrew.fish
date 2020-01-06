@@ -67,6 +67,11 @@ end
 set MIN_PHP_VERSION    "7.2.0"
 set MIN_PHP_VERSION_ID 70200
 
+# Returns the absolute path corresponding to the command excluding the alias
+function __phpbrew_which
+    command which $argv
+end
+
 # Executes the given command via the PHP implementation
 function __phpbrew_php_exec
     # Force the usage of the system PHP interpreter if it's set
@@ -78,7 +83,7 @@ function __phpbrew_php_exec
     if [ -e bin/phpbrew ]
         set -a cmd bin/phpbrew
     else
-        set -a cmd (which phpbrew)
+        set -a cmd (__phpbrew_which phpbrew)
     end
 
     command $cmd $argv
@@ -359,7 +364,7 @@ function phpbrew
             end
 
         case system-off
-            if not __phpbrew_validate_interpreter (which php)
+            if not __phpbrew_validate_interpreter (__phpbrew_which php)
                 echo "The currently used PHP build $PHPBREW_PHP cannot be used as PhpBrew interpreter"
                 echo "Please execute `phpbrew switch` using PHP $MIN_PHP_VERSION or newer before switching the system interpreter off"
                 return 1

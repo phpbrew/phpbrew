@@ -19,6 +19,12 @@
 MIN_PHP_VERSION="7.2.0"
 MIN_PHP_VERSION_ID=70200
 
+# Returns the absolute path corresponding to the command excluding the alias
+function __phpbrew_which()
+{
+    command which "$1"
+}
+
 # Executes the given command via the PHP implementation
 function __phpbrew_php_exec()
 {
@@ -28,13 +34,7 @@ function __phpbrew_php_exec()
     if [[ -e bin/phpbrew ]] ; then
         cmd=bin/phpbrew
     else
-        # If in Zsh, use the `whence' builtin instead of `which' to avoid
-        # the resolution of `phpbrew' to the function declared in this file
-        if command -v whence > /dev/null ; then
-            cmd=$(whence -p phpbrew)
-        else
-            cmd=$(which phpbrew)
-        fi
+        cmd="$(__phpbrew_which phpbrew)"
     fi
 
     # Force the usage of the system PHP interpreter if it's set
@@ -114,8 +114,6 @@ function __phpbrew_can_use_build()
 
 function __phpbrew_set_path()
 {
-    [[ -n $(alias php 2>/dev/null) ]] && unalias php 2> /dev/null
-
     local PATH_WITHOUT_PHPBREW
 
     if [[ -n "$PHPBREW_ROOT" ]] ; then
@@ -409,7 +407,7 @@ function phpbrew ()
             fi
             ;;
         system-off)
-            __phpbrew_validate_interpreter "$(which php)"
+            __phpbrew_validate_interpreter "$(__phpbrew_which php)"
 
             if [[ $? -ne 0 ]] ; then
                 echo "The currently used PHP build $PHPBREW_PHP cannot be used as PhpBrew interpreter"
