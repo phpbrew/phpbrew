@@ -169,7 +169,7 @@ class VariantBuilder
                 ));
 
                 if ($prefix !== null) {
-                    $params = $params->withOption('--with-onig', $prefix);
+                    $params = $params->withPkgConfigPath($prefix . '/lib/pkgconfig');
                 }
             }
 
