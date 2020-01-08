@@ -14,7 +14,7 @@ use PhpBrew\Exception\SystemCommandException;
 class Console extends Application
 {
     const NAME = 'phpbrew';
-    const VERSION = '1.25.2';
+    const VERSION = '1.25.3';
 
     public function options($opts)
     {
