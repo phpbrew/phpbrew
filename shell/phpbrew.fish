@@ -410,7 +410,7 @@ function __phpbrew_update_config
 end
 
 function __phpbrew_reinit
-    __phpbrew_update_config $argv && __phpbrew_set_path
+    __phpbrew_update_config $argv; and __phpbrew_set_path
 end
 
 function __phpbrew_each
@@ -423,7 +423,7 @@ function __phpbrew_each
     for build in $PHPBREW_ROOT/php/*
         if test -x $build/bin/php
             phpbrew use (basename $build)
-            eval $argv || set result $status
+            eval $argv; or set result $status
         end
     end;
 
