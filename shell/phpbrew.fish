@@ -81,9 +81,9 @@ function __phpbrew_php_exec
 
     # Check if we are in a PHPBrew source directory (this is only for development)
     if [ -e bin/phpbrew ]
-        set -a cmd bin/phpbrew
+        set cmd $cmd bin/phpbrew
     else
-        set -a cmd (__phpbrew_which phpbrew)
+        set cmd $cmd (__phpbrew_which phpbrew)
     end
 
     command $cmd $argv
@@ -556,7 +556,7 @@ function __fish_phpbrew_command
         switch $token
             case "-*"
             case "*"
-                set -a command "$token"
+                set command $command "$token"
         end
     end
 
@@ -583,7 +583,7 @@ function __fish_phpbrew_using_command
             case "--multiple"
                 set multiple yes
             case "*"
-                set -a expected "$arg"
+                set expected $expected "$arg"
         end
     end
 
