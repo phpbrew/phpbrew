@@ -86,7 +86,7 @@ function __phpbrew_php_exec
         set cmd $cmd (__phpbrew_which phpbrew)
     end
 
-    command $cmd $argv
+    eval $cmd $argv
 end
 
 # Normalizes a PHP build by adding the "php-" prefix if it's missing
@@ -125,7 +125,7 @@ function __phpbrew_validate_interpreter
         return 1
     end
 
-    set PHP_VERSION_ID (command $argv[1] -r "echo PHP_VERSION_ID;")
+    set PHP_VERSION_ID (eval $argv[1] -r "\"echo PHP_VERSION_ID;\"")
     or return 1
 
     if [ $PHP_VERSION_ID -lt $MIN_PHP_VERSION_ID ]
@@ -181,7 +181,7 @@ function __phpbrew_edit_ini
     set -q EDITOR;
     or set -l EDITOR nano
 
-    command $EDITOR $ini
+    eval $EDITOR $ini
 end
 
 function phpbrew
