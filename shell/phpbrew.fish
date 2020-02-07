@@ -207,7 +207,7 @@ function phpbrew
             end
 
             set -l IFS
-            if not set -l output (__phpbrew_php_exec env (__phpbrew_normalize_build $argv[2]))
+            if not set output (__phpbrew_php_exec env (__phpbrew_normalize_build $argv[2]))
                 echo $output
                 return 1
             end
@@ -396,7 +396,7 @@ end
 
 function __phpbrew_update_config
     set -l IFS
-    if not set -l output (__phpbrew_php_exec env $argv)
+    if not set output (__phpbrew_php_exec env $argv)
         echo $output
         return 1
     end
