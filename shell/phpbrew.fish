@@ -259,7 +259,9 @@ function phpbrew
             return 0
 
         case each
-            __phpbrew_each $argv[2..-1]
+	    if [ (count $argv) -gt 1 ]
+                __phpbrew_each $argv[2..-1]
+	    end
 
         case fpm
             if [ (count $argv) -ge 3 ]
