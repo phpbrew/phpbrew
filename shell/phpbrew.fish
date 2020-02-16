@@ -512,11 +512,11 @@ function _phpbrewrc_load --on-variable PWD --description 'Load configuration bas
     set curr_fs 0
     set prev_fs 0
 
-    while [ -n "$curr_dir" -a -d "$curr_dir" ]
+    while [ -n $curr_dir -a -d $curr_dir ]
         set prev_fs $curr_fs
-        set curr_fs (stat -c %d "$curr_dir" ^/dev/null)  # GNU version
+        set curr_fs (stat -c %d $curr_dir 2>/dev/null) # GNU version
         if [ $status -ne 0 ]
-            set curr_fs (stat -f %d "$curr_dir" >/dev/null ^&1)  # BSD version
+            set curr_fs (stat -f %d $curr_dir 2>/dev/null) # BSD version
         end
 
         # check if top level directory or filesystem boundary is reached
