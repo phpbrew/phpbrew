@@ -425,22 +425,6 @@ phpbrew fpm config
 >
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
-## Installing Extra Apps
-
-phpbrew provides app command to fetch some php apps.
-
-### Installing composer
-
-```bash
-$ phpbrew app get composer
-```
-
-### Installing phpunit
-
-```bash
-phpbrew app get phpunit
-```
-
 ## Enabling Version Info Prompt
 
 To add PHP version info in your shell prompt, you can use
