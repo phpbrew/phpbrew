@@ -459,17 +459,19 @@ class VariantBuilder
         $this->variants['intl'] = function (ConfigureParameters $parameters, Build $build) {
             $parameters = $parameters->withOption('--enable-intl');
 
-            if ($build->compareVersion('7.4') >= 0) {
-                return $parameters;
-            }
-
             $prefix = Utils::findPrefix(array(
                 new PkgConfigPrefixFinder('icu-i18n'),
                 new BrewPrefixFinder('icu4c'),
             ));
 
-            if ($prefix !== null) {
-                $parameters = $parameters->withOption('--with-icu-dir', $prefix);
+            if ($build->compareVersion('7.4') < 0) {
+                if ($prefix !== null) {
+                    $parameters = $parameters->withOption('--with-icu-dir', $prefix);
+                }
+            } else {
+                if ($prefix !== null) {
+                    $parameters = $parameters->withPkgConfigPath($prefix . '/lib/pkgconfig');
+                }
             }
 
             return $parameters;
