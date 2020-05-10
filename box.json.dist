@@ -6,8 +6,7 @@
         "KevinGH\\Box\\Compactor\\Php"
     ],
     "check-requirements": false,
-    "force-autodiscovery": true,
-    "directories": [
+    "directories-bin": [
         "shell"
     ]
 }
