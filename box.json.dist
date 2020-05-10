@@ -4,8 +4,7 @@
         "KevinGH\\Box\\Compactor\\Json",
         "KevinGH\\Box\\Compactor\\Php"
     ],
-    "force-autodiscovery": true,
-    "directories": [
+    "directories-bin": [
         "shell"
     ]
 }
