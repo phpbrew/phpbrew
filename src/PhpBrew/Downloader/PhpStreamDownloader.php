@@ -2,6 +2,8 @@
 
 namespace PhpBrew\Downloader;
 
+use RuntimeException;
+
 class PhpStreamDownloader extends BaseDownloader
 {
     protected function process($url, $targetFilePath)
@@ -31,13 +33,16 @@ class PhpStreamDownloader extends BaseDownloader
             $context = stream_context_create($opts);
             $binary = file_get_contents($url, null, $context);
         }
-        if ($binary !== false) {
-            file_put_contents($targetFilePath, $binary);
-
-            return true;
+        if ($binary === false) {
+            throw new RuntimeException("Fail to request $url");
         }
-        // throw new RuntimeException("Fail to request $url");
-        return false;
+
+        $res = file_put_contents($targetFilePath, $binary);
+        if ($res === false) {
+            throw new RuntimeException("Failed writing to $targetFilePath");
+        }
+
+        return true;
     }
 
     public function hasSupport($requireSsl)
