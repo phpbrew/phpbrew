@@ -17,6 +17,11 @@ class EnableCommand extends BaseCommand
         return 'Enable PHP extension';
     }
 
+    public function options($opts)
+    {
+        $opts->add('s|sapi:=string', 'Enable extension for SAPI name.');
+    }
+
     public function arguments($args)
     {
         $args->add('extensions')
@@ -31,7 +36,11 @@ class EnableCommand extends BaseCommand
 
     public function execute($extensionName)
     {
+        $sapi = null;
+        if ($this->options->sapi) {
+            $sapi = $this->options->sapi;
+        }
         $manager = new ExtensionManager($this->logger);
-        $manager->enable($extensionName);
+        $manager->enable($extensionName, $sapi);
     }
 }

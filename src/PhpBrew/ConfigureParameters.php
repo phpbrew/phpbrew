@@ -44,6 +44,27 @@ final class ConfigureParameters
     }
 
     /**
+     * Creates a new object without the given option and the value.
+     *
+     * If the given option is not set, the same object is returned.
+     *
+     * @param string $option
+     *
+     * @return static
+     */
+    public function withoutOption($option)
+    {
+        if (!array_key_exists($option, $this->options)) {
+            return $this;
+        }
+
+        $new = clone $this;
+        unset($new->options[$option]);
+
+        return $new;
+    }
+
+    /**
      * Creates a new object with added value of PKG_CONFIG_PATH.
      *
      * If the given path is already added, the same object is returned.

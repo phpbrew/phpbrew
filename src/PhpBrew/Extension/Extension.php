@@ -155,9 +155,13 @@ class Extension implements Buildable
         return ini_get('extension_dir') . DIRECTORY_SEPARATOR . $this->getSharedLibraryName();
     }
 
-    public function getConfigFilePath()
+    public function getConfigFilePath($sapi = null)
     {
-        return Config::getCurrentPhpConfigScanPath() . '/' . $this->getName() . '.ini';
+        $sapiPath = '';
+        if ($sapi) {
+            $sapiPath = '/' . $sapi;
+        }
+        return Config::getCurrentPhpConfigScanPath() . $sapiPath . '/' . $this->getName() . '.ini';
     }
 
     /**
