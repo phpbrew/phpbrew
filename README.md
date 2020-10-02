@@ -76,7 +76,7 @@ phpbrew init --root=/opt/phpbrew
 
 ### Setting up lookup prefix
 
-You may setup your prefered default prefix for looking up libraries, available
+You may setup your preferred default prefix for looking up libraries, available
 options are `macports`, `homebrew`, `debian`, `ubuntu` or a custom path:
 
 For Homebrew users:
