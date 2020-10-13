@@ -1,6 +1,5 @@
 {
     "output": "phpbrew",
-    "compression": "BZ2",
     "compactors": [
         "KevinGH\\Box\\Compactor\\Json",
         "KevinGH\\Box\\Compactor\\Php"
