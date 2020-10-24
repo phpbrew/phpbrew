@@ -18,6 +18,11 @@ class InfoCommand extends Command
 
     public function execute()
     {
+        $this->logger->warn(
+            'The info command is deprecated and will be removed in the future.' . PHP_EOL
+            . 'Please use `php -ini` instead.'
+        );
+
         echo <<<'EOF'
 <?php
 
