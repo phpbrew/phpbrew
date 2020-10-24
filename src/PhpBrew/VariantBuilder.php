@@ -5,6 +5,7 @@ namespace PhpBrew;
 use Exception;
 use PhpBrew\Exception\OopsException;
 use PhpBrew\PrefixFinder\BrewPrefixFinder;
+use PhpBrew\PrefixFinder\ExecutablePrefixFinder;
 use PhpBrew\PrefixFinder\IncludePrefixFinder;
 use PhpBrew\PrefixFinder\LibPrefixFinder;
 use PhpBrew\PrefixFinder\PkgConfigPrefixFinder;
@@ -629,32 +630,16 @@ class VariantBuilder
          * The --with-pgsql=[DIR] and --with-pdo-pgsql=[DIR] requires [DIR]/bin/pg_config to be found.
          */
         $this->variants['pgsql'] = function (ConfigureParameters $parameters, Build $build, $value) {
-            if ($value === null) {
-                $bin = Utils::findBin('pg_config');
+            $prefix = Utils::findPrefix(array(
+                new UserProvidedPrefix($value),
+                new ExecutablePrefixFinder('pg_config'),
+                new BrewPrefixFinder('libpq'),
+            ));
 
-                if (!$bin) {
-                    $bin = first_existing_executable(array(
-                        '/opt/local/lib/postgresql95/bin/pg_config',
-                        '/opt/local/lib/postgresql94/bin/pg_config',
-                        '/opt/local/lib/postgresql93/bin/pg_config',
-                        '/opt/local/lib/postgresql92/bin/pg_config',
-                        '/Library/PostgreSQL/9.5/bin/pg_config',
-                        '/Library/PostgreSQL/9.4/bin/pg_config',
-                        '/Library/PostgreSQL/9.3/bin/pg_config',
-                        '/Library/PostgreSQL/9.2/bin/pg_config',
-                        '/Library/PostgreSQL/9.1/bin/pg_config',
-                    ));
-                }
-
-                if ($bin) {
-                    $value = dirname($bin);
-                }
-            }
-
-            $parameters = $parameters->withOption('--with-pgsql', $value);
+            $parameters = $parameters->withOption('--with-pgsql', $prefix);
 
             if ($build->isEnabledVariant('pdo')) {
-                $parameters = $parameters->withOption('--with-pdo-pgsql', $value);
+                $parameters = $parameters->withOption('--with-pdo-pgsql', $prefix);
             }
 
             return $parameters;
