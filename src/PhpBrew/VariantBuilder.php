@@ -209,7 +209,26 @@ class VariantBuilder
 
         $this->variants['opcache'] = '--enable-opcache';
 
-        $this->variants['imap'] = '--with-imap-ssl';
+        $this->variants['imap'] = function (ConfigureParameters $params, Build $build, $value) {
+            $imapPrefix = Utils::findPrefix(array(
+                new UserProvidedPrefix($value),
+                new BrewPrefixFinder('imap-uw'),
+            ));
+
+            $kerberosPrefix = Utils::findPrefix(array(
+                new BrewPrefixFinder('krb5'),
+            ));
+
+            $opensslPrefix = Utils::findPrefix(array(
+                new BrewPrefixFinder('openssl'),
+                new PkgConfigPrefixFinder('openssl'),
+                new IncludePrefixFinder('openssl/opensslv.h'),
+            ));
+
+            return $params->withOption('--with-imap', $imapPrefix)
+                ->withOptionOrPkgConfigPath($build, '--with-kerberos', $kerberosPrefix)
+                ->withOptionOrPkgConfigPath($build, '--with-imap-ssl', $opensslPrefix);
+        };
 
         $this->variants['ldap'] = function (ConfigureParameters $params, Build $_, $value) {
             $prefix = Utils::findPrefix(array(
