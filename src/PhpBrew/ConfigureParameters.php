@@ -65,6 +65,30 @@ final class ConfigureParameters
     }
 
     /**
+     * Creates a new object with the given option. When building PHP 7.3 or older, the non-NULL value
+     * is passed as the option value. When building PHP 7.4 or newer, the value is added as a PKG_CONFIG_PATH prefix.
+     *
+     * @param string      $option
+     * @param string|null $value
+     *
+     * @return self
+     */
+    public function withOptionOrPkgConfigPath(Build $build, $option, $value)
+    {
+        if ($build->compareVersion('7.4') < 0) {
+            return $this->withOption($option, $value);
+        }
+
+        $new = $this->withOption($option);
+
+        if ($value !== null) {
+            $new = $new->withPkgConfigPath($value . '/lib/pkgconfig');
+        }
+
+        return $new;
+    }
+
+    /**
      * @return array<string,string|null>
      */
     public function getOptions()

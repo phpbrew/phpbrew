@@ -290,15 +290,7 @@ class VariantBuilder
                 new IncludePrefixFinder('zlib.h'),
             ));
 
-            if ($build->compareVersion('7.4') < 0) {
-                return $params->withOption('--with-zlib', $prefix);
-            }
-
-            if ($prefix !== null) {
-                $params = $params->withPkgConfigPath($prefix . '/lib/pkgconfig');
-            }
-
-            return $params->withOption('--with-zlib');
+            return $params->withOptionOrPkgConfigPath($build, '--with-zlib', $prefix);
         };
 
         $this->variants['curl'] = function (ConfigureParameters $params, Build $build, $value) {
@@ -309,15 +301,7 @@ class VariantBuilder
                 new IncludePrefixFinder('curl/curl.h'),
             ));
 
-            if ($build->compareVersion('7.4') < 0) {
-                return $params->withOption('--with-curl', $prefix);
-            }
-
-            if ($prefix !== null) {
-                $params = $params->withPkgConfigPath($prefix . '/lib/pkgconfig');
-            }
-
-            return $params->withOption('--with-curl');
+            return $params->withOptionOrPkgConfigPath($build, '--with-curl', $prefix);
         };
 
         /*
@@ -520,15 +504,7 @@ class VariantBuilder
                 new IncludePrefixFinder('openssl/opensslv.h'),
             ));
 
-            if ($build->compareVersion('7.4') < 0) {
-                return $parameters->withOption('--with-openssl', $prefix);
-            }
-
-            if ($prefix !== null) {
-                $parameters = $parameters->withPkgConfigPath($prefix . '/lib/pkgconfig');
-            }
-
-            return $parameters->withOption('--with-openssl');
+            return $parameters->withOptionOrPkgConfigPath($build, '--with-openssl', $prefix);
         };
 
         /*
