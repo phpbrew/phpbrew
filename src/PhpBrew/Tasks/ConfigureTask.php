@@ -46,12 +46,6 @@ class ConfigureTask extends BaseTask
         }
 
         if (!$this->options->dryrun) {
-            $pkgConfigPaths = $parameters->getPkgConfigPaths();
-
-            if (count($pkgConfigPaths) > 0) {
-                putenv('PKG_CONFIG_PATH=' . implode(PATH_SEPARATOR, $pkgConfigPaths));
-            }
-
             $code = $cmd->execute($lastline);
             if ($code !== 0) {
                 throw new SystemCommandException("Configure failed: $lastline", $build, $buildLogPath);
@@ -72,6 +66,12 @@ class ConfigureTask extends BaseTask
             }
 
             $args[] = $arg;
+        }
+
+        $pkgConfigPaths = $parameters->getPkgConfigPaths();
+
+        if (count($pkgConfigPaths) > 0) {
+            $args[] = 'PKG_CONFIG_PATH=' . implode(PATH_SEPARATOR, $pkgConfigPaths);
         }
 
         return $args;
