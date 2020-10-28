@@ -75,8 +75,8 @@ class Build implements Buildable
      */
     public function __construct($version, $name = null, $installPrefix = null)
     {
-        $this->version = $version;
-        $this->name = $name ? $name : Utils::canonicalizeBuildName($version);
+        $this->setVersion($version);
+        $this->name = $name ? $name : $this->version;
 
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);

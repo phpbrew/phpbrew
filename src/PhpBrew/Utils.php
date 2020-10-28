@@ -23,15 +23,6 @@ class Utils
         return false;
     }
 
-    public static function canonicalizeBuildName($version)
-    {
-        if (!preg_match('/^php-/', $version)) {
-            return 'php-' . $version;
-        }
-
-        return $version;
-    }
-
     public static function support64bit()
     {
         $int = '9223372036854775807';
