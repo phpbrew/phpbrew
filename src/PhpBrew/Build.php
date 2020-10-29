@@ -75,8 +75,16 @@ class Build implements Buildable
      */
     public function __construct($version, $name = null, $installPrefix = null)
     {
-        $this->setVersion($version);
-        $this->name = $name ? $name : $this->version;
+        if (substr($version, 0, 4) === 'php-') {
+            $version = substr($version, 4);
+        }
+
+        if ($name === null) {
+            $name = 'php-' . $version;
+        }
+
+        $this->version = $version;
+        $this->name    = $name;
 
         if ($installPrefix) {
             $this->setInstallPrefix($installPrefix);
@@ -87,19 +95,9 @@ class Build implements Buildable
         $this->osRelease = php_uname('r');
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
     public function getName()
     {
         return $this->name;
-    }
-
-    public function setVersion($version)
-    {
-        $this->version = preg_replace('#^php-#', '', $version);
     }
 
     public function getVersion()
