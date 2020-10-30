@@ -19,6 +19,8 @@ $containerBuilder->register(Command\ListCommand::class, Command\ListCommand::cla
     ->setPublic(true);
 $containerBuilder->register(Command\ListCommandsCommand::class, Command\ListCommandsCommand::class)
     ->setPublic(true);
+$containerBuilder->register(Command\SystemCommand::class, Command\SystemCommand::class)
+    ->setPublic(true);
 
 $containerBuilder->register(CommandLoaderInterface::class, ContainerCommandLoader::class)
     ->setArguments([$containerBuilder, [
@@ -36,7 +38,8 @@ $containerBuilder->register(Application::class, Application::class)
     ])
     ->addMethodCall('setCommandLoader', [
         new Reference(CommandLoaderInterface::class),
-    ]);
+    ])
+    ->setPublic(true);
 
 $containerBuilder->compile();
 
