@@ -15,7 +15,7 @@ class UpdateCommand extends Command
 
     public function options($opts)
     {
-        $opts->add('o|old', 'List old phps (less than 5.3)');
+        $opts->add('o|old', 'List versions older than PHP 7.0');
 
         DownloadFactory::addOptionsForCommand($opts);
     }
@@ -26,7 +26,7 @@ class UpdateCommand extends Command
         $releases = $fetchTask->fetch();
 
         foreach ($releases as $majorVersion => $versions) {
-            if (strpos($majorVersion, '5.2') !== false && !$this->options->old) {
+            if (version_compare($majorVersion, '5.2', '<=')) {
                 continue;
             }
             $versionList = array_keys($versions);

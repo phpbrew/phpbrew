@@ -14,7 +14,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
 
     private $previousPhpBrewHome;
 
-    public $primaryVersion = '5.5.37';
+    public $primaryVersion = '7.0.33';
 
     /**
      * You need to set this to true in each subclass you want to use VCR in.
