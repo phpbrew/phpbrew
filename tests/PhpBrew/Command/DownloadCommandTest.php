@@ -15,8 +15,8 @@ class DownloadCommandTest extends CommandTestCase
     public function versionDataProvider()
     {
         return array(
-            array('5.5'),
-            array('5.5.15'),
+            array('7.0'),
+            array('7.0.33'),
         );
     }
 

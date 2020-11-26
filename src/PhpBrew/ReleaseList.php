@@ -131,7 +131,7 @@ class ReleaseList
         }
     }
 
-    public function fetchRemoteReleaseList(OptionResult $options = null)
+    public function fetchRemoteReleaseList(OptionResult $options)
     {
         $releases = self::buildReleaseListFromOfficialSite($options);
         $this->setReleases($releases);
@@ -157,10 +157,13 @@ class ReleaseList
         return $instance;
     }
 
-    private static function downloadReleaseListFromOfficialSite($version, OptionResult $options = null)
+    private static function downloadReleaseListFromOfficialSite($version, $max, OptionResult $options)
     {
-        $max = ($options && $options->old) ? 1000 : 100;
-        $url = "https://secure.php.net/releases/index.php?json&version={$version}&max={$max}";
+        $url = 'https://www.php.net/releases/index.php?' . http_build_query(array(
+            'json'    => true,
+            'version' => $version,
+            'max'     => $max,
+        ));
 
         $file = DownloadFactory::getInstance(Logger::getInstance(), $options)->download($url);
         $json = file_get_contents($file);
@@ -168,12 +171,17 @@ class ReleaseList
         return json_decode($json, true);
     }
 
-    public static function buildReleaseListFromOfficialSite(OptionResult $options = null)
+    private static function buildReleaseListFromOfficialSite(OptionResult $options)
     {
         $obj = array_merge(
-            self::downloadReleaseListFromOfficialSite(7, $options),
-            self::downloadReleaseListFromOfficialSite(5, $options)
+            self::downloadReleaseListFromOfficialSite(8, 100, $options),
+            self::downloadReleaseListFromOfficialSite(7, 100, $options)
         );
+
+        if ($options->get('old')) {
+            $obj = array_merge($obj, self::downloadReleaseListFromOfficialSite(5, 1000, $options));
+        }
+
         $releaseVersions = array();
         foreach ($obj as $k => $v) {
             if (preg_match('/^(\d+)\.(\d+)\./', $k, $matches)) {
