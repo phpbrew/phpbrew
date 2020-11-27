@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7425f2ddf0325cd1496e13653ae66ef2",
+    "content-hash": "af4c0c14b2f53dd2db7aa06a00bc70cc",
     "packages": [
         {
             "name": "corneltek/class-template",
@@ -47,6 +47,10 @@
             ],
             "description": "Class template Utilities",
             "homepage": "http://github.com/c9s/ClassTemplate",
+            "support": {
+                "issues": "https://github.com/c9s/ClassTemplate/issues",
+                "source": "https://github.com/c9s/ClassTemplate/tree/master"
+            },
             "time": "2015-09-06T05:04:14+00:00"
         },
         {
@@ -110,6 +114,10 @@
                 "getopt",
                 "zsh"
             ],
+            "support": {
+                "issues": "https://github.com/c9s/CLIFramework/issues",
+                "source": "https://github.com/c9s/CLIFramework/tree/3.0"
+            },
             "time": "2018-02-08T01:22:59+00:00"
         },
         {
@@ -158,6 +166,10 @@
             ],
             "description": "PHP Code Generation Library",
             "homepage": "http://github.com/c9s/CodeGen",
+            "support": {
+                "issues": "https://github.com/c9s/CodeGen/issues",
+                "source": "https://github.com/c9s/CodeGen/tree/master"
+            },
             "time": "2016-03-26T06:55:39+00:00"
         },
         {
@@ -197,6 +209,10 @@
                 "MIT"
             ],
             "description": "Curl Kit",
+            "support": {
+                "issues": "https://github.com/c9s/CurlKit/issues",
+                "source": "https://github.com/c9s/CurlKit/tree/master"
+            },
             "time": "2019-12-03T23:37:27+00:00"
         },
         {
@@ -243,6 +259,10 @@
             ],
             "description": "Powerful command-line option toolkit",
             "homepage": "http://github.com/c9s/GetOptionKit",
+            "support": {
+                "issues": "https://github.com/c9s/GetOptionKit/issues",
+                "source": "https://github.com/c9s/GetOptionKit/tree/master"
+            },
             "time": "2016-05-12T02:37:54+00:00"
         },
         {
@@ -287,6 +307,10 @@
             ],
             "description": "PEAR channel client",
             "homepage": "http://github.com/phpbrew/PEARX",
+            "support": {
+                "issues": "https://github.com/phpbrew/PEARX/issues",
+                "source": "https://github.com/phpbrew/PEARX/tree/1.3.5"
+            },
             "time": "2019-12-21T06:37:25+00:00"
         },
         {
@@ -333,6 +357,10 @@
             ],
             "description": "Universal library for PHP",
             "homepage": "http://github.com/corneltek/Universal",
+            "support": {
+                "issues": "https://github.com/corneltek/Universal/issues",
+                "source": "https://github.com/corneltek/Universal/tree/master"
+            },
             "time": "2016-06-11T11:51:45+00:00"
         },
         {
@@ -400,6 +428,9 @@
                 "singularize",
                 "string"
             ],
+            "support": {
+                "source": "https://github.com/doctrine/inflector/tree/master"
+            },
             "time": "2015-11-06T14:35:42+00:00"
         },
         {
@@ -450,6 +481,10 @@
                 "container",
                 "dependency injection"
             ],
+            "support": {
+                "issues": "https://github.com/silexphp/Pimple/issues",
+                "source": "https://github.com/silexphp/Pimple/tree/master"
+            },
             "time": "2018-01-21T07:42:36+00:00"
         },
         {
@@ -499,6 +534,10 @@
                 "container-interop",
                 "psr"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/master"
+            },
             "time": "2017-02-14T16:28:37+00:00"
         },
         {
@@ -552,6 +591,9 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/class-loader/tree/v2.8.52"
+            },
             "time": "2018-11-11T11:18:13+00:00"
         },
         {
@@ -601,6 +643,9 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/finder/tree/v2.8.50"
+            },
             "time": "2018-11-11T11:18:13+00:00"
         },
         {
@@ -657,6 +702,9 @@
                 "portable",
                 "shim"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-apcu/tree/v1.13.1"
+            },
             "time": "2019-11-27T13:56:44+00:00"
         },
         {
@@ -715,6 +763,9 @@
                 "polyfill",
                 "portable"
             ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-ctype/tree/master"
+            },
             "time": "2019-11-27T13:56:44+00:00"
         },
         {
@@ -765,6 +816,9 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/yaml/tree/v2.8.52"
+            },
             "time": "2018-11-11T11:18:13+00:00"
         },
         {
@@ -831,6 +885,11 @@
             "keywords": [
                 "templating"
             ],
+            "support": {
+                "forum": "https://groups.google.com/forum/#!forum/twig-users",
+                "issues": "https://github.com/twigphp/Twig/issues",
+                "source": "https://github.com/twigphp/Twig/tree/1.x"
+            },
             "time": "2018-12-16T10:34:11+00:00"
         }
     ],
@@ -888,6 +947,10 @@
                 "assertion",
                 "validation"
             ],
+            "support": {
+                "issues": "https://github.com/beberlei/assert/issues",
+                "source": "https://github.com/beberlei/assert/tree/v2.9.9"
+            },
             "time": "2019-05-28T15:27:37+00:00"
         },
         {
@@ -942,6 +1005,10 @@
                 "constructor",
                 "instantiate"
             ],
+            "support": {
+                "issues": "https://github.com/doctrine/instantiator/issues",
+                "source": "https://github.com/doctrine/instantiator/tree/master"
+            },
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
@@ -992,6 +1059,10 @@
                 }
             ],
             "description": "Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.",
+            "support": {
+                "issues": "https://github.com/php-vcr/php-vcr/issues",
+                "source": "https://github.com/php-vcr/php-vcr/tree/master"
+            },
             "time": "2020-06-03T17:37:04+00:00"
         },
         {
@@ -1041,6 +1112,10 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
+            "support": {
+                "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/release/2.x"
+            },
             "time": "2016-01-25T08:17:30+00:00"
         },
         {
@@ -1104,6 +1179,10 @@
                 "spy",
                 "stub"
             ],
+            "support": {
+                "issues": "https://github.com/phpspec/prophecy/issues",
+                "source": "https://github.com/phpspec/prophecy/tree/master"
+            },
             "time": "2019-12-22T21:05:45+00:00"
         },
         {
@@ -1166,6 +1245,11 @@
                 "testing",
                 "xunit"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.net/phpunit",
+                "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/2.2"
+            },
             "time": "2015-10-06T15:47:00+00:00"
         },
         {
@@ -1213,6 +1297,11 @@
                 "filesystem",
                 "iterator"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.net/phpunit",
+                "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/1.4.5"
+            },
             "time": "2017-11-27T13:52:08+00:00"
         },
         {
@@ -1254,6 +1343,10 @@
             "keywords": [
                 "template"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-text-template/issues",
+                "source": "https://github.com/sebastianbergmann/php-text-template/tree/1.2.1"
+            },
             "time": "2015-06-21T13:50:34+00:00"
         },
         {
@@ -1303,6 +1396,10 @@
             "keywords": [
                 "timer"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-timer/issues",
+                "source": "https://github.com/sebastianbergmann/php-timer/tree/master"
+            },
             "time": "2017-02-26T11:10:40+00:00"
         },
         {
@@ -1352,6 +1449,11 @@
             "keywords": [
                 "tokenizer"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-token-stream/issues",
+                "source": "https://github.com/sebastianbergmann/php-token-stream/tree/1.4"
+            },
+            "abandoned": true,
             "time": "2017-12-04T08:55:13+00:00"
         },
         {
@@ -1424,6 +1526,10 @@
                 "testing",
                 "xunit"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/phpunit/issues",
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/4.8.36"
+            },
             "time": "2017-06-21T08:07:12+00:00"
         },
         {
@@ -1480,6 +1586,11 @@
                 "mock",
                 "xunit"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.net/phpunit",
+                "issues": "https://github.com/sebastianbergmann/phpunit-mock-objects/issues",
+                "source": "https://github.com/sebastianbergmann/phpunit-mock-objects/tree/2.3"
+            },
             "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
@@ -1545,6 +1656,10 @@
                 "compare",
                 "equality"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/comparator/issues",
+                "source": "https://github.com/sebastianbergmann/comparator/tree/1.2"
+            },
             "time": "2017-01-29T09:50:25+00:00"
         },
         {
@@ -1597,6 +1712,10 @@
             "keywords": [
                 "diff"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/diff/issues",
+                "source": "https://github.com/sebastianbergmann/diff/tree/1.4"
+            },
             "time": "2017-05-22T07:24:03+00:00"
         },
         {
@@ -1647,6 +1766,10 @@
                 "environment",
                 "hhvm"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/environment/issues",
+                "source": "https://github.com/sebastianbergmann/environment/tree/1.3"
+            },
             "time": "2016-08-18T05:49:44+00:00"
         },
         {
@@ -1714,6 +1837,10 @@
                 "export",
                 "exporter"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/exporter/issues",
+                "source": "https://github.com/sebastianbergmann/exporter/tree/master"
+            },
             "time": "2016-06-17T09:04:28+00:00"
         },
         {
@@ -1765,6 +1892,10 @@
             "keywords": [
                 "global state"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/global-state/issues",
+                "source": "https://github.com/sebastianbergmann/global-state/tree/1.1.1"
+            },
             "time": "2015-10-12T03:26:01+00:00"
         },
         {
@@ -1818,6 +1949,10 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/master"
+            },
             "time": "2016-10-03T07:41:43+00:00"
         },
         {
@@ -1853,6 +1988,10 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/version/issues",
+                "source": "https://github.com/sebastianbergmann/version/tree/1.0.6"
+            },
             "time": "2015-06-21T13:59:46+00:00"
         },
         {
@@ -1913,6 +2052,9 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/event-dispatcher/tree/v2.8.50"
+            },
             "time": "2018-11-21T14:20:20+00:00"
         }
     ],
@@ -1929,5 +2071,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.3.9"
-    }
+    },
+    "plugin-api-version": "2.0.0"
 }
