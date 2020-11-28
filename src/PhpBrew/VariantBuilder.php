@@ -153,7 +153,13 @@ class VariantBuilder
         $this->variants['ftp'] = '--enable-ftp';
         $this->variants['filter'] = '--enable-filter';
         $this->variants['gcov'] = '--enable-gcov';
-        $this->variants['zts'] = '--enable-maintainer-zts';
+        $this->variants['zts'] = function (ConfigureParameters $params, Build $build) {
+            if ($build->compareVersion('8.0') < 0) {
+                return $params->withOption('--enable-maintainer-zts');
+            }
+
+            return $params->withOption('--enable-zts');
+        };
 
         $this->variants['json'] = '--enable-json';
         $this->variants['hash'] = '--enable-hash';

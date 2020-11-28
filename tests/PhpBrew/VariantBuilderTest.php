@@ -294,4 +294,36 @@ class VariantBuilderTest extends TestCase
             array('7.4.0-dev', '--with-zip'),
         );
     }
+
+    /**
+     * @param string $version
+     * @param string $expected
+     *
+     * @dataProvider ztsProvider
+     */
+    public function testZts($version, $expected)
+    {
+        $build = new Build($version);
+        $build->enableVariant('zts');
+
+        $builder = new VariantBuilder();
+        $options = $builder->build($build)->getOptions();
+
+        $this->assertArrayHasKey($expected, $options);
+    }
+
+    public static function ztsProvider()
+    {
+        return array(
+            array('5.3.0', '--enable-maintainer-zts'),
+            array('5.4.0', '--enable-maintainer-zts'),
+            array('5.5.0', '--enable-maintainer-zts'),
+            array('5.6.0', '--enable-maintainer-zts'),
+            array('7.0.0', '--enable-maintainer-zts'),
+            array('7.1.0', '--enable-maintainer-zts'),
+            array('7.3.0', '--enable-maintainer-zts'),
+            array('7.4.0', '--enable-maintainer-zts'),
+            array('8.0.0', '--enable-zts'),
+        );
+    }
 }
