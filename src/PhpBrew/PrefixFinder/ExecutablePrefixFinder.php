@@ -28,7 +28,7 @@ final class ExecutablePrefixFinder implements PrefixFinder
      */
     public function findPrefix()
     {
-        $bin = Utils::findBin('pg_config');
+        $bin = Utils::findBin($this->name);
 
         if ($bin === null) {
             return null;
