@@ -56,6 +56,12 @@ class SelfUpdateCommand extends Command
         chmod($tempFile, 0755);
         //todo we can check the hash here in order to make sure we have download the phar successfully
 
+        if (!$this->checkRequirements($tempFile)) {
+            unlink($tempFile);
+
+            throw new RuntimeException('Update failed');
+        }
+
         //move the tmp file to executable path
         if (!rename($tempFile, $script)) {
             throw new RuntimeException('Update Failed', 3);
@@ -63,6 +69,21 @@ class SelfUpdateCommand extends Command
 
         $this->logger->info('Version updated.');
         system($script . ' init');
-        system($script . ' --version');
+    }
+
+    /**
+     * Check if the new version is compatible with the current runtime.
+     *
+     * This assumes that the binary will check the runtime requirements for any sub-command including `--version`.
+     *
+     * @param string $binary The path to the new PHPBrew version binary
+     *
+     * @return bool
+     */
+    private function checkRequirements($binary)
+    {
+        system(escapeshellcmd($binary) . ' --version', $code);
+
+        return $code === 0;
     }
 }
