@@ -6,6 +6,7 @@ use PhpBrew\Build;
 use PhpBrew\ConfigureParameters;
 use PhpBrew\Patches\Apache2ModuleNamePatch;
 use PhpBrew\Patches\FreeTypePatch;
+use PhpBrew\Patches\ReadlinePatch;
 use PhpBrew\PatchKit\Patch;
 
 /**
@@ -49,12 +50,14 @@ class BeforeConfigureTask extends BaseTask
             $this->logger->info('===> Checking patches...');
 
             $freeTypePatch = new FreeTypePatch();
-            $freeTypePatched = false;
+            $readlinePatch = new ReadlinePatch();
+            $needBuildConf = false;
 
             /** @var Patch[] $patches */
             $patches = array(
                 new Apache2ModuleNamePatch($build->getVersion()),
                 $freeTypePatch,
+                $readlinePatch
             );
 
             foreach ($patches as $patch) {
@@ -63,14 +66,14 @@ class BeforeConfigureTask extends BaseTask
                     $patched = $patch->apply($build, $this->logger);
                     $this->logger->info("$patched changes patched.");
 
-                    if ($patch === $freeTypePatch) {
-                        $freeTypePatched = $patched;
+                    if ($patch === $freeTypePatch || $patch === $readlinePatch) {
+                        $needBuildConf = $patched;
                     }
                 }
             }
 
-            if ($freeTypePatched) {
-                $this->logger->info('GD extension was patched, need to run buildconf');
+            if ($needBuildConf) {
+                $this->logger->info('Need to run buildconf');
 
                 $buildConf = new BuildConfTask($this->logger);
                 $buildConf->run($build);
