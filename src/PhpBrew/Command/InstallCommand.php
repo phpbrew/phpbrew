@@ -266,7 +266,9 @@ class InstallCommand extends Command
 
         $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         if (!file_exists($installPrefix)) {
-            mkdir($installPrefix, 0755, true);
+            if (!mkdir($installPrefix, 0755, true) && !is_dir($installPrefix)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $installPrefix));
+            }
         }
         $build->setInstallPrefix($installPrefix);
 
@@ -332,7 +334,9 @@ class InstallCommand extends Command
         // Move to to build directory, because we are going to download distribution.
         $buildDir = $this->options->{'build-dir'} ?: Config::getBuildDir();
         if (!file_exists($buildDir)) {
-            mkdir($buildDir, 0755, true);
+            if (!mkdir($buildDir, 0755, true) && !is_dir($buildDir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $buildDir));
+            }
         }
 
         $parameters = new ConfigureParameters();
@@ -344,9 +348,7 @@ class InstallCommand extends Command
         $prefix = $build->getInstallPrefix();
 
         $parameters = $parameters
-            ->withOption('--prefix', $prefix)
-            ->withOption('--with-config-file-path', $prefix . '/etc')
-            ->withOption('--with-config-file-scan-dir', $prefix . '/var/db');
+            ->withOption('--prefix', $prefix);
 
         // Options for specific versions
         // todo: extract to BuildPlan class: PHP53 BuildPlan, PHP54 BuildPlan, PHP55 BuildPlan ?
@@ -399,11 +401,17 @@ class InstallCommand extends Command
         $build->setSourceDirectory($targetDir);
 
         if (!$this->options->{'no-clean'} && file_exists($targetDir . DIRECTORY_SEPARATOR . 'Makefile')) {
-            $this->logger->info('Found existing Makefile, running make clean to ensure everything will be rebuilt.');
-            $this->logger->info(
-                "You can append --no-clean option after the install command if you don't want to rebuild."
-            );
-            $clean->clean($build);
+            if ($build->isEnabledVariant('apxs2') || $build->isEnabledVariant('fpm')) {
+                $this->logger->info('You want to build several variants. No clean is not available.');
+            } else {
+                $this->logger->info(
+                    'Found existing Makefile, running make clean to ensure everything will be rebuilt.'
+                );
+                $this->logger->info(
+                    "You can append --no-clean option after the install command if you don't want to rebuild."
+                );
+                $clean->clean($build);
+            }
         }
 
         // Change directory to the downloaded source directory.
@@ -415,128 +423,125 @@ class InstallCommand extends Command
             $this->logger->warn("Can't store variant info.");
         }
 
+        $targetPaths = array();
         if (!$this->options->{'no-configure'}) {
-            $configureTask = new BeforeConfigureTask($this->logger, $this->options);
-            $configureTask->run($build, $parameters);
-            unset($configureTask); // trigger __destruct
+            $options = $parameters->getOptions();
+            // https://gist.github.com/tvlooy/953a7c0658e70b573ab4
+            $sapis = array('cli' => array(
+                'enable' => array('--enable-cli'),
+                'disable' => array('--disable-cli')
+            ));
 
-            $configureTask = new ConfigureTask($this->logger, $this->options);
-            $configureTask->run($build, $parameters);
-            unset($configureTask); // trigger __destruct
-
-            $configureTask = new AfterConfigureTask($this->logger, $this->options);
-            $configureTask->run($build);
-            unset($configureTask); // trigger __destruct
-        }
-
-        {
-            $buildTask = new BuildTask($this->logger, $this->options);
-            $buildTask->run($build);
-            unset($buildTask); // trigger __destruct
-        }
-
-        if ($this->options->{'test'}) {
-            $testTask = new TestTask($this->logger, $this->options);
-            $testTask->run($build);
-            unset($testTask); // trigger __destruct
-        }
-
-        if (!$this->options->{'no-install'}) {
-            $installTask = new InstallTask($this->logger, $this->options);
-            $installTask->install($build);
-            unset($installTask); // trigger __destruct
-        }
-
-        if ($this->options->{'post-clean'}) {
-            $clean->clean($build);
-        }
-
-        /* POST INSTALLATION **/
-        {
-            $dsym = new DSymTask($this->logger, $this->options);
-            $dsym->patch($build, $this->options);
-        }
-
-        // copy php-fpm config
-        $this->logger->info('---> Creating php-fpm.conf');
-        $etcDirectory = $build->getEtcDirectory();
-        $fpmUnixSocket = $build->getInstallPrefix() . "/var/run/php-fpm.sock";
-        $this->installAs("$etcDirectory/php-fpm.conf.default", "$etcDirectory/php-fpm.conf");
-        $this->installAs("$etcDirectory/php-fpm.d/www.conf.default", "$etcDirectory/php-fpm.d/www.conf");
-
-        $patchingFiles = array("$etcDirectory/php-fpm.d/www.conf", "$etcDirectory/php-fpm.conf");
-        foreach ($patchingFiles as $patchingFile) {
-            if (file_exists($patchingFile)) {
-                $this->logger->info("---> Found $patchingFile");
-                // Patch pool listen unix
-                // The original config was below:
-                //
-                // listen = 127.0.0.1:9000
-                //
-                // See http://php.net/manual/en/install.fpm.configuration.php for more details
-                $ini = file_get_contents($patchingFile);
-                $this->logger->info("---> Patching default fpm pool listen path to $fpmUnixSocket");
-                $ini = preg_replace('/^listen = .*$/m', "listen = $fpmUnixSocket\n", $ini);
-                file_put_contents($patchingFile, $ini);
-                break;
+            if ($build->isEnabledVariant('apxs2')) {
+                $sapis['apache2'] = array(
+                    'enable' => array('--with-apxs2'),
+                    'disable' => array(),
+                );
             }
-        }
-
-
-        $this->logger->info('---> Creating php.ini');
-        $phpConfigPath = $build->getSourceDirectory()
-             . DIRECTORY_SEPARATOR . ($this->options->production ? 'php.ini-production' : 'php.ini-development');
-        $this->logger->info("---> Copying $phpConfigPath ");
-
-        if (file_exists($phpConfigPath) && !$this->options->dryrun) {
-            $targetConfigPath = $etcDirectory . DIRECTORY_SEPARATOR . 'php.ini';
-
-            if (file_exists($targetConfigPath)) {
-                $this->logger->notice("Found existing $targetConfigPath.");
-            } else {
-                // TODO: Move this to PhpConfigPatchTask
-                // move config file to target location
-                copy($phpConfigPath, $targetConfigPath);
+            if ($build->isEnabledVariant('fpm')) {
+                $sapis['fpm'] = array(
+                    'enable' => array('--enable-fpm', '--with-fpm-systemd'),
+                    'disable' => array(),
+                );
             }
 
-            if (!$this->options->{'no-patch'}) {
-                $config = parse_ini_file($targetConfigPath, true);
-                $configContent = file_get_contents($targetConfigPath);
+            foreach ($sapis as $sapi => $enableDisable) {
+                $this->logger->info('Running make clean to ensure everything will be rebuilt.');
+                $clean->clean($build);
 
-                if (!isset($config['date']['timezone'])) {
-                    $this->logger->info('---> Found date.timezone is not set, patching...');
+                $addedOptions = $removedOptions = array();
 
-                    // Replace current timezone
-                    if ($timezone = ini_get('date.timezone')) {
-                        $this->logger->info("---> Found date.timezone, patching config timezone with $timezone");
-                        $configContent = preg_replace(
-                            '/^;?date.timezone\s*=\s*.*/im',
-                            "date.timezone = $timezone",
-                            $configContent
-                        );
+                foreach ($sapis as $sapiName => $sapiEnableDisable) {
+                    list($addedOptions, $removedOptions) = $this->enableDisable(
+                        $parameters,
+                        $sapiEnableDisable,
+                        $sapiName === $sapi,
+                        $options
+                    );
+                }
+
+                $parameters = $parameters
+                    ->withOption('--with-config-file-path', $prefix . '/etc/' . $sapi)
+                    ->withOption('--with-config-file-scan-dir', $prefix . '/var/db/' . $sapi);
+
+                $this->build($build, $parameters);
+
+                foreach ($addedOptions as $addedOption) {
+                    $parameters = $parameters->withoutOption($addedOption);
+                }
+                foreach ($removedOptions as $removedOption) {
+                    $parameters = $parameters->withOption(
+                        $removedOption,
+                        array_key_exists($removedOption, $options) ? $options[$removedOption] : null
+                    );
+                }
+
+                {
+                    $buildTask = new BuildTask($this->logger, $this->options);
+                    $buildTask->run($build);
+                    unset($buildTask); // trigger __destruct
+                }
+
+                if ($this->options->{'test'}) {
+                    $testTask = new TestTask($this->logger, $this->options);
+                    $testTask->run($build);
+                    unset($testTask); // trigger __destruct
+                }
+
+                if (!$this->options->{'no-install'}) {
+                    $installTask = new InstallTask($this->logger, $this->options);
+                    $installTask->install($build);
+                    unset($installTask); // trigger __destruct
+                }
+
+                if ($this->options->{'post-clean'}) {
+                    $clean->clean($build);
+                }
+
+                /* POST INSTALLATION **/
+                {
+                    $dsym = new DSymTask($this->logger, $this->options);
+                    $dsym->patch($build, $this->options);
+                }
+
+                $etcDirectory = $build->getEtcDirectory();
+
+                if ('fpm' === $sapi) {
+                    // copy php-fpm config
+                    $this->logger->info('---> Creating php-fpm.conf');
+                    $fpmUnixSocket = $build->getInstallPrefix() . "/var/run/php-fpm.sock";
+                    $this->installAs("$etcDirectory/php-fpm.conf.default", "$etcDirectory/php-fpm.conf");
+                    $this->installAs("$etcDirectory/php-fpm.d/www.conf.default", "$etcDirectory/php-fpm.d/www.conf");
+
+                    $patchingFiles = array("$etcDirectory/php-fpm.d/www.conf", "$etcDirectory/php-fpm.conf");
+                    foreach ($patchingFiles as $patchingFile) {
+                        if (file_exists($patchingFile)) {
+                            $this->logger->info("---> Found $patchingFile");
+                            // Patch pool listen unix
+                            // The original config was below:
+                            //
+                            // listen = 127.0.0.1:9000
+                            //
+                            // See http://php.net/manual/en/install.fpm.configuration.php for more details
+                            $ini = file_get_contents($patchingFile);
+                            $this->logger->info("---> Patching default fpm pool listen path to $fpmUnixSocket");
+                            $ini = preg_replace('/^listen = .*$/m', "listen = $fpmUnixSocket\n", $ini);
+                            file_put_contents($patchingFile, $ini);
+                            break;
+                        }
                     }
                 }
 
-                if (!isset($config['phar']['readonly'])) {
-                    $pharReadonly = ini_get('phar.readonly');
-                    // 0 or "" means readonly is disabled manually
-                    if (!$pharReadonly) {
-                        $this->logger->info('---> Disabling phar.readonly option.');
-                        $configContent = preg_replace(
-                            '/^;?phar.readonly\s*=\s*.*/im',
-                            'phar.readonly = 0',
-                            $configContent
-                        );
-                    }
-                }
 
-                // turn off detect_encoding for 5.3
-                if ($build->compareVersion('5.4') < 0) {
-                    $this->logger->info("---> Turn off detect_encoding for php 5.3.*");
-                    $configContent = $configContent . "\ndetect_unicode = Off\n";
-                }
+                $this->logger->info('---> Creating php.ini');
+                $phpConfigPath = $build->getSourceDirectory()
+                    . DIRECTORY_SEPARATOR . ($this->options->production ? 'php.ini-production' : 'php.ini-development');
+                $this->logger->info("---> Copying $phpConfigPath ");
 
-                file_put_contents($targetConfigPath, $configContent);
+                if (file_exists($phpConfigPath) && !$this->options->dryrun) {
+                    $targetConfigPath = $this->makeIniFile($build, $etcDirectory, $phpConfigPath, $sapi);
+                    $targetPaths[] = '    ' . $targetConfigPath;
+                }
             }
         }
 
@@ -571,11 +576,13 @@ class InstallCommand extends Command
 EOT;
         }
 
-        if (isset($targetConfigPath)) {
+        if (count($targetPaths)) {
+            $targetConfigPaths = implode($targetPaths, PHP_EOL);
+
             echo <<<EOT
 
-* To configure your installed PHP further, you can edit the config file at
-    $targetConfigPath
+* To configure your installed PHP further, you can edit the config file(s) at
+$targetConfigPaths
 
 EOT;
         }
@@ -630,5 +637,122 @@ EOT;
                 return false;
             }
         }
+    }
+
+    /**
+     * @param Build $build
+     * @param string $etcDirectory
+     * @param string $phpConfigPath
+     * @param string $sapi
+     * @return string
+     */
+    private function makeIniFile(Build $build, $etcDirectory, $phpConfigPath, $sapi)
+    {
+        $sapiEtcDirectory = $etcDirectory . DIRECTORY_SEPARATOR . $sapi;
+        if (!is_dir($sapiEtcDirectory) && mkdir($sapiEtcDirectory) && !is_dir($sapiEtcDirectory)) {
+            $this->logger->error("Can't create config directory " . $sapiEtcDirectory);
+        }
+        $extensionsConfig = $etcDirectory . '/../var/db/' . $sapi;
+        if (!is_dir($extensionsConfig) && mkdir($extensionsConfig, 0777, true) && !is_dir($extensionsConfig)) {
+            $this->logger->error("Can't create config directory " . $sapiEtcDirectory);
+        }
+
+        $targetConfigPath = $sapiEtcDirectory . DIRECTORY_SEPARATOR . 'php.ini';
+
+        if (file_exists($targetConfigPath)) {
+            $this->logger->notice("Found existing $targetConfigPath.");
+        } else {
+            // TODO: Move this to PhpConfigPatchTask
+            // move config file to target location
+            copy($phpConfigPath, $targetConfigPath);
+        }
+
+        if (!$this->options->{'no-patch'}) {
+            $config = parse_ini_file($targetConfigPath, true);
+            $configContent = file_get_contents($targetConfigPath);
+
+            if (!isset($config['date']['timezone'])) {
+                $this->logger->info('---> Found date.timezone is not set, patching...');
+
+                // Replace current timezone
+                if ($timezone = ini_get('date.timezone')) {
+                    $this->logger->info("---> Found date.timezone, patching config timezone with $timezone");
+                    $configContent = preg_replace(
+                        '/^;?date.timezone\s*=\s*.*/im',
+                        "date.timezone = $timezone",
+                        $configContent
+                    );
+                }
+            }
+
+            if (!isset($config['phar']['readonly'])) {
+                $pharReadonly = ini_get('phar.readonly');
+                // 0 or "" means readonly is disabled manually
+                if (!$pharReadonly) {
+                    $this->logger->info('---> Disabling phar.readonly option.');
+                    $configContent = preg_replace(
+                        '/^;?phar.readonly\s*=\s*.*/im',
+                        'phar.readonly = 0',
+                        $configContent
+                    );
+                }
+            }
+
+            // turn off detect_encoding for 5.3
+            if ($build->compareVersion('5.4') < 0) {
+                $this->logger->info("---> Turn off detect_encoding for php 5.3.*");
+                $configContent = $configContent . "\ndetect_unicode = Off\n";
+            }
+
+            file_put_contents($targetConfigPath, $configContent);
+        }
+
+        return $targetConfigPath;
+    }
+
+    private function build(Build $build, ConfigureParameters $parameters)
+    {
+        $configureTask = new BeforeConfigureTask($this->logger, $this->options);
+        $configureTask->run($build, $parameters);
+        unset($configureTask); // trigger __destruct
+
+        $configureTask = new ConfigureTask($this->logger, $this->options);
+        $configureTask->run($build, $parameters);
+        unset($configureTask); // trigger __destruct
+
+        $configureTask = new AfterConfigureTask($this->logger, $this->options);
+        $configureTask->run($build);
+        unset($configureTask); // trigger __destruct
+    }
+
+    /**
+     * @param ConfigureParameters $parameters
+     * @param array $sapiSettings
+     * @param bool $currentSapi
+     * @param array $defaults
+     *
+     * @return array
+     */
+    private function enableDisable(&$parameters, $sapiSettings, $currentSapi, $defaults)
+    {
+        $addedOptions = $removedOptions = array();
+
+        $enableOptions = $currentSapi ? $sapiSettings['enable'] : $sapiSettings['disable'];
+        $disableOptions = $currentSapi ? $sapiSettings['disable'] : $sapiSettings['enable'];
+
+        foreach ($enableOptions as $configOption) {
+            $addedOptions[] = $configOption;
+            $parameters = $parameters->withOption(
+                $configOption,
+                array_key_exists($configOption, $defaults) ? $defaults[$configOption] : null
+            );
+        }
+
+        foreach ($disableOptions as $configOption) {
+            $removedOptions[] = $configOption;
+            $parameters = $parameters->withoutOption($configOption);
+        }
+
+        return array($addedOptions, $removedOptions);
     }
 }

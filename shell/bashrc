@@ -185,18 +185,6 @@ function __phpbrew_set_lookup_prefix ()
     esac
 }
 
-# Edit the current PHP's php.ini in $EDITOR
-function __phpbrew_edit_ini()
-{
-    local ini="$(php -r "echo php_ini_loaded_file();")"
-
-    if [[ $? -ne 0 ]] ; then
-        return 1
-    fi
-
-    command "${EDITOR:-nano}" "$ini"
-}
-
 function phpbrew ()
 {
     local short_option
@@ -234,9 +222,6 @@ function phpbrew ()
             if [[ -d $SOURCE_DIR ]] ; then
                 builtin cd $SOURCE_DIR
             fi
-            ;;
-        config)
-            __phpbrew_edit_ini
             ;;
         switch)
             if [[ -z "$2" ]]; then
@@ -303,7 +288,7 @@ function phpbrew ()
               if [[ ${PHP_BUILD} =~ ${regex} ]]; then
                 ${PHPFPM_BIN} start
               else
-                ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php.ini \
+                ${PHPFPM_BIN} --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/fpm/php.ini \
                   --fpm-config ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php-fpm.conf \
                   --pid ${PHPFPM_PIDFILE} \
                   "$@"
@@ -345,12 +330,12 @@ function phpbrew ()
                     fi
                     ;;
                 module)
-                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php.ini \
+                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/fpm/php.ini \
                             --fpm-config ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php-fpm.conf \
                             -m | less
                     ;;
                 info)
-                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php.ini \
+                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/fpm/php.ini \
                             --fpm-config ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php-fpm.conf \
                             -i
                     ;;
@@ -366,11 +351,11 @@ function phpbrew ()
                     echo $PHPFPM_BIN
                     ;;
                 help)
-                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php.ini \
+                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/fpm/php.ini \
                             --fpm-config ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php-fpm.conf --help
                     ;;
                 test)
-                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php.ini \
+                    $PHPFPM_BIN --php-ini ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/fpm/php.ini \
                             --fpm-config ${PHPBREW_ROOT}/php/${PHP_BUILD}/etc/php-fpm.conf --test
                     ;;
                 *)

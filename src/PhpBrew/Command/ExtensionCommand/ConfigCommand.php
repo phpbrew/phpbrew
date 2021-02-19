@@ -8,6 +8,11 @@ use PhpBrew\Utils;
 
 class ConfigCommand extends BaseCommand
 {
+    public function usage()
+    {
+        return 'phpbrew ext config [--sapi] [extension name]';
+    }
+
     public function brief()
     {
         return 'Edit extension-specific configuration file';
@@ -23,13 +28,23 @@ class ConfigCommand extends BaseCommand
             });
     }
 
+    public function options($opts)
+    {
+        $opts->add('s|sapi:=string', 'Edit extension for SAPI name.');
+    }
+
     public function execute($extensionName)
     {
+        $sapi = null;
+        if ($this->options->sapi) {
+            $sapi = $this->options->sapi;
+        }
+
         $ext = ExtensionFactory::lookup($extensionName);
         if (!$ext) {
             return $this->error("Extension $extensionName not found.");
         }
-        $file = $ext->getConfigFilePath();
+        $file = $ext->getConfigFilePath($sapi);
         $this->logger->info("Looking for {$file} file...");
         if (!file_exists($file)) {
             $file .= '.disabled'; // try with ini.disabled file

@@ -173,17 +173,6 @@ function __phpbrew_set_lookup_prefix
     end
 end
 
-# Edit the current PHP's php.ini in $EDITOR
-function __phpbrew_edit_ini
-    set -l ini (php -r "echo php_ini_loaded_file();");
-    or return 1
-
-    set -q EDITOR;
-    or set -l EDITOR nano
-
-    command $EDITOR $ini
-end
-
 function phpbrew
     set short_option
     # export SHELL
@@ -219,8 +208,6 @@ function phpbrew
             if [ -d $SOURCE_DIR ]
                 cd $SOURCE_DIR
             end
-        case config
-            __phpbrew_edit_ini
         case 'switch'
             if [ (count $argv) -eq 1 ]
                 echo "Please specify the php version."
@@ -286,7 +273,7 @@ function phpbrew
               if echo $PHP_BUILD | egrep -q -e $regex
                 eval $PHPFPM_BIN start
               else
-                 eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --pid $PHPFPM_PIDFILE $_PHPFPM_APPEND
+                 eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/fpm/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --pid $PHPFPM_PIDFILE $_PHPFPM_APPEND
               end
 
               if [ "$status" != "0" ]
@@ -317,9 +304,9 @@ function phpbrew
                     fpm_stop
                     fpm_start $argv
               case module
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf -m | less
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/fpm/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf -m | less
               case info
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf -i
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/fpm/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf -i
               case config
                     if [ -n "$EDITOR" ]
                         eval $EDITOR $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf
@@ -328,9 +315,9 @@ function phpbrew
                         nano $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf
                     end
               case help
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --help
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/fpm/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --help
               case test
-                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --test
+                     eval $PHPFPM_BIN --php-ini $PHPBREW_ROOT/php/$PHP_BUILD/etc/fpm/php.ini --fpm-config $PHPBREW_ROOT/php/$PHP_BUILD/etc/php-fpm.conf --test
               case '*'
                     echo "Usage: phpbrew fpm [start|stop|restart|module|test|help|config]"
             end

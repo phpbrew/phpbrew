@@ -248,6 +248,9 @@ local ret=1
         
         ;;
         (config)
+            _arguments -w -S -s \
+              '(-s --sapi)'{-s,--sapi=}'[Edit php.ini for SAPI name.]:string' \
+               && ret=0
         
         ;;
         (info)
@@ -284,6 +287,7 @@ local ret=1
                 case $line[1] in
                   (enable)
                         _arguments -w -S -s \
+                          '(-s --sapi)'{-s,--sapi=}'[Enable extension for SAPI name.]:string' \
                           ':extensions:{___phpbrewmeta "extensions" extension.enable arg 0 suggestions}' \
                            && ret=0
                   
@@ -303,12 +307,14 @@ local ret=1
                   ;;
                   (disable)
                         _arguments -w -S -s \
+                          '(-s --sapi)'{-s,--sapi=}'[Disable extension for SAPI name.]:string' \
                           ':extensions:{___phpbrewmeta "extensions" extension.disable arg 0 suggestions}' \
                            && ret=0
                   
                   ;;
                   (config)
                         _arguments -w -S -s \
+                          '(-s --sapi)'{-s,--sapi=}'[Edit extension for SAPI name.]:string' \
                           ':extensions:{___phpbrewmeta "extensions" extension.config arg 0 suggestions}' \
                            && ret=0
                   

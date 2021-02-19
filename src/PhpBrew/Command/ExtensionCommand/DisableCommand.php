@@ -17,6 +17,11 @@ class DisableCommand extends BaseCommand
         return 'Disable PHP extension';
     }
 
+    public function options($opts)
+    {
+        $opts->add('s|sapi:=string', 'Disable extension for SAPI name.');
+    }
+
     public function arguments($args)
     {
         $args->add('extensions')
@@ -31,7 +36,11 @@ class DisableCommand extends BaseCommand
 
     public function execute($extensionName)
     {
+        $sapi = null;
+        if ($this->options->sapi) {
+            $sapi = $this->options->sapi;
+        }
         $manager = new ExtensionManager($this->logger);
-        $manager->disable($extensionName);
+        $manager->disable($extensionName, $sapi);
     }
 }

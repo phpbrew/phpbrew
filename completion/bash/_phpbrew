@@ -2037,8 +2037,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=()
-options_require_value=()
+options=(["-s"]="1" ["--sapi"]="1" )
+options_require_value=(["-s"]="1" ["--sapi"]="1" )
 local argument_min_length=0
 
     # Get the command name chain of the current input, e.g.
@@ -2429,8 +2429,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=()
-options_require_value=()
+options=(["-s"]="1" ["--sapi"]="1" )
+options_require_value=(["-s"]="1" ["--sapi"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
@@ -2701,8 +2701,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=()
-options_require_value=()
+options=(["-s"]="1" ["--sapi"]="1" )
+options_require_value=(["-s"]="1" ["--sapi"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
@@ -2837,8 +2837,8 @@ local comp_prefix=___phpbrew
         subcommands=()
 subcommand_alias=()
 subcommand_signs=()
-options=()
-options_require_value=()
+options=(["-s"]="1" ["--sapi"]="1" )
+options_require_value=(["-s"]="1" ["--sapi"]="1" )
 local argument_min_length=1
 
     # Get the command name chain of the current input, e.g.
