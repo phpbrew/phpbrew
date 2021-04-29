@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  reviewers:
+  - morozov
+  assignees:
+  - morozov
+  labels:
+  - Dependencies
+  versioning-strategy: increase
