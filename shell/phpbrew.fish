@@ -484,7 +484,7 @@ end
 
 function phpbrew_current_php_version
   if type "php" > /dev/null
-    set -l version (php -v | grep "PHP 5" | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-6)
+    set -l version (php -v | grep -E "PHP [578]" | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-6)
     if [ -z "$PHPBREW_PHP" ]
       echo "php:$version-system"
     else
