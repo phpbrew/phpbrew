@@ -167,7 +167,11 @@ class ReleaseList
 
         $file = DownloadFactory::getInstance(Logger::getInstance(), $options)->download($url);
         $json = file_get_contents($file);
-
+        
+        if (preg_match('/^HTTP/i', $json)) {
+            list($headers, $json) = explode("\r\n\r\n", $json, 2);
+        }
+        
         return json_decode($json, true);
     }
 
