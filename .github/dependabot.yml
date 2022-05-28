@@ -7,6 +7,7 @@ updates:
     time: "10:00"
   open-pull-requests-limit: 10
   reviewers:
+  - c9s
   - morozov
   assignees:
   - morozov
