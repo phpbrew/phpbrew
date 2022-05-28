@@ -158,6 +158,15 @@ class Config
         return self::getCurrentPhpDir() . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'phpize';
     }
 
+    public static function getSapis()
+    {
+        return array(
+            'cli',
+            'fpm',
+            'apache'
+        );
+    }
+
     /**
      * XXX: This method should be migrated to PhpBrew\Build class.
      */

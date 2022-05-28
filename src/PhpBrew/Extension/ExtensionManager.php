@@ -87,11 +87,13 @@ class ExtensionManager
 
     public function createExtensionConfig(Extension $ext)
     {
-        $ini = $ext->getConfigFilePath() . '.disabled';
+        $ini = $ext->getConfigFilePath();
         $this->logger->info("===> Creating config file {$ini}");
 
         if (!file_exists(dirname($ini))) {
-            mkdir(dirname($ini), 0755, true);
+            if (!mkdir($concurrentDirectory = dirname($ini), 0755, true) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
         }
 
         if (file_exists($ini)) {
@@ -117,27 +119,27 @@ class ExtensionManager
         return true;
     }
 
-    public function disable($extensionName)
+    public function disable($extensionName, $sapi = null)
     {
         $ext = ExtensionFactory::lookup($extensionName);
         if (!$ext) {
             $ext = ExtensionFactory::lookupRecursive($extensionName);
         }
         if ($ext) {
-            return $this->disableExtension($ext);
+            return $this->disableExtension($ext, $sapi);
         } else {
             $this->logger->info("{$extensionName} extension is not installed. ");
         }
     }
 
-    public function enable($extensionName)
+    public function enable($extensionName, $sapi = null)
     {
         $ext = ExtensionFactory::lookup($extensionName);
         if (!$ext) {
             $ext = ExtensionFactory::lookupRecursive($extensionName);
         }
         if ($ext) {
-            return $this->enableExtension($ext);
+            return $this->enableExtension($ext, $sapi);
         } else {
             $this->logger->info("{$extensionName} extension is not installed. ");
         }
@@ -148,20 +150,38 @@ class ExtensionManager
      *
      * @return bool
      */
-    public function enableExtension(Extension $ext)
+    public function enableExtension(Extension $ext, $sapi = null)
     {
         $name = $ext->getExtensionName();
         $this->logger->info("===> Enabling extension $name");
-        $enabled_file = $ext->getConfigFilePath();
-        $disabled_file = $enabled_file . '.disabled';
+
+        if ($sapi) {
+            return $this->enableSapiExtension($ext, $name, $sapi, true);
+        }
+
+        $first = true;
+        $result = true;
+        foreach (Config::getSapis() as $availableSapi) {
+            $result = $result && $this->enableSapiExtension($ext, $name, $availableSapi, $first);
+            $first = false;
+        }
+
+        return $result;
+    }
+
+    private function enableSapiExtension(Extension $ext, $name, $sapi, $first = false)
+    {
+        $default_file = $ext->getConfigFilePath();
+        $enabled_file = $ext->getConfigFilePath($sapi);
         if (file_exists($enabled_file) && ($ext->isLoaded() && !$this->hasConflicts($ext))) {
-            $this->logger->info("[*] {$name} extension is already enabled.");
+            $this->logger->info("[*] {$name} extension is already enabled for SAPI {$sapi}.");
 
             return true;
         }
 
         if (
-            !file_exists($disabled_file)
+            $first
+            && !file_exists($default_file)
             && !(file_exists($ext->getSharedLibraryPath())
             && $this->createExtensionConfig($ext))
         ) {
@@ -171,15 +191,31 @@ class ExtensionManager
             return false;
         }
 
-        $this->disableAntagonists($ext);
+        if (!file_exists(dirname($enabled_file))) {
+            return true;
+        }
 
-        if (!rename($disabled_file, $enabled_file)) {
-            $this->logger->warning("failed to enable {$name} extension.");
+        $this->disableAntagonists($ext, $sapi);
+
+        $disabled_file = $enabled_file . '.disabled';
+        if (file_exists($disabled_file)) {
+            if (!rename($disabled_file, $enabled_file)) {
+                $this->logger->warning("failed to re-enable {$name} extension for SAPI {$sapi}.");
+
+                return false;
+            }
+
+            $this->logger->info("[*] {$name} extension is re-enabled for SAPI {$sapi}.");
+            return true;
+        }
+
+        if (!copy($default_file, $enabled_file)) {
+            $this->logger->warning("failed to enable {$name} extension for SAPI {$sapi}.");
 
             return false;
         }
 
-        $this->logger->info("[*] {$name} extension is enabled.");
+        $this->logger->info("[*] {$name} extension is enabled for SAPI {$sapi}.");
 
         return true;
     }
@@ -189,25 +225,41 @@ class ExtensionManager
      *
      * @return bool
      */
-    public function disableExtension(Extension $ext)
+    public function disableExtension(Extension $ext, $sapi = null)
     {
         $name = $ext->getExtensionName();
-        $enabled_file = $ext->getConfigFilePath();
-        $disabled_file = $enabled_file . '.disabled';
 
-        if (file_exists($disabled_file)) {
-            $this->logger->info("[ ] {$name} extension is already disabled.");
+        if (null !== $sapi) {
+            return $this->disableSapiExtension($ext->getConfigFilePath($sapi), $name, $sapi);
+        }
+
+        $result = true;
+        foreach (Config::getSapis() as $availableSapi) {
+            $result = $result && $this->disableSapiExtension($ext->getConfigFilePath($availableSapi), $name, $sapi);
+        }
+
+        return $result;
+    }
+
+    private function disableSapiExtension($extension_file, $name, $sapi)
+    {
+        if (!file_exists(dirname($extension_file))) {
+            return true;
+        }
+
+        if (!file_exists($extension_file)) {
+            $this->logger->info("[ ] {$name} extension is already disabled for SAPI {$sapi}.");
 
             return true;
         }
 
-        if (file_exists($enabled_file)) {
-            if (rename($enabled_file, $disabled_file)) {
-                $this->logger->info("[ ] {$name} extension is disabled.");
+        if (file_exists($extension_file)) {
+            if (rename($extension_file, $extension_file . '.disabled')) {
+                $this->logger->info("[ ] {$name} extension is disabled for SAPI {$sapi}.");
 
                 return true;
             }
-            $this->logger->warning("failed to disable {$name} extension.");
+            $this->logger->warning("failed to disable {$name} extension for SAPI {$sapi}.");
         }
 
         return false;
@@ -216,7 +268,7 @@ class ExtensionManager
     /**
      * Disable extensions known to conflict with current one.
      */
-    public function disableAntagonists(Extension $ext)
+    public function disableAntagonists(Extension $ext, $sapi = null)
     {
         $name = $ext->getName();
         if (isset($this->conflicts[$name])) {
@@ -224,7 +276,7 @@ class ExtensionManager
             $this->logger->info('===> Applying conflicts resolution (' . implode(', ', $conflicts) . '):');
             foreach ($conflicts as $extensionName) {
                 $ext = ExtensionFactory::lookup($extensionName);
-                $this->disableExtension($ext);
+                $this->disableExtension($ext, $sapi);
             }
         }
     }
