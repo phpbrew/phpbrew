@@ -43,21 +43,61 @@ class Apache2ModuleNamePatch extends Patch
 
         SAPI_SHARED=libs/libphp5.so
         */
-        $rules[] = RegExpPatchRule::files(array('configure'))
-            ->always()
-            ->replaces(
-                '#libphp\$PHP_MAJOR_VERSION\.#',
-                'libphp$PHP_VERSION.'
-            );
+        if (version_compare($this->targetPhpVersion, '8.0') < 0) {
+            $rules[] = RegExpPatchRule::files(array('configure'))
+                ->always()
+                ->replaces(
+                    '#libphp\$PHP_MAJOR_VERSION\.#',
+                    'libphp$PHP_VERSION.'
+                );
 
-        $rules[] = RegExpPatchRule::files(array('configure'))
-            ->always()
-            ->replaces(
-                '#libs/libphp[57].(so|la)#',
-                'libs/libphp\$PHP_VERSION.$1'
-            );
+
+            $rules[] = RegExpPatchRule::files(array('configure'))
+                ->always()
+                ->replaces(
+                    '#libs/libphp[57].(so|la)#',
+                    'libs/libphp\$PHP_VERSION.$1'
+                );
+        } else {
+            $rules[] = RegExpPatchRule::files(array('configure'))
+                ->always()
+                ->replaces(
+                    '#libphp.(a|so|la|bundle)#',
+                    'libphp$PHP_VERSION.$1'
+                );
+
+            $rules[] = RegExpPatchRule::files(array('configure'))
+                ->always()
+                ->replaces(
+                    '#libs/libphp.(a|so|la|bundle)#',
+                    'libs/libphp\$PHP_VERSION.$1'
+                );
+            $rules[] = RegExpPatchRule::files(array('configure'))
+                ->always()
+                ->replaces(
+                    '#libs/libphp.\$SHLIB_DL_SUFFIX_NAME#',
+                    'libs/libphp\$PHP_VERSION.$SHLIB_DL_SUFFIX_NAME'
+                );
+        }
 
         $makefile = 'Makefile.global';
+
+        if (version_compare($this->targetPhpVersion, '8.0') >= 0) {
+            $makefile = 'build/Makefile.global';
+            $rules[] = RegExpPatchRule::files(array($makefile))
+                 ->always()
+                 ->replaces(
+                     '#libphp.(a|so|la|bundle)#',
+                     'libphp$(PHP_VERSION).$1'
+                 );
+
+            $rules[] = RegExpPatchRule::files(array($makefile))
+                 ->always()
+                 ->replaces(
+                     '#libphp.\$\(SHLIB_DL_SUFFIX_NAME\)#',
+                     'libphp$(PHP_VERSION).$(SHLIB_DL_SUFFIX_NAME)'
+                 );
+        }
 
         if (version_compare($this->targetPhpVersion, '7.4') >= 0) {
             $makefile = 'build/Makefile.global';
