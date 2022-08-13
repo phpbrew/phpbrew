@@ -1,0 +1,32 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  run:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['5.3', '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, zip, xml
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Update PHPUnit
+        run: composer update phpunit/phpunit --with-dependencies
+
+      - name: Run test suite
+        run: vendor/bin/phpunit --exclude-group mayignore --coverage-clover build/logs/clover.xml
