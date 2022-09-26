@@ -40,6 +40,10 @@ class Extension implements Buildable
      */
     protected $configureOptions = array();
 
+    protected static $nameMap = array(
+        'libsodium' => 'sodium',
+    );
+
     public function __construct($name)
     {
         $this->name = $name;
@@ -87,7 +91,12 @@ class Extension implements Buildable
             return $this->sharedLibraryName;
         }
 
-        return strtolower($this->extensionName) . '.so'; // for windows it might be a DLL.
+        $name = strtolower($this->extensionName);
+        if (isset(self::$nameMap[$name])) {
+            $name = self::$nameMap[$name];
+        }
+
+        return $name . '.so'; // for windows it might be a DLL.
     }
 
     public function setExtensionName($name)
