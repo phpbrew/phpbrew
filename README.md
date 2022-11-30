@@ -385,6 +385,19 @@ $ phpbrew var-dir
 phpbrew also provides useful fpm managing sub-commands. to use them, please
 remember to enable `+fpm` variant when building your own php.
 
+To setup the system FPM service, type one of commands:
+
+```bash
+# Typing the following command when systemctl is available in the Linux distribution.
+$ phpbrew fpm setup --systemctl
+
+# It is available in the Linux distribution.
+$ phpbrew fpm setup --initd
+
+# It is available in the macOS.
+$ phpbrew fpm setup --launchctl
+```
+
 To start php-fpm, simply type:
 
 ```bash
