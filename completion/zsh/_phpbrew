@@ -151,7 +151,7 @@ local ret=1
               '--vendor=[Vendor directory name]' \
               '--bootstrap[bootstrap or executable php file]:file:_files' \
               '--executable[make the phar file executable]:boolean' \
-              '(-c --compress)'{-c,--compress}'[compress type\: gz, bz2]::("gz" "bz2")' \
+              '--compress[compress type\: gz, bz2]::("gz" "bz2")' \
               '--no-compress[do not compress phar file.]' \
               '--add=[add a path respectively]' \
               '--exclude=[exclude pattern]' \

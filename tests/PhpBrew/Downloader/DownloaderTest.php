@@ -16,7 +16,7 @@ class DownloaderTest extends TestCase
 {
     public $logger;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->logger = Logger::getInstance();
         $this->logger->setQuiet();
@@ -24,7 +24,7 @@ class DownloaderTest extends TestCase
         VCRAdapter::enableVCR($this);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         VCRAdapter::disableVCR();
     }

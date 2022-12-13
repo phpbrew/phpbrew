@@ -20,7 +20,7 @@ use PhpBrew\Testing\CommandTestCase;
 class ExtensionInstallerTest extends CommandTestCase
 {
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $versionName = $this->getPrimaryVersion();

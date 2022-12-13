@@ -15,7 +15,7 @@ class ExtensionDslParserTest extends TestCase
 {
     protected $parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->parser = new RepositoryDslParser();
     }

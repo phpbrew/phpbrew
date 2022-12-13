@@ -14,12 +14,12 @@ use PHPUnit\Framework\TestCase;
  */
 class ExtensionTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         VCRAdapter::enableVCR($this);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         VCRAdapter::disableVCR();
     }

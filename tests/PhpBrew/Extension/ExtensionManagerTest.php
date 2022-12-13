@@ -18,7 +18,7 @@ class ExtensionManagerTest extends TestCase
 {
     private $manager;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $logger = new Logger();
         $logger->setQuiet();
@@ -27,7 +27,7 @@ class ExtensionManagerTest extends TestCase
         VCRAdapter::enableVCR($this);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         VCRAdapter::disableVCR();
     }

@@ -15,7 +15,7 @@ class EnvCommandTest extends CommandTestCase
         return new Console();
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         putenv('PHPBREW_HOME=' . getcwd() . '/.phpbrew');
