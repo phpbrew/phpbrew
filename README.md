@@ -42,11 +42,11 @@ tutorial that helps you get started.
 ### Installation
 
 ```bash
-curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew.phar
-chmod +x phpbrew.phar
+curl -L -O https://github.com/phpbrew/phpbrew/releases/latest/download/phpbrew
+chmod +x phpbrew
 
 # Move the file to some directory within your $PATH
-sudo mv phpbrew.phar /usr/local/bin/phpbrew
+sudo mv phpbrew /usr/local/bin/phpbrew
 ```
 
 Init a bash script for your shell environment:
