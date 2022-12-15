@@ -218,25 +218,28 @@
         },
         {
             "name": "corneltek/getoptionkit",
-            "version": "2.6.1",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/GetOptionKit.git",
-                "reference": "1121ee17f304cd7e2d8d2b818df86b6af5f07485"
+                "reference": "8f79aa38a90f1c0e66e712ed72fbc259130e6be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/1121ee17f304cd7e2d8d2b818df86b6af5f07485",
-                "reference": "1121ee17f304cd7e2d8d2b818df86b6af5f07485",
+                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/8f79aa38a90f1c0e66e712ed72fbc259130e6be9",
+                "reference": "8f79aa38a90f1c0e66e712ed72fbc259130e6be9",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev"
+                    "dev-master": "2.7.x-dev"
                 }
             },
             "autoload": {
@@ -258,9 +261,9 @@
             "homepage": "http://github.com/c9s/GetOptionKit",
             "support": {
                 "issues": "https://github.com/c9s/GetOptionKit/issues",
-                "source": "https://github.com/c9s/GetOptionKit/tree/2.6.1"
+                "source": "https://github.com/c9s/GetOptionKit/tree/2.7.0"
             },
-            "time": "2021-11-22T09:15:28+00:00"
+            "time": "2022-12-15T05:55:38+00:00"
         },
         {
             "name": "corneltek/pearx",
