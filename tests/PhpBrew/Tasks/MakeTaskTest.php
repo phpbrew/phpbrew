@@ -22,7 +22,7 @@ class MakeTaskTest extends TestCase
         return $logger;
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->make = new MakeTask($this->createLogger(), new OptionResult());
         $this->make->setQuiet();

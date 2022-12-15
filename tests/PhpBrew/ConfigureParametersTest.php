@@ -9,7 +9,7 @@ final class ConfigureParametersTest extends TestCase
 {
     private $configureParameters;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configureParameters = new ConfigureParameters();
     }

@@ -12,7 +12,7 @@ class ReleaseListTest extends TestCase
 {
     public $releaseList;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->releaseList = new ReleaseList();
         $this->releaseList->loadJsonFile(__DIR__ . '/../fixtures/php-releases.json');

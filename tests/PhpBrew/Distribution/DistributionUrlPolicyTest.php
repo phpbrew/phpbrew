@@ -12,7 +12,7 @@ class DistributionUrlPolicyTest extends TestCase
 {
     private $policy;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->policy = new DistributionUrlPolicy();
     }

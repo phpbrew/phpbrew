@@ -577,7 +577,7 @@ EOT;
         }
 
         if (count($targetPaths)) {
-            $targetConfigPaths = implode($targetPaths, PHP_EOL);
+            $targetConfigPaths = implode(PHP_EOL, $targetPaths);
 
             echo <<<EOT
 

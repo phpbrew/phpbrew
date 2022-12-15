@@ -40,7 +40,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
         return $console;
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->previousPhpBrewRoot = getenv('PHPBREW_ROOT');
@@ -69,7 +69,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
      * won't change if the they are changed inside a process.
      * but we might want to change it back if there is a test changed the environment variable.
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         if ($this->previousPhpBrewRoot !== null) {
             // putenv('PHPBREW_ROOT=' . $this->previousPhpBrewRoot);

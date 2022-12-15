@@ -55,7 +55,7 @@ abstract class PatchTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         $sourceDirectory = getenv('PHPBREW_BUILD_PHP_DIR');
         $this->cleanupBuildDirectory();
@@ -64,7 +64,7 @@ abstract class PatchTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         // don't clean up if the test failed.
         if ($this->hasFailed()) {
