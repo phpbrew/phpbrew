@@ -504,8 +504,8 @@ Founder and Contributors
 only listing 1k+ lines contributors, names are sorted in alphabetical order
 
 - @c9s
-- @jhdxr
 - @GM-Alex
+- @jhdxr
 - @marcioAlmada
 - @morozov
 - @markwu
