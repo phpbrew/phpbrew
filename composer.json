@@ -28,7 +28,7 @@
         "corneltek/pearx": "^1.3.5",
         "corneltek/curlkit": "^1.0.11",
         "ext-simplexml": "*",
-        "symfony/yaml": "^2.8",
+        "symfony/yaml": "^5.4",
         "corneltek/cliframework": "3.0.x-dev#01cee2d491085cfae63c677611b5e4604624771e"
     },
     "require-dev": {
