@@ -3,7 +3,6 @@ PHPBrew
 
 *Read this in other languages:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md), [中文](README.cn.md).*
 
-[![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 [![Gitter](https://badges.gitter.im/phpbrew/phpbrew.svg)](https://gitter.im/phpbrew/phpbrew?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -500,12 +499,18 @@ Documentation
 Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
 
 
+Founder and Contributors
+-----------------------
+only listing 1k+ lines contributors, names are sorted in alphabetical order
 
-Author
-------
-
-- Yo-An Lin (c9s)  <yoanlin93 _at_ gmail.com>
-- Márcio Almad <marcio3w _at_ gmail.com>
+- @c9s
+- @jhdxr
+- @marcioAlmada
+- @morozov
+- @markwu
+- @peter279k
+- @racklin
+    
 
 License
 --------
@@ -513,8 +518,6 @@ License
 See [LICENSE](LICENSE) file.
 
 
-
-[t-link]: https://travis-ci.org/phpbrew/phpbrew "Travis Build"
 [s-link]: https://scrutinizer-ci.com/g/phpbrew/phpbrew/?branch=master "Code Quality"
 [p-link]: https://packagist.org/packages/marc/phpbrew "Packagist"
 [sl-link]: https://insight.sensiolabs.com/projects/02d1fd01-8a70-4fe4-a550-381a3c0e33f3 "Sensiolabs Insight"
