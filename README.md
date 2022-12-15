@@ -505,12 +505,12 @@ only listing 1k+ lines contributors, names are sorted in alphabetical order
 
 - @c9s
 - @jhdxr
+- @GM-Alex
 - @marcioAlmada
 - @morozov
 - @markwu
 - @peter279k
 - @racklin
-    
 
 License
 --------
