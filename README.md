@@ -3,6 +3,7 @@ PHPBrew
 
 *Read this in other languages:  [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md), [中文](README.cn.md).*
 
+[![build](https://github.com/phpbrew/phpbrew/actions/workflows/build.yml/badge.svg)](https://github.com/phpbrew/phpbrew/actions/workflows/build.yml)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
 [![Gitter](https://badges.gitter.im/phpbrew/phpbrew.svg)](https://gitter.im/phpbrew/phpbrew?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
