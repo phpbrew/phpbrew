@@ -129,8 +129,8 @@ class VariantBuilderTest extends TestCase
     {
         $build = new Build('5.5.0');
         foreach ($variants as $variant) {
-            if (getenv('TRAVIS') && in_array($variant, array("apxs2", "gd", "editline"))) {
-                $this->markTestSkipped("Travis CI doesn't support $variant}.");
+            if (getenv('GITHUB_ACTIONS') && in_array($variant, array("apxs2", "gd", "editline"))) {
+                $this->markTestSkipped("GitHub actions doesn't support $variant}.");
             }
 
             $build->enableVariant($variant);

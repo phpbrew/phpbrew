@@ -32,6 +32,7 @@ class KnownCommandTest extends CommandTestCase
 
     /**
      * @outputBuffering enabled
+     * @group mayignore
      */
     public function testOldMoreOption()
     {
