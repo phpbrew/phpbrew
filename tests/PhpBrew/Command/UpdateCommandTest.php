@@ -14,6 +14,7 @@ class UpdateCommandTest extends CommandTestCase
 
     /**
      * @outputBuffering enabled
+     * @group mayignore
      */
     public function testUpdateCommand()
     {

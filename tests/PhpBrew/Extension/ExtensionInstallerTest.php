@@ -32,7 +32,7 @@ class ExtensionInstallerTest extends CommandTestCase
      */
     public function testPackageUrl()
     {
-        if (getenv('TRAVIS')) {
+        if (getenv('GITHUB_ACTIONS')) {
             $this->markTestSkipped('Skipping since VCR cannot properly record this request');
         }
 

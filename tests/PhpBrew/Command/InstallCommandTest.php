@@ -27,7 +27,7 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testInstallCommand()
     {
-        if (getenv('TRAVIS')) {
+        if (getenv('GITHUB_ACTIONS')) {
             $this->markTestSkipped('Skip heavy test on Travis');
         }
 
@@ -64,7 +64,7 @@ class InstallCommandTest extends CommandTestCase
      */
     public function testGitHubInstallCommand()
     {
-        if (getenv('TRAVIS')) {
+        if (getenv('GITHUB_ACTIONS')) {
             $this->markTestSkipped('Skip heavy test on Travis');
         }
 

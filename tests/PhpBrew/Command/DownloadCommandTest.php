@@ -26,7 +26,7 @@ class DownloadCommandTest extends CommandTestCase
      */
     public function testDownloadCommand($versionName)
     {
-        if (getenv('TRAVIS')) {
+        if (getenv('GITHUB_ACTIONS')) {
             $this->markTestSkipped('Skip heavy test on Travis');
         }
 
