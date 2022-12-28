@@ -32,7 +32,7 @@
         "corneltek/cliframework": "3.0.x-dev#01cee2d491085cfae63c677611b5e4604624771e"
     },
     "require-dev": {
-        "php-vcr/php-vcr": "^1.5.4",
+        "php-vcr/php-vcr": "^1.5.5",
         "phpunit/phpunit": "^7.5 || ^8.5"
     },
     "extra": {

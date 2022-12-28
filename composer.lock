@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4a18e013012e4562d865c87dac5ba21",
+    "content-hash": "7ad907ef03b7f705fb9fc0d90e4a85f5",
     "packages": [
         {
             "name": "corneltek/class-template",
@@ -1358,16 +1358,16 @@
         },
         {
             "name": "php-vcr/php-vcr",
-            "version": "1.5.4",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-vcr/php-vcr.git",
-                "reference": "042549510784889e75ca8803d87dcf6b8c6c4681"
+                "reference": "fde2ab6905615c065a588a678ab8217b70a703c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-vcr/php-vcr/zipball/042549510784889e75ca8803d87dcf6b8c6c4681",
-                "reference": "042549510784889e75ca8803d87dcf6b8c6c4681",
+                "url": "https://api.github.com/repos/php-vcr/php-vcr/zipball/fde2ab6905615c065a588a678ab8217b70a703c7",
+                "reference": "fde2ab6905615c065a588a678ab8217b70a703c7",
                 "shasum": ""
             },
             "require": {
@@ -1413,9 +1413,9 @@
             "description": "Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.",
             "support": {
                 "issues": "https://github.com/php-vcr/php-vcr/issues",
-                "source": "https://github.com/php-vcr/php-vcr/tree/1.5.4"
+                "source": "https://github.com/php-vcr/php-vcr/tree/1.5.5"
             },
-            "time": "2022-12-19T18:43:34+00:00"
+            "time": "2022-12-27T21:57:46+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
