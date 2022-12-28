@@ -53,10 +53,10 @@ class KnownCommand extends Command
         if ($provider) {
             $extensionDownloader = new ExtensionDownloader($this->logger, $this->options);
             $versionList = $extensionDownloader->knownReleases($provider);
-            $this->logger->info("\n");
-            $this->logger->writeln(wordwrap(implode(', ', $versionList), 80, "\n"));
+            $this->logger->info(PHP_EOL);
+            $this->logger->writeln(wordwrap(implode(', ', $versionList), 80, PHP_EOL));
         } else {
-            $this->logger->info("Can not determine host or unsupported of $extensionName \n");
+            $this->logger->info("Can not determine host or unsupported of $extensionName " . PHP_EOL);
         }
     }
 }

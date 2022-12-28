@@ -27,7 +27,7 @@ class VariantsCommand extends Command
             $newLine .= $c;
 
             if ($lineX > 68 && $c === ' ') {
-                $newLine .= "\n" . $indent;
+                $newLine .= PHP_EOL . $indent;
                 $lineX = 0;
             }
         }
@@ -41,24 +41,24 @@ class VariantsCommand extends Command
         $list = $variants->getVariantNames();
         sort($list);
 
-        echo "Variants: \n";
-        echo $this->wrapLine(implode(', ', $list)) , "\n";
-        echo "\n\n";
+        echo "Variants: " . PHP_EOL;
+        echo $this->wrapLine(implode(', ', $list)) , PHP_EOL;
+        echo PHP_EOL, PHP_EOL;
 
-        echo "Virtual variants: \n";
+        echo "Virtual variants: ", PHP_EOL;
 
         foreach ($variants->virtualVariants as $name => $subvars) {
-            echo $this->wrapLine("$name: " . implode(', ', $subvars)) , "\n";
+            echo $this->wrapLine("$name: " . implode(', ', $subvars)) , PHP_EOL;
         }
 
-        echo "\n\n";
+        echo PHP_EOL, PHP_EOL;
 
-        echo "Using variants to build PHP:\n";
-        echo "\n";
-        echo "  phpbrew install php-5.3.10 +default\n";
-        echo "  phpbrew install php-5.3.10 +mysql +pdo\n";
-        echo "  phpbrew install php-5.3.10 +mysql +pdo +apxs2\n";
-        echo "  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2\n";
-        echo "\n\n";
+        echo "Using variants to build PHP:", PHP_EOL;
+        echo PHP_EOL;
+        echo "  phpbrew install php-5.3.10 +default", PHP_EOL;
+        echo "  phpbrew install php-5.3.10 +mysql +pdo", PHP_EOL;
+        echo "  phpbrew install php-5.3.10 +mysql +pdo +apxs2", PHP_EOL;
+        echo "  phpbrew install php-5.3.10 +mysql +pdo +apxs2=/usr/bin/apxs2", PHP_EOL;
+        echo PHP_EOL, PHP_EOL;
     }
 }

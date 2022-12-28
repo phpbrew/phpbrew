@@ -311,7 +311,7 @@ class InstallCommand extends Command
             );
             $builder = new VariantBuilder();
             $this->logger->notice('[' . implode(', ', $builder->virtualVariants['default']) . ']');
-            $this->logger->notice("Please run 'phpbrew variants' for more information.\n");
+            $this->logger->notice("Please run 'phpbrew variants' for more information." . PHP_EOL);
         }
 
         if (preg_match('/5\.3\./', $version)) {
@@ -525,7 +525,7 @@ class InstallCommand extends Command
                             // See http://php.net/manual/en/install.fpm.configuration.php for more details
                             $ini = file_get_contents($patchingFile);
                             $this->logger->info("---> Patching default fpm pool listen path to $fpmUnixSocket");
-                            $ini = preg_replace('/^listen = .*$/m', "listen = $fpmUnixSocket\n", $ini);
+                            $ini = preg_replace('/^listen = .*$/m', "listen = $fpmUnixSocket" . PHP_EOL, $ini);
                             file_put_contents($patchingFile, $ini);
                             break;
                         }
@@ -701,7 +701,7 @@ EOT;
             // turn off detect_encoding for 5.3
             if ($build->compareVersion('5.4') < 0) {
                 $this->logger->info("---> Turn off detect_encoding for php 5.3.*");
-                $configContent = $configContent . "\ndetect_unicode = Off\n";
+                $configContent = $configContent . PHP_EOL . "detect_unicode = Off" . PHP_EOL;
             }
 
             file_put_contents($targetConfigPath, $configContent);

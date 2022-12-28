@@ -63,7 +63,7 @@ class KnownCommand extends Command
             }
             $this->logger->writeln(
                 $this->formatter->format("{$majorVersion}: ", 'yellow')
-                . wordwrap(implode(', ', $versionList), 80, "\n" . str_repeat(' ', 5))
+                . wordwrap(implode(', ', $versionList), 80, PHP_EOL . str_repeat(' ', 5))
                 . (!$this->options->more ? ' ...' : '')
             );
         }

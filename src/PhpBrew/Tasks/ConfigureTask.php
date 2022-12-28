@@ -34,9 +34,9 @@ class ConfigureTask extends BaseTask
         $cmd->setStdout($this->options->{'stdout'});
 
         if (!$this->options->{'stdout'}) {
-            $this->logger->info("\n");
+            $this->logger->info(PHP_EOL);
             $this->logger->info("Use tail command to see what's going on:");
-            $this->logger->info('   $ tail -F ' . escapeshellarg($buildLogPath) . "\n\n");
+            $this->logger->info('   $ tail -F ' . escapeshellarg($buildLogPath) . PHP_EOL . PHP_EOL);
         }
 
         $this->debug($cmd->buildCommand());
