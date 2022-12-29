@@ -55,7 +55,7 @@ class SetupCommand extends Command
         fprintf(
             STDERR,
             "*WARNING* php-fpm --pid option requires php >= 5.6. "
-            . "You need to update your php-fpm.conf for the pid file location.\n"
+            . "You need to update your php-fpm.conf for the pid file location." . PHP_EOL
         );
 
         $root = Config::getRoot();

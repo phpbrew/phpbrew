@@ -26,36 +26,36 @@ class InfoCommand extends Command
         echo <<<'EOF'
 <?php
 
-echo "Version\n";
-echo 'PHP-', phpversion(), "\n\n";
+echo "Version" . PHP_EOL;
+echo 'PHP-', phpversion(), PHP_EOL, PHP_EOL;
 
-echo "Constants\n";
+echo "Constants", PHP_EOL;
 $constants = get_defined_constants();
 
 if (defined('PHP_PREFIX')) {
-    echo 'PHP Prefix: ', PHP_PREFIX, "\n";
+    echo 'PHP Prefix: ', PHP_PREFIX, PHP_EOL;
 }
 
 if (defined('PHP_BINARY')) {
-    echo 'PHP Binary: ', PHP_BINARY, "\n";
+    echo 'PHP Binary: ', PHP_BINARY, PHP_EOL;
 }
 
 if (defined('DEFAULT_INCLUDE_PATH')) {
-    echo 'PHP Default Include path: ', DEFAULT_INCLUDE_PATH, "\n";
+    echo 'PHP Default Include path: ', DEFAULT_INCLUDE_PATH, PHP_EOL;
 }
 
-echo 'PHP Include path: ', get_include_path(), "\n\n";
+echo 'PHP Include path: ', get_include_path(), PHP_EOL, PHP_EOL;
 
-echo "General Info\n";
+echo "General Info", PHP_EOL;
 phpinfo(INFO_GENERAL);
-echo "\n";
+echo PHP_EOL;
 
-echo "Extensions\n";
+echo "Extensions", PHP_EOL;
 $extensions = get_loaded_extensions();
-echo implode(', ', $extensions), "\n";
-echo "\n";
+echo implode(', ', $extensions), PHP_EOL;
+echo PHP_EOL;
 
-echo "Database Extensions\n";
+echo "Database Extensions", PHP_EOL;
 foreach (
     array_filter(
         $extensions,
@@ -78,7 +78,7 @@ foreach (
         }
     ) as $extName
 ) {
-    echo $extName, "\n";
+    echo $extName, PHP_EOL;
 }
 EOF;
     }

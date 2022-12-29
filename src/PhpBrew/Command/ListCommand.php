@@ -55,7 +55,7 @@ class ListCommand extends Command
                 $info = unserialize(file_get_contents($versionPrefix . DIRECTORY_SEPARATOR . 'phpbrew.variants'));
                 echo '    Variants: ';
                 echo wordwrap(VariantParser::revealCommandArguments($info), 75, " \\\n              ");
-                echo "\n";
+                echo PHP_EOL;
             }
         }
     }

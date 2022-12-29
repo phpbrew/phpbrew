@@ -19,11 +19,11 @@ class ListIniCommand extends Command
         );
 
         if ($filelist = php_ini_scanned_files()) {
-            echo "Loaded ini files:\n";
+            echo "Loaded ini files:" . PHP_EOL;
             if (strlen($filelist) > 0) {
                 $files = explode(',', $filelist);
                 foreach ($files as $file) {
-                    echo ' - ' . trim($file) . "\n";
+                    echo ' - ' . trim($file) . PHP_EOL;
                 }
             }
         }

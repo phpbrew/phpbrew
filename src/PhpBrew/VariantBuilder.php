@@ -819,7 +819,7 @@ class VariantBuilder
                     $build->disableVariant($c);
                 }
 
-                echo implode("\n", $msgs) . "\n";
+                echo implode(PHP_EOL, $msgs) . PHP_EOL;
             }
         }
 
