@@ -14,7 +14,7 @@ jobs:
             fail-fast: false
             matrix:
                 operating-system: [ ubuntu-latest ]
-                composer-dependencies: [ locked, highest, lowest ]
+                composer-dependencies: [ locked, highest ]
                 composer-options: [ '' ]
                 php-version:
                     - '7.2'
@@ -30,6 +30,12 @@ jobs:
                         composer-dependencies: locked
                         composer-options: ''
                         coverage: pcov
+                    # Lowest dep build
+                    -   operating-system: ubuntu-latest
+                        php-version: '7.2'  # nominal version
+                        composer-dependencies: lowest
+                        composer-options: ''
+                        coverage: ''
                     # Future PHP version job
                     -   operating-system: ubuntu-latest
                         php-version: '8.2'
