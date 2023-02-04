@@ -37,7 +37,7 @@ jobs:
                         composer-options: --ignore-platform-req=php+
                         coverage: false
 
-        name: Unit-Tests (PHP ${{ matrix.php-version }}, ${{ matrix.composer-dependencies }}${{ matrix.coverage && '' || ', ${{ matrix.coverage }}' }}) on ${{ matrix.operating-system }}
+        name: Unit-Tests (PHP ${{ matrix.php-version }}, ${{ matrix.composer-dependencies }}${{ matrix.coverage && '' || format(', {0})', matrix.coverage)' }}) on ${{ matrix.operating-system }}
 
         steps:
             -   name: Checkout
