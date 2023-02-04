@@ -72,7 +72,8 @@ jobs:
                     composer-options: ${{ matrix.composer-options }}
 
             -   name: Update PHPUnit
-                run: composer update phpunit/phpunit --with-dependencies
+                if: ${{ matrix.composer-dependencies == 'locked' }}
+                run: composer update phpunit/phpunit --with-dependencies ${{ matrix.composer-options }}
 
             -   name: Run PHPUnit
                 if: ${{ matrix.coverage == '' }}
