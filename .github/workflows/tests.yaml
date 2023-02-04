@@ -15,38 +15,38 @@ jobs:
             matrix:
                 operating-system: [ ubuntu-latest ]
                 composer-dependencies: [ locked, highest ]
-                composer-options: [ '' ]
+                composer-options: [ ~ ]
                 php-version:
                     - '7.2'
                     - '7.3'
                     - '7.4'
                     - '8.0'
                     - '8.1'
-                coverage: [ '' ]
+                coverage: [ ~ ]
                 include:
                     # Coverage job
                     -   operating-system: ubuntu-latest
                         php-version: '8.1'  # nominal version
                         composer-dependencies: locked
-                        composer-options: ''
+                        composer-options: ~
                         coverage: pcov
                     # Lowest dep build
                     -   operating-system: ubuntu-latest
                         php-version: '7.2'  # nominal version
                         composer-dependencies: lowest
-                        composer-options: ''
-                        coverage: ''
+                        composer-options: ~
+                        coverage: ~
                     # Future PHP version job
                     -   operating-system: ubuntu-latest
                         php-version: '8.2'
                         composer-dependencies: highest
                         composer-options: --ignore-platform-req=php+
-                        coverage: false
+                        coverage: ~
                     -   operating-system: ubuntu-latest
                         php-version: '8.3'
                         composer-dependencies: highest
                         composer-options: --ignore-platform-req=php+
-                        coverage: false
+                        coverage: ~
 
         name: Unit-Tests (PHP ${{ matrix.php-version }}, ${{ matrix.composer-dependencies }}${{ matrix.coverage && '' || format(', {0})', matrix.coverage) }} on ${{ matrix.operating-system }}
 
@@ -69,7 +69,7 @@ jobs:
                 uses: ramsey/composer-install@v2
                 with:
                     dependency-versions: ${{ matrix.composer-dependencies }}
-                    composer-options: ${{ matrix.php.composer-options }}
+                    composer-options: ${{ matrix.composer-options }}
 
             -   name: Update PHPUnit
                 run: composer update phpunit/phpunit --with-dependencies
