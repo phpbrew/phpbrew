@@ -13,13 +13,31 @@ jobs:
         strategy:
             matrix:
                 operating-system: [ ubuntu-latest ]
+                composer-dependencies: [ locked, highest, lowest ]
+                composer-options: [ '' ]
                 php-versions:
                     - '7.2'
                     - '7.3'
                     - '7.4'
                     - '8.0'
                     - '8.1'
-        name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+                    - '8.2'
+                coverage: [ '' ]
+                include:
+                    # Coverage job
+                    -   operating-system: ubuntu-latest
+                        php-version: '8.1'  # nominal version
+                        composer-dependencies: locked
+                        composer-options: ''
+                        coverage: pcov
+                    # Future PHP version job
+                    -   operating-system: ubuntu-latest
+                        php-version: '8.3'
+                        composer-dependencies: highest
+                        composer-options: --ignore-platform-req=php+
+                        coverage: false
+
+        name: Unit-Tests (PHP ${{ matrix.php-version }}, ${{ matrix.composer-dependencies }}${{ matrix.coverage && '' || ', ${{ matrix.coverage }}' }}) on ${{ matrix.operating-system }}
 
         steps:
             -   name: Checkout
@@ -30,26 +48,73 @@ jobs:
                 with:
                     php-version: ${{ matrix.php-versions }}
                     extensions: mbstring, intl, zip, xml
-                    coverage: none
+                    coverage: ${{ matrix.coverage }}
+
+            -   name: Remove the configured platform on non-locked dependencies
+                if: ${{ matrix.composer-dependencies != 'locked' }}
+                run: composer config platform.php --unset
 
             -   name: Install dependencies
                 uses: ramsey/composer-install@v2
+                with:
+                    dependency-versions: ${{ matrix.composer-dependencies }}
+                    composer-options: ${{ matrix.php.composer-options }}
 
             -   name: Update PHPUnit
                 run: composer update phpunit/phpunit --with-dependencies
 
-            -   name: Run test suite
-                run: vendor/bin/phpunit --exclude-group mayignore --coverage-clover build/logs/clover.xml
+            -   name: Run PHPUnit
+                if: ${{ matrix.coverage == '' }}
+                run: vendor/bin/phpunit --exclude-group mayignore
+
+            -   name: Run PHPUnit with coverage
+                if: ${{ matrix.coverage != '' }}
+                run: |
+                    vendor/bin/phpunit \
+                        --exclude-group mayignore \
+                        --coverage-clover=build/logs/clover.xml \
+                        --coverage-text
+
+
+    build-phar:
+        runs-on: ubuntu-latest
+        name: Build (test) PHAR
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+                with:
+                    fetch-depth: 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.1'
+                    ini-values: phar.readonly=0
+                    coverage: none
+
+            -   name: Install Composer dependencies
+                uses: ramsey/composer-install@v2
+
+            -   name: Build PHAR
+                run: make phpbrew
+
+            # Smoke test
+            -   name: Ensure the PHAR works
+                run: ./phpbrew --version
+
+
+    # TODO: add E2E tests
 
 
     # This is a "trick", a meta task which does not change, and we can use in
     # the protected branch rules as opposed to the tests one above which
     # may change regularly.
     validate-tests:
-        name: Tests status
+        name: Tests Status
         runs-on: ubuntu-latest
         needs:
             - unit-tests
+            - build-phar
         if: always()
         steps:
             - name: Successful run
