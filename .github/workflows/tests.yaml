@@ -15,7 +15,7 @@ jobs:
                 operating-system: [ ubuntu-latest ]
                 composer-dependencies: [ locked, highest, lowest ]
                 composer-options: [ '' ]
-                php-versions:
+                php-version:
                     - '7.2'
                     - '7.3'
                     - '7.4'
