@@ -28,7 +28,7 @@ class VariantParser
                 throw new InvalidVariantSyntaxException('Variant cannot be empty');
             }
 
-            if ($arg === '--') {
+            if (substr($arg, 0, 2) === '--') {
                 $extra = $args;
                 break;
             }

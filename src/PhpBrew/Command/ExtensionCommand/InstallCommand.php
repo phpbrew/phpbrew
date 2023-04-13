@@ -56,9 +56,16 @@ class InstallCommand extends BaseCommand
         $options = array();
 
         if (count($args) > 0) {
-            $pos = array_search('--', $args);
+            $pos = false;
+            for ($index=0; $index<count($args); $index++) {
+                if (substr($args[$index], 0, 2) === '--') {
+                    $pos = $index;
+                    break;
+                }
+            }
+
             if ($pos !== false) {
-                $options = array_slice($args, $pos + 1);
+                $options = array_slice($args, $pos);
             }
 
             if ($pos === false || $pos == 1) {
