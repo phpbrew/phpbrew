@@ -218,16 +218,16 @@
         },
         {
             "name": "corneltek/getoptionkit",
-            "version": "2.7.0",
+            "version": "2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/GetOptionKit.git",
-                "reference": "8f79aa38a90f1c0e66e712ed72fbc259130e6be9"
+                "reference": "aab2728de80175217cab0d7a4d078c3eb907e2c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/8f79aa38a90f1c0e66e712ed72fbc259130e6be9",
-                "reference": "8f79aa38a90f1c0e66e712ed72fbc259130e6be9",
+                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/aab2728de80175217cab0d7a4d078c3eb907e2c0",
+                "reference": "aab2728de80175217cab0d7a4d078c3eb907e2c0",
                 "shasum": ""
             },
             "require": {
@@ -261,9 +261,9 @@
             "homepage": "http://github.com/c9s/GetOptionKit",
             "support": {
                 "issues": "https://github.com/c9s/GetOptionKit/issues",
-                "source": "https://github.com/c9s/GetOptionKit/tree/2.7.0"
+                "source": "https://github.com/c9s/GetOptionKit/tree/2.7.2"
             },
-            "time": "2022-12-15T05:55:38+00:00"
+            "time": "2023-04-14T03:35:14+00:00"
         },
         {
             "name": "corneltek/pearx",
