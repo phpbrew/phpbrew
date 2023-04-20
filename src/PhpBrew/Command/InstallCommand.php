@@ -439,8 +439,12 @@ class InstallCommand extends Command
                 );
             }
             if ($build->isEnabledVariant('fpm')) {
+                $addedOptions = array('--enable-fpm');
+                if (PHP_OS === 'Linux') {
+                    $addedOptions[] = '--with-fpm-systemd';
+                }
                 $sapis['fpm'] = array(
-                    'enable' => array('--enable-fpm', '--with-fpm-systemd'),
+                    'enable' => $addedOptions,
                     'disable' => array(),
                 );
             }
