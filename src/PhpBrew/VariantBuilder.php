@@ -767,6 +767,28 @@ class VariantBuilder
             return $parameters->withOption('--with-pear', $value);
         };
 
+        /*
+         * --with-snmp option
+         *
+         * --with-snmp=[dir]
+         *
+         * On macOS, you need to use the brew to install the net-snmp
+         *
+         * On ubuntu you need to install libsnmp-dev
+         * On Ubuntu 18.04+, it should ensure the /usr/include/net-snmp/net-snmp-config.h is available.
+         * On Ubuntu 20.04+, it should ensure the pkg-config --variable=prefix netsnmp can find the net-snmp prefix.
+         */
+        $this->variants['snmp'] = function (ConfigureParameters $parameters, Build $build, $value) {
+            $prefix = Utils::findPrefix(array(
+                new UserProvidedPrefix($value),
+                new BrewPrefixFinder('net-snmp'),
+                new PkgConfigPrefixFinder('netsnmp'),
+                new IncludePrefixFinder('net-snmp/net-snmp-config.h'),
+            ));
+
+            return $parameters->withOptionOrPkgConfigPath($build, '--with-snmp', $prefix);
+        };
+
         // merge virtual variants with config file
         $customVirtualVariants = Config::getConfigParam('variants');
         $customVirtualVariantsToAdd = array();

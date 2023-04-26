@@ -119,6 +119,10 @@ class VariantBuilderTest extends TestCase
                 array('zlib'),
                 array('--with-zlib'),
             ),
+            'snmp' => array(
+                array('snmp'),
+                array('--with-snmp'),
+            ),
         );
     }
 
@@ -324,6 +328,35 @@ class VariantBuilderTest extends TestCase
             array('7.3.0', '--enable-maintainer-zts'),
             array('7.4.0', '--enable-maintainer-zts'),
             array('8.0.0', '--enable-zts'),
+        );
+    }
+
+    /**
+     * @param string $version
+     * @param string $expected
+     *
+     * @dataProvider snmpProvider
+     */
+    public function testSnmp($version, $expected)
+    {
+        $build = new Build($version);
+        $build->enableVariant('snmp');
+
+        $builder = new VariantBuilder();
+        $options = $builder->build($build)->getOptions();
+
+        $this->assertArrayHasKey($expected, $options);
+    }
+
+    public static function snmpProvider()
+    {
+        return array(
+            array('5.6.0', '--with-snmp'),
+            array('7.0.0', '--with-snmp'),
+            array('7.1.0', '--with-snmp'),
+            array('7.3.0', '--with-snmp'),
+            array('7.4.0', '--with-snmp'),
+            array('8.0.0', '--with-snmp'),
         );
     }
 }
