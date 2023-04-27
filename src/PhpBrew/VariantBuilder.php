@@ -776,7 +776,7 @@ class VariantBuilder
          *
          * On ubuntu you need to install libsnmp-dev
          * On Ubuntu 18.04+, it should ensure the /usr/include/net-snmp/net-snmp-config.h is available.
-         * On Ubuntu 20.04+, it should ensure the pkg-config --variable=prefix netsnmp can find the net-snmp prefix.
+         * On Ubuntu 22.04+, it should ensure the pkg-config --variable=prefix netsnmp can find the net-snmp prefix.
          */
         $this->variants['snmp'] = function (ConfigureParameters $parameters, Build $build, $value) {
             $prefix = Utils::findPrefix(array(
