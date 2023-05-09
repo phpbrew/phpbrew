@@ -41,18 +41,17 @@ jobs:
                 if: github.event_name == 'release'
                 uses: crazy-max/ghaction-import-gpg@v5
                 with:
-                    gpg_private_key: ${{ secrets.GPG_KEY_<TODO:privatekeyID> }}
-                    passphrase: ${{ secrets.GPG_KEY_<TODO:privatekeyID>_PASSPHRASE }}
+                    gpg_private_key: ${{secrets.GPG_KEY }}
 
             -   name: Sign the PHAR
                 if: github.event_name == 'release'
                 run: |
-                    gpg --local-user <TODO:email> \
+                    gpg --local-user peter279k@gmail.com \
                         --batch \
                         --yes \
-                        --passphrase="${{ secrets.GPG_KEY_<TODO:privatekeyID>_PASSPHRASE }}" \
                         --detach-sign \
-                        --output bin/phpbrew.phar.asc \
+                        --armor \
+                        --output bin/phpbrew.asc \
                         bin/phpbrew.phar
 
             -   uses: actions/upload-artifact@v3
