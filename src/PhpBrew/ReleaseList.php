@@ -168,7 +168,7 @@ class ReleaseList
         $file = DownloadFactory::getInstance(Logger::getInstance(), $options)->download($url);
         $json = file_get_contents($file);
 
-        return json_decode($json, true);
+        return json_decode($json, true) ?? [];
     }
 
     private static function buildReleaseListFromOfficialSite(OptionResult $options)
