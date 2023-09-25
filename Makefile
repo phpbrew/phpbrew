@@ -5,7 +5,7 @@ INSTALL_PATH  = /usr/local/bin
 TEST          = phpunit
 
 $(TARGET): vendor $(shell find bin/ shell/ src/ -type f) box.json.dist .git/HEAD
-	box compile
+	./box compile
 	touch -c $@
 
 vendor: composer.lock
