@@ -22,7 +22,7 @@ jobs:
                 with:
                     php-version: '8.1'
                     ini-values: phar.readonly=0
-                    tools: composer
+                    tools: composer,box
                     coverage: none
 
             -   name: Install Composer dependencies
