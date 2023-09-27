@@ -29,7 +29,7 @@ jobs:
                 uses: ramsey/composer-install@v2
 
             -   name: Install Box
-                run: composer require --dev humbug/box
+                run: composer global require --dev humbug/box
 
             -   name: Build PHAR
                 run: |
