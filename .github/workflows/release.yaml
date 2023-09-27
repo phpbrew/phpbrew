@@ -22,11 +22,14 @@ jobs:
                 with:
                     php-version: '8.1'
                     ini-values: phar.readonly=0
-                    tools: composer,box
+                    tools: composer
                     coverage: none
 
             -   name: Install Composer dependencies
                 uses: ramsey/composer-install@v2
+
+            -   name: Install Box
+                run: composer require --dev humbug/box
 
             -   name: Build PHAR
                 run: |
