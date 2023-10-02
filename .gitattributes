@@ -1,3 +1,4 @@
 /completion/* linguist-generated
 /tests/expected/* linguist-vendored
 /tests/fixtures/* linguist-vendored
+box export-ignore

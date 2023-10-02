@@ -1,0 +1,86 @@
+name: Release
+
+on:
+    push:
+        branches: [ main, master ]
+    pull_request:
+    release:
+        types: [ created ]
+
+jobs:
+    build-phar:
+        runs-on: ubuntu-latest
+        name: Build PHAR
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+                with:
+                    fetch-depth: 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.1'
+                    ini-values: phar.readonly=0
+                    tools: composer
+                    coverage: none
+
+            -   name: Install Composer dependencies
+                uses: ramsey/composer-install@v2
+
+            -   name: Install Box
+                run: composer global require --dev humbug/box
+
+            -   name: Build PHAR
+                run: |
+                    make phpbrew
+                    mv phpbrew bin/phpbrew.phar
+
+            # Smoke test
+            -   name: Ensure the PHAR works
+                run: bin/phpbrew.phar --version
+
+            -   name: Import GPG key
+                if: github.event_name == 'release'
+                uses: crazy-max/ghaction-import-gpg@v5
+                with:
+                    gpg_private_key: ${{secrets.GPG_KEY }}
+
+            -   name: Sign the PHAR
+                if: github.event_name == 'release'
+                run: |
+                    gpg --local-user peter279k@gmail.com \
+                        --batch \
+                        --yes \
+                        --detach-sign \
+                        --armor \
+                        --output bin/phpbrew.asc \
+                        bin/phpbrew.phar
+
+            -   uses: actions/upload-artifact@v3
+                name: Upload the PHAR artifact
+                with:
+                    name: phpbrew-phar
+                    path: |
+                        bin/phpbrew.phar
+                        bin/phpbrew.phar.asc
+
+    publish-phar:
+        runs-on: ubuntu-latest
+        name: Publish PHAR
+        needs:
+            - build-phar
+        if: github.event_name == 'release'
+        steps:
+            -   uses: actions/download-artifact@v3
+                with:
+                    name: phpbrew-phar
+                    path: .
+
+            -   name: Upload phpbrew.phar
+                uses: softprops/action-gh-release@v1
+                with:
+                    token: ${{ secrets.GITHUB_TOKEN }}
+                    files: |
+                        bin/phpbrew.phar
+                        bin/phpbrew.phar.asc
