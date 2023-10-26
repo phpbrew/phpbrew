@@ -1,0 +1,28 @@
+name: Security
+
+on:
+    push:
+        branches: [ main, master ]
+    pull_request:
+    release:
+        types: [ created ]
+
+jobs:
+    security:
+        runs-on: ubuntu-latest
+        name: Audit Dependencies
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+                with:
+                    fetch-depth: 0
+
+            -   name: Cache the vulnerability database
+                uses: actions/cache@v3
+                id: cache-db
+                with:
+                    path: ~/.symfony/cache
+                    key: db
+
+            -   name: Checks dependencies for known vulnerabilities
+                uses: symfonycorp/security-checker-action@v4
