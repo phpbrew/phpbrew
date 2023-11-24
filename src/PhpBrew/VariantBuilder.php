@@ -1047,8 +1047,8 @@ class VariantBuilder
             $parameters = $this->buildDisabledVariant($build, $variant, $parameters);
         }
 
-        foreach ($build->getExtraOptions() as $option) {
-            $parameters = $parameters->withOption($option);
+        foreach ($build->getExtraOptionsProcessed() as $option => $value) {
+            $parameters = $parameters->withOption($option, $value);
         }
 
         return $parameters;
