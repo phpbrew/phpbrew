@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ecb32a0ae625f5662691729f8450eaf",
+    "content-hash": "f0122eaa7927d9d203c014d9be531f26",
     "packages": [
         {
             "name": "corneltek/class-template",
@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/CLIFramework.git",
-                "reference": "01cee2d491085cfae63c677611b5e4604624771e"
+                "reference": "0e69e4d9d8ee6c8b5abb7ebf0cf846e47d93b656"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/01cee2d491085cfae63c677611b5e4604624771e",
-                "reference": "01cee2d491085cfae63c677611b5e4604624771e",
+                "url": "https://api.github.com/repos/c9s/CLIFramework/zipball/0e69e4d9d8ee6c8b5abb7ebf0cf846e47d93b656",
+                "reference": "0e69e4d9d8ee6c8b5abb7ebf0cf846e47d93b656",
                 "shasum": ""
             },
             "require": {
@@ -119,7 +119,7 @@
                 "issues": "https://github.com/c9s/CLIFramework/issues",
                 "source": "https://github.com/c9s/CLIFramework/tree/3.0"
             },
-            "time": "2022-12-14T17:18:40+00:00"
+            "time": "2023-04-20T14:05:15+00:00"
         },
         {
             "name": "corneltek/codegen",
@@ -2896,12 +2896,12 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5 || <8.2.0",
+        "php": "^7.2.5 || <9.0",
         "ext-simplexml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
