@@ -63,7 +63,7 @@ jobs:
                     name: phpbrew-phar
                     path: |
                         bin/phpbrew.phar
-                        bin/phpbrew.phar.asc
+                        bin/phpbrew.asc
 
     publish-phar:
         runs-on: ubuntu-latest
@@ -82,5 +82,5 @@ jobs:
                 with:
                     token: ${{ secrets.GITHUB_TOKEN }}
                     files: |
-                        bin/phpbrew.phar
-                        bin/phpbrew.phar.asc
+                        phpbrew.phar
+                        phpbrew.asc
