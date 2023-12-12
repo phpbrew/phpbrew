@@ -8,12 +8,12 @@ use PhpBrew\BuildSettings\BuildSettings;
  * A build object contains version information,
  * variant configuration,
  * paths and an build identifier (BuildId).
- *
  * @method array getEnabledVariants()
  * @method array getDisabledVariants()
  * @method bool isEnabledVariant(string $variant)
  * @method bool isDisabledVariant(string $variant)
  * @method array getExtraOptions()
+ * @method array getExtraOptionsProcessed()
  * @method enableVariant(string $variant, string $value = null)
  * @method disableVariant(string $variant)
  * @method removeVariant(string $variant)
