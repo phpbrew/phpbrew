@@ -22,7 +22,13 @@ MIN_PHP_VERSION_ID=70200
 # Returns the absolute path corresponding to the command excluding the alias
 function __phpbrew_which()
 {
-    command which "$1"
+    # If in Zsh, use the `whence' builtin instead of `which' to avoid
+    # the resolution of `phpbrew' to the function declared in this file
+    if command -v whence > /dev/null ; then
+        command whence -p "$1"
+    else
+        command which "$1"
+    fi
 }
 
 # Executes the given command via the PHP implementation
