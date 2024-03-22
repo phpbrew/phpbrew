@@ -19,8 +19,8 @@ class ReadlinePatch extends Patch
 
     public function match(Buildable $build, Logger $logger)
     {
-        return version_compare($build->getVersion(), '5.4', '>=')
-            || version_compare($build->getVersion(), '7.1', '<=');
+        return version_compare($build->getVersion(), '5.3', '>=')
+            && version_compare($build->getVersion(), '7.1', '<=');
     }
 
     /**
