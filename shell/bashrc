@@ -117,7 +117,7 @@ function __phpbrew_set_path()
     local PATH_WITHOUT_PHPBREW
 
     if [[ -n "$PHPBREW_ROOT" ]] ; then
-        PATH_WITHOUT_PHPBREW=$(p=$(echo $PATH | tr ":" "\n" | grep -v "^$PHPBREW_ROOT" | tr "\n" ":"); echo ${p%:})
+        PATH_WITHOUT_PHPBREW=$(p=$(echo $PATH | tr ":" "\n" | grep -v "^$PHPBREW_ROOT/php" | tr "\n" ":"); echo ${p%:})
     else
         PATH_WITHOUT_PHPBREW=$PATH
     fi

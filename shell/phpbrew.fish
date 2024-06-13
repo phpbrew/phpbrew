@@ -39,7 +39,7 @@ function __phpbrew_set_path
 
     if set -q PHPBREW_ROOT
         for i in $PATH
-            if [ (expr $i : $PHPBREW_ROOT) -eq 0 ]
+            if [ (expr $i : "$PHPBREW_ROOT/php") -eq 0 ]
                 set PATH_WITHOUT_PHPBREW $PATH_WITHOUT_PHPBREW $i
             end
         end
