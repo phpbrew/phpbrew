@@ -64,6 +64,8 @@ class Build implements Buildable
 
     public $osRelease;
 
+    public $osArch;
+
     /**
      * Construct a Build object,.
      *
@@ -93,6 +95,7 @@ class Build implements Buildable
         $this->setBuildSettings(new BuildSettings());
         $this->osName = php_uname('s');
         $this->osRelease = php_uname('r');
+        $this->osArch = php_uname('m');
     }
 
     public function getName()

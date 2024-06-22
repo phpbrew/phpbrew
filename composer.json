@@ -24,12 +24,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.2.5 || <8.2.0",
+        "php": "^7.2.5 || ^8.0",
         "corneltek/pearx": "^1.3.5",
         "corneltek/curlkit": "^1.0.11",
         "ext-simplexml": "*",
         "symfony/yaml": "^5.4",
-        "corneltek/cliframework": "3.0.x-dev#01cee2d491085cfae63c677611b5e4604624771e"
+        "corneltek/cliframework": "3.0.x-dev#0e69e4d9d8ee6c8b5abb7ebf0cf846e47d93b656"
     },
     "require-dev": {
         "php-vcr/php-vcr": "^1.5.4",
