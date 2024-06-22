@@ -109,9 +109,10 @@ jobs:
                 uses: ramsey/composer-install@v2
 
             -   name: Compile PHP
-                run: >
-                    bin/phpbrew --debug install --jobs=$(nproc)
-                        ${{ matrix.compiled-php-version }}
+                run: bin/phpbrew --debug install ${{ matrix.compiled-php-version }}
+
+            -   name: Test the compiled version
+                run: bin/phpbrew use ${{ matrix.compiled-php-version }} && php --version
 
 
     # This is a "trick", a meta task which does not change, and we can use in
