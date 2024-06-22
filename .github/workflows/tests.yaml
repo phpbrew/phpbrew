@@ -111,6 +111,7 @@ jobs:
             -   name: Compile PHP
                 run: |
                     phpbrew --debug install --jobs=$(nproc) \
+                        ${{ matrix.compiled-php-version }} \
                         +default
 
 
