@@ -109,7 +109,7 @@ jobs:
                 uses: ramsey/composer-install@v2
 
             -   name: Compile PHP
-                run: >g
+                run: >
                     bin/phpbrew --debug install --jobs=$(nproc)
                         ${{ matrix.compiled-php-version }}
 
