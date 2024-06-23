@@ -132,6 +132,10 @@ jobs:
             -   name: Ensure the PHAR works
                 run: bin/phpbrew.phar --version
 
+            -   name: Setup PHPBrew
+                run:
+                    bin/phpbrew.phar init && echo "[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc" >> .bashrc
+
             -   name: Compile PHP
                 run: bin/phpbrew.phar --debug install ${{ matrix.compiled-php-version }}
 
