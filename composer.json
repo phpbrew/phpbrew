@@ -30,7 +30,7 @@
         "ext-simplexml": "*",
         "symfony/yaml": "^5.4",
         "corneltek/cliframework": "3.0.x-dev#0e69e4d9d8ee6c8b5abb7ebf0cf846e47d93b656",
-        "corneltek/getoptionkit": "^3.5"
+        "corneltek/getoptionkit": "^2.7 || ^3.5"
     },
     "require-dev": {
         "php-vcr/php-vcr": "^1.5.4",
