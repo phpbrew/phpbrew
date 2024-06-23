@@ -43,8 +43,51 @@ jobs:
             -   name: Run test suite
                 run: vendor/bin/phpunit --exclude-group mayignore --coverage-clover build/logs/clover.xml
 
+    # Note that this job is a copy/paste of the release.yaml one. This is because it is not easy to pass an artifact
+    # between different workflows.
+    build-phar:
+        runs-on: ubuntu-latest
+        name: Build PHAR
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+                with:
+                    fetch-depth: 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.1'
+                    ini-values: phar.readonly=0
+                    tools: composer
+                    coverage: none
+
+            -   name: Install Composer dependencies
+                uses: ramsey/composer-install@v2
+
+            -   name: Install Box
+                run: composer global require --dev humbug/box
+
+            -   name: Build PHAR
+                run: |
+                    make phpbrew
+                    mv phpbrew bin/phpbrew.phar
+
+            # Smoke test
+            -   name: Ensure the PHAR works
+                run: bin/phpbrew.phar --version
+
+            -   name: Upload the PHAR
+                uses: actions/upload-artifact@v4
+                with:
+                    name: phpbrew_test_phar
+                    path: bin/phpbrew.phar
+
+
     end-to-end-tests:
         runs-on: ${{ matrix.operating-system }}
+        needs:
+            - build-phar
         strategy:
             fail-fast: false
             matrix:
@@ -76,8 +119,20 @@ jobs:
             -   name: Install dependencies
                 uses: ramsey/composer-install@v2
 
+            -   name: Download the PHPBrew PHAR
+                uses: actions/download-artifact@v4
+                with:
+                    name: phpbrew_test_phar
+
+            -   name: Make the PHAR executable
+                run: chmod +x bin/phpbrew.phar
+
+            # Smoke test
+            -   name: Ensure the PHAR works
+                run: bin/phpbrew.phar --version
+
             -   name: Compile PHP
-                run: bin/phpbrew --debug install ${{ matrix.compiled-php-version }}
+                run: bin/phpbrew.phar --debug install ${{ matrix.compiled-php-version }}
 
             -   name: Test the compiled version
                 run: bin/phpbrew use ${{ matrix.compiled-php-version }} && php --version
