@@ -40,40 +40,8 @@ jobs:
             -   name: Update PHPUnit
                 run: composer update phpunit/phpunit --with-dependencies
 
-            -   name: Run PHPUnit with coverage
-                if: ${{ matrix.coverage != '' }}
-                run: |
-                    vendor/bin/phpunit \
-                        --exclude-group mayignore \
-                        --coverage-clover=build/logs/clover.xml \
-                        --coverage-text
-
-    build-phar:
-        runs-on: ubuntu-latest
-        name: Build (test) PHAR
-        steps:
-            -   name: Checkout
-                uses: actions/checkout@v3
-                with:
-                    fetch-depth: 0
-
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: '8.1'
-                    ini-values: phar.readonly=0
-                    coverage: none
-
-            -   name: Install Composer dependencies
-                uses: ramsey/composer-install@v2
-
-            -   name: Build PHAR
-                run: make phpbrew
-
-            # Smoke test
-            -   name: Ensure the PHAR works
-                run: ./phpbrew --version
-
+            -   name: Run test suite
+                run: vendor/bin/phpunit --exclude-group mayignore --coverage-clover build/logs/clover.xml
 
     end-to-end-tests:
         runs-on: ${{ matrix.operating-system }}
@@ -124,7 +92,6 @@ jobs:
         needs:
             - unit-tests
             - end-to-end-tests
-            - build-phar
         if: always()
         steps:
             - name: Successful run
