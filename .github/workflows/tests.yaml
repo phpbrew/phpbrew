@@ -137,7 +137,7 @@ jobs:
                     bin/phpbrew.phar init && echo "[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc" >> .bashrc
 
             -   name: Compile PHP
-                run: bin/phpbrew.phar --debug install ${{ matrix.compiled-php-version }}
+                run: bin/phpbrew.phar --debug install --test ${{ matrix.compiled-php-version }}
 
             -   name: Test the compiled version
                 run: bin/phpbrew use ${{ matrix.compiled-php-version }} && php --version
