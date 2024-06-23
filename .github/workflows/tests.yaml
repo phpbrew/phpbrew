@@ -123,6 +123,7 @@ jobs:
                 uses: actions/download-artifact@v4
                 with:
                     name: phpbrew_test_phar
+                    path: bin
 
             -   name: Make the PHAR executable
                 run: chmod +x bin/phpbrew.phar
