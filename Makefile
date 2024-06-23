@@ -8,6 +8,10 @@ $(TARGET): vendor $(shell find bin/ shell/ src/ -type f) box.json.dist .git/HEAD
 	box compile
 	touch -c $@
 
+.PHONY: composer_validate
+composer_validate:
+	composer validate --strict --ansi
+
 vendor: composer.lock
 	composer install
 	touch $@
