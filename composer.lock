@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f9b6812d5b90fb5db4bf0f34128af5b",
+    "content-hash": "e20d7532dea4bc04804173f1d4d45e95",
     "packages": [
         {
             "name": "corneltek/class-template",
