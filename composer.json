@@ -35,9 +35,6 @@
         "php-vcr/php-vcr": "^1.5.4",
         "phpunit/phpunit": "^8.5.33"
     },
-    "conflict": {
-        "pimple/pimple": "<3.0.*"
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
