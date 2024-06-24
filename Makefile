@@ -59,5 +59,6 @@ vendor_install:
 composer.lock: composer.json
 	composer update --lock
 	touch -c $@
+
 vendor: composer.lock
 	$(MAKE) vendor_install
