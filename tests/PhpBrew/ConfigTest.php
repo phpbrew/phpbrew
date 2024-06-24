@@ -2,6 +2,7 @@
 
 namespace PhpBrew\Tests;
 
+use Exception;
 use PhpBrew\Config;
 use PHPUnit\Framework\TestCase;
 
@@ -233,7 +234,7 @@ class ConfigTest extends TestCase
         try {
             $callback($this);
             $this->resetEnv($oldEnv);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->resetEnv($oldEnv);
             throw $e;
         }

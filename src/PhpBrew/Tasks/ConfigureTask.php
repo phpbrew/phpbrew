@@ -4,7 +4,6 @@ namespace PhpBrew\Tasks;
 
 use PhpBrew\Build;
 use PhpBrew\CommandBuilder;
-use PhpBrew\Config;
 use PhpBrew\ConfigureParameters;
 use PhpBrew\Exception\SystemCommandException;
 

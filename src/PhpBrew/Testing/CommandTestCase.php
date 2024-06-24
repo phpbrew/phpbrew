@@ -2,6 +2,7 @@
 
 namespace PhpBrew\Testing;
 
+use CurlKit\CurlException;
 use CLIFramework\Testing\CommandTestCase as BaseCommandTestCase;
 use GetOptionKit\Option;
 use PhpBrew\Console;
@@ -96,7 +97,7 @@ abstract class CommandTestCase extends BaseCommandTestCase
             ob_end_clean();
 
             $this->assertTrue($ret, $output);
-        } catch (\CurlKit\CurlException $e) {
+        } catch (CurlException $e) {
             $this->markTestIncomplete($e->getMessage());
         }
     }

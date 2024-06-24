@@ -16,6 +16,9 @@
     "config" : {
         "platform": {
             "php": "7.2.5"
+        },
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
         }
     },
     "bin": [
@@ -33,11 +36,16 @@
     },
     "require-dev": {
         "php-vcr/php-vcr": "^1.5.4",
-        "phpunit/phpunit": "^8.5.33"
+        "phpunit/phpunit": "^8.5.33",
+        "bamarni/composer-bin-plugin": "^1.8"
     },
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
+        },
+        "bamarni-bin": {
+            "bin-links": false,
+            "forward-command": false
         }
     },
     "autoload": {
