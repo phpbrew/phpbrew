@@ -2,7 +2,6 @@
 
 namespace PhpBrew\Tests;
 
-use Cassandra\Exception\InvalidSyntaxException;
 use PhpBrew\VariantParser;
 use PHPUnit\Framework\TestCase;
 

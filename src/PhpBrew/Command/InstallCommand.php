@@ -2,6 +2,7 @@
 
 namespace PhpBrew\Command;
 
+use RuntimeException;
 use CLIFramework\Command;
 use CLIFramework\ValueCollection;
 use Exception;
@@ -27,7 +28,6 @@ use PhpBrew\Tasks\TestTask;
 use PhpBrew\VariantBuilder;
 use PhpBrew\VariantParser;
 use PhpBrew\VersionDslParser;
-use SplFileInfo;
 
 class InstallCommand extends Command
 {
@@ -267,7 +267,7 @@ class InstallCommand extends Command
         $installPrefix = Config::getInstallPrefix() . DIRECTORY_SEPARATOR . $build->getName();
         if (!file_exists($installPrefix)) {
             if (!mkdir($installPrefix, 0755, true) && !is_dir($installPrefix)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $installPrefix));
+                throw new RuntimeException(sprintf('Directory "%s" was not created', $installPrefix));
             }
         }
         $build->setInstallPrefix($installPrefix);
@@ -335,7 +335,7 @@ class InstallCommand extends Command
         $buildDir = $this->options->{'build-dir'} ?: Config::getBuildDir();
         if (!file_exists($buildDir)) {
             if (!mkdir($buildDir, 0755, true) && !is_dir($buildDir)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $buildDir));
+                throw new RuntimeException(sprintf('Directory "%s" was not created', $buildDir));
             }
         }
 
