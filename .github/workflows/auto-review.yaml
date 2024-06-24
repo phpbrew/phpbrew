@@ -1,0 +1,42 @@
+name: AutoReview
+
+on:
+    push:
+        branches: [ main, master ]
+    pull_request: ~
+
+jobs:
+    composer-validate:
+        runs-on: ubuntu-latest
+        name: Composer Validate
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.2'
+                    tools: composer
+                    coverage: none
+
+            -   run: make composer_validate
+
+
+    # This is a "trick", a meta task which does not change, and we can use in
+    # the protected branch rules as opposed to the tests one above which
+    # may change regularly.
+    validate-autoreview:
+        name: AutoReview tests status
+        runs-on: ubuntu-latest
+        needs:
+            - composer-validate
+        if: always()
+        steps:
+            - name: Successful run
+              if: ${{ !(contains(needs.*.result, 'failure')) }}
+              run: exit 0
+
+            - name: Failing run
+              if: ${{ contains(needs.*.result, 'failure') }}
+              run: exit 1
