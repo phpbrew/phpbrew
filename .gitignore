@@ -2,3 +2,5 @@
 .phpbrew
 .phpcs.cache
 /build
+/phpbrew
+/phpbrew.asc
