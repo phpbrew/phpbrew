@@ -20,16 +20,13 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '8.1'
+                    php-version: '8.2'
                     ini-values: phar.readonly=0
-                    tools: composer
+                    tools: box, composer
                     coverage: none
 
             -   name: Install Composer dependencies
                 uses: ramsey/composer-install@v2
-
-            -   name: Install Box
-                run: composer global require --dev humbug/box
 
             -   name: Build PHAR
                 run: |
