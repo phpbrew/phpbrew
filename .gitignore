@@ -2,3 +2,4 @@
 .phpbrew
 .phpcs.cache
 /build
+/vendor-bin/*/vendor/
