@@ -10,6 +10,7 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
+    ->withPhpSets(php72: true)
     ->withSets([
         DowngradeLevelSetList::DOWN_TO_PHP_72,
     ])
