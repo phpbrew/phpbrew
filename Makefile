@@ -1,25 +1,37 @@
-TARGET        = phpbrew
-SIGNATURE     = $(TARGET).asc
+# See https://tech.davis-hansson.com/p/make/
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
+
+PHPBREW_PHAR        = phpbrew
+SIGNATURE     = $(PHPBREW_PHAR).asc
 CP            = cp
 INSTALL_PATH  = /usr/local/bin
 TEST          = phpunit
 
-$(TARGET): vendor $(shell find bin/ shell/ src/ -type f) box.json.dist .git/HEAD
-	box compile
-	touch -c $@
+PHAR_SRC_FILES := $(shell find bin/ shell/ src/ -type f)
 
-vendor: composer.lock
-	composer install
-	touch $@
 
-.PHONY: sign
-sign: $(SIGNATURE)
+.DEFAULT_GOAL := help
 
-$(SIGNATURE): $(TARGET)
-	gpg --armor --detach-sign $(TARGET)
 
-install: $(TARGET)
-	$(CP) $(TARGET) $(INSTALL_PATH)
+.PHONY: help
+help:
+	@printf "\033[33mUsage:\033[0m\n  make TARGET\n\n\033[32m#\n# Commands\n#---------------------------------------------------------------------------\033[0m\n\n"
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "\033[33m%s:\033[0m%s\n", $$1, $$2}'
+
+
+.PHONY: build
+build:	## Builds PHPBrew PHAR
+build:
+	rm $(PHPBREW_PHAR) 2>/dev/null || true
+	$(MAKE) _build
+
+.PHONY: _build
+_build:
+	$(MAKE) $(PHPBREW_PHAR)
+
+install: PHPBREW_PHAR
+	$(CP) $(PHPBREW_PHAR) $(INSTALL_PATH)
 
 update/completion:
 	bin/phpbrew zsh --bind phpbrew --program phpbrew > completion/zsh/_phpbrew
@@ -29,4 +41,23 @@ test:
 	$(TEST)
 
 clean:
-	git checkout -- $(TARGET)
+	git checkout -- $(PHPBREW_PHAR)
+
+$(PHPBREW_PHAR): vendor \
+		$(PHAR_SRC_FILES) \
+		box.json.dist \
+		.git/HEAD
+	box compile
+	touch -c $@
+
+PHONY: vendor_install
+vendor_install:
+	composer install --ansi
+	touch -c composer.lock
+	touch -c vendor
+
+composer.lock: composer.json
+	composer update --lock
+	touch -c $@
+vendor: composer.lock
+	$(MAKE) vendor_install
