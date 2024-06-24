@@ -161,7 +161,13 @@ class VariantBuilder
             return $params->withOption('--enable-zts');
         };
 
-        $this->variants['json'] = '--enable-json';
+        $this->variants['json'] = function (ConfigureParameters $params, Build $build) {
+            if ($build->compareVersion('8.0') < 0) {
+                return $params->withOption('--enable-json');
+            }
+
+            return $params;
+        };
         $this->variants['hash'] = '--enable-hash';
         $this->variants['exif'] = '--enable-exif';
 
