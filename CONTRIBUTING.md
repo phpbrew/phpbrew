@@ -1,6 +1,9 @@
 Contribution Guideline
 =======================
 
+This project makes used of [GNU Make](https://www.gnu.org/software/make/). You can find the most
+important commands by executing `make` or `make help`.
+
 1. Please see "Trouble Shooting" page before you open a bug or issue:
    L<https://github.com/phpbrew/phpbrew/wiki/Troubleshooting>.
 2. If you encountered some installation issue, please also attach your build log file (build.log) to improve the diagnosis process. for example:
