@@ -2,7 +2,7 @@
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-PHPBREW_PHAR        = phpbrew
+PHPBREW_PHAR  = phpbrew
 SIGNATURE     = $(PHPBREW_PHAR).asc
 CP            = cp
 INSTALL_PATH  = /usr/local/bin
