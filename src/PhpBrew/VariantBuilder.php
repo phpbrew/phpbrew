@@ -237,6 +237,16 @@ class VariantBuilder
                 new IncludePrefixFinder('openssl/opensslv.h'),
             ));
 
+            // OpenSSL 3 removes RSA_SSLV23_PADDING and so is not compatible with PHP < 8.1, and Homebrew defaults to openssl@3
+            // If we detect homebrew openssl@3, which is the default, change it to openssl@1.1
+            // Fixed in PHP since 8.1.0: https://github.com/php/php-src/commit/a0972deb0f441fc7991001cb51efc994b70a3b51
+            if ($opensslPrefix !== null && $build->compareVersion('8.1') < 0 && $opensslPrefix === (new BrewPrefixFinder('openssl@3'))->findPrefix()) {
+                $opensslPrefix = (new BrewPrefixFinder('openssl@1.1'))->findPrefix();
+                if ($opensslPrefix === null) {
+                    throw new Exception('PHP < 8.1 requires openssl@1.1.');
+                }
+            }
+
             return $params->withOption('--with-imap', $imapPrefix)
                 ->withOptionOrPkgConfigPath($build, '--with-kerberos', $kerberosPrefix)
                 ->withOptionOrPkgConfigPath($build, '--with-imap-ssl', $opensslPrefix);
@@ -552,6 +562,16 @@ class VariantBuilder
                 new PkgConfigPrefixFinder('openssl'),
                 new IncludePrefixFinder('openssl/opensslv.h'),
             ));
+
+            // OpenSSL 3 removes RSA_SSLV23_PADDING and so is not compatible with PHP < 8.1, and Homebrew defaults to openssl@3
+            // If we detect homebrew openssl@3, which is the default, change it to openssl@1.1
+            // Fixed in PHP since 8.1.0: https://github.com/php/php-src/commit/a0972deb0f441fc7991001cb51efc994b70a3b51
+            if ($prefix !== null && $build->compareVersion('8.1') < 0 && $prefix === (new BrewPrefixFinder('openssl@3'))->findPrefix()) {
+                $prefix = (new BrewPrefixFinder('openssl@1.1'))->findPrefix();
+                if ($prefix === null) {
+                    throw new Exception('PHP < 8.1 requires openssl@1.1.');
+                }
+            }
 
             return $parameters->withOptionOrPkgConfigPath($build, '--with-openssl', $prefix);
         };
