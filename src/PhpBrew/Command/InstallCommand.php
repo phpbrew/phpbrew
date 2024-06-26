@@ -464,9 +464,15 @@ class InstallCommand extends Command
                     );
                 }
 
-                $parameters = $parameters
-                    ->withOption('--with-config-file-path', $prefix . '/etc/' . $sapi)
-                    ->withOption('--with-config-file-scan-dir', $prefix . '/var/db/' . $sapi);
+                if (!array_key_exists('--with-config-file-path', $options)) {
+                    $parameters = $parameters
+                        ->withOption('--with-config-file-path', $prefix.'/etc/'.$sapi);
+                }
+
+                if (!array_key_exists('--with-config-file-scan-dir', $options)) {
+                    $parameters = $parameters
+                        ->withOption('--with-config-file-scan-dir', $prefix.'/var/db/'.$sapi);
+                }
 
                 $this->build($build, $parameters);
 
