@@ -31,9 +31,12 @@ jobs:
             -   name: Install Box
                 run: composer global require --dev humbug/box
 
+            -   name: Ensure the dependencies are up to date
+                run: make vendor
+
             -   name: Build PHAR
                 run: |
-                    make phpbrew
+                    make build
                     mv phpbrew bin/phpbrew.phar
 
             # Smoke test
