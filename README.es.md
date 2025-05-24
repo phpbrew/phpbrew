@@ -27,7 +27,6 @@ Lo que **phpbrew** puede hacer por ti:
 
 Por favor, consulta los [Requisitos](https://github.com/phpbrew/phpbrew/wiki/Requirement) antes de comenzar. Necesitas instalar algunos paquetes de desarrollo para compilar PHP.
 
-
 ## INICIO RÁPIDO
 
 Consulta la sección [Inicio Rápido](https://github.com/phpbrew/phpbrew/wiki/Quick-Start) si estás impaciente. :-p
@@ -35,7 +34,6 @@ Consulta la sección [Inicio Rápido](https://github.com/phpbrew/phpbrew/wiki/Qu
 ## COMENZANDO
 
 Bien, supongo que tienes más tiempo para trabajar en esto. Este es un tutorial paso a paso que te ayudará a comenzar.
-
 
 ### Instalación
 
@@ -120,9 +118,8 @@ $ phpbrew update
 Para obtener versiones más antiguas (anteriores a la 5.4)
 
 > Ten en cuenta que no garantizamos que puedas compilar con éxito las versiones de PHP
-> que no están oficialmente soportadas. Por favor, no reportes problemas relacionados 
+> que no están oficialmente soportadas. Por favor, no reportes problemas relacionados
 > con versiones antiguas, ya que estos no serán corregidos.
-
 
 ```bash
 $ phpbrew update --old
@@ -145,7 +142,6 @@ $ phpbrew install 5.4.0 +default
 Aquí sugerimos el conjunto de variantes `default`, que incluye las variantes más comúnmente usadas. Si necesitas una instalación mínima, simplemente elimina el conjunto de variantes `default`.
 
 Puedes habilitar la compilación en paralelo usando la opción `-j` o `--jobs`. A continuación, un ejemplo:
-
 
 ```bash
 $ phpbrew install -j $(nproc) 5.4.0 +default
@@ -195,41 +191,42 @@ Para instalar la siguiente versión (inestable):
 $ phpbrew install next as php-7.3.0-dev
 ```
 
-## Cleaning up build directory
+## Limpieza del directorio de compilación
 
 ```bash
 $ phpbrew clean php-5.4.0
 ```
 
-## Variants
+## Variantes
 
-PHPBrew arranges configure options for you, you can simply specify variant
-name, and phpbrew will detect include paths and build options for configuring.
+PHPBrew organiza las opciones de configuración por ti, puedes simplemente especificar el nombre de la variante, y phpbrew detectará las rutas de inclusión y las opciones de compilación necesarias.
 
-PHPBrew provides default variants and some virtual variants,
-to the default variants, which includes the most commonly used variants,
-to the virtual variants, which defines a variant set, you may use one virtual variant
-to enable multiple variants at one time.
+PHPBrew proporciona variantes por defecto y algunas variantes virtuales.
 
-To check out what is included in these variants, run `phpbrew variants`
-to list these variants.
+- Las variantes por defecto incluyen las más comúnmente usadas.
+- Las variantes virtuales definen un conjunto de variantes; puedes usar una variante virtual para habilitar múltiples variantes a la vez.
 
-To enable one variant, add a prefix `+` before the variant name, eg
+Para ver qué incluye cada variante, ejecuta `phpbrew variants` para listar todas las variantes disponibles.
 
-    +mysql
+Para habilitar una variante, añade el prefijo `+` antes del nombre de la variante, por ejemplo:
 
-To disable one variant, add a prefix `-` before the variant name.
+```
++mysql
+```
 
-    -debug
+Para deshabilitar una variante, añade el prefijo `-` antes del nombre de la variante, por ejemplo:
 
-For example, if we want to build PHP with the default options and
-database supports (mysql, sqlite, postgresql), you may simply run:
+```
+-debug
+```
+
+Por ejemplo, si quieres compilar PHP con las opciones por defecto y soporte para bases de datos (mysql, sqlite, postgresql), simplemente ejecuta:
 
 ```bash
 $ phpbrew install 5.4.5 +default+dbs
 ```
 
-You may also build PHP with extra variants:
+También puedes compilar PHP con variantes adicionales:
 
 ```bash
 $ phpbrew install 5.3.10 +mysql+sqlite+cgi
@@ -239,49 +236,47 @@ $ phpbrew install 5.3.10 +mysql+debug+pgsql +apxs2
 $ phpbrew install 5.3.10 +pdo +mysql +pgsql +apxs2=/usr/bin/apxs2
 ```
 
-To build PHP with pgsql (PostgreSQL) extension:
+Para compilar PHP con la extensión pgsql (PostgreSQL):
 
 ```bash
 $ phpbrew install 5.4.1 +pgsql+pdo
 ```
 
-Or build pgsql extension with postgresql base dir on Mac OS X:
+O compila la extensión pgsql especificando el directorio base de PostgreSQL en Mac OS X:
 
 ```bash
 $ phpbrew install 5.4.1 +pdo+pgsql=/opt/local/lib/postgresql91/bin
 ```
 
-The pgsql path is the location of `pg_config`, you could find `pg_config` in the /opt/local/lib/postgresql91/bin
+La ruta de pgsql es la ubicación de `pg_config`; puedes encontrar `pg_config` en `/opt/local/lib/postgresql91/bin`.
 
-To build PHP with neutral compile options, you can specify `neutral` virtual variant, which means that phpbrew
-doesn't add any additional compile options including `--disable-all`. But some options(for example `--enable-libxml`)
-are still automatically added to support `pear` installation.
-You can build PHP with `neutral`:
+Para compilar PHP con opciones neutrales, puedes especificar la variante virtual `neutral`, lo que significa que phpbrew no agregará opciones de compilación adicionales, incluyendo `--disable-all`. Sin embargo, algunas opciones (por ejemplo, `--enable-libxml`) se añaden automáticamente para soportar la instalación de `pear`.
+Puedes compilar PHP con la variante `neutral` así:
 
 ```bash
 $ phpbrew install 5.4.1 +neutral
 ```
 
-For more details, please check out [PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki).
+Para más detalles, por favor consulta: [PHPBrew Cookbook](https://github.com/phpbrew/phpbrew/wiki).
 
-## Extra Configure Options
+## Opciones adicionales de configuración
 
-To pass extra configure arguments, you can do this:
+Para pasar argumentos adicionales a la configuración, puedes hacerlo así:
 
 ```bash
 $ phpbrew install 5.3.10 +mysql +sqlite -- \
     --enable-ftp --apxs2=/opt/local/apache2/bin/apxs
 ```
 
-## Use And Switch
+## Uso y Cambio de versión
 
-Use (switch version temporarily):
+Usar (cambiar versión temporalmente):
 
 ```bash
 $ phpbrew use 5.4.22
 ```
 
-Switch PHP version (switch default version)
+Cambiar la versión de PHP (cambiar la versión predeterminada)
 
 ```bash
 $ phpbrew switch 5.4.18
@@ -293,7 +288,7 @@ Turn Off:
 $ phpbrew off
 ```
 
-If you enable apache PHP modules, remember to comment out or remove the settings.
+Si habilitas los módulos PHP para Apache, recuerda comentar o eliminar esas configuraciones.
 
 ```bash
 $ sudo vim /etc/httpd/conf/httpd.conf
@@ -301,52 +296,51 @@ $ sudo vim /etc/httpd/conf/httpd.conf
 # LoadModule php5_module        /usr/lib/httpd/modules/libphp5.3.20.so
 ```
 
-## The Extension Installer
+## El instalador de extensiones
 
-See [Extension Installer](https://github.com/phpbrew/phpbrew/wiki/Extension-Installer)
+Consulta [Extension Installer](https://github.com/phpbrew/phpbrew/wiki/Extension-Installer)
 
-### Configuring the php.ini for current php version
+### Configurando el php.ini para la versión actual de PHP
 
-Simply run:
+Simplemente ejecuta:
 
 ```bash
 $ phpbrew config
 ```
 
-You may specify the EDITOR environment variable to your favorite editor:
+Puedes especificar la variable de entorno EDITOR con tu editor favorito:
 
 ```bash
 export EDITOR=vim
 phpbrew config
 ```
 
-## Upgrade phpbrew
+## Actualizar phpbrew
 
-To upgrade phpbrew, you may simply run the `self-update` command,
-this command enables you to install the latest version of
-`master` branch from GitHub:
+Para actualizar phpbrew, simplemente puedes ejecutar el comando `self-update`.
+Este comando te permite instalar la última versión de la rama `master` desde GitHub:
 
 ```bash
 $ phpbrew self-update
 ```
 
-## The Installed PHP(s)
+## Los PHP instalados
 
-To list all installed php(s), you could run:
+Para listar todos los PHP instalados, puedes ejecutar:
 
 ```bash
 $ phpbrew list
 ```
 
-The installed phps are located in `~/.phpbrew/php`, for example, php 5.4.20 is located at:
+Los PHP instalados se encuentran en `~/.phpbrew/php`, por ejemplo, PHP 5.4.20 está ubicado en:
 
     ~/.phpbrew/php/5.4.20/bin/php
 
-And you should put your configuration file in:
+Y deberías colocar tu archivo de configuración en:
 
     ~/.phpbrew/php/5.4.20/etc/php.ini
 
-Extension configuration files should be put in:
+Los archivos de configuración de extensiones deben colocarse en:
 
     ~/.phpbrew/php/5.4.20/var/db
     ~/.phpbrew/php/5.4.20/var/db/xdebug.ini
@@ -354,27 +348,27 @@ Extension configuration files should be put in:
     ~/.phpbrew/php/5.4.20/var/db/memcache.ini
     ... etc
 
-## Quick commands to switch between directories
+## Comandos rápidos para cambiar entre directorios
 
-Switching to PHP build directory
+Cambiar al directorio de compilación de PHP
 
 ```bash
 $ phpbrew build-dir
 ```
 
-Switching to PHP dist directory
+Cambiar al directorio de distribución de PHP
 
 ```bash
 $ phpbrew dist-dir
 ```
 
-Switching to PHP etc directory
+Cambiar al directorio de configuración (etc) de PHP
 
 ```bash
 $ phpbrew etc-dir
 ```
 
-Switching to PHP var directory
+Cambiar al directorio var de PHP
 
 ```bash
 $ phpbrew var-dir
@@ -382,118 +376,120 @@ $ phpbrew var-dir
 
 ## PHP FPM
 
-phpbrew also provides useful fpm managing sub-commands. to use them, please
-remember to enable `+fpm` variant when building your own php.
+phpbrew también ofrece subcomandos útiles para gestionar FPM. Para usarlos, recuerda habilitar la variante `+fpm` al compilar tu propio PHP.
 
-To setup the system FPM service, type one of commands:
+Para configurar el servicio FPM del sistema, escribe uno de los siguientes comandos:
+
 
 ```bash
-# Typing the following command when systemctl is available in the Linux distribution.
+# Ejecuta el siguiente comando cuando systemctl esté disponible en la distribución Linux.
 $ phpbrew fpm setup --systemctl
 
-# It is available in the Linux distribution.
+# Cuando está disponible en la distribución Linux.
 $ phpbrew fpm setup --initd
 
-# It is available in the macOS.
+# Cuando está disponible en macOS.
 $ phpbrew fpm setup --launchctl
 ```
 
-To start php-fpm, simply type:
+Para iniciar php-fpm, simplemente escribe:
 
 ```bash
 $ phpbrew fpm start
 ```
 
-To stop php-fpm, type:
+Para detener php-fpm, escribe:
 
 ```bash
 $ phpbrew fpm stop
 ```
 
-To show php-fpm modules:
+Para mostrar los módulos de php-fpm:
 
 ```bash
 phpbrew fpm module
 ```
 
-To test php-fpm config:
+Para probar la configuración de php-fpm:
 
 ```bash
 phpbrew fpm test
 ```
 
-To edit php-fpm config:
+Para editar la configuración de php-fpm:
 
 ```bash
 phpbrew fpm config
 ```
 
-> The installed `php-fpm` is located in `~/.phpbrew/php/php-*/sbin`.
+> El `php-fpm` instalado se encuentra en `~/.phpbrew/php/php-*/sbin`.
 >
-> The correspond `php-fpm.conf` is located in `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`,
-> you may copy the default config file to the desired location. e.g.,
+> El archivo de configuración correspondiente `php-fpm.conf` está en `~/.phpbrew/php/php-*/etc/php-fpm.conf.default`.
+> Puedes copiar el archivo de configuración por defecto a la ubicación deseada, por ejemplo:
 >
 >     cp -v ~/.phpbrew/php/php-*/etc/php-fpm.conf.default
 >         ~/.phpbrew/php/php-*/etc/php-fpm.conf
 >
 >     php-fpm --php-ini {php config file} --fpm-config {fpm config file}
 
-## Enabling Version Info Prompt
+## Habilitar información de versión en el prompt
 
-To add PHP version info in your shell prompt, you can use
+Para añadir la información de la versión de PHP en el prompt de tu terminal, puedes usar:
 `"PHPBREW_SET_PROMPT=1"` variable.
 
-The default is `"PHPBREW_SET_PROMPT=0"` (disable). To enable it, you can add this
-line to your `~/.bashrc` file and put this line before you source
+El valor por defecto es `"PHPBREW_SET_PROMPT=0"` (desactivado). Para activarlo, puedes añadir esta línea a tu archivo `~/.bashrc` y colocarla antes de la línea donde haces el *source*:
 `~/.phpbrew/bashrc`.
 
 ```bash
 export PHPBREW_SET_PROMPT=1
 ```
 
-To embed version info in your prompt, you can use
-`phpbrew_current_php_version` shell function, which is defined in `.phpbrew/bashrc`.
-and you can set the version info in your `PS1` var.
-e.g.
+Para mostrar la información de la versión en tu prompt, puedes usar la función de shell `phpbrew_current_php_version`, que está definida en `.phpbrew/bashrc`.
+Luego, puedes configurar la información de versión en tu variable `PS1`.
+Por ejemplo:
 
 ```bash
 PS1=" \$(phpbrew_current_php_version) \$ "
 ```
 
-## Known Issues
+## Problemas Conocidos
 
-- For PHP-5.3+ versions, "Building intl 64-bit fails on OS X" <https://bugs.php.net/bug.php?id=48795>
+* Para versiones PHP 5.3 en adelante, existe el problema "Fallo al compilar intl en 64-bit en OS X"
+  [https://bugs.php.net/bug.php?id=48795](https://bugs.php.net/bug.php?id=48795)
 
-- To build PHP with GD extension, you need to specify your libpng dir and libjpeg dir, for example,
+* Para compilar PHP con la extensión GD, necesitas especificar los directorios de libpng y libjpeg, por ejemplo:
 
+   
   $ phpbrew install php-5.4.10 +default +mysql +intl +gettext +apxs2=/usr/bin/apxs2 \
    -- --with-libdir=lib/x86_64-linux-gnu \
    --with-gd=shared \
    --enable-gd-natf \
    --with-jpeg-dir=/usr \
    --with-png-dir=/usr
+  
 
-## Troubleshooting
+## Solución de Problemas
 
-Please see [TroubleShooting](https://github.com/phpbrew/phpbrew/wiki/TroubleShooting)
+Por favor, consulta [TroubleShooting](https://github.com/phpbrew/phpbrew/wiki/TroubleShooting)
 
-## FAQ
 
-Q: How do I have the same version with different compile option?
+## Preguntas Frecuentes (FAQ)
 
-A: Currently, you can install php-5.x.x and rename the /Users/phpbrew/.phpbrew/php/php-5.x.x folder to the new name, for example, php-5.x.x-super , and install another php-5.x.x
+**P:** ¿Cómo puedo tener la misma versión con diferentes opciones de compilación?
 
-## Contribution
+**R:** Actualmente, puedes instalar php-5.x.x y renombrar la carpeta `/Users/phpbrew/.phpbrew/php/php-5.x.x` con un nuevo nombre, por ejemplo, `php-5.x.x-super`, y luego instalar otra versión php-5.x.x.
 
-Please see [Contribution](https://github.com/phpbrew/phpbrew/wiki/Contribution)
+## Contribuciones
 
-## Documentation
+Por favor, consulta [Contribución](https://github.com/phpbrew/phpbrew/wiki/Contribution)
 
-Please see [Wiki](https://github.com/phpbrew/phpbrew/wiki)
+## Documentación
 
-## Founder and Contributors
+Por favor, consulta [Wiki](https://github.com/phpbrew/phpbrew/wiki)
 
-only listing 1k+ lines contributors, names are sorted in alphabetical order
+## Fundador y Contribuidores
+
+Solo se listan los contribuidores con más de 1000 líneas, los nombres están ordenados alfabéticamente.
 
 - @c9s
 - @GM-Alex
@@ -505,9 +501,9 @@ only listing 1k+ lines contributors, names are sorted in alphabetical order
 - @racklin
 - @shinnya
 
-## License
+## Licencia
 
-See [LICENSE](LICENSE) file.
+Consulta el archivo [LICENSE](LICENSE)
 
 [s-link]: https://scrutinizer-ci.com/g/phpbrew/phpbrew/?branch=master "Code Quality"
 [p-link]: https://packagist.org/packages/marc/phpbrew "Packagist"
