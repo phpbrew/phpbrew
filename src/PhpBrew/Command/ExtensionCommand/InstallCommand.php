@@ -10,7 +10,6 @@ use PhpBrew\Extension\ExtensionDownloader;
 use PhpBrew\Extension\ExtensionFactory;
 use PhpBrew\Extension\ExtensionManager;
 use PhpBrew\ExtensionList;
-use PhpBrew\Utils;
 
 class InstallCommand extends BaseCommand
 {

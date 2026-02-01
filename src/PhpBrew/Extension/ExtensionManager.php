@@ -2,6 +2,7 @@
 
 namespace PhpBrew\Extension;
 
+use RuntimeException;
 use CLIFramework\Logger;
 use Exception;
 use PhpBrew\Config;
@@ -92,7 +93,7 @@ class ExtensionManager
 
         if (!file_exists(dirname($ini))) {
             if (!mkdir($concurrentDirectory = dirname($ini), 0755, true) && !is_dir($concurrentDirectory)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+                throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
         }
 
