@@ -24,6 +24,10 @@ class OpenSSLDSOPatch extends Patch
     public function rules()
     {
         /*
+        Custom
+         /usr/local/opt/phpbrew/openssl/lib/libssl.dylib
+         /usr/local/opt/phpbrew/openssl/lib/libcrypto.dylib
+
         Macports
          -lssl /opt/local/lib/libssl.dylib
          -lcrypto /opt/local/lib/libcrypto.dylib
@@ -35,7 +39,8 @@ class OpenSSLDSOPatch extends Patch
         $dylibssl = null;
         $dylibcrypto = null;
 
-        $paths = array('/opt/local/lib/libssl.dylib',
+        $paths = array('/usr/local/opt/phpbrew/openssl/lib/libssl.dylib',
+            '/opt/local/lib/libssl.dylib',
             '/usr/local/opt/openssl/lib/libssl.dylib',
             '/usr/local/lib/libssl.dylib', '/usr/lib/libssl.dylib', );
         foreach ($paths as $path) {
@@ -45,7 +50,8 @@ class OpenSSLDSOPatch extends Patch
             }
         }
 
-        $paths = array('/opt/local/lib/libcrypto.dylib',
+        $paths = array('/usr/local/opt/phpbrew/openssl/lib/libcrypto.dylib',
+            '/opt/local/lib/libcrypto.dylib',
             '/usr/local/opt/openssl/lib/libcrypto.dylib',
             '/usr/local/lib/libcrypto.dylib', '/usr/lib/libcrypto.dylib', );
         foreach ($paths as $path) {
