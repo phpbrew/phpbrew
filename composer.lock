@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0122eaa7927d9d203c014d9be531f26",
+    "content-hash": "fdc4592d3ee14556c91772d97a37b009",
     "packages": [
         {
             "name": "corneltek/class-template",
@@ -218,16 +218,16 @@
         },
         {
             "name": "corneltek/getoptionkit",
-            "version": "2.7.2",
+            "version": "2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/c9s/GetOptionKit.git",
-                "reference": "aab2728de80175217cab0d7a4d078c3eb907e2c0"
+                "reference": "3d42c14251cfd8becbffc851852de3587d4e8eec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/aab2728de80175217cab0d7a4d078c3eb907e2c0",
-                "reference": "aab2728de80175217cab0d7a4d078c3eb907e2c0",
+                "url": "https://api.github.com/repos/c9s/GetOptionKit/zipball/3d42c14251cfd8becbffc851852de3587d4e8eec",
+                "reference": "3d42c14251cfd8becbffc851852de3587d4e8eec",
                 "shasum": ""
             },
             "require": {
@@ -261,9 +261,9 @@
             "homepage": "http://github.com/c9s/GetOptionKit",
             "support": {
                 "issues": "https://github.com/c9s/GetOptionKit/issues",
-                "source": "https://github.com/c9s/GetOptionKit/tree/2.7.2"
+                "source": "https://github.com/c9s/GetOptionKit/tree/2.7.3"
             },
-            "time": "2023-04-14T03:35:14+00:00"
+            "time": "2024-12-18T10:10:51+00:00"
         },
         {
             "name": "corneltek/pearx",
@@ -2896,10 +2896,10 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5 || <9.0",
+        "php": "^7.2.5 || ^8.0",
         "ext-simplexml": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "7.2.5"
     },

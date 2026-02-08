@@ -138,7 +138,7 @@ class ReleaseList
         $this->save();
     }
 
-    public static function getReadyInstance(OptionResult $options = null)
+    public static function getReadyInstance(?OptionResult $options = null)
     {
         static $instance;
 

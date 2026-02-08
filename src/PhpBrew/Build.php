@@ -14,7 +14,7 @@ use PhpBrew\BuildSettings\BuildSettings;
  * @method bool isEnabledVariant(string $variant)
  * @method bool isDisabledVariant(string $variant)
  * @method array getExtraOptions()
- * @method enableVariant(string $variant, string $value = null)
+ * @method enableVariant(string $variant, ?string $value = null)
  * @method disableVariant(string $variant)
  * @method removeVariant(string $variant)
  * @method array resolveVariants()

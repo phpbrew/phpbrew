@@ -1010,7 +1010,7 @@ class VariantBuilder
      *
      * @throws Exception
      */
-    public function build(Build $build, ConfigureParameters $parameters = null)
+    public function build(Build $build, ?ConfigureParameters $parameters = null)
     {
         $customVirtualVariants = Config::getConfigParam('variants');
         foreach (array_keys($build->getEnabledVariants()) as $variantName) {
