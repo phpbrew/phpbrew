@@ -43,6 +43,105 @@ jobs:
             -   name: Run test suite
                 run: vendor/bin/phpunit --exclude-group mayignore --coverage-clover build/logs/clover.xml
 
+    # Note that this job is a copy/paste of the release.yaml one. This is because it is not easy to pass an artifact
+    # between different workflows.
+    build-phar:
+        runs-on: ubuntu-latest
+        name: Build PHAR
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+                with:
+                    fetch-depth: 0
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.1'
+                    ini-values: phar.readonly=0
+                    tools: composer
+                    coverage: none
+
+            -   name: Install Composer dependencies
+                uses: ramsey/composer-install@v2
+
+            -   name: Install Box
+                run: composer global require --dev humbug/box
+
+            -   name: Build PHAR
+                run: |
+                    make phpbrew
+                    mv phpbrew bin/phpbrew.phar
+
+            # Smoke test
+            -   name: Ensure the PHAR works
+                run: bin/phpbrew.phar --version
+
+            -   name: Upload the PHAR
+                uses: actions/upload-artifact@v4
+                with:
+                    name: phpbrew_test_phar
+                    path: bin/phpbrew.phar
+
+
+    end-to-end-tests:
+        runs-on: ${{ matrix.operating-system }}
+        needs:
+            - build-phar
+        strategy:
+            fail-fast: false
+            matrix:
+                operating-system:
+                    - windows-latest
+                    - ubuntu-latest
+                    - macos-latest
+                    - macos-14
+                php-version: [ '8.1' ]
+                compiled-php-version:
+                    - '7.2'
+                    - '7.3'
+                    - '7.4'
+                    - '8.0'
+                    - '8.1'
+                    - '8.2'
+                    - '8.3'
+        name: End-to-End tests (PHP ${{ matrix.compiled-php-version }} on ${{ matrix.operating-system }}
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php-version }}
+
+            -   name: Install dependencies
+                uses: ramsey/composer-install@v2
+
+            -   name: Download the PHPBrew PHAR
+                uses: actions/download-artifact@v4
+                with:
+                    name: phpbrew_test_phar
+                    path: bin
+
+            -   name: Make the PHAR executable
+                run: chmod +x bin/phpbrew.phar
+
+            # Smoke test
+            -   name: Ensure the PHAR works
+                run: bin/phpbrew.phar --version
+
+            -   name: Setup PHPBrew
+                run:
+                    bin/phpbrew.phar init && echo "[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc" >> .bashrc
+
+            -   name: Compile PHP
+                run: bin/phpbrew.phar --debug install --stdout --jobs=$(nproc) --test ${{ matrix.compiled-php-version }}
+
+            -   name: Test the compiled version
+                run: bin/phpbrew use ${{ matrix.compiled-php-version }} && php --version
+
 
     # This is a "trick", a meta task which does not change, and we can use in
     # the protected branch rules as opposed to the tests one above which
@@ -52,6 +151,7 @@ jobs:
         runs-on: ubuntu-latest
         needs:
             - unit-tests
+            - end-to-end-tests
         if: always()
         steps:
             - name: Successful run
