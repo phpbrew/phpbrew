@@ -48,8 +48,12 @@ function __phpbrew_php_exec()
 # Normalizes a PHP build by adding the "php-" prefix if it's missing
 function __phpbrew_normalize_build()
 {
-    if [[ ! -d "$PHPBREW_ROOT/php/$1" && "$1" =~ ^([[:digit:]]+\.){2}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$ ]] ; then
-        echo "php-$1"
+    if [[ ! -d "$PHPBREW_ROOT/php/$1" ]] ; then
+        if [[ "$1" =~ ^([[:digit:]]+\.){2}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$ ]] ; then
+            echo "php-$1"
+        elif [[ "$1" =~ ^([[:digit:]]+\.){1}[[:digit:]]+(-dev|((alpha|beta|RC)[[:digit:]]+))?$ ]] ; then
+            echo "php-$1.$(find "$PHPBREW_ROOT/php" -maxdepth 1 -mindepth 1 -type d -name "php-$1.*" | awk 'BEGIN{FS="."}{print $NF}' | sort -rn | head -1)"
+        fi
     else
         echo "$1"
     fi
@@ -168,7 +172,7 @@ function __phpbrew_set_lookup_prefix ()
         ;;
         homebrew)
             # TODO: make this more dynamic. with brew --prefix call.
-            echo /usr/local/opt:/usr/local
+            echo /usr/local/opt:/usr/local:/opt/homebrew
         ;;
         *)
             if [[ -e $1 ]] ; then
