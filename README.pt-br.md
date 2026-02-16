@@ -1,7 +1,7 @@
 PHPBrew
 =======
 
-*Leia este documento em outros idiomas: [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md).*
+*Leia este documento em outros idiomas: [English](README.md), [Português - BR](README.pt-br.md), [日本語](README.ja.md), [中文](README.cn.md), [Español](README.es.md).*
 
 [![Build Status](https://travis-ci.org/phpbrew/phpbrew.svg?branch=master)](https://travis-ci.org/phpbrew/phpbrew)
 [![Coverage Status](https://img.shields.io/coveralls/phpbrew/phpbrew.svg)](https://coveralls.io/r/phpbrew/phpbrew)
