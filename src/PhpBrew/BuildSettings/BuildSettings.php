@@ -123,6 +123,25 @@ class BuildSettings
     }
 
     /**
+     * Get all extra options.
+     *
+     * @return array    [option => value]
+     */
+    public function getExtraOptionsProcessed(): array
+    {
+        $extraOptions = [];
+        foreach ($this->getExtraOptions() as $option) {
+            if (preg_match('/^(.*?)=(.*?)$/', $option, $matches)) {
+                $extraOptions[$matches[1]] = $matches[2];
+            } else {
+                $extraOptions[$option] = null;
+            }
+        }
+
+        return $extraOptions;
+    }
+
+    /**
      * Load and return the variant info from file.
      */
     public function loadVariantInfoFile($variantFile)
