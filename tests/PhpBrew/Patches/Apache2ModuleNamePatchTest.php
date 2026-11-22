@@ -12,7 +12,6 @@ use PhpBrew\Testing\PatchTestCase;
  */
 class Apache2ModuleNamePatchTest extends PatchTestCase
 {
-
     public function versionProvider()
     {
         return array(

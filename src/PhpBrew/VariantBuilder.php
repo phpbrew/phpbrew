@@ -237,10 +237,14 @@ class VariantBuilder
                 new IncludePrefixFinder('openssl/opensslv.h'),
             ));
 
-            // OpenSSL 3 removes RSA_SSLV23_PADDING and so is not compatible with PHP < 8.1, and Homebrew defaults to openssl@3
-            // If we detect homebrew openssl@3, which is the default, change it to openssl@1.1
-            // Fixed in PHP since 8.1.0: https://github.com/php/php-src/commit/a0972deb0f441fc7991001cb51efc994b70a3b51
-            if ($opensslPrefix !== null && $build->compareVersion('8.1') < 0 && $opensslPrefix === (new BrewPrefixFinder('openssl@3'))->findPrefix()) {
+            // OpenSSL 3 removes RSA_SSLV23_PADDING and is not compatible with PHP < 8.1;
+            // Homebrew defaults to openssl@3. If detected, switch to openssl@1.1.
+            // Fixed in PHP 8.1.0+: https://github.com/php/php-src/commit/a0972deb0f441fc7991001cb51efc994b70a3b51
+            if (
+                $opensslPrefix !== null
+                && $build->compareVersion('8.1') < 0
+                && $opensslPrefix === (new BrewPrefixFinder('openssl@3'))->findPrefix()
+            ) {
                 $opensslPrefix = (new BrewPrefixFinder('openssl@1.1'))->findPrefix();
                 if ($opensslPrefix === null) {
                     throw new Exception('PHP < 8.1 requires openssl@1.1.');
@@ -285,9 +289,14 @@ class VariantBuilder
         };
 
         $this->variants['pcre'] = function (ConfigureParameters $params, Build $build, $value) {
-            // Apple Silicon will crash on < 8.1.11 due to the bundled PCRE2 not being compatible with Apple Sillicon, so get an updated version if we can
-            // PHP 8.1.11 and above have the fix applied to its bundled PCRE2: https://github.com/php/php-src/commit/f8b217a3452e76113b833eec8a49bc2b6e8d1fdd
-            if ($build->compareVersion('8.0') >= 0 && $build->compareVersion('8.1.11') < 0 && $build->osName === 'Darwin' && $build->osArch === 'arm64') {
+            // Apple Silicon crashes on < 8.1.11 due to the bundled PCRE2; use an external version if available.
+            // Fixed in PHP 8.1.11+: https://github.com/php/php-src/commit/f8b217a3452e76113b833eec8a49bc2b6e8d1fdd
+            if (
+                $build->compareVersion('8.0') >= 0
+                && $build->compareVersion('8.1.11') < 0
+                && $build->osName === 'Darwin'
+                && $build->osArch === 'arm64'
+            ) {
                 $prefix = Utils::findPrefix([
                     new UserProvidedPrefix($value),
                     new IncludePrefixFinder('pcre2.h'),
@@ -295,7 +304,10 @@ class VariantBuilder
                 ]);
 
                 if ($prefix === null) {
-                    throw new Exception('Unable to find PCRE2 library. PHP 8.0 on Apple Silicon requires a newer version of PCRE2 than is bundled with PHP 8.0.');
+                    throw new Exception(
+                        'Unable to find PCRE2 library. '
+                        . 'PHP 8.0 on Apple Silicon requires a newer version of PCRE2 than is bundled with PHP 8.0.'
+                    );
                 }
 
                 $params = $params->withOption('--with-external-pcre', $prefix);
@@ -563,10 +575,14 @@ class VariantBuilder
                 new IncludePrefixFinder('openssl/opensslv.h'),
             ));
 
-            // OpenSSL 3 removes RSA_SSLV23_PADDING and so is not compatible with PHP < 8.1, and Homebrew defaults to openssl@3
-            // If we detect homebrew openssl@3, which is the default, change it to openssl@1.1
-            // Fixed in PHP since 8.1.0: https://github.com/php/php-src/commit/a0972deb0f441fc7991001cb51efc994b70a3b51
-            if ($prefix !== null && $build->compareVersion('8.1') < 0 && $prefix === (new BrewPrefixFinder('openssl@3'))->findPrefix()) {
+            // OpenSSL 3 removes RSA_SSLV23_PADDING and is not compatible with PHP < 8.1;
+            // Homebrew defaults to openssl@3. If detected, switch to openssl@1.1.
+            // Fixed in PHP 8.1.0+: https://github.com/php/php-src/commit/a0972deb0f441fc7991001cb51efc994b70a3b51
+            if (
+                $prefix !== null
+                && $build->compareVersion('8.1') < 0
+                && $prefix === (new BrewPrefixFinder('openssl@3'))->findPrefix()
+            ) {
                 $prefix = (new BrewPrefixFinder('openssl@1.1'))->findPrefix();
                 if ($prefix === null) {
                     throw new Exception('PHP < 8.1 requires openssl@1.1.');
