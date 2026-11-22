@@ -7,7 +7,7 @@ use PhpBrew\Config;
 
 class PrepareDirectoryTask extends BaseTask
 {
-    public function run(Build $build = null)
+    public function run(?Build $build = null)
     {
         $dirs = array();
         $dirs[] = Config::getRoot();

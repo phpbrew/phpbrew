@@ -12,7 +12,7 @@ class UtilsTest extends TestCase
 {
     public function test()
     {
-        $this->assertInternalType('boolean', Utils::support64bit());
+        $this->assertIsBool(Utils::support64bit());
     }
 
     public function testLookupPrefix()

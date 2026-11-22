@@ -11,7 +11,7 @@ class SystemCommandException extends RuntimeException
 
     protected $build;
 
-    public function __construct($message, Buildable $build = null, $logFile = null)
+    public function __construct($message, ?Buildable $build = null, $logFile = null)
     {
         parent::__construct($message);
         $this->build = $build;
