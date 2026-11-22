@@ -11,7 +11,6 @@ use PhpBrew\Testing\CommandTestCase;
  */
 class DownloadCommandTest extends CommandTestCase
 {
-
     public function versionDataProvider()
     {
         return array(

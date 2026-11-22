@@ -10,7 +10,6 @@ use PhpBrew\Testing\CommandTestCase;
  */
 class PathCommandTest extends CommandTestCase
 {
-
     public function argumentsProvider()
     {
         return array(

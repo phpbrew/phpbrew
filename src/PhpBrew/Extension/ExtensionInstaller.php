@@ -14,7 +14,7 @@ class ExtensionInstaller
 
     public $options;
 
-    public function __construct(Logger $logger, OptionResult $options = null)
+    public function __construct(Logger $logger, ?OptionResult $options = null)
     {
         $this->logger = $logger;
         $this->options = $options ?: new OptionResult();

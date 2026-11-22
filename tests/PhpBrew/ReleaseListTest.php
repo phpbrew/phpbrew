@@ -51,7 +51,7 @@ class ReleaseListTest extends TestCase
     public function testLatestPatchVersion($major, $minor)
     {
         $version = $this->releaseList->getLatestPatchVersion($major, $minor);
-        $this->assertInternalType('array', $version);
+        $this->assertIsArray($version);
         $this->assertEquals($version['version'], $minor);
     }
 
